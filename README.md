@@ -2,7 +2,7 @@
 Naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.
 
 Features:
-1. Multiple account
+1. Multiple account 
 2. Send&Receive FA1.2.FA2 token
 3. Dapps for exlplore tezos
 4. NFT gallery
