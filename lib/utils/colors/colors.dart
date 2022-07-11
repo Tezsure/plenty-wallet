@@ -63,6 +63,14 @@ final LinearGradient appleBlack = LinearGradient(
   ],
 );
 
+final Color primary = Color(0xff8637EB);
+final Color secondary = Color(0xffFF006E);
+final Color tertiary = Color(0xffFFBE0C);
+final Color error = Color(0xffBA1A1A);
+final Color neutral = Color(0xff07030C);
+final Color neutralVariant = Color(0xff625C66);
+final Color orange = Color(0xffFB5507);
+final Color naanRed = Color(0xffFF3334);
 final Color grey = Color(0xffA4A3A9);
 final Color blue = Color(0xff3F9AF7);
 final Color textGrey1 = Color(0xff8D8D8D);

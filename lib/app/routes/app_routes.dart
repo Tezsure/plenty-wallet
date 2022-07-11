@@ -6,9 +6,11 @@ abstract class Routes {
 
   static const HOME_PAGE = _Paths.HOME_PAGE;
   static const NFT_PAGE = _Paths.NFT_PAGE;
+  static const ONBOARDING_PAGE = _Paths.ONBOARDING_PAGE;
 }
 
 abstract class _Paths {
   static const HOME_PAGE = '/home-page';
   static const NFT_PAGE = '/nft-page';
+  static const ONBOARDING_PAGE = '/onboarding-page';
 }
