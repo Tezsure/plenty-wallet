@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-final LinearGradient background = LinearGradient(
+LinearGradient background = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
@@ -9,7 +9,7 @@ final LinearGradient background = LinearGradient(
   ],
 );
 
-final LinearGradient appleBlue = LinearGradient(
+LinearGradient appleBlue = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
@@ -18,7 +18,7 @@ final LinearGradient appleBlue = LinearGradient(
   ],
 );
 
-final LinearGradient appleGreen = LinearGradient(
+LinearGradient appleGreen = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
@@ -27,7 +27,7 @@ final LinearGradient appleGreen = LinearGradient(
   ],
 );
 
-final LinearGradient appleOrange = LinearGradient(
+LinearGradient appleOrange = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
@@ -36,7 +36,7 @@ final LinearGradient appleOrange = LinearGradient(
   ],
 );
 
-final LinearGradient appleYellow = LinearGradient(
+LinearGradient appleYellow = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
@@ -45,7 +45,7 @@ final LinearGradient appleYellow = LinearGradient(
   ],
 );
 
-final LinearGradient applePurple = LinearGradient(
+LinearGradient applePurple = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
@@ -54,7 +54,7 @@ final LinearGradient applePurple = LinearGradient(
   ],
 );
 
-final LinearGradient appleBlack = LinearGradient(
+LinearGradient appleBlack = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
@@ -63,14 +63,14 @@ final LinearGradient appleBlack = LinearGradient(
   ],
 );
 
-final Color primary = Color(0xff8637EB);
-final Color secondary = Color(0xffFF006E);
-final Color tertiary = Color(0xffFFBE0C);
-final Color error = Color(0xffBA1A1A);
-final Color neutral = Color(0xff07030C);
-final Color neutralVariant = Color(0xff625C66);
-final Color orange = Color(0xffFB5507);
-final Color naanRed = Color(0xffFF3334);
-final Color grey = Color(0xffA4A3A9);
-final Color blue = Color(0xff3F9AF7);
-final Color textGrey1 = Color(0xff8D8D8D);
+Color primary = const Color(0xff8637EB);
+Color secondary = const Color(0xffFF006E);
+Color tertiary = const Color(0xffFFBE0C);
+Color error = const Color(0xffBA1A1A);
+Color neutral = const Color(0xff07030C);
+Color neutralVariant = const Color(0xff625C66);
+Color orange = const Color(0xffFB5507);
+Color naanRed = const Color(0xffFF3334);
+Color grey = const Color(0xffA4A3A9);
+Color blue = const Color(0xff3F9AF7);
+Color textGrey1 = const Color(0xff8D8D8D);

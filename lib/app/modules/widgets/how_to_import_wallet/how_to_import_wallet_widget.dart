@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_1x1_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -10,37 +9,36 @@ class HowToImportWalletWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => WidgetWrapper2x1(
-      appleYellow,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 12.0, right: 12, bottom: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RichText(
-              textAlign: TextAlign.start,
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'How to\n',
-                    style: semiboldTitle,
-                  ),
-                  TextSpan(
-                    text: 'import a\n',
-                    style: semiboldTitle.copyWith(
-                        color: Colors.white.withOpacity(0.7)),
-                  ),
-                  TextSpan(
-                    text: 'new wallet',
-                    style: semiboldTitle.copyWith(
-                        color: Colors.white.withOpacity(0.4)),
-                  ),
-                ],
+        appleYellow,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 12.0, right: 12, bottom: 24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RichText(
+                textAlign: TextAlign.start,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'How to\n',
+                      style: semiboldTitle,
+                    ),
+                    TextSpan(
+                      text: 'import a\n',
+                      style: semiboldTitle.copyWith(
+                          color: Colors.white.withOpacity(0.7)),
+                    ),
+                    TextSpan(
+                      text: 'new wallet',
+                      style: semiboldTitle.copyWith(
+                          color: Colors.white.withOpacity(0.4)),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
-  
+      );
 }

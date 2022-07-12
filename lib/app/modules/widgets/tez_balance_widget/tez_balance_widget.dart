@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_1x1_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
