@@ -34,7 +34,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                     )),
                 20.vspace,
                 Padding(
-                  padding: EdgeInsets.only(bottom: Get.height * 0.05),
+                  padding: EdgeInsets.only(bottom: 0.05.height),
                   child: MaterialButton(
                     onPressed: () {},
                     minWidth: 326,

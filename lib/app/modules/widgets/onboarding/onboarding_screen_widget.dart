@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/app/modules/onboarding_page/controllers/onboarding_page_controller.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 class OnboardingWidget extends StatefulWidget {
   final OnboardingPageController controller;
@@ -53,21 +53,21 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                             .elementAt(index),
                         animate: true,
                         frameRate: FrameRate(30),
-                        height: Get.height * 0.65,
+                        height: 0.65.height,
                       ),
                       Positioned(
                         bottom: 0,
-                        right: Get.width * 0.3,
-                        left: Get.width * 0.3,
+                        right: 0.3.width,
+                        left: 0.3.width,
                         child: Container(
                           height: 20,
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                offset: Offset(0, -Get.height * 0.14),
+                                offset: Offset(0, -0.14.height),
                                 color: widget.controller.colorList[index]
                                     .withOpacity(0.5),
-                                spreadRadius: Get.height * 0.14,
+                                spreadRadius: 0.14.height,
                                 blurRadius: 20,
                               ),
                             ],
