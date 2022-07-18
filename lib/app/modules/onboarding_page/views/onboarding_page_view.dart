@@ -23,7 +23,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
             child: Column(
               children: [
                 Obx(() => AnimatedSmoothIndicator(
-                      activeIndex: controller.count(),
+                      activeIndex: controller.pageIndex(),
                       count: 5,
                       effect: const ExpandingDotsEffect(
                         dotHeight: 8,
@@ -34,11 +34,11 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                     )),
                 20.vspace,
                 Padding(
-                  padding: EdgeInsets.only(bottom: 0.05.height),
+                  padding: EdgeInsets.only(bottom: 0.04.height),
                   child: MaterialButton(
                     onPressed: () {},
-                    minWidth: 326,
-                    height: 48,
+                    minWidth: 0.80.width,
+                    height: 0.060.height,
                     color: Colors.black,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),

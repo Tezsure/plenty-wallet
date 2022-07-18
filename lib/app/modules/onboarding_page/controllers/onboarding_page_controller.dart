@@ -5,16 +5,16 @@ class OnboardingPageController extends GetxController {
   late final _pageController = PageController(
     initialPage: 0,
   );
-  PageController get pageController => _pageController;
 
-  final List<Color> colorList = [
+  final List<Color> _colorList = [
     const Color(0xffFFC93E),
     const Color(0xff9961EC),
     const Color(0xffFD3289),
     const Color(0xffFA6163),
     const Color(0xffF77A3A),
   ];
-  final Map<String, String> onboardingMessages = {
+
+  final Map<String, String> _onboardingMessages = {
     'assets/onboarding_page/lottie/Onboarding_1.json':
         "All your Tezos\nassets in one\nplace",
     'assets/onboarding_page/lottie/Onboarding_2.json':
@@ -27,7 +27,11 @@ class OnboardingPageController extends GetxController {
         "Earn high APR\nwith Liquidity\nBaking",
   };
 
-  var count = 0.obs;
+  PageController get pageController => _pageController;
+  Map<String, String> get onboardingMessages => _onboardingMessages;
+  List<Color> get colorList => _colorList;
+
+  var pageIndex = 0.obs;
 
   @override
   void onClose() {
@@ -35,20 +39,18 @@ class OnboardingPageController extends GetxController {
     super.onClose();
   }
 
-  void increment(int val) => count(val);
+  void increment(int val) => pageIndex(val);
 
   void animateSlider() {
-    Future.delayed(const Duration(seconds: 2)).then((_) {
-      int nextPage = pageController.page!.round() + 1;
-
+    Future.delayed(const Duration(seconds: 3)).then((_) {
+      int nextPage = _pageController.page!.round() + 1;
       if (nextPage == onboardingMessages.keys.length) {
         nextPage = 0;
       }
-
-      pageController
+      _pageController
           .animateToPage(nextPage,
-              duration: const Duration(seconds: 1),
-              curve: Curves.fastLinearToSlowEaseIn)
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.fastOutSlowIn)
           .then((_) => animateSlider());
     });
   }
