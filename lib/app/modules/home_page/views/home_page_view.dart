@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/widgets/register_widgets.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -9,53 +10,55 @@ import '../controllers/home_page_controller.dart';
 
 class HomePageView extends GetView<HomePageController> {
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Container(
-          width: 1.width,
-          decoration: BoxDecoration(
-            gradient: background,
-          ),
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Stack(
-              children: [
-                //background gradient color
-                Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: background,
-                    ),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        width: 1.width,
+        decoration: BoxDecoration(
+          gradient: background,
+        ),
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Stack(
+            children: [
+              //background gradient color
+              Positioned(
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: background,
                   ),
                 ),
-                Column(
-                  children: [
-                    (MediaQuery.of(context).padding.top + 20)
-                        .vspace, //notification bar padding + 20
+              ),
+              Column(
+                children: [
+                  (MediaQuery.of(context).padding.top + 20)
+                      .vspace, //notification bar padding + 20
 
-                    appBar(),
+                  appBar(),
 
-                    32.vspace, //header spacing
+                  32.vspace, //header spacing
 
-                    Padding(
-                      padding: const EdgeInsets.only(left: 24.0, right: 24),
-                      child: Wrap(
-                        runSpacing: 28,
-                        spacing: 20,
-                        children: registeredWidgets,
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24.0, right: 24),
+                    child: Wrap(
+                      runSpacing: 28,
+                      spacing: 20,
+                      children: registeredWidgets,
                     ),
-                    28.vspace,
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  28.vspace,
+                ],
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 
   /// App Bar for Home Page
   Widget appBar() => Container(
