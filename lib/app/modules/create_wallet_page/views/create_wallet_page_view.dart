@@ -62,9 +62,8 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                             Get.toNamed(Routes.BIOMETRIC_PAGE);
                           }),
                       12.h.vspace,
-                      materialTap(
-                        inkwellRadius: 8,
-                        onPressed: () {
+                      GestureDetector(
+                        onTap: () {
                           Get.toNamed(Routes.PASSCODE_PAGE);
                         },
                         child: Container(
@@ -72,14 +71,14 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: Color(0xff8637eb),
+                              color: ColorConst.Neutral.shade80,
                               width: 1.50,
                             ),
                           ),
                           alignment: Alignment.center,
                           child: Text("I already have a wallet",
-                              style:
-                                  titleSmall.apply(color: ColorConst.Primary)),
+                              style: titleSmall.apply(
+                                  color: ColorConst.Neutral.shade80)),
                         ),
                       ),
                       20.h.vspace,
@@ -113,21 +112,23 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                   ),
                 ),
                 28.h.vspace,
-                Wrap(
-                  runSpacing: 38,
-                  spacing: 38,
-                  children: [
-                    SvgPicture.asset(PathConst.SVG + "apple.svg"),
-                    SvgPicture.asset(PathConst.SVG + "google.svg"),
-                    SvgPicture.asset(PathConst.SVG + "facebook.svg"),
-                    SvgPicture.asset(PathConst.SVG + "twitter.svg"),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SvgPicture.asset(PathConst.SVG + "apple.svg"),
+                      SvgPicture.asset(PathConst.SVG + "google.svg"),
+                      SvgPicture.asset(PathConst.SVG + "facebook.svg"),
+                      SvgPicture.asset(PathConst.SVG + "twitter.svg"),
+                    ],
+                  ),
                 ),
                 12.h.vspace,
-                materialTap(
-                  inkwellRadius: 8,
-                  onPressed: () {},
-                  noSplash: true,
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.IMPORT_WALLET_PAGE);
+                  },
                   child: Container(
                     height: 48,
                     width: double.infinity,

@@ -15,6 +15,6 @@ extension SizeExtension on num {
 
   double get sp => this * (Get.width / 4) / 100;
 
-  double get h => (this / 844) * Get.height;
-  double get w => (this / 844) * Get.width;
+  double get h => this * (Get.height / 844.0);
+  double get w => this * (Get.width / 844.0);
 }

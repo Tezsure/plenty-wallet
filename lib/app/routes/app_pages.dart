@@ -8,6 +8,8 @@ import '../modules/create_wallet_page/bindings/create_wallet_page_binding.dart';
 import '../modules/create_wallet_page/views/create_wallet_page_view.dart';
 import '../modules/home_page/bindings/home_page_binding.dart';
 import '../modules/home_page/views/home_page_view.dart';
+import '../modules/import_wallet_page/bindings/import_wallet_page_binding.dart';
+import '../modules/import_wallet_page/views/import_wallet_page_view.dart';
 import '../modules/nft_page/bindings/nft_page_binding.dart';
 import '../modules/nft_page/views/nft_page_view.dart';
 import '../modules/passcode_page/bindings/passcode_page_binding.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.CREATE_PROFILE_PAGE,
       page: () => const CreateProfilePageView(),
       binding: CreateProfilePageBinding(),
+    ),
+    GetPage(
+      name: _Paths.IMPORT_WALLET_PAGE,
+      page: () => const ImportWalletPageView(),
+      binding: ImportWalletPageBinding(),
     ),
   ];
 }

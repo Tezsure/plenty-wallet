@@ -40,9 +40,9 @@ class BiometricPageView extends GetView<BiometricPageController> {
           Spacer(),
           SolidButton(title: "Enable Biometry Unlock"),
           12.vspace,
-          materialTap(
-            inkwellRadius: 8,
-            onPressed: () {
+          GestureDetector(
+           
+            onTap: () {
               Get.toNamed(Routes.CREATE_PROFILE_PAGE);
             },
             child: Container(

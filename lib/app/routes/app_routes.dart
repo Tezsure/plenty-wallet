@@ -10,6 +10,7 @@ abstract class Routes {
   static const PASSCODE_PAGE = _Paths.PASSCODE_PAGE;
   static const BIOMETRIC_PAGE = _Paths.BIOMETRIC_PAGE;
   static const CREATE_PROFILE_PAGE = _Paths.CREATE_PROFILE_PAGE;
+  static const IMPORT_WALLET_PAGE = _Paths.IMPORT_WALLET_PAGE;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const PASSCODE_PAGE = '/passcode-page';
   static const BIOMETRIC_PAGE = '/biometric-page';
   static const CREATE_PROFILE_PAGE = '/create-profile-page';
+  static const IMPORT_WALLET_PAGE = '/import-wallet-page';
 }

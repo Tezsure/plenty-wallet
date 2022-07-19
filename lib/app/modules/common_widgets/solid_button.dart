@@ -9,14 +9,27 @@ import '../../../utils/material_Tap.dart';
 class SolidButton extends StatelessWidget {
   final String title;
   final GestureTapCallback? onPressed;
-  const SolidButton({Key? key, required this.title, this.onPressed})
-      : super(key: key);
+  bool active;
+  final Widget? child;
+
+  final Widget? inActiveChild;
+
+  SolidButton({
+    Key? key,
+    this.title = "",
+    this.onPressed,
+    this.active = true,
+    this.child,
+    this.inActiveChild,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return materialTap(
-      onPressed: onPressed,
-      color: ColorConst.Primary,
+      onPressed: active ? onPressed : null,
+      color: active
+          ? ColorConst.Primary
+          : ColorConst.NeutralVariant.shade60.withOpacity(0.2),
       splashColor: ColorConst.Primary.shade60,
       inkwellRadius: 8,
       child: Container(
@@ -27,10 +40,15 @@ class SolidButton extends StatelessWidget {
             //color: Color(0xff8637eb),
             color: Colors.transparent),
         alignment: Alignment.center,
-        child: Text(
-          title,
-          style: titleSmall.apply(color: ColorConst.Neutral),
-        ),
+        child: child != null
+            ? (active ? child : inActiveChild)
+            : Text(
+                title,
+                style: titleSmall.apply(
+                    color: active
+                        ? ColorConst.Neutral.shade95
+                        : ColorConst.NeutralVariant.shade60),
+              ),
       ),
     );
   }
