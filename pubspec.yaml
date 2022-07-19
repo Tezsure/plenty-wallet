@@ -7,6 +7,9 @@ environment:
 
 dependencies:
   get: 4.6.5
+  lottie: ^1.3.0
+  get_cli: ^1.8.1
+  flutter_lints: ^2.0.1
   flutter:
     sdk: flutter
   flutter_svg: ^1.1.1+1
@@ -19,8 +22,11 @@ flutter:
   assets:
     - assets/home_page/
     - assets/svg/
-
+    - assets/onboarding_page/
+    - assets/onboarding_page/lottie/
   uses-material-design: true
+
+
 
   fonts:
     - family: Lato
@@ -40,3 +46,15 @@ flutter:
       fonts:
         - asset: fonts/Inter-Regular.ttf
           weight: 700
+    - family: Space Grotesk
+      fonts:
+        - asset: fonts/space_grotesk/SpaceGrotesk-Bold.ttf
+          weight: 700
+        - asset: fonts/space_grotesk/SpaceGrotesk-Light.ttf
+          weight: 300
+        - asset: fonts/space_grotesk/SpaceGrotesk-Regular.ttf
+          weight: 400
+        - asset: fonts/space_grotesk/SpaceGrotesk-Medium.ttf
+          weight: 500
+        - asset: fonts/space_grotesk/SpaceGrotesk-SemiBold.ttf
+          weight: 600

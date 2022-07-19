@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/widgets/register_widgets.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/register_widgets.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -18,7 +16,7 @@ class HomePageView extends GetView<HomePageController> {
           gradient: background,
         ),
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Stack(
             children: [
               //background gradient color
@@ -63,7 +61,7 @@ class HomePageView extends GetView<HomePageController> {
   /// App Bar for Home Page
   Widget appBar() => Container(
         height: 34,
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
             horizontal:
                 35), // 24 + 11 = 35.24 is Foundation padding and 11 is internal widget padding
         child: Row(
@@ -77,7 +75,7 @@ class HomePageView extends GetView<HomePageController> {
             Container(
               height: 34,
               width: 34,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,
               ),
