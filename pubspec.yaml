@@ -12,6 +12,7 @@ dependencies:
   flutter_lints: ^2.0.1
   flutter:
     sdk: flutter
+  flutter_svg: ^1.1.1+1
 
 dev_dependencies:
   flutter_test:
@@ -20,6 +21,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/home_page/
+    - assets/svg/
     - assets/onboarding_page/
     - assets/onboarding_page/lottie/
   uses-material-design: true
