@@ -16,15 +16,15 @@ class TokenBalanceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           gradient: appleBlack,
         ),
         child: ListView.builder(
           shrinkWrap: true,
-          padding: EdgeInsets.all(0),
-          physics: NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.all(0),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: listOfTokens.length,
           itemBuilder: (_, index) {
             return Column(
@@ -36,11 +36,11 @@ class TokenBalanceWidget extends StatelessWidget {
                       Container(
                         height: 32,
                         width: 32,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
                         ),
-                        child: Center(
+                        child: const Center(
                           child: FlutterLogo(),
                         ),
                       ),
@@ -59,7 +59,7 @@ class TokenBalanceWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -69,11 +69,11 @@ class TokenBalanceWidget extends StatelessWidget {
                           ),
                           4.vspace,
                           Container(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 top: 2, bottom: 2, left: 8, right: 2),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(2),
-                              color: textGrey1,
+                              color: ColorConst.textGrey1,
                             ),
                             child: Center(
                               child: Text(
@@ -90,9 +90,9 @@ class TokenBalanceWidget extends StatelessWidget {
                   ),
                 ),
                 index == listOfTokens.length - 1
-                    ? SizedBox()
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
+                    ? const SizedBox()
+                    : const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8),
                         child: Divider(
                           color: Color(0xff323136),
                           thickness: 1,

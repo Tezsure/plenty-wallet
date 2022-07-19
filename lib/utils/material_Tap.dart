@@ -16,8 +16,8 @@ Widget materialTap(
     child: InkWell(
       borderRadius: BorderRadius.all(Radius.circular(inkwellRadius)),
       onTap: onPressed,
-      child: child,
       splashColor: splashColor,
+      child: child,
     ),
   );
 }

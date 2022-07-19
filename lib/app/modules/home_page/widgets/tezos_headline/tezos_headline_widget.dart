@@ -14,7 +14,7 @@ class TezosHeadlineWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         width: 1.width,
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 18),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 18),
         decoration: BoxDecoration(
           gradient: appleBlack,
           borderRadius: BorderRadius.circular(20),
@@ -22,19 +22,19 @@ class TezosHeadlineWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Tezos Headlines",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: blue,
+                color: ColorConst.blue,
               ),
             ),
             16.vspace,
             ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               itemCount: tezosHeadlineList.length,
               itemBuilder: (_, index) {
                 return Padding(
@@ -47,7 +47,7 @@ class TezosHeadlineWidget extends StatelessWidget {
                         width: 48,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: grey,
+                          color: ColorConst.grey,
                         ),
                       ),
                       12.hspace,

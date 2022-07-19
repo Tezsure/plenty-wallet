@@ -5,6 +5,7 @@ import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicato
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'package:naan_wallet/app/modules/onboarding_page/controllers/onboarding_page_controller.dart';
 import 'package:naan_wallet/app/modules/onboarding_page/widgets/onboarding_screen_widget.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 class OnboardingPageView extends GetView<OnboardingPageController> {
@@ -31,9 +32,9 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                       dotColor: Colors.white,
                     ),
                   )),
-              0.02.vspace,
+              20.h.vspace,
               MaterialButton(
-                onPressed: () {},
+                onPressed: () => Get.toNamed(Routes.CREATE_WALLET_PAGE),
                 minWidth: 0.8.width,
                 height: 0.06.height,
                 color: Colors.black,
@@ -47,7 +48,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                       fontWeight: FontWeight.w500),
                 ),
               ),
-              0.02.vspace,
+              12.h.vspace,
             ],
           ),
         ),
