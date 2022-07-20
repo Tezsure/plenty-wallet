@@ -21,16 +21,16 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
     return Container(
       decoration: BoxDecoration(gradient: GradConst.GradientBackground),
       width: 1.width,
-      padding: const EdgeInsets.symmetric(horizontal: 32),
+      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          89.h.vspace,
+          0.1.vspace,
           Align(
             alignment: Alignment.centerLeft,
             child: Text("Create Profile", style: titleLarge),
           ),
-          38.h.vspace,
+          0.05.vspace,
           Container(
             height: 120,
             width: 120,
@@ -51,9 +51,9 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
               ),
             ),
           ),
-          38.h.vspace,
+          0.05.vspace,
           NaanTextfield(hint: "Account Name"),
-          27.h.vspace,
+          0.02.vspace,
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -80,7 +80,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
             title: "Start using Naan wallet",
             onPressed: () {},
           ),
-          51.h.vspace
+          0.05.vspace
         ],
       ),
     );
@@ -106,7 +106,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
         padding: EdgeInsets.symmetric(horizontal: 32),
         child: Column(
           children: [
-            5.vspace,
+            0.005.vspace,
             Container(
               height: 5,
               width: 36,
@@ -115,7 +115,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
               ),
             ),
-            20.vspace,
+            0.03.vspace,
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -124,7 +124,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                 style: titleLarge,
               ),
             ),
-            20.vspace,
+            0.03.vspace,
             Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(

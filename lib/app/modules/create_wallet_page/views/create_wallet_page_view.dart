@@ -40,7 +40,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  padding: EdgeInsets.symmetric(horizontal: 0.05.width),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -48,23 +48,23 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         "Welcome to Naan Wallet",
                         style: titleLarge,
                       ),
-                      12.h.vspace,
+                      0.01.vspace,
                       Text(
                         "Naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.",
                         style: bodySmall.apply(
-                          color: Color(0XFF958E99),
+                          color: ColorConst.NeutralVariant.shade60,
                         ),
                       ),
-                      ((28 / 844) * 1.height).h.vspace,
+                      0.05.vspace,
                       SolidButton(
                           title: "Create new wallet",
                           onPressed: () {
-                            Get.toNamed(Routes.BIOMETRIC_PAGE);
+                            Get.toNamed(Routes.PASSCODE_PAGE);
                           }),
-                      12.h.vspace,
+                      0.01.vspace,
                       GestureDetector(
                         onTap: () {
-                          Get.toNamed(Routes.PASSCODE_PAGE);
+                          Get.toNamed(Routes.IMPORT_WALLET_PAGE);
                         },
                         child: Container(
                           height: 48,
@@ -81,7 +81,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                                   color: ColorConst.Neutral.shade80)),
                         ),
                       ),
-                      20.h.vspace,
+                      0.02.vspace,
                     ],
                   ),
                 ),
@@ -92,28 +92,30 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                       Expanded(
                           child: Divider(
                         thickness: 1,
-                        color: Color(0xff958E99).withOpacity(0.4),
+                        color:
+                            ColorConst.NeutralVariant.shade60.withOpacity(0.4),
                       )),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8),
                         child: Text(
                           "Or Login with",
                           style: bodySmall.apply(
-                            color: Color(0xff958E99),
+                            color: ColorConst.NeutralVariant.shade60,
                           ),
                         ),
                       ),
                       Expanded(
                           child: Divider(
                         thickness: 1,
-                        color: Color(0xff958E99).withOpacity(0.4),
+                        color:
+                            ColorConst.NeutralVariant.shade60.withOpacity(0.4),
                       )),
                     ],
                   ),
                 ),
-                28.h.vspace,
+                0.05.vspace,
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  padding: EdgeInsets.symmetric(horizontal: 0.05.width),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -124,11 +126,9 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     ],
                   ),
                 ),
-                12.h.vspace,
+                0.02.vspace,
                 GestureDetector(
-                  onTap: () {
-                    Get.toNamed(Routes.IMPORT_WALLET_PAGE);
-                  },
+                  onTap: () {},
                   child: Container(
                     height: 48,
                     width: double.infinity,
@@ -140,7 +140,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     ),
                   ),
                 ),
-                15.vspace,
+                0.05.vspace,
               ],
             ),
           ),

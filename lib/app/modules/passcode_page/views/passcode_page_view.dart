@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -22,12 +23,12 @@ class PasscodePageView extends GetView<PasscodePageController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          38.vspace,
+          0.05.vspace,
           Align(
             alignment: Alignment.centerLeft,
             child: backButton(),
           ),
-          40.vspace,
+          0.05.vspace,
           Center(
             child: SizedBox(
               height: 107,
@@ -35,19 +36,24 @@ class PasscodePageView extends GetView<PasscodePageController> {
               child: SvgPicture.asset(PathConst.SVG + "naan_logo.svg"),
             ),
           ),
-          35.vspace,
+          0.05.vspace,
           Text(
             "Set passcode",
             textAlign: TextAlign.center,
             style: titleMedium,
           ),
-          8.vspace,
+          0.01.vspace,
           Text(
             "Protect your wallet by setting a passcode",
             style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
           ),
-          36.vspace,
-          PassCodeWidget()
+          0.05.vspace,
+          PassCodeWidget(onChanged: (value) {
+            if (value.length == 6) {
+              Get.toNamed(Routes.BIOMETRIC_PAGE);
+            }
+            print(value);
+          })
         ],
       ),
     );
@@ -55,7 +61,8 @@ class PasscodePageView extends GetView<PasscodePageController> {
 }
 
 class PassCodeWidget extends StatefulWidget {
-  const PassCodeWidget({Key? key}) : super(key: key);
+  final ValueChanged<String>? onChanged;
+  const PassCodeWidget({Key? key, this.onChanged}) : super(key: key);
 
   @override
   State<PassCodeWidget> createState() => _PassCodeWidgetState();
@@ -89,7 +96,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
             ),
           ),
         ),
-        43.vspace,
+        0.05.vspace,
         SizedBox(
           width: 236,
           child: Wrap(
@@ -99,7 +106,9 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
                 List.generate(9, (index) => numButton((index + 1).toString())),
           ),
         ),
-        36.vspace,
+        SizedBox(
+          height: 36,
+        ),
         SizedBox(
           width: 236,
           child: Row(
@@ -123,8 +132,8 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
         if (passCode.length < 6) {
           setState(() {
             passCode = passCode + value;
-            print(passCode);
           });
+          if (widget.onChanged != null) widget.onChanged!(passCode);
         }
       },
       inkwellRadius: 26,
@@ -146,11 +155,11 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
   Widget backButton() {
     return materialTap(
       onPressed: () {
-        if (passCode.length > 0) {
+        if (passCode.isNotEmpty) {
           setState(() {
             passCode = passCode.substring(0, passCode.length - 1);
-            print(passCode);
           });
+          if (widget.onChanged != null) widget.onChanged!(passCode);
         }
       },
       inkwellRadius: 26,

@@ -19,17 +19,17 @@ class BiometricPageView extends GetView<BiometricPageController> {
     return Container(
       decoration: BoxDecoration(gradient: GradConst.GradientBackground),
       width: 1.width,
-      padding: EdgeInsets.symmetric(horizontal: 32),
+      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: Column(
         children: [
-          156.vspace,
+          0.2.vspace,
           SvgPicture.asset(PathConst.SVG + "fingerprint.svg"),
-          51.vspace,
+          0.05.vspace,
           Text(
             "Enable biometry unlock",
             style: titleLarge,
           ),
-          12.vspace,
+          0.01.vspace,
           Text(
             "Access Naan wallet with your biometry.\nQuick, easy and secure.",
             textAlign: TextAlign.center,
@@ -39,9 +39,8 @@ class BiometricPageView extends GetView<BiometricPageController> {
           ),
           Spacer(),
           SolidButton(title: "Enable Biometry Unlock"),
-          12.vspace,
+          0.01.vspace,
           GestureDetector(
-           
             onTap: () {
               Get.toNamed(Routes.CREATE_PROFILE_PAGE);
             },
@@ -56,7 +55,7 @@ class BiometricPageView extends GetView<BiometricPageController> {
               ),
             ),
           ),
-          15.vspace,
+          0.02.vspace,
         ],
       ),
     );

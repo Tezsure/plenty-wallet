@@ -1,9 +1,21 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class ImportWalletPageController extends GetxController {
-  //TODO: Implement ImportWalletPageController
+  //? VARIABLES
 
-  final count = 0.obs;
+  final phraseTextController = TextEditingController().obs;
+
+  //? FUNCTION
+
+   paste() async {
+    ClipboardData? cdata = await Clipboard.getData(Clipboard.kTextPlain);
+    if (cdata != null) {
+      phraseTextController.value.text = cdata.text!;
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -19,5 +31,9 @@ class ImportWalletPageController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  @override
+  void dispose() {
+    phraseTextController.value.dispose();
+    super.dispose();
+  }
 }
