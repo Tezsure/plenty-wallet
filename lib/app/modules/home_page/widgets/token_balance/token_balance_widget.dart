@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/mock/mock_data.dart';
 import 'package:naan_wallet/models/tokens_model.dart';
