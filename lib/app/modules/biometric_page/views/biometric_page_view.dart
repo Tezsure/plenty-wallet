@@ -38,7 +38,10 @@ class BiometricPageView extends GetView<BiometricPageController> {
             ),
           ),
           Spacer(),
-          SolidButton(title: "Enable Biometry Unlock"),
+          SolidButton(
+            title: "Enable Biometry Unlock",
+            onPressed: () {},
+          ),
           0.01.vspace,
           GestureDetector(
             onTap: () {

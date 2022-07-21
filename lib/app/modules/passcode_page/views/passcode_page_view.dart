@@ -31,9 +31,12 @@ class PasscodePageView extends GetView<PasscodePageController> {
           0.05.vspace,
           Center(
             child: SizedBox(
-              height: 107,
-              width: 107,
-              child: SvgPicture.asset(PathConst.SVG + "naan_logo.svg"),
+              height: 0.27.width,
+              width: 0.27.width,
+              child: SvgPicture.asset(
+                PathConst.SVG + "naan_logo.svg",
+                fit: BoxFit.fitHeight,
+              ),
             ),
           ),
           0.05.vspace,
@@ -77,7 +80,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          width: 204,
+          width: 0.45.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(
@@ -98,10 +101,12 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
         ),
         0.05.vspace,
         SizedBox(
-          width: 236,
-          child: Wrap(
-            runSpacing: 36,
-            spacing: 40,
+          width: 0.75.width,
+          child: GridView.count(
+            crossAxisCount: 3,
+            shrinkWrap: true,
+            mainAxisSpacing: 0.1.width,
+            crossAxisSpacing: 0.1.width,
             children:
                 List.generate(9, (index) => numButton((index + 1).toString())),
           ),
@@ -110,7 +115,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
           height: 36,
         ),
         SizedBox(
-          width: 236,
+          width: 0.75.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -127,7 +132,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
   }
 
   Widget numButton(String value) {
-    return materialTap(
+    return MaterialButton(
       onPressed: () {
         if (passCode.length < 6) {
           setState(() {
@@ -136,7 +141,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
           if (widget.onChanged != null) widget.onChanged!(passCode);
         }
       },
-      inkwellRadius: 26,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
       splashColor: ColorConst.Neutral.shade60.withOpacity(0.4),
       color: Colors.transparent,
       child: Container(
@@ -153,7 +158,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
   }
 
   Widget backButton() {
-    return materialTap(
+    return MaterialButton(
       onPressed: () {
         if (passCode.isNotEmpty) {
           setState(() {
@@ -162,7 +167,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
           if (widget.onChanged != null) widget.onChanged!(passCode);
         }
       },
-      inkwellRadius: 26,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       splashColor: ColorConst.Neutral.shade60.withOpacity(0.4),
       color: Colors.transparent,
       child: Container(

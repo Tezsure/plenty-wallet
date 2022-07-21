@@ -25,13 +25,13 @@ class SolidButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return materialTap(
+    return MaterialButton(
       onPressed: active ? onPressed : null,
       color: active
           ? ColorConst.Primary
           : ColorConst.NeutralVariant.shade60.withOpacity(0.2),
       splashColor: ColorConst.Primary.shade60,
-      inkwellRadius: 8,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Container(
         height: 48,
         width: double.infinity,

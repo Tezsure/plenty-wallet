@@ -28,17 +28,24 @@ class _AccountWidgetState extends State<AccountWidget> {
             ),
             child: Column(
               children: [
-                Flexible(
-                  child: SizedBox(
-                    child: ListView.separated(
-                      itemBuilder: (context, index) => accountWidget(),
-                      separatorBuilder: (context, index) => Divider(
-                          color: Color(0xff4a454e), height: 1, thickness: 1),
-                      itemCount: expanded ? 100 : 3,
-                      shrinkWrap: true,
-                    ),
-                  ),
-                ),
+                expanded
+                    ? Expanded(
+                        child: ListView.separated(
+                          itemBuilder: (context, index) => accountWidget(),
+                          separatorBuilder: (context, index) => Divider(
+                              color: Color(0xff4a454e),
+                              height: 1,
+                              thickness: 1),
+                          itemCount: 100,
+                          shrinkWrap: true,
+                        ),
+                      )
+                    : Column(
+                        children: List.generate(
+                          4,
+                          (index) => accountWidget(),
+                        ),
+                      ),
                 if (!expanded)
                   Column(
                     children: [
@@ -69,7 +76,7 @@ class _AccountWidgetState extends State<AccountWidget> {
             ),
           ),
         ),
-        if (!expanded) Spacer()
+        if (!expanded) Flexible(child: SizedBox())
       ],
     );
   }

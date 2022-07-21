@@ -32,22 +32,24 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
           ),
           0.05.vspace,
           Container(
-            height: 120,
-            width: 120,
+            height: 0.3.width,
+            width: 0.3.width,
             alignment: Alignment.bottomRight,
             decoration: BoxDecoration(
               color: Colors.red,
-              borderRadius: BorderRadius.circular(60),
+              borderRadius: BorderRadius.circular(0.15.width),
             ),
-            child: materialTap(
-              onPressed: () {
+            child: GestureDetector(
+              onTap: () {
                 Get.bottomSheet(changePhotoBottomSheet());
               },
-              inkwellRadius: 18,
               child: CircleAvatar(
-                radius: 18,
+                radius: 0.046.width,
                 backgroundColor: Colors.white,
-                child: SvgPicture.asset(PathConst.SVG + "add_photo.svg"),
+                child: SvgPicture.asset(
+                  PathConst.SVG + "add_photo.svg",
+                  fit: BoxFit.scaleDown,
+                ),
               ),
             ),
           ),
@@ -65,20 +67,36 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
           //  19.h.vspace,
           Expanded(
             child: GridView.count(
+              physics: BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
               crossAxisCount: 4,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
+              mainAxisSpacing: 0.06.width,
+              crossAxisSpacing: 0.06.width,
               children: List.generate(
                 11,
                 (index) => CircleAvatar(
-                  radius: 30,
+                  radius: 0.075.width,
                 ),
               ),
             ),
           ),
           SolidButton(
-            title: "Start using Naan wallet",
             onPressed: () {},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.check_circle_outline_outlined,
+                  color: ColorConst.Primary.shade95,
+                  size: 20,
+                ),
+                0.02.hspace,
+                Text(
+                  "Start using Naan wallet",
+                  style: titleSmall.apply(color: ColorConst.Primary.shade95),
+                ),
+              ],
+            ),
           ),
           0.05.vspace
         ],
@@ -136,9 +154,8 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
               ),
               child: Column(
                 children: [
-                  materialTap(
-                    onPressed: () {},
-                    noSplash: true,
+                  GestureDetector(
+                    onTap: () {},
                     child: Container(
                       width: double.infinity,
                       height: 51,
@@ -154,9 +171,8 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     height: 1,
                     thickness: 1,
                   ),
-                  materialTap(
-                    onPressed: () {},
-                    noSplash: true,
+                  GestureDetector(
+                    onTap: () {},
                     child: Container(
                       width: double.infinity,
                       height: 51,
@@ -172,9 +188,8 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     height: 1,
                     thickness: 1,
                   ),
-                  materialTap(
-                    onPressed: () {},
-                    noSplash: true,
+                  GestureDetector(
+                    onTap: () {},
                     child: Container(
                       width: double.infinity,
                       height: 51,
