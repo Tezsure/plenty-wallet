@@ -15,7 +15,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(gradient: GradConst.GradientBackground),
+      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
       width: 1.width,
       padding: const EdgeInsets.symmetric(horizontal: 21),
       child: Column(
@@ -31,7 +31,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
             child: SizedBox(
               height: 107,
               width: 107,
-              child: SvgPicture.asset(PathConst.SVG + "naan_logo.svg"),
+              child: SvgPicture.asset("${PathConst.SVG}naan_logo.svg"),
             ),
           ),
           35.vspace,

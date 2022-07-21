@@ -1,23 +1,15 @@
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/create_profile_page/views/profile_success_animation_view.dart';
 
 class CreateProfilePageController extends GetxController {
-  //TODO: Implement CreateProfilePageController
+  final isWalletCreated = false.obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  /// To show wallet success animation and redirect to backup wallet page
+  void onWalletSuccess() {
+    isWalletCreated.value = true;
+    Future.delayed(const Duration(milliseconds: 3500),
+        () => Get.to(() => const ProfileSuccessAnimationView())).whenComplete(
+      () => isWalletCreated.value = false,
+    );
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

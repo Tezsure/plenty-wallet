@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
 
 Widget materialTap(
     {Widget? child,

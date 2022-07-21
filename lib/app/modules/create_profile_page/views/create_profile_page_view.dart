@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -17,125 +18,158 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
   const CreateProfilePageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-      width: 1.width,
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          89.h.vspace,
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text("Create Profile", style: titleLarge),
-          ),
-          38.h.vspace,
-          Container(
-            height: 120,
-            width: 120,
-            alignment: Alignment.bottomRight,
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(60),
-            ),
-            child: materialTap(
-              onPressed: () {
-                Get.bottomSheet(changePhotoBottomSheet());
-              },
-              inkwellRadius: 18,
-              child: CircleAvatar(
-                radius: 18,
-                backgroundColor: Colors.white,
-                child: SvgPicture.asset("${PathConst.SVG}add_photo.svg"),
-              ),
-            ),
-          ),
-          38.h.vspace,
-          const NaanTextfield(),
-          27.h.vspace,
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "or  choose a avatar",
-              textAlign: TextAlign.left,
-              style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
-            ),
-          ),
-          19.h.vspace,
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 4,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
-              children: List.generate(
-                11,
-                (index) => const CircleAvatar(
-                  radius: 30,
+    return Obx(() => Container(
+          decoration:
+              const BoxDecoration(gradient: GradConst.GradientBackground),
+          width: 1.width,
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: controller.isWalletCreated.value
+              ? Container(
+                  decoration: const BoxDecoration(
+                      gradient: GradConst.GradientBackground),
+                  height: 1.h,
+                  width: 1.w,
+                  child: Center(
+                    child: Lottie.asset(
+                      '${PathConst.ASSETS}create_wallet/lottie/wallet_success.json',
+                      fit: BoxFit.contain,
+                      height: 300,
+                      width: 300,
+                      frameRate: FrameRate(30),
+                    ),
+                  ),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    89.h.vspace,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Create Profile", style: titleLarge),
+                    ),
+                    38.h.vspace,
+                    Container(
+                      height: 120,
+                      width: 120,
+                      alignment: Alignment.bottomRight,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(60),
+                      ),
+                      child: materialTap(
+                        onPressed: () {
+                          Get.bottomSheet(changePhotoBottomSheet());
+                        },
+                        inkwellRadius: 18,
+                        child: CircleAvatar(
+                          radius: 18,
+                          backgroundColor: Colors.white,
+                          child:
+                              SvgPicture.asset("${PathConst.SVG}add_photo.svg"),
+                        ),
+                      ),
+                    ),
+                    38.h.vspace,
+                    const NaanTextfield(),
+                    27.h.vspace,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "or  choose a avatar",
+                        textAlign: TextAlign.left,
+                        style: labelSmall.apply(
+                            color: ColorConst.NeutralVariant.shade60),
+                      ),
+                    ),
+                    19.h.vspace,
+                    Expanded(
+                      child: GridView.count(
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
+                        children: List.generate(
+                          11,
+                          (index) => const CircleAvatar(
+                            radius: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SolidButton(
+                      title: "Start using Naan wallet",
+                      onPressed: () => controller.onWalletSuccess(),
+                    ),
+                    51.h.vspace
+                  ],
                 ),
-              ),
-            ),
-          ),
-          SolidButton(
-            title: "Start using Naan wallet",
-            onPressed: () {},
-          ),
-          51.h.vspace
-        ],
-      ),
-    );
+        ));
   }
 
   Widget changePhotoBottomSheet() {
     return NaanBottomSheet(title: 'Change profile photo', children: [
       Column(
         children: [
-          materialTap(
-            onPressed: () {},
-            noSplash: true,
-            child: Container(
-              width: double.infinity,
-              height: 51,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Choose photo",
-                style: labelMedium,
-              ),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
             ),
-          ),
-          const Divider(
-            color: Color(0xff4a454e),
-            height: 1,
-            thickness: 1,
-          ),
-          materialTap(
-            onPressed: () {},
-            noSplash: true,
-            child: Container(
-              width: double.infinity,
-              height: 51,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Take photo",
-                style: labelMedium,
-              ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
             ),
-          ),
-          const Divider(
-            color: Color(0xff4a454e),
-            height: 1,
-            thickness: 1,
-          ),
-          materialTap(
-            onPressed: () {},
-            noSplash: true,
-            child: Container(
-              width: double.infinity,
-              height: 51,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Remove current photo",
-                style: labelMedium.apply(color: ColorConst.Error.shade60),
-              ),
+            child: Column(
+              children: [
+                materialTap(
+                  onPressed: () {},
+                  noSplash: true,
+                  child: Container(
+                    width: double.infinity,
+                    height: 51,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Choose photo",
+                      style: labelMedium,
+                    ),
+                  ),
+                ),
+                const Divider(
+                  color: Color(0xff4a454e),
+                  height: 1,
+                  thickness: 1,
+                ),
+                materialTap(
+                  onPressed: () {},
+                  noSplash: true,
+                  child: Container(
+                    width: double.infinity,
+                    height: 51,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Take photo",
+                      style: labelMedium,
+                    ),
+                  ),
+                ),
+                const Divider(
+                  color: Color(0xff4a454e),
+                  height: 1,
+                  thickness: 1,
+                ),
+                materialTap(
+                  onPressed: () {},
+                  noSplash: true,
+                  child: Container(
+                    width: double.infinity,
+                    height: 51,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Remove current photo",
+                      style: labelMedium.apply(color: ColorConst.Error.shade60),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

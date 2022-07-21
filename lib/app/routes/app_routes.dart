@@ -11,6 +11,8 @@ abstract class Routes {
   static const BIOMETRIC_PAGE = _Paths.BIOMETRIC_PAGE;
   static const CREATE_PROFILE_PAGE = _Paths.CREATE_PROFILE_PAGE;
   static const ONBOARDING_PAGE = _Paths.ONBOARDING_PAGE;
+  static const BACKUP_WALLET = _Paths.BACKUP_WALLET;
+  static const VERIFY_PHRASE_PAGE = _Paths.VERIFY_PHRASE_PAGE;
 }
 
 abstract class _Paths {
@@ -21,4 +23,6 @@ abstract class _Paths {
   static const BIOMETRIC_PAGE = '/biometric-page';
   static const CREATE_PROFILE_PAGE = '/create-profile-page';
   static const ONBOARDING_PAGE = '/onboarding-page';
+  static const BACKUP_WALLET = '/backup-wallet';
+  static const VERIFY_PHRASE_PAGE = '/verify-phrase-page';
 }

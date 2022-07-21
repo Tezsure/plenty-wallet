@@ -24,6 +24,8 @@ flutter:
     - assets/svg/
     - assets/onboarding_page/
     - assets/onboarding_page/lottie/
+    - assets/create_wallet/
+    - assets/create_wallet/lottie/
   uses-material-design: true
 
 

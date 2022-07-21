@@ -14,7 +14,7 @@ Widget backButton() {
       radius: 20.5,
       backgroundColor: ColorConst.Primary,
       child: SvgPicture.asset(
-        PathConst.SVG + "arrow_back.svg",
+        "${PathConst.SVG}arrow_back.svg",
         fit: BoxFit.scaleDown,
       ),
     ),

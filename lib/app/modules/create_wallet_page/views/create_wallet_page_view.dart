@@ -57,7 +57,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         Text(
                           "Naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.",
                           style: bodySmall.apply(
-                            color: const Color(0XFF958E99),
+                            color: ColorConst.NeutralVariant.shade60,
                           ),
                         ),
                         ((28 / 844) * 1.height).h.vspace,
@@ -98,21 +98,23 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         Expanded(
                             child: Divider(
                           thickness: 1,
-                          color: const Color(0xff958E99).withOpacity(0.4),
+                          color: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.4),
                         )),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             "Or Login with",
                             style: bodySmall.apply(
-                              color: const Color(0xff958E99),
+                              color: ColorConst.NeutralVariant.shade60,
                             ),
                           ),
                         ),
                         Expanded(
                             child: Divider(
                           thickness: 1,
-                          color: const Color(0xff958E99).withOpacity(0.4),
+                          color: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.4),
                         )),
                       ],
                     ),
