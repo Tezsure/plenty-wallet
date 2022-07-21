@@ -27,9 +27,8 @@ class SolidButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: active ? onPressed : null,
-      color: active
-          ? ColorConst.Primary
-          : ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+      disabledColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+      color: ColorConst.Primary,
       splashColor: ColorConst.Primary.shade60,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Container(

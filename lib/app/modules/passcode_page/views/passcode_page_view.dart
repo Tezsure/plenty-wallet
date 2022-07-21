@@ -16,48 +16,50 @@ class PasscodePageView extends GetView<PasscodePageController> {
   const PasscodePageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(gradient: GradConst.GradientBackground),
-      width: 1.width,
-      padding: const EdgeInsets.symmetric(horizontal: 21),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          0.05.vspace,
-          Align(
-            alignment: Alignment.centerLeft,
-            child: backButton(),
-          ),
-          0.05.vspace,
-          Center(
-            child: SizedBox(
-              height: 0.27.width,
-              width: 0.27.width,
-              child: SvgPicture.asset(
-                PathConst.SVG + "naan_logo.svg",
-                fit: BoxFit.fitHeight,
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+        width: 1.width,
+        padding: const EdgeInsets.symmetric(horizontal: 21),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            0.05.vspace,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: backButton(),
+            ),
+            0.05.vspace,
+            Center(
+              child: SizedBox(
+                height: 0.27.width,
+                width: 0.27.width,
+                child: SvgPicture.asset(
+                  PathConst.SVG + "naan_logo.svg",
+                  fit: BoxFit.fitHeight,
+                ),
               ),
             ),
-          ),
-          0.05.vspace,
-          Text(
-            "Set passcode",
-            textAlign: TextAlign.center,
-            style: titleMedium,
-          ),
-          0.01.vspace,
-          Text(
-            "Protect your wallet by setting a passcode",
-            style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
-          ),
-          0.05.vspace,
-          PassCodeWidget(onChanged: (value) {
-            if (value.length == 6) {
-              Get.toNamed(Routes.BIOMETRIC_PAGE);
-            }
-            print(value);
-          })
-        ],
+            0.05.vspace,
+            Text(
+              "Set passcode",
+              textAlign: TextAlign.center,
+              style: titleMedium,
+            ),
+            0.01.vspace,
+            Text(
+              "Protect your wallet by setting a passcode",
+              style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+            ),
+            0.05.vspace,
+            PassCodeWidget(onChanged: (value) {
+              if (value.length == 6) {
+                Get.toNamed(Routes.BIOMETRIC_PAGE);
+              }
+              print(value);
+            })
+          ],
+        ),
       ),
     );
   }
@@ -78,6 +80,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
           width: 0.45.width,
@@ -100,87 +103,79 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
           ),
         ),
         0.05.vspace,
-        SizedBox(
-          width: 0.75.width,
-          child: GridView.count(
-            crossAxisCount: 3,
-            shrinkWrap: true,
-            mainAxisSpacing: 0.1.width,
-            crossAxisSpacing: 0.1.width,
-            children:
-                List.generate(9, (index) => numButton((index + 1).toString())),
-          ),
-        ),
-        SizedBox(
-          height: 36,
-        ),
-        SizedBox(
-          width: 0.75.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 52,
-              ),
-              numButton("0"),
-              backButton(),
-            ],
-          ),
-        )
+        getKeyBoardWidget(),
       ],
     );
   }
 
-  Widget numButton(String value) {
-    return MaterialButton(
-      onPressed: () {
-        if (passCode.length < 6) {
-          setState(() {
-            passCode = passCode + value;
-          });
-          if (widget.onChanged != null) widget.onChanged!(passCode);
-        }
-      },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
-      splashColor: ColorConst.Neutral.shade60.withOpacity(0.4),
-      color: Colors.transparent,
-      child: Container(
-        height: 52,
-        width: 52,
-        color: Colors.transparent,
+  Widget getKeyBoardWidget() => Container(
+        width: 0.7.width,
         alignment: Alignment.center,
-        child: Text(
-          value,
-          style: headlineSmall,
+        child: Wrap(
+          alignment: WrapAlignment.center,
+          children: [
+            for (var i = 1; i < 4; i++) getButton(i.toString()),
+            for (var i = 4; i < 7; i++) getButton(i.toString()),
+            for (var i = 7; i < 10; i++) getButton(i.toString()),
+            getButton(
+              '',
+              true,
+            ),
+            getButton(
+              '0',
+            ),
+            getButton('', false, Icons.backspace_outlined, () {
+              if (passCode.isNotEmpty) {
+                setState(() {
+                  passCode = passCode.substring(0, passCode.length - 1);
+                });
+                if (widget.onChanged != null) widget.onChanged!(passCode);
+              }
+            })
+          ],
         ),
-      ),
-    );
-  }
+      );
 
-  Widget backButton() {
-    return MaterialButton(
-      onPressed: () {
-        if (passCode.isNotEmpty) {
-          setState(() {
-            passCode = passCode.substring(0, passCode.length - 1);
-          });
-          if (widget.onChanged != null) widget.onChanged!(passCode);
-        }
-      },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      splashColor: ColorConst.Neutral.shade60.withOpacity(0.4),
-      color: Colors.transparent,
-      child: Container(
-        height: 52,
-        width: 52,
-        color: Colors.transparent,
-        alignment: Alignment.center,
-        child: Icon(
-          Icons.backspace_outlined,
-          color: ColorConst.NeutralVariant.shade60,
-          size: 18,
+  Widget getButton(String value,
+          [isDisable = false, IconData? iconData, onIconTap]) =>
+      InkWell(
+        onTap: iconData != null
+            ? onIconTap
+            : () {
+                if (passCode.length < 6) {
+                  setState(() {
+                    passCode = passCode + value;
+                  });
+                  if (widget.onChanged != null) widget.onChanged!(passCode);
+                }
+              },
+        child: Container(
+          width: 0.13.width,
+          height: 0.13.width,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          margin: EdgeInsets.only(
+            left: 0.04.width,
+            right: 0.04.width,
+            bottom: 0.04.width,
+          ),
+          alignment: Alignment.center,
+          child: isDisable
+              ? Container()
+              : iconData != null
+                  ? Icon(
+                      iconData,
+                      color: ColorConst.NeutralVariant.shade60,
+                      size: 18.sp,
+                    )
+                  : Text(
+                      value,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0.sp,
+                      ),
+                    ),
         ),
-      ),
-    );
-  }
+      );
 }

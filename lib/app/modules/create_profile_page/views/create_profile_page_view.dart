@@ -64,7 +64,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
               style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
           ),
-          //  19.h.vspace,
+          0.03.vspace,
           Expanded(
             child: GridView.count(
               physics: BouncingScrollPhysics(

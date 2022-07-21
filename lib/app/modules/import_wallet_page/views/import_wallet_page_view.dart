@@ -251,11 +251,10 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               style: titleLarge,
             ),
             0.03.vspace,
-            Expanded(
-              child: AccountWidget(),
-            ),
+            Expanded(child: AccountWidget()),
             0.03.vspace,
             SolidButton(
+              onPressed: () {},
               title: "Continue",
             ),
             0.05.vspace
