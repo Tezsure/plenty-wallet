@@ -19,7 +19,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-        width: 1.width,
+        // width: 1.width,
         padding: const EdgeInsets.symmetric(horizontal: 21),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -138,44 +138,59 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
 
   Widget getButton(String value,
           [isDisable = false, IconData? iconData, onIconTap]) =>
-      InkWell(
-        onTap: iconData != null
-            ? onIconTap
-            : () {
-                if (passCode.length < 6) {
-                  setState(() {
-                    passCode = passCode + value;
-                  });
-                  if (widget.onChanged != null) widget.onChanged!(passCode);
-                }
-              },
-        child: Container(
-          width: 0.13.width,
-          height: 0.13.width,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
+      Padding(
+        padding: EdgeInsets.only(
+          left: 0.04.width,
+          right: 0.04.width,
+          bottom: 0.04.width,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.all(
+            Radius.circular(0.065.width),
           ),
-          margin: EdgeInsets.only(
-            left: 0.04.width,
-            right: 0.04.width,
-            bottom: 0.04.width,
+          child: InkWell(
+            borderRadius: BorderRadius.all(
+              Radius.circular(0.065.width),
+            ),
+            highlightColor: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
+            splashFactory: NoSplash.splashFactory,
+            onTap: iconData != null
+                ? onIconTap
+                : () {
+                    if (passCode.length < 6) {
+                      setState(() {
+                        passCode = passCode + value;
+                      });
+                      if (widget.onChanged != null) widget.onChanged!(passCode);
+                    }
+                  },
+            child: Container(
+              width: 0.13.width,
+              height: 0.13.width,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(0.065.width),
+                  ),
+                  color: Colors.transparent),
+              alignment: Alignment.center,
+              child: isDisable
+                  ? Container()
+                  : iconData != null
+                      ? Icon(
+                          iconData,
+                          color: ColorConst.NeutralVariant.shade60,
+                          size: 18.sp,
+                        )
+                      : Text(
+                          value,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0.sp,
+                          ),
+                        ),
+            ),
           ),
-          alignment: Alignment.center,
-          child: isDisable
-              ? Container()
-              : iconData != null
-                  ? Icon(
-                      iconData,
-                      color: ColorConst.NeutralVariant.shade60,
-                      size: 18.sp,
-                    )
-                  : Text(
-                      value,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0.sp,
-                      ),
-                    ),
         ),
       );
 }

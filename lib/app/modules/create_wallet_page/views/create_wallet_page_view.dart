@@ -25,8 +25,8 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
       ),
       child: Container(
         decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-        // width: 1.width,
-        // height: 1.height,
+        width: 1.width,
+        height: 1.height,
         child: Stack(
           children: [
             ShaderMask(
@@ -41,7 +41,9 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                 ).createShader(bounds);
               },
               child: SvgPicture.asset(
-                  "${PathConst.SVG}create_wallet_background.svg"),
+                "${PathConst.SVG}create_wallet_background.svg",
+                fit: BoxFit.fitWidth,
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
