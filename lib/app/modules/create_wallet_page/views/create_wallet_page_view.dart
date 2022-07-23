@@ -7,8 +7,8 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:naan_wallet/utils/material_Tap.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import '../../../../utils/material_Tap.dart';
 import '../controllers/create_wallet_page_controller.dart';
 
 class CreateWalletPageView extends GetView<CreateWalletPageController> {
@@ -119,22 +119,40 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                       ],
                     ),
                   ),
-                  28.h.vspace,
-                  Wrap(
-                    runSpacing: 38,
-                    spacing: 38,
-                    children: [
-                      SvgPicture.asset("${PathConst.SVG}apple.svg"),
-                      SvgPicture.asset("${PathConst.SVG}google.svg"),
-                      SvgPicture.asset("${PathConst.SVG}facebook.svg"),
-                      SvgPicture.asset("${PathConst.SVG}twitter.svg"),
-                    ],
+                  0.035.vspace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CircleAvatar(
+                          radius: 0.07.width,
+                          backgroundColor: Colors.transparent,
+                          child: SvgPicture.asset("${PathConst.SVG}apple.svg"),
+                        ),
+                        CircleAvatar(
+                          radius: 0.07.width,
+                          backgroundColor: Colors.transparent,
+                          child: SvgPicture.asset("${PathConst.SVG}google.svg"),
+                        ),
+                        CircleAvatar(
+                          radius: 0.07.width,
+                          backgroundColor: Colors.transparent,
+                          child:
+                              SvgPicture.asset("${PathConst.SVG}facebook.svg"),
+                        ),
+                        CircleAvatar(
+                          radius: 0.07.width,
+                          backgroundColor: Colors.transparent,
+                          child:
+                              SvgPicture.asset("${PathConst.SVG}twitter.svg"),
+                        ),
+                      ],
+                    ),
                   ),
-                  12.h.vspace,
-                  materialTap(
-                    inkwellRadius: 8,
-                    onPressed: () {},
-                    noSplash: true,
+                  0.02.vspace,
+                  GestureDetector(
+                    onTap: () {},
                     child: Container(
                       height: 48,
                       width: double.infinity,
@@ -146,7 +164,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                       ),
                     ),
                   ),
-                  15.vspace,
+                  0.025.vspace,
                 ],
               ),
             ),

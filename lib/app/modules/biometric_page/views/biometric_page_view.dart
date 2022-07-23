@@ -29,7 +29,7 @@ class BiometricPageView extends GetView<BiometricPageController> {
             "Enable biometry unlock",
             style: titleLarge,
           ),
-          12.vspace,
+          0.01.vspace,
           Text(
             "Access Naan wallet with your biometry.\nQuick, easy and secure.",
             textAlign: TextAlign.center,
@@ -56,7 +56,7 @@ class BiometricPageView extends GetView<BiometricPageController> {
               ),
             ),
           ),
-          15.vspace,
+          0.02.vspace,
         ],
       ),
     );

@@ -10,6 +10,8 @@ import '../modules/create_wallet_page/bindings/create_wallet_page_binding.dart';
 import '../modules/create_wallet_page/views/create_wallet_page_view.dart';
 import '../modules/home_page/bindings/home_page_binding.dart';
 import '../modules/home_page/views/home_page_view.dart';
+import '../modules/import_wallet_page/bindings/import_wallet_page_binding.dart';
+import '../modules/import_wallet_page/views/import_wallet_page_view.dart';
 import '../modules/nft_page/bindings/nft_page_binding.dart';
 import '../modules/nft_page/views/nft_page_view.dart';
 import '../modules/onboarding_page/bindings/onboarding_page_binding.dart';
@@ -71,6 +73,11 @@ class AppPages {
       name: _Paths.VERIFY_PHRASE_PAGE,
       page: () => const VerifyPhrasePageView(),
       binding: VerifyPhrasePageBinding(),
+    ),
+    GetPage(
+      name: _Paths.IMPORT_WALLET_PAGE,
+      page: () => const ImportWalletPageView(),
+      binding: ImportWalletPageBinding(),
     ),
   ];
 }
