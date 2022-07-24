@@ -116,7 +116,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                         splashColor: Colors.transparent,
                         child: Container(
                           height: 48,
-                          width: 0.9.width,
+                          width: 0.8.width,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             color: Colors.transparent,

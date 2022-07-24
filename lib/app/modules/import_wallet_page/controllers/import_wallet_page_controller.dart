@@ -5,31 +5,20 @@ import 'package:get/get.dart';
 class ImportWalletPageController extends GetxController {
   //? VARIABLES
 
-  final phraseTextController = TextEditingController().obs;
+  Rx<TextEditingController> phraseTextController = TextEditingController().obs;
+  Rx<String> phraseText = "".obs;
 
   //? FUNCTION
 
-   paste() async {
+  void paste() async {
     ClipboardData? cdata = await Clipboard.getData(Clipboard.kTextPlain);
     if (cdata != null) {
       phraseTextController.value.text = cdata.text!;
+      phraseText.value = cdata.text!;
     }
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  void onTextChange(String value) => phraseText.value = value;
 
   @override
   void dispose() {

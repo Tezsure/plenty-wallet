@@ -22,14 +22,14 @@ class _AccountWidgetState extends State<AccountWidget> {
             ? Expanded(
                 child: Container(
                   width: double.infinity,
-                  padding: EdgeInsets.only(top: 12, left: 12, right: 12),
+                  padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                   ),
                   child: ListView.separated(
                     itemBuilder: (context, index) => accountWidget(),
-                    separatorBuilder: (context, index) => Divider(
+                    separatorBuilder: (context, index) => const Divider(
                         color: Color(0xff4a454e), height: 1, thickness: 1),
                     itemCount: 100,
                     shrinkWrap: true,
@@ -38,7 +38,7 @@ class _AccountWidgetState extends State<AccountWidget> {
               )
             : Container(
                 width: double.infinity,
-                padding: EdgeInsets.only(top: 12, left: 12, right: 12),
+                padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
@@ -54,7 +54,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                     if (!expanded)
                       Column(
                         children: [
-                          Divider(
+                          const Divider(
                             color: Color(0xff4a454e),
                             height: 1,
                             thickness: 1,
@@ -80,7 +80,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                   ],
                 ),
               ),
-        if (!expanded) Spacer()
+        if (!expanded) const Spacer()
       ],
     );
   }
@@ -91,7 +91,7 @@ class _AccountWidgetState extends State<AccountWidget> {
       height: 84,
       child: Row(
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 30,
           ),
           0.01.hspace,
@@ -108,7 +108,7 @@ class _AccountWidgetState extends State<AccountWidget> {
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Material(
             color: Colors.transparent,
             child: Checkbox(
@@ -116,7 +116,7 @@ class _AccountWidgetState extends State<AccountWidget> {
               onChanged: (value) {},
               checkColor: Colors.white,
               fillColor: MaterialStateProperty.all(Colors.white),
-              side: BorderSide(color: Colors.white, width: 1),
+              side: const BorderSide(color: Colors.white, width: 1),
             ),
           )
         ],

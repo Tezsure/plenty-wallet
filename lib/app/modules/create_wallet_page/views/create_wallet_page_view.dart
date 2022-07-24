@@ -70,7 +70,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         materialTap(
                           inkwellRadius: 8,
                           onPressed: () {
-                            Get.toNamed(Routes.PASSCODE_PAGE);
+                            Get.toNamed(Routes.IMPORT_WALLET_PAGE);
                           },
                           child: Container(
                             height: 48,

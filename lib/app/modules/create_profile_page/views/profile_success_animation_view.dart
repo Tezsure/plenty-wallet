@@ -23,7 +23,7 @@ class ProfileSuccessAnimationView extends StatelessWidget {
           children: [
             HomePageView(),
             Align(
-              alignment: Alignment.bottomLeft,
+              alignment: Alignment.bottomCenter,
               child: NaanBottomSheet(
                 gradientStartingOpacity: 1,
                 blurRadius: 5,

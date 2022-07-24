@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:naan_wallet/app/modules/create_profile_page/views/profile_success_animation_view.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -20,17 +21,17 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(gradient: GradConst.GradientBackground),
+      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          0.05.vspace,
+          21.h.vspace,
           Row(
             children: [
               backButton(),
-              Spacer(),
+              const Spacer(),
               GestureDetector(
                 onTap: () {
                   Get.bottomSheet(
@@ -62,12 +63,12 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  0.05.vspace,
+                  53.h.vspace,
                   Text(
                     "Import wallet",
                     style: titleLarge,
                   ),
-                  0.05.vspace,
+                  29.h.vspace,
                   Material(
                     borderRadius: BorderRadius.circular(8),
                     color: Colors.white.withOpacity(0.2),
@@ -88,59 +89,58 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                 controller:
                                     controller.phraseTextController.value,
                                 style: bodyMedium,
-                                onChanged: (value) {
-                                  print(value);
-                                },
+                                onChanged: (value) =>
+                                    controller.onTextChange(value),
                                 maxLines: null,
                                 minLines: null,
                                 decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(0),
-                                    hintStyle: bodyMedium.apply(
-                                        color: Colors.white.withOpacity(0.2)),
-                                    hintText:
-                                        "Paste your secret phrase, private key\nor watch address",
-                                    border: InputBorder.none),
+                                  contentPadding:
+                                      const EdgeInsets.only(top: 18, left: 18),
+                                  hintStyle: bodyMedium.apply(
+                                      color: Colors.white.withOpacity(0.2)),
+                                  hintText:
+                                      "Paste your secret phrase, private key\nor watch address",
+                                  border: InputBorder.none,
+                                ),
                               ),
                             ),
-                            Obx(() => controller.phraseTextController.value !=
-                                        null &&
-                                    controller.phraseTextController.value.text
-                                        .isNotEmpty
-                                ? Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        controller.phraseTextController.value
-                                            .text = "";
-                                        controller.phraseTextController.value =
-                                            controller
-                                                .phraseTextController.value;
-                                      },
-                                      child: Text(
-                                        "Clear",
-                                        style: titleSmall.apply(
-                                            color: ColorConst.Primary),
+                            Obx(
+                              () => controller.phraseText.isNotEmpty
+                                  ? Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          controller.phraseTextController.value
+                                              .text = "";
+                                          controller
+                                                  .phraseTextController.value =
+                                              controller
+                                                  .phraseTextController.value;
+                                        },
+                                        child: Text(
+                                          "Clear",
+                                          style: titleSmall.apply(
+                                              color: ColorConst.Primary),
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                : Container()),
-                            0.01.vspace,
+                                    )
+                                  : Container(),
+                            ),
+                            12.h.vspace,
                           ],
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
           ),
           Obx(
-            () => controller.phraseTextController.value != null &&
-                    controller.phraseTextController.value.text.isEmpty
-                ? pasteButton()
-                : importButton(),
+            () =>
+                controller.phraseText.isEmpty ? pasteButton() : importButton(),
           ),
-          0.05.vspace,
+          38.h.vspace,
           SizedBox(
             height: MediaQuery.of(context).viewInsets.bottom,
           )
@@ -156,10 +156,10 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
-            PathConst.SVG + "paste.svg",
+            "${PathConst.SVG}paste.svg",
             fit: BoxFit.scaleDown,
           ),
-          0.02.hspace,
+          13.w.hspace,
           Text(
             "Paste",
             style: titleSmall.apply(color: ColorConst.Neutral.shade95),
@@ -179,17 +179,16 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             barrierColor: Colors.white.withOpacity(0.2),
           );
         },
-        active:
-            controller.phraseTextController.value.text.split(" ").length == 12,
+        active: controller.phraseText.value.split(" ").join().length == 12,
         inActiveChild: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              PathConst.SVG + "import.svg",
+              "${PathConst.SVG}import.svg",
               fit: BoxFit.scaleDown,
               color: ColorConst.NeutralVariant.shade60,
             ),
-            0.005.hspace,
+            13.w.hspace,
             Text(
               "Import",
               style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
@@ -200,11 +199,11 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              PathConst.SVG + "import.svg",
+              "${PathConst.SVG}import.svg",
               fit: BoxFit.scaleDown,
               color: ColorConst.Neutral.shade95,
             ),
-            0.005.hspace,
+            13.w.hspace,
             Text(
               "Import",
               style: titleSmall.apply(color: ColorConst.Neutral.shade95),
@@ -220,13 +219,13 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xff07030c).withOpacity(0.49),
-              Color(0xff2d004f),
+              const Color(0xff07030c).withOpacity(1),
+              const Color(0xff2d004f),
             ],
           ),
         ),
@@ -235,7 +234,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
         padding: EdgeInsets.symmetric(horizontal: 0.05.width),
         child: Column(
           children: [
-            0.005.vspace,
+            5.h.vspace,
             Container(
               height: 5,
               width: 36,
@@ -244,20 +243,21 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
               ),
             ),
-            0.05.vspace,
+            44.h.vspace,
             Text(
               "Wallets ready to import",
               textAlign: TextAlign.start,
               style: titleLarge,
             ),
-            0.03.vspace,
-            Expanded(child: AccountWidget()),
-            0.03.vspace,
+            25.h.vspace,
+            const Expanded(child: AccountWidget()),
+            10.h.vspace,
             SolidButton(
-              onPressed: () {},
+              onPressed: () =>
+                  Get.to(() => const ProfileSuccessAnimationView()),
               title: "Continue",
             ),
-            0.05.vspace
+            25.h.vspace
           ],
         ),
       ),
@@ -274,13 +274,14 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(10)),
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xff07030c).withOpacity(0.49),
-                  Color(0xff2d004f),
+                  const Color(0xff07030c).withOpacity(0.49),
+                  const Color(0xff2d004f),
                 ],
               ),
             ),
@@ -307,17 +308,17 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                 Expanded(
                   child: RawScrollbar(
                     controller: scrollController,
-                    radius: Radius.circular(2),
-                    trackRadius: Radius.circular(2),
+                    radius: const Radius.circular(2),
+                    trackRadius: const Radius.circular(2),
                     thickness: 4,
-                    isAlwaysShown: true,
+                    thumbVisibility: true,
                     thumbColor: ColorConst.NeutralVariant.shade60,
                     trackColor:
                         ColorConst.NeutralVariant.shade60.withOpacity(0.4),
                     trackBorderColor:
                         ColorConst.NeutralVariant.shade60.withOpacity(0.4),
                     child: ListView.separated(
-                        physics: BouncingScrollPhysics(
+                        physics: const BouncingScrollPhysics(
                             parent: AlwaysScrollableScrollPhysics()),
                         controller: scrollController,
                         padding: EdgeInsets.only(right: 0.03.width),
@@ -325,7 +326,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${index}. What is Secret Phrase?",
+                                  "$index. What is Secret Phrase?",
                                   style: bodyMedium,
                                 ),
                                 0.012.vspace,
