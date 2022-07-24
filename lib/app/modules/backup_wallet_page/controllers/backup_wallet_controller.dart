@@ -1,6 +1,10 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class BackupWalletController extends GetxController {
+  //? Variables
+
+  Rx<bool> phraseCopy = false.obs;
   List<String> get secretPhrase => [
         'car',
         'approve',
@@ -30,4 +34,11 @@ class BackupWalletController extends GetxController {
         "6. What is a Watch Address?":
             "A Watch Address is basically the receiving address or wallet address. Importing any supported Cryptocurrency address will allow you to view the tokens and collectibles, as well as transactions associated with the said address. When importing your address, you cannot do any transactions with the wallet.",
       };
+
+  //? FUNCTION
+
+  Future<void> paste() async {
+    await Clipboard.setData(ClipboardData(text: secretPhrase.toString()))
+        .whenComplete(() => phraseCopy.value = true);
+  }
 }

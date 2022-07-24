@@ -43,9 +43,6 @@ class BackupWalletView extends GetView<BackupWalletController> {
                       InfoButton(
                         onPressed: () => Get.bottomSheet(
                           infoBottomSheet(),
-                          // enableDrag: true,
-                          // isDismissible: true,
-                          // ignoreSafeArea: true,
                           isScrollControlled: true,
                           barrierColor: const Color.fromARGB(09, 255, 255, 255),
                         ),
@@ -65,7 +62,14 @@ class BackupWalletView extends GetView<BackupWalletController> {
                   style: bodyLarge.copyWith(
                       color: ColorConst.NeutralVariant.shade60),
                 ),
-                const CopyButton(),
+                Obx(() => CopyButton(
+                      isCopied: controller.phraseCopy.value,
+                      onPressed: () => controller.paste().whenComplete(() =>
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Copied to your clipboard !')))),
+                    )),
                 20.h.vspace,
                 GridView.builder(
                     shrinkWrap: true,

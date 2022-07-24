@@ -64,7 +64,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         SolidButton(
                             title: "Create new wallet",
                             onPressed: () {
-                              Get.toNamed(Routes.BIOMETRIC_PAGE);
+                              Get.toNamed(Routes.PASSCODE_PAGE);
                             }),
                         12.h.vspace,
                         materialTap(

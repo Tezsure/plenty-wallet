@@ -4,7 +4,10 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class CopyButton extends StatelessWidget {
-  const CopyButton({Key? key}) : super(key: key);
+  final bool isCopied;
+  final Function()? onPressed;
+  const CopyButton({Key? key, this.isCopied = false, this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +20,20 @@ class CopyButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           color: ColorConst.NeutralVariant.shade10,
         ),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const Icon(
-            Icons.copy_rounded,
-            color: Colors.white,
-          ),
-          13.h.hspace,
-          Text(
-            'copy to clipboard',
-            style: titleSmall.copyWith(color: Colors.white),
-          )
-        ]),
+        child: MaterialButton(
+          onPressed: onPressed,
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            const Icon(
+              Icons.copy_rounded,
+              color: Colors.white,
+            ),
+            13.h.hspace,
+            Text(
+              isCopied ? 'copied!' : 'copy to clipboard',
+              style: titleSmall.copyWith(color: Colors.white),
+            )
+          ]),
+        ),
       ),
     );
   }
