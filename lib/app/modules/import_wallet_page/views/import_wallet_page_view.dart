@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/create_profile_page/views/profile_success_animation_view.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+import '../../../../mock/mock_data.dart';
 import '../../../../utils/colors/colors.dart';
 import '../../../../utils/constants/path_const.dart';
 import '../../common_widgets/back_button.dart';
@@ -23,6 +25,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     return Container(
       decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
       width: 1.width,
+      height: 1.height,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -265,87 +268,22 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   }
 
   Widget infoBottomSheet() {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-      child: DraggableScrollableSheet(
-        initialChildSize: 0.85,
-        maxChildSize: 1,
-        minChildSize: 0.85,
-        builder: (BuildContext context, ScrollController scrollController) {
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(10)),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  const Color(0xff07030c).withOpacity(0.49),
-                  const Color(0xff2d004f),
-                ],
-              ),
-            ),
-            width: 1.width,
-            padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-            child: Column(
+    return NaanBottomSheet(
+        title: 'Wallets ready to import',
+        isDraggableBottomSheet: true,
+        listBuilder: (_, index) => RichText(
+            textAlign: TextAlign.start,
+            text: TextSpan(
+              text: '${MockData.walletInfo.keys.elementAt(index)}\n',
+              style: bodyMedium,
               children: [
-                0.005.vspace,
-                Container(
-                  height: 5,
-                  width: 36,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
-                  ),
-                ),
-                0.05.vspace,
-                Text(
-                  "Wallets ready to import",
-                  textAlign: TextAlign.start,
-                  style: titleLarge,
-                ),
-                0.05.vspace,
-                Expanded(
-                  child: RawScrollbar(
-                    controller: scrollController,
-                    radius: const Radius.circular(2),
-                    trackRadius: const Radius.circular(2),
-                    thickness: 4,
-                    thumbVisibility: true,
-                    thumbColor: ColorConst.NeutralVariant.shade60,
-                    trackColor:
-                        ColorConst.NeutralVariant.shade60.withOpacity(0.4),
-                    trackBorderColor:
-                        ColorConst.NeutralVariant.shade60.withOpacity(0.4),
-                    child: ListView.separated(
-                        physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics()),
-                        controller: scrollController,
-                        padding: EdgeInsets.only(right: 0.03.width),
-                        itemBuilder: (_, index) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "$index. What is Secret Phrase?",
-                                  style: bodyMedium,
-                                ),
-                                0.012.vspace,
-                                Text(
-                                  "Secret Recovery Phrase is a unique 12-word phrase that is generated when you first set up MetaMask. Your funds are connected to that phrase. If you ever lose your password, your Secret Recovery Phrase allows you to recover your wallet and your funds. Write it down on paper and hide it somewhere, put it in a safety deposit box, or use a secure password manager. Some users even engrave their phrases into metal plates!",
-                                  style: bodySmall.apply(
-                                      color: ColorConst.NeutralVariant.shade60),
-                                ),
-                              ],
-                            ),
-                        separatorBuilder: (_, index) => 0.04.vspace,
-                        itemCount: 5),
+                TextSpan(
+                  text: "\n${MockData.walletInfo.values.elementAt(index)}\n",
+                  style: bodySmall.copyWith(
+                    color: ColorConst.NeutralVariant.shade60,
                   ),
                 )
               ],
-            ),
-          );
-        },
-      ),
-    );
+            )));
   }
 }

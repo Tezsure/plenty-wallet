@@ -21,14 +21,14 @@ class ProfileSuccessAnimationView extends StatelessWidget {
         decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
         child: Stack(
           children: [
-            HomePageView(),
+            const HomePageView(),
             Align(
               alignment: Alignment.bottomCenter,
               child: NaanBottomSheet(
                 gradientStartingOpacity: 1,
                 blurRadius: 5,
                 title: 'Backup Your Wallet',
-                children: [
+                bottomSheetWidgets: [
                   Text(
                     'With no backup. losing your device will result\nin the loss of access forever. The only way to\nguard against losses is to backup your wallet.',
                     textAlign: TextAlign.start,
@@ -43,7 +43,7 @@ class ProfileSuccessAnimationView extends StatelessWidget {
                   12.h.vspace,
                   materialTap(
                     inkwellRadius: 8,
-                    onPressed: () {},
+                    onPressed: () => Get.toNamed(Routes.HOME_PAGE),
                     child: Container(
                       height: 48,
                       decoration: BoxDecoration(

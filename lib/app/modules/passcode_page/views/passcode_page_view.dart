@@ -18,17 +18,18 @@ class PasscodePageView extends GetView<PasscodePageController> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-        // width: 1.width,
+        width: 1.width,
+        height: 1.height,
         padding: const EdgeInsets.symmetric(horizontal: 21),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            21.vspace,
+            38.h.vspace,
             Align(
               alignment: Alignment.centerLeft,
               child: backButton(),
             ),
-            30.h.vspace,
+            39.h.vspace,
             Center(
               child: SizedBox(
                 height: 0.27.width,
@@ -140,7 +141,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
         padding: EdgeInsets.only(
           left: 0.04.width,
           right: 0.04.width,
-          bottom: 0.04.width,
+          bottom: 0.07.width,
         ),
         child: Material(
           color: Colors.transparent,

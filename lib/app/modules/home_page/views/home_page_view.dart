@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/register_widgets.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -7,51 +8,57 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import '../controllers/home_page_controller.dart';
 
 class HomePageView extends GetView<HomePageController> {
+  const HomePageView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: 1.width,
-        decoration: BoxDecoration(
-          gradient: background,
-        ),
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Stack(
-            children: [
-              //background gradient color
-              Positioned(
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: background,
-                  ),
-                ),
-              ),
-              Column(
-                children: [
-                  (MediaQuery.of(context).padding.top + 20)
-                      .vspace, //notification bar padding + 20
-
-                  appBar(),
-
-                  32.vspace, //header spacing
-
-                  Padding(
-                    padding: const EdgeInsets.only(left: 24.0, right: 24),
-                    child: Wrap(
-                      runSpacing: 28,
-                      spacing: 20,
-                      children: registeredWidgets,
+    return AnnotatedRegion(
+      value: const SystemUiOverlayStyle(
+          systemNavigationBarColor: ColorConst.Neutral),
+      child: Scaffold(
+        body: Container(
+          width: 1.width,
+          decoration: BoxDecoration(
+            gradient: background,
+          ),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Stack(
+              children: [
+                //background gradient color
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: background,
                     ),
                   ),
-                  28.vspace,
-                ],
-              ),
-            ],
+                ),
+                Column(
+                  children: [
+                    (MediaQuery.of(context).padding.top + 20)
+                        .vspace, //notification bar padding + 20
+
+                    appBar(),
+
+                    32.vspace, //header spacing
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 24.0, right: 24),
+                      child: Wrap(
+                        runSpacing: 28,
+                        spacing: 20,
+                        children: registeredWidgets,
+                      ),
+                    ),
+                    28.vspace,
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

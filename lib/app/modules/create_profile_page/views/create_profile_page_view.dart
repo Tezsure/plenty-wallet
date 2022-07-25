@@ -106,7 +106,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
   }
 
   Widget changePhotoBottomSheet() {
-    return NaanBottomSheet(title: 'Change profile photo', children: [
+    return NaanBottomSheet(title: 'Change profile photo', bottomSheetWidgets: [
       Column(
         children: [
           Container(
