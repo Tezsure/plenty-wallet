@@ -35,12 +35,12 @@ class ProfileSuccessAnimationView extends StatelessWidget {
                     style: bodySmall.copyWith(
                         color: ColorConst.NeutralVariant.shade60),
                   ),
-                  30.h.vspace,
+                  30.vspace,
                   SolidButton(
                       textColor: ColorConst.Neutral.shade95,
                       title: "Backup Wallet ( ~1 min )",
                       onPressed: () => Get.toNamed(Routes.BACKUP_WALLET)),
-                  12.h.vspace,
+                  12.vspace,
                   materialTap(
                     inkwellRadius: 8,
                     onPressed: () => Get.toNamed(Routes.HOME_PAGE),

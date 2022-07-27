@@ -15,7 +15,4 @@ extension SizeExtension on num {
   SizedBox get hspace => SizedBox(
         width: toDouble(),
       );
-
-  double get h => (this / 844) * Get.height;
-  double get w => (this / 844) * Get.width;
 }

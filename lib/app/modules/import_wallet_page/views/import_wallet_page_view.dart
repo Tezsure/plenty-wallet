@@ -30,7 +30,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          21.h.vspace,
+          21.vspace,
           Row(
             children: [
               backButton(),
@@ -66,12 +66,12 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  53.h.vspace,
+                  53.vspace,
                   Text(
                     "Import wallet",
                     style: titleLarge,
                   ),
-                  29.h.vspace,
+                  29.vspace,
                   Material(
                     borderRadius: BorderRadius.circular(8),
                     color: Colors.white.withOpacity(0.2),
@@ -129,7 +129,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                     )
                                   : Container(),
                             ),
-                            12.h.vspace,
+                            12.vspace,
                           ],
                         ),
                       ),
@@ -143,7 +143,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             () =>
                 controller.phraseText.isEmpty ? pasteButton() : importButton(),
           ),
-          38.h.vspace,
+          38.vspace,
           SizedBox(
             height: MediaQuery.of(context).viewInsets.bottom,
           )
@@ -162,7 +162,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             "${PathConst.SVG}paste.svg",
             fit: BoxFit.scaleDown,
           ),
-          13.w.hspace,
+          13.hspace,
           Text(
             "Paste",
             style: titleSmall.apply(color: ColorConst.Neutral.shade95),
@@ -191,7 +191,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               fit: BoxFit.scaleDown,
               color: ColorConst.NeutralVariant.shade60,
             ),
-            13.w.hspace,
+            13.hspace,
             Text(
               "Import",
               style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
@@ -206,7 +206,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               fit: BoxFit.scaleDown,
               color: ColorConst.Neutral.shade95,
             ),
-            13.w.hspace,
+            13.hspace,
             Text(
               "Import",
               style: titleSmall.apply(color: ColorConst.Neutral.shade95),
@@ -237,7 +237,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
         padding: EdgeInsets.symmetric(horizontal: 0.05.width),
         child: Column(
           children: [
-            5.h.vspace,
+            5.vspace,
             Container(
               height: 5,
               width: 36,
@@ -246,21 +246,21 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
               ),
             ),
-            44.h.vspace,
+            44.vspace,
             Text(
               "Wallets ready to import",
               textAlign: TextAlign.start,
               style: titleLarge,
             ),
-            25.h.vspace,
+            25.vspace,
             const Expanded(child: AccountWidget()),
-            10.h.vspace,
+            10.vspace,
             SolidButton(
               onPressed: () =>
                   Get.to(() => const ProfileSuccessAnimationView()),
               title: "Continue",
             ),
-            25.h.vspace
+            25.vspace
           ],
         ),
       ),

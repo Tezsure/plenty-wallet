@@ -53,20 +53,20 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                           "Welcome to Naan Wallet",
                           style: titleLarge,
                         ),
-                        12.h.vspace,
+                        12.vspace,
                         Text(
                           "Naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.",
                           style: bodySmall.apply(
                             color: ColorConst.NeutralVariant.shade60,
                           ),
                         ),
-                        ((28 / 844) * 1.height).h.vspace,
+                        ((28 / 844) * 1.height).vspace,
                         SolidButton(
                             title: "Create new wallet",
                             onPressed: () {
                               Get.toNamed(Routes.PASSCODE_PAGE);
                             }),
-                        12.h.vspace,
+                        12.vspace,
                         materialTap(
                           inkwellRadius: 8,
                           onPressed: () {
@@ -87,7 +87,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                                     color: ColorConst.Primary)),
                           ),
                         ),
-                        20.h.vspace,
+                        20.vspace,
                       ],
                     ),
                   ),

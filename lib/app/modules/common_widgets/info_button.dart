@@ -19,7 +19,7 @@ class InfoButton extends StatelessWidget {
             size: 16,
             color: ColorConst.NeutralVariant.shade60,
           ),
-          10.w.hspace,
+          10.hspace,
           Text(
             'Info',
             style:

@@ -26,7 +26,7 @@ class PhraseContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-        30.w.hspace,
+        30.hspace,
         Text(
           '${index + 1}',
           textAlign: TextAlign.center,

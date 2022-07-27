@@ -32,7 +32,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                       dotColor: Colors.white,
                     ),
                   )),
-              20.h.vspace,
+              20.vspace,
               MaterialButton(
                 onPressed: () => Get.toNamed(Routes.CREATE_WALLET_PAGE),
                 minWidth: 0.8.width,
@@ -48,7 +48,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                       fontWeight: FontWeight.w500),
                 ),
               ),
-              12.h.vspace,
+              12.vspace,
             ],
           ),
         ),

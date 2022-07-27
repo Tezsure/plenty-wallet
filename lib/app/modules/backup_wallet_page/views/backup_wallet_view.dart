@@ -53,12 +53,12 @@ class BackupWalletView extends GetView<BackupWalletController> {
                     ],
                   ),
                 ),
-                40.h.vspace,
+                40.vspace,
                 Text(
                   'Your Secret Phrase',
                   style: titleLarge,
                 ),
-                30.h.vspace,
+                30.vspace,
                 Text(
                   'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.',
                   textAlign: TextAlign.center,
@@ -73,7 +73,7 @@ class BackupWalletView extends GetView<BackupWalletController> {
                                   content:
                                       Text('Copied to your clipboard !')))),
                     )),
-                20.h.vspace,
+                20.vspace,
                 GridView.builder(
                     shrinkWrap: true,
                     primary: false,

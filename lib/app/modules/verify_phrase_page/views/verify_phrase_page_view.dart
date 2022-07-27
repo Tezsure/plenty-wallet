@@ -27,7 +27,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
               padding: const EdgeInsets.symmetric(horizontal: 21),
               child: backButton(),
             ),
-            40.h.vspace,
+            40.vspace,
             Align(
               alignment: Alignment.center,
               child: Text(
@@ -35,7 +35,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                 style: titleLarge,
               ),
             ),
-            30.h.vspace,
+            30.vspace,
             Obx(() => Align(
                   alignment: Alignment.center,
                   child: Text(
@@ -45,7 +45,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                         color: ColorConst.NeutralVariant.shade60),
                   ),
                 )),
-            40.h.vspace,
+            40.vspace,
             GridView.builder(
                 shrinkWrap: true,
                 itemCount:
@@ -85,7 +85,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                         ),
                       ));
                 }),
-            25.h.vspace,
+            25.vspace,
             Obx(() => controller.showError.value
                 ? Align(
                     alignment: Alignment.center,

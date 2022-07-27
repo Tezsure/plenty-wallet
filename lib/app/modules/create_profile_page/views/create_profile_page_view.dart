@@ -27,8 +27,8 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
               ? Container(
                   decoration: const BoxDecoration(
                       gradient: GradConst.GradientBackground),
-                  height: 1.h,
-                  width: 1.w,
+                  height: 1.height,
+                  width: 1.width,
                   child: Center(
                     child: Lottie.asset(
                       '${PathConst.ASSETS}create_wallet/lottie/wallet_success.json',
@@ -42,12 +42,12 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    89.h.vspace,
+                    89.vspace,
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text("Create Profile", style: titleLarge),
                     ),
-                    38.h.vspace,
+                    38.vspace,
                     Container(
                       height: 120,
                       width: 120,
@@ -69,9 +69,9 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                         ),
                       ),
                     ),
-                    38.h.vspace,
+                    38.vspace,
                     const NaanTextfield(),
-                    27.h.vspace,
+                    27.vspace,
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -81,7 +81,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                             color: ColorConst.NeutralVariant.shade60),
                       ),
                     ),
-                    19.h.vspace,
+                    19.vspace,
                     Expanded(
                       child: GridView.count(
                         crossAxisCount: 4,
@@ -99,7 +99,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                       title: "Start using Naan wallet",
                       onPressed: () => controller.onWalletSuccess(),
                     ),
-                    51.h.vspace
+                    51.vspace
                   ],
                 ),
         ));
