@@ -27,13 +27,17 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor:
+          widget.controller.colorList[widget.controller.pageIndex()],
       body: PageView.builder(
           controller: widget.controller.pageController,
           itemCount: 5,
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          onPageChanged: (value) => widget.controller.onPageChanged(value),
+          onPageChanged: (value) {
+            widget.controller.onPageChanged(value);
+            setState(() {});
+          },
           itemBuilder: (_, index) {
             return AnnotatedRegion(
               value: SystemUiOverlayStyle(
