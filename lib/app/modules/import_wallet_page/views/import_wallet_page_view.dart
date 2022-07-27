@@ -102,8 +102,9 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                     border: InputBorder.none),
                               ),
                             ),
-                            Obx(() => controller.phraseTextController.value !=
-                                        null &&
+                            Obx(() => controller.phraseTextController.value
+                                            .value.text !=
+                                        "" &&
                                     controller.phraseTextController.value.text
                                         .isNotEmpty
                                 ? Align(
@@ -135,7 +136,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             ),
           ),
           Obx(
-            () => controller.phraseTextController.value != null &&
+            () => controller.phraseTextController.value.value.text != "" &&
                     controller.phraseTextController.value.text.isEmpty
                 ? pasteButton()
                 : importButton(),
@@ -179,8 +180,10 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             barrierColor: Colors.white.withOpacity(0.2),
           );
         },
-        active:
-            controller.phraseTextController.value.text.split(" ").length == 12,
+        active: controller.phraseTextController.value.value.text
+                .split(" ")
+                .length ==
+            12,
         inActiveChild: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -189,7 +192,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               fit: BoxFit.scaleDown,
               color: ColorConst.NeutralVariant.shade60,
             ),
-            0.005.hspace,
+            0.03.hspace,
             Text(
               "Import",
               style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
@@ -204,7 +207,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               fit: BoxFit.scaleDown,
               color: ColorConst.Neutral.shade95,
             ),
-            0.005.hspace,
+            0.03.hspace,
             Text(
               "Import",
               style: titleSmall.apply(color: ColorConst.Neutral.shade95),
@@ -251,7 +254,9 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               style: titleLarge,
             ),
             0.03.vspace,
-            Expanded(child: AccountWidget()),
+            Expanded(
+              child: AccountWidget(),
+            ),
             0.03.vspace,
             SolidButton(
               onPressed: () {},
