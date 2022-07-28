@@ -125,8 +125,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                           style: titleSmall.apply(
                                               color: ColorConst.Primary),
                                         ),
-                                      ),
-                                    )
+                                      ))
                                   : Container(),
                             ),
                             12.vspace,
@@ -182,7 +181,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             barrierColor: Colors.white.withOpacity(0.2),
           );
         },
-        active: controller.phraseText.value.split(" ").join().length == 12,
+        active: controller.phraseText.value.split(" ").length == 12,
         inActiveChild: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -191,7 +190,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               fit: BoxFit.scaleDown,
               color: ColorConst.NeutralVariant.shade60,
             ),
-            13.hspace,
+            0.03.hspace,
             Text(
               "Import",
               style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
@@ -206,7 +205,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               fit: BoxFit.scaleDown,
               color: ColorConst.Neutral.shade95,
             ),
-            13.hspace,
+            0.03.hspace,
             Text(
               "Import",
               style: titleSmall.apply(color: ColorConst.Neutral.shade95),
@@ -252,9 +251,11 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               textAlign: TextAlign.start,
               style: titleLarge,
             ),
-            25.vspace,
-            const Expanded(child: AccountWidget()),
-            10.vspace,
+            0.03.vspace,
+            const Expanded(
+              child: AccountWidget(),
+            ),
+            0.03.vspace,
             SolidButton(
               onPressed: () =>
                   Get.to(() => const ProfileSuccessAnimationView()),
