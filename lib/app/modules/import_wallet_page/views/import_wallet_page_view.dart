@@ -108,7 +108,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                               ),
                             ),
                             Obx(
-                              () => controller.phraseText.isNotEmpty
+                              () => controller.phraseText.isNotEmpty ||
+                                      controller.phraseText.value != ""
                                   ? Align(
                                       alignment: Alignment.bottomRight,
                                       child: GestureDetector(
@@ -181,7 +182,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             barrierColor: Colors.white.withOpacity(0.2),
           );
         },
-        active: controller.phraseText.value.split(" ").length == 12,
+        active: controller.phraseText.value.split(" ").join().length == 12,
         inActiveChild: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -245,17 +246,17 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
               ),
             ),
-            44.vspace,
+            20.vspace,
             Text(
               "Wallets ready to import",
               textAlign: TextAlign.start,
               style: titleLarge,
             ),
-            0.03.vspace,
+            10.vspace,
             const Expanded(
               child: AccountWidget(),
             ),
-            0.03.vspace,
+            5.vspace,
             SolidButton(
               onPressed: () =>
                   Get.to(() => const ProfileSuccessAnimationView()),

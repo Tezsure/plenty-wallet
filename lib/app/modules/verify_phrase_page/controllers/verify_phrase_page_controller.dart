@@ -41,6 +41,9 @@ class VerifyPhrasePageController extends GetxController {
         thirdPhrase.value = true;
         isPhraseVerified.value = true;
       } else {
+        keyIndex.value = 1;
+        selectedPhrase.value = '';
+        isPhraseSelected.value = false;
         showError.value = true;
       }
     }

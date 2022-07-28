@@ -109,7 +109,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(8)),
                         onTap: () => controller.isPhraseVerified.value
-                            ? Get.toNamed(Routes.HOME_PAGE)
+                            ? Get.offAndToNamed(Routes.HOME_PAGE)
                             : controller.selectedPhrase.isEmpty
                                 ? null
                                 : controller.verifySecretPhrase(),
@@ -123,7 +123,10 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            controller.isPhraseVerified.value ? 'Done' : 'Next',
+                            controller.isPhraseVerified.value &&
+                                    controller.isPhraseSelected.value
+                                ? 'Done'
+                                : 'Next',
                             style: titleSmall.apply(
                               color: (controller.isPhraseSelected.value)
                                   ? Colors.white

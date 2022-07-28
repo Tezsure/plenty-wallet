@@ -94,20 +94,19 @@ class _AccountWidgetState extends State<AccountWidget> {
           const CircleAvatar(
             radius: 30,
           ),
-          0.05.hspace,
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "tz1...qfDZg\n",
-                style: bodySmall,
-              ),
-              Text(
-                "20 tez",
-                style: bodyLarge,
-              ),
-            ],
+          20.hspace,
+          RichText(
+            text: TextSpan(
+              text: "tz1...qfDZg\n",
+              style: bodySmall,
+              children: [
+                WidgetSpan(child: 0.035.height.vspace),
+                TextSpan(
+                  text: "20 tez",
+                  style: bodyLarge,
+                )
+              ],
+            ),
           ),
           const Spacer(),
           Material(
