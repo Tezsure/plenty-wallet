@@ -24,12 +24,12 @@ class PasscodePageView extends GetView<PasscodePageController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            38.vspace,
+            30.vspace,
             Align(
               alignment: Alignment.centerLeft,
               child: backButton(),
             ),
-            39.vspace,
+            20.vspace,
             Center(
               child: SizedBox(
                 height: 0.27.width,
@@ -51,7 +51,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
               "Protect your wallet by setting a passcode",
               style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
-            34.vspace,
+            30.vspace,
             PassCodeWidget(onChanged: (value) {
               if (value.length == 6) {
                 Get.toNamed(Routes.BIOMETRIC_PAGE);
@@ -141,7 +141,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
         padding: EdgeInsets.only(
           left: 0.04.width,
           right: 0.04.width,
-          bottom: 0.07.width,
+          bottom: 0.04.width,
         ),
         child: Material(
           color: Colors.transparent,
