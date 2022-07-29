@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-import 'package:naan_wallet/app/modules/create_profile_page/views/profile_success_animation_view.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -27,126 +27,149 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
       width: 1.width,
       height: 1.height,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
-          21.vspace,
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              backButton(),
-              const Spacer(),
-              GestureDetector(
-                onTap: () {
-                  Get.bottomSheet(
-                    infoBottomSheet(),
-                    isScrollControlled: true,
-                    barrierColor: Colors.white.withOpacity(0.2),
-                  );
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.info_outline,
-                      color: ColorConst.NeutralVariant.shade60,
-                      size: 16,
+              21.vspace,
+              Row(
+                children: [
+                  backButton(),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      Get.bottomSheet(
+                        infoBottomSheet(),
+                        isScrollControlled: true,
+                        barrierColor: Colors.white.withOpacity(0.2),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          color: ColorConst.NeutralVariant.shade60,
+                          size: 16,
+                        ),
+                        0.01.hspace,
+                        Text(
+                          "Info",
+                          style: titleMedium.apply(
+                              color: ColorConst.NeutralVariant.shade60),
+                        )
+                      ],
                     ),
-                    0.01.hspace,
-                    Text(
-                      "Info",
-                      style: titleMedium.apply(
-                          color: ColorConst.NeutralVariant.shade60),
-                    )
-                  ],
+                  )
+                ],
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      53.vspace,
+                      Text(
+                        "Import wallet",
+                        style: titleLarge,
+                      ),
+                      29.vspace,
+                      Material(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white.withOpacity(0.2),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 0.02.height,
+                          ),
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 0.18.height,
+                            child: Column(
+                              children: [
+                                0.02.vspace,
+                                Expanded(
+                                  child: TextFormField(
+                                    cursorColor: ColorConst.Primary,
+                                    expands: true,
+                                    controller:
+                                        controller.phraseTextController.value,
+                                    style: bodyMedium,
+                                    onChanged: (value) =>
+                                        controller.onTextChange(value),
+                                    maxLines: null,
+                                    minLines: null,
+                                    decoration: InputDecoration(
+                                      contentPadding: const EdgeInsets.only(
+                                          top: 18, left: 18),
+                                      hintStyle: bodyMedium.apply(
+                                          color: Colors.white.withOpacity(0.2)),
+                                      hintText:
+                                          "Paste your secret phrase, private key\nor watch address",
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                                Obx(
+                                  () => controller.phraseText.isNotEmpty ||
+                                          controller.phraseText.value != ""
+                                      ? Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              controller.phraseTextController
+                                                  .value.text = "";
+                                              controller.phraseTextController
+                                                      .value =
+                                                  controller
+                                                      .phraseTextController
+                                                      .value;
+                                            },
+                                            child: Text(
+                                              "Clear",
+                                              style: titleSmall.apply(
+                                                  color: ColorConst.Primary),
+                                            ),
+                                          ))
+                                      : Container(),
+                                ),
+                                12.vspace,
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+              ),
+              Obx(
+                () => controller.phraseText.isEmpty
+                    ? pasteButton()
+                    : importButton(),
+              ),
+              38.vspace,
+              SizedBox(
+                height: MediaQuery.of(context).viewInsets.bottom,
               )
             ],
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  53.vspace,
-                  Text(
-                    "Import wallet",
-                    style: titleLarge,
-                  ),
-                  29.vspace,
-                  Material(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.white.withOpacity(0.2),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 0.02.height,
-                      ),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 0.18.height,
-                        child: Column(
-                          children: [
-                            0.02.vspace,
-                            Expanded(
-                              child: TextFormField(
-                                cursorColor: ColorConst.Primary,
-                                expands: true,
-                                controller:
-                                    controller.phraseTextController.value,
-                                style: bodyMedium,
-                                onChanged: (value) =>
-                                    controller.onTextChange(value),
-                                maxLines: null,
-                                minLines: null,
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      const EdgeInsets.only(top: 18, left: 18),
-                                  hintStyle: bodyMedium.apply(
-                                      color: Colors.white.withOpacity(0.2)),
-                                  hintText:
-                                      "Paste your secret phrase, private key\nor watch address",
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            Obx(
-                              () => controller.phraseText.isNotEmpty ||
-                                      controller.phraseText.value != ""
-                                  ? Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          controller.phraseTextController.value
-                                              .text = "";
-                                          controller
-                                                  .phraseTextController.value =
-                                              controller
-                                                  .phraseTextController.value;
-                                        },
-                                        child: Text(
-                                          "Clear",
-                                          style: titleSmall.apply(
-                                              color: ColorConst.Primary),
-                                        ),
-                                      ))
-                                  : Container(),
-                            ),
-                            12.vspace,
-                          ],
-                        ),
-                      ),
+          Obx(() => controller.showSuccessAnimation.value
+              ? Container(
+                  decoration: const BoxDecoration(
+                      gradient: GradConst.GradientBackground),
+                  height: 1.height,
+                  width: 1.width,
+                  child: Center(
+                    child: Lottie.asset(
+                      '${PathConst.ASSETS}create_wallet/lottie/wallet_success.json',
+                      fit: BoxFit.contain,
+                      height: 300,
+                      width: 300,
+                      frameRate: FrameRate(30),
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          Obx(
-            () =>
-                controller.phraseText.isEmpty ? pasteButton() : importButton(),
-          ),
-          38.vspace,
-          SizedBox(
-            height: MediaQuery.of(context).viewInsets.bottom,
-          )
+                )
+              : Container())
         ],
       ),
     );
@@ -176,6 +199,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     return Obx(
       () => SolidButton(
         onPressed: () {
+          FocusManager.instance.primaryFocus
+              ?.unfocus(); // Hide keyboard if it's open
           Get.bottomSheet(
             accountBottomSheet(),
             isScrollControlled: true,
@@ -191,7 +216,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               fit: BoxFit.scaleDown,
               color: ColorConst.NeutralVariant.shade60,
             ),
-            0.03.hspace,
+            3.hspace,
             Text(
               "Import",
               style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
@@ -206,7 +231,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               fit: BoxFit.scaleDown,
               color: ColorConst.Neutral.shade95,
             ),
-            0.03.hspace,
+            3.hspace,
             Text(
               "Import",
               style: titleSmall.apply(color: ColorConst.Neutral.shade95),
@@ -258,11 +283,10 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             ),
             5.vspace,
             SolidButton(
-              onPressed: () =>
-                  Get.to(() => const ProfileSuccessAnimationView()),
+              onPressed: () => controller.showAnimation(),
               title: "Continue",
             ),
-            25.vspace
+            20.vspace
           ],
         ),
       ),

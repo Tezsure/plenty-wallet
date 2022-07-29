@@ -20,6 +20,7 @@ class _AccountWidgetState extends State<AccountWidget> {
       children: [
         expanded
             ? Expanded(
+                flex: 1,
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
@@ -100,7 +101,7 @@ class _AccountWidgetState extends State<AccountWidget> {
               text: "tz1...qfDZg\n",
               style: bodySmall,
               children: [
-                WidgetSpan(child: 0.035.height.vspace),
+                WidgetSpan(child: 25.vspace),
                 TextSpan(
                   text: "20 tez",
                   style: bodyLarge,

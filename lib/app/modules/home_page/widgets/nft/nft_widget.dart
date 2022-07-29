@@ -7,7 +7,7 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 class NftWidget extends StatefulWidget {
   /// A widget that displays nfts
-  NftWidget({Key? key}) : super(key: key);
+  const NftWidget({Key? key}) : super(key: key);
 
   @override
   _NftWidgetState createState() => _NftWidgetState();
@@ -35,7 +35,8 @@ class _NftWidgetState extends State<NftWidget> {
     super.dispose();
   }
 
-  startNFTTimer() => _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+  startNFTTimer() =>
+      _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
         currentNFTIndex = currentNFTIndex == listOfNFTTokens.length - 1
             ? 0
             : currentNFTIndex + 1;
@@ -43,7 +44,7 @@ class _NftWidgetState extends State<NftWidget> {
 
   @override
   Widget build(BuildContext context) => WidgetWrapper2x1(
-        LinearGradient(colors: [Colors.black, Colors.black]),
+        const LinearGradient(colors: [Colors.black, Colors.black]),
         child: Container(
           child: Stack(
             children: [

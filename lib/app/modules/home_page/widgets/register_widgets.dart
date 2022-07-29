@@ -16,7 +16,7 @@ final List<Widget> registeredWidgets = [
   const HowToImportWalletWidget(),
   AccountBalanceWidget(),
   TokenBalanceWidget(),
-  NftWidget(),
+  const NftWidget(),
   TezBalanceWidget(),
   const DappSearchWidget(),
   TezosHeadlineWidget(),

@@ -11,12 +11,12 @@ class ActionButtonGroupWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
           minHeight: 148,
         ),
         height: 0.2.height,
         width: 1.width,
-        padding: EdgeInsets.all(6),
+        padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Colors.black.withOpacity(0.37),
@@ -65,7 +65,7 @@ class ActionButtonGroupWidget extends StatelessWidget {
           onTap();
         },
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             gradient: gradient,

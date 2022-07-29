@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/create_profile_page/views/profile_success_animation_view.dart';
+
+import '../../../routes/app_pages.dart';
 
 class CreateProfilePageController extends GetxController {
   final isWalletCreated = false.obs;
@@ -8,7 +9,8 @@ class CreateProfilePageController extends GetxController {
   void onWalletSuccess() {
     isWalletCreated.value = true;
     Future.delayed(const Duration(milliseconds: 3500),
-        () => Get.to(() => const ProfileSuccessAnimationView())).whenComplete(
+            () => Get.offAllNamed(Routes.HOME_PAGE, arguments: [true]))
+        .whenComplete(
       () => isWalletCreated.value = false,
     );
   }
