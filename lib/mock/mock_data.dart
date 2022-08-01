@@ -32,6 +32,13 @@ class MockData {
         "A Watch Address is basically the receiving address or wallet address. Importing any supported Cryptocurrency address will allow you to view the tokens and collectibles, as well as transactions associated with the said address. When importing your address, you cannot do any transactions with the wallet.",
   };
 
+  static const Map<String, String> naanInfoStory = {
+    "Importing wallet": "assets/home_page/info_story/story_1.svg",
+    "Add funds": "assets/home_page/info_story/story_2.svg",
+    "Receiving funds": "assets/home_page/info_story/story_3.svg",
+    "Liquidity Baking": "assets/home_page/info_story/story_4.svg",
+  };
+
   List<TokensModel> listOfTokens = [
     TokensModel(
         symbol: "XTZ", name: "Tezos", balance: "1345.67", priceChange: "12.50"),

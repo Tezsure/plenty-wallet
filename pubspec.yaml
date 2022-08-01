@@ -22,6 +22,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/home_page/
+    - assets/home_page/info_story/
     - assets/svg/
     - assets/onboarding_page/
     - assets/onboarding_page/lottie/

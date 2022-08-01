@@ -14,6 +14,7 @@ abstract class Routes {
   static const ONBOARDING_PAGE = _Paths.ONBOARDING_PAGE;
   static const BACKUP_WALLET = _Paths.BACKUP_WALLET;
   static const VERIFY_PHRASE_PAGE = _Paths.VERIFY_PHRASE_PAGE;
+  static const STORY_PAGE = _Paths.STORY_PAGE;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const ONBOARDING_PAGE = '/onboarding-page';
   static const BACKUP_WALLET = '/backup-wallet';
   static const VERIFY_PHRASE_PAGE = '/verify-phrase-page';
+  static const STORY_PAGE = '/story-page';
 }

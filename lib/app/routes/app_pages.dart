@@ -10,6 +10,8 @@ import '../modules/create_wallet_page/bindings/create_wallet_page_binding.dart';
 import '../modules/create_wallet_page/views/create_wallet_page_view.dart';
 import '../modules/home_page/bindings/home_page_binding.dart';
 import '../modules/home_page/views/home_page_view.dart';
+import '../modules/home_page/widgets/info_stories/models/story_page/bindings/story_page_binding.dart';
+import '../modules/home_page/widgets/info_stories/models/story_page/views/story_page_view.dart';
 import '../modules/import_wallet_page/bindings/import_wallet_page_binding.dart';
 import '../modules/import_wallet_page/views/import_wallet_page_view.dart';
 import '../modules/nft_page/bindings/nft_page_binding.dart';
@@ -78,6 +80,11 @@ class AppPages {
       name: _Paths.IMPORT_WALLET_PAGE,
       page: () => const ImportWalletPageView(),
       binding: ImportWalletPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.STORY_PAGE,
+      page: () => const StoryPageView(profileImagePath: [], storyTitle: []),
+      binding: StoryPageBinding(),
     ),
   ];
 }
