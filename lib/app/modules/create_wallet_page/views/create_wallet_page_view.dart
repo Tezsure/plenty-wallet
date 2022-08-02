@@ -152,7 +152,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                   ),
                   0.02.vspace,
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () => Get.offAllNamed(Routes.HOME_PAGE),
                     child: Container(
                       height: 48,
                       width: double.infinity,
