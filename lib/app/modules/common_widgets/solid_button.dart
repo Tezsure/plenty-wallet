@@ -11,6 +11,7 @@ class SolidButton extends StatelessWidget {
   final Widget? rowWidget;
   final bool active;
   final Widget? child;
+  final Color? disabledButtonColor;
 
   final Widget? inActiveChild;
   const SolidButton({
@@ -24,13 +25,15 @@ class SolidButton extends StatelessWidget {
     this.active = true,
     this.child,
     this.inActiveChild,
+    this.disabledButtonColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: active ? onPressed : null,
-      disabledColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+      disabledColor: disabledButtonColor ??
+          ColorConst.NeutralVariant.shade60.withOpacity(0.2),
       color: ColorConst.Primary,
       splashColor: ColorConst.Primary.shade60,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -60,7 +63,7 @@ class SolidButton extends StatelessWidget {
                 title,
                 style: titleSmall.apply(
                     color: active
-                        ? ColorConst.Neutral.shade95
+                        ? textColor ?? ColorConst.Neutral.shade95
                         : ColorConst.NeutralVariant.shade60),
               ),
       ),

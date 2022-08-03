@@ -297,7 +297,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     return NaanBottomSheet(
         title: 'Wallets ready to import',
         isDraggableBottomSheet: true,
-        listBuilder: (_, index) => RichText(
+        draggableListBuilder: (_, index) => RichText(
             textAlign: TextAlign.start,
             text: TextSpan(
               text: '${MockData.walletInfo.keys.elementAt(index)}\n',

@@ -120,7 +120,7 @@ class BackupWalletView extends GetView<BackupWalletController> {
         gradientStartingOpacity: 1,
         isDraggableBottomSheet: true,
         title: 'Introduction to crypto wallet',
-        listBuilder: (_, index) {
+        draggableListBuilder: (_, index) {
           return RichText(
               textAlign: TextAlign.start,
               text: TextSpan(

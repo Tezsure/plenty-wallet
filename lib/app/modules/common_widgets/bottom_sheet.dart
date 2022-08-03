@@ -14,11 +14,13 @@ class NaanBottomSheet extends StatelessWidget {
   final double? gradientStartingOpacity;
   final bool isDraggableBottomSheet;
   final bool scrollThumbVisibility;
-  final Widget Function(BuildContext context, int index)? listBuilder;
+  final Alignment? titleAlignment;
+  final TextStyle? titleStyle;
+  final Widget Function(BuildContext context, int index)? draggableListBuilder;
 
   /// Create a bottom sheet of non-draggable and draggable type.
   ///
-  /// The [bottomSheetWidgets] argument for non-draggable case or [listBuilder] argument for draggable sheet case must not be null.
+  /// The [bottomSheetWidgets] argument for non-draggable case or [draggableListBuilder] argument for draggable sheet case must not be null.
   ///
   /// Use [title] property for the heading of the bottom sheet
   ///
@@ -32,8 +34,10 @@ class NaanBottomSheet extends StatelessWidget {
     this.blurRadius,
     this.gradientStartingOpacity,
     this.isDraggableBottomSheet = false,
-    this.listBuilder,
+    this.draggableListBuilder,
     this.scrollThumbVisibility = true,
+    this.titleAlignment,
+    this.titleStyle,
   }) : super(key: key);
 
   @override
@@ -76,11 +80,11 @@ class NaanBottomSheet extends StatelessWidget {
                     ),
                     20.vspace,
                     Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: titleAlignment ?? Alignment.centerLeft,
                       child: Text(
                         title ?? "Bottom Sheet Title",
                         textAlign: TextAlign.start,
-                        style: titleLarge,
+                        style: titleStyle ?? titleLarge,
                       ),
                     ),
                     20.vspace,
@@ -102,8 +106,8 @@ class NaanBottomSheet extends StatelessWidget {
                             physics: const BouncingScrollPhysics(
                                 parent: AlwaysScrollableScrollPhysics()),
                             itemCount: 6,
-                            itemBuilder:
-                                listBuilder ?? (_, index) => Container(),
+                            itemBuilder: draggableListBuilder ??
+                                (_, index) => Container(),
                           )),
                     )
                   ],
@@ -147,11 +151,11 @@ class NaanBottomSheet extends StatelessWidget {
                     ),
                     20.vspace,
                     Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: titleAlignment ?? Alignment.centerLeft,
                       child: Text(
                         title ?? "Bottom Sheet Title",
                         textAlign: TextAlign.start,
-                        style: titleLarge,
+                        style: titleStyle ?? titleLarge,
                       ),
                     ),
                     20.vspace,
