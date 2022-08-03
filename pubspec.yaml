@@ -27,6 +27,7 @@ flutter:
     - assets/home_page/
     - assets/home_page/info_story/
     - assets/svg/
+    - assets/svg/accounts/
     - assets/onboarding_page/
     - assets/onboarding_page/lottie/
     - assets/create_wallet/
