@@ -12,8 +12,6 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../../utils/material_Tap.dart';
-import '../../custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
-import '../../custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'account_balance/account_balance_widget.dart';
 import 'dapp_search_widget/dapp_search_widget.dart';
 import 'how_to_import_wallet/how_to_import_wallet_widget.dart';
@@ -67,18 +65,27 @@ class CommunityProducts extends StatelessWidget {
                       ),
                     ),
                   )),
-          const Align(
+          Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: AnimatedSmoothIndicator(
-                activeIndex: 0,
-                count: 5,
-                effect: ExpandingDotsEffect(
-                  dotHeight: 8,
-                  dotWidth: 8,
-                  activeDotColor: Colors.white,
-                  dotColor: Colors.white,
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: SizedBox(
+                height: 10,
+                child: ListView.builder(
+                  itemCount: 5,
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  itemBuilder: ((context, index) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        child: Container(
+                          height: 8,
+                          width: 8,
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.white),
+                        ),
+                      )),
                 ),
               ),
             ),
@@ -513,15 +520,16 @@ class DelegateSelectBaker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Container(
-        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
+    return SafeArea(
+      top: true,
+      child: Material(
+        child: Container(
+          decoration:
+              const BoxDecoration(gradient: GradConst.GradientBackground),
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topRight,
                 child: MaterialButton(
                     onPressed: () => Get.back(),
                     shape: const CircleBorder(
@@ -534,299 +542,306 @@ class DelegateSelectBaker extends StatelessWidget {
                       size: 20,
                     )),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 80, right: 32, left: 32),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Delegate to Recommended Bakers',
-                    style: labelLarge,
-                  ),
-                  12.vspace,
-                  Text(
-                      'Select a Baker you want to delegate funds to.\nThis list is powered by Tezos-nodes.com',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade60)),
-                  12.vspace,
-                  SizedBox(
-                    height: 52,
-                    width: 1.width,
-                    child: TextFormField(
-                      textAlignVertical: TextAlignVertical.top,
-                      textAlign: TextAlign.start,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor:
-                            ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: ColorConst.NeutralVariant.shade60,
-                          size: 22,
-                        ),
-                        counterStyle:
-                            const TextStyle(backgroundColor: Colors.white),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
+              Padding(
+                padding: const EdgeInsets.only(top: 60, right: 32, left: 32),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Delegate to Recommended Bakers',
+                      style: labelLarge,
+                    ),
+                    12.vspace,
+                    Text(
+                        'Select a Baker you want to delegate funds to.\nThis list is powered by Tezos-nodes.com',
+                        style: labelSmall.copyWith(
+                            color: ColorConst.NeutralVariant.shade60)),
+                    12.vspace,
+                    SizedBox(
+                      height: 52,
+                      width: 1.width,
+                      child: TextFormField(
+                        textAlignVertical: TextAlignVertical.top,
+                        textAlign: TextAlign.start,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.2),
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: ColorConst.NeutralVariant.shade60,
+                            size: 22,
+                          ),
+                          counterStyle:
+                              const TextStyle(backgroundColor: Colors.white),
+                          border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none),
-                        hintText: 'Search baker',
-                        hintStyle: bodySmall.copyWith(
-                            color: ColorConst.NeutralVariant.shade70),
-                        labelStyle: labelSmall,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 20),
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide.none),
+                          hintText: 'Search baker',
+                          hintStyle: bodySmall.copyWith(
+                              color: ColorConst.NeutralVariant.shade70),
+                          labelStyle: labelSmall,
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 20),
+                        ),
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: RichText(
-                      text: TextSpan(
-                          text: 'Sort by',
-                          style: labelSmall.copyWith(
-                              color: ColorConst.NeutralVariant.shade60),
-                          children: [
-                            TextSpan(
-                                text: ' Rank',
-                                style:
-                                    labelSmall.copyWith(color: Colors.white)),
-                            WidgetSpan(
-                              alignment: PlaceholderAlignment.middle,
-                              child: IconButton(
-                                splashRadius: 10,
-                                enableFeedback: true,
-                                constraints: const BoxConstraints(),
-                                iconSize: 20,
-                                onPressed: () =>
-                                    Get.bottomSheet(NaanBottomSheet(
-                                  height: 0.3.height,
-                                  title: 'Set baker by:',
-                                  titleAlignment: Alignment.center,
-                                  titleStyle: labelLarge,
-                                  bottomSheetWidgets: [
-                                    Column(
-                                      children: [
-                                        Container(
-                                          width: double.infinity,
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color: ColorConst
-                                                .NeutralVariant.shade60
-                                                .withOpacity(0.2),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              materialTap(
-                                                onPressed: () {},
-                                                noSplash: true,
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  height: 51,
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    "Rank",
-                                                    style: labelMedium,
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: RichText(
+                        text: TextSpan(
+                            text: 'Sort by',
+                            style: labelSmall.copyWith(
+                                color: ColorConst.NeutralVariant.shade60),
+                            children: [
+                              TextSpan(
+                                  text: ' Rank',
+                                  style:
+                                      labelSmall.copyWith(color: Colors.white)),
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                child: IconButton(
+                                  splashRadius: 10,
+                                  enableFeedback: true,
+                                  constraints: const BoxConstraints(),
+                                  iconSize: 20,
+                                  onPressed: () =>
+                                      Get.bottomSheet(NaanBottomSheet(
+                                    height: 0.3.height,
+                                    title: 'Set baker by:',
+                                    titleAlignment: Alignment.center,
+                                    titleStyle: labelLarge,
+                                    bottomSheetWidgets: [
+                                      Column(
+                                        children: [
+                                          Container(
+                                            width: double.infinity,
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              color: ColorConst
+                                                  .NeutralVariant.shade60
+                                                  .withOpacity(0.2),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                materialTap(
+                                                  onPressed: () {},
+                                                  noSplash: true,
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    height: 51,
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      "Rank",
+                                                      style: labelMedium,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              const Divider(
-                                                color: Color(0xff4a454e),
-                                                height: 1,
-                                                thickness: 1,
-                                              ),
-                                              materialTap(
-                                                onPressed: () {},
-                                                noSplash: true,
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  height: 51,
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    "Fees",
-                                                    style: labelMedium,
+                                                const Divider(
+                                                  color: Color(0xff4a454e),
+                                                  height: 1,
+                                                  thickness: 1,
+                                                ),
+                                                materialTap(
+                                                  onPressed: () {},
+                                                  noSplash: true,
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    height: 51,
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      "Fees",
+                                                      style: labelMedium,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                                icon: const Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: ColorConst.Primary,
-                                ),
-                              ),
-                            ),
-                          ]),
-                    ),
-                  ),
-                  2.vspace,
-                  Container(
-                    height: 0.5.height,
-                    width: 1.width,
-                    decoration: const BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                          topRight: Radius.circular(8)),
-                    ),
-                    child: ShaderMask(
-                      shaderCallback: (Rect rect) {
-                        return LinearGradient(
-                                colors: [
-                              const Color(0xff100919),
-                              const Color(0xff100919).withOpacity(0),
-                            ],
-                                begin: const Alignment(0, 1),
-                                end: const Alignment(0, 0.7))
-                            .createShader(rect);
-                      },
-                      blendMode: BlendMode.dstOut,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 6,
-                          cacheExtent: 4,
-                          padding: EdgeInsets.zero,
-                          scrollDirection: Axis.vertical,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (_, index) => Padding(
-                                padding: const EdgeInsets.only(bottom: 10.0),
-                                child: Container(
-                                  width: 338,
-                                  height: 108,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: const Color(0xff958e99)
-                                        .withOpacity(0.2),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          const CircleAvatar(
-                                            backgroundColor: ColorConst.Primary,
-                                            radius: 12,
-                                          ),
-                                          6.hspace,
-                                          Text(
-                                            'MyTezosBaking',
-                                            style: labelMedium,
-                                          ),
-                                          const Spacer(),
-                                          Text(
-                                            'tz1d6....pVok8',
-                                            style: labelSmall.copyWith(
-                                                color: ColorConst.Primary),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                              Icons.copy,
-                                              color: ColorConst.Primary,
-                                              size: 12,
-                                            ),
-                                            iconSize: 12,
-                                            constraints: const BoxConstraints(),
-                                          )
-                                        ],
-                                      ),
-                                      13.vspace,
-                                      Row(
-                                        children: [
-                                          RichText(
-                                            textAlign: TextAlign.start,
-                                            text: TextSpan(
-                                              text: 'Baker fee:\n',
-                                              style: labelSmall.copyWith(
-                                                  color: ColorConst
-                                                      .NeutralVariant.shade70),
-                                              children: [
-                                                TextSpan(
-                                                    text: '14%',
-                                                    style: labelLarge)
-                                              ],
-                                            ),
-                                          ),
-                                          31.hspace,
-                                          RichText(
-                                            textAlign: TextAlign.start,
-                                            text: TextSpan(
-                                              text: 'Staking:\n',
-                                              style: labelSmall.copyWith(
-                                                  color: ColorConst
-                                                      .NeutralVariant.shade70),
-                                              children: [
-                                                TextSpan(
-                                                    text: '116K',
-                                                    style: labelLarge)
-                                              ],
-                                            ),
-                                          ),
-                                          31.hspace,
-                                          RichText(
-                                            textAlign: TextAlign.start,
-                                            text: TextSpan(
-                                              text: 'Payout:\n',
-                                              style: labelSmall.copyWith(
-                                                  color: ColorConst
-                                                      .NeutralVariant.shade70),
-                                              children: [
-                                                TextSpan(
-                                                    text: '30 Days*',
-                                                    style: labelLarge)
                                               ],
                                             ),
                                           ),
                                         ],
                                       ),
                                     ],
+                                  )),
+                                  icon: const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: ColorConst.Primary,
                                   ),
                                 ),
-                              )),
+                              ),
+                            ]),
+                      ),
                     ),
-                  ),
-                  2.vspace,
-                  Text(
-                    '*All payout periods are converted from cycle to days.\n1 cycle = approx. 2.5 days',
-                    style: labelSmall.copyWith(
-                        color: ColorConst.NeutralVariant.shade60),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 32.0, left: 32, right: 32),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SolidButton(
-                  height: 0.06.height,
-                  width: 0.75.width,
-                  title: 'Next',
-                  textColor: ColorConst.NeutralVariant.shade60,
+                    2.vspace,
+                    Container(
+                      height: 0.5.height,
+                      width: 1.width,
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8),
+                            topRight: Radius.circular(8)),
+                      ),
+                      child: ShaderMask(
+                        shaderCallback: (Rect rect) {
+                          return LinearGradient(
+                                  colors: [
+                                const Color(0xff100919),
+                                const Color(0xff100919).withOpacity(0),
+                              ],
+                                  begin: const Alignment(0, 1),
+                                  end: const Alignment(0, 0.7))
+                              .createShader(rect);
+                        },
+                        blendMode: BlendMode.dstOut,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: 6,
+                            cacheExtent: 4,
+                            padding: EdgeInsets.zero,
+                            scrollDirection: Axis.vertical,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (_, index) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 10.0),
+                                  child: Container(
+                                    width: 338,
+                                    height: 108,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: const Color(0xff958e99)
+                                          .withOpacity(0.2),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const CircleAvatar(
+                                              backgroundColor:
+                                                  ColorConst.Primary,
+                                              radius: 12,
+                                            ),
+                                            6.hspace,
+                                            Text(
+                                              'MyTezosBaking',
+                                              style: labelMedium,
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              'tz1d6....pVok8',
+                                              style: labelSmall.copyWith(
+                                                  color: ColorConst.Primary),
+                                            ),
+                                            IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                Icons.copy,
+                                                color: ColorConst.Primary,
+                                                size: 12,
+                                              ),
+                                              iconSize: 12,
+                                              constraints:
+                                                  const BoxConstraints(),
+                                            )
+                                          ],
+                                        ),
+                                        13.vspace,
+                                        Row(
+                                          children: [
+                                            RichText(
+                                              textAlign: TextAlign.start,
+                                              text: TextSpan(
+                                                text: 'Baker fee:\n',
+                                                style: labelSmall.copyWith(
+                                                    color: ColorConst
+                                                        .NeutralVariant
+                                                        .shade70),
+                                                children: [
+                                                  TextSpan(
+                                                      text: '14%',
+                                                      style: labelLarge)
+                                                ],
+                                              ),
+                                            ),
+                                            31.hspace,
+                                            RichText(
+                                              textAlign: TextAlign.start,
+                                              text: TextSpan(
+                                                text: 'Staking:\n',
+                                                style: labelSmall.copyWith(
+                                                    color: ColorConst
+                                                        .NeutralVariant
+                                                        .shade70),
+                                                children: [
+                                                  TextSpan(
+                                                      text: '116K',
+                                                      style: labelLarge)
+                                                ],
+                                              ),
+                                            ),
+                                            31.hspace,
+                                            RichText(
+                                              textAlign: TextAlign.start,
+                                              text: TextSpan(
+                                                text: 'Payout:\n',
+                                                style: labelSmall.copyWith(
+                                                    color: ColorConst
+                                                        .NeutralVariant
+                                                        .shade70),
+                                                children: [
+                                                  TextSpan(
+                                                      text: '30 Days*',
+                                                      style: labelLarge)
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )),
+                      ),
+                    ),
+                    2.vspace,
+                    Text(
+                      '*All payout periods are converted from cycle to days.\n1 cycle = approx. 2.5 days',
+                      style: labelSmall.copyWith(
+                          color: ColorConst.NeutralVariant.shade60),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+              Padding(
+                padding:
+                    const EdgeInsets.only(bottom: 32.0, left: 32, right: 32),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SolidButton(
+                    height: 0.06.height,
+                    width: 0.75.width,
+                    title: 'Next',
+                    textColor: ColorConst.NeutralVariant.shade60,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
