@@ -10,6 +10,10 @@ import '../modules/create_wallet_page/bindings/create_wallet_page_binding.dart';
 import '../modules/create_wallet_page/views/create_wallet_page_view.dart';
 import '../modules/home_page/bindings/home_page_binding.dart';
 import '../modules/home_page/views/home_page_view.dart';
+import '../modules/home_page/widgets/accounts_widget/bindings/accounts_widget_binding.dart';
+import '../modules/home_page/widgets/accounts_widget/views/accounts_widget_view.dart';
+import '../modules/home_page/widgets/delegate_widget/bindings/delegate_widget_binding.dart';
+import '../modules/home_page/widgets/delegate_widget/views/delegate_widget_view.dart';
 import '../modules/home_page/widgets/info_stories/models/story_page/bindings/story_page_binding.dart';
 import '../modules/home_page/widgets/info_stories/models/story_page/views/story_page_view.dart';
 import '../modules/import_wallet_page/bindings/import_wallet_page_binding.dart';
@@ -85,6 +89,16 @@ class AppPages {
       name: _Paths.STORY_PAGE,
       page: () => const StoryPageView(profileImagePath: [], storyTitle: []),
       binding: StoryPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.ACCOUNTS_WIDGET,
+      page: () => const AccountsWidget(),
+      binding: AccountsWidgetBinding(),
+    ),
+    GetPage(
+      name: _Paths.DELEGATE_WIDGET,
+      page: () => const DelegateWidget(),
+      binding: DelegateWidgetBinding(),
     ),
   ];
 }

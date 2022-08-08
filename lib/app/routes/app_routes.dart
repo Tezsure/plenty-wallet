@@ -15,6 +15,8 @@ abstract class Routes {
   static const BACKUP_WALLET = _Paths.BACKUP_WALLET;
   static const VERIFY_PHRASE_PAGE = _Paths.VERIFY_PHRASE_PAGE;
   static const STORY_PAGE = _Paths.STORY_PAGE;
+  static const ACCOUNTS_WIDGET = _Paths.ACCOUNTS_WIDGET;
+  static const DELEGATE_WIDGET = _Paths.DELEGATE_WIDGET;
 }
 
 abstract class _Paths {
@@ -29,4 +31,6 @@ abstract class _Paths {
   static const BACKUP_WALLET = '/backup-wallet';
   static const VERIFY_PHRASE_PAGE = '/verify-phrase-page';
   static const STORY_PAGE = '/story-page';
+  static const ACCOUNTS_WIDGET = '/accounts-widget';
+  static const DELEGATE_WIDGET = '/delegate-widget';
 }

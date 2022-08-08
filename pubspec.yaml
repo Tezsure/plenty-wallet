@@ -25,6 +25,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/home_page/
+    - assets/temp/
     - assets/home_page/info_story/
     - assets/svg/
     - assets/svg/accounts/
