@@ -1,23 +1,23 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DelegateWidgetController extends GetxController {
-  //TODO: Implement DelegateWidgetController
-
-  final count = 0.obs;
+  final TextEditingController textEditingController = TextEditingController();
+  final RxString bakerAddress = ''.obs;
+  final RxInt selectedBaker = 0.obs;
+  final RxBool isBakerAddressSelected = false.obs;
   @override
-  void onInit() {
-    super.onInit();
+  void dispose() {
+    super.dispose();
+    textEditingController.dispose();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void onTextChanged(String value) {
+    bakerAddress.value = value;
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  void onSelectedBakerChanged(int value) {
+    selectedBaker.value = value;
+    isBakerAddressSelected.value = true;
   }
-
-  void increment() => count.value++;
 }

@@ -71,13 +71,15 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                         width: 1.width,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            stops: const [0.6, 1],
+                            stops: const [0.3, 0.5, 1],
                             colors: [
-                              widget.controller.colorList[index],
+                              widget.controller.colorList[index].withOpacity(1),
+                              widget.controller.colorList[index]
+                                  .withOpacity(0.9),
                               widget.controller.colorList[index].withOpacity(0),
                             ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
+                            begin: const Alignment(0, 0),
+                            end: const Alignment(0, -0.8),
                             tileMode: TileMode.decal,
                           ),
                         ),

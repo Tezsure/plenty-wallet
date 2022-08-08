@@ -43,9 +43,10 @@ class StoryPageView extends GetView<StoryPageController> {
       : super(key: key);
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: containerHeight ?? 0.2.height,
+        height: containerHeight ?? 0.15.height,
         width: 1.width,
         child: ListView.builder(
+            padding: EdgeInsets.zero,
             itemCount: profileImagePath.length,
             physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics()),
@@ -56,12 +57,11 @@ class StoryPageView extends GetView<StoryPageController> {
               return GestureDetector(
                 onTap: () =>
                     Get.to(() => NaanStoryInfoScreen(stories: stories)),
-                // onPressed,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: SizedBox(
-                    width: width ?? 69,
-                    height: 69,
+                    width: width ?? 70,
+                    height: 70,
                     child: Column(
                       children: [
                         ClipRRect(
