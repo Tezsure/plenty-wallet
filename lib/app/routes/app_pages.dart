@@ -12,17 +12,19 @@ import '../modules/import_wallet_page/bindings/import_wallet_page_binding.dart';
 import '../modules/import_wallet_page/views/import_wallet_page_view.dart';
 import '../modules/nft_page/bindings/nft_page_binding.dart';
 import '../modules/nft_page/views/nft_page_view.dart';
-import '../modules/passcode_page/bindings/passcode_page_binding.dart';
-import '../modules/passcode_page/views/passcode_page_view.dart';
 import '../modules/onboarding_page/bindings/onboarding_page_binding.dart';
 import '../modules/onboarding_page/views/onboarding_page_view.dart';
+import '../modules/passcode_page/bindings/passcode_page_binding.dart';
+import '../modules/passcode_page/views/passcode_page_view.dart';
+import '../modules/settings_page/bindings/settings_page_binding.dart';
+import '../modules/settings_page/views/settings_page_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.ONBOARDING_PAGE;
+  static const INITIAL = Routes.HOME_PAGE;
 
   static final routes = [
     GetPage(
@@ -54,8 +56,8 @@ class AppPages {
       name: _Paths.CREATE_PROFILE_PAGE,
       page: () => const CreateProfilePageView(),
       binding: CreateProfilePageBinding(),
-      ),
-      GetPage(
+    ),
+    GetPage(
       name: _Paths.ONBOARDING_PAGE,
       page: () => const OnboardingPageView(),
       binding: OnboardingPageBinding(),
@@ -64,6 +66,11 @@ class AppPages {
       name: _Paths.IMPORT_WALLET_PAGE,
       page: () => const ImportWalletPageView(),
       binding: ImportWalletPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.SETTINGS_PAGE,
+      page: () => const SettingsPageView(),
+      binding: SettingsPageBinding(),
     ),
   ];
 }
