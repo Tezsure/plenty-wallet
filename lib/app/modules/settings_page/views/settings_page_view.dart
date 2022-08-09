@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -16,97 +15,100 @@ class SettingsPageView extends GetView<SettingsPageController> {
   const SettingsPageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-      width: 1.width,
-      height: 1.height,
-      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          0.045.vspace,
-          backButton(),
-          0.065.vspace,
-          Expanded(
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              child: Column(
-                children: [
-                  accountOption(),
-                  SizedBox(height: 0.05.width),
-                  connectedAppsOption(),
-                  SizedBox(height: 0.05.width),
-                  settingsSeparator(
-                    title: "Security",
-                    settings: [
-                      settingOption(
-                        title: "Change passcode",
-                        svgPath: PathConst.SETTINGS_PAGE.SVG+ "passcode.svg",
-                      ),
-                      fingerPrintOption()
-                    ],
-                  ),
-                  SizedBox(height: 0.05.width),
-                  backupOption(),
-                  SizedBox(height: 0.05.width),
-                  settingsSeparator(
-                    title: "Social",
-                    settings: [
-                      settingOption(
-                        title: "Share Naan",
-                        svgPath: PathConst.SETTINGS_PAGE.SVG+ "share_naan.svg",
-                      ),
-                      settingOption(
-                        title: "Follow us on Twitter",
-                        svgPath: PathConst.SETTINGS_PAGE.SVG+ "twitter.svg",
-                      ),
-                      settingOption(
-                        title: "Join our Discord",
-                        svgPath: PathConst.SETTINGS_PAGE.SVG+ "discord.svg",
-                      ),
-                      settingOption(
-                        title: "Feedback & Support",
-                        svgPath: PathConst.SETTINGS_PAGE.SVG+ "feedback.svg",
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 0.05.width),
-                  settingsSeparator(
-                    title: "About",
-                    settings: [
-                      settingOption(
-                        title: "Privacy Policy",
-                        svgPath: PathConst.SETTINGS_PAGE.SVG + "privacy.svg",
-                      ),
-                      settingOption(
-                        title: "Terms & Condition",
-                        svgPath: PathConst.SETTINGS_PAGE.SVG+ "terms.svg",
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 0.05.width),
-                  settingsSeparator(
-                    title: "Others",
-                    settings: [
-                      settingOption(
-                        title: "Change Network",
-                        svgPath: PathConst.SETTINGS_PAGE.SVG+ "node.svg",
-                      ),
-                      settingOption(
-                        title: "Node Selector",
-                        svgPath: PathConst.SETTINGS_PAGE.SVG+ "node.svg",
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 0.05.width),
-                  resetOption(),
-                  SizedBox(height: 0.065.width),
-                ],
+    return SafeArea(
+      child: Container(
+        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+        width: 1.width,
+        height: 1.height,
+        padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            0.045.vspace,
+            backButton(),
+            0.065.vspace,
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                child: Column(
+                  children: [
+                    accountOption(),
+                    SizedBox(height: 0.05.width),
+                    connectedAppsOption(),
+                    SizedBox(height: 0.05.width),
+                    settingsSeparator(
+                      title: "Security",
+                      settings: [
+                        settingOption(
+                          title: "Change passcode",
+                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
+                        ),
+                        fingerPrintOption()
+                      ],
+                    ),
+                    SizedBox(height: 0.05.width),
+                    backupOption(),
+                    SizedBox(height: 0.05.width),
+                    settingsSeparator(
+                      title: "Social",
+                      settings: [
+                        settingOption(
+                          title: "Share Naan",
+                          svgPath:
+                              "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
+                        ),
+                        settingOption(
+                          title: "Follow us on Twitter",
+                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
+                        ),
+                        settingOption(
+                          title: "Join our Discord",
+                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
+                        ),
+                        settingOption(
+                          title: "Feedback & Support",
+                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 0.05.width),
+                    settingsSeparator(
+                      title: "About",
+                      settings: [
+                        settingOption(
+                          title: "Privacy Policy",
+                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}privacy.svg",
+                        ),
+                        settingOption(
+                          title: "Terms & Condition",
+                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}terms.svg",
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 0.05.width),
+                    settingsSeparator(
+                      title: "Others",
+                      settings: [
+                        settingOption(
+                          title: "Change Network",
+                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
+                        ),
+                        settingOption(
+                          title: "Node Selector",
+                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 0.05.width),
+                    resetOption(),
+                    SizedBox(height: 0.065.width),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -116,13 +118,13 @@ class SettingsPageView extends GetView<SettingsPageController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 8),
+          padding: const EdgeInsets.only(left: 8),
           child: Text(
             title,
             style: labelLarge,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 14,
         ),
         Container(
@@ -130,7 +132,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
               color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
               borderRadius: BorderRadius.circular(8)),
           child: ListView.separated(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             padding: EdgeInsets.symmetric(horizontal: 0.05.width),
             itemBuilder: (_, index) => settings[index],
@@ -182,14 +184,14 @@ class SettingsPageView extends GetView<SettingsPageController> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: SvgPicture.asset(
-                  PathConst.SETTINGS_PAGE.SVG+ "fingerprint.svg"),
+                  "${PathConst.SETTINGS_PAGE.SVG}fingerprint.svg"),
             ),
           ),
           Text(
             "Sign in with Fingerprint",
             style: labelMedium,
           ),
-          Spacer(),
+          const Spacer(),
           // SizedBox(
           //   child: Transform.scale(
           //     scale: 0.8,
@@ -208,7 +210,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
             width: 32,
             height: 18,
             child: RiveAnimation.asset(
-              PathConst.SETTINGS_PAGE.RIVE+ "switch.riv",
+              "${PathConst.SETTINGS_PAGE.RIVE}switch.riv",
               fit: BoxFit.scaleDown,
             ),
           )
@@ -278,7 +280,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
             child: Align(
                 alignment: Alignment.centerLeft,
                 child: SvgPicture.asset(
-                    PathConst.SETTINGS_PAGE.SVG+ "connected_apps.svg")),
+                    "${PathConst.SETTINGS_PAGE.SVG}connected_apps.svg")),
           ),
           Text(
             "Connected Applications",
@@ -302,8 +304,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
             "Reset Wallet",
             style: labelMedium.apply(color: ColorConst.Error.shade60),
           ),
-          Spacer(),
-          SvgPicture.asset(PathConst.SETTINGS_PAGE.SVG+ "logout.svg")
+          const Spacer(),
+          SvgPicture.asset("${PathConst.SETTINGS_PAGE.SVG}logout.svg")
         ],
       ),
     );
@@ -323,7 +325,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
             Row(
               children: [
                 SvgPicture.asset(
-                  PathConst.SETTINGS_PAGE.SVG+
+                  PathConst.SETTINGS_PAGE.SVG +
                       (controller.backup.value
                           ? "backup_success.svg"
                           : "backup_warning.svg"),
@@ -335,12 +337,12 @@ class SettingsPageView extends GetView<SettingsPageController> {
                       : "Action required: not backed up",
                   style: labelMedium.apply(
                       color: controller.backup.value
-                          ? Color(0xff44CD41)
+                          ? const Color(0xff44CD41)
                           : ColorConst.Tertiary),
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             Text(
@@ -349,7 +351,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                 color: ColorConst.NeutralVariant.shade70,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             GestureDetector(

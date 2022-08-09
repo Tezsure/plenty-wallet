@@ -54,6 +54,6 @@ class OnboardingPageController extends GetxController {
               duration: const Duration(milliseconds: 250),
               curve: Curves.fastOutSlowIn)
           .then((_) => animateSlider());
-    });
+    }).onError((error, stackTrace) => null);
   }
 }

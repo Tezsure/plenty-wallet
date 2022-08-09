@@ -27,154 +27,156 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
         decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
         width: 1.width,
         height: 1.height,
-        child: Stack(
-          children: [
-            ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return LinearGradient(
-                  colors: [
-                    const Color(0xffD9D9D9).withOpacity(0),
-                    const Color(0xffD9D9D9),
-                  ],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                ).createShader(bounds);
-              },
-              child: SvgPicture.asset(
-                "${PathConst.SVG}create_wallet_background.svg",
-                fit: BoxFit.fitWidth,
+        child: SafeArea(
+          child: Stack(
+            children: [
+              ShaderMask(
+                shaderCallback: (Rect bounds) {
+                  return LinearGradient(
+                    colors: [
+                      const Color(0xffD9D9D9).withOpacity(0),
+                      const Color(0xffD9D9D9),
+                    ],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                  ).createShader(bounds);
+                },
+                child: SvgPicture.asset(
+                  "${PathConst.SVG}create_wallet_background.svg",
+                  fit: BoxFit.fitWidth,
+                ),
               ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Welcome to Naan Wallet",
-                          style: titleLarge,
-                        ),
-                        0.01.vspace,
-                        Text(
-                          "Naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.",
-                          style: bodySmall.apply(
-                            color: ColorConst.NeutralVariant.shade60,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Welcome to Naan Wallet",
+                            style: titleLarge,
                           ),
-                        ),
-                        0.046.vspace,
-                        SolidButton(
-                          title: "Create new wallet",
-                          onPressed: () {
-                            Get.toNamed(Routes.PASSCODE_PAGE);
-                          },
-                        ),
-                        0.0125.vspace,
-                        GestureDetector(
-                          onTap: () {
-                            Get.toNamed(Routes.IMPORT_WALLET_PAGE);
-                          },
-                          child: Container(
-                            height: 48,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: ColorConst.Neutral.shade80,
-                                width: 1.50,
-                              ),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text("I already have a wallet",
-                                style: titleSmall.apply(
-                                    color: ColorConst.Neutral.shade80)),
-                          ),
-                        ),
-                        0.025.vspace,
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 1.width,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Divider(
-                          thickness: 1,
-                          color: ColorConst.NeutralVariant.shade60
-                              .withOpacity(0.4),
-                        )),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            "Or Login with",
+                          0.01.vspace,
+                          Text(
+                            "Naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.",
                             style: bodySmall.apply(
                               color: ColorConst.NeutralVariant.shade60,
                             ),
                           ),
-                        ),
-                        Expanded(
-                            child: Divider(
-                          thickness: 1,
-                          color: ColorConst.NeutralVariant.shade60
-                              .withOpacity(0.4),
-                        )),
-                      ],
-                    ),
-                  ),
-                  0.035.vspace,
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CircleAvatar(
-                          radius: 0.07.width,
-                          backgroundColor: Colors.transparent,
-                          child: SvgPicture.asset("${PathConst.SVG}apple.svg"),
-                        ),
-                        CircleAvatar(
-                          radius: 0.07.width,
-                          backgroundColor: Colors.transparent,
-                          child: SvgPicture.asset("${PathConst.SVG}google.svg"),
-                        ),
-                        CircleAvatar(
-                          radius: 0.07.width,
-                          backgroundColor: Colors.transparent,
-                          child:
-                              SvgPicture.asset("${PathConst.SVG}facebook.svg"),
-                        ),
-                        CircleAvatar(
-                          radius: 0.07.width,
-                          backgroundColor: Colors.transparent,
-                          child:
-                              SvgPicture.asset("${PathConst.SVG}twitter.svg"),
-                        ),
-                      ],
-                    ),
-                  ),
-                  0.02.vspace,
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: 48,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Not now",
-                        style: titleSmall.apply(
-                            color: ColorConst.NeutralVariant.shade60),
+                          0.046.vspace,
+                          SolidButton(
+                            title: "Create new wallet",
+                            onPressed: () {
+                              Get.toNamed(Routes.PASSCODE_PAGE);
+                            },
+                          ),
+                          0.0125.vspace,
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Routes.IMPORT_WALLET_PAGE);
+                            },
+                            child: Container(
+                              height: 48,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: ColorConst.Neutral.shade80,
+                                  width: 1.50,
+                                ),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text("I already have a wallet",
+                                  style: titleSmall.apply(
+                                      color: ColorConst.Neutral.shade80)),
+                            ),
+                          ),
+                          0.025.vspace,
+                        ],
                       ),
                     ),
-                  ),
-                  0.025.vspace,
-                ],
+                    SizedBox(
+                      width: 1.width,
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Divider(
+                            thickness: 1,
+                            color: ColorConst.NeutralVariant.shade60
+                                .withOpacity(0.4),
+                          )),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              "Or Login with",
+                              style: bodySmall.apply(
+                                color: ColorConst.NeutralVariant.shade60,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                              child: Divider(
+                            thickness: 1,
+                            color: ColorConst.NeutralVariant.shade60
+                                .withOpacity(0.4),
+                          )),
+                        ],
+                      ),
+                    ),
+                    0.035.vspace,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CircleAvatar(
+                            radius: 0.07.width,
+                            backgroundColor: Colors.transparent,
+                            child: SvgPicture.asset("${PathConst.SVG}apple.svg"),
+                          ),
+                          CircleAvatar(
+                            radius: 0.07.width,
+                            backgroundColor: Colors.transparent,
+                            child: SvgPicture.asset("${PathConst.SVG}google.svg"),
+                          ),
+                          CircleAvatar(
+                            radius: 0.07.width,
+                            backgroundColor: Colors.transparent,
+                            child:
+                                SvgPicture.asset("${PathConst.SVG}facebook.svg"),
+                          ),
+                          CircleAvatar(
+                            radius: 0.07.width,
+                            backgroundColor: Colors.transparent,
+                            child:
+                                SvgPicture.asset("${PathConst.SVG}twitter.svg"),
+                          ),
+                        ],
+                      ),
+                    ),
+                    0.02.vspace,
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        height: 48,
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Not now",
+                          style: titleSmall.apply(
+                              color: ColorConst.NeutralVariant.shade60),
+                        ),
+                      ),
+                    ),
+                    0.025.vspace,
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -20,46 +20,48 @@ class BiometricPageView extends GetView<BiometricPageController> {
       decoration: BoxDecoration(gradient: GradConst.GradientBackground),
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-      child: Column(
-        children: [
-          0.2.vspace,
-          SvgPicture.asset(PathConst.SVG + "fingerprint.svg"),
-          0.05.vspace,
-          Text(
-            "Enable biometry unlock",
-            style: titleLarge,
-          ),
-          0.01.vspace,
-          Text(
-            "Access Naan wallet with your biometry.\nQuick, easy and secure.",
-            textAlign: TextAlign.center,
-            style: bodySmall.apply(
-              color: ColorConst.NeutralVariant.shade60,
+      child: SafeArea(
+        child: Column(
+          children: [
+            0.2.vspace,
+            SvgPicture.asset(PathConst.SVG + "fingerprint.svg"),
+            0.05.vspace,
+            Text(
+              "Enable biometry unlock",
+              style: titleLarge,
             ),
-          ),
-          Spacer(),
-          SolidButton(
-            title: "Enable Biometry Unlock",
-            onPressed: () {},
-          ),
-          0.01.vspace,
-          GestureDetector(
-            onTap: () {
-              Get.toNamed(Routes.CREATE_PROFILE_PAGE);
-            },
-            child: Container(
-              height: 48,
-              width: double.infinity,
-              alignment: Alignment.center,
-              child: Text(
-                "Skip",
-                style:
-                    titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
+            0.01.vspace,
+            Text(
+              "Access Naan wallet with your biometry.\nQuick, easy and secure.",
+              textAlign: TextAlign.center,
+              style: bodySmall.apply(
+                color: ColorConst.NeutralVariant.shade60,
               ),
             ),
-          ),
-          0.02.vspace,
-        ],
+            Spacer(),
+            SolidButton(
+              title: "Enable Biometry Unlock",
+              onPressed: () {},
+            ),
+            0.01.vspace,
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(Routes.CREATE_PROFILE_PAGE);
+              },
+              child: Container(
+                height: 48,
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: Text(
+                  "Skip",
+                  style:
+                      titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
+                ),
+              ),
+            ),
+            0.02.vspace,
+          ],
+        ),
       ),
     );
   }

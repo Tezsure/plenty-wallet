@@ -40,7 +40,7 @@ class PublicNFTgalleryWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 0.04.width),
           child: Row(
             children: [
-              Spacer(),
+              const Spacer(),
               Text(
                 "manage galleries",
                 style: labelSmall,
@@ -70,7 +70,7 @@ class PublicNFTgalleryWidget extends StatelessWidget {
               CircleAvatar(
                 radius: 12,
                 backgroundColor: ColorConst.Secondary.shade60,
-                child: Icon(
+                child: const Icon(
                   Icons.add,
                   size: 16,
                   color: Colors.white,
@@ -103,7 +103,8 @@ class PublicNFTgalleryWidget extends StatelessWidget {
           padding: EdgeInsets.all(0.035.width),
           decoration: BoxDecoration(
               color: ColorConst.Secondary.shade50,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(8))),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(8))),
           child: Row(
             children: [
               Container(
@@ -133,7 +134,7 @@ class PublicNFTgalleryWidget extends StatelessWidget {
         Container(
           width: 0.92.width,
           padding: EdgeInsets.all(0.035.width),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               color: ColorConst.Secondary,
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(8))),
           child: Row(

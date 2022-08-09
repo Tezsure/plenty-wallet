@@ -9,12 +9,15 @@ dependencies:
   get: 4.6.5
   lottie: ^1.3.0
   get_cli: ^1.8.1
-  # flutter_lints: ^2.0.1
+  flutter_lints: ^2.0.1
   flutter:
     sdk: flutter
   flutter_svg: ^1.1.1+1
   device_preview: ^1.1.0
-  rive: any
+  cached_network_image: ^3.2.1
+  video_player: ^2.4.5
+  rive: ^0.9.1
+
 
 dev_dependencies:
   flutter_test:
@@ -22,10 +25,30 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/home_page/
+    #common
+    - assets/temp/
     - assets/svg/
+    #home page
+    - assets/home_page/
+    - assets/home_page/info_story/
+    - assets/home_page/svg/
+    - assets/home_page/images/
+    #settings page
+    - assets/settings_page/
+    - assets/settings_page/svg/
+    - assets/settings_page/rive/
+    #onboarding page
     - assets/onboarding_page/
     - assets/onboarding_page/lottie/
+    #create wallet page
+    - assets/create_wallet/
+    - assets/create_wallet/lottie/
+
+    - assets/svg/accounts/
+
+
+
+
   uses-material-design: true
 
 

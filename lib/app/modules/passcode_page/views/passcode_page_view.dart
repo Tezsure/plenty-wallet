@@ -21,44 +21,46 @@ class PasscodePageView extends GetView<PasscodePageController> {
         decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
         // width: 1.width,
         padding: const EdgeInsets.symmetric(horizontal: 21),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            0.05.vspace,
-            Align(
-              alignment: Alignment.centerLeft,
-              child: backButton(),
-            ),
-            0.05.vspace,
-            Center(
-              child: SizedBox(
-                height: 0.27.width,
-                width: 0.27.width,
-                child: SvgPicture.asset(
-                  PathConst.SVG + "naan_logo.svg",
-                  fit: BoxFit.fitHeight,
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              0.05.vspace,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: backButton(),
+              ),
+              0.05.vspace,
+              Center(
+                child: SizedBox(
+                  height: 0.27.width,
+                  width: 0.27.width,
+                  child: SvgPicture.asset(
+                    PathConst.SVG + "naan_logo.svg",
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
               ),
-            ),
-            0.05.vspace,
-            Text(
-              "Set passcode",
-              textAlign: TextAlign.center,
-              style: titleMedium,
-            ),
-            0.01.vspace,
-            Text(
-              "Protect your wallet by setting a passcode",
-              style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
-            ),
-            0.05.vspace,
-            PassCodeWidget(onChanged: (value) {
-              if (value.length == 6) {
-                Get.toNamed(Routes.BIOMETRIC_PAGE);
-              }
-              print(value);
-            })
-          ],
+              0.05.vspace,
+              Text(
+                "Set passcode",
+                textAlign: TextAlign.center,
+                style: titleMedium,
+              ),
+              0.01.vspace,
+              Text(
+                "Protect your wallet by setting a passcode",
+                style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+              ),
+              0.05.vspace,
+              PassCodeWidget(onChanged: (value) {
+                if (value.length == 6) {
+                  Get.toNamed(Routes.BIOMETRIC_PAGE);
+                }
+                print(value);
+              })
+            ],
+          ),
         ),
       ),
     );

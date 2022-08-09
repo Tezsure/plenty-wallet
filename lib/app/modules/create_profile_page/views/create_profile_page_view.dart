@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -81,7 +82,9 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
             ),
           ),
           SolidButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed(Routes.HOME_PAGE);
+            },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

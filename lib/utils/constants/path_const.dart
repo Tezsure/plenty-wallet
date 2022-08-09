@@ -3,8 +3,8 @@ class PathConst {
   static const SVG = "assets/svg/";
   static const IMAGES = "assets/images";
 
-  static const HOME_PAGE = "assets/HOME_PAGE/";
-  static const SETTINGS_PAGE = "assets/SETTINGS_PAGE/";
+  static const HOME_PAGE = "assets/home_page/";
+  static const SETTINGS_PAGE = "assets/settings_page/";
 }
 
 extension PathExt on String {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/indicator_effects.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/liquidity_baking_widget/widgets/custom_slider.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -11,7 +12,8 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 class LiquidityBakingWidget extends StatelessWidget {
   final bool add = true;
   final bool activeButton = false;
-  const LiquidityBakingWidget({Key? key}) : super(key: key);
+  double value = 0;
+  LiquidityBakingWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +107,31 @@ class LiquidityBakingWidget extends StatelessWidget {
             "1 XTZ (\$.1.56) = 0.00007278 SIRS",
             style: labelSmall.apply(color: Colors.black),
           ),
-
+          Center(
+            child: SizedBox(
+              width: 1.width,
+              child: SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                  trackHeight: 6,
+                  thumbShape:
+                      const CustomRoundSliderThumbShape(enabledThumbRadius: 10),
+                  overlayShape:
+                      const RoundSliderOverlayShape(overlayRadius: 10),
+                  showValueIndicator: ShowValueIndicator.always,
+                  trackShape: const GradientRectSliderTrackShape(),
+                ),
+                child: Slider(
+                  max: 100,
+                  min: 0,
+                  value: value,
+                  label: value.toStringAsFixed(0),
+                  onChanged: (val) {
+                    value = val;
+                  },
+                ),
+              ),
+            ),
+          ),
           0.03.vspace,
           MaterialButton(
             shape:

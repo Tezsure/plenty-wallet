@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
@@ -16,7 +16,8 @@ class HomepageAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            child: Icon(
+            onTap: () => Get.toNamed(Routes.SETTINGS_PAGE),
+            child: const Icon(
               Icons.menu,
               color: Colors.white,
             ),
@@ -32,23 +33,23 @@ class HomepageAppBar extends StatelessWidget {
               children: [
                 actionItems(
                     onTap: () {},
-                    svgPath: PathConst.HOME_PAGE.SVG + "gallery.svg"),
-                VerticalDivider(
+                    svgPath: "${PathConst.HOME_PAGE.SVG}gallery.svg"),
+                const VerticalDivider(
                   width: 2,
                   thickness: 2,
                   color: ColorConst.Primary,
                 ),
                 actionItems(
                     onTap: () {},
-                    svgPath: PathConst.HOME_PAGE.SVG + "browser.svg"),
-                VerticalDivider(
+                    svgPath: "${PathConst.HOME_PAGE.SVG}browser.svg"),
+                const VerticalDivider(
                   width: 2,
                   thickness: 2,
                   color: ColorConst.Primary,
                 ),
                 actionItems(
                     onTap: () {},
-                    svgPath: PathConst.HOME_PAGE.SVG + "qrcode.svg"),
+                    svgPath: "${PathConst.HOME_PAGE.SVG}qrcode.svg"),
               ],
             ),
           ),

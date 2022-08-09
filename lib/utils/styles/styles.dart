@@ -195,54 +195,54 @@ TextStyle semiboldTitle = TextStyle(
   letterSpacing: 2,
 );
 
-TextStyle headingBold20 = TextStyle(
+TextStyle headingBold20 = const TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontWeight: FontWeight.w600,
   fontSize: 20,
 );
 
-TextStyle bold14 = TextStyle(
+TextStyle bold14 = const TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontWeight: FontWeight.w500,
   fontSize: 14,
 );
 
-TextStyle bold16 = TextStyle(
+TextStyle bold16 = const TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontWeight: FontWeight.w500,
   fontSize: 16,
 );
 
-TextStyle bodyMedium10 = TextStyle(
-  color: grey,
+TextStyle bodyMedium10 = const TextStyle(
+  color: ColorConst.grey,
   fontWeight: FontWeight.w700,
   fontSize: 10,
 );
 
-TextStyle body10Medium600 = TextStyle(
-  color: grey,
+TextStyle body10Medium600 = const TextStyle(
+  color: ColorConst.grey,
   fontWeight: FontWeight.w600,
   fontSize: 10,
 );
 
-TextStyle body10Medium500 = TextStyle(
-  color: grey,
+TextStyle body10Medium500 = const TextStyle(
+  color: ColorConst.grey,
   fontWeight: FontWeight.w500,
   fontSize: 10,
 );
 
-TextStyle body10Medium400 = TextStyle(
+TextStyle body10Medium400 = const TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontWeight: FontWeight.w400,
   fontSize: 10,
 );
 
-TextStyle blue16Text700 = TextStyle(
+TextStyle blue16Text700 = const TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w700,
-  color: blue,
+  color: ColorConst.blue,
 );

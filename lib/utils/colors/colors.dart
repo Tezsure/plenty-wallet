@@ -63,20 +63,6 @@ LinearGradient appleBlack = const LinearGradient(
   ],
 );
 
-final Color x = Colors.amberAccent;
-Color primary = const Color(0xff8637EB);
-Color secondary = const Color(0xffFF006E);
-Color tertiary = const Color(0xffFFBE0C);
-Color error = const Color(0xffBA1A1A);
-Color neutral = const Color(0xff07030C);
-Color neutralVariant = const Color(0xff625C66);
-Color orange = const Color(0xffFB5507);
-Color naanRed = const Color(0xffFF3334);
-Color grey = const Color(0xffA4A3A9);
-Color blue = const Color(0xff3F9AF7);
-Color textGrey1 = const Color(0xff8D8D8D);
-
-
 class GradConst {
   GradConst._();
 
@@ -100,6 +86,9 @@ class ColorConst {
   static const int _NeutralVariant = 0xFF07030C;
   static const int _Orange = 0xFFFB5507;
   static const int _NaanRed = 0xFFFF3334;
+  static const Color textGrey1 = Color(0xff8D8D8D);
+  static const Color grey = Color(0xffA4A3A9);
+  static const Color blue = Color(0xff3F9AF7);
 
   static const NaaNShadesColor Primary = NaaNShadesColor(
     _Primary,
@@ -265,4 +254,3 @@ class NaaNShadesColor extends ColorSwatch<int> {
   Color get shade99 => this[99]!;
   Color get shade100 => this[100]!;
 }
-

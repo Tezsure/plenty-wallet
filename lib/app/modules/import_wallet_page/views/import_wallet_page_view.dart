@@ -23,129 +23,131 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
       decoration: BoxDecoration(gradient: GradConst.GradientBackground),
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          0.05.vspace,
-          Row(
-            children: [
-              backButton(),
-              Spacer(),
-              GestureDetector(
-                onTap: () {
-                  Get.bottomSheet(
-                    infoBottomSheet(),
-                    isScrollControlled: true,
-                    barrierColor: Colors.white.withOpacity(0.2),
-                  );
-                },
-                child: Row(
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            0.05.vspace,
+            Row(
+              children: [
+                backButton(),
+                Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    Get.bottomSheet(
+                      infoBottomSheet(),
+                      isScrollControlled: true,
+                      barrierColor: Colors.white.withOpacity(0.2),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.info_outline,
+                        color: ColorConst.NeutralVariant.shade60,
+                        size: 16,
+                      ),
+                      0.01.hspace,
+                      Text(
+                        "Info",
+                        style: titleMedium.apply(
+                            color: ColorConst.NeutralVariant.shade60),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                      Icons.info_outline,
-                      color: ColorConst.NeutralVariant.shade60,
-                      size: 16,
-                    ),
-                    0.01.hspace,
+                    0.05.vspace,
                     Text(
-                      "Info",
-                      style: titleMedium.apply(
-                          color: ColorConst.NeutralVariant.shade60),
+                      "Import wallet",
+                      style: titleLarge,
+                    ),
+                    0.05.vspace,
+                    Material(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white.withOpacity(0.2),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 0.02.height,
+                        ),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 0.18.height,
+                          child: Column(
+                            children: [
+                              0.02.vspace,
+                              Expanded(
+                                child: TextFormField(
+                                  cursorColor: ColorConst.Primary,
+                                  expands: true,
+                                  controller:
+                                      controller.phraseTextController.value,
+                                  style: bodyMedium,
+                                  onChanged: (value) {
+                                    print(value);
+                                  },
+                                  maxLines: null,
+                                  minLines: null,
+                                  decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(0),
+                                      hintStyle: bodyMedium.apply(
+                                          color: Colors.white.withOpacity(0.2)),
+                                      hintText:
+                                          "Paste your secret phrase, private key\nor watch address",
+                                      border: InputBorder.none),
+                                ),
+                              ),
+                              Obx(() => controller.phraseTextController.value
+                                              .value.text !=
+                                          "" &&
+                                      controller.phraseTextController.value.text
+                                          .isNotEmpty
+                                  ? Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          controller.phraseTextController.value
+                                              .text = "";
+                                          controller.phraseTextController.value =
+                                              controller
+                                                  .phraseTextController.value;
+                                        },
+                                        child: Text(
+                                          "Clear",
+                                          style: titleSmall.apply(
+                                              color: ColorConst.Primary),
+                                        ),
+                                      ),
+                                    )
+                                  : Container()),
+                              0.01.vspace,
+                            ],
+                          ),
+                        ),
+                      ),
                     )
                   ],
                 ),
-              )
-            ],
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  0.05.vspace,
-                  Text(
-                    "Import wallet",
-                    style: titleLarge,
-                  ),
-                  0.05.vspace,
-                  Material(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.white.withOpacity(0.2),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 0.02.height,
-                      ),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 0.18.height,
-                        child: Column(
-                          children: [
-                            0.02.vspace,
-                            Expanded(
-                              child: TextFormField(
-                                cursorColor: ColorConst.Primary,
-                                expands: true,
-                                controller:
-                                    controller.phraseTextController.value,
-                                style: bodyMedium,
-                                onChanged: (value) {
-                                  print(value);
-                                },
-                                maxLines: null,
-                                minLines: null,
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(0),
-                                    hintStyle: bodyMedium.apply(
-                                        color: Colors.white.withOpacity(0.2)),
-                                    hintText:
-                                        "Paste your secret phrase, private key\nor watch address",
-                                    border: InputBorder.none),
-                              ),
-                            ),
-                            Obx(() => controller.phraseTextController.value
-                                            .value.text !=
-                                        "" &&
-                                    controller.phraseTextController.value.text
-                                        .isNotEmpty
-                                ? Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        controller.phraseTextController.value
-                                            .text = "";
-                                        controller.phraseTextController.value =
-                                            controller
-                                                .phraseTextController.value;
-                                      },
-                                      child: Text(
-                                        "Clear",
-                                        style: titleSmall.apply(
-                                            color: ColorConst.Primary),
-                                      ),
-                                    ),
-                                  )
-                                : Container()),
-                            0.01.vspace,
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ],
               ),
             ),
-          ),
-          Obx(
-            () => controller.phraseTextController.value.value.text != "" &&
-                    controller.phraseTextController.value.text.isEmpty
-                ? pasteButton()
-                : importButton(),
-          ),
-          0.05.vspace,
-          SizedBox(
-            height: MediaQuery.of(context).viewInsets.bottom,
-          )
-        ],
+            Obx(
+              () => controller.phraseTextController.value.value.text != "" &&
+                      controller.phraseTextController.value.text.isEmpty
+                  ? pasteButton()
+                  : importButton(),
+            ),
+            0.05.vspace,
+            SizedBox(
+              height: MediaQuery.of(context).viewInsets.bottom,
+            )
+          ],
+        ),
       ),
     );
   }
