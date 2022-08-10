@@ -183,6 +183,7 @@ class DelegateWidget extends GetView<DelegateWidgetController> {
               ),
             ),
           ),
+          0.02.vspace,
         ],
       ),
     );

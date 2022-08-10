@@ -27,7 +27,7 @@ class CopyButton extends StatelessWidget {
               Icons.copy_rounded,
               color: Colors.white,
             ),
-            13.hspace,
+            0.013.hspace,
             Text(
               isCopied ? 'copied!' : 'copy to clipboard',
               style: titleSmall.copyWith(color: Colors.white),

@@ -21,12 +21,12 @@ class BackupWalletView extends GetView<BackupWalletController> {
   Widget build(BuildContext context) {
     return SafeArea(
       bottom: false,
-      top: false,
+      top: true,
       child: Scaffold(
         body: Container(
           height: 1.height,
           width: 1.width,
-          padding: const EdgeInsets.only(top: 38),
+          padding: const EdgeInsets.only(top: 30),
           decoration:
               const BoxDecoration(gradient: GradConst.GradientBackground),
           child: SingleChildScrollView(
@@ -53,12 +53,12 @@ class BackupWalletView extends GetView<BackupWalletController> {
                     ],
                   ),
                 ),
-                40.vspace,
+                0.040.vspace,
                 Text(
                   'Your Secret Phrase',
                   style: titleLarge,
                 ),
-                30.vspace,
+                0.030.vspace,
                 Text(
                   'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.',
                   textAlign: TextAlign.center,
@@ -73,7 +73,7 @@ class BackupWalletView extends GetView<BackupWalletController> {
                                   content:
                                       Text('Copied to your clipboard !')))),
                     )),
-                20.vspace,
+                0.020.vspace,
                 GridView.builder(
                     shrinkWrap: true,
                     primary: false,

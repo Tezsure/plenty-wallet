@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
+
 class CustomRoundSliderThumbShape extends SliderComponentShape {
   /// Create a slider thumb that draws inner & outer circle with different radius & color.
   ///
@@ -219,11 +221,13 @@ class GradientRectSliderTrackShape extends SliderTrackShape
 
     context.canvas.drawRRect(
       RRect.fromLTRBAndCorners(
-        trackRect.left,
-        (textDirection == TextDirection.ltr)
+        0, // Sets the width of the left side of the track
+        (textDirection ==
+                TextDirection
+                    .ltr) // Sets the height of the right side of the track, for same height as left side, use same [TextDirection.ltr/rtl]
             ? trackRect.top - (additionalActiveTrackHeight / 2)
             : trackRect.top,
-        thumbCenter.dx,
+        thumbCenter.dx, // Thumb center offset
         (textDirection == TextDirection.ltr)
             ? trackRect.bottom + (additionalActiveTrackHeight / 2)
             : trackRect.bottom,
@@ -238,11 +242,13 @@ class GradientRectSliderTrackShape extends SliderTrackShape
     );
     context.canvas.drawRRect(
       RRect.fromLTRBAndCorners(
-        thumbCenter.dx,
-        (textDirection == TextDirection.rtl)
+        thumbCenter.dx, // Thumb center offset
+        (textDirection ==
+                TextDirection
+                    .ltr) // Sets the height of the right side of the track, for same height as left side, use same [TextDirection.ltr/rtl]
             ? trackRect.top - (additionalActiveTrackHeight / 2)
             : trackRect.top,
-        trackRect.right,
+        0.92.width, // Sets the width of the left side of the track or use [trackRect.right] for dynamic width
         (textDirection == TextDirection.rtl)
             ? trackRect.bottom + (additionalActiveTrackHeight / 2)
             : trackRect.bottom,

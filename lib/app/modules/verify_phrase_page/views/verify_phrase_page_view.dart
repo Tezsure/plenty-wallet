@@ -14,53 +14,93 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 1.height,
-      width: 1.width,
-      padding: const EdgeInsets.symmetric(vertical: 38),
-      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 21),
-              child: backButton(),
-            ),
-            40.vspace,
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                'Verify your secret phrase',
-                style: titleLarge,
+    return SafeArea(
+      child: Container(
+        height: 1.height,
+        width: 1.width,
+        padding: const EdgeInsets.symmetric(vertical: 30),
+        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 21),
+                child: backButton(),
               ),
-            ),
-            30.vspace,
-            Obx(() => Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    controller.phraseKeys[controller.keyIndex.value],
-                    textAlign: TextAlign.center,
-                    style: bodyMedium.copyWith(
-                        color: ColorConst.NeutralVariant.shade60),
-                  ),
-                )),
-            40.vspace,
-            GridView.builder(
-                shrinkWrap: true,
-                itemCount:
-                    controller.phraseList[controller.keyIndex.value].length,
-                padding: const EdgeInsets.symmetric(horizontal: 47),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 140 / 52,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 12,
+              0.040.vspace,
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  'Verify your secret phrase',
+                  style: titleLarge,
                 ),
-                itemBuilder: (_, index) {
-                  return Obx(() => Material(
-                        color: (controller.phraseIndex?.value == index &&
-                                controller.isPhraseSelected.value)
+              ),
+              0.030.vspace,
+              Obx(() => Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      controller.phraseKeys[controller.keyIndex.value],
+                      textAlign: TextAlign.center,
+                      style: bodyMedium.copyWith(
+                          color: ColorConst.NeutralVariant.shade60),
+                    ),
+                  )),
+              0.040.vspace,
+              GridView.builder(
+                  shrinkWrap: true,
+                  itemCount:
+                      controller.phraseList[controller.keyIndex.value].length,
+                  padding: const EdgeInsets.symmetric(horizontal: 47),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 140 / 52,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 12,
+                  ),
+                  itemBuilder: (_, index) {
+                    return Obx(() => Material(
+                          color: (controller.phraseIndex?.value == index &&
+                                  controller.isPhraseSelected.value)
+                              ? ColorConst.Primary
+                              : ColorConst.NeutralVariant.shade60
+                                  .withOpacity(0.2),
+                          type: MaterialType.canvas,
+                          elevation: 1,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                          child: InkWell(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8)),
+                            onTap: () => controller.selectSecretPhrase(
+                              index: index,
+                            ),
+                            splashColor: Colors.transparent,
+                            child: Center(
+                              child: Text(
+                                controller.phraseList[controller.keyIndex.value]
+                                    .elementAt(index),
+                                style: bodyMedium,
+                              ),
+                            ),
+                          ),
+                        ));
+                  }),
+              0.025.vspace,
+              Obx(() => controller.showError.value
+                  ? Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Wrong word selected. Try again',
+                        style: bodySmall.copyWith(color: ColorConst.Error),
+                      ),
+                    )
+                  : Container()),
+              const Spacer(),
+              Obx(() => Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Material(
+                        color: (controller.isPhraseSelected.value)
                             ? ColorConst.Primary
                             : ColorConst.NeutralVariant.shade60
                                 .withOpacity(0.2),
@@ -71,72 +111,36 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                         child: InkWell(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(8)),
-                          onTap: () => controller.selectSecretPhrase(
-                            index: index,
-                          ),
+                          onTap: () => controller.isPhraseVerified.value
+                              ? Get.offAndToNamed(Routes.HOME_PAGE)
+                              : controller.selectedPhrase.isEmpty
+                                  ? null
+                                  : controller.verifySecretPhrase(),
                           splashColor: Colors.transparent,
-                          child: Center(
+                          child: Container(
+                            height: 48,
+                            width: 0.8.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.transparent,
+                            ),
+                            alignment: Alignment.center,
                             child: Text(
-                              controller.phraseList[controller.keyIndex.value]
-                                  .elementAt(index),
-                              style: bodyMedium,
+                              controller.isPhraseVerified.value &&
+                                      controller.isPhraseSelected.value
+                                  ? 'Done'
+                                  : 'Next',
+                              style: titleSmall.apply(
+                                color: (controller.isPhraseSelected.value)
+                                    ? Colors.white
+                                    : ColorConst.NeutralVariant.shade60,
+                              ),
                             ),
                           ),
-                        ),
-                      ));
-                }),
-            25.vspace,
-            Obx(() => controller.showError.value
-                ? Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Wrong word selected. Try again',
-                      style: bodySmall.copyWith(color: ColorConst.Error),
-                    ),
-                  )
-                : Container()),
-            const Spacer(),
-            Obx(() => Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Material(
-                      color: (controller.isPhraseSelected.value)
-                          ? ColorConst.Primary
-                          : ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                      type: MaterialType.canvas,
-                      elevation: 1,
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      child: InkWell(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8)),
-                        onTap: () => controller.isPhraseVerified.value
-                            ? Get.offAndToNamed(Routes.HOME_PAGE)
-                            : controller.selectedPhrase.isEmpty
-                                ? null
-                                : controller.verifySecretPhrase(),
-                        splashColor: Colors.transparent,
-                        child: Container(
-                          height: 48,
-                          width: 0.8.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.transparent,
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            controller.isPhraseVerified.value &&
-                                    controller.isPhraseSelected.value
-                                ? 'Done'
-                                : 'Next',
-                            style: titleSmall.apply(
-                              color: (controller.isPhraseSelected.value)
-                                  ? Colors.white
-                                  : ColorConst.NeutralVariant.shade60,
-                            ),
-                          ),
-                        ),
-                      )),
-                )),
-          ]),
+                        )),
+                  )),
+            ]),
+      ),
     );
   }
 }

@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/indicator_effects.dart';
-import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/liquidity_baking_widget/widgets/custom_slider.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -12,8 +9,7 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 class LiquidityBakingWidget extends StatelessWidget {
   final bool add = true;
   final bool activeButton = false;
-  double value = 50;
-  LiquidityBakingWidget({Key? key}) : super(key: key);
+  const LiquidityBakingWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +20,7 @@ class LiquidityBakingWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         image: DecorationImage(
             image: AssetImage(
-              PathConst.HOME_PAGE.IMAGES + "coins_background.png",
+              "${PathConst.HOME_PAGE.IMAGES}coins_background.png",
             ),
             fit: BoxFit.fitWidth,
             alignment: Alignment.topCenter),
@@ -45,14 +41,6 @@ class LiquidityBakingWidget extends StatelessWidget {
               ),
             ],
           ),
-          // Tab(
-          //       height: 32,
-          //       child: SizedBox(
-          //         width: 82,
-          //         child: Center(child: Text("Add")),
-          //       ),
-          //     ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -61,7 +49,7 @@ class LiquidityBakingWidget extends StatelessWidget {
                 style: headlineMedium.apply(color: Colors.black),
               ),
               SvgPicture.asset(
-                PathConst.HOME_PAGE.SVG + "xtz.svg",
+                "${PathConst.HOME_PAGE.SVG}xtz.svg",
                 color: Colors.black,
               )
             ],
@@ -91,7 +79,7 @@ class LiquidityBakingWidget extends StatelessWidget {
               ),
               0.03.hspace,
               SvgPicture.asset(
-                PathConst.HOME_PAGE.SVG + "xtz.svg",
+                "${PathConst.HOME_PAGE.SVG}xtz.svg",
                 color: Colors.black,
                 height: 34,
               ),
@@ -107,30 +95,8 @@ class LiquidityBakingWidget extends StatelessWidget {
             "1 XTZ (\$.1.56) = 0.00007278 SIRS",
             style: labelSmall.apply(color: Colors.black),
           ),
-          Center(
-            child: SizedBox(
-              width: 1.width,
-              child: SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                  trackHeight: 6,
-                  thumbShape:
-                      const CustomRoundSliderThumbShape(enabledThumbRadius: 10),
-                  overlayShape:
-                      const RoundSliderOverlayShape(overlayRadius: 10),
-                  showValueIndicator: ShowValueIndicator.always,
-                  trackShape: const GradientRectSliderTrackShape(),
-                ),
-                child: Slider(
-                  max: 100,
-                  min: 0,
-                  value: value,
-                  label: value.toStringAsFixed(0),
-                  onChanged: (val) {
-                    value = val;
-                  },
-                ),
-              ),
-            ),
+          const Center(
+            child: LiquidBakingSlider(),
           ),
           0.03.vspace,
           MaterialButton(
@@ -138,6 +104,8 @@ class LiquidityBakingWidget extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             height: 40,
             color: activeButton ? Colors.black : ColorConst.Tertiary.shade90,
+            elevation: 0,
+            onPressed: () {},
             child: SizedBox(
               width: 0.75.width,
               child: Center(
@@ -150,11 +118,48 @@ class LiquidityBakingWidget extends StatelessWidget {
                 ),
               ),
             ),
-            elevation: 0,
-            onPressed: () {},
           ),
           0.038.vspace,
         ],
+      ),
+    );
+  }
+}
+
+class LiquidBakingSlider extends StatefulWidget {
+  const LiquidBakingSlider({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<LiquidBakingSlider> createState() => _LiquidBakingSliderState();
+}
+
+class _LiquidBakingSliderState extends State<LiquidBakingSlider> {
+  double value = 0;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 1.width,
+      child: SliderTheme(
+        data: SliderTheme.of(context).copyWith(
+          trackHeight: 6,
+          thumbShape: const CustomRoundSliderThumbShape(enabledThumbRadius: 10),
+          overlayShape: const RoundSliderOverlayShape(overlayRadius: 10),
+          showValueIndicator: ShowValueIndicator.always,
+          trackShape: const GradientRectSliderTrackShape(),
+        ),
+        child: Slider(
+          max: 100,
+          min: 0,
+          value: value,
+          label: value.toStringAsFixed(0),
+          onChanged: (val) {
+            setState(() {
+              value = val;
+            });
+          },
+        ),
       ),
     );
   }

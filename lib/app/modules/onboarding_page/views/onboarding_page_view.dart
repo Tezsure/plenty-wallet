@@ -5,7 +5,6 @@ import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicato
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'package:naan_wallet/app/modules/onboarding_page/controllers/onboarding_page_controller.dart';
 import 'package:naan_wallet/app/modules/onboarding_page/widgets/onboarding_screen_widget.dart';
-import 'package:naan_wallet/app/modules/passcode_page/views/passcode_page_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 

@@ -24,6 +24,9 @@ class VerifyPhrasePageController extends GetxController {
     phraseIndex?.value = index;
     isPhraseSelected.value = true;
     selectedPhrase.value = phraseList[keyIndex.value].elementAt(index);
+    if (thirdPhrase.value == true) {
+      isPhraseVerified.value = true;
+    }
   }
 
   void verifySecretPhrase() {
@@ -39,7 +42,7 @@ class VerifyPhrasePageController extends GetxController {
         isPhraseSelected.value = false;
         showError.value = false;
         thirdPhrase.value = true;
-        isPhraseVerified.value = true;
+        isPhraseVerified.value = false;
       } else {
         keyIndex.value = 1;
         selectedPhrase.value = '';

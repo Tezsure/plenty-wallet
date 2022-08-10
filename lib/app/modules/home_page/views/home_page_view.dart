@@ -69,6 +69,7 @@ class HomePageView extends GetView<HomePageController>
                 ),
                 enableDrag: true,
                 isDismissible: true,
+                ignoreSafeArea: false,
               )
             : Container();
       }
