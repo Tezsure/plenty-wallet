@@ -12,7 +12,7 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 class LiquidityBakingWidget extends StatelessWidget {
   final bool add = true;
   final bool activeButton = false;
-  double value = 0;
+  double value = 50;
   LiquidityBakingWidget({Key? key}) : super(key: key);
 
   @override

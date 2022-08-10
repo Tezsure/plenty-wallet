@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../utils/styles/styles.dart';
 
-class AccountWidget extends StatefulWidget {
-  const AccountWidget({Key? key}) : super(key: key);
+class AccountWidget extends StatelessWidget {
+  AccountWidget({Key? key}) : super(key: key);
 
-  @override
-  State<AccountWidget> createState() => _AccountWidgetState();
-}
+  ImportWalletPageController controller = Get.find();
 
-class _AccountWidgetState extends State<AccountWidget> {
   bool expanded = false;
 
   @override
@@ -62,9 +61,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              setState(() {
-                                expanded = true;
-                              });
+                              expanded = true;
                             },
                             child: SizedBox(
                               height: 50,
@@ -92,24 +89,25 @@ class _AccountWidgetState extends State<AccountWidget> {
       height: 84,
       child: Row(
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 30,
           ),
-          20.hspace,
-          RichText(
-            text: TextSpan(
-              text: "tz1...qfDZg\n",
-              style: bodySmall,
-              children: [
-                WidgetSpan(child: 25.vspace),
-                TextSpan(
-                  text: "20 tez",
-                  style: bodyLarge,
-                )
-              ],
-            ),
+          0.05.hspace,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "tz1...qfDZg\n",
+                style: bodySmall,
+              ),
+              Text(
+                "20 tez",
+                style: bodyLarge,
+              ),
+            ],
           ),
-          const Spacer(),
+          Spacer(),
           Material(
             color: Colors.transparent,
             child: Checkbox(
@@ -117,7 +115,7 @@ class _AccountWidgetState extends State<AccountWidget> {
               onChanged: (value) {},
               checkColor: Colors.white,
               fillColor: MaterialStateProperty.all(Colors.white),
-              side: const BorderSide(color: Colors.white, width: 1),
+              side: BorderSide(color: Colors.white, width: 1),
             ),
           )
         ],

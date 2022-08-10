@@ -83,7 +83,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
           ),
           SolidButton(
             onPressed: () {
-              Get.toNamed(Routes.HOME_PAGE);
+              Get.toNamed(Routes.HOME_PAGE, arguments: [true]);
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

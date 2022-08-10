@@ -79,55 +79,58 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                         child: SizedBox(
                           width: double.infinity,
                           height: 0.18.height,
-                          child: Column(
-                            children: [
-                              0.02.vspace,
-                              Expanded(
-                                child: TextFormField(
-                                  cursorColor: ColorConst.Primary,
-                                  expands: true,
-                                  controller:
-                                      controller.phraseTextController.value,
-                                  style: bodyMedium,
-                                  onChanged: (value) {
-                                    print(value);
-                                  },
-                                  maxLines: null,
-                                  minLines: null,
-                                  decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.all(0),
-                                      hintStyle: bodyMedium.apply(
-                                          color: Colors.white.withOpacity(0.2)),
-                                      hintText:
-                                          "Paste your secret phrase, private key\nor watch address",
-                                      border: InputBorder.none),
+                          child: Obx(
+                            () => Column(
+                              children: [
+                                0.02.vspace,
+                                Expanded(
+                                  child: TextFormField(
+                                    cursorColor: ColorConst.Primary,
+                                    expands: true,
+                                    controller:
+                                        controller.phraseTextController.value,
+                                    style: bodyMedium,
+                                    onChanged: (value) {
+                                      print(value);
+                                    },
+                                    maxLines: null,
+                                    minLines: null,
+                                    decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.all(0),
+                                        hintStyle: bodyMedium.apply(
+                                            color:
+                                                Colors.white.withOpacity(0.2)),
+                                        hintText:
+                                            "Paste your secret phrase, private key\nor watch address",
+                                        border: InputBorder.none),
+                                  ),
                                 ),
-                              ),
-                              Obx(() => controller.phraseTextController.value
-                                              .value.text !=
-                                          "" &&
-                                      controller.phraseTextController.value.text
-                                          .isNotEmpty
-                                  ? Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          controller.phraseTextController.value
-                                              .text = "";
-                                          controller.phraseTextController.value =
-                                              controller
-                                                  .phraseTextController.value;
-                                        },
-                                        child: Text(
-                                          "Clear",
-                                          style: titleSmall.apply(
-                                              color: ColorConst.Primary),
+                                controller.phraseTextController.value.text !=
+                                            "" &&
+                                        controller.phraseTextController.value
+                                            .text.isNotEmpty
+                                    ? Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            controller.phraseTextController
+                                                .value.text = "";
+                                            controller.phraseTextController
+                                                    .value =
+                                                controller
+                                                    .phraseTextController.value;
+                                          },
+                                          child: Text(
+                                            "Clear",
+                                            style: titleSmall.apply(
+                                                color: ColorConst.Primary),
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                  : Container()),
-                              0.01.vspace,
-                            ],
+                                      )
+                                    : Container(),
+                                0.01.vspace,
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -137,7 +140,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               ),
             ),
             Obx(
-              () => controller.phraseTextController.value.value.text != "" &&
+              () => controller.phraseTextController.value.text == "" ||
                       controller.phraseTextController.value.text.isEmpty
                   ? pasteButton()
                   : importButton(),
@@ -182,10 +185,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             barrierColor: Colors.white.withOpacity(0.2),
           );
         },
-        active: controller.phraseTextController.value.value.text
-                .split(" ")
-                .length ==
-            12,
+        active:
+            controller.phraseTextController.value.text.split(" ").length == 12,
         inActiveChild: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

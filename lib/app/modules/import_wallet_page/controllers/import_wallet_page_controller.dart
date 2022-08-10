@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/import_wallet_page/models/account_model.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 
 class ImportWalletPageController extends GetxController {
@@ -8,6 +9,10 @@ class ImportWalletPageController extends GetxController {
   Rx<bool> showSuccessAnimation = false.obs; // to show success animation
   Rx<TextEditingController> phraseTextController = TextEditingController().obs;
   Rx<String> phraseText = "".obs; // to store phrase text
+  RxList<AccountModel> accounts = <AccountModel>[].obs;
+  // accounts imported;
+  RxList<AccountModel> selectedAccounts =
+      <AccountModel>[].obs; // accounts selected;
 
   //? FUNCTION
 
