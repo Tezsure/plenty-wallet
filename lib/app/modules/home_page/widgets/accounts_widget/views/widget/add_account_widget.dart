@@ -14,15 +14,16 @@ class AddAccountWidget extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: 211,
-          width: 0.9.width,
+          padding: EdgeInsets.zero,
+          height: 0.26.height,
+          width: 1.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: ColorConst.Primary,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 37.0, top: 66),
+          padding: EdgeInsets.only(left: 0.09.width, top: 0.09.height),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +45,7 @@ class AddAccountWidget extends StatelessWidget {
                         size: 18.sp,
                       ),
                     ),
-                    6.hspace,
+                    0.02.hspace,
                     Text(
                       'Add Account',
                       style: labelSmall,
@@ -52,7 +53,7 @@ class AddAccountWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              16.vspace,
+              0.010.vspace,
               Text(
                 'Create new account and add to\nthe stack ',
                 style: labelSmall,

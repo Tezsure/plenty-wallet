@@ -15,7 +15,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
-      value: SystemUiOverlayStyle(
+      value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarDividerColor: Colors.transparent,
         statusBarBrightness: Brightness.light,
@@ -135,18 +135,20 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                           CircleAvatar(
                             radius: 0.07.width,
                             backgroundColor: Colors.transparent,
-                            child: SvgPicture.asset("${PathConst.SVG}apple.svg"),
-                          ),
-                          CircleAvatar(
-                            radius: 0.07.width,
-                            backgroundColor: Colors.transparent,
-                            child: SvgPicture.asset("${PathConst.SVG}google.svg"),
+                            child:
+                                SvgPicture.asset("${PathConst.SVG}apple.svg"),
                           ),
                           CircleAvatar(
                             radius: 0.07.width,
                             backgroundColor: Colors.transparent,
                             child:
-                                SvgPicture.asset("${PathConst.SVG}facebook.svg"),
+                                SvgPicture.asset("${PathConst.SVG}google.svg"),
+                          ),
+                          CircleAvatar(
+                            radius: 0.07.width,
+                            backgroundColor: Colors.transparent,
+                            child: SvgPicture.asset(
+                                "${PathConst.SVG}facebook.svg"),
                           ),
                           CircleAvatar(
                             radius: 0.07.width,
@@ -159,7 +161,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     ),
                     0.02.vspace,
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () => Get.offAndToNamed(Routes.HOME_PAGE),
                       child: Container(
                         height: 48,
                         width: double.infinity,

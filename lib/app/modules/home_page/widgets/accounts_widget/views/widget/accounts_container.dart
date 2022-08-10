@@ -16,8 +16,8 @@ class AccountsContainer extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: 211,
-          width: 326,
+          height: 0.26.height,
+          width: 1.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -30,8 +30,8 @@ class AccountsContainer extends StatelessWidget {
           ),
         ),
         Container(
-          height: 211,
-          width: 326,
+          height: 0.26.height,
+          width: 1.width,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               gradient: LinearGradient(
@@ -55,7 +55,7 @@ class AccountsContainer extends StatelessWidget {
                     'Account One',
                     style: labelSmall,
                   ),
-                  10.hspace,
+                  0.010.hspace,
                   CircleAvatar(
                     backgroundColor: Colors.white,
                     maxRadius: 8,
@@ -67,14 +67,14 @@ class AccountsContainer extends StatelessWidget {
                   )
                 ],
               ),
-              8.vspace,
+              0.02.vspace,
               Row(
                 children: [
                   Text(
                     'tz...fDzg',
                     style: bodySmall,
                   ),
-                  1.hspace,
+                  0.01.hspace,
                   const Icon(
                     Icons.copy,
                     size: 11,
@@ -82,14 +82,14 @@ class AccountsContainer extends StatelessWidget {
                   ),
                 ],
               ),
-              15.vspace,
+              0.015.vspace,
               Row(
                 children: [
                   Text(
                     '252.25',
                     style: headlineSmall,
                   ),
-                  10.hspace,
+                  0.010.hspace,
                   SvgPicture.asset(
                     'assets/svg/path.svg',
                     color: Colors.white,
@@ -98,7 +98,7 @@ class AccountsContainer extends StatelessWidget {
                   ),
                 ],
               ),
-              17.vspace,
+              0.017.vspace,
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -118,7 +118,7 @@ class AccountsContainer extends StatelessWidget {
                       size: 16,
                     ),
                   ),
-                  16.hspace,
+                  0.016.hspace,
                   Transform.rotate(
                     angle: -math.pi / 1,
                     child: RawMaterialButton(

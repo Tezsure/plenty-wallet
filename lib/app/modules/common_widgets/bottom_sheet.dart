@@ -66,7 +66,7 @@ class NaanBottomSheet extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 0.05.width),
                 child: Column(
                   children: [
-                    5.vspace,
+                    0.05.vspace,
                     Center(
                       child: Container(
                         height: 5,
@@ -78,7 +78,7 @@ class NaanBottomSheet extends StatelessWidget {
                         ),
                       ),
                     ),
-                    20.vspace,
+                    0.020.vspace,
                     Align(
                       alignment: titleAlignment ?? Alignment.centerLeft,
                       child: Text(
@@ -87,7 +87,7 @@ class NaanBottomSheet extends StatelessWidget {
                         style: titleStyle ?? titleLarge,
                       ),
                     ),
-                    20.vspace,
+                    0.020.vspace,
                     Expanded(
                       child: RawScrollbar(
                           controller: scrollController,
@@ -137,7 +137,7 @@ class NaanBottomSheet extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    5.vspace,
+                    0.05.vspace,
                     Center(
                       child: Container(
                         height: 5,
@@ -149,7 +149,7 @@ class NaanBottomSheet extends StatelessWidget {
                         ),
                       ),
                     ),
-                    20.vspace,
+                    0.020.vspace,
                     Align(
                       alignment: titleAlignment ?? Alignment.centerLeft,
                       child: Text(
@@ -158,7 +158,7 @@ class NaanBottomSheet extends StatelessWidget {
                         style: titleStyle ?? titleLarge,
                       ),
                     ),
-                    20.vspace,
+                    0.020.vspace,
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,

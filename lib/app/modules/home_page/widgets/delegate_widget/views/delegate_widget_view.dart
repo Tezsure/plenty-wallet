@@ -35,7 +35,7 @@ class DelegateWidget extends GetView<DelegateWidgetController> {
                     Text('learn',
                         style: labelSmall.copyWith(
                             color: ColorConst.NeutralVariant.shade50)),
-                    4.hspace,
+                    0.01.hspace,
                     Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 10,
@@ -46,7 +46,7 @@ class DelegateWidget extends GetView<DelegateWidgetController> {
               ),
             ],
           ),
-          10.vspace,
+          0.010.vspace,
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: SizedBox(
@@ -94,7 +94,7 @@ class DelegateWidget extends GetView<DelegateWidgetController> {
                             ],
                           ),
                         ),
-                        10.vspace,
+                        0.010.vspace,
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 35.0, right: 35, top: 20, bottom: 12),
@@ -139,7 +139,7 @@ class DelegateWidget extends GetView<DelegateWidgetController> {
                                       ? 'View baker list'
                                       : 'Or Select baker',
                                   style: labelSmall)),
-                              6.hspace,
+                              0.02.hspace,
                               const Icon(
                                 Icons.arrow_forward_ios_rounded,
                                 size: 10,
@@ -148,7 +148,7 @@ class DelegateWidget extends GetView<DelegateWidgetController> {
                             ],
                           ),
                         ),
-                        20.vspace,
+                        0.020.vspace,
                         Obx(() => MaterialButton(
                               elevation: 0,
                               onPressed: () {},

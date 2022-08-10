@@ -44,7 +44,7 @@ class StoryPageView extends GetView<StoryPageController> {
   @override
   Widget build(BuildContext context) => SizedBox(
         height: containerHeight ?? 0.15.height,
-        width: 0.92.width,
+        width: 0.9.width,
         child: ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: profileImagePath.length,
@@ -71,7 +71,7 @@ class StoryPageView extends GetView<StoryPageController> {
                             fit: BoxFit.contain,
                           ),
                         ),
-                        12.vspace,
+                        0.012.vspace,
                         Text(
                           storyTitle[index],
                           textAlign: TextAlign.center,
@@ -200,7 +200,7 @@ class _NaanStoryInfoScreenState extends State<NaanStoryInfoScreen>
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                30.vspace,
+                0.030.vspace,
                 Row(
                     children: widget.stories
                         .asMap()

@@ -25,7 +25,10 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               Align(
                 alignment: Alignment.topRight,
                 child: MaterialButton(
-                    onPressed: () => Get.back(),
+                    onPressed: () {
+                      Get.back();
+                      controller.isBakerAddressSelected.value = false;
+                    },
                     shape: const CircleBorder(
                       side: BorderSide.none,
                     ),
@@ -46,14 +49,14 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                       'Delegate to Recommended Bakers',
                       style: labelLarge,
                     ),
-                    12.vspace,
+                    0.012.vspace,
                     Text(
                         'Select a Baker you want to delegate funds to.\nThis list is powered by Tezos-nodes.com',
                         style: labelSmall.copyWith(
                             color: ColorConst.NeutralVariant.shade60)),
-                    12.vspace,
+                    0.012.vspace,
                     SizedBox(
-                      height: 52,
+                      height: 0.06.height,
                       width: 1.width,
                       child: TextFormField(
                         textAlignVertical: TextAlignVertical.top,
@@ -202,7 +205,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                             ]),
                       ),
                     ),
-                    2.vspace,
+                    0.02.vspace,
                     Container(
                       height: 0.5.height,
                       width: 1.width,
@@ -280,7 +283,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                                                       height: 28,
                                                     ),
                                                   ),
-                                                  6.hspace,
+                                                  0.06.hspace,
                                                   Text(
                                                     'MyTezosBaking',
                                                     style: labelMedium,
@@ -305,7 +308,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                                                   )
                                                 ],
                                               ),
-                                              13.vspace,
+                                              0.013.vspace,
                                               Row(
                                                 children: [
                                                   RichText(
@@ -323,7 +326,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                                                       ],
                                                     ),
                                                   ),
-                                                  31.hspace,
+                                                  0.031.hspace,
                                                   RichText(
                                                     textAlign: TextAlign.start,
                                                     text: TextSpan(
@@ -339,7 +342,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                                                       ],
                                                     ),
                                                   ),
-                                                  31.hspace,
+                                                  0.031.hspace,
                                                   RichText(
                                                     textAlign: TextAlign.start,
                                                     text: TextSpan(
@@ -364,7 +367,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                                 )),
                       ),
                     ),
-                    2.vspace,
+                    0.02.vspace,
                     Text(
                       '*All payout periods are converted from cycle to days.\n1 cycle = approx. 2.5 days',
                       style: labelSmall.copyWith(

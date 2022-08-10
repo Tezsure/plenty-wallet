@@ -16,127 +16,135 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => AccountsWidgetController());
-    return SizedBox(
-      width: 0.90.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'My Wallets',
-            style:
-                titleSmall.copyWith(color: ColorConst.NeutralVariant.shade50),
-          ),
-          13.vspace,
-          Visibility(
-            visible: controller.accountsList.isEmpty,
-            replacement: SizedBox(
-              width: 0.92.width,
-              height: 0.3.height,
-              child: PageView.builder(
-                  padEnds: false,
-                  itemCount: controller.accountsList.length,
-                  controller: PageController(
-                    viewportFraction: 0.99,
-                    initialPage: 0,
-                  ),
-                  onPageChanged: (val) => controller.onPageChanged(val),
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (_, index) {
-                    return Visibility(
-                      visible: index == controller.accountsList.length - 1,
-                      replacement: Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: AccountsContainer(
-                            imagePath:
-                                controller.imagePath[Random().nextInt(3)]),
-                      ),
-                      child: const AddAccountWidget(),
-                    );
-                  }),
+    return Padding(
+      padding: EdgeInsets.only(left: 0.04.width),
+      child: SizedBox(
+        width: 1.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'My Wallets',
+              style:
+                  titleSmall.copyWith(color: ColorConst.NeutralVariant.shade50),
             ),
-            child: const AddAccountWidget(),
-          ),
-          Visibility(
-            visible: controller.accountsList.isEmpty,
-            replacement: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                10.hspace,
-                SizedBox(
-                  height: 10,
-                  width: 0.55.width,
-                  child: ListView.builder(
+            0.013.vspace,
+            Visibility(
+              visible: controller.accountsList.isEmpty,
+              replacement: SizedBox(
+                width: 1.width,
+                height: 0.28.height,
+                child: PageView.builder(
+                    padEnds: false,
                     itemCount: controller.accountsList.length,
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
+                    controller: PageController(
+                      viewportFraction: 0.98,
+                      initialPage: 0,
+                    ),
+                    onPageChanged: (val) => controller.onPageChanged(val),
                     physics: const BouncingScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    itemBuilder: ((context, index) {
-                      return Obx(() => Visibility(
-                            visible:
-                                index == controller.accountsList.length - 1,
-                            replacement: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 2.0),
-                              child: Container(
-                                height: 8,
-                                width: 8,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: controller
-                                                .selectedAccountIndex.value ==
-                                            index
-                                        ? Colors.white
-                                        : ColorConst.NeutralVariant.shade40),
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.add,
-                              color: controller.selectedAccountIndex.value ==
-                                      controller.accountsList.length - 1
-                                  ? Colors.white
-                                  : ColorConst.NeutralVariant.shade50,
-                              size: 10,
-                            ),
-                          ));
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (_, index) {
+                      return Visibility(
+                        visible: index == controller.accountsList.length - 1,
+                        replacement: Padding(
+                          padding: const EdgeInsets.only(right: 12.0),
+                          child: AccountsContainer(
+                              imagePath:
+                                  controller.imagePath[Random().nextInt(3)]),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.only(right: 12.0),
+                          child: AddAccountWidget(),
+                        ),
+                      );
                     }),
-                  ),
-                ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () {},
-                  child: Text(
-                    'learn account',
-                    style:
-                        labelSmall.copyWith(color: ColorConst.Neutral.shade95),
-                  ),
-                ),
-              ],
+              ),
+              child: const AddAccountWidget(),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                4.hspace,
-                Text(
-                  'Already Have A Wallet?',
-                  style: labelSmall.copyWith(
-                      color: ColorConst.NeutralVariant.shade60),
-                ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () {},
-                  child: Text(
-                    'Restore Account',
-                    style:
-                        labelSmall.copyWith(color: ColorConst.Neutral.shade95),
+            Visibility(
+              visible: controller.accountsList.isEmpty,
+              replacement: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  0.010.hspace,
+                  SizedBox(
+                    height: 10,
+                    width: 0.55.width,
+                    child: ListView.builder(
+                      itemCount: controller.accountsList.length,
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      itemBuilder: ((context, index) {
+                        return Obx(() => Visibility(
+                              visible:
+                                  index == controller.accountsList.length - 1,
+                              replacement: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 2.0),
+                                child: Container(
+                                  height: 8,
+                                  width: 8,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: controller
+                                                  .selectedAccountIndex.value ==
+                                              index
+                                          ? Colors.white
+                                          : ColorConst.NeutralVariant.shade40),
+                                ),
+                              ),
+                              child: Icon(
+                                Icons.add,
+                                color: controller.selectedAccountIndex.value ==
+                                        controller.accountsList.length - 1
+                                    ? Colors.white
+                                    : ColorConst.NeutralVariant.shade50,
+                                size: 10,
+                              ),
+                            ));
+                      }),
+                    ),
                   ),
-                ),
-              ],
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      'learn account',
+                      style: labelSmall.copyWith(
+                          color: ColorConst.Neutral.shade95),
+                    ),
+                  ),
+                  0.03.hspace,
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  0.04.hspace,
+                  Text(
+                    'Already Have A Wallet?',
+                    style: labelSmall.copyWith(
+                        color: ColorConst.NeutralVariant.shade60),
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      'Restore Account',
+                      style: labelSmall.copyWith(
+                          color: ColorConst.Neutral.shade95),
+                    ),
+                  ),
+                  0.03.hspace,
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
