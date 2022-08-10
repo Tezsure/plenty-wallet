@@ -24,7 +24,7 @@ class TezosPriceWidget extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child:
-                SvgPicture.asset(PathConst.HOME_PAGE.SVG + "tezos_price.svg"),
+                SvgPicture.asset("${PathConst.HOME_PAGE.SVG}tezos_price.svg"),
           ),
           Text(
             "Tez",
@@ -42,7 +42,7 @@ class TezosPriceWidget extends StatelessWidget {
               0.02.hspace,
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     false
                         ? Icons.arrow_upward_outlined
                         : Icons.arrow_downward_outlined,

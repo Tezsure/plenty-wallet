@@ -89,7 +89,7 @@ class AccountWidget extends StatelessWidget {
       height: 84,
       child: Row(
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 30,
           ),
           0.05.hspace,
@@ -107,7 +107,7 @@ class AccountWidget extends StatelessWidget {
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Material(
             color: Colors.transparent,
             child: Checkbox(
@@ -115,7 +115,7 @@ class AccountWidget extends StatelessWidget {
               onChanged: (value) {},
               checkColor: Colors.white,
               fillColor: MaterialStateProperty.all(Colors.white),
-              side: BorderSide(color: Colors.white, width: 1),
+              side: const BorderSide(color: Colors.white, width: 1),
             ),
           )
         ],

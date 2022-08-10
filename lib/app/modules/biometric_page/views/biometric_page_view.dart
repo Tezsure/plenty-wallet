@@ -7,7 +7,6 @@ import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/material_Tap.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../controllers/biometric_page_controller.dart';
@@ -17,14 +16,14 @@ class BiometricPageView extends GetView<BiometricPageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(gradient: GradConst.GradientBackground),
+      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: SafeArea(
         child: Column(
           children: [
             0.2.vspace,
-            SvgPicture.asset(PathConst.SVG + "fingerprint.svg"),
+            SvgPicture.asset("${PathConst.SVG}fingerprint.svg"),
             0.05.vspace,
             Text(
               "Enable biometry unlock",
@@ -38,7 +37,7 @@ class BiometricPageView extends GetView<BiometricPageController> {
                 color: ColorConst.NeutralVariant.shade60,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             SolidButton(
               title: "Enable Biometry Unlock",
               onPressed: () {},
@@ -54,8 +53,8 @@ class BiometricPageView extends GetView<BiometricPageController> {
                 alignment: Alignment.center,
                 child: Text(
                   "Skip",
-                  style:
-                      titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
+                  style: titleSmall.apply(
+                      color: ColorConst.NeutralVariant.shade60),
                 ),
               ),
             ),

@@ -30,7 +30,7 @@ class PublicNFTgalleryWidget extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             children: List.generate(
                   3,
-                  (index) => NFTgallery(),
+                  (index) => nftGallery(),
                 ) +
                 <Widget>[addGallery()],
           ),
@@ -95,7 +95,7 @@ class PublicNFTgalleryWidget extends StatelessWidget {
     );
   }
 
-  Widget NFTgallery() {
+  Widget nftGallery() {
     return Column(
       children: [
         Container(

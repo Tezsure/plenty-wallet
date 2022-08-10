@@ -20,7 +20,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(gradient: GradConst.GradientBackground),
+      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: SafeArea(
@@ -31,7 +31,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             Row(
               children: [
                 backButton(),
-                Spacer(),
+                const Spacer(),
                 GestureDetector(
                   onTap: () {
                     Get.bottomSheet(
@@ -96,7 +96,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                     maxLines: null,
                                     minLines: null,
                                     decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.all(0),
+                                        contentPadding: const EdgeInsets.all(0),
                                         hintStyle: bodyMedium.apply(
                                             color:
                                                 Colors.white.withOpacity(0.2)),
@@ -162,7 +162,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
-            PathConst.SVG + "paste.svg",
+            "${PathConst.SVG}paste.svg",
             fit: BoxFit.scaleDown,
           ),
           0.02.hspace,
@@ -191,7 +191,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              PathConst.SVG + "import.svg",
+              "${PathConst.SVG}import.svg",
               fit: BoxFit.scaleDown,
               color: ColorConst.NeutralVariant.shade60,
             ),
@@ -206,7 +206,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              PathConst.SVG + "import.svg",
+              "${PathConst.SVG}import.svg",
               fit: BoxFit.scaleDown,
               color: ColorConst.Neutral.shade95,
             ),
@@ -226,13 +226,13 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xff07030c).withOpacity(0.49),
-              Color(0xff2d004f),
+              const Color(0xff07030c).withOpacity(0.49),
+              const Color(0xff2d004f),
             ],
           ),
         ),
@@ -282,13 +282,14 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(10)),
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xff07030c).withOpacity(0.49),
-                  Color(0xff2d004f),
+                  const Color(0xff07030c).withOpacity(0.49),
+                  const Color(0xff2d004f),
                 ],
               ),
             ),
@@ -315,17 +316,17 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                 Expanded(
                   child: RawScrollbar(
                     controller: scrollController,
-                    radius: Radius.circular(2),
-                    trackRadius: Radius.circular(2),
+                    radius: const Radius.circular(2),
+                    trackRadius: const Radius.circular(2),
                     thickness: 4,
-                    isAlwaysShown: true,
+                    thumbVisibility: true,
                     thumbColor: ColorConst.NeutralVariant.shade60,
                     trackColor:
                         ColorConst.NeutralVariant.shade60.withOpacity(0.4),
                     trackBorderColor:
                         ColorConst.NeutralVariant.shade60.withOpacity(0.4),
                     child: ListView.separated(
-                        physics: BouncingScrollPhysics(
+                        physics: const BouncingScrollPhysics(
                             parent: AlwaysScrollableScrollPhysics()),
                         controller: scrollController,
                         padding: EdgeInsets.only(right: 0.03.width),
@@ -333,7 +334,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${index}. What is Secret Phrase?",
+                                  "$index. What is Secret Phrase?",
                                   style: bodyMedium,
                                 ),
                                 0.012.vspace,

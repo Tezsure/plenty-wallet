@@ -8,8 +8,7 @@ class PathConst {
 }
 
 extension PathExt on String {
-  String get SVG => this + "svg/";
-  String get IMAGES => this + "images/";
-  String get RIVE => this + "rive/";
-
+  String get SVG => "${this}svg/";
+  String get IMAGES => "${this}images/";
+  String get RIVE => "${this}rive/";
 }

@@ -7,7 +7,6 @@ import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/material_Tap.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../controllers/passcode_page_controller.dart';
@@ -36,7 +35,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
                   height: 0.27.width,
                   width: 0.27.width,
                   child: SvgPicture.asset(
-                    PathConst.SVG + "naan_logo.svg",
+                    "${PathConst.SVG}naan_logo.svg",
                     fit: BoxFit.fitHeight,
                   ),
                 ),
@@ -50,7 +49,8 @@ class PasscodePageView extends GetView<PasscodePageController> {
               0.01.vspace,
               Text(
                 "Protect your wallet by setting a passcode",
-                style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+                style:
+                    bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
               ),
               0.05.vspace,
               PassCodeWidget(onChanged: (value) {

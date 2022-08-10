@@ -10,7 +10,6 @@ import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/material_Tap.dart';
 
 import '../../../../utils/styles/styles.dart';
 import '../controllers/create_profile_page_controller.dart';
@@ -20,7 +19,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(gradient: GradConst.GradientBackground),
+      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: Column(
@@ -48,14 +47,14 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                 radius: 0.046.width,
                 backgroundColor: Colors.white,
                 child: SvgPicture.asset(
-                  PathConst.SVG + "add_photo.svg",
+                  "${PathConst.SVG}add_photo.svg",
                   fit: BoxFit.scaleDown,
                 ),
               ),
             ),
           ),
           0.05.vspace,
-          NaanTextfield(hint: "Account Name"),
+          const NaanTextfield(hint: "Account Name"),
           0.02.vspace,
           Align(
             alignment: Alignment.centerLeft,
@@ -68,7 +67,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
           0.03.vspace,
           Expanded(
             child: GridView.count(
-              physics: BouncingScrollPhysics(
+              physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
               crossAxisCount: 4,
               mainAxisSpacing: 0.06.width,
@@ -112,19 +111,19 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
       filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xff07030c).withOpacity(0.49),
-              Color(0xff2d004f),
+              const Color(0xff07030c).withOpacity(0.49),
+              const Color(0xff2d004f),
             ],
           ),
         ),
         width: 1.width,
         height: 296,
-        padding: EdgeInsets.symmetric(horizontal: 32),
+        padding: const EdgeInsets.symmetric(horizontal: 32),
         child: Column(
           children: [
             0.005.vspace,
@@ -148,7 +147,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
             0.03.vspace,
             Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 12,
               ),
               decoration: BoxDecoration(
@@ -169,7 +168,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                       ),
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     color: Color(0xff4a454e),
                     height: 1,
                     thickness: 1,
@@ -186,7 +185,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                       ),
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     color: Color(0xff4a454e),
                     height: 1,
                     thickness: 1,

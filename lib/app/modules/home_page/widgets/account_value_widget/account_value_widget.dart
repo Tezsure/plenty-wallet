@@ -30,7 +30,7 @@ class AccountValueWidget extends StatelessWidget {
                   height: 12,
                   width: 12,
                   child: SvgPicture.asset(
-                      PathConst.HOME_PAGE.SVG + "eye_hide.svg"),
+                      "${PathConst.HOME_PAGE.SVG}eye_hide.svg"),
                 ),
               ),
             ],
@@ -38,7 +38,7 @@ class AccountValueWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(PathConst.HOME_PAGE.SVG + "xtz.svg"),
+              SvgPicture.asset("${PathConst.HOME_PAGE.SVG}xtz.svg"),
               0.02.hspace,
               Text(
                 "1020.00",
@@ -50,11 +50,11 @@ class AccountValueWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              actionMethod("Send", PathConst.HOME_PAGE.SVG + "send.svg"),
+              actionMethod("Send", "${PathConst.HOME_PAGE.SVG}send.svg"),
               0.09.hspace,
-              actionMethod("Receive", PathConst.HOME_PAGE.SVG + "receive.svg"),
+              actionMethod("Receive", "${PathConst.HOME_PAGE.SVG}receive.svg"),
               0.09.hspace,
-              actionMethod("Add", PathConst.HOME_PAGE.SVG + "plus.svg"),
+              actionMethod("Add", "${PathConst.HOME_PAGE.SVG}plus.svg"),
             ],
           ),
           0.06.vspace,
