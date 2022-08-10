@@ -8,7 +8,7 @@ import 'delegate_widget/views/delegate_widget_view.dart';
 import 'info_stories/models/story_page/views/story_page_view.dart';
 import 'liquidity_baking_widget/liquidity_baking_widget.dart';
 import 'my_nfts_widget/my_nfts_widget.dart';
-import 'public_nft_gallery/public_nft_gallery_widget.dart';
+import 'public_nft_gallery/views/public_nft_gallery_widget.dart';
 import 'tezos_price/tezos_price_widget.dart';
 
 /// Check examples from lib/app/modules/widgets/ before adding your custom widget
@@ -21,7 +21,7 @@ final List<Widget> registeredWidgets = [
   const AccountsWidget(),
   const TezosPriceWidget(),
   const MyNFTwidget(),
-  const PublicNFTgalleryWidget(),
+  PublicNFTgalleryWidget(),
   const CommunityProductsWidget(),
   const LiquidityBakingWidget(),
   const DelegateWidget(),

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/public_nft_gallery/controllers/public_nft_gallery_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class PublicNFTgalleryWidget extends StatelessWidget {
-  const PublicNFTgalleryWidget({Key? key}) : super(key: key);
+  PublicNFTgalleryWidget({Key? key}) : super(key: key);
 
+  final PublicNFTgalleryController controller = Get.find();
   @override
   Widget build(BuildContext context) {
-    final PageController controller = PageController(
-      viewportFraction: 0.95,
-    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -26,8 +26,11 @@ class PublicNFTgalleryWidget extends StatelessWidget {
           height: 0.58.width,
           width: 1.width,
           child: PageView(
-            controller: controller,
+            controller: PageController(
+              viewportFraction: 0.95,
+            ),
             scrollDirection: Axis.horizontal,
+            onPageChanged: (index) => controller.onPageChanged(index),
             children: List.generate(
                   3,
                   (index) => nftGallery(),
@@ -40,6 +43,42 @@ class PublicNFTgalleryWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 0.04.width),
           child: Row(
             children: [
+              SizedBox(
+                height: 10,
+                width: 0.55.width,
+                child: ListView.builder(
+                  itemCount: 3,
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  itemBuilder: ((context, index) {
+                    return Obx(() => Visibility(
+                          visible: index == 3 - 1,
+                          replacement: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 2.0),
+                            child: Container(
+                              height: 8,
+                              width: 8,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: controller.selectedIndex.value == index
+                                      ? Colors.white
+                                      : ColorConst.NeutralVariant.shade40),
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.add,
+                            color: controller.selectedIndex.value == 4 - 1
+                                ? Colors.white
+                                : ColorConst.NeutralVariant.shade50,
+                            size: 10,
+                          ),
+                        ));
+                  }),
+                ),
+              ),
               const Spacer(),
               Text(
                 "manage galleries",
