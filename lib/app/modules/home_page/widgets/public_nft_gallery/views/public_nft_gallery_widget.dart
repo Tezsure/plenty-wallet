@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/public_nft_gallery/controllers/public_nft_gallery_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/public_nft_gallery/models/nft_gallery_model.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class PublicNFTgalleryWidget extends StatelessWidget {
-  const PublicNFTgalleryWidget({Key? key}) : super(key: key);
+  PublicNFTgalleryWidget({Key? key}) : super(key: key);
 
+  final PublicNFTgalleryController controller =
+      Get.put<PublicNFTgalleryController>(PublicNFTgalleryController());
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => HomePageController());
-    final HomePageController controller = Get.find();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -27,12 +28,14 @@ class PublicNFTgalleryWidget extends StatelessWidget {
           height: 0.58.width,
           width: 1.width,
           child: PageView(
-            onPageChanged: controller.onIndicatorTapped,
-            controller: PageController(viewportFraction: 0.95, initialPage: 0),
+            controller: PageController(
+              viewportFraction: 0.95,
+            ),
             scrollDirection: Axis.horizontal,
+            onPageChanged: (index) => controller.onPageChanged(index),
             children: List.generate(
-                  3,
-                  (index) => nftGallery(),
+                  controller.galleries.length,
+                  (index) => nftGallery(controller.galleries[index]),
                 ) +
                 <Widget>[addGallery()],
           ),
@@ -46,14 +49,14 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                 height: 10,
                 width: 0.55.width,
                 child: ListView.builder(
-                  itemCount: 4,
+                  itemCount: controller.galleries.length,
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                   padding: EdgeInsets.zero,
                   itemBuilder: ((context, index) {
                     return Obx(() => Visibility(
-                          visible: index == 3,
+                          visible: index == controller.galleries.length - 1,
                           replacement: Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 2.0),
@@ -69,7 +72,8 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                           ),
                           child: Icon(
                             Icons.add,
-                            color: controller.selectedIndex.value == 3
+                            color: controller.selectedIndex.value ==
+                                    controller.galleries.length - 1
                                 ? Colors.white
                                 : ColorConst.NeutralVariant.shade50,
                             size: 10,
@@ -79,9 +83,11 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Text(
-                "manage galleries",
-                style: labelSmall,
+              GestureDetector(
+                child: Text(
+                  "manage galleries",
+                  style: labelSmall,
+                ),
               ),
             ],
           ),
@@ -133,7 +139,7 @@ class PublicNFTgalleryWidget extends StatelessWidget {
     );
   }
 
-  Widget nftGallery() {
+  Widget nftGallery(NFTgalleryModel nftgalleryModel) {
     return Column(
       children: [
         Container(
@@ -149,7 +155,7 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                 height: 0.24.width,
                 width: 0.22.width,
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.white.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(4)),
               ),
               0.035.hspace,
@@ -183,7 +189,7 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                 height: 0.2.width,
                 width: 0.16.width,
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.white.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(4)),
               ),
             ),

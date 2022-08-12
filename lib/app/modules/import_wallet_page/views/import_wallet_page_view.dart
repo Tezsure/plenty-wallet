@@ -181,7 +181,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             barrierColor: Colors.white.withOpacity(0.2),
           );
         },
-        active: controller.phraseText.split(" ").join().length == 12,
+        active: controller.phraseText.split(" ").join().length >= 2,
         inActiveChild: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
