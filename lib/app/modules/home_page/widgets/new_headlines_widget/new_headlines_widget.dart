@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -40,52 +38,55 @@ class NewsHeadlineWidget extends StatelessWidget {
   Widget NewsItem() {
     return Padding(
         padding: EdgeInsets.symmetric(vertical: 0.046.width),
-        child: Container(
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Container(
-              width: 0.18.width,
-              height: 0.18.width,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
+        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          Container(
+            width: 0.18.width,
+            height: 0.18.width,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage(
+                    'assets/temp/headlines.png',
+                  )),
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
-            SizedBox(
-              width: 0.03.width,
-            ),
-            SizedBox(
-              height: 0.18.width,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+          ),
+          SizedBox(
+            width: 0.03.width,
+          ),
+          SizedBox(
+            height: 0.18.width,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "The Crunchy Aggregator - DEX\nTrade Routing For Optimal Text",
+                    style: labelLarge,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                     Text(
-                      "The Crunchy Aggregator - DEX\nTrade Routing For Optimal Text",
-                      style: labelLarge,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                      "July, 31, 2022",
+                      style: labelSmall.apply(
+                          color: ColorConst.NeutralVariant.shade60),
                     ),
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                      Text(
-                        "July, 31, 2022",
-                        style: labelSmall.apply(
-                            color: ColorConst.NeutralVariant.shade60),
-                      ),
-                      SizedBox(
-                        width: 0.03.width,
-                      ),
-                      newsCategory(),
-                    ])
-                  ]),
-            )
-          ]),
-        ));
+                    SizedBox(
+                      width: 0.03.width,
+                    ),
+                    newsCategory(),
+                  ])
+                ]),
+          )
+        ]));
   }
 
   Container newsCategory() {
     return Container(
       height: 20,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
           color: ColorConst.NeutralVariant.shade40,
           borderRadius: BorderRadius.circular(10)),

@@ -155,7 +155,12 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                 height: 0.24.width,
                 width: 0.22.width,
                 decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.5),
+                    image: const DecorationImage(
+                        fit: BoxFit.scaleDown,
+                        image: AssetImage(
+                          'assets/temp/gallery.png',
+                        )),
+                    color: Colors.black,
                     borderRadius: BorderRadius.circular(4)),
               ),
               0.035.hspace,
@@ -189,6 +194,11 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                 height: 0.2.width,
                 width: 0.16.width,
                 decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.contain,
+                        image: AssetImage(
+                          'assets/temp/nft${index + 1}.png',
+                        )),
                     color: Colors.white.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(4)),
               ),

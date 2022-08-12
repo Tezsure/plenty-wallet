@@ -55,6 +55,55 @@ class LiquidityBakingWidget extends StatelessWidget {
             ],
           ),
           0.027.vspace,
+          Container(
+            height: 0.04.height,
+            width: 0.6.width,
+            padding: const EdgeInsets.only(left: 20),
+            decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(25)),
+            child: Center(
+              child: Stack(children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    height: 0.04.height,
+                    width: 0.34.width,
+                    padding: EdgeInsets.zero,
+                    decoration: BoxDecoration(
+                        color: ColorConst.Tertiary.shade90,
+                        borderRadius: BorderRadius.circular(25)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 70.0, top: 8),
+                      child: Text(
+                        'Remove',
+                        style: labelSmall.copyWith(color: ColorConst.Tertiary),
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    height: 0.04.height,
+                    width: 0.23.width,
+                    padding: EdgeInsets.zero,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Add',
+                        style: labelSmall,
+                      ),
+                    ),
+                  ),
+                ),
+              ]),
+            ),
+          ),
+          0.027.vspace,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
