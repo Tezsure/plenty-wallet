@@ -98,7 +98,22 @@ class LiquidityBakingWidget extends StatelessWidget {
           const Center(
             child: LiquidBakingSlider(),
           ),
-          0.03.vspace,
+          Padding(
+            padding: const EdgeInsets.only(left: 17.0, right: 17, top: 10),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(
+                    5,
+                    (index) => Text(
+                          "${index > 0 ? index * 25 : index}%",
+                          style: labelLarge.copyWith(
+                              color: (index * 25) < 24
+                                  ? Colors.black
+                                  : ColorConst.Tertiary.shade60,
+                              fontSize: 12),
+                        ))),
+          ),
+          0.02.vspace,
           MaterialButton(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

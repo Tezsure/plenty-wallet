@@ -7,7 +7,6 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
-import 'package:rive/rive.dart';
 
 import '../controllers/settings_page_controller.dart';
 
@@ -16,98 +15,106 @@ class SettingsPageView extends GetView<SettingsPageController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-        width: 1.width,
-        height: 1.height,
-        padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            0.045.vspace,
-            backButton(),
-            0.065.vspace,
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                child: Column(
-                  children: [
-                    accountOption(),
-                    SizedBox(height: 0.05.width),
-                    connectedAppsOption(),
-                    SizedBox(height: 0.05.width),
-                    settingsSeparator(
-                      title: "Security",
-                      settings: [
-                        settingOption(
-                          title: "Change passcode",
-                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
-                        ),
-                        fingerPrintOption()
-                      ],
-                    ),
-                    SizedBox(height: 0.05.width),
-                    backupOption(),
-                    SizedBox(height: 0.05.width),
-                    settingsSeparator(
-                      title: "Social",
-                      settings: [
-                        settingOption(
-                          title: "Share Naan",
-                          svgPath:
-                              "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
-                        ),
-                        settingOption(
-                          title: "Follow us on Twitter",
-                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
-                        ),
-                        settingOption(
-                          title: "Join our Discord",
-                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
-                        ),
-                        settingOption(
-                          title: "Feedback & Support",
-                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 0.05.width),
-                    settingsSeparator(
-                      title: "About",
-                      settings: [
-                        settingOption(
-                          title: "Privacy Policy",
-                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}privacy.svg",
-                        ),
-                        settingOption(
-                          title: "Terms & Condition",
-                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}terms.svg",
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 0.05.width),
-                    settingsSeparator(
-                      title: "Others",
-                      settings: [
-                        settingOption(
-                          title: "Change Network",
-                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
-                        ),
-                        settingOption(
-                          title: "Node Selector",
-                          svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 0.05.width),
-                    resetOption(),
-                    SizedBox(height: 0.065.width),
-                  ],
+      child: Material(
+        child: Container(
+          decoration:
+              const BoxDecoration(gradient: GradConst.GradientBackground),
+          width: 1.width,
+          height: 1.height,
+          padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              0.045.vspace,
+              backButton(),
+              0.065.vspace,
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
+                  child: Column(
+                    children: [
+                      accountOption(),
+                      SizedBox(height: 0.05.width),
+                      connectedAppsOption(),
+                      SizedBox(height: 0.05.width),
+                      settingsSeparator(
+                        title: "Security",
+                        settings: [
+                          settingOption(
+                            title: "Change passcode",
+                            svgPath:
+                                "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
+                          ),
+                          fingerPrintOption()
+                        ],
+                      ),
+                      SizedBox(height: 0.05.width),
+                      backupOption(),
+                      SizedBox(height: 0.05.width),
+                      settingsSeparator(
+                        title: "Social",
+                        settings: [
+                          settingOption(
+                            title: "Share Naan",
+                            svgPath:
+                                "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
+                          ),
+                          settingOption(
+                            title: "Follow us on Twitter",
+                            svgPath:
+                                "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
+                          ),
+                          settingOption(
+                            title: "Join our Discord",
+                            svgPath:
+                                "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
+                          ),
+                          settingOption(
+                            title: "Feedback & Support",
+                            svgPath:
+                                "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 0.05.width),
+                      settingsSeparator(
+                        title: "About",
+                        settings: [
+                          settingOption(
+                            title: "Privacy Policy",
+                            svgPath:
+                                "${PathConst.SETTINGS_PAGE.SVG}privacy.svg",
+                          ),
+                          settingOption(
+                            title: "Terms & Condition",
+                            svgPath: "${PathConst.SETTINGS_PAGE.SVG}terms.svg",
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 0.05.width),
+                      settingsSeparator(
+                        title: "Others",
+                        settings: [
+                          settingOption(
+                            title: "Change Network",
+                            svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
+                          ),
+                          settingOption(
+                            title: "Node Selector",
+                            svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 0.05.width),
+                      resetOption(),
+                      SizedBox(height: 0.065.width),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -192,28 +199,17 @@ class SettingsPageView extends GetView<SettingsPageController> {
             style: labelMedium,
           ),
           const Spacer(),
-          // SizedBox(
-          //   child: Transform.scale(
-          //     scale: 0.8,
-          //     child: CupertinoSwitch(
-          //       trackColor: ColorConst.Neutral.shade0,
-          //       thumbColor: controller.fingerprint.value
-          //           ? Color.fromARGB(255, 255, 255, 255)
-          //           : ColorConst.NeutralVariant.shade40,
-          //       activeColor: ColorConst.Primary.shade50,
-          //       value: controller.fingerprint.value,
-          //       onChanged: (value) => controller.switchFingerprint(value),
-          //     ),
-          //   ),
-          // ),
           SizedBox(
-            width: 32,
-            height: 18,
-            child: RiveAnimation.asset(
-              "${PathConst.SETTINGS_PAGE.RIVE}switch.riv",
-              fit: BoxFit.scaleDown,
-            ),
-          )
+              width: 32,
+              height: 18,
+              child: Switch.adaptive(
+                value: true,
+                onChanged: (value) {},
+                activeColor: ColorConst.Primary.shade90,
+                activeTrackColor: ColorConst.Primary.shade50,
+                inactiveThumbColor: ColorConst.NeutralVariant.shade40,
+                inactiveTrackColor: ColorConst.Neutral.shade0,
+              )),
         ],
       ),
     );

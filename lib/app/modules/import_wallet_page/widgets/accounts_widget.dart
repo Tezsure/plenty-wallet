@@ -9,34 +9,16 @@ import '../../../../utils/styles/styles.dart';
 class AccountWidget extends StatelessWidget {
   AccountWidget({Key? key}) : super(key: key);
 
-  ImportWalletPageController controller = Get.find();
-
-  bool expanded = false;
+  final ImportWalletPageController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        expanded
-            ? Expanded(
-                flex: 1,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                  ),
-                  child: ListView.separated(
-                    itemBuilder: (context, index) => accountWidget(),
-                    separatorBuilder: (context, index) => const Divider(
-                        color: Color(0xff4a454e), height: 1, thickness: 1),
-                    itemCount: 100,
-                    shrinkWrap: true,
-                  ),
-                ),
-              )
-            : Container(
+        Obx(
+          () => Visibility(
+              visible: controller.isExpanded.isTrue,
+              replacement: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
                 decoration: BoxDecoration(
@@ -51,7 +33,7 @@ class AccountWidget extends StatelessWidget {
                         (index) => accountWidget(),
                       ),
                     ),
-                    if (!expanded)
+                    if (!controller.isExpanded.value)
                       Column(
                         children: [
                           const Divider(
@@ -61,7 +43,7 @@ class AccountWidget extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              expanded = true;
+                              controller.isExpanded.value = true;
                             },
                             child: SizedBox(
                               height: 50,
@@ -78,7 +60,25 @@ class AccountWidget extends StatelessWidget {
                   ],
                 ),
               ),
-        if (!expanded) const Spacer()
+              child: Expanded(
+                flex: 2,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                  ),
+                  child: ListView.separated(
+                    itemBuilder: (context, index) => accountWidget(),
+                    separatorBuilder: (context, index) => const Divider(
+                        color: Color(0xff4a454e), height: 1, thickness: 1),
+                    itemCount: 100,
+                    shrinkWrap: true,
+                  ),
+                ),
+              )),
+        ),
       ],
     );
   }

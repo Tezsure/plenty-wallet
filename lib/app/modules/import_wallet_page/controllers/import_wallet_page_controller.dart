@@ -13,6 +13,7 @@ class ImportWalletPageController extends GetxController {
   // accounts imported;
   RxList<AccountModel> selectedAccounts =
       <AccountModel>[].obs; // accounts selected;
+  RxBool isExpanded = false.obs;
 
   //? FUNCTION
 

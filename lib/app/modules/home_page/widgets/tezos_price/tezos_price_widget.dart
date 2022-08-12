@@ -34,29 +34,35 @@ class TezosPriceWidget extends StatelessWidget {
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
                 "\$${1.86}",
                 style: headlineSmall,
               ),
               0.02.hspace,
-              Row(
-                children: [
-                  const Icon(
-                    false
-                        ? Icons.arrow_upward_outlined
-                        : Icons.arrow_downward_outlined,
-                    size: 14,
-                    color: ColorConst.Error,
-                  ),
-                  0.005.hspace,
-                  Text(
-                    "${0.03}%",
-                    style: labelMedium.apply(
-                      color: ColorConst.Error,
+              Padding(
+                padding: EdgeInsets.only(bottom: 0.006.height),
+                child: RichText(
+                  text: TextSpan(children: [
+                    const WidgetSpan(
+                      child: Icon(
+                        true
+                            ? Icons.arrow_upward_outlined
+                            : Icons.arrow_downward_outlined,
+                        size: 14,
+                        color: ColorConst.green,
+                      ),
                     ),
-                  ),
-                ],
+                    WidgetSpan(child: 0.005.hspace),
+                    TextSpan(
+                      text: "${0.03}%",
+                      style: labelMedium.apply(
+                        color: ColorConst.green,
+                      ),
+                    )
+                  ]),
+                ),
               ),
             ],
           )

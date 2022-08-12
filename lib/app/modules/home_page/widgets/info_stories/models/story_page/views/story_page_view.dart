@@ -42,49 +42,61 @@ class StoryPageView extends GetView<StoryPageController> {
       Key? key})
       : super(key: key);
   @override
-  Widget build(BuildContext context) => SizedBox(
-        height: containerHeight ?? 0.15.height,
-        width: 0.9.width,
-        child: ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: profileImagePath.length,
-            physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics()),
-            shrinkWrap: true,
-            cacheExtent: 5,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () =>
-                    Get.to(() => NaanStoryInfoScreen(stories: stories)),
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: SizedBox(
-                    width: width ?? 70,
-                    height: 70,
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: SvgPicture.asset(
-                            profileImagePath[index],
-                            fit: BoxFit.contain,
+  Widget build(BuildContext context) => Padding(
+        padding: EdgeInsets.only(left: 0.04.width),
+        child: Column(
+          children: [
+            SizedBox(
+              height: containerHeight ?? 0.145.height,
+              width: 1.width,
+              child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: profileImagePath.length,
+                  physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
+                  shrinkWrap: true,
+                  cacheExtent: 5,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () =>
+                          Get.to(() => NaanStoryInfoScreen(stories: stories)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: SizedBox(
+                          width: width ?? 70,
+                          height: 70,
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: SvgPicture.asset(
+                                  profileImagePath[index],
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                              0.012.vspace,
+                              Text(
+                                storyTitle[index],
+                                textAlign: TextAlign.center,
+                                style: labelSmall.copyWith(
+                                  color: ColorConst.Neutral.shade95,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        0.012.vspace,
-                        Text(
-                          storyTitle[index],
-                          textAlign: TextAlign.center,
-                          style: labelSmall.copyWith(
-                            color: ColorConst.Neutral.shade95,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }),
+                      ),
+                    );
+                  }),
+            ),
+            0.02.vspace,
+            Divider(
+              height: 1,
+              color: ColorConst.NeutralVariant.shade20,
+            ),
+          ],
+        ),
       );
 }
 

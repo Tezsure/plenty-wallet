@@ -25,6 +25,7 @@ class AccountValueWidget extends StatelessWidget {
                   color: ColorConst.NeutralVariant.shade70,
                 ),
               ),
+              0.01.hspace,
               GestureDetector(
                 child: SizedBox(
                   height: 12,

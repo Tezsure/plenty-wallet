@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../mock/mock_data.dart';
 import 'accounts_widget/views/accounts_widget_view.dart';
@@ -13,7 +12,6 @@ import 'tezos_price/tezos_price_widget.dart';
 
 /// Check examples from lib/app/modules/widgets/ before adding your custom widget
 final List<Widget> registeredWidgets = [
-  0.02.vspace,
   StoryPageView(
     profileImagePath: MockData.naanInfoStory.values.toList(),
     storyTitle: MockData.naanInfoStory.keys.toList(),

@@ -1,45 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/mock/mock_data.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
+import '../../../../utils/colors/colors.dart';
+import '../../../../utils/styles/styles.dart';
 import '../../../routes/app_pages.dart';
+import '../../common_widgets/bottom_sheet.dart';
+import '../../common_widgets/solid_button.dart';
 
-class HomePageController extends GetxController {
-  HomePageController() {
-    Get.offNamed(Routes.CREATE_WALLET_PAGE);
-  }
-  var currentAccountName = "Account 1".obs; // current selected account's name
-  var currentAccountBalance =
-      254.25548493832.obs; // current selected account's balacne
-
-  var dappSearchTextController = TextEditingController()
-      .obs; // text controller for search bar in dapp search widget
-
-  var listOfTokens = MockData().listOfTokens.obs;
-
-  var tezosHeadlineList = MockData().tezosHeadlineList.obs;
-
-  var listOfNFTTokens = MockData().listOfNFTTokens.obs;
-  var currentNFTIndex = 0.obs;
+class HomePageController extends GetxController with WidgetsBindingObserver {
+  RxBool showBottomSheet = false.obs;
+  RxBool startAnimation = false.obs;
+  RxInt selectedIndex = 0.obs;
 
   @override
   void onInit() {
+    if (Get.arguments != null) {
+      showAnimation(showBottomSheet.value = Get.arguments[0] ?? false);
+    }
     super.onInit();
-    startNFTChangeTimer();
   }
 
-  @override
-  void onClose() {}
-
-  void startNFTChangeTimer() {
-    Future.delayed(const Duration(seconds: 3), () {
-      if (currentNFTIndex.value == listOfNFTTokens.length - 1) {
-        currentNFTIndex.value = 0;
-        startNFTChangeTimer();
-      } else {
-        currentNFTIndex.value++;
-        startNFTChangeTimer();
-      }
-    });
+  void showAnimation(bool showAnimation) {
+    if (showAnimation) {
+      startAnimation.value = true;
+      Future.delayed(const Duration(milliseconds: 3000), () {
+        showBottomSheet();
+        startAnimation.value = false;
+      });
+    }
   }
+
+  void onIndicatorTapped(int index) => selectedIndex.value = index;
 }
+
+void showBottomSheet() => Get.bottomSheet(
+      NaanBottomSheet(
+        gradientStartingOpacity: 1,
+        blurRadius: 5,
+        title: 'Backup Your Wallet',
+        bottomSheetWidgets: [
+          Text(
+            'With no backup. losing your device will result\nin the loss of access forever. The only way to\nguard against losses is to backup your wallet.',
+            textAlign: TextAlign.start,
+            style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
+          ),
+          .03.vspace,
+          SolidButton(
+              textColor: ColorConst.Neutral.shade95,
+              title: "Backup Wallet ( ~1 min )",
+              onPressed: () => Get.toNamed(Routes.BACKUP_WALLET)),
+          0.012.vspace,
+          MaterialButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            padding: EdgeInsets.zero,
+            onPressed: () => Get.back(),
+            child: Container(
+              height: 48,
+              width: 1.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: ColorConst.Neutral.shade80,
+                  width: 1.50,
+                ),
+              ),
+              alignment: Alignment.center,
+              child: Text("I will risk it",
+                  style: titleSmall.apply(color: ColorConst.Primary.shade80)),
+            ),
+          ),
+        ],
+      ),
+      enableDrag: true,
+      isDismissible: true,
+      ignoreSafeArea: false,
+    );

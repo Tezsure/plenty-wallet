@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -27,7 +28,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            0.05.vspace,
+            0.03.vspace,
             Row(
               children: [
                 backButton(),
@@ -91,7 +92,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                         controller.phraseTextController.value,
                                     style: bodyMedium,
                                     onChanged: (value) {
-                                      print(value);
+                                      controller.onTextChange(value);
                                     },
                                     maxLines: null,
                                     minLines: null,
@@ -105,20 +106,15 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                         border: InputBorder.none),
                                   ),
                                 ),
-                                controller.phraseTextController.value.text !=
-                                            "" &&
-                                        controller.phraseTextController.value
-                                            .text.isNotEmpty
+                                controller.phraseText.isNotEmpty ||
+                                        controller.phraseText.value != ""
                                     ? Align(
                                         alignment: Alignment.bottomRight,
                                         child: GestureDetector(
                                           onTap: () {
                                             controller.phraseTextController
                                                 .value.text = "";
-                                            controller.phraseTextController
-                                                    .value =
-                                                controller
-                                                    .phraseTextController.value;
+                                            controller.phraseText.value = "";
                                           },
                                           child: Text(
                                             "Clear",
@@ -140,8 +136,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               ),
             ),
             Obx(
-              () => controller.phraseTextController.value.text == "" ||
-                      controller.phraseTextController.value.text.isEmpty
+              () => controller.phraseText.isEmpty ||
+                      controller.phraseText.value == ""
                   ? pasteButton()
                   : importButton(),
             ),
@@ -185,8 +181,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             barrierColor: Colors.white.withOpacity(0.2),
           );
         },
-        active:
-            controller.phraseTextController.value.text.split(" ").length == 12,
+        active: controller.phraseText.split(" ").join().length == 12,
         inActiveChild: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -262,7 +257,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             ),
             0.03.vspace,
             SolidButton(
-              onPressed: () {},
+              onPressed: () =>
+                  Get.offAllNamed(Routes.HOME_PAGE, arguments: [true]),
               title: "Continue",
             ),
             0.05.vspace
