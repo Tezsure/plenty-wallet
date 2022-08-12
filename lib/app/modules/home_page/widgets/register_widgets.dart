@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/new_headlines_widget/new_headlines_widget.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../mock/mock_data.dart';
@@ -25,4 +26,5 @@ final List<Widget> registeredWidgets = [
   const CommunityProductsWidget(),
   const LiquidityBakingWidget(),
   const DelegateWidget(),
+  const NewsHeadlineWidget()
 ];

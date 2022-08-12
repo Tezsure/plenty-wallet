@@ -140,8 +140,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               ),
             ),
             Obx(
-              () => controller.phraseTextController.value.text == "" ||
-                      controller.phraseTextController.value.text.isEmpty
+              () => controller.phraseTextController.value.value.text.isEmpty
                   ? pasteButton()
                   : importButton(),
             ),
@@ -185,8 +184,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             barrierColor: Colors.white.withOpacity(0.2),
           );
         },
-        active:
-            controller.phraseTextController.value.text.split(" ").length == 12,
+        active: controller.phraseTextController.value.text.length >= 2,
         inActiveChild: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

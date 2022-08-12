@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/public_nft_gallery/controllers/public_nft_gallery_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/public_nft_gallery/models/nft_gallery_model.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -8,7 +9,8 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 class PublicNFTgalleryWidget extends StatelessWidget {
   PublicNFTgalleryWidget({Key? key}) : super(key: key);
 
-  final PublicNFTgalleryController controller = Get.find();
+  final PublicNFTgalleryController controller =
+      Get.put<PublicNFTgalleryController>(PublicNFTgalleryController());
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,8 +34,8 @@ class PublicNFTgalleryWidget extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             onPageChanged: (index) => controller.onPageChanged(index),
             children: List.generate(
-                  3,
-                  (index) => nftGallery(),
+                  controller.galleries.length,
+                  (index) => nftGallery(controller.galleries[index]),
                 ) +
                 <Widget>[addGallery()],
           ),
@@ -47,14 +49,14 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                 height: 10,
                 width: 0.55.width,
                 child: ListView.builder(
-                  itemCount: 3,
+                  itemCount: controller.galleries.length,
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                   padding: EdgeInsets.zero,
                   itemBuilder: ((context, index) {
                     return Obx(() => Visibility(
-                          visible: index == 3 - 1,
+                          visible: index == controller.galleries.length - 1,
                           replacement: Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 2.0),
@@ -70,7 +72,8 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                           ),
                           child: Icon(
                             Icons.add,
-                            color: controller.selectedIndex.value == 4 - 1
+                            color: controller.selectedIndex.value ==
+                                    controller.galleries.length - 1
                                 ? Colors.white
                                 : ColorConst.NeutralVariant.shade50,
                             size: 10,
@@ -80,9 +83,11 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Text(
-                "manage galleries",
-                style: labelSmall,
+              GestureDetector(
+                child: Text(
+                  "manage galleries",
+                  style: labelSmall,
+                ),
               ),
             ],
           ),
@@ -134,7 +139,7 @@ class PublicNFTgalleryWidget extends StatelessWidget {
     );
   }
 
-  Widget nftGallery() {
+  Widget nftGallery(NFTgalleryModel nftgalleryModel) {
     return Column(
       children: [
         Container(
@@ -150,7 +155,7 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                 height: 0.24.width,
                 width: 0.22.width,
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.white.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(4)),
               ),
               0.035.hspace,
@@ -184,7 +189,7 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                 height: 0.2.width,
                 width: 0.16.width,
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.white.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(4)),
               ),
             ),
