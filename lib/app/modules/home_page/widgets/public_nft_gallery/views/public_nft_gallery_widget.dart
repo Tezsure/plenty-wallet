@@ -7,12 +7,12 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class PublicNFTgalleryWidget extends StatelessWidget {
-  PublicNFTgalleryWidget({Key? key}) : super(key: key);
+  const PublicNFTgalleryWidget({Key? key}) : super(key: key);
 
-  final PublicNFTgalleryController controller =
-      Get.put<PublicNFTgalleryController>(PublicNFTgalleryController());
   @override
   Widget build(BuildContext context) {
+    final PublicNFTgalleryController controller =
+        Get.put<PublicNFTgalleryController>(PublicNFTgalleryController());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -49,14 +49,14 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                 height: 10,
                 width: 0.55.width,
                 child: ListView.builder(
-                  itemCount: controller.galleries.length,
+                  itemCount: 4,
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                   padding: EdgeInsets.zero,
                   itemBuilder: ((context, index) {
                     return Obx(() => Visibility(
-                          visible: index == controller.galleries.length - 1,
+                          visible: index == 3,
                           replacement: Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 2.0),
@@ -72,8 +72,7 @@ class PublicNFTgalleryWidget extends StatelessWidget {
                           ),
                           child: Icon(
                             Icons.add,
-                            color: controller.selectedIndex.value ==
-                                    controller.galleries.length - 1
+                            color: controller.selectedIndex.value == 3
                                 ? Colors.white
                                 : ColorConst.NeutralVariant.shade50,
                             size: 10,

@@ -13,6 +13,20 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   RxBool startAnimation = false.obs;
   RxInt selectedIndex = 0.obs;
 
+  // Liquidity Baking
+  RxBool isEnabled = false.obs; // To animate LB Button
+  final Duration animationDuration =
+      const Duration(milliseconds: 500); // Toggle LB Button Animation Duration
+  RxDouble sliderValue = 0.0.obs;
+
+  void onTapLiquidityBaking() {
+    isEnabled.value = !isEnabled.value;
+  }
+
+  void onSliderChange(double value) {
+    sliderValue.value = value;
+  }
+
   @override
   void onInit() {
     if (Get.arguments != null) {
