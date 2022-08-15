@@ -1,12 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:naan_wallet/app/modules/settings_page/widget/flutter_switch.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:rive/rive.dart';
 
 import '../controllers/settings_page_controller.dart';
 
@@ -199,17 +202,23 @@ class SettingsPageView extends GetView<SettingsPageController> {
             style: labelMedium,
           ),
           const Spacer(),
-          SizedBox(
-              width: 32,
+          
+          Obx(
+            () => FlutterSwitch(
+              value: controller.fingerprint.value,
+              onToggle: (value) {
+                controller.switchFingerprint(value);
+              },
               height: 18,
-              child: Switch.adaptive(
-                value: true,
-                onChanged: (value) {},
-                activeColor: ColorConst.Primary.shade90,
-                activeTrackColor: ColorConst.Primary.shade50,
-                inactiveThumbColor: ColorConst.NeutralVariant.shade40,
-                inactiveTrackColor: ColorConst.Neutral.shade0,
-              )),
+              width: 32,
+              padding: 2,
+              toggleSize: 14,
+              activeColor: ColorConst.Primary.shade50,
+              activeToggleColor: ColorConst.Primary.shade90,
+              inactiveColor: ColorConst.Neutral.shade0,
+              inactiveToggleColor: ColorConst.NeutralVariant.shade40,
+            ),
+          )
         ],
       ),
     );

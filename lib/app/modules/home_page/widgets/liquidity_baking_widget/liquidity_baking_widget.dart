@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/liquidity_baking_widget/widgets/add_or_remove_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/liquidity_baking_widget/widgets/custom_slider.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -55,54 +56,7 @@ class LiquidityBakingWidget extends StatelessWidget {
             ],
           ),
           0.027.vspace,
-          Container(
-            height: 0.04.height,
-            width: 0.6.width,
-            padding: const EdgeInsets.only(left: 20),
-            decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(25)),
-            child: Center(
-              child: Stack(children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    height: 0.04.height,
-                    width: 0.34.width,
-                    padding: EdgeInsets.zero,
-                    decoration: BoxDecoration(
-                        color: ColorConst.Tertiary.shade90,
-                        borderRadius: BorderRadius.circular(25)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 70.0, top: 8),
-                      child: Text(
-                        'Remove',
-                        style: labelSmall.copyWith(color: ColorConst.Tertiary),
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    height: 0.04.height,
-                    width: 0.23.width,
-                    padding: EdgeInsets.zero,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Add',
-                        style: labelSmall,
-                      ),
-                    ),
-                  ),
-                ),
-              ]),
-            ),
-          ),
+          AddOrRemoveWiget(onChanged: (addBool) {}),
           0.027.vspace,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -144,6 +98,7 @@ class LiquidityBakingWidget extends StatelessWidget {
             "1 XTZ (\$.1.56) = 0.00007278 SIRS",
             style: labelSmall.apply(color: Colors.black),
           ),
+          0.05.vspace,
           const Center(
             child: LiquidBakingSlider(),
           ),
@@ -207,6 +162,10 @@ class _LiquidBakingSliderState extends State<LiquidBakingSlider> {
       width: 1.width,
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
+          valueIndicatorColor: ColorConst.Tertiary.shade95,
+          valueIndicatorTextStyle: labelSmall.apply(color: Colors.black),
+          rangeValueIndicatorShape:
+              const PaddleRangeSliderValueIndicatorShape(),
           trackHeight: 6,
           thumbShape: const CustomRoundSliderThumbShape(enabledThumbRadius: 10),
           overlayShape: const RoundSliderOverlayShape(overlayRadius: 10),
