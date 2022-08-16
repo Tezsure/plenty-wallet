@@ -30,38 +30,43 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                   titleSmall.copyWith(color: ColorConst.NeutralVariant.shade50),
             ),
             0.013.vspace,
-            Visibility(
-              visible: controller.accountsList.isEmpty,
-              replacement: SizedBox(
-                width: 1.width,
-                height: 0.28.height,
-                child: PageView.builder(
-                    padEnds: false,
-                    itemCount: controller.accountsList.length,
-                    controller: PageController(
-                      viewportFraction: 0.98,
-                      initialPage: 0,
-                    ),
-                    onPageChanged: (val) => controller.onPageChanged(val),
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (_, index) {
-                      return Visibility(
-                        visible: index == controller.accountsList.length - 1,
-                        replacement: Padding(
-                          padding: const EdgeInsets.only(right: 12.0),
-                          child: AccountsContainer(
-                              imagePath:
-                                  controller.imagePath[Random().nextInt(3)]),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.only(right: 12.0),
-                          child: AddAccountWidget(),
-                        ),
-                      );
-                    }),
+            Obx(
+              () => Visibility(
+                visible: controller.accountsList.isEmpty,
+                replacement: SizedBox(
+                  width: 1.width,
+                  height: 0.28.height,
+                  child: PageView.builder(
+                      padEnds: false,
+                      itemCount: controller.accountsList.length,
+                      controller: PageController(
+                        viewportFraction: controller.accountsList.length - 1 ==
+                                controller.selectedAccountIndex.value
+                            ? 1
+                            : 0.98,
+                        initialPage: 0,
+                      ),
+                      onPageChanged: (val) => controller.onPageChanged(val),
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (_, index) {
+                        return Visibility(
+                          visible: index == controller.accountsList.length - 1,
+                          replacement: Padding(
+                            padding: const EdgeInsets.only(right: 12.0),
+                            child: AccountsContainer(
+                                imagePath:
+                                    controller.imagePath[Random().nextInt(3)]),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.only(right: 12.0),
+                            child: AddAccountWidget(),
+                          ),
+                        );
+                      }),
+                ),
+                child: const AddAccountWidget(),
               ),
-              child: const AddAccountWidget(),
             ),
             Visibility(
               visible: controller.accountsList.isEmpty,

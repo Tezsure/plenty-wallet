@@ -29,28 +29,28 @@ class _CommunityProductsWidgetState extends State<CommunityProductsWidget> {
                   titleSmall.copyWith(color: ColorConst.NeutralVariant.shade50),
             ),
           ),
-          PageView.builder(
-            itemCount: 5,
-            onPageChanged: (value) {
-              setState(() {
-                currentIndex = value;
-              });
-            },
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (_, index) => Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 2.0),
-                child: Container(
-                  height: 165,
-                  width: 0.85.width,
-                  decoration: const BoxDecoration(
-                    color: Color(0xff343131),
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(12),
-                        topLeft: Radius.circular(12)),
-                  ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: Container(
+              height: 165,
+              width: 1.width,
+              decoration: const BoxDecoration(
+                color: Color(0xff343131),
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(12),
+                    topLeft: Radius.circular(12)),
+              ),
+              child: PageView.builder(
+                itemCount: 5,
+                onPageChanged: (value) {
+                  setState(() {
+                    currentIndex = value;
+                  });
+                },
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (_, index) => Padding(
+                  padding: const EdgeInsets.only(left: 2.0),
                   child: Image.asset(
                     'assets/temp/community.png',
                     fit: BoxFit.scaleDown,

@@ -47,7 +47,7 @@ class StoryPageView extends GetView<StoryPageController> {
         child: Column(
           children: [
             SizedBox(
-              height: containerHeight ?? 0.145.height,
+              height: containerHeight ?? 0.15.height,
               width: 1.width,
               child: ListView.builder(
                   padding: EdgeInsets.zero,
@@ -65,7 +65,6 @@ class StoryPageView extends GetView<StoryPageController> {
                         padding: const EdgeInsets.only(right: 20),
                         child: SizedBox(
                           width: width ?? 70,
-                          height: 70,
                           child: Column(
                             children: [
                               ClipRRect(

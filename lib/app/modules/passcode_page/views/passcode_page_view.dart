@@ -18,13 +18,12 @@ class PasscodePageView extends GetView<PasscodePageController> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-        // width: 1.width,
         padding: const EdgeInsets.symmetric(horizontal: 21),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              0.05.vspace,
+              0.02.vspace,
               Align(
                 alignment: Alignment.centerLeft,
                 child: backButton(),

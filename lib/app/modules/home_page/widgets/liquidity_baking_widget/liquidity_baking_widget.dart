@@ -32,33 +32,37 @@ class LiquidityBakingWidget extends GetView<HomePageController> {
       child: Column(
         children: [
           0.075.vspace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Earn ",
-                style: headlineMedium.apply(color: Colors.black),
-              ),
-              Text(
-                "31% APR",
-                style: headlineMedium.apply(color: Colors.black),
-              ),
-            ],
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+                text: 'Earn ',
+                style: const TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 24,
+                    color: Colors.black),
+                children: [
+                  const TextSpan(
+                    text: '31% APR\n',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 24,
+                        color: Colors.black),
+                  ),
+                  const TextSpan(
+                    text: 'on your ',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 24,
+                        color: Colors.black),
+                  ),
+                  WidgetSpan(
+                      child: SvgPicture.asset(
+                    "${PathConst.HOME_PAGE.SVG}xtz.svg",
+                    color: Colors.black,
+                  ))
+                ]),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "on your ",
-                style: headlineMedium.apply(color: Colors.black),
-              ),
-              SvgPicture.asset(
-                "${PathConst.HOME_PAGE.SVG}xtz.svg",
-                color: Colors.black,
-              )
-            ],
-          ),
-          0.027.vspace,
+          0.03.vspace,
           Container(
             height: 0.045.height,
             width: 0.42.width,
@@ -100,7 +104,7 @@ class LiquidityBakingWidget extends GetView<HomePageController> {
                   ],
                 )),
           ),
-          0.027.vspace,
+          0.015.vspace,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -132,7 +136,6 @@ class LiquidityBakingWidget extends GetView<HomePageController> {
               ),
             ],
           ),
-          0.01.vspace,
           Obx(() => Text(
                 !controller.isEnabled.value
                     ? "SIRS : 0"
@@ -144,6 +147,7 @@ class LiquidityBakingWidget extends GetView<HomePageController> {
             "1 XTZ (\$.1.56) = 0.00007278 SIRS",
             style: labelSmall.apply(color: Colors.black),
           ),
+          0.04.vspace,
           Center(
             child: Obx(() => LiquidityBakingSlider(
                   onChanged: controller.onSliderChange,
