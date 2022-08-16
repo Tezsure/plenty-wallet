@@ -3,7 +3,8 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 class WidgetWrapper2x1 extends StatelessWidget {
   /// This wrapper widget takes half of the screen's width and is square(height = width) in shape.
-  WidgetWrapper2x1(this.gradient, {required this.child});
+  const WidgetWrapper2x1(this.gradient, {Key? key, required this.child})
+      : super(key: key);
   final Gradient gradient;
   final Widget child;
   @override

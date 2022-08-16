@@ -51,7 +51,7 @@ class NFTToken {
     if (json['royalties'] != null) {
       royalties = <Royalties>[];
       json['royalties'].forEach((v) {
-        royalties!.add(new Royalties.fromJson(v));
+        royalties!.add(Royalties.fromJson(v));
       });
     }
     supply = json['supply'];
@@ -63,56 +63,56 @@ class NFTToken {
     if (json['creators'] != null) {
       creators = <Creators>[];
       json['creators'].forEach((v) {
-        creators!.add(new Creators.fromJson(v));
+        creators!.add(Creators.fromJson(v));
       });
     }
     if (json['holders'] != null) {
       holders = <Holders>[];
       json['holders'].forEach((v) {
-        holders!.add(new Holders.fromJson(v));
+        holders!.add(Holders.fromJson(v));
       });
     }
     if (json['events'] != null) {
       events = <Events>[];
       json['events'].forEach((v) {
-        events!.add(new Events.fromJson(v));
+        events!.add(Events.fromJson(v));
       });
     }
-    fa = json['fa'] != null ? new Fa.fromJson(json['fa']) : null;
+    fa = json['fa'] != null ? Fa.fromJson(json['fa']) : null;
     metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['artifact_uri'] = this.artifactUri;
-    data['description'] = this.description;
-    data['display_uri'] = this.displayUri;
-    data['lowest_ask'] = this.lowestAsk;
-    data['level'] = this.level;
-    data['mime'] = this.mime;
-    data['pk'] = this.pk;
-    if (this.royalties != null) {
-      data['royalties'] = this.royalties!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['artifact_uri'] = artifactUri;
+    data['description'] = description;
+    data['display_uri'] = displayUri;
+    data['lowest_ask'] = lowestAsk;
+    data['level'] = level;
+    data['mime'] = mime;
+    data['pk'] = pk;
+    if (royalties != null) {
+      data['royalties'] = royalties!.map((v) => v.toJson()).toList();
     }
-    data['supply'] = this.supply;
-    data['thumbnail_uri'] = this.thumbnailUri;
-    data['timestamp'] = this.timestamp;
-    data['fa_contract'] = this.faContract;
-    data['token_id'] = this.tokenId;
-    data['name'] = this.name;
-    if (this.creators != null) {
-      data['creators'] = this.creators!.map((v) => v.toJson()).toList();
+    data['supply'] = supply;
+    data['thumbnail_uri'] = thumbnailUri;
+    data['timestamp'] = timestamp;
+    data['fa_contract'] = faContract;
+    data['token_id'] = tokenId;
+    data['name'] = name;
+    if (creators != null) {
+      data['creators'] = creators!.map((v) => v.toJson()).toList();
     }
-    if (this.holders != null) {
-      data['holders'] = this.holders!.map((v) => v.toJson()).toList();
+    if (holders != null) {
+      data['holders'] = holders!.map((v) => v.toJson()).toList();
     }
-    if (this.events != null) {
-      data['events'] = this.events!.map((v) => v.toJson()).toList();
+    if (events != null) {
+      data['events'] = events!.map((v) => v.toJson()).toList();
     }
-    if (this.fa != null) {
-      data['fa'] = this.fa!.toJson();
+    if (fa != null) {
+      data['fa'] = fa!.toJson();
     }
-    data['metadata'] = this.metadata;
+    data['metadata'] = metadata;
     return data;
   }
 }
@@ -131,10 +131,10 @@ class Royalties {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['decimals'] = this.decimals;
-    data['amount'] = this.amount;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['decimals'] = decimals;
+    data['amount'] = amount;
     return data;
   }
 }
@@ -151,9 +151,9 @@ class Creators {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['creator_address'] = this.creatorAddress;
-    data['token_pk'] = this.tokenPk;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['creator_address'] = creatorAddress;
+    data['token_pk'] = tokenPk;
     return data;
   }
 }
@@ -170,9 +170,9 @@ class Holders {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['quantity'] = this.quantity;
-    data['holder_address'] = this.holderAddress;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['quantity'] = quantity;
+    data['holder_address'] = holderAddress;
     return data;
   }
 }
@@ -204,23 +204,23 @@ class Events {
     recipientAddress = json['recipient_address'];
     timestamp = json['timestamp'];
     creator =
-        json['creator'] != null ? new Creator.fromJson(json['creator']) : null;
+        json['creator'] != null ? Creator.fromJson(json['creator']) : null;
     eventType = json['event_type'];
     amount = json['amount'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['fa_contract'] = this.faContract;
-    data['price'] = this.price;
-    data['recipient_address'] = this.recipientAddress;
-    data['timestamp'] = this.timestamp;
-    if (this.creator != null) {
-      data['creator'] = this.creator!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['fa_contract'] = faContract;
+    data['price'] = price;
+    data['recipient_address'] = recipientAddress;
+    data['timestamp'] = timestamp;
+    if (creator != null) {
+      data['creator'] = creator!.toJson();
     }
-    data['event_type'] = this.eventType;
-    data['amount'] = this.amount;
+    data['event_type'] = eventType;
+    data['amount'] = amount;
     return data;
   }
 }
@@ -237,9 +237,9 @@ class Creator {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['address'] = this.address;
-    data['alias'] = this.alias;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['address'] = address;
+    data['alias'] = alias;
     return data;
   }
 }
@@ -258,10 +258,10 @@ class Fa {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['collection_type'] = this.collectionType;
-    data['floor_price'] = this.floorPrice;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['collection_type'] = collectionType;
+    data['floor_price'] = floorPrice;
     return data;
   }
 }
