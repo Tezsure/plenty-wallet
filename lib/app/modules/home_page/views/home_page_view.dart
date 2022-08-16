@@ -1,85 +1,117 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/widgets/register_widgets.dart';
+import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../controllers/home_page_controller.dart';
+import '../widgets/account_value_widget/account_value_widget.dart';
+import '../widgets/home_app_bar_widget/home_app_bar_widget.dart';
+import '../widgets/register_widgets.dart';
 
-class HomePageView extends GetView<HomePageController> {
+class HomePageView extends GetView<HomePageController>
+    with WidgetsBindingObserver {
+  const HomePageView({
+    Key? key,
+  }) : super(key: key);
+
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Container(
-          width: 1.width,
-          decoration: BoxDecoration(
-            gradient: background,
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        AnnotatedRegion(
+          value: SystemUiOverlayStyle(
+            systemNavigationBarColor: ColorConst.Primary.shade0,
           ),
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Stack(
-              children: [
-                //background gradient color
-                Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: background,
+          child: Scaffold(
+              body: Container(
+                  width: 1.width,
+                  color: ColorConst.Primary,
+                  child: SafeArea(
+                    child: Stack(
+                      children: [
+                        Column(
+                          children: const [
+                            HomepageAppBar(),
+                            AccountValueWidget(),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 83),
+                          child: SizedBox(
+                            height: 1.height,
+                            width: 1.width,
+                            child: DraggableScrollableSheet(
+                              initialChildSize: 0.6,
+                              maxChildSize: 1,
+                              minChildSize: 0.6,
+                              snap: true,
+                              builder: (_, scrollController) => Container(
+                                decoration: const BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(12))),
+                                child: Column(
+                                  children: [
+                                    0.01.vspace,
+                                    Container(
+                                      height: 5,
+                                      width: 36,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: ColorConst.NeutralVariant.shade60
+                                            .withOpacity(0.3),
+                                      ),
+                                    ),
+                                    0.02.vspace,
+                                    Expanded(
+                                      child: SingleChildScrollView(
+                                        controller: scrollController,
+                                        child: Wrap(
+                                          alignment: WrapAlignment.center,
+                                          crossAxisAlignment:
+                                              WrapCrossAlignment.center,
+                                          runAlignment: WrapAlignment.center,
+                                          runSpacing: 28,
+                                          spacing: 10,
+                                          children: registeredWidgets,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ))),
+        ),
+        Obx(() => Visibility(
+              visible: controller.startAnimation.value,
+              child: Stack(
+                children: [
+                  Container(
+                    height: 1.height,
+                    width: 1.width,
+                    color: Colors.black,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: LottieBuilder.asset(
+                      'assets/create_wallet/lottie/wallet_success.json',
+                      fit: BoxFit.contain,
+                      height: 0.5.height,
+                      width: 0.5.width,
+                      frameRate: FrameRate(60),
                     ),
                   ),
-                ),
-                Column(
-                  children: [
-                    (MediaQuery.of(context).padding.top + 20)
-                        .vspace, //notification bar padding + 20
-
-                    appBar(),
-
-                    32.vspace, //header spacing
-
-                    Padding(
-                      padding: const EdgeInsets.only(left: 24.0, right: 24),
-                      child: Wrap(
-                        runSpacing: 28,
-                        spacing: 20,
-                        children: registeredWidgets,
-                      ),
-                    ),
-                    28.vspace,
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-
-  /// App Bar for Home Page
-  Widget appBar() => Container(
-        height: 34,
-        padding: EdgeInsets.symmetric(
-            horizontal:
-                35), // 24 + 11 = 35.24 is Foundation padding and 11 is internal widget padding
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/home_page/scanner.png",
-              height: 25,
-            ),
-            Container(
-              height: 34,
-              width: 34,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white,
+                ],
               ),
-            ),
-          ],
-        ),
-      );
+            ))
+      ],
+    );
+  }
 }
