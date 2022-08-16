@@ -9,7 +9,8 @@ class ImportWalletPageController extends GetxController {
   Rx<bool> showSuccessAnimation = false.obs; // to show success animation
   Rx<TextEditingController> phraseTextController = TextEditingController().obs;
   Rx<String> phraseText = "".obs; // to store phrase text
-  RxList<AccountModel> accounts = <AccountModel>[].obs;
+  RxList<AccountModel> accounts = List.generate(
+      4, (index) => AccountModel(address: "tezdnenfjeb", balance: 60)).obs;
   // accounts imported;
   RxList<AccountModel> selectedAccounts =
       <AccountModel>[].obs; // accounts selected;
@@ -38,6 +39,25 @@ class ImportWalletPageController extends GetxController {
 
   /// To assign the phrase text to the phrase text variable
   void onTextChange(String value) => phraseText.value = value;
+
+  /// load acounts
+  void showMoreAccounts() {
+    if (accounts.length + 4 < 100) {
+      for (var i = 0; i < 4; i++) {
+        accounts.add(
+          AccountModel(address: "tezdnenfjeb", balance: 60),
+        );
+      }
+    } else if (accounts.length < 100) {
+      for (var i = 0; i < 2; i++) {
+        accounts.add(
+          AccountModel(address: "tezdnenfjeb", balance: 60),
+        );
+      }
+    }
+  }
+
+  
 
   @override
   void dispose() {
