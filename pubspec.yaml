@@ -36,7 +36,6 @@ flutter:
     #settings page
     - assets/settings_page/
     - assets/settings_page/svg/
-    - assets/settings_page/rive/
     #onboarding page
     - assets/onboarding_page/
     - assets/onboarding_page/lottie/

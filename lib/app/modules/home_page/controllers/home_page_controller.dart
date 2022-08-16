@@ -16,7 +16,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   // Liquidity Baking
   RxBool isEnabled = false.obs; // To animate LB Button
   final Duration animationDuration =
-      const Duration(milliseconds: 500); // Toggle LB Button Animation Duration
+      const Duration(milliseconds: 100); // Toggle LB Button Animation Duration
   RxDouble sliderValue = 0.0.obs;
 
   void onTapLiquidityBaking() {
@@ -39,56 +39,56 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
     if (showAnimation) {
       startAnimation.value = true;
       Future.delayed(const Duration(milliseconds: 3000), () {
-        showBottomSheet();
         startAnimation.value = false;
+        Get.bottomSheet(
+          NaanBottomSheet(
+            gradientStartingOpacity: 1,
+            blurRadius: 5,
+            title: 'Backup Your Wallet',
+            bottomSheetWidgets: [
+              Text(
+                'With no backup. losing your device will result\nin the loss of access forever. The only way to\nguard against losses is to backup your wallet.',
+                textAlign: TextAlign.start,
+                style: bodySmall.copyWith(
+                    color: ColorConst.NeutralVariant.shade60),
+              ),
+              .03.vspace,
+              SolidButton(
+                  textColor: ColorConst.Neutral.shade95,
+                  title: "Backup Wallet ( ~1 min )",
+                  onPressed: () => Get.toNamed(Routes.BACKUP_WALLET)),
+              0.012.vspace,
+              MaterialButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                padding: EdgeInsets.zero,
+                onPressed: () => Get.back(),
+                child: Container(
+                  height: 48,
+                  width: 1.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: ColorConst.Neutral.shade80,
+                      width: 1.50,
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text("I will risk it",
+                      style:
+                          titleSmall.apply(color: ColorConst.Primary.shade80)),
+                ),
+              ),
+            ],
+          ),
+          enableDrag: true,
+          isDismissible: true,
+          ignoreSafeArea: false,
+        );
       });
     }
   }
 
   void onIndicatorTapped(int index) => selectedIndex.value = index;
 }
-
-void showBottomSheet() => Get.bottomSheet(
-      NaanBottomSheet(
-        gradientStartingOpacity: 1,
-        blurRadius: 5,
-        title: 'Backup Your Wallet',
-        bottomSheetWidgets: [
-          Text(
-            'With no backup. losing your device will result\nin the loss of access forever. The only way to\nguard against losses is to backup your wallet.',
-            textAlign: TextAlign.start,
-            style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
-          ),
-          .03.vspace,
-          SolidButton(
-              textColor: ColorConst.Neutral.shade95,
-              title: "Backup Wallet ( ~1 min )",
-              onPressed: () => Get.toNamed(Routes.BACKUP_WALLET)),
-          0.012.vspace,
-          MaterialButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            padding: EdgeInsets.zero,
-            onPressed: () => Get.back(),
-            child: Container(
-              height: 48,
-              width: 1.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: ColorConst.Neutral.shade80,
-                  width: 1.50,
-                ),
-              ),
-              alignment: Alignment.center,
-              child: Text("I will risk it",
-                  style: titleSmall.apply(color: ColorConst.Primary.shade80)),
-            ),
-          ),
-        ],
-      ),
-      enableDrag: true,
-      isDismissible: true,
-      ignoreSafeArea: false,
-    );

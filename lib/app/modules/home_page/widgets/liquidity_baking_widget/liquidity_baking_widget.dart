@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/liquidity_baking_widget/widgets/add_or_remove_widget.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/liquidity_baking_widget/widgets/custom_slider.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+
+import 'widgets/liquidity_baking_slider.dart';
 
 class LiquidityBakingWidget extends GetView<HomePageController> {
   final bool add = true;
@@ -66,48 +66,40 @@ class LiquidityBakingWidget extends GetView<HomePageController> {
               color: ColorConst.Tertiary.shade90,
               borderRadius: BorderRadius.circular(25),
             ),
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Add',
-                        style: labelSmall.copyWith(color: ColorConst.Tertiary),
-                      ),
-                      Text(
-                        'Remove',
-                        textAlign: TextAlign.center,
-                        style: labelSmall.copyWith(color: ColorConst.Tertiary),
-                      ),
-                    ],
-                  ),
-                ),
-                Obx(() => AnimatedAlign(
-                      duration: controller.animationDuration,
+            child: Obx(() => Stack(
+                  children: [
+                    AnimatedAlign(
                       alignment: controller.isEnabled.value
                           ? Alignment.centerRight
                           : Alignment.centerLeft,
-                      child: MaterialButton(
-                        elevation: 0,
-                        color: Colors.black,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25)),
-                        onPressed: () => controller.onTapLiquidityBaking(),
-                        child: Text(
-                          controller.isEnabled.value ? 'Remove' : 'Add',
-                          style: labelSmall.copyWith(color: Colors.white),
+                      duration: controller.animationDuration,
+                      child: Container(
+                        width: 0.21.width,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(25.sp),
                         ),
                       ),
-                    )),
-              ],
-            ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CustomButton(
+                          onTap: () => controller.onTapLiquidityBaking(),
+                          isEnabled: !controller.isEnabled.value,
+                          text: 'Add',
+                        ),
+                        CustomButton(
+                          onTap: () => controller.onTapLiquidityBaking(),
+                          isEnabled: controller.isEnabled.value,
+                          text: 'Remove',
+                        ),
+                      ],
+                    ),
+                  ],
+                )),
           ),
-          0.01.vspace,
-          AddOrRemoveWiget(onChanged: (addBool) {}),
           0.027.vspace,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -209,35 +201,32 @@ class LiquidityBakingWidget extends GetView<HomePageController> {
   }
 }
 
-class LiquidityBakingSlider extends StatelessWidget {
-  final double sliderValue;
-  final Function(double) onChanged;
-  const LiquidityBakingSlider(
-      {Key? key, required this.sliderValue, required this.onChanged})
-      : super(key: key);
+class CustomButton extends StatelessWidget {
+  final bool isEnabled;
+  final Function() onTap;
+  final String text;
+  const CustomButton({
+    Key? key,
+    required this.isEnabled,
+    required this.onTap,
+    required this.text,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 1.width,
-      child: SliderTheme(
-        data: SliderTheme.of(context).copyWith(
-          valueIndicatorColor: ColorConst.Tertiary.shade95,
-          valueIndicatorTextStyle: labelSmall.apply(color: Colors.black),
-          rangeValueIndicatorShape:
-              const PaddleRangeSliderValueIndicatorShape(),
-          trackHeight: 6,
-          thumbShape: const CustomRoundSliderThumbShape(enabledThumbRadius: 10),
-          overlayShape: const RoundSliderOverlayShape(overlayRadius: 10),
-          showValueIndicator: ShowValueIndicator.always,
-          trackShape: const GradientRectSliderTrackShape(),
+    return InkWell(
+      onTap: onTap,
+      child: SizedBox(
+        height: 0.045.height,
+        width: 0.21.width,
+        child: Center(
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: labelSmall.copyWith(
+                color: isEnabled ? Colors.white : ColorConst.Tertiary),
+          ),
         ),
-        child: Slider(
-            max: 100,
-            min: 0,
-            value: sliderValue,
-            label: sliderValue.toStringAsFixed(0),
-            onChanged: onChanged),
       ),
     );
   }
