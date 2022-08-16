@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/liquidity_baking_widget/widgets/add_or_remove_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/liquidity_baking_widget/widgets/custom_slider.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -106,6 +107,8 @@ class LiquidityBakingWidget extends GetView<HomePageController> {
             ),
           ),
           0.01.vspace,
+          AddOrRemoveWiget(onChanged: (addBool) {}),
+          0.027.vspace,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -219,6 +222,10 @@ class LiquidityBakingSlider extends StatelessWidget {
       width: 1.width,
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
+          valueIndicatorColor: ColorConst.Tertiary.shade95,
+          valueIndicatorTextStyle: labelSmall.apply(color: Colors.black),
+          rangeValueIndicatorShape:
+              const PaddleRangeSliderValueIndicatorShape(),
           trackHeight: 6,
           thumbShape: const CustomRoundSliderThumbShape(enabledThumbRadius: 10),
           overlayShape: const RoundSliderOverlayShape(overlayRadius: 10),
