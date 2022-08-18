@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/new_headlines_widget/new_headlines_widget.dart';
 
-import '../../../../mock/mock_data.dart';
+import 'package:naan_wallet/app/data/mock/mock_data.dart';
 import 'accounts_widget/views/accounts_widget_view.dart';
 import 'community_widget/community_widget.dart';
 import 'delegate_widget/views/delegate_widget_view.dart';

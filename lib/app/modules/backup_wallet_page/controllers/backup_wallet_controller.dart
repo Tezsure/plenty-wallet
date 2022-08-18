@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../../../mock/mock_data.dart';
+import 'package:naan_wallet/app/data/mock/mock_data.dart';
 
 class BackupWalletController extends GetxController {
   //? Variables

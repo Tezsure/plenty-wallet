@@ -3,22 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0BF34E1526B19E7B005558BD /* BeaconPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF34E1426B19E7B005558BD /* BeaconPlugin.swift */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		A92285EA280881A800007B6E /* BeaconBlockchainTezos in Frameworks */ = {isa = PBXBuildFile; productRef = A92285E9280881A800007B6E /* BeaconBlockchainTezos */; };
-		A92285EC280881A800007B6E /* BeaconClientWallet in Frameworks */ = {isa = PBXBuildFile; productRef = A92285EB280881A800007B6E /* BeaconClientWallet */; };
-		A92285EE280881A800007B6E /* BeaconCore in Frameworks */ = {isa = PBXBuildFile; productRef = A92285ED280881A800007B6E /* BeaconCore */; };
-		A92285F0280881A800007B6E /* BeaconTransportP2PMatrix in Frameworks */ = {isa = PBXBuildFile; productRef = A92285EF280881A800007B6E /* BeaconTransportP2PMatrix */; };
 		A94DD06228730A8300E6C28D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A94DD06128730A8300E6C28D /* Assets.xcassets */; };
-		A98E5B8427D5B668003A9861 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A98E5B8327D5B668003A9861 /* GoogleService-Info.plist */; };
 		B9B6DB3AC3769C480961F495 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF21F39ADDA02381961A0A79 /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,7 +31,6 @@
 
 /* Begin PBXFileReference section */
 		0B4667C626D7EBF40046444F /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
-		0BF34E1426B19E7B005558BD /* BeaconPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconPlugin.swift; sourceTree = "<group>"; };
 		0CF105BCD0F39D3C4580FAB0 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
@@ -53,7 +46,6 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A94DD06128730A8300E6C28D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../Documents/Assets.xcassets; sourceTree = "<group>"; };
-		A98E5B8327D5B668003A9861 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E5610CA0EE0277D11667B44C /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		EF21F39ADDA02381961A0A79 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -63,11 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A92285EC280881A800007B6E /* BeaconClientWallet in Frameworks */,
-				A92285EA280881A800007B6E /* BeaconBlockchainTezos in Frameworks */,
 				B9B6DB3AC3769C480961F495 /* Pods_Runner.framework in Frameworks */,
-				A92285F0280881A800007B6E /* BeaconTransportP2PMatrix in Frameworks */,
-				A92285EE280881A800007B6E /* BeaconCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,10 +105,8 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				A98E5B8327D5B668003A9861 /* GoogleService-Info.plist */,
 				A94DD06128730A8300E6C28D /* Assets.xcassets */,
 				0B4667C626D7EBF40046444F /* Runner.entitlements */,
-				0BF34E1426B19E7B005558BD /* BeaconPlugin.swift */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
 				97C147021CF9000F007C117D /* Info.plist */,
@@ -155,18 +141,13 @@
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				A99C3F7C27452ED3006EF63E /* ShellScript */,
+				BB27908E1B79BAC37F2516C9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Runner;
-			packageProductDependencies = (
-				A92285E9280881A800007B6E /* BeaconBlockchainTezos */,
-				A92285EB280881A800007B6E /* BeaconClientWallet */,
-				A92285ED280881A800007B6E /* BeaconCore */,
-				A92285EF280881A800007B6E /* BeaconTransportP2PMatrix */,
-			);
 			productName = Runner;
 			productReference = 97C146EE1CF9000F007C117D /* Runner.app */;
 			productType = "com.apple.product-type.application";
@@ -195,9 +176,6 @@
 				Base,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
-			packageReferences = (
-				A92285E8280881A800007B6E /* XCRemoteSwiftPackageReference "beacon-ios-sdk" */,
-			);
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -214,7 +192,6 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
-				A98E5B8427D5B668003A9861 /* GoogleService-Info.plist in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				A94DD06228730A8300E6C28D /* Assets.xcassets in Resources */,
 			);
@@ -275,7 +252,7 @@
 		};
 		A99C3F7C27452ED3006EF63E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -287,9 +264,37 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "${PODS_ROOT}/FirebaseCrashlytics/run\n";
+		};
+		BB27908E1B79BAC37F2516C9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
+				"${BUILT_PRODUCTS_DIR}/flutter_secure_storage/flutter_secure_storage.framework",
+				"${BUILT_PRODUCTS_DIR}/path_provider_ios/path_provider_ios.framework",
+				"${BUILT_PRODUCTS_DIR}/shared_preferences_ios/shared_preferences_ios.framework",
+				"${BUILT_PRODUCTS_DIR}/sqflite/sqflite.framework",
+				"${BUILT_PRODUCTS_DIR}/video_player_avfoundation/video_player_avfoundation.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_secure_storage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/path_provider_ios.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/shared_preferences_ios.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sqflite.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/video_player_avfoundation.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -298,7 +303,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BF34E1526B19E7B005558BD /* BeaconPlugin.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 			);
@@ -393,10 +397,7 @@
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.2.31;
 				PRODUCT_BUNDLE_IDENTIFIER = com.naan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -516,8 +517,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -537,10 +537,7 @@
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.2.31;
 				PRODUCT_BUNDLE_IDENTIFIER = com.naan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -564,10 +561,7 @@
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.2.31;
 				PRODUCT_BUNDLE_IDENTIFIER = com.naan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -601,40 +595,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		A92285E8280881A800007B6E /* XCRemoteSwiftPackageReference "beacon-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airgap-it/beacon-ios-sdk";
-			requirement = {
-				kind = exactVersion;
-				version = 3.1.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		A92285E9280881A800007B6E /* BeaconBlockchainTezos */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A92285E8280881A800007B6E /* XCRemoteSwiftPackageReference "beacon-ios-sdk" */;
-			productName = BeaconBlockchainTezos;
-		};
-		A92285EB280881A800007B6E /* BeaconClientWallet */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A92285E8280881A800007B6E /* XCRemoteSwiftPackageReference "beacon-ios-sdk" */;
-			productName = BeaconClientWallet;
-		};
-		A92285ED280881A800007B6E /* BeaconCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A92285E8280881A800007B6E /* XCRemoteSwiftPackageReference "beacon-ios-sdk" */;
-			productName = BeaconCore;
-		};
-		A92285EF280881A800007B6E /* BeaconTransportP2PMatrix */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A92285E8280881A800007B6E /* XCRemoteSwiftPackageReference "beacon-ios-sdk" */;
-			productName = BeaconTransportP2PMatrix;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 97C146E61CF9000F007C117D /* Project object */;
 }
