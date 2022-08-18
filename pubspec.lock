@@ -252,13 +252,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  graphs:
-    dependency: transitive
-    description:
-      name: graphs
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0"
   html:
     dependency: transitive
     description:
@@ -504,13 +497,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
-  rive:
-    dependency: "direct main"
-    description:
-      name: rive
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.1"
   rxdart:
     dependency: transitive
     description:
@@ -719,6 +705,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  web3auth_flutter:
+    dependency: "direct main"
+    description:
+      name: web3auth_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   win32:
     dependency: transitive
     description:
