@@ -30,7 +30,7 @@ class Web3Auth {
       try {
         final Web3AuthResponse response =
             await _socialLogin(socialApp: socialAppName)
-                .whenComplete(() => Get.offAllNamed(Routes.HOME_PAGE));
+                .whenComplete(() => Get.offAllNamed(Routes.PASSCODE_PAGE));
         String result = response.toString();
         debugPrint(result);
       } on UserCancelledException {
