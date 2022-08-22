@@ -1,6 +1,8 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:web3auth_flutter/web3auth_flutter.dart';
 
 class Web3Auth {
@@ -27,14 +29,13 @@ class Web3Auth {
     return () async {
       try {
         final Web3AuthResponse response =
-            await _socialLogin(socialApp: socialAppName);
+            await _socialLogin(socialApp: socialAppName)
+                .whenComplete(() => Get.offAllNamed(Routes.HOME_PAGE));
         String result = response.toString();
         debugPrint(result);
-        // TODO Redirect to the home page after successful login
       } on UserCancelledException {
         debugPrint("User cancelled.");
       } on UnKnownException {
-        // TODO Shows an error message to the user
         debugPrint("Unknown exception occurred");
       }
     };
@@ -44,8 +45,8 @@ class Web3Auth {
   static VoidCallback signOut() {
     return () async {
       try {
-        await Web3AuthFlutter.logout();
-        // TODO Redirect to the onboarding page after successful logout
+        await Web3AuthFlutter.logout()
+            .whenComplete(() => Get.offAllNamed(Routes.ONBOARDING_PAGE));
         String result = '<empty>';
       } on UserCancelledException {
         debugPrint("User cancelled.");
