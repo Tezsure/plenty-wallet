@@ -19,6 +19,7 @@ abstract class Routes {
   static const STORY_PAGE = _Paths.STORY_PAGE;
   static const ACCOUNTS_WIDGET = _Paths.ACCOUNTS_WIDGET;
   static const DELEGATE_WIDGET = _Paths.DELEGATE_WIDGET;
+  static const SEND_TOKEN_PAGE = _Paths.SEND_TOKEN_PAGE;
 }
 
 abstract class _Paths {
@@ -35,4 +36,5 @@ abstract class _Paths {
   static const ACCOUNTS_WIDGET = '/accounts-widget';
   static const DELEGATE_WIDGET = '/delegate-widget';
   static const SETTINGS_PAGE = '/settings-page';
+  static const SEND_TOKEN_PAGE = '/send-token-page';
 }

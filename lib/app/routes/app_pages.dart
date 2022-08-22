@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:get/get.dart';
 
 import '../modules/backup_wallet_page/bindings/backup_wallet_binding.dart';
@@ -20,14 +18,18 @@ import '../modules/home_page/widgets/info_stories/models/story_page/bindings/sto
 import '../modules/home_page/widgets/info_stories/models/story_page/views/story_page_view.dart';
 import '../modules/import_wallet_page/bindings/import_wallet_page_binding.dart';
 import '../modules/import_wallet_page/views/import_wallet_page_view.dart';
-import '../modules/passcode_page/bindings/passcode_page_binding.dart';
-import '../modules/passcode_page/views/passcode_page_view.dart';
 import '../modules/onboarding_page/bindings/onboarding_page_binding.dart';
 import '../modules/onboarding_page/views/onboarding_page_view.dart';
+import '../modules/passcode_page/bindings/passcode_page_binding.dart';
+import '../modules/passcode_page/views/passcode_page_view.dart';
+import '../modules/send_token_page/bindings/send_token_page_binding.dart';
+import '../modules/send_token_page/views/send_token_page_view.dart';
 import '../modules/settings_page/bindings/settings_page_binding.dart';
 import '../modules/settings_page/views/settings_page_view.dart';
 import '../modules/verify_phrase_page/bindings/verify_phrase_page_binding.dart';
 import '../modules/verify_phrase_page/views/verify_phrase_page_view.dart';
+
+// ignore_for_file: constant_identifier_names
 
 part 'app_routes.dart';
 
@@ -101,6 +103,11 @@ class AppPages {
       name: _Paths.SETTINGS_PAGE,
       page: () => const SettingsPageView(),
       binding: SettingsPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.SEND_TOKEN_PAGE,
+      page: () => const SendTokenPageView(),
+      binding: SendTokenPageBinding(),
     ),
   ];
 }
