@@ -19,6 +19,8 @@ abstract class Routes {
   static const STORY_PAGE = _Paths.STORY_PAGE;
   static const ACCOUNTS_WIDGET = _Paths.ACCOUNTS_WIDGET;
   static const DELEGATE_WIDGET = _Paths.DELEGATE_WIDGET;
+  static const SPLASH_PAGE = _Paths.SPLASH_PAGE;
+  static const LOADING_PAGE = _Paths.LOADING_PAGE;
 }
 
 abstract class _Paths {
@@ -35,4 +37,6 @@ abstract class _Paths {
   static const ACCOUNTS_WIDGET = '/accounts-widget';
   static const DELEGATE_WIDGET = '/delegate-widget';
   static const SETTINGS_PAGE = '/settings-page';
+  static const SPLASH_PAGE = '/splash-page';
+  static const LOADING_PAGE = '/loading-page';
 }
