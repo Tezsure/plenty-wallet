@@ -16,6 +16,7 @@ class NaanBottomSheet extends StatelessWidget {
   final bool scrollThumbVisibility;
   final Alignment? titleAlignment;
   final TextStyle? titleStyle;
+  final double? bottomSheetHorizontalPadding;
   final Widget Function(BuildContext context, int index)? draggableListBuilder;
 
   /// Create a bottom sheet of non-draggable and draggable type.
@@ -38,6 +39,7 @@ class NaanBottomSheet extends StatelessWidget {
     this.scrollThumbVisibility = true,
     this.titleAlignment,
     this.titleStyle,
+    this.bottomSheetHorizontalPadding,
   }) : super(key: key);
 
   @override
@@ -130,15 +132,17 @@ class NaanBottomSheet extends StatelessWidget {
               ),
               width: width ?? 1.width,
               height: height ?? 296,
-              padding: const EdgeInsets.symmetric(horizontal: 32),
+              padding: EdgeInsets.symmetric(
+                  horizontal: bottomSheetHorizontalPadding ?? 32),
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    0.05.vspace,
-                    Center(
+                    0.01.vspace,
+                    Align(
+                      alignment: Alignment.topCenter,
                       child: Container(
                         height: 5,
                         width: 36,
@@ -149,15 +153,17 @@ class NaanBottomSheet extends StatelessWidget {
                         ),
                       ),
                     ),
-                    0.020.vspace,
-                    Align(
-                      alignment: titleAlignment ?? Alignment.centerLeft,
-                      child: Text(
-                        title ?? "Bottom Sheet Title",
-                        textAlign: TextAlign.start,
-                        style: titleStyle ?? titleLarge,
+                    if (title != null) ...[
+                      0.01.vspace,
+                      Align(
+                        alignment: titleAlignment ?? Alignment.centerLeft,
+                        child: Text(
+                          title!,
+                          textAlign: TextAlign.start,
+                          style: titleStyle ?? titleLarge,
+                        ),
                       ),
-                    ),
+                    ],
                     0.020.vspace,
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,

@@ -1,23 +1,29 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SendTokenPageController extends GetxController {
-  //TODO: Implement SendTokenPageController
-
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  TextEditingController recipientController = TextEditingController();
+  FocusNode recipientFocusNode = FocusNode();
+  RxString amount = ''.obs;
 
   @override
   void onReady() {
+    recipientController = TextEditingController();
     super.onReady();
   }
 
   @override
-  void onClose() {
-    super.onClose();
+  void onInit() {
+    recipientFocusNode.requestFocus();
+    super.onInit();
   }
 
-  void increment() => count.value++;
+  @override
+  void onClose() {
+    recipientFocusNode
+      ..unfocus()
+      ..dispose();
+    recipientController.dispose();
+    super.onClose();
+  }
 }
