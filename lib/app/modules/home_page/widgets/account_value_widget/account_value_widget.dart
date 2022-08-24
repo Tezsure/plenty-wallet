@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -51,9 +54,17 @@ class AccountValueWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              actionMethod("Send", "${PathConst.HOME_PAGE.SVG}send.svg"),
+              actionMethod("Send", "${PathConst.HOME_PAGE.SVG}send.svg",
+                  onTap: () {
+                Get.toNamed(Routes.CONTACT_PAGE);
+              }),
               0.09.hspace,
-              actionMethod("Receive", "${PathConst.HOME_PAGE.SVG}receive.svg"),
+              actionMethod("Receive", "${PathConst.HOME_PAGE.SVG}receive.svg",
+                  onTap: () {
+                Get.bottomSheet(ReceivePageView(),
+                    isScrollControlled: true,
+                    barrierColor: Colors.white.withOpacity(0.09));
+              }),
               0.09.hspace,
               actionMethod("Add", "${PathConst.HOME_PAGE.SVG}plus.svg"),
             ],
@@ -64,13 +75,20 @@ class AccountValueWidget extends StatelessWidget {
     );
   }
 
-  Column actionMethod(String title, String svgPath) {
+  Column actionMethod(
+    String title,
+    String svgPath, {
+    GestureTapCallback? onTap,
+  }) {
     return Column(
       children: [
-        CircleAvatar(
-          radius: 0.07.width,
-          backgroundColor: ColorConst.Primary.shade60,
-          child: SvgPicture.asset(svgPath),
+        GestureDetector(
+          onTap: onTap,
+          child: CircleAvatar(
+            radius: 0.07.width,
+            backgroundColor: ColorConst.Primary.shade60,
+            child: SvgPicture.asset(svgPath),
+          ),
         ),
         0.01.vspace,
         Text(
