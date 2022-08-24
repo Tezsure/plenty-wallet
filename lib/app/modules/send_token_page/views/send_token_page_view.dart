@@ -9,6 +9,8 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../controllers/send_token_page_controller.dart';
+import 'widgets/token_textfield.dart';
+import 'widgets/transaction_status.dart';
 
 class SendTokenPageView extends GetView<SendTokenPageController> {
   const SendTokenPageView({Key? key}) : super(key: key);
@@ -22,26 +24,40 @@ class SendTokenPageView extends GetView<SendTokenPageController> {
           controller: controller,
           totalTez: '3.23',
           showNFTPage: false,
+          receiverName: 'Bernd.tez',
         ),
       ),
     ));
   }
 }
 
+/// To show the send token page or send nft page depending on the condition.
+///
+/// [showNFTPage] - Whether to show the NFT page or the send token page, default value is false
+///
+/// [totalTez] - The total amount of tez user have, by default it's 0.0
+///
+/// [showNFTPage] - if true, [nftImageUrl] must be provided, by default it's null
+///
+/// [receiverName] is a required paramenter & can't be null
 class SendTokenPage extends StatelessWidget {
   final SendTokenPageController controller;
   final String totalTez;
   final bool showNFTPage;
-  final String receiverName;
+  final String? receiverName;
   final Function()? onTapSave;
+  final String? nftImageUrl;
   const SendTokenPage({
     Key? key,
     required this.controller,
     this.totalTez = '0.0',
     this.showNFTPage = false,
-    this.receiverName = 'Bernd.tez',
+    required this.receiverName,
     this.onTapSave,
-  }) : super(key: key);
+    this.nftImageUrl,
+  })  : assert(receiverName != null),
+        assert(showNFTPage == true ? nftImageUrl != null : true),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -342,11 +358,18 @@ class SendTokenPage extends StatelessWidget {
                                       ),
                                       0.02.vspace,
                                       SolidButton(
-                                        title: 'Got it',
-                                        onPressed: () => Get
-                                          ..back()
-                                          ..back(),
-                                      ),
+                                          title: 'Got it',
+                                          onPressed: () {
+                                            Get
+                                              ..back()
+                                              ..back();
+                                            transactionStatusSnackbar(
+                                                status:
+                                                    TransactionStatus.success,
+                                                tezAddress:
+                                                    'tz1KpKTX1........DZ',
+                                                transactionAmount: '1.0');
+                                          }),
                                       0.02.vspace,
                                       SolidButton(
                                         title: 'Share Naan',
@@ -386,45 +409,6 @@ class SendTokenPage extends StatelessWidget {
               ])),
         ),
       ],
-    );
-  }
-}
-
-class TokenSendTextfield extends StatelessWidget {
-  final TextEditingController? controller;
-  final Function(String val)? onChanged;
-  final TextStyle? hintStyle;
-  final String hintText;
-  final FocusNode? focusNode;
-  const TokenSendTextfield({
-    Key? key,
-    this.controller,
-    this.onChanged,
-    this.hintStyle,
-    required this.hintText,
-    this.focusNode,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      focusNode: focusNode,
-      controller: controller,
-      cursorHeight: 28.sp,
-      keyboardType: TextInputType.number,
-      textAlign: TextAlign.start,
-      style: headlineMedium.copyWith(color: ColorConst.Neutral.shade70),
-      cursorColor: Colors.white,
-      onChanged: onChanged,
-      decoration: InputDecoration(
-        floatingLabelAlignment: FloatingLabelAlignment.center,
-        isDense: true,
-        border: InputBorder.none,
-        hintText: hintText,
-        alignLabelWithHint: true,
-        hintStyle: hintStyle ??
-            headlineMedium.copyWith(color: ColorConst.NeutralVariant.shade30),
-      ),
     );
   }
 }

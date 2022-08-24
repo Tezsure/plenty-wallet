@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,8 +9,10 @@ import 'package:web3auth_flutter/web3auth_flutter.dart';
 class Web3Auth {
   static const String clientId =
       "BE-6AIH1fhG1veGQB2tko9j5B--Y7DuXjRoA3XGJEaSUrkB7y2dUdd7XEtfYjKtLjUXd3KrWB4AofCJFTxrsSqM"; // Client ID from the developer console
-  static const String redirectUri =
+  static const String redirectUriAndroid =
       "com.naan.web3auth://auth"; // Redirect Url, must be the same as the one in the web3auth server/dashboard
+  static const String redirectUriIos =
+      "com.naan://auth"; // Redirect Url, must be the same as the one in the web3auth server/dashboard
 
   /// Initializes Web3AuthFlutter package
   static Future<void> initPlatformState() async {
@@ -18,7 +21,7 @@ class Web3Auth {
     await Web3AuthFlutter.init(
       clientId: clientId,
       network: Network.testnet,
-      redirectUri: redirectUri,
+      redirectUri: Platform.isIOS ? redirectUriIos : redirectUriAndroid,
       whiteLabelData: WhiteLabelData(
           dark: true, name: "Web3Auth Social Login", theme: themeMap),
     );

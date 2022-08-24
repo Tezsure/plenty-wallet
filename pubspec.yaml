@@ -3,7 +3,7 @@ version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
 environment:
-  sdk: ">=2.13.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.5"
 
 dependencies:
   get: 4.6.5
@@ -41,6 +41,8 @@ flutter:
     #create wallet page
     - assets/create_wallet/
     - assets/create_wallet/lottie/
+    #token send page
+    - assets/token_send/lottie/
 
     - assets/svg/accounts/
 

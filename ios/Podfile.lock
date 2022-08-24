@@ -26,6 +26,7 @@ DEPENDENCIES:
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
+  - Web3Auth
   - web3auth_flutter (from `.symlinks/plugins/web3auth_flutter/ios`)
 
 SPEC REPOS:
@@ -60,6 +61,6 @@ SPEC CHECKSUMS:
   Web3Auth: 83062b2ccc9b5882f44c02fa3464283f833c169f
   web3auth_flutter: 69cd022735b72704e29437257a2236100c21a5b8
 
-PODFILE CHECKSUM: 5a12fc90e89749f5a5d3bcae2b8db6f062d13b44
+PODFILE CHECKSUM: 08e13e30826245754ad61f8e91571de5f8471ba0
 
 COCOAPODS: 1.11.3
