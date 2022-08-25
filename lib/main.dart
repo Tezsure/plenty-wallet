@@ -5,6 +5,7 @@ import 'app/routes/app_pages.dart';
 
 void main() => runApp(
       GetMaterialApp(
+        title: "Naan",
         theme: ThemeData(
           fontFamily: "Poppins",
         ),

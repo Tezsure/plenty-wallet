@@ -1,17 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../routes/app_pages.dart';
+import 'package:naan_wallet/app/data/services/enums/enums.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 
 class CreateProfilePageController extends GetxController {
-  final isWalletCreated = false.obs;
+  String? previousRoute;
 
-  /// To show wallet success animation and redirect to backup wallet page
-  void onWalletSuccess() {
-    isWalletCreated.value = true;
-    Future.delayed(const Duration(milliseconds: 3500),
-            () => Get.offAllNamed(Routes.HOME_PAGE, arguments: [true]))
-        .whenComplete(
-      () => isWalletCreated.value = false,
-    );
+  TextEditingController accountNameController = TextEditingController();
+  var currentSelectedType = AccountProfileImageType.assets;
+
+  RxBool isContiuneButtonEnable = false.obs;
+
+  RxString selectedImagePath = "".obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
   }
 }

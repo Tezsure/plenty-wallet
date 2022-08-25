@@ -10,7 +10,6 @@ import '../../common_widgets/solid_button.dart';
 
 class HomePageController extends GetxController with WidgetsBindingObserver {
   RxBool showBottomSheet = false.obs;
-  RxBool startAnimation = false.obs;
   RxInt selectedIndex = 0.obs;
 
   // Liquidity Baking
@@ -36,10 +35,8 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   }
 
   void showAnimation(bool showAnimation) {
-    if (showAnimation) {
-      startAnimation.value = true;
-      Future.delayed(const Duration(milliseconds: 3000), () {
-        startAnimation.value = false;
+    Future.delayed(const Duration(seconds: 1), () {
+      if (showAnimation) {
         Get.bottomSheet(
           NaanBottomSheet(
             gradientStartingOpacity: 1,
@@ -86,8 +83,8 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
           isDismissible: true,
           ignoreSafeArea: false,
         );
-      });
-    }
+      }
+    });
   }
 
   void onIndicatorTapped(int index) => selectedIndex.value = index;

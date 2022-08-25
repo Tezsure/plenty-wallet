@@ -11,7 +11,7 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-import '../../../../mock/mock_data.dart';
+import 'package:naan_wallet/app/data/mock/mock_data.dart';
 import '../controllers/backup_wallet_controller.dart';
 import 'widgets/phrase_container.dart';
 
