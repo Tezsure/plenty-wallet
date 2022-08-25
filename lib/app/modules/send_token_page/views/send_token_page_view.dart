@@ -23,13 +23,22 @@ class SendTokenPageView extends GetView<SendTokenPageController> {
         child: SendTokenPage(
           controller: controller,
           totalTez: '3.23',
-          showNFTPage: false,
+          showNFTPage: true,
           receiverName: 'Bernd.tez',
+          nftImageUrl: 'assets/temp/nft_thumbnail.png',
         ),
       ),
     ));
   }
 }
+
+// SendTokenPage(
+//           controller: controller,
+//           totalTez: '3.23',
+//           showNFTPage: true,
+//           receiverName: 'Bernd.tez',
+//           nftImageUrl: 'assets/temp/nft_thumbnail.png',
+//         ),
 
 /// To show the send token page or send nft page depending on the condition.
 ///
@@ -117,7 +126,7 @@ class SendTokenPage extends StatelessWidget {
               dense: true,
               leading: showNFTPage
                   ? Image.asset(
-                      'assets/temp/nft_thumbnail.png',
+                      nftImageUrl ?? 'assets/temp/nft_thumbnail.png',
                     )
                   : SvgPicture.asset('assets/svg/tez.svg'),
               title: Text(
@@ -255,7 +264,7 @@ class SendTokenPage extends StatelessWidget {
                         showNFTPage
                     ? Get.bottomSheet(
                         NaanBottomSheet(
-                          blurRadius: 5,
+                          blurRadius: showNFTPage ? 50 : 5,
                           width: 1.width,
                           height: 0.5.height,
                           title: 'Sending',
@@ -385,13 +394,13 @@ class SendTokenPage extends StatelessWidget {
                         ),
                       )
                     : null,
-                primaryColor: controller.amount.value.isEmpty
+                primaryColor: controller.amount.value.isEmpty && !showNFTPage
                     ? ColorConst.NeutralVariant.shade60.withOpacity(0.2)
                     : ColorConst.Primary,
-                textColor: controller.amount.value.isEmpty
+                textColor: controller.amount.value.isEmpty && !showNFTPage
                     ? ColorConst.NeutralVariant.shade60
                     : Colors.white,
-                title: controller.amount.value.isEmpty
+                title: controller.amount.value.isEmpty && !showNFTPage
                     ? 'Enter an amount'
                     : 'Review',
               )),
