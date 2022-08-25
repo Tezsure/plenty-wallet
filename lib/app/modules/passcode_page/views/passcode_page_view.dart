@@ -50,7 +50,9 @@ class PasscodePageView extends GetView<PasscodePageController> {
               ),
               0.05.vspace,
               Text(
-                "Set passcode",
+                controller.isToVerifyPassCode
+                    ? "Enter passcode"
+                    : "Set passcode",
                 textAlign: TextAlign.center,
                 style: titleMedium,
               ),
