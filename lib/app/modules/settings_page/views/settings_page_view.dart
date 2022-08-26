@@ -16,6 +16,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      bottom: false,
       child: Material(
         child: Container(
           decoration:

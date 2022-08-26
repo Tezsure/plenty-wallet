@@ -17,6 +17,7 @@ class HomePageView extends GetView<HomePageController>
 
   @override
   Widget build(BuildContext context) {
+    controller;
     return Stack(
       children: [
         AnnotatedRegion(
@@ -28,6 +29,7 @@ class HomePageView extends GetView<HomePageController>
                   width: 1.width,
                   color: ColorConst.Primary,
                   child: SafeArea(
+                    bottom: false,
                     child: Stack(
                       children: [
                         Column(

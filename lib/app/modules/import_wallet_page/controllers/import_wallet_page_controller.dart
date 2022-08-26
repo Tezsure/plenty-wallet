@@ -32,15 +32,15 @@ class ImportWalletPageController extends GetxController {
     }
   }
 
-  /// To show wallet success animation and redirect to backup wallet page
-  void showAnimation() {
-    showSuccessAnimation.value = true;
-    Get.back();
-    Future.delayed(const Duration(milliseconds: 3500), () {
-      showSuccessAnimation.value = false;
-      Get.offAllNamed(Routes.HOME_PAGE, arguments: [true]);
-    });
-  }
+  // /// To show wallet success animation and redirect to backup wallet page
+  // void showAnimation() {
+  //   showSuccessAnimation.value = true;
+  //   Get.back();
+  //   Future.delayed(const Duration(milliseconds: 3500), () {
+  //     showSuccessAnimation.value = false;
+  //     Get.offAllNamed(Routes.HOME_PAGE, arguments: [true]);
+  //   });
+  // }
 
   /// To assign the phrase text to the phrase text variable
   void onTextChange(String value) {

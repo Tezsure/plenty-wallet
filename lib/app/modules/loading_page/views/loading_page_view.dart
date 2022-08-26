@@ -9,11 +9,8 @@ class LoadingPageView extends GetView<LoadingPageController> {
   const LoadingPageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var args = ModalRoute.of(context)!.settings.arguments as List;
-    String loadingAsset = args[0] as String;
-    controller.fromRoute = args[1] as String;
-    controller.nextRoute = args[2] as String;
-    controller.startLodingProcess();
+    controller;
+    String loadingAsset = Get.arguments[0] as String;
 
     return Scaffold(
       body: Stack(

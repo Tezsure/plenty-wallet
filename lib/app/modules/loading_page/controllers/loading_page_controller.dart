@@ -13,11 +13,23 @@ class LoadingPageController extends GetxController {
   String? fromRoute;
   String? nextRoute;
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    var args = Get.arguments as List<dynamic>;
+    fromRoute = args[1] as String;
+    nextRoute = args[2] as String;
+    startLodingProcess();
+  }
+
+
   Future<void> startLodingProcess() async {
+    String mnemonic = "";
     if (fromRoute == Routes.CREATE_WALLET_PAGE) {
       CreateProfilePageController createWalletPageController =
           Get.find<CreateProfilePageController>();
-      await Future.wait([
+      var createWalletResult = await Future.wait([
         WalletService().createNewAccount(
           createWalletPageController.accountNameController.text,
           createWalletPageController.currentSelectedType,
@@ -25,6 +37,7 @@ class LoadingPageController extends GetxController {
         ),
         Future.delayed(const Duration(seconds: 3))
       ]);
+      mnemonic = (createWalletResult[0] as AccountModel).seedPhrase!;
     } else if (fromRoute == Routes.IMPORT_WALLET_PAGE) {
       ImportWalletPageController importWalletPageController =
           Get.find<ImportWalletPageController>();
@@ -70,7 +83,17 @@ class LoadingPageController extends GetxController {
 
     /// once the animation and loadingProcess get finished redirected to next route based on if it's home page or something else
     if (nextRoute == Routes.HOME_PAGE) {
-      Get.offAllNamed(Routes.HOME_PAGE, arguments: [true]);
+      Get.offAllNamed(
+        Routes.HOME_PAGE,
+        arguments: mnemonic.isNotEmpty
+            ? [
+                true,
+                mnemonic,
+              ]
+            : [
+                false,
+              ],
+      );
     } else {
       Get.toNamed(nextRoute!);
     }
