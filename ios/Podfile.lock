@@ -14,10 +14,10 @@ PODS:
     - FMDB (>= 2.7.5)
   - video_player_avfoundation (0.0.1):
     - Flutter
-  - Web3Auth (3.3.0)
+  - Web3Auth (3.5.0)
   - web3auth_flutter (0.1.1):
     - Flutter
-    - Web3Auth (~> 3.3.0)
+    - Web3Auth (~> 3.5.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -58,8 +58,8 @@ SPEC CHECKSUMS:
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
-  Web3Auth: 83062b2ccc9b5882f44c02fa3464283f833c169f
-  web3auth_flutter: 69cd022735b72704e29437257a2236100c21a5b8
+  Web3Auth: 75c2b7d480f23dffa0eda9a589e2bc3cba1cd961
+  web3auth_flutter: d79313b6942fd627cd279e9c1d13232a4345f7f7
 
 PODFILE CHECKSUM: 08e13e30826245754ad61f8e91571de5f8471ba0
 

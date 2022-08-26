@@ -8,7 +8,7 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
-import 'package:web3auth_flutter/web3auth_flutter.dart';
+import 'package:web3auth_flutter/enums.dart';
 import '../controllers/create_wallet_page_controller.dart';
 
 class CreateWalletPageView extends GetView<CreateWalletPageController> {
