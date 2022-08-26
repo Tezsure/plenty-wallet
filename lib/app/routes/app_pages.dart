@@ -112,19 +112,19 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SEND_TOKEN_PAGE,
-      page: () => const SendTokenPageView(),
+      page: () => SendTokenPageView(),
       binding: SendTokenPageBinding(),
     ),
-    GetPage(
-      name: _Paths.CONTACT_PAGE,
-      page: () => const ContactPageView(),
-      binding: ContactPageBinding(),
-    ),
-    GetPage(
-      name: _Paths.TOKEN_AND_COLLECTION_PAGE,
-      page: () => const TokenAndCollectionPageView(),
-      binding: TokenAndCollectionPageBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.CONTACT_PAGE,
+    //   page: () => const ContactPageView(),
+    //   binding: ContactPageBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.TOKEN_AND_COLLECTION_PAGE,
+    //   page: () => const TokenAndCollectionPageView(),
+    //   binding: TokenAndCollectionPageBinding(),
+    // ),
     GetPage(
       name: _Paths.RECEIVE_PAGE,
       page: () => const ReceivePageView(),
