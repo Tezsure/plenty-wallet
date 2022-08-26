@@ -2,20 +2,7 @@ import 'package:naan_wallet/models/nft_token_model.dart';
 import 'package:naan_wallet/models/tokens_model.dart';
 
 class MockData {
-  static const List<String> secretPhrase = [
-    'car',
-    'approve',
-    'human',
-    'armed',
-    'worry',
-    'matter',
-    'dynamic',
-    'innocent',
-    'food',
-    'awake',
-    'spare',
-    'time'
-  ];
+
 
   static const Map<String, String> walletInfo = {
     "1. What is Secret Phrase?":
