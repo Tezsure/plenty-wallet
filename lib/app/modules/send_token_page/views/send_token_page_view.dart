@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -444,11 +442,9 @@ class ContactSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        print(pageController.page);
         if (pageController.page != 0) {
           pageController.jumpToPage(pageController.page!.toInt() - 1);
         }
-
         return pageController.page == 0.0 ? true : false;
       },
       child: Container(
@@ -553,7 +549,9 @@ class ContactSelectionPage extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.bottomSheet(
-          addContactBottomSheet(),
+          AddContactBottomSheet(
+              contactName:
+                  contactPagecontroller.searchTextController.value.text),
           isScrollControlled: true,
           barrierColor: Colors.black.withOpacity(0.2),
         );
@@ -562,7 +560,7 @@ class ContactSelectionPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
-            "${PathConst.CONTACTS_PAGE}add_contact.svg",
+            "${PathConst.CONTACTS_PAGE}/svg/add_contact.svg",
             fit: BoxFit.scaleDown,
             color: ColorConst.Primary,
             height: 16,
@@ -576,66 +574,46 @@ class ContactSelectionPage extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget addContactBottomSheet() {
-    return Wrap(
-      children: [
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: Container(
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                gradient: GradConst.GradientBackground),
-            width: 1.width,
-            padding: EdgeInsets.symmetric(horizontal: 0.077.width),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                0.005.vspace,
-                Center(
-                  child: Container(
-                    height: 5,
-                    width: 36,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
-                    ),
-                  ),
-                ),
-                0.025.vspace,
-                Text(
-                  'Add Contact',
-                  style: titleLarge,
-                ),
-                0.03.vspace,
-                const NaanTextfield(hint: 'Enter Name'),
-                0.025.vspace,
-                Text(
-                  contactPagecontroller.searchTextController.value.text,
-                  style: labelSmall.apply(
-                      color: ColorConst.NeutralVariant.shade60),
-                ),
-                0.025.vspace,
-                MaterialButton(
-                  color: ColorConst.Primary,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  onPressed: () {},
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: Center(
-                        child: Text(
-                      'Add contact',
-                      style: titleSmall,
-                    )),
-                  ),
-                ),
-                0.05.vspace,
-              ],
-            ),
+class AddContactBottomSheet extends StatelessWidget {
+  final String contactName;
+  const AddContactBottomSheet({
+    Key? key,
+    required this.contactName,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return NaanBottomSheet(
+      bottomSheetWidgets: [
+        Text(
+          'Add Contact',
+          style: titleLarge,
+        ),
+        0.03.vspace,
+        const NaanTextfield(hint: 'Enter Name'),
+        0.025.vspace,
+        Text(
+          contactName,
+          style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+        ),
+        0.025.vspace,
+        MaterialButton(
+          color: ColorConst.Primary,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          onPressed: () {},
+          child: SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: Center(
+                child: Text(
+              'Add contact',
+              style: titleSmall,
+            )),
           ),
         ),
+        0.05.vspace,
       ],
     );
   }

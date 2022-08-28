@@ -27,7 +27,7 @@ class NaanBottomSheet extends StatelessWidget {
   ///
   /// The [height] & [width] property only applies to non-draggable bottom sheet
   const NaanBottomSheet({
-    Key? key,
+    super.key,
     this.height,
     this.width,
     this.bottomSheetWidgets,
@@ -40,7 +40,11 @@ class NaanBottomSheet extends StatelessWidget {
     this.titleAlignment,
     this.titleStyle,
     this.bottomSheetHorizontalPadding,
-  }) : super(key: key);
+  }) : assert(
+          isDraggableBottomSheet == false
+              ? bottomSheetWidgets != null
+              : draggableListBuilder != null,
+        );
 
   @override
   Widget build(BuildContext context) {
