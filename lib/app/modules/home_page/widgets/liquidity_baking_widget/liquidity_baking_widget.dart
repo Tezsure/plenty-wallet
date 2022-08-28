@@ -108,9 +108,7 @@ class LiquidityBakingWidget extends GetView<HomePageController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Obx(() => SizedBox(
-                    height: 67,
-                    width: 0.2.width,
+              Obx(() => IntrinsicWidth(
                     child: TextField(
                       keyboardType: TextInputType.number,
                       cursorColor: Colors.black,
@@ -119,7 +117,7 @@ class LiquidityBakingWidget extends GetView<HomePageController> {
                       textAlignVertical: TextAlignVertical.center,
                       style: headlineLarge.apply(color: Colors.black),
                       decoration: InputDecoration(
-                        labelText: controller.isEnabled.value ? '7648' : null,
+                        // labelText: controller.isEnabled.value ? '7648' : null,
                         labelStyle: headlineLarge.copyWith(color: Colors.black),
                         border: InputBorder.none,
                         hintText: !controller.isEnabled.value ? "0.00" : null,

@@ -4,6 +4,8 @@ import '../modules/backup_wallet_page/bindings/backup_wallet_binding.dart';
 import '../modules/backup_wallet_page/views/backup_wallet_view.dart';
 import '../modules/biometric_page/bindings/biometric_page_binding.dart';
 import '../modules/biometric_page/views/biometric_page_view.dart';
+import '../modules/contact_page/bindings/contact_page_binding.dart';
+import '../modules/contact_page/views/contact_page_view.dart';
 import '../modules/create_profile_page/bindings/create_profile_page_binding.dart';
 import '../modules/create_profile_page/views/create_profile_page_view.dart';
 import '../modules/create_wallet_page/bindings/create_wallet_page_binding.dart';
@@ -22,10 +24,14 @@ import '../modules/onboarding_page/bindings/onboarding_page_binding.dart';
 import '../modules/onboarding_page/views/onboarding_page_view.dart';
 import '../modules/passcode_page/bindings/passcode_page_binding.dart';
 import '../modules/passcode_page/views/passcode_page_view.dart';
+import '../modules/receive_page/bindings/receive_page_binding.dart';
+import '../modules/receive_page/views/receive_page_view.dart';
 import '../modules/send_token_page/bindings/send_token_page_binding.dart';
 import '../modules/send_token_page/views/send_token_page_view.dart';
 import '../modules/settings_page/bindings/settings_page_binding.dart';
 import '../modules/settings_page/views/settings_page_view.dart';
+import '../modules/token_and_collection_page/bindings/token_and_collection_page_binding.dart';
+import '../modules/token_and_collection_page/views/token_and_collection_page_view.dart';
 import '../modules/verify_phrase_page/bindings/verify_phrase_page_binding.dart';
 import '../modules/verify_phrase_page/views/verify_phrase_page_view.dart';
 
@@ -36,7 +42,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.ONBOARDING_PAGE;
+  static const INITIAL = Routes.HOME_PAGE;
 
   static final routes = [
     GetPage(
@@ -106,8 +112,23 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SEND_TOKEN_PAGE,
-      page: () => const SendTokenPageView(),
+      page: () => SendTokenPageView(),
       binding: SendTokenPageBinding(),
+    ),
+    // GetPage(
+    //   name: _Paths.CONTACT_PAGE,
+    //   page: () => const ContactPageView(),
+    //   binding: ContactPageBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.TOKEN_AND_COLLECTION_PAGE,
+    //   page: () => const TokenAndCollectionPageView(),
+    //   binding: TokenAndCollectionPageBinding(),
+    // ),
+    GetPage(
+      name: _Paths.RECEIVE_PAGE,
+      page: () => const ReceivePageView(),
+      binding: ReceivePageBinding(),
     ),
   ];
 }

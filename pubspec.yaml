@@ -17,6 +17,8 @@ dependencies:
   cached_network_image: ^3.2.1
   video_player: ^2.4.5
   flutter_secure_storage: ^6.0.0
+  share_plus: ^4.0.10+1
+  qr_flutter: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -45,6 +47,9 @@ flutter:
     - assets/token_send/lottie/
 
     - assets/svg/accounts/
+
+    - assets/contact_page/
+    - assets/contact_page/svg/
 
   uses-material-design: true
 

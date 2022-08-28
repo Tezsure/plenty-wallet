@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
+import 'package:naan_wallet/app/modules/send_token_page/views/send_token_page_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -53,16 +54,29 @@ class AccountValueWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              actionMethod(
-                "Send",
-                "${PathConst.HOME_PAGE.SVG}send.svg",
-                onTap: () => Get.toNamed(Routes.SEND_TOKEN_PAGE),
-              ),
+              // actionMethod(
+              //   "Send",
+              //   "${PathConst.HOME_PAGE.SVG}send.svg",
+              //   onTap: () => Get.toNamed(Routes.SEND_TOKEN_PAGE),
+              // ),
+              // 0.09.hspace,
+              // actionMethod(
+              //   "Receive",
+              //   "${PathConst.HOME_PAGE.SVG}receive.svg",
+              // ),
+              actionMethod("Send", "${PathConst.HOME_PAGE.SVG}send.svg",
+                  onTap: () {
+                Get.bottomSheet(ContactSelectionPage(),
+                    isScrollControlled: true,
+                    barrierColor: Colors.white.withOpacity(0.09));
+              }),
               0.09.hspace,
-              actionMethod(
-                "Receive",
-                "${PathConst.HOME_PAGE.SVG}receive.svg",
-              ),
+              actionMethod("Receive", "${PathConst.HOME_PAGE.SVG}receive.svg",
+                  onTap: () {
+                Get.bottomSheet(const ReceivePageView(),
+                    isScrollControlled: true,
+                    barrierColor: Colors.white.withOpacity(0.09));
+              }),
               0.09.hspace,
               actionMethod("Add", "${PathConst.HOME_PAGE.SVG}plus.svg"),
             ],
@@ -73,24 +87,27 @@ class AccountValueWidget extends StatelessWidget {
     );
   }
 
-  GestureDetector actionMethod(String title, String svgPath,
-      {void Function()? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          CircleAvatar(
+  Column actionMethod(
+    String title,
+    String svgPath, {
+    GestureTapCallback? onTap,
+  }) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: onTap,
+          child: CircleAvatar(
             radius: 0.07.width,
             backgroundColor: ColorConst.Primary.shade60,
             child: SvgPicture.asset(svgPath),
           ),
-          0.01.vspace,
-          Text(
-            title,
-            style: bodySmall,
-          ),
-        ],
-      ),
+        ),
+        0.01.vspace,
+        Text(
+          title,
+          style: bodySmall,
+        ),
+      ],
     );
   }
 }
