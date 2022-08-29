@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SendTokenPageController extends GetxController {
+class SendPageController extends GetxController {
   TextEditingController recipientController = TextEditingController();
   FocusNode recipientFocusNode = FocusNode();
   RxString amount = ''.obs;
+  RxBool isNFTPage = false.obs;
+
+  void onNFTClick() {
+    isNFTPage.value = true;
+  }
+
+  void onTokenClick() {
+    isNFTPage.value = false;
+  }
 
   @override
   void onReady() {

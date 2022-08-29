@@ -52,8 +52,9 @@ flutter:
     #create wallet page
     - assets/create_wallet/
     - assets/create_wallet/lottie/
-    #token send page
-    - assets/token_send/lottie/
+    #send page
+    - assets/send_page/lottie/
+    - assets/send_page/
 
     - assets/svg/accounts/
 

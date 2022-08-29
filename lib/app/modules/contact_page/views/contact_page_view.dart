@@ -1,17 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/contact_page/models/contact_model.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-import '../../../../utils/constants/path_const.dart';
 import '../controllers/contact_page_controller.dart';
 
 class ContactPageView extends StatelessWidget {
@@ -91,6 +85,10 @@ class ContactPageView extends StatelessWidget {
                 radius: 23,
                 backgroundColor:
                     ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                child: Image.asset(
+                  contact.imagePath,
+                  fit: BoxFit.contain,
+                ),
               ),
               0.04.hspace,
               Column(

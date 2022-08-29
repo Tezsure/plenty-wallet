@@ -112,7 +112,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SEND_TOKEN_PAGE,
-      page: () => const SendTokenPageView(),
+      page: () => const SendPage(),
       binding: SendTokenPageBinding(),
     ),
     // GetPage(

@@ -6,9 +6,11 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class CollectibleWidget extends StatefulWidget {
-  const CollectibleWidget({Key? key, required this.collectibleModel})
+  const CollectibleWidget(
+      {Key? key, required this.collectibleModel, required this.onTap})
       : super(key: key);
 
+  final GestureTapCallback onTap;
   final CollectibleModel collectibleModel;
 
   @override
@@ -21,27 +23,30 @@ class _CollectibleWidgetState extends State<CollectibleWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 2),
       child: Column(
         children: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundColor:
-                    ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+          ListTile(
+            onTap: widget.onTap,
+            contentPadding: EdgeInsets.zero,
+            leading: CircleAvatar(
+              radius: 20,
+              backgroundColor:
+                  ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              child: Image.asset(
+                widget.collectibleModel.collectibleProfilePath,
+                fit: BoxFit.contain,
               ),
-              0.04.hspace,
-              Text(
-                widget.collectibleModel.name,
-                style: labelLarge,
-              ),
-              Spacer(),
-              expandButton(),
-            ],
+            ),
+            trailing: SizedBox(
+                height: 0.03.height, width: 0.14.width, child: expandButton()),
+            title: Text(
+              widget.collectibleModel.name,
+              style: labelLarge,
+            ),
           ),
           if (isExpanded)
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
           if (isExpanded)
@@ -60,7 +65,7 @@ class _CollectibleWidgetState extends State<CollectibleWidget> {
   Container NFTwidget(NFTmodel nfTmodel) {
     return Container(
       width: 0.45.width,
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           borderRadius: BorderRadius.circular(8)),
@@ -71,17 +76,24 @@ class _CollectibleWidgetState extends State<CollectibleWidget> {
             height: 0.42.width,
             width: double.infinity,
             decoration: BoxDecoration(
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(8)),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage(
+                  nfTmodel.nftPath,
+                ),
+              ),
+              color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Text(
             nfTmodel.title,
             style: labelMedium,
           ),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           Text(
@@ -102,7 +114,7 @@ class _CollectibleWidgetState extends State<CollectibleWidget> {
       },
       child: Container(
         height: 24,
-        padding: EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
@@ -115,7 +127,7 @@ class _CollectibleWidgetState extends State<CollectibleWidget> {
               widget.collectibleModel.nfts.length.toString(),
               style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
-            SizedBox(
+            const SizedBox(
               width: 2,
             ),
             Icon(

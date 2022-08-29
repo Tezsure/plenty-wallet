@@ -9,7 +9,7 @@ class PathConst {
 
   static const HOME_PAGE = "assets/home_page/";
   static const SETTINGS_PAGE = "assets/settings_page/";
-  static const TOKEN_PAGE = "assets/token_send/";
+  static const SEND_PAGE = "assets/send_page/";
   static const CONTACTS_PAGE = "assets/contact_page/";
 }
 

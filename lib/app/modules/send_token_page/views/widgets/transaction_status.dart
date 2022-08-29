@@ -9,15 +9,15 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 enum TransactionStatus {
   success(
       title: "Success",
-      lottiePath: "${PathConst.TOKEN_PAGE}lottie/success.json",
+      lottiePath: "${PathConst.SEND_PAGE}lottie/success.json",
       color: Color(0xff5AE200)),
   pending(
       title: "Pending",
-      lottiePath: "${PathConst.TOKEN_PAGE}lottie/pending.json",
+      lottiePath: "${PathConst.SEND_PAGE}lottie/pending.json",
       color: Color(0xff4A454E)),
   failed(
       title: "Failed",
-      lottiePath: "${PathConst.TOKEN_PAGE}lottie/failed.json",
+      lottiePath: "${PathConst.SEND_PAGE}lottie/failed.json",
       color: Color(0xffFF5449));
 
   final String title;
