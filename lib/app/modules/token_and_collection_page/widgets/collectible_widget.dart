@@ -47,6 +47,7 @@ class _CollectibleWidgetState extends State<CollectibleWidget> {
             const SizedBox(
               height: 16,
             ),
+         
           if (isExpanded)
             Wrap(
               spacing: 0.03.width,

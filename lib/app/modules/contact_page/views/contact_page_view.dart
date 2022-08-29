@@ -103,14 +103,19 @@ class ContactPageView extends GetView<SendPageController> {
               ),
               const Spacer(),
               if (isContact)
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.more_horiz,
-                    color: Colors.white,
-                  ),
-                  iconSize: 16,
-                )
+                PopupMenuButton(
+                    itemBuilder: (_) => <PopupMenuEntry>[
+                          PopupMenuItem(child: Text("hello world")),
+                          PopupMenuItem(child: Text("hello world")),
+                        ])
+              // IconButton(
+              //   onPressed: () {},
+              //   icon: const Icon(
+              //     Icons.more_horiz,
+              //     color: Colors.white,
+              //   ),
+              //   iconSize: 16,
+              // )
             ],
           ),
         ),
