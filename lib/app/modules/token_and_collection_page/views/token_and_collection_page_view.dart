@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/send_token_page/controllers/send_token_page_controller.dart';
+import 'package:naan_wallet/app/modules/send_page/controllers/send_token_page_controller.dart';
 import 'package:naan_wallet/app/modules/token_and_collection_page/models/token_model.dart';
 import 'package:naan_wallet/app/modules/token_and_collection_page/widgets/collectible_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 
 import '../modules/backup_wallet_page/bindings/backup_wallet_binding.dart';
 import '../modules/backup_wallet_page/views/backup_wallet_view.dart';
@@ -26,8 +27,7 @@ import '../modules/passcode_page/bindings/passcode_page_binding.dart';
 import '../modules/passcode_page/views/passcode_page_view.dart';
 import '../modules/receive_page/bindings/receive_page_binding.dart';
 import '../modules/receive_page/views/receive_page_view.dart';
-import '../modules/send_token_page/bindings/send_token_page_binding.dart';
-import '../modules/send_token_page/views/send_token_page_view.dart';
+import '../modules/send_page/bindings/send_token_page_binding.dart';
 import '../modules/settings_page/bindings/settings_page_binding.dart';
 import '../modules/settings_page/views/settings_page_view.dart';
 import '../modules/splash_page/bindings/splash_page_binding.dart';
@@ -111,7 +111,7 @@ class AppPages {
       binding: SettingsPageBinding(),
     ),
     GetPage(
-      name: _Paths.SEND_TOKEN_PAGE,
+      name: _Paths.SEND_PAGE,
       page: () => const SendPage(),
       binding: SendTokenPageBinding(),
     ),

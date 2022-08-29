@@ -1,0 +1,113 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/send_page/controllers/send_token_page_controller.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/styles/styles.dart';
+
+import 'token_textfield.dart';
+
+class TokenView extends StatelessWidget {
+  const TokenView({
+    super.key,
+    required this.sendPageController,
+  });
+  final SendPageController sendPageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14.0),
+          child: Material(
+            borderRadius: BorderRadius.circular(8),
+            color: ColorConst.Neutral.shade10.withOpacity(0.6),
+            child: ListTile(
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(color: ColorConst.Neutral.shade70),
+                  borderRadius: BorderRadius.circular(8)),
+              dense: true,
+              leading: SizedBox(
+                width: 0.3.width,
+                child: TokenSendTextfield(
+                  focusNode: sendPageController.recipientFocusNode,
+                  hintText: '0.00',
+                  controller: sendPageController.recipientController,
+                  onChanged: (val) => sendPageController.amount.value = val,
+                ),
+              ),
+              trailing: SizedBox(
+                width: 0.4.width,
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: Container(
+                          height: 24,
+                          width: 48,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color:
+                                  ColorConst.Neutral.shade80.withOpacity(0.2)),
+                          child: Center(
+                            child: Text('Max',
+                                style: labelSmall.copyWith(
+                                    color: ColorConst.Primary.shade60)),
+                          ),
+                        ),
+                      ),
+                      0.02.hspace,
+                      Text(
+                        'XTZ',
+                        style: labelLarge.copyWith(
+                            color: ColorConst.Neutral.shade70),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        0.008.vspace,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14.0),
+          child: Material(
+            borderRadius: BorderRadius.circular(8),
+            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+            child: ListTile(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                dense: true,
+                leading: SizedBox(
+                  width: 0.3.width,
+                  child: Obx(() => TokenSendTextfield(
+                        onChanged: (val) =>
+                            sendPageController.amount.value = val,
+                        hintText:
+                            sendPageController.amount.value.isNumericOnly &&
+                                    sendPageController.amount.value.isNotEmpty
+                                ? '3.42'
+                                : '0.00',
+                        hintStyle: headlineMedium.copyWith(
+                            color: sendPageController
+                                        .amount.value.isNumericOnly &&
+                                    sendPageController.amount.value.isNotEmpty
+                                ? ColorConst.NeutralVariant.shade60
+                                : ColorConst.NeutralVariant.shade30),
+                      )),
+                ),
+                trailing: Text(
+                  'USD',
+                  style: labelLarge.copyWith(
+                      color: ColorConst.NeutralVariant.shade60),
+                )),
+          ),
+        ),
+      ],
+    );
+  }
+}
