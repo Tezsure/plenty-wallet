@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/contact_page/models/contact_model.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_token_page_controller.dart';
@@ -7,8 +6,8 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-class ContactPageView extends GetView<SendPageController> {
-  const ContactPageView({super.key});
+class ContactsListView extends GetView<SendPageController> {
+  const ContactsListView({super.key});
 
   @override
   Widget build(BuildContext context) {

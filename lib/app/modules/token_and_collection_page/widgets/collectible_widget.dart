@@ -7,8 +7,7 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 class CollectibleWidget extends StatefulWidget {
   const CollectibleWidget(
-      {Key? key, required this.collectibleModel, required this.onTap})
-      : super(key: key);
+      {super.key, required this.collectibleModel, required this.onTap});
 
   final GestureTapCallback onTap;
   final CollectibleModel collectibleModel;
@@ -27,7 +26,6 @@ class _CollectibleWidgetState extends State<CollectibleWidget> {
       child: Column(
         children: [
           ListTile(
-            onTap: widget.onTap,
             contentPadding: EdgeInsets.zero,
             leading: CircleAvatar(
               radius: 20,
@@ -54,7 +52,9 @@ class _CollectibleWidgetState extends State<CollectibleWidget> {
               spacing: 0.03.width,
               runSpacing: 0.03.width,
               children: widget.collectibleModel.nfts
-                  .map((nfTmodel) => NFTwidget(nfTmodel))
+                  .map((nfTmodel) => NFTwidget(
+                        nfTmodel,
+                      ))
                   .toList(),
             )
         ],
@@ -62,45 +62,50 @@ class _CollectibleWidgetState extends State<CollectibleWidget> {
     );
   }
 
-  Container NFTwidget(NFTmodel nfTmodel) {
-    return Container(
-      width: 0.45.width,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(8)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 0.42.width,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(
-                  nfTmodel.nftPath,
+  InkWell NFTwidget(
+    NFTmodel nfTmodel,
+  ) {
+    return InkWell(
+      onTap: widget.onTap,
+      child: Container(
+        width: 0.45.width,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(8)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 0.42.width,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                    nfTmodel.nftPath,
+                  ),
                 ),
+                color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(8),
               ),
-              color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8),
             ),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          Text(
-            nfTmodel.title,
-            style: labelMedium,
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          Text(
-            nfTmodel.name,
-            style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
-          ),
-        ],
+            const SizedBox(
+              height: 12,
+            ),
+            Text(
+              nfTmodel.title,
+              style: labelMedium,
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            Text(
+              nfTmodel.name,
+              style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+            ),
+          ],
+        ),
       ),
     );
   }

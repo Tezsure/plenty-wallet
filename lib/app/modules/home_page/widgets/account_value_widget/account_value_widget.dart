@@ -66,7 +66,7 @@ class AccountValueWidget extends StatelessWidget {
               // ),
               actionMethod("Send", "${PathConst.HOME_PAGE.SVG}send.svg",
                   onTap: () {
-                Get.bottomSheet(ContactSelectionPage(),
+                Get.bottomSheet(const SendPage(),
                     isScrollControlled: true,
                     barrierColor: Colors.white.withOpacity(0.09));
               }),

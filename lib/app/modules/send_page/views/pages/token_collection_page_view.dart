@@ -7,11 +7,10 @@ import 'package:naan_wallet/app/modules/token_and_collection_page/models/token_m
 import 'package:naan_wallet/app/modules/token_and_collection_page/widgets/collectible_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/styles/styles.dart';
 
-import '../../../../utils/styles/styles.dart';
-
-class TokenAndCollectionPageView extends GetView<SendPageController> {
-  const TokenAndCollectionPageView({super.key});
+class TokenAndNftPageView extends GetView<SendPageController> {
+  const TokenAndNftPageView({super.key});
 
   @override
   Widget build(BuildContext context) {

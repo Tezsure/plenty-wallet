@@ -11,9 +11,9 @@ import 'transaction_status.dart';
 
 class TransactionBottomSheet extends StatelessWidget {
   const TransactionBottomSheet({
-    Key? key,
+    super.key,
     required this.showNFTPage,
-  }) : super(key: key);
+  });
 
   final bool showNFTPage;
 

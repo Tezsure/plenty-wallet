@@ -7,12 +7,10 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 import 'token_textfield.dart';
 
-class TokenView extends StatelessWidget {
+class TokenView extends GetView<SendPageController> {
   const TokenView({
     super.key,
-    required this.sendPageController,
   });
-  final SendPageController sendPageController;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +29,10 @@ class TokenView extends StatelessWidget {
               leading: SizedBox(
                 width: 0.3.width,
                 child: TokenSendTextfield(
-                  focusNode: sendPageController.recipientFocusNode,
+                  focusNode: controller.recipientFocusNode,
                   hintText: '0.00',
-                  controller: sendPageController.recipientController,
-                  onChanged: (val) => sendPageController.amount.value = val,
+                  controller: controller.recipientController,
+                  onChanged: (val) => controller.amount.value = val,
                 ),
               ),
               trailing: SizedBox(
@@ -85,17 +83,14 @@ class TokenView extends StatelessWidget {
                 leading: SizedBox(
                   width: 0.3.width,
                   child: Obx(() => TokenSendTextfield(
-                        onChanged: (val) =>
-                            sendPageController.amount.value = val,
-                        hintText:
-                            sendPageController.amount.value.isNumericOnly &&
-                                    sendPageController.amount.value.isNotEmpty
-                                ? '3.42'
-                                : '0.00',
+                        onChanged: (val) => controller.amount.value = val,
+                        hintText: controller.amount.value.isNumericOnly &&
+                                controller.amount.value.isNotEmpty
+                            ? '3.42'
+                            : '0.00',
                         hintStyle: headlineMedium.copyWith(
-                            color: sendPageController
-                                        .amount.value.isNumericOnly &&
-                                    sendPageController.amount.value.isNotEmpty
+                            color: controller.amount.value.isNumericOnly &&
+                                    controller.amount.value.isNotEmpty
                                 ? ColorConst.NeutralVariant.shade60
                                 : ColorConst.NeutralVariant.shade30),
                       )),

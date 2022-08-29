@@ -113,7 +113,7 @@ SnackbarController transactionStatusSnackbar({
               splashRadius: 15,
               constraints: BoxConstraints.tight(const Size(20, 20)),
               iconSize: 20,
-              onPressed: () {},
+              onPressed: () => Get.back(),
               padding: const EdgeInsets.only(bottom: 40),
               icon: const Icon(
                 Icons.close,
@@ -125,6 +125,7 @@ SnackbarController transactionStatusSnackbar({
     ),
     shouldIconPulse: false,
     snackStyle: SnackStyle.FLOATING,
+    duration: const Duration(minutes: 1),
     animationDuration: const Duration(seconds: 1),
     snackPosition: SnackPosition.BOTTOM,
   );
