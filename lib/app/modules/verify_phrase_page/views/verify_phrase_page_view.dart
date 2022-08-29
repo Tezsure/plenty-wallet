@@ -111,9 +111,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                         child: InkWell(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(8)),
-                          onTap: () => controller.isPhraseVerified.value
-                              ? Get.offAndToNamed(Routes.HOME_PAGE)
-                              : controller.selectedPhrase.isEmpty
+                          onTap: () => controller.selectedPhrase.isEmpty
                                   ? null
                                   : controller.verifySecretPhrase(),
                           splashColor: Colors.transparent,

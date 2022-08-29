@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
-import 'package:naan_wallet/app/modules/import_wallet_page/models/account_model.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-
+import 'package:naan_wallet/utils/utils.dart';
+import 'package:naan_wallet/app/data/services/extension_service/extension_service.dart';
 import '../../../../utils/styles/styles.dart';
 
 class AccountWidget extends StatelessWidget {
   AccountWidget({Key? key}) : super(key: key);
 
-  final ImportWalletPageController controller = Get.find();
+  final ImportWalletPageController controller =
+      Get.find<ImportWalletPageController>();
+
+  Map<String, double> accountBalances = <String, double>{};
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +34,14 @@ class AccountWidget extends StatelessWidget {
                   children: [
                     Column(
                       children: List.generate(
-                        controller.accounts.length,
-                        (index) => accountWidget(controller.accounts[index]),
+                        controller.generatedAccounts.length,
+                        (index) => accountWidget(
+                            controller.generatedAccounts[index], index),
                       ),
                     ),
-                    if (controller.accounts.length < 100)
-                      showMoreAccountButton(),
+                    if (controller.generatedAccounts.length < 100)
+                      showMoreAccountButton(
+                          controller.generatedAccounts.length - 1),
                   ],
                 ),
               ),
@@ -52,18 +58,19 @@ class AccountWidget extends StatelessWidget {
                     children: [
                       Expanded(
                         child: ListView.separated(
-                          itemBuilder: (context, index) =>
-                              accountWidget(controller.accounts[index]),
+                          itemBuilder: (context, index) => accountWidget(
+                              controller.generatedAccounts[index], index),
                           separatorBuilder: (context, index) => const Divider(
                               color: Color(0xff4a454e),
                               height: 1,
                               thickness: 1),
-                          itemCount: controller.accounts.length,
+                          itemCount: controller.generatedAccounts.length,
                           shrinkWrap: true,
                         ),
                       ),
-                      if (controller.accounts.length < 100)
-                        showMoreAccountButton(),
+                      if (controller.generatedAccounts.length < 100)
+                        showMoreAccountButton(
+                            controller.generatedAccounts.length - 1),
                     ],
                   ),
                 ),
@@ -73,7 +80,7 @@ class AccountWidget extends StatelessWidget {
     );
   }
 
-  Column showMoreAccountButton() {
+  Column showMoreAccountButton(int index) {
     return Column(
       children: [
         const Divider(
@@ -83,7 +90,9 @@ class AccountWidget extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            controller.showMoreAccounts();
+            controller.genAndLoadMoreAccounts(index, 3);
+
+            // controller.showMoreAccounts();
             controller.isExpanded.value = true;
           },
           child: SizedBox(
@@ -100,14 +109,23 @@ class AccountWidget extends StatelessWidget {
     );
   }
 
-  Widget accountWidget(AccountModel accountModel) {
+  Widget accountWidget(AccountModel accountModel, index) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       height: 84,
       child: Row(
         children: [
-          const CircleAvatar(
-            radius: 30,
+          Container(
+            height: 0.13.width,
+            width: 0.13.width,
+            alignment: Alignment.bottomRight,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                fit: BoxFit.fitWidth,
+                image: AssetImage(accountModel.profileImage!),
+              ),
+            ),
           ),
           0.05.hspace,
           Column(
@@ -115,13 +133,26 @@ class AccountWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "tz1...qfDZg\n",
+                tz1Shortner(accountModel.publicKeyHash!),
                 style: bodySmall,
               ),
-              Text(
-                "20 tez",
-                style: bodyLarge,
-              ),
+              accountBalances.containsKey(accountModel.publicKeyHash)
+                  ? Text(
+                      "${accountBalances[accountModel.publicKeyHash]} tez",
+                      style: bodyLarge,
+                    )
+                  : FutureBuilder<double>(
+                      future: accountModel.getUserBalanceInTezos(),
+                      initialData: 0.0,
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        accountBalances[accountModel.publicKeyHash!] =
+                            snapshot.data;
+                        return Text(
+                          "${snapshot.data} tez",
+                          style: bodyLarge,
+                        );
+                      },
+                    ),
             ],
           ),
           const Spacer(),

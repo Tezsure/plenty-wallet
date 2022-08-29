@@ -1,11 +1,16 @@
+// ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class NaanTextfield extends StatelessWidget {
-  const NaanTextfield({Key? key, this.controller, this.hint}) : super(key: key);
   final TextEditingController? controller;
+  var onTextChange;
   final String? hint;
+
+  NaanTextfield({Key? key, this.controller, this.hint, this.onTextChange})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +26,7 @@ class NaanTextfield extends StatelessWidget {
             controller: controller,
             cursorColor: ColorConst.Primary,
             style: bodyMedium,
+            onChanged: onTextChange,
             decoration: InputDecoration(
                 hintStyle:
                     bodyMedium.apply(color: Colors.white.withOpacity(0.2)),

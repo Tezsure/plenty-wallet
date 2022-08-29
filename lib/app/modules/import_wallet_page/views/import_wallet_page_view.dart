@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
@@ -112,6 +113,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                         alignment: Alignment.bottomRight,
                                         child: GestureDetector(
                                           onTap: () {
+                                            controller.importWalletDataType =
+                                                ImportWalletDataType.none;
                                             controller.phraseTextController
                                                 .value.text = "";
                                             controller.phraseText.value = "";
@@ -174,14 +177,21 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   Widget importButton() {
     return Obx(
       () => SolidButton(
-        onPressed: () {
-          Get.bottomSheet(
-            accountBottomSheet(),
-            isScrollControlled: true,
-            barrierColor: Colors.white.withOpacity(0.2),
-          );
+        onPressed: () async {
+          if (controller.importWalletDataType ==
+              ImportWalletDataType.mnemonic) {
+            controller.genAndLoadMoreAccounts(0, 3);
+            Get.bottomSheet(
+              accountBottomSheet(),
+              isScrollControlled: true,
+              barrierColor: Colors.white.withOpacity(0.2),
+            );
+          } else {
+            controller.redirectBasedOnImportWalletType();
+          }
         },
-        active: controller.phraseText.split(" ").join().length >= 2,
+        active: controller.phraseText.split(" ").join().length >= 2 &&
+            controller.importWalletDataType != ImportWalletDataType.none,
         inActiveChild: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -207,7 +217,15 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             ),
             0.03.hspace,
             Text(
-              "Import",
+              controller.importWalletDataType == ImportWalletDataType.privateKey
+                  ? "Import using private key"
+                  : controller.importWalletDataType ==
+                          ImportWalletDataType.mnemonic
+                      ? "Import using seed phrase"
+                      : controller.importWalletDataType ==
+                              ImportWalletDataType.watchAddress
+                          ? "Import watch address"
+                          : "Import",
               style: titleSmall.apply(color: ColorConst.Neutral.shade95),
             )
           ],
@@ -257,8 +275,9 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             ),
             0.03.vspace,
             SolidButton(
-              onPressed: () =>
-                  Get.offAllNamed(Routes.HOME_PAGE, arguments: [true]),
+              onPressed: () {
+                controller.redirectBasedOnImportWalletType();
+              },
               title: "Continue",
             ),
             0.05.vspace

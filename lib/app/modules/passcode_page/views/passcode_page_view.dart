@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -15,6 +14,16 @@ class PasscodePageView extends GetView<PasscodePageController> {
   const PasscodePageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    var args = ModalRoute.of(context)!.settings.arguments as List;
+    controller.isToVerifyPassCode = args[0] as bool;
+    if (args.length == 2) {
+      controller.nextPageRoute = args[1] as String;
+    }
+
+    if (controller.isToVerifyPassCode) {
+      controller.verifyPassCodeOrBiomatrics();
+    }
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
@@ -41,7 +50,9 @@ class PasscodePageView extends GetView<PasscodePageController> {
               ),
               0.05.vspace,
               Text(
-                "Set passcode",
+                controller.isToVerifyPassCode
+                    ? "Enter passcode"
+                    : "Set passcode",
                 textAlign: TextAlign.center,
                 style: titleMedium,
               ),
@@ -54,9 +65,9 @@ class PasscodePageView extends GetView<PasscodePageController> {
               0.05.vspace,
               PassCodeWidget(onChanged: (value) {
                 if (value.length == 6) {
-                  Get.toNamed(Routes.BIOMETRIC_PAGE);
+                  controller.checkOrWriteNewAndRedirectToNewPage(value);
+                  // Get.toNamed(Routes.BIOMETRIC_PAGE);
                 }
-                print(value);
               })
             ],
           ),
@@ -75,7 +86,9 @@ class PassCodeWidget extends StatefulWidget {
 }
 
 class _PassCodeWidgetState extends State<PassCodeWidget> {
-  String passCode = "";
+  // String passCode = "";
+
+  PasscodePageController controller = Get.find<PasscodePageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -85,19 +98,21 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
       children: [
         SizedBox(
           width: 0.45.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(
-              6,
-              (index) => Container(
-                height: 22,
-                width: 22,
-                decoration: BoxDecoration(
-                  color: passCode.length - 1 < index
-                      ? Colors.transparent
-                      : Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white, width: 2),
+          child: Obx(
+            () => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(
+                6,
+                (index) => Container(
+                  height: 22,
+                  width: 22,
+                  decoration: BoxDecoration(
+                    color: controller.enteredPassCode.value.length - 1 < index
+                        ? Colors.transparent
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.white, width: 2),
+                  ),
                 ),
               ),
             ),
@@ -126,11 +141,12 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
               '0',
             ),
             getButton('', false, Icons.backspace_outlined, () {
-              if (passCode.isNotEmpty) {
-                setState(() {
-                  passCode = passCode.substring(0, passCode.length - 1);
-                });
-                if (widget.onChanged != null) widget.onChanged!(passCode);
+              if (controller.enteredPassCode.value.isNotEmpty) {
+                controller.enteredPassCode.value = controller
+                    .enteredPassCode.value
+                    .substring(0, controller.enteredPassCode.value.length - 1);
+                if (widget.onChanged != null)
+                  widget.onChanged!(controller.enteredPassCode.value);
               }
             })
           ],
@@ -159,11 +175,11 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
             onTap: iconData != null
                 ? onIconTap
                 : () {
-                    if (passCode.length < 6) {
-                      setState(() {
-                        passCode = passCode + value;
-                      });
-                      if (widget.onChanged != null) widget.onChanged!(passCode);
+                    if (controller.enteredPassCode.value.length < 6) {
+                      controller.enteredPassCode.value =
+                          controller.enteredPassCode.value + value;
+                      if (widget.onChanged != null)
+                        widget.onChanged!(controller.enteredPassCode.value);
                     }
                   },
             child: Container(

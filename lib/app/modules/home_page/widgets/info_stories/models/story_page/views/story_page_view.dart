@@ -47,7 +47,7 @@ class StoryPageView extends GetView<StoryPageController> {
         child: Column(
           children: [
             SizedBox(
-              height: containerHeight ?? 0.15.height,
+              height: containerHeight ?? 0.17.height,
               width: 1.width,
               child: ListView.builder(
                   padding: EdgeInsets.zero,

@@ -23,6 +23,8 @@ abstract class Routes {
   static const CONTACT_PAGE = _Paths.CONTACT_PAGE;
   static const TOKEN_AND_COLLECTION_PAGE = _Paths.TOKEN_AND_COLLECTION_PAGE;
   static const RECEIVE_PAGE = _Paths.RECEIVE_PAGE;
+  static const SPLASH_PAGE = _Paths.SPLASH_PAGE;
+  static const LOADING_PAGE = _Paths.LOADING_PAGE;
 }
 
 abstract class _Paths {
@@ -43,4 +45,6 @@ abstract class _Paths {
   static const CONTACT_PAGE = '/contact-page';
   static const TOKEN_AND_COLLECTION_PAGE = '/token-and-collection-page';
   static const RECEIVE_PAGE = '/receive-page';
+  static const SPLASH_PAGE = '/splash-page';
+  static const LOADING_PAGE = '/loading-page';
 }
