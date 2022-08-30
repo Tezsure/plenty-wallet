@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -94,8 +96,18 @@ class TransactionBottomSheet extends StatelessWidget {
             onPressed: () {
               Get.back();
               Get.bottomSheet(NaanBottomSheet(
-                height: 0.35.height,
+                height: 0.5.height,
                 bottomSheetWidgets: [
+                  0.04.vspace,
+                  Align(
+                    alignment: Alignment.center,
+                    child: LottieBuilder.asset(
+                      '${PathConst.SEND_PAGE}lottie/send_success.json',
+                      height: 68,
+                      width: 68,
+                    ),
+                  ),
+                  0.02.vspace,
                   Align(
                     alignment: Alignment.center,
                     child: Text(
@@ -116,6 +128,11 @@ class TransactionBottomSheet extends StatelessWidget {
                   ),
                   0.02.vspace,
                   SolidButton(
+                      elevation: 0,
+                      borderWidth: 1,
+                      primaryColor: Colors.transparent,
+                      borderColor: ColorConst.Neutral.shade80,
+                      textColor: ColorConst.Primary.shade80,
                       title: 'Got it',
                       onPressed: () {
                         Get

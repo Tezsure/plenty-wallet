@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
-import 'package:naan_wallet/app/modules/contact_page/models/contact_model.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -9,9 +9,9 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 class EditContactBottomSheet extends StatelessWidget {
   final ContactModel contactModel;
   const EditContactBottomSheet({
-    Key? key,
+    super.key,
     required this.contactModel,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,9 @@ class EditContactBottomSheet extends StatelessWidget {
           ),
         ),
         0.03.vspace,
-        NaanTextfield(hint: 'Enter Name',),
+        NaanTextfield(
+          hint: 'Enter Name',
+        ),
         0.025.vspace,
         Text(
           contactModel.address,

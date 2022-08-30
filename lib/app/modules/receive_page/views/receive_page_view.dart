@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/receive_page/widgets/fluttertoast.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -13,12 +12,13 @@ import 'package:share_plus/share_plus.dart';
 import '../controllers/receive_page_controller.dart';
 
 class ReceivePageView extends GetView<ReceivePageController> {
-  const ReceivePageView({Key? key}) : super(key: key);
+  const ReceivePageView({super.key});
 
   final String accountName = "accountName";
   final String accountAddress = "tzkeibotkxxkjpbmvfbv4a8ov5rafrdmf9";
   @override
   Widget build(BuildContext context) {
+    Get.put(ReceivePageController());
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(
@@ -29,7 +29,6 @@ class ReceivePageView extends GetView<ReceivePageController> {
             gradient: GradConst.GradientBackground),
         child: Column(
           children: [
-           
             0.005.vspace,
             Container(
               height: 5,
@@ -55,7 +54,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
             0.047.vspace,
             GestureDetector(
               onTap: () {
-                //controller.copyAddress(accountAddress);
+                controller.copyAddress(accountAddress);
               },
               child: Text(
                 accountName,
@@ -70,31 +69,6 @@ class ReceivePageView extends GetView<ReceivePageController> {
             0.047.vspace,
             shareButton(),
             0.06.vspace,
-            //if (controller.isCopied.value)
-              Container(
-                height: 36,
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    color: ColorConst.Neutral.shade30,
-                    borderRadius: BorderRadius.circular(8)),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.check_circle_outline_rounded,
-                      size: 14,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      "Copied ${accountAddress}",
-                      style: labelSmall,
-                    )
-                  ],
-                ),
-              )
           ],
         ),
       ),
@@ -110,12 +84,13 @@ class ReceivePageView extends GetView<ReceivePageController> {
       alignment: Alignment.center,
       child: QrImage(
         data: accountAddress,
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         gapless: false,
-        eyeStyle: QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
+        eyeStyle:
+            const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
         embeddedImageEmitsError: true,
-        embeddedImageStyle: QrEmbeddedImageStyle(size: Size(48, 48)),
-        dataModuleStyle: QrDataModuleStyle(
+        embeddedImageStyle: QrEmbeddedImageStyle(size: const Size(48, 48)),
+        dataModuleStyle: const QrDataModuleStyle(
             dataModuleShape: QrDataModuleShape.circle, color: Colors.black),
       ),
     );
@@ -127,17 +102,17 @@ class ReceivePageView extends GetView<ReceivePageController> {
         Share.share(accountAddress);
       },
       child: Container(
-        height: 50,
+        height: 40,
         width: 120,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
+            const Icon(
               Icons.share_sharp,
               size: 20,
               color: Colors.white,

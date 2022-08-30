@@ -1,4 +1,4 @@
-import 'package:naan_wallet/app/modules/token_and_collection_page/models/nft_model.dart';
+import 'nft_model.dart';
 
 class CollectibleModel {
   final String name;

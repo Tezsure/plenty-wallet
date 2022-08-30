@@ -42,7 +42,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME_PAGE;
+  static const INITIAL = Routes.ONBOARDING_PAGE;
 
   static final routes = [
     GetPage(
@@ -115,16 +115,6 @@ class AppPages {
       page: () => const SendPage(),
       binding: SendTokenPageBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.CONTACT_PAGE,
-    //   page: () => const ContactPageView(),
-    //   binding: ContactPageBinding(),
-    // ),
-    // GetPage(
-    //   name: _Paths.TOKEN_AND_COLLECTION_PAGE,
-    //   page: () => const TokenAndCollectionPageView(),
-    //   binding: TokenAndCollectionPageBinding(),
-    // ),
     GetPage(
       name: _Paths.RECEIVE_PAGE,
       page: () => const ReceivePageView(),

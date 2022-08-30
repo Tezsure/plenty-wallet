@@ -14,7 +14,8 @@ class SolidButton extends StatelessWidget {
   final Color? disabledButtonColor;
   final Color? primaryColor;
   final double elevation;
-
+  final Color borderColor;
+  final double borderWidth;
   final Widget? inActiveChild;
   const SolidButton({
     Key? key,
@@ -30,12 +31,16 @@ class SolidButton extends StatelessWidget {
     this.disabledButtonColor,
     this.primaryColor,
     this.elevation = 2,
+    this.borderColor = Colors.transparent,
+    this.borderWidth = 0,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
       elevation: elevation,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      padding: EdgeInsets.zero,
       onPressed: active ? onPressed : null,
       disabledColor: disabledButtonColor ??
           ColorConst.NeutralVariant.shade60.withOpacity(0.2),
@@ -48,20 +53,12 @@ class SolidButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: Colors.transparent,
+          border: Border.all(
+            color: borderColor,
+            width: borderWidth,
+          ),
         ),
         alignment: Alignment.center,
-        // child: Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     if (rowWidget != null) ...[rowWidget!, 10.w.hspace],
-        //     Text(
-        //       title,
-        //       style: titleSmall.apply(
-        //         color: textColor ?? ColorConst.Neutral,
-        //       ),
-        //     ),
-        //   ],
-        // ),
         child: child != null
             ? (active ? child : inActiveChild)
             : Text(

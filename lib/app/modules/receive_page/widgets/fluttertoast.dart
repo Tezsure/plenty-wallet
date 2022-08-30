@@ -33,7 +33,7 @@ enum ToastGravity {
 class Fluttertoast {
   /// [MethodChannel] used to communicate with the platform side.
   static const MethodChannel _channel =
-      const MethodChannel('PonnamKarthik/fluttertoast');
+      MethodChannel('PonnamKarthik/fluttertoast');
 
   /// Let say you have an active show
   /// Use this method to hide the toast immediately
@@ -58,8 +58,8 @@ class Fluttertoast {
     Color? backgroundColor,
     Color? textColor,
     bool webShowClose = false,
-    webBgColor: "linear-gradient(to right, #00b09b, #96c93d)",
-    webPosition: "right",
+    webBgColor = "linear-gradient(to right, #00b09b, #96c93d)",
+    webPosition = "right",
   }) async {
     String toast = "short";
     if (toastLength == Toast.LENGTH_LONG) {
@@ -76,21 +76,17 @@ class Fluttertoast {
     }
 
 //lines from 78 to 97 have been changed in order to solve issue #328
-    if (backgroundColor == null) {
-      backgroundColor = Colors.black;
-    }
-    if (textColor == null) {
-      textColor = Colors.white;
-    }
+    backgroundColor ??= Colors.black;
+    textColor ??= Colors.white;
     final Map<String, dynamic> params = <String, dynamic>{
       'msg': msg,
       'length': toast,
       'time': timeInSecForIosWeb,
       'gravity': gravityToast,
-      'bgcolor': backgroundColor != null ? backgroundColor.value : null,
-      'iosBgcolor': backgroundColor != null ? backgroundColor.value : null,
-      'textcolor': textColor != null ? textColor.value : null,
-      'iosTextcolor': textColor != null ? textColor.value : null,
+      'bgcolor': backgroundColor.value,
+      'iosBgcolor': backgroundColor.value,
+      'textcolor': textColor.value,
+      'iosTextcolor': textColor.value,
       'fontSize': fontSize,
       'webShowClose': webShowClose,
       'webBgColor': webBgColor,
@@ -130,7 +126,7 @@ class FToast {
   FToast._internal();
 
   OverlayEntry? _entry;
-  List<_ToastEntry> _overlayQueue = [];
+  final List<_ToastEntry> _overlayQueue = [];
   Timer? _timer;
   Timer? _fadeTimer;
 
@@ -138,18 +134,19 @@ class FToast {
   /// the overlay to the screen
   ///
   _showOverlay() {
-    if (_overlayQueue.length == 0) {
+    if (_overlayQueue.isEmpty) {
       _entry = null;
       return;
     }
-    _ToastEntry _toastEntry = _overlayQueue.removeAt(0);
-    _entry = _toastEntry.entry;
-    if (context == null)
+    _ToastEntry toastEntry = _overlayQueue.removeAt(0);
+    _entry = toastEntry.entry;
+    if (context == null) {
       throw ("Error: Context is null, Please call init(context) before showing toast.");
+    }
     Overlay.of(context!)?.insert(_entry!);
 
-    _timer = Timer(_toastEntry.duration, () {
-      _fadeTimer = Timer(_toastEntry.fadeDuration, () {
+    _timer = Timer(toastEntry.duration, () {
+      _fadeTimer = Timer(toastEntry.fadeDuration, () {
         removeCustomToast();
       });
     });
@@ -195,8 +192,9 @@ class FToast {
     ToastGravity? gravity,
     Duration fadeDuration = const Duration(milliseconds: 350),
   }) {
-    if (context == null)
+    if (context == null) {
       throw ("Error: Context is null, Please call init(context) before showing toast.");
+    }
     Widget newChild = _ToastStateFul(child, toastDuration, fadeDuration);
 
     /// Check for keyboard open
@@ -208,8 +206,9 @@ class FToast {
     }
 
     OverlayEntry newEntry = OverlayEntry(builder: (context) {
-      if (positionedToastBuilder != null)
+      if (positionedToastBuilder != null) {
         return positionedToastBuilder(context, newChild);
+      }
       return _getPostionWidgetBasedOnGravity(newChild, gravity);
     });
     _overlayQueue.add(_ToastEntry(
@@ -270,7 +269,7 @@ class _ToastEntry {
 /// internal [StatefulWidget] which handles the show and hide
 /// animations for [FToast]
 class _ToastStateFul extends StatefulWidget {
-  _ToastStateFul(this.child, this.duration, this.fadeDuration, {Key? key})
+  const _ToastStateFul(this.child, this.duration, this.fadeDuration, {Key? key})
       : super(key: key);
 
   final Widget child;

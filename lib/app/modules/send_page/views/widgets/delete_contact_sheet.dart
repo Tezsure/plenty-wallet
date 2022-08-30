@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
-import 'package:naan_wallet/app/modules/contact_page/models/contact_model.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';

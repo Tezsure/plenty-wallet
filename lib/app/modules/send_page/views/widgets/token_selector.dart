@@ -27,7 +27,7 @@ class TokenSelector extends StatelessWidget {
 
   final bool showNFTPage;
   final String? nftImageUrl;
-  final String totalTez;
+  final double totalTez;
   final String? tokenImageUrl;
   final String tokenName;
   final String nftCollectibleName;

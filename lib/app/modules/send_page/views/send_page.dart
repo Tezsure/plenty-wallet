@@ -8,13 +8,13 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-import '../controllers/send_token_page_controller.dart';
+import '../controllers/send_page_controller.dart';
 import 'pages/send_review_page.dart';
 import 'widgets/add_button.dart';
 import 'widgets/paste_button.dart';
 
 class SendPage extends GetView<SendPageController> {
-  const SendPage({Key? key}) : super(key: key);
+  const SendPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +46,8 @@ class SendPage extends GetView<SendPageController> {
                       const TokenAndNftPageView(),
                       SendReviewPage(
                         controller: controller,
-                        totalTez: '3.23',
+                        totalTez: 3.23,
                         showNFTPage: controller.isNFTPage.value,
-                        receiverName: 'Bernd.tez',
                         nftImageUrl: 'assets/temp/nft_thumbnail.png',
                       ),
                     ],
@@ -92,19 +91,21 @@ class SendPage extends GetView<SendPageController> {
                   ),
                 ),
                 0.02.hspace,
-                Flexible(
-                  child: TextField(
-                    controller: controller.searchTextController.value,
-                    onChanged: (value) => controller.searchText.value = value,
-                    cursorColor: ColorConst.Primary,
-                    style: bodyMedium.apply(color: ColorConst.Primary),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Tez domain or address',
-                        hintStyle: bodyMedium.apply(
-                            color: ColorConst.NeutralVariant.shade40)),
-                  ),
-                ),
+                Obx(() => Flexible(
+                      child: TextField(
+                        controller: controller.searchTextController.value,
+                        onChanged: (value) =>
+                            controller.searchText.value = value,
+                        focusNode: controller.searchBarFocusNode,
+                        cursorColor: ColorConst.Primary,
+                        style: bodyMedium.apply(color: ColorConst.Primary),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Tez domain or address',
+                            hintStyle: bodyMedium.apply(
+                                color: ColorConst.NeutralVariant.shade40)),
+                      ),
+                    )),
                 0.02.hspace,
                 Obx(() => controller.searchText.isEmpty
                     ? PasteButton(

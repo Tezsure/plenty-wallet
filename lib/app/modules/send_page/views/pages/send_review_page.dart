@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-import 'package:naan_wallet/app/modules/send_page/controllers/send_token_page_controller.dart';
+import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -21,21 +21,16 @@ import '../widgets/token_view.dart';
 /// [receiverName] is a required paramenter & can't be null
 class SendReviewPage extends StatelessWidget {
   final SendPageController controller;
-  final String totalTez;
+  final double totalTez;
   final bool showNFTPage;
-  final String? receiverName;
-  final Function()? onTapSave;
   final String? nftImageUrl;
   const SendReviewPage({
     Key? key,
     required this.controller,
-    this.totalTez = '0.0',
+    this.totalTez = 0.0,
     this.showNFTPage = false,
-    required this.receiverName,
-    this.onTapSave,
     this.nftImageUrl,
-  })  : assert(receiverName != null),
-        assert(showNFTPage == true ? nftImageUrl != null : true),
+  })  : assert(showNFTPage == true ? nftImageUrl != null : true),
         super(key: key);
 
   @override

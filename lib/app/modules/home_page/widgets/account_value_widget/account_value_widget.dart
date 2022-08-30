@@ -54,29 +54,15 @@ class AccountValueWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // actionMethod(
-              //   "Send",
-              //   "${PathConst.HOME_PAGE.SVG}send.svg",
-              //   onTap: () => Get.toNamed(Routes.SEND_TOKEN_PAGE),
-              // ),
-              // 0.09.hspace,
-              // actionMethod(
-              //   "Receive",
-              //   "${PathConst.HOME_PAGE.SVG}receive.svg",
-              // ),
               actionMethod("Send", "${PathConst.HOME_PAGE.SVG}send.svg",
-                  onTap: () {
-                Get.bottomSheet(const SendPage(),
-                    isScrollControlled: true,
-                    barrierColor: Colors.white.withOpacity(0.09));
-              }),
+                  onTap: () => Get.bottomSheet(const SendPage(),
+                      isScrollControlled: true,
+                      barrierColor: Colors.white.withOpacity(0.09))),
               0.09.hspace,
               actionMethod("Receive", "${PathConst.HOME_PAGE.SVG}receive.svg",
-                  onTap: () {
-                Get.bottomSheet(const ReceivePageView(),
-                    isScrollControlled: true,
-                    barrierColor: Colors.white.withOpacity(0.09));
-              }),
+                  onTap: () => Get.bottomSheet(const ReceivePageView(),
+                      isScrollControlled: true,
+                      barrierColor: Colors.white.withOpacity(0.09))),
               0.09.hspace,
               actionMethod("Add", "${PathConst.HOME_PAGE.SVG}plus.svg"),
             ],

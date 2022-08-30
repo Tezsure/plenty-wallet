@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/contact_page/models/contact_model.dart';
-import 'package:naan_wallet/app/modules/send_page/controllers/send_token_page_controller.dart';
+import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
+import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/delete_contact_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/edit_contact_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -25,41 +25,41 @@ class ContactsListView extends GetView<SendPageController> {
               child: ListView(
                 physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),
-                children: controller.searchText.isEmpty
-                    ? (<Widget>[
-                          Text(
-                            'Recents',
-                            style: labelSmall.apply(
-                                color: ColorConst.NeutralVariant.shade60),
-                          ),
-                          0.008.vspace
-                        ] +
-                        controller.recentsContacts
-                            .map((element) => contact(element))
-                            .toList() +
-                        <Widget>[
-                          0.033.vspace,
-                          Text(
-                            'Contacts',
-                            style: labelSmall.apply(
-                                color: ColorConst.NeutralVariant.shade60),
-                          ),
-                          0.008.vspace
-                        ] +
-                        controller.contacts
-                            .map((element) => contact(element, isContact: true))
-                            .toList())
-                    : <Widget>[
-                          Text(
-                            'Suggestions',
-                            style: labelSmall.apply(
-                                color: ColorConst.NeutralVariant.shade60),
-                          ),
-                          0.008.vspace
-                        ] +
-                        controller.suggestedContacts
-                            .map((element) => contact(element))
-                            .toList(),
+                children: (<Widget>[
+                      if (controller.searchText.isNotEmpty)
+                        ...[
+                              Text(
+                                'Suggestions',
+                                style: labelSmall.apply(
+                                    color: ColorConst.NeutralVariant.shade60),
+                              ),
+                              0.008.vspace
+                            ] +
+                            controller.suggestedContacts
+                                .map((element) => contact(element))
+                                .toList(),
+                      Text(
+                        'Recents',
+                        style: labelSmall.apply(
+                            color: ColorConst.NeutralVariant.shade60),
+                      ),
+                      0.008.vspace
+                    ] +
+                    controller.recentsContacts
+                        .map((element) => contact(element))
+                        .toList() +
+                    <Widget>[
+                      0.033.vspace,
+                      Text(
+                        'Contacts',
+                        style: labelSmall.apply(
+                            color: ColorConst.NeutralVariant.shade60),
+                      ),
+                      0.008.vspace
+                    ] +
+                    controller.contacts
+                        .map((element) => contact(element, isContact: true))
+                        .toList()),
               ),
             ),
           )
@@ -70,7 +70,7 @@ class ContactsListView extends GetView<SendPageController> {
 
   Widget contact(ContactModel contact, {bool isContact = false}) {
     return InkWell(
-      onTap: () => controller.setSelectedPageIndex(index: 1),
+      onTap: () => controller.onContactSelect(contactModel: contact),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: SizedBox(
@@ -106,48 +106,49 @@ class ContactsListView extends GetView<SendPageController> {
               if (isContact)
                 PopupMenuButton(
                     position: PopupMenuPosition.under,
-                    child: const Icon(
-                      Icons.more_horiz,
-                      color: Colors.white,
-                      size: 16,
-                    ),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),
                     color: ColorConst.Neutral.shade20,
                     itemBuilder: (_) => <PopupMenuEntry>[
                           CustomPopupMenuItem(
-                            child: Text(
-                              "Edit contact",
-                              style: labelMedium,
-                            ),
                             height: 53,
-                            padding: EdgeInsets.symmetric(horizontal: 11),
+                            padding: const EdgeInsets.symmetric(horizontal: 11),
                             onTap: () {
                               Get.back();
                               Get.bottomSheet(EditContactBottomSheet(
                                   contactModel: contact));
                             },
+                            child: Text(
+                              "Edit contact",
+                              style: labelMedium,
+                            ),
                           ),
                           CustomPopupMenuDivider(
-                              height: 1,
-                              color: ColorConst.Neutral.shade50,
-                              padding: EdgeInsets.symmetric(horizontal: 11),
-                              thickness: 1),
+                            height: 1,
+                            color: ColorConst.Neutral.shade50,
+                            padding: const EdgeInsets.symmetric(horizontal: 11),
+                            thickness: 1,
+                          ),
                           CustomPopupMenuItem(
-                            child: Text(
-                              "Delete contact",
-                              style: labelMedium.apply(
-                                  color: ColorConst.Error.shade60),
-                            ),
-                            padding: EdgeInsets.symmetric(horizontal: 11),
+                            padding: const EdgeInsets.symmetric(horizontal: 11),
                             height: 53,
                             onTap: () {
                               Get.back();
                               Get.bottomSheet(DeleteContactBottomSheet(
                                   contactModel: contact));
                             },
+                            child: Text(
+                              "Delete contact",
+                              style: labelMedium.apply(
+                                  color: ColorConst.Error.shade60),
+                            ),
                           ),
-                        ])
+                        ],
+                    child: const Icon(
+                      Icons.more_horiz,
+                      color: Colors.white,
+                      size: 16,
+                    ))
             ],
           ),
         ),
@@ -230,9 +231,9 @@ class _CustomPopupMenuItemState extends State<CustomPopupMenuItem> {
         child: Padding(
           padding: widget.padding,
           child: SizedBox(
-            child: Align(child: widget.child, alignment: widget.align),
             height: widget.height,
             width: widget.width,
+            child: Align(alignment: widget.align, child: widget.child),
           ),
         ),
       );

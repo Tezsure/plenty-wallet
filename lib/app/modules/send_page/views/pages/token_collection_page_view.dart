@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/send_page/controllers/send_token_page_controller.dart';
-import 'package:naan_wallet/app/modules/token_and_collection_page/models/token_model.dart';
-import 'package:naan_wallet/app/modules/token_and_collection_page/widgets/collectible_widget.dart';
+import 'package:naan_wallet/app/data/services/service_models/token_model.dart';
+import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/collectible_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -35,7 +35,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                     List.generate(
                       controller.tokens.length < 3
                           ? controller.tokens.length
-                          : (controller.isTokensExpaned.value
+                          : (controller.isTokensExpanded.value
                               ? controller.tokens.length
                               : 3),
                       (index) => tokenWidget(controller.tokens[index], () {
@@ -67,16 +67,13 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                     List.generate(
                       controller.collectibles.length < 3
                           ? controller.collectibles.length
-                          : (controller.isCollectibleExpaned.value
+                          : (controller.isCollectibleExpanded.value
                               ? controller.collectibles.length
                               : 3),
                       (index) => CollectibleWidget(
-                          collectibleModel: controller.collectibles[index],
-                          onTap: () {
-                            controller
-                              ..onNFTClick()
-                              ..setSelectedPageIndex(index: 2);
-                          }),
+                        widgetIndex: index,
+                        collectibleModel: controller.collectibles[index],
+                      ),
                     ) +
                     [
                       const SizedBox(
@@ -102,12 +99,11 @@ class TokenAndNftPageView extends GetView<SendPageController> {
   GestureDetector tokenExpandButton() {
     return GestureDetector(
       onTap: () {
-        controller.isTokensExpaned.value = !controller.isTokensExpaned.value;
+        controller.isTokensExpanded.value = !controller.isTokensExpanded.value;
       },
       child: Container(
         height: 24,
-        width: controller.isTokensExpaned.value ? 55 : 45,
-        //  padding: EdgeInsets.symmetric(horizontal: 9),
+        width: controller.isTokensExpanded.value ? 55 : 45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: ColorConst.NeutralVariant.shade30,
@@ -118,11 +114,11 @@ class TokenAndNftPageView extends GetView<SendPageController> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              controller.isTokensExpaned.value ? 'Less' : 'All',
+              controller.isTokensExpanded.value ? 'Less' : 'All',
               style: labelSmall,
             ),
             Icon(
-              controller.isTokensExpaned.value
+              controller.isTokensExpanded.value
                   ? Icons.keyboard_arrow_up
                   : Icons.arrow_forward_ios,
               color: Colors.white,
@@ -137,13 +133,12 @@ class TokenAndNftPageView extends GetView<SendPageController> {
   GestureDetector collectibleExpandButton() {
     return GestureDetector(
       onTap: () {
-        controller.isCollectibleExpaned.value =
-            !controller.isCollectibleExpaned.value;
+        controller.isCollectibleExpanded.value =
+            !controller.isCollectibleExpanded.value;
       },
       child: Container(
         height: 24,
-        width: controller.isCollectibleExpaned.value ? 55 : 45,
-        //  padding: EdgeInsets.symmetric(horizontal: 9),
+        width: controller.isCollectibleExpanded.value ? 55 : 45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: ColorConst.NeutralVariant.shade30,
@@ -154,11 +149,11 @@ class TokenAndNftPageView extends GetView<SendPageController> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              controller.isCollectibleExpaned.value ? 'Less' : 'All',
+              controller.isCollectibleExpanded.value ? 'Less' : 'All',
               style: labelSmall,
             ),
             Icon(
-              controller.isCollectibleExpaned.value
+              controller.isCollectibleExpanded.value
                   ? Icons.keyboard_arrow_up
                   : Icons.arrow_forward_ios,
               color: Colors.white,
