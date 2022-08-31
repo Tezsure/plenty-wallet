@@ -24,9 +24,8 @@ class CollectibleWidget extends GetView<SendPageController> {
         child: Obx(
           () => Column(
             children: [
-              ListTile(
-                onTap: () => controller.setExpandNFTCollectible(widgetIndex),
-                contentPadding: EdgeInsets.zero,
+              ExpansionTile(
+                tilePadding: EdgeInsets.zero,
                 leading: CircleAvatar(
                   radius: 20,
                   backgroundColor:
@@ -36,6 +35,8 @@ class CollectibleWidget extends GetView<SendPageController> {
                     fit: BoxFit.contain,
                   ),
                 ),
+                onExpansionChanged: (isExpand) =>
+                    controller.setExpandNFTCollectible(widgetIndex),
                 trailing: SizedBox(
                   height: 0.03.height,
                   width: 0.14.width,
@@ -48,26 +49,24 @@ class CollectibleWidget extends GetView<SendPageController> {
                   collectibleModel.name,
                   style: labelLarge,
                 ),
+                children: [
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Wrap(
+                    spacing: 0.03.width,
+                    runSpacing: 0.03.width,
+                    children: collectibleModel.nfts
+                        .map((nfTmodel) => NFTwidget(
+                            nfTmodel: nfTmodel,
+                            onTap: () => controller
+                              ..onNFTClick()
+                              ..setSelectedPageIndex(
+                                  index: 2, isKeyboardRequested: false)))
+                        .toList(),
+                  )
+                ],
               ),
-              if (controller.expandNFTCollectible.value &&
-                  widgetIndex == controller.expandedIndex.value)
-                const SizedBox(
-                  height: 16,
-                ),
-              if (controller.expandNFTCollectible.value &&
-                  widgetIndex == controller.expandedIndex.value)
-                Wrap(
-                  spacing: 0.03.width,
-                  runSpacing: 0.03.width,
-                  children: collectibleModel.nfts
-                      .map((nfTmodel) => NFTwidget(
-                          nfTmodel: nfTmodel,
-                          onTap: () => controller
-                            ..onNFTClick()
-                            ..setSelectedPageIndex(
-                                index: 2, isKeyboardRequested: false)))
-                      .toList(),
-                )
             ],
           ),
         ));
