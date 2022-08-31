@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
 
 class VerifyPhrasePageController extends GetxController {
   List<String> phrase1 = <String>[];
@@ -54,9 +53,10 @@ class VerifyPhrasePageController extends GetxController {
       isPhraseSelected.value = false;
       showError.value = false;
     } else if (keyIndex.value == 2 && selectedPhrase.value == listSeeds[11]) {
-      Get.back(); // close current
-      Get.back(); // close seeds
-      Get.back(); // close bottom sheet
+      Get
+        ..back() // close current
+        ..back() // close seeds
+        ..back(); // close bottom sheet
     } else {
       selectedPhrase.value = '';
       isPhraseSelected.value = false;

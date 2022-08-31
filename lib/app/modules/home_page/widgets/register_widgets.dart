@@ -22,7 +22,7 @@ final List<Widget> registeredWidgets = [
   const MyNFTwidget(),
   const PublicNFTgalleryWidget(),
   const CommunityProductsWidget(),
-  // LiquidityBakingWidget(),
-  // const DelegateWidget(),
+  LiquidityBakingWidget(),
+  const DelegateWidget(),
   const NewsHeadlineWidget()
 ];

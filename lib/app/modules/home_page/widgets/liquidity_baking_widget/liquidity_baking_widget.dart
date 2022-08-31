@@ -10,16 +10,12 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import 'widgets/liquidity_baking_slider.dart';
 
 class LiquidityBakingWidget extends StatelessWidget {
-  final bool add = true;
-  final bool activeButton = false;
-  // ignore: use_key_in_widget_constructors
-  LiquidityBakingWidget({Key? key});
+  LiquidityBakingWidget({Key? key}) : super(key: key);
 
-  var controller = Get.find<HomePageController>();
+  final HomePageController controller = Get.find<HomePageController>();
 
   @override
   Widget build(BuildContext context) {
-    // Get.lazyPut(() => HomePageController());
     return Container(
       width: 0.92.width,
       decoration: BoxDecoration(

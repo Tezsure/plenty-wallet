@@ -14,8 +14,8 @@ import '../controllers/receive_page_controller.dart';
 class ReceivePageView extends GetView<ReceivePageController> {
   const ReceivePageView({super.key});
 
-  final String accountName = "accountName";
-  final String accountAddress = "tzkeibotkxxkjpbmvfbv4a8ov5rafrdmf9";
+  final String _accountName = "accountName";
+  final String _accountAddress = "tzkeibotkxxkjpbmvfbv4a8ov5rafrdmf9";
   @override
   Widget build(BuildContext context) {
     Get.put(ReceivePageController());
@@ -54,16 +54,16 @@ class ReceivePageView extends GetView<ReceivePageController> {
             0.047.vspace,
             GestureDetector(
               onTap: () {
-                controller.copyAddress(accountAddress);
+                controller.copyAddress(_accountAddress);
               },
               child: Text(
-                accountName,
+                _accountName,
                 style: titleLarge,
               ),
             ),
             0.01.vspace,
             Text(
-              accountAddress,
+              _accountAddress,
               style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
             0.047.vspace,
@@ -83,7 +83,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
           borderRadius: BorderRadius.circular(20), color: Colors.white),
       alignment: Alignment.center,
       child: QrImage(
-        data: accountAddress,
+        data: _accountAddress,
         padding: const EdgeInsets.all(20),
         gapless: false,
         eyeStyle:
@@ -99,7 +99,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
   Widget shareButton() {
     return GestureDetector(
       onTap: () {
-        Share.share(accountAddress);
+        Share.share(_accountAddress);
       },
       child: Container(
         height: 40,

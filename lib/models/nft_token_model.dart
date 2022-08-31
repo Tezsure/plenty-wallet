@@ -151,7 +151,7 @@ class Creators {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['creator_address'] = creatorAddress;
     data['token_pk'] = tokenPk;
     return data;
@@ -237,7 +237,7 @@ class Creator {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['address'] = address;
     data['alias'] = alias;
     return data;
