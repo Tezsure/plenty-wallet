@@ -3,7 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/flutter_switch.dart';
+import 'package:naan_wallet/app/modules/settings_page/widget/reset_wallet_sheet.dart';
+import 'package:naan_wallet/app/modules/settings_page/widget/select_network_sheet.dart';
+import 'package:naan_wallet/app/modules/settings_page/widget/select_node_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -101,11 +105,54 @@ class SettingsPageView extends GetView<SettingsPageController> {
                           settingOption(
                             title: "Change Network",
                             svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
+                            onTap: () {
+                              Get.bottomSheet(SelectNetworkBottomSheet());
+                            },
+                            trailing: Row(
+                              children: [
+                                Obx(
+                                  () => Text(
+                                    controller.networkType.value ==
+                                            NetworkType.mainNet
+                                        ? "mainnet"
+                                        : "testnet",
+                                    style: labelSmall.apply(
+                                        color:
+                                            ColorConst.NeutralVariant.shade60),
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.chevron_right_rounded,
+                                  size: 14,
+                                  color: ColorConst.NeutralVariant.shade60,
+                                )
+                              ],
+                            ),
                           ),
                           settingOption(
-                            title: "Node Selector",
-                            svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
-                          ),
+                              title: "Node Selector",
+                              svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
+                              onTap: () {
+                                Get.bottomSheet(SelectNodeBottomSheet(),
+                                    isScrollControlled: true);
+                              },
+                              trailing: Row(
+                                children: [
+                                  Obx(
+                                    () => Text(
+                                      controller.selectedNode.value.title,
+                                      style: labelSmall.apply(
+                                          color: ColorConst
+                                              .NeutralVariant.shade60),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.chevron_right_rounded,
+                                    size: 14,
+                                    color: ColorConst.NeutralVariant.shade60,
+                                  )
+                                ],
+                              )),
                         ],
                       ),
                       SizedBox(height: 0.05.width),
@@ -160,6 +207,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     required String title,
     required String svgPath,
     GestureTapCallback? onTap,
+    Widget? trailing,
   }) {
     return GestureDetector(
       onTap: onTap,
@@ -176,7 +224,9 @@ class SettingsPageView extends GetView<SettingsPageController> {
             Text(
               title,
               style: labelMedium,
-            )
+            ),
+            const Spacer(),
+            if (trailing != null) trailing
           ],
         ),
       ),
@@ -295,21 +345,26 @@ class SettingsPageView extends GetView<SettingsPageController> {
   }
 
   Widget resetOption() {
-    return Container(
-      decoration: BoxDecoration(
-          color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(8)),
-      height: 54,
-      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-      child: Row(
-        children: [
-          Text(
-            "Reset Wallet",
-            style: labelMedium.apply(color: ColorConst.Error.shade60),
-          ),
-          const Spacer(),
-          SvgPicture.asset("${PathConst.SETTINGS_PAGE.SVG}logout.svg")
-        ],
+    return GestureDetector(
+      onTap: () {
+        Get.bottomSheet(const ResetWalletBottomSheet());
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(8)),
+        height: 54,
+        padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+        child: Row(
+          children: [
+            Text(
+              "Reset Wallet",
+              style: labelMedium.apply(color: ColorConst.Error.shade60),
+            ),
+            const Spacer(),
+            SvgPicture.asset("${PathConst.SETTINGS_PAGE.SVG}logout.svg")
+          ],
+        ),
       ),
     );
   }
