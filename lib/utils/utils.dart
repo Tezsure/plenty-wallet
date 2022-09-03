@@ -11,4 +11,13 @@ extension StringShortner on String {
       return this;
     }
   }
+
+  /// Shortens tz1 address to tz1KpKTX1.....DZ format
+  String addressShortner() {
+    if (length > 9) {
+      return ("${substring(0, 9)}.....${substring(length - 2, length)}");
+    } else {
+      return this;
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 
+import '../modules/account_summary/bindings/account_summary_binding.dart';
+import '../modules/account_summary/views/account_summary_view.dart';
 import '../modules/backup_wallet_page/bindings/backup_wallet_binding.dart';
 import '../modules/backup_wallet_page/views/backup_wallet_view.dart';
 import '../modules/biometric_page/bindings/biometric_page_binding.dart';
@@ -28,6 +29,7 @@ import '../modules/passcode_page/views/passcode_page_view.dart';
 import '../modules/receive_page/bindings/receive_page_binding.dart';
 import '../modules/receive_page/views/receive_page_view.dart';
 import '../modules/send_page/bindings/send_token_page_binding.dart';
+import '../modules/send_page/views/send_page.dart';
 import '../modules/settings_page/bindings/settings_page_binding.dart';
 import '../modules/settings_page/views/settings_page_view.dart';
 import '../modules/splash_page/bindings/splash_page_binding.dart';
@@ -129,6 +131,11 @@ class AppPages {
       name: _Paths.LOADING_PAGE,
       page: () => const LoadingPageView(),
       binding: LoadingPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.ACCOUNT_SUMMARY,
+      page: () => const AccountSummaryView(),
+      binding: AccountSummaryBinding(),
     ),
   ];
 }
