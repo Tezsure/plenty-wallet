@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/app/modules/account_summary/views/account_summary_view.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../utils/colors/colors.dart';
@@ -56,8 +56,12 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                           replacement: Padding(
                             padding: const EdgeInsets.only(right: 12.0),
                             child: AccountsContainer(
-                                onTap: () =>
-                                    Get.toNamed(Routes.ACCOUNT_SUMMARY),
+                                onTap: () => Get.bottomSheet(
+                                      isScrollControlled: true,
+                                      enableDrag: true,
+                                      AccountSummaryView(),
+                                    ),
+                                // Get.toNamed(Routes.ACCOUNT_SUMMARY),
                                 imagePath:
                                     controller.imagePath[Random().nextInt(3)]),
                           ),

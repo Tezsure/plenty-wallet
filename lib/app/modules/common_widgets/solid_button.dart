@@ -38,6 +38,7 @@ class SolidButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      height: height,
       elevation: elevation,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       padding: EdgeInsets.zero,
