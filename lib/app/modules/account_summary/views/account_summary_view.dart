@@ -3,9 +3,6 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_model.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -13,6 +10,8 @@ import 'package:naan_wallet/utils/utils.dart';
 import '../../../../utils/colors/colors.dart';
 import '../../../../utils/constants/path_const.dart';
 import '../controllers/account_summary_controller.dart';
+import 'widgets/delegate_tile.dart';
+import 'widgets/token_edit_tile.dart';
 
 class AccountSummaryView extends GetView<AccountSummaryController> {
   AccountSummaryView({super.key});
@@ -32,6 +31,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
         child: DefaultTabController(
           length: 3,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               0.01.vspace,
               Center(
@@ -206,6 +207,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
               SizedBox(
                 height: 50,
                 child: TabBar(
+                    isScrollable: true,
                     labelColor: ColorConst.Primary.shade95,
                     indicatorColor: ColorConst.Primary,
                     indicatorSize: TabBarIndicatorSize.tab,
@@ -223,66 +225,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
               ),
               Expanded(
                 child: TabBarView(children: [
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: 5,
-                            itemBuilder: (_, index) =>
-                                tokenWidget(controller.tokens[index], () {}),
-                          ),
-                          0.03.vspace,
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              height: 24,
-                              width: false ? 55 : 45,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: ColorConst.NeutralVariant.shade30,
-                              ),
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    false ? 'Less' : 'All',
-                                    style: labelSmall,
-                                  ),
-                                  const Icon(
-                                    false
-                                        ? Icons.keyboard_arrow_up
-                                        : Icons.arrow_forward_ios,
-                                    color: Colors.white,
-                                    size: 10,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          0.03.vspace,
-                          Text(
-                            'Delegate',
-                            style: labelLarge.copyWith(
-                                color: ColorConst.Primary.shade95),
-                          ),
-                          0.02.vspace,
-                          const DelegateTile(
-                            isDelegated: true,
-                          ),
-                          0.02.vspace
-                        ],
-                      ),
-                    ),
-                  ),
+                  const CryptoTabPage(),
                   Container(
                     color: Colors.black,
                   ),
@@ -297,588 +240,251 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
       ),
     );
   }
+}
 
-  Padding tokenWidget(
-    TokenModel tokenModel,
-    GestureTapCallback onTap,
-  ) {
+class CryptoTabPage extends GetView<AccountSummaryController> {
+  const CryptoTabPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Obx(() => Visibility(
+                  visible: controller.pinnedTokenList.isNotEmpty,
+                  replacement: const SizedBox(),
+                  child: ListView.builder(
+                    primary: false,
+                    shrinkWrap: true,
+                    itemCount: controller.pinnedTokenList.length,
+                    itemBuilder: (_, index) => tokenWidget(
+                      tokenModel: controller.pinnedTokenList,
+                      tokenIndex: index,
+                    ),
+                  ),
+                )),
+            0.03.vspace,
+            Text(
+              'All Tokens',
+              style: labelLarge.copyWith(color: ColorConst.Primary.shade95),
+            ),
+            Obx(
+              () => ListView.builder(
+                primary: false,
+                shrinkWrap: true,
+                itemCount: controller.expandTokenList.value
+                    ? controller.tokens.length
+                    : 3,
+                itemBuilder: (_, index) => tokenWidget(
+                  tokenModel: controller.tokens,
+                  tokenIndex: index,
+                  onCheckboxTap: (value) {
+                    controller
+                      ..tokens[index].isSelected = value ?? false
+                      ..tokens.refresh();
+                  },
+                ),
+              ),
+            ),
+            0.03.vspace,
+            Obx(
+              () => TokenEditTile(
+                viewAll: () => controller.expandTokenList.value =
+                    !controller.expandTokenList.value,
+                expandedTokenList: controller.expandTokenList.value,
+                isEditable: controller.isEditable.value,
+                onEditTap: () =>
+                    controller.isEditable.value = !controller.isEditable.value,
+                isAnyTokenSelected: controller.tokens.any(
+                  (element) => element.isSelected,
+                ),
+                onPinTap: () {
+                  controller
+                    ..pinnedTokenList.addAll(
+                      controller.tokens.where(
+                        (element) => element.isSelected,
+                      ),
+                    )
+                    ..tokens.removeWhere(
+                      (element) => element.isSelected,
+                    )
+                    ..pinnedTokenList.forEach((element) {
+                      element.isPinned = true;
+                    })
+                    ..tokens.refresh()
+                    ..pinnedTokenList.refresh()
+                    ..isEditable.value = false;
+                },
+                onHideTap: () {
+                  List<TokenModel> hiddenToken =
+                      controller.tokens.where((e) => e.isSelected).toList();
+
+                  controller
+                    ..tokens.removeWhere(
+                      (element) => element.isSelected,
+                    )
+                    ..tokens.addAll(hiddenToken)
+                    ..tokens.refresh()
+                    ..isEditable.value = false;
+                },
+              ),
+            ),
+            0.03.vspace,
+            Text(
+              'Delegate',
+              style: labelLarge.copyWith(color: ColorConst.Primary.shade95),
+            ),
+            0.02.vspace,
+            const DelegateTile(
+              isDelegated: true,
+            ),
+            0.02.vspace
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding tokenWidget({
+    required List<TokenModel> tokenModel,
+    GestureTapCallback? onTap,
+    required int tokenIndex,
+    void Function(bool?)? onCheckboxTap,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: SizedBox(
         height: 0.06.height,
-        child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-          trailing: Container(
-            height: 0.03.height,
-            width: 0.14.width,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.2)),
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            alignment: Alignment.center,
-            child: Text(
-              "\$${tokenModel.balance}",
-              style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
-            ),
-          ),
-          leading: CircleAvatar(
-            radius: 22,
-            backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            child: SvgPicture.asset(
-              tokenModel.imagePath,
-              fit: BoxFit.contain,
-            ),
-          ),
-          title: Text(
-            tokenModel.tokenName,
-            style: labelSmall,
-          ),
-          subtitle: Text(
-            "${tokenModel.price}",
-            style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
-          ),
-          onTap: onTap,
-        ),
-      ),
-    );
-  }
-}
-
-class DelegateTile extends StatelessWidget {
-  final bool isDelegated;
-  const DelegateTile({
-    Key? key,
-    required this.isDelegated,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      height: 130,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: const Color(0xff958e99).withOpacity(0.2),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      text: 'Rewards\n',
-                      style: labelSmall.copyWith(
-                        color: ColorConst.NeutralVariant.shade60,
-                      ),
-                      children: [
-                        const WidgetSpan(
-                          child: SizedBox(
-                            height: 30,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                trailing: Container(
+                  height: 0.03.height,
+                  width: 0.14.width,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color:
+                          ColorConst.NeutralVariant.shade60.withOpacity(0.2)),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "\$${tokenModel[tokenIndex].balance}",
+                    style: labelSmall.apply(
+                        color: ColorConst.NeutralVariant.shade60),
+                  ),
+                ),
+                leading: Obx(() => Visibility(
+                      visible: controller.isEditable.value,
+                      replacement: Visibility(
+                        visible: tokenModel[tokenIndex].isPinned,
+                        replacement: CircleAvatar(
+                          radius: 22,
+                          backgroundColor: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.2),
+                          child: SvgPicture.asset(
+                            tokenModel[tokenIndex].imagePath,
+                            fit: BoxFit.contain,
                           ),
                         ),
-                        TextSpan(
-                          text: isDelegated ? '10 ' : '0.00 ',
-                          style: headlineSmall.copyWith(
-                            color: isDelegated
-                                ? Colors.white
-                                : ColorConst.NeutralVariant.shade60,
-                          ),
-                        ),
-                        WidgetSpan(
-                            alignment: PlaceholderAlignment.bottom,
-                            child: Visibility(
-                              replacement: SvgPicture.asset(
-                                "${PathConst.HOME_PAGE.SVG}xtz.svg",
-                                height: 20,
-                                width: 15,
-                              ),
-                              visible: isDelegated,
-                              child: GestureDetector(
-                                onTap: () => Get.bottomSheet(
-                                    const ReDelegatePage(),
-                                    isScrollControlled: true,
-                                    enableDrag: true),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "${PathConst.HOME_PAGE.SVG}xtz.svg",
-                                      height: 20,
-                                      width: 15,
-                                    ),
-                                    0.01.hspace,
-                                    const Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 12,
-                                      color: Colors.white,
-                                    )
-                                  ],
+                        child: SizedBox(
+                          width: 0.2.width,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 20.sp,
+                                width: 20.sp,
+                                decoration: BoxDecoration(
+                                  color: ColorConst.NeutralVariant.shade40,
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                child: Icon(
+                                  Icons.star,
+                                  color: ColorConst.Tertiary,
+                                  size: 14.sp,
                                 ),
                               ),
-                            )),
-                        TextSpan(
-                          text: isDelegated ? '\n\$23' : '\n\$0.00',
-                          style: labelSmall.copyWith(
-                            color: ColorConst.NeutralVariant.shade60,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  RichText(
-                    textAlign: TextAlign.end,
-                    text: TextSpan(
-                      text: 'Payout\n',
-                      style: labelSmall.copyWith(
-                        color: ColorConst.NeutralVariant.shade60,
-                      ),
-                      children: [
-                        const WidgetSpan(
-                          child: SizedBox(
-                            height: 30,
-                          ),
-                        ),
-                        TextSpan(
-                          text: isDelegated ? '15 ' : '0.0 ',
-                          style: headlineSmall.copyWith(
-                            color: isDelegated
-                                ? Colors.white
-                                : ColorConst.NeutralVariant.shade60,
-                          ),
-                        ),
-                        TextSpan(text: 'D', style: headlineSmall),
-                        TextSpan(
-                          text: isDelegated ? '\n1.2 cycles' : '\n\$0.0 cycles',
-                          style: labelSmall.copyWith(
-                            color: ColorConst.NeutralVariant.shade60,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-          Divider(
-            height: 20,
-            color: ColorConst.Neutral.shade30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: 0.032.height,
-                width: 0.25.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: ColorConst.Neutral.shade30,
-                ),
-                child: Center(
-                  child: Text(
-                    isDelegated ? 'Earning 8% APR' : 'Earn 5% APR',
-                    textAlign: TextAlign.center,
-                    style: labelSmall.copyWith(
-                      color: ColorConst.Neutral.shade70,
-                    ),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: isDelegated
-                    ? () => Get.bottomSheet(
-                        const DelegateSelectBaker(isScrollable: true),
-                        isScrollControlled: true,
-                        enableDrag: true)
-                    : () => Get.bottomSheet(NaanBottomSheet(
-                          height: 0.3.height,
-                          bottomSheetWidgets: [
-                            RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                text: 'Get 5% APR on your Tez\n',
-                                style: headlineSmall,
-                                children: [
-                                  WidgetSpan(child: 0.04.vspace),
-                                  TextSpan(
-                                    text:
-                                        'Your funds are neither locked nor frozen and do not move anywhere. You can spend them at\nany time and without any delay',
-                                    style: bodySmall.copyWith(
-                                        color:
-                                            ColorConst.NeutralVariant.shade60),
-                                  ),
-                                ],
+                              0.025.hspace,
+                              CircleAvatar(
+                                radius: 22,
+                                backgroundColor: ColorConst
+                                    .NeutralVariant.shade60
+                                    .withOpacity(0.2),
+                                child: SvgPicture.asset(
+                                  tokenModel[tokenIndex].imagePath,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Visibility(
+                            visible: tokenModel[tokenIndex].isSelected,
+                            replacement: Checkbox(
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              value: tokenModel[tokenIndex].isSelected,
+                              onChanged: onCheckboxTap,
+                              fillColor: MaterialStateProperty.all<Color>(
+                                  tokenModel[tokenIndex].isSelected
+                                      ? ColorConst.Primary
+                                      : ColorConst.NeutralVariant.shade40),
                             ),
-                            0.04.vspace,
-                            SolidButton(
-                                title: 'Delegate',
-                                onPressed: () =>
-                                    Get.to(() => const DelegateSelectBaker())
-                                        ?.whenComplete(() => Get.back()))
-                          ],
-                        )),
-                child: Container(
-                  height: 0.032.height,
-                  width: 0.25.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: ColorConst.Primary,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        isDelegated ? 'Re-delegate' : 'Delegate',
-                        style: labelSmall,
+                            child: Checkbox(
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              value: tokenModel[tokenIndex].isSelected,
+                              onChanged: onCheckboxTap,
+                              fillColor: MaterialStateProperty.all<Color>(
+                                  tokenModel[tokenIndex].isSelected
+                                      ? ColorConst.Primary
+                                      : ColorConst.NeutralVariant.shade40),
+                            ),
+                          ),
+                          CircleAvatar(
+                            radius: 22,
+                            backgroundColor: ColorConst.NeutralVariant.shade60
+                                .withOpacity(0.2),
+                            child: SvgPicture.asset(
+                              tokenModel[tokenIndex].imagePath,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ],
                       ),
-                      const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Colors.white,
-                        size: 10,
-                      )
-                    ],
+                    )),
+                title: Text(
+                  tokenModel[tokenIndex].tokenName,
+                  style: labelSmall,
+                ),
+                subtitle: Text(
+                  "${tokenModel[tokenIndex].price}",
+                  style: labelSmall.apply(
+                    color: ColorConst.NeutralVariant.shade60,
                   ),
                 ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class ReDelegatePage extends StatelessWidget {
-  const ReDelegatePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 0.95.height,
-      width: 1.width,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-        gradient: GradConst.GradientBackground,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          0.01.vspace,
-          Center(
-            child: Container(
-              height: 5,
-              width: 36,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+                onTap: onTap,
               ),
             ),
-          ),
-          0.02.vspace,
-          Center(
-            child: Text(
-              'Rewards',
-              style: titleMedium,
-            ),
-          ),
-          0.02.vspace,
-          const Center(child: ReDelegateTile()),
-          Padding(
-            padding: EdgeInsets.all(14.sp),
-            child: Text('Rewards', style: titleMedium),
-          ),
-          Center(
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: 0.63.height,
-                width: 0.94.width,
-                child: ListView.builder(
-                  itemCount: 6,
-                  primary: false,
-                  shrinkWrap: false,
-                  itemBuilder: (_, index) => const DelegateRewardsTile(),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ReDelegateTile extends StatelessWidget {
-  const ReDelegateTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 0.94.width,
-      height: 0.16.height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: const Color(0xff958e99).withOpacity(0.2),
-        border: Border.all(
-          color: Colors.transparent,
-          width: 2,
+          ],
         ),
-      ),
-      padding:
-          EdgeInsets.symmetric(horizontal: 0.04.width, vertical: 0.01.height),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: 20,
-                child: Image.asset(
-                  'assets/temp/delegate_baker.png',
-                  fit: BoxFit.cover,
-                  width: 40.sp,
-                  height: 40.sp,
-                ),
-              ),
-              0.02.hspace,
-              RichText(
-                  text: TextSpan(
-                      text: 'MyTezosBaking\n',
-                      style: labelMedium,
-                      children: [
-                    TextSpan(
-                      text: 'tz1d6....pVok8',
-                      style: labelSmall.copyWith(color: ColorConst.Primary),
-                    ),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.copy,
-                          color: ColorConst.Primary,
-                          size: 10,
-                        ),
-                        iconSize: 10,
-                        constraints: const BoxConstraints(),
-                      ),
-                    ),
-                  ])),
-              const Spacer(),
-              SolidButton(
-                height: 0.03.height,
-                width: 0.24.width,
-                child: Text('Redelegate', style: labelSmall),
-                onPressed: () => Get.bottomSheet(
-                        const DelegateSelectBaker(
-                          isScrollable: true,
-                        ),
-                        enableDrag: true,
-                        isScrollControlled: true)
-                    .whenComplete(() => Get.back()),
-              ),
-            ],
-          ),
-          0.013.vspace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                  text: 'Baker fee:\n',
-                  style: labelSmall.copyWith(
-                      color: ColorConst.NeutralVariant.shade70),
-                  children: [TextSpan(text: '14%', style: labelLarge)],
-                ),
-              ),
-              0.12.hspace,
-              RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                  text: 'Staking:\n',
-                  style: labelSmall.copyWith(
-                      color: ColorConst.NeutralVariant.shade70),
-                  children: [TextSpan(text: '116K', style: labelLarge)],
-                ),
-              ),
-              0.12.hspace,
-              RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                  text: 'Payout:\n',
-                  style: labelSmall.copyWith(
-                      color: ColorConst.NeutralVariant.shade70),
-                  children: [TextSpan(text: '30 Days', style: labelLarge)],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class DelegateRewardsTile extends StatelessWidget {
-  const DelegateRewardsTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      width: 0.9.width,
-      height: 0.2.height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: const Color(0xff958e99).withOpacity(0.2),
-        border: Border.all(
-          color: Colors.transparent,
-          width: 2,
-        ),
-      ),
-      padding:
-          EdgeInsets.symmetric(horizontal: 0.04.width, vertical: 0.01.height),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: 20,
-                child: Image.asset(
-                  'assets/temp/delegate_baker.png',
-                  fit: BoxFit.cover,
-                  width: 40.sp,
-                  height: 40.sp,
-                ),
-              ),
-              0.02.hspace,
-              RichText(
-                  text: TextSpan(
-                      text: 'MyTezosBaking\n',
-                      style: labelMedium,
-                      children: [
-                    TextSpan(
-                      text: 'tz1d6....pVok8',
-                      style: labelSmall.copyWith(color: ColorConst.Primary),
-                    ),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.copy,
-                          color: ColorConst.Primary,
-                          size: 10,
-                        ),
-                        iconSize: 10,
-                        constraints: const BoxConstraints(),
-                      ),
-                    ),
-                  ])),
-              const Spacer(),
-              Row(
-                children: [
-                  Text(
-                    '504',
-                    style: labelSmall,
-                  ),
-                  const Icon(
-                    Icons.hourglass_empty,
-                    color: ColorConst.Primary,
-                    size: 20,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          0.013.vspace,
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      text: 'Delegated:\n',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade70),
-                      children: [TextSpan(text: '100 tez', style: labelLarge)],
-                    ),
-                  ),
-                  0.12.hspace,
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      text: 'Rewards:\n',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade70),
-                      children: [TextSpan(text: '2 tez', style: labelLarge)],
-                    ),
-                  ),
-                  0.12.hspace,
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      text: 'Baker fee:\n',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade70),
-                      children: [TextSpan(text: '14%', style: labelLarge)],
-                    ),
-                  ),
-                ],
-              ),
-              0.013.vspace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      text: 'Expected Payout:\n',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade70),
-                      children: [TextSpan(text: '10 tez', style: labelLarge)],
-                    ),
-                  ),
-                  0.03.hspace,
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      text: 'Status\n',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade70),
-                      children: [TextSpan(text: 'Pending', style: labelLarge)],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
