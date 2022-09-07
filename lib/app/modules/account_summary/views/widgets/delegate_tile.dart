@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -11,12 +12,13 @@ import '../../../../../utils/colors/colors.dart';
 import '../../../common_widgets/solid_button.dart';
 import 'redelegate_sheet.dart';
 
-class DelegateTile extends StatelessWidget {
+class DelegateTile extends GetView<AccountSummaryController> {
   final bool isDelegated;
+
   const DelegateTile({
-    Key? key,
+    super.key,
     required this.isDelegated,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -176,8 +178,16 @@ class DelegateTile extends StatelessWidget {
                         isScrollControlled: true,
                         enableDrag: true)
                     : () => Get.bottomSheet(NaanBottomSheet(
-                          height: 0.3.height,
+                          height: 0.4.height,
                           bottomSheetWidgets: [
+                            Center(
+                              child: SvgPicture.asset(
+                                '${PathConst.SVG}delegate_summary.svg',
+                                height: 82,
+                                width: 80,
+                              ),
+                            ),
+                            0.02.vspace,
                             RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(
@@ -195,12 +205,21 @@ class DelegateTile extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            0.04.vspace,
+                            0.03.vspace,
                             SolidButton(
-                                title: 'Delegate',
-                                onPressed: () =>
-                                    Get.to(() => const DelegateSelectBaker())
-                                        ?.whenComplete(() => Get.back()))
+                              title: 'Delegate',
+                              onPressed: () => Get.bottomSheet(
+                                      const DelegateSelectBaker(
+                                        isScrollable: true,
+                                      ),
+                                      isScrollControlled: true)
+                                  .whenComplete(
+                                    () => Get.back(),
+                                  )
+                                  .whenComplete(() =>
+                                      controller.isAccountDelegated.value =
+                                          !controller.isAccountDelegated.value),
+                            ),
                           ],
                         )),
                 child: Container(
