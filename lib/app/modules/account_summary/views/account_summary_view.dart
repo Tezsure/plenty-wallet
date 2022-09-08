@@ -10,6 +10,7 @@ import '../../../../utils/colors/colors.dart';
 import '../../../../utils/constants/path_const.dart';
 import '../controllers/account_summary_controller.dart';
 import 'pages/crypto_tab.dart';
+import 'pages/nft_tab.dart';
 
 class AccountSummaryView extends GetView<AccountSummaryController> {
   AccountSummaryView({super.key});
@@ -224,18 +225,25 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
               Expanded(
                 child: TabBarView(children: [
                   const CryptoTabPage(),
-                  Container(
-                    color: Colors.black,
-                  ),
-                  Container(
-                    color: Colors.green,
-                  ),
+                  NFTabPage(collectibles: controller.collectibles),
+                  const HistoryPage(),
                 ]),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class HistoryPage extends StatelessWidget {
+  const HistoryPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black,
     );
   }
 }

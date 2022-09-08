@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
-import '../../../../../utils/colors/colors.dart';
-import '../../../../../utils/styles/styles.dart';
-import '../../../common_widgets/solid_button.dart';
-import '../../../home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
+import '../../../../../../utils/colors/colors.dart';
+import '../../../../../../utils/styles/styles.dart';
+import '../../../../common_widgets/solid_button.dart';
+import '../../../../home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
 
 class ReDelegateTile extends StatelessWidget {
   const ReDelegateTile({super.key});

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
-import '../../../../../utils/colors/colors.dart';
-import '../../../../../utils/styles/styles.dart';
-import '../../controllers/account_summary_controller.dart';
+import '../../../../../../utils/colors/colors.dart';
+import '../../../../../../utils/styles/styles.dart';
+import '../../../controllers/account_summary_controller.dart';
 import 'edit_button.dart';
 
 class TokenEditTile extends GetView<AccountSummaryController> {

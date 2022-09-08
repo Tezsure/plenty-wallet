@@ -8,8 +8,8 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-import '../../../../../utils/colors/colors.dart';
-import '../../../common_widgets/solid_button.dart';
+import '../../../../../../utils/colors/colors.dart';
+import '../../../../common_widgets/solid_button.dart';
 import 'redelegate_sheet.dart';
 
 class DelegateTile extends GetView<AccountSummaryController> {
@@ -66,39 +66,39 @@ class DelegateTile extends GetView<AccountSummaryController> {
                           ),
                         ),
                         WidgetSpan(
-                            alignment: PlaceholderAlignment.bottom,
-                            child: Visibility(
-                              replacement: SvgPicture.asset(
-                                "${PathConst.HOME_PAGE.SVG}xtz.svg",
-                                height: 20,
-                                width: 15,
-                              ),
-                              visible: isDelegated,
-                              child: GestureDetector(
-                                onTap: () => Get.bottomSheet(
-                                    const ReDelegateBottomSheet(),
-                                    isScrollControlled: true,
-                                    enableDrag: true),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "${PathConst.HOME_PAGE.SVG}xtz.svg",
-                                      height: 20,
-                                      width: 15,
-                                    ),
-                                    0.01.hspace,
-                                    const Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 12,
-                                      color: Colors.white,
-                                    )
-                                  ],
+                          alignment: PlaceholderAlignment.bottom,
+                          child: isDelegated
+                              ? GestureDetector(
+                                  onTap: () => Get.bottomSheet(
+                                      const ReDelegateBottomSheet(),
+                                      isScrollControlled: true,
+                                      enableDrag: true),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SvgPicture.asset(
+                                        "${PathConst.HOME_PAGE.SVG}xtz.svg",
+                                        height: 20,
+                                        width: 15,
+                                      ),
+                                      0.01.hspace,
+                                      const Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 12,
+                                        color: Colors.white,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              : SvgPicture.asset(
+                                  "${PathConst.HOME_PAGE.SVG}xtz.svg",
+                                  height: 20,
+                                  width: 15,
                                 ),
-                              ),
-                            )),
+                        ),
                         TextSpan(
                           text: isDelegated ? '\n\$23' : '\n\$0.00',
                           style: labelSmall.copyWith(

@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_model.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
+import '../../../data/services/service_models/collectible_model.dart';
+import '../../../data/services/service_models/nft_model.dart';
+
 class AccountSummaryController extends GetxController {
   RxBool isEditable = false.obs; // for token edit mode
   RxBool expandTokenList =
@@ -40,6 +43,31 @@ class AccountSummaryController extends GetxController {
     isEditable.value = false;
     expandTokenList.value = false;
   }
+
+  // ? NFTS TAB Page Data
+
+  static List<String> mockCollectibleName = [
+    'unstable dreams',
+    'DOGAMI',
+    'hic et nun'
+  ];
+
+  RxList<CollectibleModel> collectibles = List.generate(
+    6,
+    (index) => CollectibleModel(
+      name: mockCollectibleName[Random().nextInt(3)],
+      collectibleProfilePath:
+          "${PathConst.SEND_PAGE}nft_art${(Random().nextInt(3) + 1)}.png",
+      nfts: List.generate(
+        3,
+        (index) => NFTmodel(
+            title: "Unstable #5",
+            name: "unstable dreams",
+            nftPath:
+                "${PathConst.SEND_PAGE}nft_image${(Random().nextInt(4) + 1)}.png"),
+      ),
+    ),
+  ).obs; // List of nft collectibles
 
   RxList<TokenModel> tokens = List.generate(
           6,

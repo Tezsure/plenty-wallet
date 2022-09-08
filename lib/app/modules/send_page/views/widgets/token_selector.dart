@@ -38,11 +38,9 @@ class TokenSelector extends StatelessWidget {
     return ListTile(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       dense: true,
-      leading: Visibility(
-        replacement: SvgPicture.asset(tokenImageUrl!),
-        visible: showNFTPage,
-        child: Image.asset(nftImageUrl!),
-      ),
+      leading: showNFTPage
+          ? Image.asset(nftImageUrl!)
+          : SvgPicture.asset(tokenImageUrl!),
       title: Text(
         showNFTPage ? nftCollectibleName : tokenName,
         style: bodySmall.copyWith(color: ColorConst.Primary.shade60),

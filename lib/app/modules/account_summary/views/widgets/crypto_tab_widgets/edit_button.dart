@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../utils/colors/colors.dart';
-import '../../../../../utils/styles/styles.dart';
+import '../../../../../../utils/colors/colors.dart';
+import '../../../../../../utils/styles/styles.dart';
 
 class EditButtons extends StatelessWidget {
   const EditButtons({

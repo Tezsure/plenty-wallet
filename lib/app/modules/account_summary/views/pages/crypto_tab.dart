@@ -5,9 +5,9 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import '../../../../../utils/colors/colors.dart';
 import '../../../../../utils/styles/styles.dart';
 import '../../controllers/account_summary_controller.dart';
-import '../widgets/delegate_tile.dart';
-import '../widgets/token_checkbox.dart';
-import '../widgets/token_edit_tile.dart';
+import '../widgets/crypto_tab_widgets/delegate_tile.dart';
+import '../widgets/crypto_tab_widgets/token_checkbox.dart';
+import '../widgets/crypto_tab_widgets/token_edit_tile.dart';
 
 class CryptoTabPage extends GetView<AccountSummaryController> {
   const CryptoTabPage({super.key});

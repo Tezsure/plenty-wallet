@@ -3,9 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
-import '../../../../../utils/constants/path_const.dart';
-import '../../../../../utils/styles/styles.dart';
-import '../../../../data/services/service_models/token_model.dart';
+import '../../../../../../utils/constants/path_const.dart';
+import '../../../../../../utils/styles/styles.dart';
+import '../../../../../data/services/service_models/token_model.dart';
 
 class TokenCheckbox extends StatelessWidget {
   final List<TokenModel> tokenModel;

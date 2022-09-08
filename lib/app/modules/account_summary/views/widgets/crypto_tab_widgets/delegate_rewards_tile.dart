@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
-import '../../../../../utils/colors/colors.dart';
-import '../../../../../utils/styles/styles.dart';
+import '../../../../../../utils/colors/colors.dart';
+import '../../../../../../utils/styles/styles.dart';
 
 class DelegateRewardsTile extends StatelessWidget {
   const DelegateRewardsTile({super.key});
