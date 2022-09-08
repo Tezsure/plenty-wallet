@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/web3auth_services/web3auth.dart';
-import 'package:web3auth_flutter/web3auth_flutter.dart';
+import 'package:web3auth_flutter/enums.dart';
 
 class CreateWalletPageController extends GetxController {
   @override
