@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
+import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/models/node_model.dart';
 
 class SettingsPageController extends GetxController {
@@ -10,6 +11,10 @@ class SettingsPageController extends GetxController {
   RxList<NodeModel> nodes = <NodeModel>[].obs;
   Rx<NodeModel> selectedNode =
       NodeModel(title: "title1", address: "address1").obs;
+  RxList<DappModel> dapps = List.generate(
+      4,
+      (index) => DappModel(
+          imgUrl: "", name: "dapp", networkType: NetworkType.mainNet)).obs;
 
   switchFingerprint(bool value) => fingerprint.value = value;
   switchbackup() => backup.value = !backup.value;
@@ -20,4 +25,6 @@ class SettingsPageController extends GetxController {
 
     selectedNode.value = nodes[0];
   }
+
+  
 }

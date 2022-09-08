@@ -18,6 +18,9 @@ class SelectNodeBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       blurRadius: 5,
+      isScrollControlled: true
+      ,
+      bottomSheetHorizontalPadding: 32,
       bottomSheetWidgets: [
         Center(
           child: Text(
