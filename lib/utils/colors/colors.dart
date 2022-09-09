@@ -92,6 +92,7 @@ class ColorConst {
   static const Color grey = Color(0xffA4A3A9);
   static const Color blue = Color(0xff3F9AF7);
   static const Color green = Color(0xff7EFF3F);
+  static const Color naanCustomColor = Color(0xff5AE200);
 
   static const NaaNShadesColor Primary = NaaNShadesColor(
     _Primary,
