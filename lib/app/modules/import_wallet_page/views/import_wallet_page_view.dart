@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -182,7 +183,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             controller.genAndLoadMoreAccounts(0, 3);
             Get.bottomSheet(
               accountBottomSheet(),
-              isScrollControlled: true,
+              // isScrollControlled: true,
               barrierColor: Colors.white.withOpacity(0.2),
             );
           } else {
@@ -234,55 +235,28 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   }
 
   Widget accountBottomSheet() {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              const Color(0xff07030c).withOpacity(0.49),
-              const Color(0xff2d004f),
-            ],
-          ),
+    return NaanBottomSheet(
+      blurRadius: 5,
+      height: 0.85.height,
+      bottomSheetWidgets: [
+        Text(
+          "Wallets ready to import",
+          textAlign: TextAlign.start,
+          style: titleLarge,
         ),
-        width: 1.width,
-        height: 0.85.height,
-        padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-        child: Column(
-          children: [
-            0.005.vspace,
-            Container(
-              height: 5,
-              width: 36,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
-              ),
-            ),
-            0.05.vspace,
-            Text(
-              "Wallets ready to import",
-              textAlign: TextAlign.start,
-              style: titleLarge,
-            ),
-            0.03.vspace,
-            Expanded(
-              child: AccountWidget(),
-            ),
-            0.03.vspace,
-            SolidButton(
-              onPressed: () {
-                controller.redirectBasedOnImportWalletType();
-              },
-              title: "Continue",
-            ),
-            0.05.vspace
-          ],
+        0.03.vspace,
+        Expanded(
+          child: AccountWidget(),
         ),
-      ),
+        0.03.vspace,
+        SolidButton(
+          onPressed: () {
+            controller.redirectBasedOnImportWalletType();
+          },
+          title: "Continue",
+        ),
+        0.05.vspace
+      ],
     );
   }
 
