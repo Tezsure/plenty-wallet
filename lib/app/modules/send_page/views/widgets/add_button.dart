@@ -18,7 +18,7 @@ class AddContactButton extends StatelessWidget {
       onTap: () {
         Get.bottomSheet(
           AddContactBottomSheet(contactName: contactName),
-          isScrollControlled: true,
+  
           barrierColor: Colors.black.withOpacity(0.2),
         );
       },
