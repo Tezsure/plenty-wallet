@@ -93,7 +93,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ACCOUNTS_WIDGET,
-      page: () => const AccountsWidget(),
+      page: () => AccountsWidget(),
       binding: AccountsWidgetBinding(),
     ),
     GetPage(

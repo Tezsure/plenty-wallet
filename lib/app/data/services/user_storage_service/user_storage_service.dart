@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 
@@ -23,6 +24,8 @@ class UserStorageService {
     }
     await ServiceConfig.localStorage
         .write(key: accountReadKey, value: accounts);
+    await DataHandlerService().forcedUpdateData();
+
     // print(await ServiceConfig.localStorage
     //     .read(key: ServiceConfig.accountsStorage));
   }
@@ -37,11 +40,14 @@ class UserStorageService {
         : ServiceConfig.accountsStorage;
     var accounts = await ServiceConfig.localStorage.read(key: accountReadKey);
     if (accounts == null) return <AccountModel>[];
-    List<AccountModel> tempAccounts = jsonDecode(accounts)
-        .map<AccountModel>((e) => AccountModel.fromJson(e))
-        .toList();
     return onlyNaanAccount
-        ? tempAccounts.where((element) => element.isNaanAccount).toList()
-        : tempAccounts;
+        ? jsonDecode(accounts)
+            .map<AccountModel>((e) => AccountModel.fromJson(e))
+            .toList()
+            .where((element) => element.isNaanAccount)
+            .toList()
+        : jsonDecode(accounts)
+            .map<AccountModel>((e) => AccountModel.fromJson(e))
+            .toList();
   }
 }

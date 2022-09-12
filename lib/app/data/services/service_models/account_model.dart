@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:convert';
 
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 
+// TODO: Create seprate model for storing secrets
 class AccountModel {
   String? name;
   String? seedPhrase;
@@ -15,6 +17,8 @@ class AccountModel {
   bool isNaanAccount = false;
   String? tezosDomainName = "";
   bool? isWatchOnly = false;
+  AccountDataModel? accountDataModel;
+
   AccountModel({
     this.name,
     this.seedPhrase,
@@ -27,21 +31,24 @@ class AccountModel {
     required this.isNaanAccount,
     this.tezosDomainName,
     this.isWatchOnly = false,
-  });
-
-  AccountModel copyWith({
-    String? name,
-    String? seedPhrase,
-    int? derivationPathIndex,
-    String? publicKey,
-    String? secretKey,
-    String? publicKeyHash,
-    AccountProfileImageType? imageType,
-    String? profileImage,
-    bool? isNaanAccount,
-    String? tezosDomainName,
-    bool? isWatchOnly,
+    this.accountDataModel,
   }) {
+    accountDataModel = accountDataModel ?? AccountDataModel();
+  }
+
+  AccountModel copyWith(
+      {String? name,
+      String? seedPhrase,
+      int? derivationPathIndex,
+      String? publicKey,
+      String? secretKey,
+      String? publicKeyHash,
+      AccountProfileImageType? imageType,
+      String? profileImage,
+      bool? isNaanAccount,
+      String? tezosDomainName,
+      bool? isWatchOnly,
+      AccountDataModel? accountDataModel}) {
     return AccountModel(
       name: name ?? this.name,
       seedPhrase: seedPhrase ?? this.seedPhrase,
@@ -54,6 +61,7 @@ class AccountModel {
       isNaanAccount: isNaanAccount ?? this.isNaanAccount,
       tezosDomainName: tezosDomainName ?? this.tezosDomainName,
       isWatchOnly: isWatchOnly ?? this.isWatchOnly,
+      accountDataModel: accountDataModel ?? this.accountDataModel,
     );
   }
 
@@ -70,6 +78,7 @@ class AccountModel {
       'isNaanAccount': isNaanAccount,
       'tezosDomainName': tezosDomainName,
       'isWatchOnly': isWatchOnly,
+      'accountDataModel': accountDataModel,
     };
   }
 
@@ -97,6 +106,7 @@ class AccountModel {
           ? map['tezosDomainName'] as String
           : null,
       isWatchOnly: map['isWatchOnly'] ?? false,
+      accountDataModel: AccountDataModel.fromJson(map['accountDataModel']),
     );
   }
 
@@ -107,7 +117,7 @@ class AccountModel {
 
   @override
   String toString() {
-    return 'AccountModel(name: $name, seedPhrase: $seedPhrase, derivationPathIndex: $derivationPathIndex, publicKey: $publicKey, secretKey: $secretKey, publicKeyHash: $publicKeyHash, imageType: $imageType, profileImage: $profileImage, isNaanAccount: $isNaanAccount, tezosDomainName: $tezosDomainName, isWatchOnly: $isWatchOnly)';
+    return 'AccountModel(name: $name, seedPhrase: $seedPhrase, derivationPathIndex: $derivationPathIndex, publicKey: $publicKey, secretKey: $secretKey, publicKeyHash: $publicKeyHash, imageType: $imageType, profileImage: $profileImage, isNaanAccount: $isNaanAccount, tezosDomainName: $tezosDomainName, isWatchOnly: $isWatchOnly, accountDataModel: $accountDataModel)';
   }
 
   @override
@@ -124,7 +134,8 @@ class AccountModel {
         other.profileImage == profileImage &&
         other.isNaanAccount == isNaanAccount &&
         other.tezosDomainName == tezosDomainName &&
-        other.isWatchOnly == isWatchOnly;
+        other.isWatchOnly == isWatchOnly &&
+        other.accountDataModel == accountDataModel;
   }
 
   @override
@@ -139,6 +150,62 @@ class AccountModel {
         profileImage.hashCode ^
         isNaanAccount.hashCode ^
         tezosDomainName.hashCode ^
-        isWatchOnly.hashCode;
+        isWatchOnly.hashCode ^
+        accountDataModel.hashCode;
   }
+}
+
+class AccountDataModel {
+  double? xtzBalance;
+
+  /// total value xtz + tokensValueInxtz
+  double? totalBalance;
+  AccountDataModel({
+    this.xtzBalance,
+    this.totalBalance,
+  });
+
+  AccountDataModel copyWith({
+    double? xtzBalance,
+    double? tokenXtzBalance,
+  }) {
+    return AccountDataModel(
+      xtzBalance: xtzBalance ?? this.xtzBalance,
+      totalBalance: tokenXtzBalance ?? this.totalBalance,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'xtzBalance': xtzBalance,
+      'totalBalance': totalBalance,
+    };
+  }
+
+  factory AccountDataModel.fromMap(Map<String, dynamic> map) {
+    return AccountDataModel(
+      xtzBalance: map['xtzBalance'] != null ? map['xtzBalance'] as double : 0.0,
+      totalBalance:
+          map['totalBalance'] != null ? map['totalBalance'] as double : 0.0,
+    );
+  }
+
+  Map<String, dynamic> toJson() => toMap();
+
+  factory AccountDataModel.fromJson(Map<String, dynamic> source) =>
+      AccountDataModel.fromMap(source);
+
+  @override
+  String toString() =>
+      'AccountDataModel(xtzBalance: $xtzBalance, totalBalance: $totalBalance)';
+
+  @override
+  bool operator ==(covariant AccountDataModel other) {
+    if (identical(this, other)) return true;
+
+    return other.xtzBalance == xtzBalance && other.totalBalance == totalBalance;
+  }
+
+  @override
+  int get hashCode => xtzBalance.hashCode ^ totalBalance.hashCode;
 }
