@@ -21,6 +21,7 @@ abstract class Routes {
   static const DELEGATE_WIDGET = _Paths.DELEGATE_WIDGET;
   static const SPLASH_PAGE = _Paths.SPLASH_PAGE;
   static const LOADING_PAGE = _Paths.LOADING_PAGE;
+  static const NFT_GALLERY = _Paths.NFT_GALLERY;
 }
 
 abstract class _Paths {
@@ -39,4 +40,5 @@ abstract class _Paths {
   static const SETTINGS_PAGE = '/settings-page';
   static const SPLASH_PAGE = '/splash-page';
   static const LOADING_PAGE = '/loading-page';
+  static const NFT_GALLERY = '/nft-gallery';
 }

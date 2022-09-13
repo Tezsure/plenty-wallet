@@ -70,7 +70,7 @@ class GradConst {
 
   static const LinearGradient GradientBackground = LinearGradient(
     begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
+    end: Alignment(0, 2), // Alignment.bottomCenter [Previously]
     colors: [
       Color(0xff07030C),
       Color(0xff2D004F),

@@ -20,6 +20,8 @@ import '../modules/import_wallet_page/bindings/import_wallet_page_binding.dart';
 import '../modules/import_wallet_page/views/import_wallet_page_view.dart';
 import '../modules/loading_page/bindings/loading_page_binding.dart';
 import '../modules/loading_page/views/loading_page_view.dart';
+import '../modules/nft_gallery/bindings/nft_gallery_binding.dart';
+import '../modules/nft_gallery/views/nft_gallery_view.dart';
 import '../modules/onboarding_page/bindings/onboarding_page_binding.dart';
 import '../modules/onboarding_page/views/onboarding_page_view.dart';
 import '../modules/passcode_page/bindings/passcode_page_binding.dart';
@@ -115,6 +117,11 @@ class AppPages {
       name: _Paths.LOADING_PAGE,
       page: () => const LoadingPageView(),
       binding: LoadingPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.NFT_GALLERY,
+      page: () => const NftGalleryView(),
+      binding: NftGalleryBinding(),
     ),
   ];
 }
