@@ -33,8 +33,8 @@ class HomePageView extends GetView<HomePageController>
                     child: Stack(
                       children: [
                         Column(
-                          children: const [
-                            HomepageAppBar(),
+                          children: [
+                            const HomepageAppBar(),
                             AccountValueWidget(),
                           ],
                         ),
