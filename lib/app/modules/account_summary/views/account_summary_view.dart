@@ -89,15 +89,17 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                   width: 60,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Icon(
-                        Icons.content_copy_outlined,
-                        color: Colors.white,
+                    children: [
+                      SvgPicture.asset(
+                        '${PathConst.SVG}copy.svg',
+                        color: ColorConst.Primary.shade90,
+                        fit: BoxFit.contain,
                       ),
-                      Icon(
-                        Icons.qr_code_scanner_sharp,
-                        color: Colors.white,
-                      )
+                      SvgPicture.asset(
+                        '${PathConst.SVG}scanVector.svg',
+                        fit: BoxFit.contain,
+                        color: ColorConst.Primary.shade90,
+                      ),
                     ],
                   ),
                 ),

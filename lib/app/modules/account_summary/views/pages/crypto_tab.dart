@@ -27,16 +27,32 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                   itemCount: controller.expandTokenList.value
                       ? controller.tokens.length
                       : 3,
-                  itemBuilder: (_, index) => TokenCheckbox(
-                    tokenModel: controller.tokens,
-                    isEditable: controller.isEditable.value,
-                    tokenIndex: index,
-                    onCheckboxTap: (value) {
-                      controller
-                        ..tokens[index].isSelected = value ?? false
-                        ..tokens.refresh();
-                    },
-                  ),
+                  itemBuilder: (_, index) =>
+                      controller.tokens[index].isHidden &&
+                              !controller.isEditable.value
+                          ? const SizedBox()
+                          : TokenCheckbox(
+                              tokenModel: controller.tokens,
+                              isEditable: controller.isEditable.value,
+                              tokenIndex: index,
+                              onCheckboxTap: (value) {
+                                controller
+                                  ..tokens[index].isSelected = value ?? false
+                                  ..tokens.refresh();
+                              },
+                              onPinnedTap: () {
+                                controller
+                                  ..tokens[index].isPinned =
+                                      !controller.tokens[index].isPinned
+                                  ..tokens.refresh();
+                              },
+                              onHiddenTap: () {
+                                controller
+                                  ..tokens[index].isHidden =
+                                      !controller.tokens[index].isHidden
+                                  ..tokens.refresh();
+                              },
+                            ),
                 ),
                 0.03.vspace,
                 TokenEditTile(

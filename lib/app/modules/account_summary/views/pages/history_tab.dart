@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
@@ -27,12 +29,12 @@ class HistoryPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 0.02.vspace,
-                GestureDetector(
-                  onTap: onTap,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: onTap,
+                      child: Container(
                         height: 0.06.height,
                         width: 0.8.width,
                         padding: const EdgeInsets.all(8),
@@ -57,14 +59,14 @@ class HistoryPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.filter,
-                            color: ColorConst.Primary,
-                          ))
-                    ],
-                  ),
+                    ),
+                    0.02.hspace,
+                    SvgPicture.asset(
+                      '${PathConst.SVG}filter.svg',
+                      fit: BoxFit.contain,
+                    ),
+                    0.01.hspace,
+                  ],
                 ),
               ],
             ),

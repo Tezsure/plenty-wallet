@@ -13,6 +13,8 @@ class TokenCheckbox extends StatelessWidget {
   final int tokenIndex;
   final void Function(bool?)? onCheckboxTap;
   final bool isEditable;
+  final GestureTapCallback? onPinnedTap;
+  final GestureTapCallback? onHiddenTap;
   const TokenCheckbox({
     super.key,
     required this.tokenModel,
@@ -20,6 +22,8 @@ class TokenCheckbox extends StatelessWidget {
     required this.tokenIndex,
     this.onCheckboxTap,
     this.isEditable = false,
+    this.onPinnedTap,
+    this.onHiddenTap,
   });
 
   @override
@@ -59,40 +63,46 @@ class TokenCheckbox extends StatelessWidget {
                         children: [
                           if (tokenModel[tokenIndex].isSelected) ...[
                             if (tokenModel[tokenIndex].isPinned)
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10.0, right: 10),
-                                child: Container(
-                                  height: 20.sp,
-                                  width: 20.sp,
-                                  decoration: BoxDecoration(
-                                    color: ColorConst.NeutralVariant.shade40,
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                  child: Icon(
-                                    Icons.star,
-                                    color: ColorConst.Tertiary,
-                                    size: 14.sp,
+                              GestureDetector(
+                                onTap: onPinnedTap,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0, right: 10),
+                                  child: Container(
+                                    height: 20.sp,
+                                    width: 20.sp,
+                                    decoration: BoxDecoration(
+                                      color: ColorConst.NeutralVariant.shade40,
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    child: Icon(
+                                      Icons.star,
+                                      color: ColorConst.Tertiary,
+                                      size: 14.sp,
+                                    ),
                                   ),
                                 ),
                               )
                             else if (tokenModel[tokenIndex].isHidden)
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10.0, right: 10),
-                                child: Container(
-                                  height: 20.sp,
-                                  width: 20.sp,
-                                  decoration: BoxDecoration(
-                                    color: ColorConst.NeutralVariant.shade40,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  child: SvgPicture.asset(
-                                    "${PathConst.HOME_PAGE.SVG}eye_hide.svg",
-                                    color: ColorConst.NeutralVariant.shade70,
-                                    height: 10,
-                                    width: 10,
-                                    fit: BoxFit.scaleDown,
+                              GestureDetector(
+                                onTap: onHiddenTap,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0, right: 10),
+                                  child: Container(
+                                    height: 20.sp,
+                                    width: 20.sp,
+                                    decoration: BoxDecoration(
+                                      color: ColorConst.NeutralVariant.shade40,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: SvgPicture.asset(
+                                      "${PathConst.HOME_PAGE.SVG}eye_hide.svg",
+                                      color: ColorConst.NeutralVariant.shade70,
+                                      height: 10,
+                                      width: 10,
+                                      fit: BoxFit.scaleDown,
+                                    ),
                                   ),
                                 ),
                               )
