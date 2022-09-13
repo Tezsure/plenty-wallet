@@ -15,6 +15,8 @@ class MyNFTwidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => Get.bottomSheet(
         const NftGalleryView(),
+        isDismissible: true,
+        enableDrag: true,
         isScrollControlled: true,
       ),
       child: ShaderMask(

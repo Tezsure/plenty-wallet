@@ -11,9 +11,7 @@ import '../widgets/register_widgets.dart';
 
 class HomePageView extends GetView<HomePageController>
     with WidgetsBindingObserver {
-  const HomePageView({
-    Key? key,
-  }) : super(key: key);
+  const HomePageView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -90,28 +88,6 @@ class HomePageView extends GetView<HomePageController>
                     ),
                   ))),
         ),
-        // Obx(() => Visibility(
-        //       visible: controller.startAnimation.value,
-        //       child: Stack(
-        //         children: [
-        //           Container(
-        //             height: 1.height,
-        //             width: 1.width,
-        //             color: Colors.black,
-        //           ),
-        //           Align(
-        //             alignment: Alignment.center,
-        //             child: LottieBuilder.asset(
-        //               'assets/create_wallet/lottie/wallet_success.json',
-        //               fit: BoxFit.contain,
-        //               height: 0.5.height,
-        //               width: 0.5.width,
-        //               frameRate: FrameRate(60),
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ))
       ],
     );
   }
