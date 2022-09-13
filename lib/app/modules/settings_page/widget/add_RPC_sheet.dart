@@ -14,11 +14,14 @@ class AddRPCbottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      blurRadius: 5,
+      bottomSheetHorizontalPadding: 32,
+      height: 287,
       bottomSheetWidgets: [
         Center(
           child: Text(
-            'Select Network',
-            style: labelMedium,
+            'Add RPC',
+            style: titleMedium,
             textAlign: TextAlign.center,
           ),
         ),
@@ -52,7 +55,7 @@ class AddRPCbottomSheet extends StatelessWidget {
             ),
           ),
         ),
-        0.05.vspace
+       
       ],
     );
   }

@@ -39,6 +39,7 @@ class EditAccountBottomSheet extends StatelessWidget {
   Widget editaccountUI() {
     return Expanded(
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(children: [
           Obx(
             () => Container(
@@ -63,7 +64,6 @@ class EditAccountBottomSheet extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   Get.bottomSheet(changePhotoBottomSheet(),
-                    
                       barrierColor: Colors.transparent);
                 },
                 child: CircleAvatar(
