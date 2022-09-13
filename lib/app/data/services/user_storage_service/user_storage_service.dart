@@ -25,9 +25,6 @@ class UserStorageService {
     await ServiceConfig.localStorage
         .write(key: accountReadKey, value: accounts);
     await DataHandlerService().forcedUpdateData();
-
-    // print(await ServiceConfig.localStorage
-    //     .read(key: ServiceConfig.accountsStorage));
   }
 
   /// Get all accounts in storage <br>

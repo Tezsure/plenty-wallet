@@ -36,7 +36,7 @@ class AccountDataHandler {
         for (int i = 0; i < accountAddress.length; i++)
           accountAddress[i]: tempAccountBalances[i]
       },
-      // tokens
+      // tokens as Map<String(address),List<AccountTokenModel>>
       <String, List<AccountTokenModel>>{
         for (int i = 0; i < accountAddress.length; i++)
           accountAddress[i]: tempAccountTokenModels[i]
