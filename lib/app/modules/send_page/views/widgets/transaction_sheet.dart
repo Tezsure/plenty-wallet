@@ -24,7 +24,7 @@ class TransactionBottomSheet extends StatelessWidget {
     return NaanBottomSheet(
       blurRadius: showNFTPage ? 50 : 5,
       width: 1.width,
-      height: 0.5.height,
+      height: 0.45.height,
       title: 'Sending',
       titleAlignment: Alignment.center,
       titleStyle: titleMedium,
@@ -92,7 +92,7 @@ class TransactionBottomSheet extends StatelessWidget {
           alignment: Alignment.center,
           child: SolidButton(
             title: 'Hold to Send',
-            width: 0.75.width,
+            width: 0.85.width,
             onPressed: () {
               Get.back();
               Get.bottomSheet(NaanBottomSheet(

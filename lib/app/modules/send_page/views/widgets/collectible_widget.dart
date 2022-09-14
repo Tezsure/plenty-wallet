@@ -40,7 +40,7 @@ class CollectibleWidget extends GetView<SendPageController> {
                 trailing: SizedBox(
                   height: 0.03.height,
                   width: 0.14.width,
-                  child: expandButton(
+                  child: _expandButton(
                     isExpanded: controller.expandNFTCollectible.value &&
                         widgetIndex == controller.expandedIndex.value,
                   ),
@@ -50,21 +50,31 @@ class CollectibleWidget extends GetView<SendPageController> {
                   style: labelLarge,
                 ),
                 children: [
+                  SizedBox(
+                      height: 0.31.height *
+                          (collectibleModel.nfts.length / 2).ceil(),
+                      width: 1.width,
+                      child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: collectibleModel.nfts.length,
+                        shrinkWrap: false,
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 0.5.width,
+                            mainAxisExtent: 0.3.height,
+                            childAspectRatio: 1,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10),
+                        itemBuilder: ((context, index) => NFTwidget(
+                              nfTmodel: collectibleModel.nfts[index],
+                              onTap: () => controller
+                                ..onNFTClick()
+                                ..setSelectedPageIndex(
+                                    index: 2, isKeyboardRequested: false),
+                            )),
+                      )),
                   const SizedBox(
                     height: 16,
                   ),
-                  Wrap(
-                    spacing: 0.03.width,
-                    runSpacing: 0.03.width,
-                    children: collectibleModel.nfts
-                        .map((nfTmodel) => NFTwidget(
-                            nfTmodel: nfTmodel,
-                            onTap: () => controller
-                              ..onNFTClick()
-                              ..setSelectedPageIndex(
-                                  index: 2, isKeyboardRequested: false)))
-                        .toList(),
-                  )
                 ],
               ),
             ],
@@ -72,7 +82,7 @@ class CollectibleWidget extends GetView<SendPageController> {
         ));
   }
 
-  Widget expandButton({required bool isExpanded}) {
+  Widget _expandButton({required bool isExpanded}) {
     return Container(
       height: 24,
       padding: const EdgeInsets.symmetric(horizontal: 12),

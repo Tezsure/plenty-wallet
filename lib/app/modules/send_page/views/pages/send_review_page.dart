@@ -51,6 +51,10 @@ class SendReviewPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                   child: TokenSelector(
+                    onTap: () {
+                      controller.selectedPageIndex.value = 1;
+                      controller.recipientFocusNode.value.unfocus();
+                    },
                     showNFTPage: showNFTPage,
                     nftImageUrl: nftImageUrl,
                     totalTez: totalTez,

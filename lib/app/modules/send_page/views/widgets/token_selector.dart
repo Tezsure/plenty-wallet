@@ -20,12 +20,14 @@ class TokenSelector extends StatelessWidget {
     required this.tokenName,
     required this.nftCollectibleName,
     required this.nftCollectibleGroupName,
+    this.onTap,
   })  : assert(showNFTPage ? nftImageUrl != null : tokenImageUrl != null),
         assert(showNFTPage
             ? nftCollectibleName != '' && nftCollectibleGroupName != ''
             : tokenName != '');
 
   final bool showNFTPage;
+  final GestureTapCallback? onTap;
   final String? nftImageUrl;
   final double totalTez;
   final String? tokenImageUrl;
@@ -36,6 +38,7 @@ class TokenSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       dense: true,
       leading: Visibility(
