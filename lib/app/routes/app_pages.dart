@@ -120,7 +120,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.NFT_GALLERY,
-      page: () => const NftGalleryView(),
+      page: () => NftGalleryView(),
       binding: NftGalleryBinding(),
     ),
   ];
