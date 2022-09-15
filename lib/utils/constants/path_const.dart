@@ -5,6 +5,7 @@ class PathConst {
   static const SVG = "assets/svg/";
   static const PROFILE_IMAGES = "assets/profile_images/";
   static const IMAGES = "assets/images";
+  static const TEMP = "assets/temp/";
 
   static const HOME_PAGE = "assets/home_page/";
   static const SETTINGS_PAGE = "assets/settings_page/";
