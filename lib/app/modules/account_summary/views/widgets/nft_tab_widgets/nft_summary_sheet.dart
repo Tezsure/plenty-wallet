@@ -1,90 +1,512 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-import 'nft_activity_tab.dart';
-import 'nft_information_tab.dart';
+import '../../../../../../utils/constants/path_const.dart';
+import '../../../../../../utils/utils.dart';
 
-class NFTSummaryBottomSheet extends StatelessWidget {
-  const NFTSummaryBottomSheet({super.key});
+class NFTSummaryBottomSheet extends StatefulWidget {
+  final GestureTapCallback? onBackTap;
+  const NFTSummaryBottomSheet({
+    super.key,
+    this.onBackTap,
+  });
 
   @override
+  State<NFTSummaryBottomSheet> createState() => _NFTSummaryBottomSheetState();
+}
+
+class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
+  bool isExpanded = false;
+  @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Container(
-        height: 0.95.height,
-        width: 1.width,
-        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-        child: SafeArea(
-          bottom: false,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  0.02.vspace,
-                  Center(
-                    child: Container(
-                      height: 5,
-                      width: 36,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color:
-                            ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+    return DraggableScrollableSheet(
+      initialChildSize: 0.95,
+      maxChildSize: 0.96,
+      minChildSize: 0.6,
+      builder: ((context, scrollController) => DefaultTabController(
+            length: 2,
+            child: Container(
+              width: 1.width,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                gradient: GradConst.GradientBackground,
+              ),
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    0.01.vspace,
+                    Center(
+                      child: Container(
+                        height: 5,
+                        width: 36,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.3),
+                        ),
                       ),
                     ),
-                  ),
-                  0.03.vspace,
-                  Center(
-                    child: Text('unstable dreams', style: titleMedium),
-                  ),
-                  0.04.vspace,
-                  Text('Unstable #5', style: bodyLarge),
-                  0.02.vspace,
-                  Center(
-                    child: Image.asset(
-                      'assets/temp/nft_preview.png',
-                      alignment: Alignment.center,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  0.01.vspace,
-                  SizedBox(
-                    height: 50,
-                    child: Center(
-                      child: TabBar(
-                          isScrollable: true,
-                          labelColor: ColorConst.Primary.shade95,
-                          indicatorColor: ColorConst.Primary,
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          labelPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                          ),
-                          enableFeedback: true,
-                          unselectedLabelColor:
-                              ColorConst.NeutralVariant.shade60,
-                          tabs: const [
-                            Tab(text: "Information"),
-                            Tab(text: "Activity"),
-                          ]),
-                    ),
-                  ),
-                  const Expanded(
-                    child: TabBarView(
+                    0.001.vspace,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        NFTInformationTab(),
-                        NFTActivityTab(),
+                        IconButton(
+                            onPressed: widget.onBackTap,
+                            icon: const Icon(Icons.arrow_back_ios_new,
+                                color: Colors.white)),
+                        const Spacer(),
+                        IconButton(
+                            onPressed: () {},
+                            padding: EdgeInsets.zero,
+                            visualDensity: VisualDensity.compact,
+                            icon: const Icon(Icons.share, color: Colors.white)),
+                        IconButton(
+                            onPressed: () {},
+                            padding: EdgeInsets.zero,
+                            visualDensity: VisualDensity.compact,
+                            icon: const Icon(Icons.cast_rounded,
+                                color: Colors.white)),
                       ],
                     ),
-                  )
-                ]),
-          ),
-        ),
-      ),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 0.02.height),
+                      height: 0.5.height,
+                      width: 1.width,
+                      color: Colors.white,
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                              child: Image.asset(
+                            'assets/temp/nft_preview.png',
+                            alignment: Alignment.center,
+                            fit: BoxFit.cover,
+                          )),
+                          GestureDetector(
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    right: 10.sp, bottom: 22.sp),
+                                height: 36.sp,
+                                width: 36.sp,
+                                decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Transform.rotate(
+                                  angle: pi / 180 * 135,
+                                  child: const Icon(
+                                    Icons.code_outlined,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 16.sp, right: 13.sp),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                    text: 'unstable dreams\n',
+                                    style: labelSmall.copyWith(
+                                        color:
+                                            ColorConst.NeutralVariant.shade60)),
+                                TextSpan(
+                                    text: 'Unstable #5\n', style: bodyLarge),
+                                TextSpan(
+                                  text:
+                                      'Donec lectus nibh, consectetur vitae dolor ac, finibus\nsuscipit quam. Nunc at nunc turpis. Donec gravida',
+                                  style: bodySmall.copyWith(
+                                    color: ColorConst.NeutralVariant.shade60,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          MaterialButton(
+                            padding: EdgeInsets.zero,
+                            minWidth: 1,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            onPressed: () {},
+                            child: Text(
+                              'See more',
+                              textAlign: TextAlign.start,
+                              style: labelMedium.copyWith(
+                                  color: ColorConst.Primary),
+                            ),
+                          ),
+                          0.01.vspace,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                      text: '2\n',
+                                      style: labelLarge,
+                                      children: [
+                                        TextSpan(
+                                            text: 'Owned',
+                                            style: labelSmall.copyWith(
+                                                color: ColorConst
+                                                    .NeutralVariant.shade70))
+                                      ])),
+                              RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                      text: '40\n',
+                                      style: labelLarge,
+                                      children: [
+                                        TextSpan(
+                                            text: 'Owners',
+                                            style: labelSmall.copyWith(
+                                                color: ColorConst
+                                                    .NeutralVariant.shade70))
+                                      ])),
+                              RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                      text: '69\n',
+                                      style: labelLarge,
+                                      children: [
+                                        TextSpan(
+                                            text: 'Editions',
+                                            style: labelSmall.copyWith(
+                                                color: ColorConst
+                                                    .NeutralVariant.shade70))
+                                      ])),
+                            ],
+                          ),
+                          Center(
+                            child: Container(
+                              margin:
+                                  EdgeInsets.symmetric(vertical: 0.02.height),
+                              height: 0.12.height,
+                              width: 1.width,
+                              padding: EdgeInsets.all(8.sp),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                border: Border.all(
+                                    color: ColorConst.NeutralVariant.shade60
+                                        .withOpacity(0.2)),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(8.sp),
+                                child: RichText(
+                                    textAlign: TextAlign.start,
+                                    text: TextSpan(
+                                        text: 'Current Price\n',
+                                        style: labelSmall.copyWith(
+                                            color: ColorConst
+                                                .NeutralVariant.shade60),
+                                        children: [
+                                          TextSpan(
+                                              text: '420.69 ',
+                                              style: headlineSmall),
+                                          WidgetSpan(
+                                              child: SvgPicture.asset(
+                                            '${PathConst.HOME_PAGE}svg/xtz.svg',
+                                            height: 20,
+                                          )),
+                                          TextSpan(
+                                              text: '\n\$596.21',
+                                              style: labelSmall.copyWith(
+                                                  color: ColorConst
+                                                      .NeutralVariant.shade60)),
+                                        ])),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Image.asset('${PathConst.TEMP}nft_summary1.png'),
+                      ),
+                      title: RichText(
+                          textAlign: TextAlign.start,
+                          text: TextSpan(
+                              text: 'Created By ',
+                              style: labelSmall.copyWith(
+                                  color: ColorConst.NeutralVariant.shade60),
+                              children: [
+                                TextSpan(
+                                    text: tz1Shortner(
+                                        'tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx'),
+                                    style: labelMedium)
+                              ])),
+                    ),
+                    Divider(
+                      color: ColorConst.NeutralVariant.shade20,
+                      endIndent: 14.sp,
+                      indent: 14.sp,
+                    ),
+                    ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Image.asset('${PathConst.TEMP}nft_summary2.png'),
+                      ),
+                      title: RichText(
+                          textAlign: TextAlign.start,
+                          text: TextSpan(
+                              text: 'Created By ',
+                              style: labelSmall.copyWith(
+                                  color: ColorConst.NeutralVariant.shade60),
+                              children: [
+                                TextSpan(
+                                    text: tz1Shortner(
+                                        'tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx'),
+                                    style: labelMedium)
+                              ])),
+                    ),
+                    SizedBox(
+                      width: 1.width,
+                      height: 0.1.height,
+                      child: TabBar(
+                          padding: EdgeInsets.all(8.sp),
+                          enableFeedback: true,
+                          isScrollable: true,
+                          indicatorColor: ColorConst.Primary,
+                          unselectedLabelColor:
+                              ColorConst.NeutralVariant.shade60,
+                          unselectedLabelStyle: labelLarge,
+                          labelColor: ColorConst.Primary.shade95,
+                          labelStyle: labelLarge,
+                          tabs: const [
+                            Tab(
+                              child: Text(
+                                'Details',
+                              ),
+                            ),
+                            Tab(
+                              child: Text(
+                                'Item Activity',
+                              ),
+                            ),
+                          ]),
+                    ),
+                    SizedBox(
+                      height: isExpanded ? 0.4.height : 0.25.height,
+                      child: TabBarView(children: [
+                        SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              ExpansionTile(
+                                  onExpansionChanged: (val) => isExpanded = val,
+                                  title: Text(
+                                    'About Collection',
+                                    style: labelSmall,
+                                  ),
+                                  iconColor: Colors.white,
+                                  collapsedIconColor: Colors.white,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 16.sp, right: 13.sp),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 10,
+                                                backgroundColor: Colors.white,
+                                                child: Image.asset(
+                                                    '${PathConst.TEMP}nft_details.png'),
+                                              ),
+                                              0.04.hspace,
+                                              Text(
+                                                'stay a vision',
+                                                style: labelSmall,
+                                              ),
+                                            ],
+                                          ),
+                                          0.01.vspace,
+                                          Text(
+                                            'Donec lectus nibh, consectetur vitae dolor ac, finibus suscipit quam. Nunc at nunc turpis. Donec gradvida',
+                                            style: bodySmall.copyWith(
+                                                color: ColorConst
+                                                    .NeutralVariant.shade60),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ]),
+                              Divider(
+                                color: ColorConst.NeutralVariant.shade20,
+                                endIndent: 14.sp,
+                                indent: 14.sp,
+                              ),
+                              ExpansionTile(
+                                  onExpansionChanged: (val) => isExpanded = val,
+                                  iconColor: Colors.white,
+                                  collapsedIconColor: Colors.white,
+                                  title: Text(
+                                    'Details',
+                                    style: labelSmall,
+                                  ),
+                                  children: [
+                                    Row(
+                                      children: [
+                                        0.04.hspace,
+                                        RichText(
+                                            textAlign: TextAlign.start,
+                                            text: TextSpan(
+                                                text: 'Contract Address\n',
+                                                style: labelSmall,
+                                                children: [
+                                                  TextSpan(
+                                                      text: 'Token ID',
+                                                      style: labelSmall)
+                                                ])),
+                                        const Spacer(),
+                                        RichText(
+                                            textAlign: TextAlign.end,
+                                            text: TextSpan(
+                                                text: 'Ox495f...7b5e',
+                                                style: bodySmall.copyWith(
+                                                    color: ColorConst.Primary),
+                                                children: [
+                                                  const WidgetSpan(
+                                                    child: Icon(
+                                                      Icons.open_in_new,
+                                                      size: 14,
+                                                      color: ColorConst.Primary,
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                      text: '\n13951734451',
+                                                      style: bodySmall.copyWith(
+                                                          color: ColorConst
+                                                              .NeutralVariant
+                                                              .shade60))
+                                                ])),
+                                        0.04.hspace,
+                                      ],
+                                    ),
+                                  ]),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10.sp),
+                          child: Column(
+                            children: [
+                              0.01.vspace,
+                              Material(
+                                color: ColorConst.NeutralVariant.shade60
+                                    .withOpacity(0.2),
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: ListTile(
+                                  dense: true,
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    child: SvgPicture.asset(
+                                      '${PathConst.SVG}bi_arrow.svg',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    'Transfer',
+                                    style: labelMedium,
+                                  ),
+                                  subtitle: Text(
+                                    'to ${tz1Shortner('tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx')}',
+                                    style: bodySmall.copyWith(
+                                        color:
+                                            ColorConst.NeutralVariant.shade60),
+                                  ),
+                                  trailing: Text(
+                                    '1.5 hours ago',
+                                    style: labelSmall.copyWith(
+                                        color:
+                                            ColorConst.NeutralVariant.shade60),
+                                  ),
+                                ),
+                              ),
+                              0.01.vspace,
+                              Material(
+                                color: ColorConst.NeutralVariant.shade60
+                                    .withOpacity(0.2),
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: ListTile(
+                                  dense: true,
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    child: SvgPicture.asset(
+                                      '${PathConst.SVG}cart.svg',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    'Sale',
+                                    style: labelMedium,
+                                  ),
+                                  subtitle: Text(
+                                    'to ${tz1Shortner('tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx')}',
+                                    style: bodySmall.copyWith(
+                                        color:
+                                            ColorConst.NeutralVariant.shade60),
+                                  ),
+                                  trailing: RichText(
+                                    textAlign: TextAlign.end,
+                                    text: TextSpan(
+                                      text: '123 ',
+                                      style: labelSmall,
+                                      children: [
+                                        WidgetSpan(
+                                          alignment:
+                                              PlaceholderAlignment.middle,
+                                          child: SvgPicture.asset(
+                                            '${PathConst.HOME_PAGE}svg/xtz.svg',
+                                            height: 12.sp,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: '\n2 days ago',
+                                          style: labelSmall.copyWith(
+                                              color: ColorConst
+                                                  .NeutralVariant.shade60),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )),
     );
   }
 }
