@@ -64,69 +64,9 @@ class NFTCollectionView extends GetView<NftGalleryController> {
                         ),
                         centerTitle: true,
                         actions: [
-                          AnimatedContainer(
-                            duration: const Duration(milliseconds: 200),
-                            curve: Curves.fastOutSlowIn,
-                            margin: controller.searchNft.value
-                                ? EdgeInsets.only(
-                                    top: 10.sp,
-                                    left: 10.sp,
-                                    right: 20.sp,
-                                    bottom: 10.sp,
-                                  )
-                                : EdgeInsets.zero,
-                            padding: controller.searchNft.value
-                                ? EdgeInsets.only(bottom: 20.sp)
-                                : null,
-                            width:
-                                controller.searchNft.value ? 0.9.width : null,
-                            child: Visibility(
-                              visible: controller.searchNft.value,
-                              replacement: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: IconButton(
-                                  onPressed: controller.searchNftToggle,
-                                  icon: const Icon(Icons.search),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  textAlignVertical: TextAlignVertical.center,
-                                  textAlign: TextAlign.start,
-                                  onEditingComplete: controller.searchNftToggle,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: ColorConst.NeutralVariant.shade60
-                                        .withOpacity(0.2),
-                                    prefixIcon: Icon(
-                                      Icons.search,
-                                      color: ColorConst.NeutralVariant.shade60,
-                                      size: 22,
-                                    ),
-                                    counterStyle: const TextStyle(
-                                        backgroundColor: Colors.white),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        borderSide: BorderSide.none),
-                                    hintText: 'Search baker',
-                                    alignLabelWithHint: true,
-                                    floatingLabelAlignment:
-                                        FloatingLabelAlignment.center,
-                                    hintStyle: bodySmall.copyWith(
-                                        color:
-                                            ColorConst.NeutralVariant.shade70),
-                                    labelStyle: labelSmall,
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 20),
-                                  ),
-                                ),
-                              ),
-                            ),
+                          SearchBar(
+                            onTap: controller.searchNftToggle,
+                            isSearching: controller.searchNft.value,
                           ),
                         ]),
                   ),
@@ -211,6 +151,73 @@ class NFTCollectionView extends GetView<NftGalleryController> {
                 ],
               ),
             ))));
+  }
+}
+
+class SearchBar extends StatelessWidget {
+  final bool isSearching;
+  final GestureTapCallback? onTap;
+  const SearchBar({super.key, this.isSearching = false, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.fastOutSlowIn,
+      margin: isSearching //controller.searchNft.value
+          ? EdgeInsets.only(
+              top: 10.sp,
+              left: 10.sp,
+              right: 20.sp,
+              bottom: 10.sp,
+            )
+          : EdgeInsets.zero,
+      padding: isSearching ? EdgeInsets.only(bottom: 20.sp) : null,
+      width: isSearching ? 0.9.width : null,
+      child: Visibility(
+        visible: isSearching,
+        replacement: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: IconButton(
+            onPressed: onTap,
+            icon: const Icon(Icons.search),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+            textAlignVertical: TextAlignVertical.center,
+            textAlign: TextAlign.start,
+            onEditingComplete: onTap,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              prefixIcon: Icon(
+                Icons.search,
+                color: ColorConst.NeutralVariant.shade60,
+                size: 22,
+              ),
+              counterStyle: const TextStyle(backgroundColor: Colors.white),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none),
+              hintText: 'Search baker',
+              alignLabelWithHint: true,
+              floatingLabelAlignment: FloatingLabelAlignment.center,
+              hintStyle:
+                  bodySmall.copyWith(color: ColorConst.NeutralVariant.shade70),
+              labelStyle: labelSmall,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
