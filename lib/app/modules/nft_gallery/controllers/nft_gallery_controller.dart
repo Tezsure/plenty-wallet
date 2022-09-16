@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class NftGalleryController extends GetxController {
-  DraggableScrollableController scrollController =
-      DraggableScrollableController();
+  RxInt currentPageIndex = 0.obs;
+  RxBool searchNft = false.obs;
   List<String> nftChips = const [
     'Art',
     'Collectibles',
@@ -13,6 +12,10 @@ class NftGalleryController extends GetxController {
   ];
 
   RxBool isExpanded = false.obs;
+
+  void searchNftToggle() {
+    searchNft.value = !searchNft.value;
+  }
 
   void toggleExpanded(bool val) {
     isExpanded.value = val;
