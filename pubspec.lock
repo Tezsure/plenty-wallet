@@ -117,8 +117,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: main
-      resolved-ref: e32d72b25b0e183b5626dc490001815c1e203404
+      ref: "feat/gasFeeCalculator"
+      resolved-ref: af85dcb9b3ca0e74292f5d681b3ad99774f580e2
       url: "https://github.com/Tezsure/Dartez.git"
     source: git
     version: "1.0.0"
@@ -709,6 +709,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  simple_gql:
+    dependency: "direct main"
+    description:
+      name: simple_gql
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   sky_engine:
     dependency: transitive
     description: flutter

@@ -11,7 +11,7 @@ class TokenAndXtzPriceHandler {
   DataHandlerRenderService dataHandlerRenderService;
   TokenAndXtzPriceHandler(this.dataHandlerRenderService);
 
-  static Future<void> _updateThePrices(List<dynamic> args) async {
+  static Future<void> _isolateProcess(List<dynamic> args) async {
     // fetch xtz price using coingecko
     var xtzPriceResponse = jsonDecode(
         await HttpService.performGetRequest(ServiceConfig.coingeckoApi));
@@ -34,24 +34,24 @@ class TokenAndXtzPriceHandler {
   Future<void> executeProcess({required Function postProcess}) async {
     ReceivePort receivePort = ReceivePort();
     await Isolate.spawn(
-      _updateThePrices, 
+      _isolateProcess,
       <dynamic>[
         receivePort.sendPort,
       ],
       debugName: "xtz & tokenPrices",
     );
     receivePort.asBroadcastStream().listen((data) async {
-      await _storeXtzAndTokenPrices(data);
-      await postProcess();
+      await _storeData(data, postProcess);
     });
   }
 
-  Future<void> _storeXtzAndTokenPrices(Map<String, String> data) async {
+  Future<void> _storeData(Map<String, String> data, postProcess) async {
+    postProcess(double.parse(data['xtzPrice'].toString()));
     // store xtz and token prices into local
 
     await ServiceConfig.localStorage
-        .write(key: ServiceConfig.xtzPrice, value: data['xtzPrice']);
-    await ServiceConfig.localStorage
-        .write(key: ServiceConfig.tokenPrices, value: data['tokenPrices']);
+        .write(key: ServiceConfig.xtzPriceStorage, value: data['xtzPrice']);
+    await ServiceConfig.localStorage.write(
+        key: ServiceConfig.tokenPricesStorage, value: data['tokenPrices']);
   }
 }

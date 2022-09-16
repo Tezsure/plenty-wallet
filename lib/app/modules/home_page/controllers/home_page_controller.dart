@@ -1,3 +1,7 @@
+// ignore_for_file: avoid_print
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
@@ -29,6 +33,10 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         .renderService
         .accountUpdater
         .registerVariable(userAccounts);
+    // DataHandlerService().renderService.accountNft.registerCallback((data) {
+    //   print("Nft data");
+    //   print(jsonEncode(data));
+    // });
   }
 
   @override
@@ -57,7 +65,9 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         height: 331,
         title: 'Backup Your Wallet',
         bottomSheetWidgets: [
-          SizedBox(height: 44,),
+          SizedBox(
+            height: 44,
+          ),
           Text(
             'With no backup. losing your device will result\nin the loss of access forever. The only way to\nguard against losses is to backup your wallet.',
             textAlign: TextAlign.start,

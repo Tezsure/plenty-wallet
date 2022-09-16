@@ -12,7 +12,7 @@ class SplashPageController extends GetxController {
     await DataHandlerService().initDataServices();
 
     // un-comment below line to test on borading flow multiple time
-    await ServiceConfig().clearStorage();
+    // await ServiceConfig().clearStorage();
     var walletAccountsLength =
         (await UserStorageService().getAllAccount()).length;
     var watchAccountsLength =
@@ -29,7 +29,6 @@ class SplashPageController extends GetxController {
         ],
       );
     } else {
-      await ServiceConfig().clearStorage();
       Future.delayed(const Duration(seconds: 3),
           () => Get.offAndToNamed(Routes.ONBOARDING_PAGE));
     }

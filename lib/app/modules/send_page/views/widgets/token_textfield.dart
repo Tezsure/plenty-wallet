@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/state_manager.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -9,6 +10,7 @@ class TokenSendTextfield extends StatelessWidget {
   final TextStyle? hintStyle;
   final String hintText;
   final FocusNode? focusNode;
+  final RxBool? isError;
   const TokenSendTextfield({
     super.key,
     this.controller,
@@ -16,6 +18,7 @@ class TokenSendTextfield extends StatelessWidget {
     this.hintStyle,
     required this.hintText,
     this.focusNode,
+    this.isError,
   });
 
   @override
@@ -25,8 +28,11 @@ class TokenSendTextfield extends StatelessWidget {
       controller: controller,
       cursorHeight: 28.sp,
       keyboardType: TextInputType.number,
-      textAlign: TextAlign.start,
-      style: headlineMedium.copyWith(color: ColorConst.Neutral.shade70),
+      textAlign: TextAlign.left,
+      style: headlineMedium.copyWith(
+          color: isError != null && isError!.value
+              ? ColorConst.NaanRed
+              : ColorConst.Neutral.shade70),
       cursorColor: Colors.white,
       onChanged: onChanged,
       decoration: InputDecoration(

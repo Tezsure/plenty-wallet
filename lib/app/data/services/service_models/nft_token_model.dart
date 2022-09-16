@@ -1,4 +1,6 @@
-class NFTToken {
+// ignore_for_file: prefer_typing_uninitialized_variables
+
+class NftTokenModel {
   String? artifactUri;
   var description;
   String? displayUri;
@@ -19,7 +21,7 @@ class NFTToken {
   Fa? fa;
   String? metadata;
 
-  NFTToken(
+  NftTokenModel(
       {this.artifactUri,
       this.description,
       this.displayUri,
@@ -40,7 +42,7 @@ class NFTToken {
       this.fa,
       this.metadata});
 
-  NFTToken.fromJson(Map<String, dynamic> json) {
+  NftTokenModel.fromJson(Map<String, dynamic> json) {
     artifactUri = json['artifact_uri'];
     description = json['description'];
     displayUri = json['display_uri'];
@@ -248,13 +250,23 @@ class Fa {
   String? name;
   String? collectionType;
   int? floorPrice;
+  String? logo;
+  String? contract;
 
-  Fa({this.name, this.collectionType, this.floorPrice});
+  Fa({
+    this.name,
+    this.collectionType,
+    this.floorPrice,
+    this.contract,
+    this.logo,
+  });
 
   Fa.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     collectionType = json['collection_type'];
     floorPrice = json['floor_price'];
+    logo = json['logo'] ?? "";
+    contract = json['contract'];
   }
 
   Map<String, dynamic> toJson() {
@@ -262,6 +274,8 @@ class Fa {
     data['name'] = name;
     data['collection_type'] = collectionType;
     data['floor_price'] = floorPrice;
+    data['logo'] = logo;
+    data['contract'] = contract;
     return data;
   }
 }
