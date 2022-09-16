@@ -5,6 +5,8 @@ import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
+import '../../../nft_gallery/views/nft_gallery_view.dart';
+
 class HomepageAppBar extends StatelessWidget {
   const HomepageAppBar({Key? key}) : super(key: key);
 
@@ -32,7 +34,14 @@ class HomepageAppBar extends StatelessWidget {
             child: Row(
               children: [
                 actionItems(
-                    onTap: () {},
+                    onTap: () {
+                      Get.bottomSheet(
+                        NftGalleryView(),
+                        isDismissible: true,
+                        enableDrag: true,
+                        isScrollControlled: true,
+                      );
+                    },
                     svgPath: "${PathConst.HOME_PAGE.SVG}gallery.svg"),
                 const VerticalDivider(
                   width: 2,
