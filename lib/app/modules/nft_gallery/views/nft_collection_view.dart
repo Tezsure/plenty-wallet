@@ -104,6 +104,7 @@ class NFTCollectionView extends GetView<NftGalleryController> {
                                 colletibleModel: controller.collectibles[i],
                               );
                             }),
+                        const SizedBox(),
                       ]),
                     ),
                   ],
@@ -259,7 +260,7 @@ class GalleryItemThumbnail extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               image: DecorationImage(
                 image: AssetImage(nftModel.nftPath),
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
               ),
             ),
           ),

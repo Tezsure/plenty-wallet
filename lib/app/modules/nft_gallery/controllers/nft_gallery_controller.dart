@@ -58,7 +58,7 @@ class NftGalleryController extends GetxController {
       name: "tezos",
       collectibleProfilePath: '${PathConst.TEMP}nft_details.png',
       nfts: List.generate(
-        Random().nextInt(listofImages.length),
+        Random().nextInt(listofImages.length) + 1,
         (index) => NFTmodel(
             title: "Flowers & Bytes",
             name: "Felix le peintre",

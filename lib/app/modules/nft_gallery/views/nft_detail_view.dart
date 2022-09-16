@@ -310,7 +310,7 @@ class NFTDetailView extends GetView<NftGalleryController> {
                     Obx(() => SizedBox(
                           height: controller.isExpanded.value
                               ? 0.4.height
-                              : 0.2.height,
+                              : 0.25.height,
                           child: TabBarView(children: [
                             SingleChildScrollView(
                               child: Column(
