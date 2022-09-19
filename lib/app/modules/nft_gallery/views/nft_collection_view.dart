@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/nft_gallery/views/nft_gallery_filter.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../utils/colors/colors.dart';
@@ -25,92 +26,120 @@ class NFTCollectionView extends GetView<NftGalleryController> {
             ),
             height: 1.height,
             width: 1.width,
-            child: DefaultTabController(
-              length: 2,
-              initialIndex: 0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Obx(
-                    () => AppBar(
-                        toolbarHeight:
-                            controller.searchNft.value ? 100 : kToolbarHeight,
-                        backgroundColor: Colors.transparent,
-                        automaticallyImplyLeading: false,
-                        title: Text(
-                          'NFTs',
-                          style: titleMedium,
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              floatingActionButton: filterFloatingButton(),
+              body: DefaultTabController(
+                length: 2,
+                initialIndex: 0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Obx(
+                      () => AppBar(
+                          toolbarHeight:
+                              controller.searchNft.value ? 100 : kToolbarHeight,
+                          backgroundColor: Colors.transparent,
+                          automaticallyImplyLeading: false,
+                          title: Text(
+                            'NFTs',
+                            style: titleMedium,
+                          ),
+                          centerTitle: true,
+                          actions: [
+                            NFTSearchBar(
+                              onTap: controller.searchNftToggle,
+                              isSearching: controller.searchNft.value,
+                            ),
+                          ]),
+                    ),
+                    if (controller.searchNft.value) ...[
+                      Center(
+                        child: Text(
+                          'Try searching for collections or NFT',
+                          style: bodyMedium.copyWith(
+                              color: ColorConst.NeutralVariant.shade70),
                         ),
-                        centerTitle: true,
-                        actions: [
-                          NFTSearchBar(
-                            onTap: controller.searchNftToggle,
-                            isSearching: controller.searchNft.value,
-                          ),
-                        ]),
-                  ),
-                  if (controller.searchNft.value) ...[
-                    Center(
-                      child: Text(
-                        'Try searching for collections or NFT',
-                        style: bodyMedium.copyWith(
-                            color: ColorConst.NeutralVariant.shade70),
                       ),
-                    ),
-                  ] else ...[
-                    TabBar(
-                        enableFeedback: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.symmetric(horizontal: 0.04.width),
-                        isScrollable: true,
-                        indicatorColor: ColorConst.Primary,
-                        tabs: [
-                          Tab(
-                            child: Text(
-                              'Collected',
-                              style: labelMedium,
+                    ] else ...[
+                      TabBar(
+                          enableFeedback: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.symmetric(horizontal: 0.04.width),
+                          isScrollable: true,
+                          indicatorColor: ColorConst.Primary,
+                          tabs: [
+                            Tab(
+                              child: Text(
+                                'Collected',
+                                style: labelMedium,
+                              ),
                             ),
-                          ),
-                          Tab(
-                            child: Text(
-                              'Created',
-                              style: labelMedium,
+                            Tab(
+                              child: Text(
+                                'Created',
+                                style: labelMedium,
+                              ),
                             ),
-                          ),
+                          ]),
+                      Obx(() => CollectionCategories(
+                            currentSelectedCategoryIndex:
+                                controller.currentSelectedCategoryIndex.value,
+                            onTap: (i) => controller
+                                .changeCurrentSelectedCategoryIndex(i),
+                            categoriesName: controller.nftChips,
+                          )),
+                      Expanded(
+                        child: TabBarView(children: [
+                          MasonryGridView.builder(
+                              controller: scrollController,
+                              itemCount: controller.collectibles.length,
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 15,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15.sp, vertical: 10.sp),
+                              gridDelegate:
+                                  const SliverSimpleGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 200,
+                              ),
+                              itemBuilder: (_, i) {
+                                return NFTGalleryImages(
+                                  colletibleModel: controller.collectibles[i],
+                                );
+                              }),
+                          const SizedBox(),
                         ]),
-                    Obx(() => CollectionCategories(
-                          currentSelectedCategoryIndex:
-                              controller.currentSelectedCategoryIndex.value,
-                          onTap: (i) =>
-                              controller.changeCurrentSelectedCategoryIndex(i),
-                          categoriesName: controller.nftChips,
-                        )),
-                    Expanded(
-                      child: TabBarView(children: [
-                        MasonryGridView.builder(
-                            controller: scrollController,
-                            itemCount: controller.collectibles.length,
-                            crossAxisSpacing: 15,
-                            mainAxisSpacing: 15,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15.sp, vertical: 10.sp),
-                            gridDelegate:
-                                const SliverSimpleGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 200,
-                            ),
-                            itemBuilder: (_, i) {
-                              return NFTGalleryImages(
-                                colletibleModel: controller.collectibles[i],
-                              );
-                            }),
-                        const SizedBox(),
-                      ]),
-                    ),
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
             ))));
+  }
+
+  Widget filterFloatingButton() {
+    return GestureDetector(
+      onTap: () {
+        Get.bottomSheet(
+          NFTfilterBottomSheet(),
+          barrierColor: Colors.transparent,
+          isScrollControlled: true,
+        );
+      },
+      child: Container(
+          height: 56,
+          width: 56,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: ColorConst.Primary,
+              borderRadius: BorderRadius.circular(16)),
+          child: Icon(
+            Icons.filter_list_rounded,
+            size: 24,
+            color: Colors.white,
+          )),
+    );
   }
 }
 

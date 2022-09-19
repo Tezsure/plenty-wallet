@@ -52,6 +52,9 @@ flutter:
     #create wallet page
     - assets/create_wallet/
     - assets/create_wallet/lottie/
+    #nft page
+    - assets/nft_page/
+    - assets/nft_page/svg/
 
     - assets/svg/accounts/
 

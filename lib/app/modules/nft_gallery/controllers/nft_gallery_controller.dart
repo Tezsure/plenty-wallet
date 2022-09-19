@@ -18,6 +18,11 @@ class NftGalleryController extends GetxController {
   ];
 
   RxBool isExpanded = false.obs;
+  RxInt selectedCollectibleIndex = 0.obs;
+
+  void selectCollectible(int index) {
+    selectedCollectibleIndex.value = index;
+  }
 
   void changeCurrentSelectedCategoryIndex(int index) {
     currentSelectedCategoryIndex.value = index;
