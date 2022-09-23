@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
@@ -13,7 +12,8 @@ class UserStorageService {
   /// Write new account into storage
   /// if isWatchAddress is true then it will get stored in watchAddressList otherwise normal wallet account list
   Future<void> writeNewAccount(List<AccountModel> accountList,
-      [bool isWatchAddress = false]) async {
+      [bool isWatchAddress = false,
+      bool isAccountSecretsProvided = false]) async {
     var accountReadKey = isWatchAddress
         ? ServiceConfig.watchAccountsStorage
         : ServiceConfig.accountsStorage;
@@ -28,6 +28,15 @@ class UserStorageService {
     }
     await ServiceConfig.localStorage
         .write(key: accountReadKey, value: accounts);
+
+    if (isAccountSecretsProvided) {
+      for (var account in accountList) {
+        if (account.accountSecretModel != null) {
+          await writeNewAccountSecrets(account.accountSecretModel!);
+        }
+      }
+    }
+
     await DataHandlerService().forcedUpdateData();
   }
 
@@ -35,7 +44,9 @@ class UserStorageService {
   /// If onlyNaanAccount is true then returns the account list which is created on naan<br>
   /// Else returns all the available accounts in storage<br>
   Future<List<AccountModel>> getAllAccount(
-      {bool onlyNaanAccount = false, bool watchAccountsList = false}) async {
+      {bool onlyNaanAccount = false,
+      bool watchAccountsList = false,
+      bool isSecretDataRequired = false}) async {
     var accountReadKey = watchAccountsList
         ? ServiceConfig.watchAccountsStorage
         : ServiceConfig.accountsStorage;
@@ -45,7 +56,7 @@ class UserStorageService {
         ? jsonDecode(accounts)
             .map<AccountModel>((e) => AccountModel.fromJson(e))
             .toList()
-            .where((element) => element.isNaanAccount)
+            .where((element) => element.isNaanAccount == true)
             .toList()
         : jsonDecode(accounts)
             .map<AccountModel>((e) => AccountModel.fromJson(e))
@@ -61,11 +72,10 @@ class UserStorageService {
           .toList();
 
   /// write new contact in storage
-  Future<void> writeNewContact(ContactModel contactModel) async {
-    await ServiceConfig.localStorage.write(
-        key: ServiceConfig.contactStorage,
-        value: jsonEncode((await getAllSavedContacts())..add(contactModel)));
-  }
+  Future<void> writeNewContact(ContactModel contactModel) async =>
+      await ServiceConfig.localStorage.write(
+          key: ServiceConfig.contactStorage,
+          value: jsonEncode((await getAllSavedContacts())..add(contactModel)));
 
   /// read user tokens using user address
   Future<List<AccountTokenModel>> getUserTokens(
@@ -84,4 +94,19 @@ class UserStorageService {
               "[]")
           .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
           .toList();
+
+  Future<void> writeNewAccountSecrets(
+          AccountSecretModel accountSecretModel) async =>
+      await ServiceConfig.localStorage.write(
+          key:
+              "${ServiceConfig.accountsSecretStorage}_${accountSecretModel.publicKeyHash}",
+          value: jsonEncode(accountSecretModel));
+
+  Future<AccountSecretModel?> readAccountSecrets(String pkH) async {
+    var accountSecrets = await ServiceConfig.localStorage
+        .read(key: "${ServiceConfig.accountsSecretStorage}_$pkH");
+    return accountSecrets != null
+        ? AccountSecretModel.fromJson(jsonDecode(accountSecrets))
+        : null;
+  }
 }

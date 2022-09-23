@@ -22,7 +22,7 @@ class SecretPhrasePage extends StatelessWidget {
   List<String>? seedPharese;
   @override
   Widget build(BuildContext context) {
-    seedPharese = accountModel.seedPhrase?.split(" ");
+    seedPharese = accountModel.accountSecretModel!.seedPhrase?.split(" ");
     return SafeArea(
       bottom: false,
       top: true,

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
@@ -78,85 +79,96 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                 child: const AddAccountWidget(),
               ),
             ),
-            Visibility(
-              visible: homePageController.userAccounts.isEmpty,
-              replacement: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  0.010.hspace,
-                  SizedBox(
-                    height: 10,
-                    width: 0.55.width,
-                    child: ListView.builder(
-                      itemCount: homePageController.userAccounts.length + 1,
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.zero,
-                      itemBuilder: ((context, index) {
-                        return Obx(() => Visibility(
-                              visible: index ==
-                                  homePageController.userAccounts.length - 1,
-                              replacement: Icon(
-                                Icons.add,
-                                color: controller.selectedAccountIndex.value ==
-                                        homePageController.userAccounts.length
-                                    ? Colors.white
-                                    : ColorConst.NeutralVariant.shade50,
-                                size: 10,
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 2.0),
-                                child: Container(
-                                  height: 8,
-                                  width: 8,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: controller
-                                                  .selectedAccountIndex.value ==
-                                              index
-                                          ? Colors.white
-                                          : ColorConst.NeutralVariant.shade40),
-                                ),
-                              ),
-                            ));
-                      }),
+            Obx(
+              () => homePageController.userAccounts.isEmpty
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        0.04.hspace,
+                        Text(
+                          'Already Have A Wallet?',
+                          style: labelSmall.copyWith(
+                              color: ColorConst.NeutralVariant.shade60),
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Text(
+                            'Restore Account',
+                            style: labelSmall.copyWith(
+                                color: ColorConst.Neutral.shade95),
+                          ),
+                        ),
+                        0.03.hspace,
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        0.010.hspace,
+                        SizedBox(
+                          height: 10,
+                          width: 0.55.width,
+                          child: Obx(
+                            () => ListView.builder(
+                              itemCount:
+                                  // ignore: invalid_use_of_protected_member
+                                  homePageController.userAccounts.value.length +
+                                      1,
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              padding: EdgeInsets.zero,
+                              itemBuilder: ((context, index) {
+                                return Obx(() {
+                                  return index ==
+                                          homePageController.userAccounts.length
+                                      ? Icon(
+                                          Icons.add,
+                                          color: controller.selectedAccountIndex
+                                                      .value ==
+                                                  homePageController
+                                                      .userAccounts.length
+                                              ? Colors.white
+                                              : ColorConst
+                                                  .NeutralVariant.shade50,
+                                          size: 10,
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 2.0),
+                                          child: Container(
+                                            height: 8,
+                                            width: 8,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: controller
+                                                          .selectedAccountIndex
+                                                          .value ==
+                                                      index
+                                                  ? Colors.white
+                                                  : ColorConst
+                                                      .NeutralVariant.shade40,
+                                            ),
+                                          ),
+                                        );
+                                });
+                              }),
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Text(
+                            'learn account',
+                            style: labelSmall.copyWith(
+                                color: ColorConst.Neutral.shade95),
+                          ),
+                        ),
+                        0.03.hspace,
+                      ],
                     ),
-                  ),
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      'learn account',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.Neutral.shade95),
-                    ),
-                  ),
-                  0.03.hspace,
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  0.04.hspace,
-                  Text(
-                    'Already Have A Wallet?',
-                    style: labelSmall.copyWith(
-                        color: ColorConst.NeutralVariant.shade60),
-                  ),
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      'Restore Account',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.Neutral.shade95),
-                    ),
-                  ),
-                  0.03.hspace,
-                ],
-              ),
             ),
           ],
         ),
@@ -227,10 +239,29 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                     style: bodySmall,
                   ),
                   0.01.hspace,
-                  const Icon(
-                    Icons.copy,
-                    size: 11,
-                    color: Colors.white,
+                  InkWell(
+                    onTap: () {
+                      Clipboard.setData(
+                          ClipboardData(text: model.publicKeyHash));
+                      Get.snackbar(
+                        "Info",
+                        "Copied to clipboard",
+                        shouldIconPulse: true,
+                        snackPosition: SnackPosition.BOTTOM,
+                        // icon: const Icon(Icons.copy),
+                        maxWidth: 0.9.width,
+                        // ignore: prefer_const_constructors
+                        margin: EdgeInsets.only(
+                          bottom: 20,
+                        ),
+                        duration: const Duration(milliseconds: 750),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.copy,
+                      size: 11,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),

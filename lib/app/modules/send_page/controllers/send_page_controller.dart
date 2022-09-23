@@ -195,6 +195,8 @@ class SendPageController extends GetxController {
     super.onReady();
   }
 
+  
+
   @override
   void onClose() {
     searchBarFocusNode

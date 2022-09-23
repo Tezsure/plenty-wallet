@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../../utils/colors/colors.dart';
@@ -105,10 +107,12 @@ class AddAccountWidget extends StatelessWidget {
                   onTap: () {
                     Get.back();
                     Get.bottomSheet(AddNewAccountBottomSheet(),
-                        barrierColor: Colors.transparent,
-                        isScrollControlled: true).whenComplete(() {
-                          
-                        });
+                            barrierColor: Colors.transparent,
+                            isScrollControlled: true)
+                        .whenComplete(() {
+                      Get.find<AccountsWidgetController>()
+                          .resetCreateNewWallet();
+                    });
                   }),
               const Divider(
                 color: Color(0xff4a454e),
@@ -116,11 +120,15 @@ class AddAccountWidget extends StatelessWidget {
                 thickness: 1,
               ),
               optionMethod(
-                  child: Text(
-                    "Add an exisitng wallet",
-                    style: labelMedium,
-                  ),
-                  onTap: () {}),
+                child: Text(
+                  "Add an exisitng wallet",
+                  style: labelMedium,
+                ),
+                onTap: () {
+                  Get.back();
+                  Get.toNamed(Routes.IMPORT_WALLET_PAGE);
+                },
+              ),
             ],
           ),
         ),

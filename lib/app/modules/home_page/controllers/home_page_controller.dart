@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -65,7 +64,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         height: 331,
         title: 'Backup Your Wallet',
         bottomSheetWidgets: [
-          SizedBox(
+          const SizedBox(
             height: 44,
           ),
           Text(

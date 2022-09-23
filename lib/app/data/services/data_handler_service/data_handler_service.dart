@@ -35,7 +35,7 @@ class DataHandlerService {
     await updateAllTheValues();
     // init timer
     updateTimer = Timer.periodic(
-        const Duration(seconds: 20), (_) => updateAllTheValues());
+        const Duration(seconds: 15), (_) => updateAllTheValues());
   }
 
   /// forced update when added new account

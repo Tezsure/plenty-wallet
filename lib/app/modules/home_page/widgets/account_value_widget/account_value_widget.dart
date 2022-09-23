@@ -9,6 +9,7 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+// ignore: must_be_immutable
 class AccountValueWidget extends StatelessWidget {
   AccountValueWidget({Key? key}) : super(key: key);
 

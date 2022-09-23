@@ -126,6 +126,12 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     controller.previousRoute,
                     Routes.HOME_PAGE,
                   ]);
+                } else if (controller.previousRoute == Routes.HOME_PAGE) {
+                  Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                    'assets/create_wallet/lottie/wallet_success.json',
+                    Routes.IMPORT_WALLET_PAGE,
+                    null,
+                  ]);
                 }
                 // controller.startUsingNaanwallet()
                 // Get.toNamed(Routes.HOME_PAGE, arguments: [true]);

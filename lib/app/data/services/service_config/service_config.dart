@@ -26,8 +26,10 @@ class ServiceConfig {
   /// append with publicKeyHash while saving or reading
   static const String accountTokensStorage =
       "${storageName}_account_tokens_storage";
-  // static const String accountsSecretStorage =
-  //     "${storageName}_accounts_secret_storage";
+
+  /// append with publicKeyHash while saving or reading
+  static const String accountsSecretStorage =
+      "${storageName}_account_secret_storage";
   static const String watchAccountsStorage =
       "${storageName}_gallery_accounts_storage";
 
