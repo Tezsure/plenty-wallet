@@ -26,59 +26,46 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
   Widget build(BuildContext context) {
     Get.lazyPut(() => AccountsWidgetController());
 
-    return Padding(
-      padding: EdgeInsets.only(left: 0.04.width),
-      child: SizedBox(
-        width: 1.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+    return SizedBox(
+      width: 1.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 0.04.width),
+            child: Text(
               'My Wallets',
               style: titleSmall.copyWith(
                 color: ColorConst.NeutralVariant.shade50,
               ),
             ),
-            0.013.vspace,
-            Obx(
-              () => Visibility(
-                visible: homePageController.userAccounts.isEmpty,
-                replacement: SizedBox(
+          ),
+          0.013.vspace,
+          Obx(() => homePageController.userAccounts.isNotEmpty
+              ? SizedBox(
                   width: 1.width,
-                  height: 0.28.height,
-                  child: PageView.builder(
-                      padEnds: false,
-                      itemCount: homePageController.userAccounts.length + 1,
-                      controller: PageController(
-                        viewportFraction:
-                            homePageController.userAccounts.length - 1 ==
-                                    controller.selectedAccountIndex.value
-                                ? 1
-                                : 0.98,
-                        initialPage: 0,
-                      ),
-                      onPageChanged: controller.onPageChanged,
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (_, index) {
-                        return index == homePageController.userAccounts.length
-                            ? const Padding(
-                                padding: EdgeInsets.only(right: 12.0),
-                                child: AddAccountWidget(),
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.only(right: 12.0),
-                                child: accountContainer(
+                  height: 0.26.height,
+                  child: PageView(
+                    controller: PageController(
+                      viewportFraction: 0.95,
+                    ),
+                    onPageChanged: controller.onPageChanged,
+                    //physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    children: List.generate(
+                            homePageController.userAccounts.length,
+                            (index) => accountContainer(
                                   homePageController.userAccounts[index],
-                                ),
-                              );
-                      }),
-                ),
-                child: const AddAccountWidget(),
-              ),
-            ),
-            Visibility(
+                                )) +
+                        <Widget>[const AddAccountWidget()],
+                  ),
+                )
+              : const AddAccountWidget()),
+          0.013.vspace,
+          Padding(
+            padding: EdgeInsets.only(left: 0.04.width),
+            child: Visibility(
               visible: homePageController.userAccounts.isEmpty,
               replacement: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -158,18 +145,19 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget accountContainer(AccountModel model) {
     return Stack(
+      alignment: Alignment.center,
       children: [
         Container(
           height: 0.26.height,
-          width: 1.width,
+          width: 0.92.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -183,7 +171,8 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
         ),
         Container(
           height: 0.26.height,
-          width: 1.width,
+          width: 0.92.width,
+          padding: EdgeInsets.only(left: 31.0, top: 0.04.height),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               gradient: LinearGradient(
@@ -195,9 +184,6 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                   const Color(0xff4E4D4D).withOpacity(0),
                 ],
               )),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 31.0, top: 0.04.height),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

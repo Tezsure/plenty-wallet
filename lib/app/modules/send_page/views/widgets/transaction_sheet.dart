@@ -194,6 +194,7 @@ class TransactionBottomSheet extends StatelessWidget {
                       '${PathConst.SEND_PAGE}lottie/send_success.json',
                       height: 68,
                       width: 68,
+                      repeat: false,
                     ),
                   ),
                   0.02.vspace,

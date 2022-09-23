@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/data/services/service_models/account_token_model
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/token_view.dart';
 
 class SendPageController extends GetxController {
   AccountModel? senderAccountModel;
@@ -19,6 +20,7 @@ class SendPageController extends GetxController {
   RxMap<String, List<NftTokenModel>> userNfts =
       <String, List<NftTokenModel>>{}.obs; // List of tokens
 
+  Rx<TextfieldType> selectedTextfieldType = TextfieldType.token.obs;
   @override
   void onInit() {
     super.onInit();
