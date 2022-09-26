@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/controllers/nft_gallery_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -17,37 +16,63 @@ class NFTcollectionGalleryView extends GetView<NftGalleryController> {
 
   @override
   Widget build(BuildContext context) {
-    return NaanBottomSheet(
-      blurRadius: 5,
-      height: 0.95.height,
-      bottomSheetHorizontalPadding: 12,
-      bottomSheetWidgets: [
-        nftCollectionGalleryAppBar(),
-        SizedBox(
-          height: 17,
-        ),
-        Expanded(
-          child: MasonryGridView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: controller
-                  .collectibles[controller.selectedCollectibleIndex.value]
-                  .nfts
-                  .length,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              gridDelegate:
-                  const SliverSimpleGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
+    // DraggableScrollableSheet(
+    //     maxChildSize: 0.96,
+    //     initialChildSize: 0.95,
+    //     minChildSize: 0.6,
+    //     builder: ((context, scrollController) => Container(
+    //         decoration: const BoxDecoration(
+    //           borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+    //           gradient: GradConst.GradientBackground,
+    //         ),
+    //         height: 1.height,
+    //         width: 1.width,
+    return DraggableScrollableSheet(
+        maxChildSize: 0.96,
+        initialChildSize: 0.95,
+        minChildSize: 0.6,
+        builder: ((context, scrollController) => Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                gradient: GradConst.GradientBackground,
               ),
-              itemBuilder: (_, index) {
-                return nftWidget(
-                    nftModel: controller
-                        .collectibles[controller.selectedCollectibleIndex.value]
-                        .nfts[index]);
-              }),
-        )
-      ],
-    );
+              height: 1.height,
+              width: 1.width,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Column(
+                  children: [
+                    nftCollectionGalleryAppBar(),
+                    const SizedBox(
+                      height: 17,
+                    ),
+                    Expanded(
+                      child: MasonryGridView.builder(
+                          controller: scrollController,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: controller
+                              .collectibles[
+                                  controller.selectedCollectibleIndex.value]
+                              .nfts
+                              .length,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          gridDelegate:
+                              const SliverSimpleGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 200,
+                          ),
+                          itemBuilder: (_, index) {
+                            return nftWidget(
+                                nftModel: controller
+                                    .collectibles[controller
+                                        .selectedCollectibleIndex.value]
+                                    .nfts[index]);
+                          }),
+                    )
+                  ],
+                ),
+              ),
+            )));
   }
 
   Row nftCollectionGalleryAppBar() {
@@ -55,26 +80,26 @@ class NFTcollectionGalleryView extends GetView<NftGalleryController> {
       children: [
         IconButton(
           onPressed: onBackTap,
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
           color: Colors.white,
           iconSize: 20,
         ),
-        Spacer(),
+        const Spacer(),
         CircleAvatar(
           radius: 16,
           backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
-        SizedBox(
+        const SizedBox(
           width: 12,
         ),
         Text(
           "stay a vision",
           style: labelLarge,
         ),
-        Spacer(),
+        const Spacer(),
         Container(
           height: 24,
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           alignment: Alignment.center,
           decoration: BoxDecoration(
               color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
@@ -94,7 +119,7 @@ class NFTcollectionGalleryView extends GetView<NftGalleryController> {
       decoration: BoxDecoration(
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           borderRadius: BorderRadius.circular(8)),
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -106,14 +131,14 @@ class NFTcollectionGalleryView extends GetView<NftGalleryController> {
               width: double.infinity,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Text(
             "data",
             style: labelMedium,
           ),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           Text(
