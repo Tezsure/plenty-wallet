@@ -83,7 +83,7 @@ class BackupPage extends StatelessWidget {
                   style: bodySmall,
                 ),
                 Text(
-                  tz1Shortner(accountModel.publicKey!),
+                  tz1Shortner(accountModel.accountSecretModel!.publicKey!),
                   style: labelSmall.apply(
                       color: ColorConst.NeutralVariant.shade60),
                 ),

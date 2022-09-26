@@ -1,21 +1,33 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:naan_wallet/app/data/services/service_models/collectible_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class CollectibleWidget extends GetView<SendPageController> {
-  const CollectibleWidget({
+  CollectibleWidget({
     super.key,
-    required this.collectibleModel,
+    required this.collectionNfts,
     required this.widgetIndex,
-  });
+  }) {
+    var firstValue = collectionNfts.first;
+    logo = firstValue.fa!.logo!;
+    if (logo.startsWith("ipfs://")) {
+      logo = "https://ipfs.io/ipfs/${logo.replaceAll("ipfs://", "")}";
+    }
+    name = firstValue.fa!.name!;
+  }
 
-  final CollectibleModel collectibleModel;
   final int widgetIndex;
+
+  late String logo;
+  late String name;
+  late List<NftTokenModel> collectionNfts;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +42,9 @@ class CollectibleWidget extends GetView<SendPageController> {
                   radius: 20,
                   backgroundColor:
                       ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                  child: Image.asset(
-                    collectibleModel.collectibleProfilePath,
-                    fit: BoxFit.contain,
+                  foregroundImage: NetworkImage(
+                    logo,
+                    // fit: BoxFit.contain,
                   ),
                 ),
                 onExpansionChanged: (isExpand) =>
@@ -40,31 +52,40 @@ class CollectibleWidget extends GetView<SendPageController> {
                 trailing: SizedBox(
                   height: 0.03.height,
                   width: 0.14.width,
-                  child: expandButton(
+                  child: _expandButton(
                     isExpanded: controller.expandNFTCollectible.value &&
                         widgetIndex == controller.expandedIndex.value,
                   ),
                 ),
                 title: Text(
-                  collectibleModel.name,
+                  name,
                   style: labelLarge,
                 ),
                 children: [
+                  SizedBox(
+                      height: 0.31.height * (collectionNfts.length / 2).ceil(),
+                      width: 1.width,
+                      child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: collectionNfts.length,
+                        shrinkWrap: false,
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 0.5.width,
+                            mainAxisExtent: 0.3.height,
+                            childAspectRatio: 1,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10),
+                        itemBuilder: ((context, index) => NFTwidget(
+                              nfTmodel: collectionNfts[index],
+                              onTap: (NftTokenModel nftTokenModel) => controller
+                                ..onNFTClick(nftTokenModel)
+                                ..setSelectedPageIndex(
+                                    index: 2, isKeyboardRequested: false),
+                            )),
+                      )),
                   const SizedBox(
                     height: 16,
                   ),
-                  Wrap(
-                    spacing: 0.03.width,
-                    runSpacing: 0.03.width,
-                    children: collectibleModel.nfts
-                        .map((nfTmodel) => NFTwidget(
-                            nfTmodel: nfTmodel,
-                            onTap: () => controller
-                              ..onNFTClick()
-                              ..setSelectedPageIndex(
-                                  index: 2, isKeyboardRequested: false)))
-                        .toList(),
-                  )
                 ],
               ),
             ],
@@ -72,7 +93,7 @@ class CollectibleWidget extends GetView<SendPageController> {
         ));
   }
 
-  Widget expandButton({required bool isExpanded}) {
+  Widget _expandButton({required bool isExpanded}) {
     return Container(
       height: 24,
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -85,7 +106,7 @@ class CollectibleWidget extends GetView<SendPageController> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            collectibleModel.nfts.length.toString(),
+            collectionNfts.length.toString(),
             style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
           ),
           const SizedBox(
@@ -103,16 +124,20 @@ class CollectibleWidget extends GetView<SendPageController> {
 }
 
 class NFTwidget extends StatelessWidget {
-  final NFTmodel nfTmodel;
-  final GestureTapCallback? onTap;
-  const NFTwidget({super.key, required this.nfTmodel, this.onTap});
+  final NftTokenModel nfTmodel;
+  final onTap;
+  String? nftArtifactUrl;
+  NFTwidget({super.key, required this.nfTmodel, this.onTap}) {
+    nftArtifactUrl =
+        "https://assets.objkt.media/file/assets-003/${nfTmodel.faContract}/${nfTmodel.tokenId.toString()}/thumb400";
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () => onTap(nfTmodel),
       child: Container(
-        width: 0.45.width,
+        width: 0.44.width,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
@@ -126,8 +151,8 @@ class NFTwidget extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(
-                    nfTmodel.nftPath,
+                  image: NetworkImage(
+                    nftArtifactUrl!,
                   ),
                 ),
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
@@ -138,14 +163,15 @@ class NFTwidget extends StatelessWidget {
               height: 12,
             ),
             Text(
-              nfTmodel.title,
+              nfTmodel.name!,
               style: labelMedium,
             ),
             const SizedBox(
               height: 4,
             ),
             Text(
-              nfTmodel.name,
+              nfTmodel.description ?? "",
+              maxLines: 1,
               style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
           ],

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
+import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-import '../../../receive_page/views/receive_page_view.dart';
-import '../../../send_page/views/send_page.dart';
-
+// ignore: must_be_immutable
 class AccountValueWidget extends StatelessWidget {
   AccountValueWidget({Key? key}) : super(key: key);
 
@@ -69,6 +69,8 @@ class AccountValueWidget extends StatelessWidget {
               actionMethod("Send", "${PathConst.HOME_PAGE.SVG}send.svg",
                   onTap: () => Get.bottomSheet(const SendPage(),
                       isScrollControlled: true,
+                      settings: RouteSettings(
+                          arguments: homePageController.userAccounts[0]),
                       barrierColor: Colors.white.withOpacity(0.09))),
               0.09.hspace,
               actionMethod("Receive", "${PathConst.HOME_PAGE.SVG}receive.svg",

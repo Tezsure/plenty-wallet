@@ -1,6 +1,13 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
+import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
 import 'package:naan_wallet/app/modules/send_page/views/pages/contact_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/pages/token_collection_page_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -12,6 +19,7 @@ import '../controllers/send_page_controller.dart';
 import 'pages/send_review_page.dart';
 import 'widgets/add_button.dart';
 import 'widgets/paste_button.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 class SendPage extends GetView<SendPageController> {
   const SendPage({super.key});
@@ -46,9 +54,6 @@ class SendPage extends GetView<SendPageController> {
                       const TokenAndNftPageView(),
                       SendReviewPage(
                         controller: controller,
-                        totalTez: 3.23,
-                        showNFTPage: controller.isNFTPage.value,
-                        nftImageUrl: 'assets/temp/nft_thumbnail.png',
                       ),
                     ],
                   )),
@@ -94,8 +99,44 @@ class SendPage extends GetView<SendPageController> {
                 Obx(() => Flexible(
                       child: TextField(
                         controller: controller.searchTextController.value,
-                        onChanged: (value) =>
-                            controller.searchText.value = value,
+                        onChanged: (value) {
+                          if (controller.searchDebounceTimer != null) {
+                            controller.searchDebounceTimer!.cancel();
+                          }
+                          controller.searchDebounceTimer =
+                              Timer(const Duration(milliseconds: 300), () {
+                            TezosDomainService()
+                                .searchUsingText(value)
+                                .then((data) {
+                              /// add if not exits
+                              data = data
+                                  .map<ContactModel>((e) => controller.contacts
+                                          .contains(e)
+                                      ? controller.contacts[
+                                          controller.contacts.indexOf(e)]
+                                      : controller.suggestedContacts.contains(e)
+                                          ? controller.suggestedContacts[
+                                              controller.suggestedContacts
+                                                  .indexOf(e)]
+                                          : e)
+                                  .toList();
+                              if (value.isValidWalletAddress && data.isEmpty) {
+                                data.add(ContactModel(
+                                    name: "Account",
+                                    address: value,
+                                    imagePath:
+                                        ServiceConfig.allAssetsProfileImages[
+                                            Random().nextInt(
+                                      ServiceConfig
+                                              .allAssetsProfileImages.length -
+                                          1,
+                                    )]));
+                              }
+                              controller.suggestedContacts.value = data;
+                            });
+                          });
+                          controller.searchText.value = value;
+                        },
                         focusNode: controller.searchBarFocusNode,
                         cursorColor: ColorConst.Primary,
                         style: bodyMedium.apply(color: ColorConst.Primary),
@@ -107,12 +148,12 @@ class SendPage extends GetView<SendPageController> {
                       ),
                     )),
                 0.02.hspace,
-                Obx(() => controller.searchText.isEmpty
+                Obx(() => controller.suggestedContacts.isEmpty
                     ? PasteButton(
                         onTap: controller.paste,
                       )
                     : AddContactButton(
-                        contactName: controller.searchTextController.value.text,
+                        contactModel: controller.suggestedContacts.first,
                       ))
               ],
             ),

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:dartez/dartez.dart';
@@ -24,27 +25,43 @@ class WalletService {
         ? 0
         : (storedAccounts.last.derivationPathIndex! + 1);
     var derivationPath = "m/44'/1729'/$derivationIndex'/0'";
+
+    AccountSecretModel? accountSecretModel = storedAccounts.isEmpty
+        ? null
+        : await userStorageService
+            .readAccountSecrets(storedAccounts.last.publicKeyHash!);
+
     var mnemonic = storedAccounts.isEmpty
         ? Dartez.generateMnemonic(strength: 128)
-        : storedAccounts.last.seedPhrase;
+        : accountSecretModel != null
+            ? accountSecretModel.seedPhrase
+            : Dartez.generateMnemonic(strength: 128);
 
     var keyStore = await Dartez.restoreIdentityFromDerivationPath(
         derivationPath, mnemonic!);
-    accountModel = AccountModel(
-      isNaanAccount: true,
-      derivationPathIndex: 0,
-      name: name,
-      imageType: imageType,
-      profileImage: image,
+    accountSecretModel = AccountSecretModel(
       seedPhrase: mnemonic,
       secretKey: keyStore[0],
       publicKey: keyStore[1],
+      derivationPathIndex: derivationIndex,
+      publicKeyHash: keyStore[2],
+    );
+    accountModel = AccountModel(
+      isNaanAccount: true,
+      derivationPathIndex: derivationIndex,
+      name: name,
+      imageType: imageType,
+      profileImage: image,
       publicKeyHash: keyStore[2],
     );
 
-    // write new account in storage and return the newly created account
-    await userStorageService.writeNewAccount(<AccountModel>[accountModel]);
+    accountModel.accountSecretModel = accountSecretModel;
 
+    // write new account in storage and return the newly created account
+    await userStorageService
+        .writeNewAccount(<AccountModel>[accountModel], false, true);
+
+    // write new account secrets in storage
     return accountModel;
   }
 
@@ -55,20 +72,27 @@ class WalletService {
     AccountModel accountModel;
 
     var keyStore = Dartez.getKeysFromSecretKey(privateKey);
+    var accountSecretModel = AccountSecretModel(
+      seedPhrase: "",
+      secretKey: keyStore[0],
+      publicKey: keyStore[1],
+      derivationPathIndex: 0,
+      publicKeyHash: keyStore[2],
+    );
     accountModel = AccountModel(
       isNaanAccount: false,
       derivationPathIndex: 0,
       name: name,
       imageType: imageType,
       profileImage: image,
-      seedPhrase: "",
-      secretKey: keyStore[0],
-      publicKey: keyStore[1],
       publicKeyHash: keyStore[2],
     );
 
+    accountModel.accountSecretModel = accountSecretModel;
+
     // write new account in storage and return the newly created account
-    await userStorageService.writeNewAccount(<AccountModel>[accountModel]);
+    await userStorageService
+        .writeNewAccount(<AccountModel>[accountModel], false, true);
 
     return accountModel;
   }
@@ -89,11 +113,14 @@ class WalletService {
         imageType: AccountProfileImageType.assets,
         profileImage: ServiceConfig.allAssetsProfileImages[
             Random().nextInt(ServiceConfig.allAssetsProfileImages.length - 1)],
-        seedPhrase: mnemonic,
-        secretKey: keyStore[0],
-        publicKey: keyStore[1],
         publicKeyHash: keyStore[2],
-      ));
+      )..accountSecretModel = AccountSecretModel(
+          seedPhrase: mnemonic,
+          secretKey: keyStore[0],
+          publicKey: keyStore[1],
+          derivationPathIndex: i + startIndex,
+          publicKeyHash: keyStore[2],
+        ));
     }
     return tempAccount;
   }

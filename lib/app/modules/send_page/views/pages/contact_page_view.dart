@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/modules/send_page/views/widgets/edit_contact_she
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 class ContactsListView extends GetView<SendPageController> {
   const ContactsListView({super.key});
@@ -28,6 +29,7 @@ class ContactsListView extends GetView<SendPageController> {
                 children: (<Widget>[
                       if (controller.searchText.isNotEmpty)
                         ...[
+                              0.008.vspace,
                               Text(
                                 'Suggestions',
                                 style: labelSmall.apply(
@@ -36,29 +38,34 @@ class ContactsListView extends GetView<SendPageController> {
                               0.008.vspace
                             ] +
                             controller.suggestedContacts
-                                .map((element) => contact(element))
+                                .map((element) => contactWidget(element))
                                 .toList(),
-                      Text(
-                        'Recents',
-                        style: labelSmall.apply(
-                            color: ColorConst.NeutralVariant.shade60),
-                      ),
+                      controller.recentsContacts.isNotEmpty
+                          ? Text(
+                              'Recents',
+                              style: labelSmall.apply(
+                                  color: ColorConst.NeutralVariant.shade60),
+                            )
+                          : Container(),
                       0.008.vspace
                     ] +
                     controller.recentsContacts
-                        .map((element) => contact(element))
+                        .map((element) => contactWidget(element))
                         .toList() +
-                    <Widget>[
-                      0.033.vspace,
-                      Text(
-                        'Contacts',
-                        style: labelSmall.apply(
-                            color: ColorConst.NeutralVariant.shade60),
-                      ),
-                      0.008.vspace
-                    ] +
+                    (controller.contacts.isNotEmpty
+                        ? <Widget>[
+                            0.033.vspace,
+                            Text(
+                              'Contacts',
+                              style: labelSmall.apply(
+                                  color: ColorConst.NeutralVariant.shade60),
+                            ),
+                            0.008.vspace
+                          ]
+                        : [Container()]) +
                     controller.contacts
-                        .map((element) => contact(element, isContact: true))
+                        .map((element) =>
+                            contactWidget(element, isContact: true))
                         .toList()),
               ),
             ),
@@ -68,7 +75,7 @@ class ContactsListView extends GetView<SendPageController> {
     );
   }
 
-  Widget contact(ContactModel contact, {bool isContact = false}) {
+  Widget contactWidget(ContactModel contact, {bool isContact = false}) {
     return InkWell(
       onTap: () => controller.onContactSelect(contactModel: contact),
       child: Padding(
@@ -96,7 +103,7 @@ class ContactsListView extends GetView<SendPageController> {
                     style: bodySmall,
                   ),
                   Text(
-                    contact.address,
+                    contact.address.tz1Short(),
                     style: labelSmall.apply(
                         color: ColorConst.NeutralVariant.shade60),
                   ),

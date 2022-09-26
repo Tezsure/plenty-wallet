@@ -16,6 +16,9 @@ class EditContactBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      height: 262,
+      bottomSheetHorizontalPadding:32 ,
+      blurRadius: 5,
       bottomSheetWidgets: [
         Center(
           child: Text(
@@ -47,7 +50,7 @@ class EditContactBottomSheet extends StatelessWidget {
             )),
           ),
         ),
-        0.05.vspace,
+     
       ],
     );
   }
