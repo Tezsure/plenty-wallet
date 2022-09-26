@@ -5,9 +5,12 @@ class PathConst {
   static const SVG = "assets/svg/";
   static const PROFILE_IMAGES = "assets/profile_images/";
   static const IMAGES = "assets/images";
+  static const LOTTIE = "assets/lottie/";
 
   static const HOME_PAGE = "assets/home_page/";
   static const SETTINGS_PAGE = "assets/settings_page/";
+  static const SEND_PAGE = "assets/send_page/";
+  static const CONTACTS_PAGE = "assets/contact_page/";
 }
 
 extension PathExt on String {

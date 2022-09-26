@@ -14,7 +14,7 @@ class AccountDataHandler {
   DataHandlerRenderService dataHandlerRenderService;
   AccountDataHandler(this.dataHandlerRenderService);
 
-  static Future<void> _updateAccountsData(List<dynamic> args) async {
+  static Future<void> _isolateProcess(List<dynamic> args) async {
     List<String> accountAddress = args[1].toList();
     String rpc = args[2] as String;
 
@@ -52,7 +52,7 @@ class AccountDataHandler {
         await UserStorageService().getAllAccount();
 
     await Isolate.spawn(
-      _updateAccountsData,
+      _isolateProcess,
       <dynamic>[
         receivePort.sendPort,
         accountModels.map<String>((e) => e.publicKeyHash!),
@@ -77,9 +77,9 @@ class AccountDataHandler {
                       element.map<String>((e) => e.contractAddress).toList()))
             .toSet()
             .toList());
-    if (tokenPrices.isEmpty) {
-      return;
-    }
+    // if (tokenPrices.isEmpty) {
+    //   return;
+    // }
 
     List<String> supportedTokens =
         tokenPrices.map<String>((e) => e.tokenAddress!).toList();
@@ -132,24 +132,29 @@ class AccountDataHandler {
       List<TokenPriceModel> tokenPrices) {
     return data.map((key, value) => MapEntry(
         key,
-        value.map(
-          (e) {
-            var token = tokenPrices
-                .where((element) =>
-                    e.contractAddress == element.tokenAddress &&
-                    (element.type == "fa2"
-                        ? e.tokenId == element.tokenId
-                        : true))
-                .toList()[0];
-            e.name = token.name;
-            e.iconUrl = token.thumbnailUri;
-            e.symbol = token.symbol;
-            e.tokenStandardType = token.type == "fa2"
-                ? TokenStandardType.fa2
-                : TokenStandardType.fa1;
-            e.valueInXtz = token.currentPrice! * e.balance;
-            return e;
-          },
-        ).toList()));
+        value
+            .map(
+              (e) {
+                var token = tokenPrices
+                    .where((element) =>
+                        e.contractAddress == element.tokenAddress &&
+                        (element.type == "fa2"
+                            ? e.tokenId == element.tokenId
+                            : true))
+                    .toList()[0];
+                e.name = token.name;
+                e.iconUrl = token.thumbnailUri;
+                e.symbol = token.symbol;
+                e.tokenStandardType = token.type == "fa2"
+                    ? TokenStandardType.fa2
+                    : TokenStandardType.fa1;
+                e.valueInXtz = token.currentPrice! * e.balance;
+                e.currentPrice = token.currentPrice;
+                return e;
+              },
+            )
+            .toList()
+            .where((element) => element.name != null)
+            .toList()));
   }
 }

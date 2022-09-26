@@ -11,16 +11,12 @@ import 'widgets/liquidity_baking_slider.dart';
 
 // ignore: must_be_immutable
 class LiquidityBakingWidget extends StatelessWidget {
-  final bool add = true;
-  final bool activeButton = false;
-  // ignore: use_key_in_widget_constructors
-  LiquidityBakingWidget({Key? key});
+  LiquidityBakingWidget({Key? key}) : super(key: key);
 
-  var controller = Get.find<HomePageController>();
+  final HomePageController controller = Get.find<HomePageController>();
 
   @override
   Widget build(BuildContext context) {
-    // Get.lazyPut(() => HomePageController());
     return Container(
       width: 0.92.width,
       decoration: BoxDecoration(
@@ -112,9 +108,7 @@ class LiquidityBakingWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Obx(() => SizedBox(
-                    height: 67,
-                    width: 0.2.width,
+              Obx(() => IntrinsicWidth(
                     child: TextField(
                       keyboardType: TextInputType.number,
                       cursorColor: Colors.black,
@@ -123,7 +117,7 @@ class LiquidityBakingWidget extends StatelessWidget {
                       textAlignVertical: TextAlignVertical.center,
                       style: headlineLarge.apply(color: Colors.black),
                       decoration: InputDecoration(
-                        labelText: controller.isEnabled.value ? '7648' : null,
+                        // labelText: controller.isEnabled.value ? '7648' : null,
                         labelStyle: headlineLarge.copyWith(color: Colors.black),
                         border: InputBorder.none,
                         hintText: !controller.isEnabled.value ? "0.00" : null,

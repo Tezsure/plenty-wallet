@@ -145,8 +145,9 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
                 controller.enteredPassCode.value = controller
                     .enteredPassCode.value
                     .substring(0, controller.enteredPassCode.value.length - 1);
-                if (widget.onChanged != null)
+                if (widget.onChanged != null) {
                   widget.onChanged!(controller.enteredPassCode.value);
+                }
               }
             })
           ],
@@ -178,8 +179,9 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
                     if (controller.enteredPassCode.value.length < 6) {
                       controller.enteredPassCode.value =
                           controller.enteredPassCode.value + value;
-                      if (widget.onChanged != null)
+                      if (widget.onChanged != null) {
                         widget.onChanged!(controller.enteredPassCode.value);
+                      }
                     }
                   },
             child: Container(
