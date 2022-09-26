@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
-import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+import '../../../receive_page/views/receive_page_view.dart';
+import '../../../send_page/views/send_page.dart';
+
 class AccountValueWidget extends StatelessWidget {
-  const AccountValueWidget({super.key});
+  AccountValueWidget({Key? key}) : super(key: key);
+
+  HomePageController homePageController = Get.find<HomePageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +48,17 @@ class AccountValueWidget extends StatelessWidget {
             children: [
               SvgPicture.asset("${PathConst.HOME_PAGE.SVG}xtz.svg"),
               0.02.hspace,
-              Text(
-                "1020.00",
-                style: headlineLarge,
+              Obx(
+                () => Text(
+                  homePageController.userAccounts
+                      .fold<double>(
+                          0.0,
+                          (previousValue, element) =>
+                              previousValue +
+                              element.accountDataModel!.totalBalance!)
+                      .toStringAsFixed(6),
+                  style: headlineLarge,
+                ),
               )
             ],
           ),

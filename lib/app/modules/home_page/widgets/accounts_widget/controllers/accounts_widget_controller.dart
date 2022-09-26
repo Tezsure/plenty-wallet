@@ -9,9 +9,6 @@ class AccountsWidgetController extends GetxController {
 
   final RxInt selectedAccountIndex = 0.obs; // Current Visible Account Container
 
-  RxList accountsList = (List.generate(4, (index) => index, growable: true))
-      .obs; // A Random list of length 4
-
   /// Change the current index to the new index of visible account container
   void onPageChanged(int index) {
     selectedAccountIndex.value = index;

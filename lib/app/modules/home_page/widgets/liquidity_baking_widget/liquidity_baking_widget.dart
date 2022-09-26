@@ -9,6 +9,7 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 import 'widgets/liquidity_baking_slider.dart';
 
+// ignore: must_be_immutable
 class LiquidityBakingWidget extends StatelessWidget {
   LiquidityBakingWidget({Key? key}) : super(key: key);
 
@@ -154,17 +155,19 @@ class LiquidityBakingWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 17.0, right: 17, top: 10),
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(
-                    5,
-                    (index) => Text(
-                          "${index > 0 ? index * 25 : index}%",
-                          style: labelLarge.copyWith(
-                              color: (index * 25) < 24
-                                  ? Colors.black
-                                  : ColorConst.Tertiary.shade60,
-                              fontSize: 12),
-                        ))),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(
+                5,
+                (index) => Text(
+                  "${index > 0 ? index * 25 : index}%",
+                  style: labelLarge.copyWith(
+                      color: (index * 25) < 24
+                          ? Colors.black
+                          : ColorConst.Tertiary.shade60,
+                      fontSize: 12),
+                ),
+              ),
+            ),
           ),
           0.02.vspace,
           Obx(() => MaterialButton(
