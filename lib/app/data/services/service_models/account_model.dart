@@ -41,7 +41,9 @@ class AccountModel {
       bool? isNaanAccount,
       String? tezosDomainName,
       bool? isWatchOnly,
-      AccountDataModel? accountDataModel}) {
+      AccountDataModel? accountDataModel,
+      bool? isAccountPrimary = false,
+      bool? isAccountHidden = false}) {
     return AccountModel(
       name: name ?? this.name,
       derivationPathIndex: derivationPathIndex ?? this.derivationPathIndex,
@@ -52,6 +54,8 @@ class AccountModel {
       tezosDomainName: tezosDomainName ?? this.tezosDomainName,
       isWatchOnly: isWatchOnly ?? this.isWatchOnly,
       accountDataModel: accountDataModel ?? this.accountDataModel,
+      isAccountPrimary: isAccountPrimary ?? this.isAccountPrimary,
+      isAccountHidden: isAccountHidden ?? this.isAccountHidden,
     );
   }
 
@@ -66,6 +70,8 @@ class AccountModel {
       'tezosDomainName': tezosDomainName,
       'isWatchOnly': isWatchOnly,
       'accountDataModel': accountDataModel,
+      'isAccountPrimary': isAccountPrimary,
+      'isAccountHidden': isAccountHidden,
     };
   }
 
@@ -92,6 +98,8 @@ class AccountModel {
       accountDataModel: map['accountDataModel'] != null
           ? AccountDataModel.fromJson(map['accountDataModel'])
           : null,
+      isAccountHidden: map['isAccountHidden'] ?? false,
+      isAccountPrimary: map['isAccountPrimary'] ?? false,
     );
   }
 
@@ -102,7 +110,7 @@ class AccountModel {
 
   @override
   String toString() {
-    return 'AccountModel(name: $name, derivationPathIndex: $derivationPathIndex, publicKeyHash: $publicKeyHash, imageType: $imageType, profileImage: $profileImage, isNaanAccount: $isNaanAccount, tezosDomainName: $tezosDomainName, isWatchOnly: $isWatchOnly, accountDataModel: $accountDataModel)';
+    return 'AccountModel(name: $name, derivationPathIndex: $derivationPathIndex, publicKeyHash: $publicKeyHash, imageType: $imageType, profileImage: $profileImage, isNaanAccount: $isNaanAccount, tezosDomainName: $tezosDomainName, isWatchOnly: $isWatchOnly, accountDataModel: $accountDataModel, isAccountPrimary: $isAccountPrimary, isAccountHidden: $isAccountHidden)';
   }
 
   @override
@@ -117,7 +125,9 @@ class AccountModel {
         other.isNaanAccount == isNaanAccount &&
         other.tezosDomainName == tezosDomainName &&
         other.isWatchOnly == isWatchOnly &&
-        other.accountDataModel == accountDataModel;
+        other.accountDataModel == accountDataModel &&
+        other.isAccountPrimary == isAccountPrimary &&
+        other.isAccountHidden == isAccountHidden;
   }
 
   @override
@@ -130,7 +140,9 @@ class AccountModel {
         isNaanAccount.hashCode ^
         tezosDomainName.hashCode ^
         isWatchOnly.hashCode ^
-        accountDataModel.hashCode;
+        accountDataModel.hashCode ^
+        isAccountPrimary.hashCode ^
+        isAccountHidden.hashCode;
   }
 }
 
