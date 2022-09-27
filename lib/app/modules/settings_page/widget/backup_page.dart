@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/naan_app_bar.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/backup_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/private_key_page.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/secret_phrase_page.dart';
@@ -15,17 +13,18 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 class BackupPage extends StatelessWidget {
-  BackupPage({Key? key}) : super(key: key);
+  BackupPage({super.key});
 
   final controller = Get.put(BackupPageController());
+  static final _homePageController = Get.find<HomePageController>();
 
   @override
   Widget build(BuildContext context) {
     return Container(
         height: 1.height,
         width: 1.width,
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(gradient: GradConst.GradientBackground),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
         child: SafeArea(
           child: Column(
             children: [
@@ -51,9 +50,9 @@ class BackupPage extends StatelessWidget {
                   child: Obx(
                 () => ListView.builder(
                   itemBuilder: (context, index) => accountMethod(
-                    controller.accounts[index],
+                    _homePageController.userAccounts[index],
                   ),
-                  itemCount: controller.accounts.length,
+                  itemCount: _homePageController.userAccounts.length,
                 ),
               ))
             ],
@@ -83,13 +82,15 @@ class BackupPage extends StatelessWidget {
                   style: bodySmall,
                 ),
                 Text(
-                  tz1Shortner(accountModel.accountSecretModel!.publicKey!),
+                  //TODO What to show here public key or public key hash
+                  tz1Shortner(accountModel.accountSecretModel?.publicKey ??
+                      'nxkjfbhedvzbv'),
                   style: labelSmall.apply(
                       color: ColorConst.NeutralVariant.shade60),
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             GestureDetector(
                 onTap: () {
                   Get.bottomSheet(
@@ -135,8 +136,28 @@ class BackupPage extends StatelessWidget {
                     style: labelMedium,
                   ),
                   onTap: () {
+                    Future.delayed(const Duration(seconds: 30), () {
+                      Get.back();
+                    });
                     Get.to(SecretPhrasePage(
-                      accountModel: accountModel,
+                      seedPharese: accountModel.accountSecretModel?.seedPhrase
+                              ?.split(" ") ??
+                          [
+                            "j",
+                            'h',
+                            "y",
+                            " f",
+                            "c",
+                            "u",
+                            "s",
+                            "b",
+                            "j",
+                            "k",
+                            "v",
+                            "d",
+                            "v"
+                          ],
+                      derivationPath: accountModel.derivationPathIndex ?? 0123,
                     ));
                   }),
               const Divider(
@@ -150,7 +171,14 @@ class BackupPage extends StatelessWidget {
                     style: labelMedium,
                   ),
                   onTap: () {
-                    Get.to(PrivateKeyPage());
+                    Future.delayed(const Duration(seconds: 30), () {
+                      Get.back();
+                    });
+                    Get.to(() => PrivateKeyPage(
+                          privateKey: accountModel
+                                  .accountSecretModel?.secretKey ??
+                              "edskS2ZE3Xg2gNUG5SksdtJaGt3VtGo8R7C7zQ5zG7xGW9Z9JscEe1A2uhwVGfqqw9t7d3cHjvmnSMU41t37ppRAYnZJgKUjyt",
+                        ));
                   }),
               const Divider(
                 color: Color(0xff4a454e),
@@ -162,9 +190,7 @@ class BackupPage extends StatelessWidget {
                     "Cancel",
                     style: labelMedium,
                   ),
-                  onTap: () {
-                    Get.back();
-                  }),
+                  onTap: Get.back),
             ],
           ),
         ),

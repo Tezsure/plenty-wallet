@@ -1,15 +1,10 @@
-import 'package:naan_wallet/app/modules/settings_page/widget/backup_page.dart';
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/backup_wallet_page/views/widgets/phrase_container.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/copy_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -17,7 +12,8 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/app/data/mock/mock_data.dart';
 
 class PrivateKeyPage extends StatelessWidget {
-  const PrivateKeyPage({Key? key}) : super(key: key);
+  final String privateKey;
+  const PrivateKeyPage({super.key, required this.privateKey});
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -64,23 +60,24 @@ class PrivateKeyPage extends StatelessWidget {
                 style: bodyLarge.copyWith(
                     color: ColorConst.NeutralVariant.shade60),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 34),
-                padding: EdgeInsets.all(24),
+                margin: const EdgeInsets.symmetric(horizontal: 34),
+                padding: const EdgeInsets.all(24),
                 width: double.infinity,
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: ColorConst.NeutralVariant.shade60, width: 2),
                     borderRadius: BorderRadius.circular(8)),
                 child: Text(
-                  "edskS2ZE3Xg2gNUG5SksdtJaGt3VtGo8R7C7zQ5zG7xGW9Z9JscEe1A2uhwVGfqqw9t7d3cHjvmnSMU41t37ppRAYnZJgKUjyt",
+                  privateKey,
                   style: bodyLarge,
                   textAlign: TextAlign.center,
                 ),
               ),
+              //TODO Implement copy clipboard button here
               CopyButton(
                 isCopied: false, //controller.phraseCopy.value,
                 //   onPressed: () => controller.paste().whenComplete(() =>
@@ -91,7 +88,7 @@ class PrivateKeyPage extends StatelessWidget {
                 // )
                 onPressed: () {},
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/widgets/phrase_container.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/copy_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -16,13 +13,12 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/app/data/mock/mock_data.dart';
 
 class SecretPhrasePage extends StatelessWidget {
-  final AccountModel accountModel;
-  SecretPhrasePage({Key? key, required this.accountModel}) : super(key: key);
-
-  List<String>? seedPharese;
+  final List<String>? seedPharese;
+  final int derivationPath;
+  const SecretPhrasePage(
+      {super.key, required this.seedPharese, required this.derivationPath});
   @override
   Widget build(BuildContext context) {
-    seedPharese = accountModel.accountSecretModel!.seedPhrase?.split(" ");
     return SafeArea(
       bottom: false,
       top: true,
@@ -69,6 +65,7 @@ class SecretPhrasePage extends StatelessWidget {
                   style: bodyLarge.copyWith(
                       color: ColorConst.NeutralVariant.shade60),
                 ),
+                //TODO Implement Seed Phrase Copy Function
                 CopyButton(
                   isCopied: false, //controller.phraseCopy.value,
                   //   onPressed: () => controller.paste().whenComplete(() =>
@@ -106,11 +103,11 @@ class SecretPhrasePage extends StatelessWidget {
                   style: labelMedium.copyWith(
                       color: ColorConst.NeutralVariant.shade60),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Text(
-                  '${accountModel.derivationPathIndex}',
+                  '$derivationPath',
                   textAlign: TextAlign.center,
                   style: labelMedium,
                 ),

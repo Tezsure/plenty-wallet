@@ -6,8 +6,7 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 class CopyButton extends StatelessWidget {
   final bool isCopied;
   final Function()? onPressed;
-  const CopyButton({Key? key, this.isCopied = false, this.onPressed})
-      : super(key: key);
+  const CopyButton({super.key, this.isCopied = false, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

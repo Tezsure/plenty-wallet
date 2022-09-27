@@ -17,14 +17,26 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-class EditAccountBottomSheet extends StatelessWidget {
-  EditAccountBottomSheet({Key? key, required this.accountIndex})
-      : super(key: key);
-
+class EditAccountBottomSheet extends StatefulWidget {
+  const EditAccountBottomSheet(
+      {super.key, required this.accountIndex, required this.account});
   final int accountIndex;
+  final AccountModel account;
 
-  final manageAccountPageController = Get.find<ManageAccountPageController>();
+  @override
+  State<EditAccountBottomSheet> createState() => _EditAccountBottomSheetState();
+}
+
+class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
+  final manageAccountController = Get.find<ManageAccountPageController>();
+
   final editAccountPageController = Get.put(EditAccountPageController());
+
+  @override
+  void initState() {
+    editAccountPageController.accountNameController.text = widget.account.name!;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,60 +53,54 @@ class EditAccountBottomSheet extends StatelessWidget {
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(children: [
-          Obx(
-            () => Container(
-              height: 0.3.width,
-              width: 0.3.width,
-              alignment: Alignment.bottomRight,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: editAccountPageController.currentSelectedType ==
-                          AccountProfileImageType.assets
-                      ? AssetImage(
-                          editAccountPageController.selectedImagePath.value)
-                      : FileImage(
-                          File(
-                            editAccountPageController.selectedImagePath.value,
-                          ),
-                        ) as ImageProvider,
-                ),
+          Container(
+            height: 0.3.width,
+            width: 0.3.width,
+            alignment: Alignment.bottomRight,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image:
+                    widget.account.imageType == AccountProfileImageType.assets
+                        ? AssetImage(widget.account.profileImage!)
+                        : FileImage(
+                            File(widget.account.profileImage!),
+                          ) as ImageProvider,
               ),
-              child: GestureDetector(
-                onTap: () {
-                  Get.bottomSheet(changePhotoBottomSheet(),
-                      barrierColor: Colors.transparent);
-                },
-                child: CircleAvatar(
-                  radius: 0.046.width,
-                  backgroundColor: Colors.white,
-                  child: SvgPicture.asset(
-                    "${PathConst.SVG}add_photo.svg",
-                    fit: BoxFit.scaleDown,
-                  ),
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Get.bottomSheet(changePhotoBottomSheet(),
+                    barrierColor: Colors.transparent);
+              },
+              child: CircleAvatar(
+                radius: 0.046.width,
+                backgroundColor: Colors.white,
+                child: SvgPicture.asset(
+                  "${PathConst.SVG}add_photo.svg",
+                  fit: BoxFit.scaleDown,
                 ),
               ),
             ),
           ),
           0.02.vspace,
           Text(
-            manageAccountPageController.accounts[accountIndex].accountSecretModel!.publicKey ??
-                "public key",
+            widget.account.accountSecretModel?.publicKey ?? "public key",
             style: bodyLarge,
           ),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           Text(
-            "Address index : $accountIndex",
+            "Address index : ${widget.accountIndex}",
             style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
           ),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           Text(
-            "Derivation path: m/44’/60’/0’0",
+            "Derivation path: ${widget.account.derivationPathIndex}",
             style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
           ),
           0.02.vspace,
@@ -105,7 +111,7 @@ class EditAccountBottomSheet extends StatelessWidget {
               style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           NaanTextfield(
@@ -116,14 +122,14 @@ class EditAccountBottomSheet extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "or  choose a avatar",
+              "or choose a avatar",
               textAlign: TextAlign.left,
               style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
           ),
           0.02.vspace,
           GridView.count(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             crossAxisCount: 4,
             mainAxisSpacing: 0.06.width,
             shrinkWrap: true,
@@ -132,10 +138,11 @@ class EditAccountBottomSheet extends StatelessWidget {
               ServiceConfig.allAssetsProfileImages.length,
               (index) => GestureDetector(
                 onTap: () {
-                  editAccountPageController.currentSelectedType =
-                      AccountProfileImageType.assets;
-                  editAccountPageController.selectedImagePath.value =
-                      ServiceConfig.allAssetsProfileImages[index];
+                  setState(() {
+                    widget.account.imageType = AccountProfileImageType.assets;
+                    widget.account.profileImage =
+                        ServiceConfig.allAssetsProfileImages[index];
+                  });
                 },
                 child: CircleAvatar(
                   radius: 0.08.width,
@@ -155,24 +162,32 @@ class EditAccountBottomSheet extends StatelessWidget {
                 textAlign: TextAlign.left,
                 style: bodySmall,
               ),
-              Spacer(),
-              Obx(
-                () => FlutterSwitch(
-                  value: editAccountPageController.isPrimaryAccount.value,
-                  onToggle: (value) {
-                    editAccountPageController.isPrimaryAccount.value =
-                        !editAccountPageController.isPrimaryAccount.value;
-                  },
-                  height: 18,
-                  width: 32,
-                  padding: 2,
-                  toggleSize: 14,
-                  activeColor: ColorConst.Primary.shade50,
-                  activeToggleColor: ColorConst.Primary.shade90,
-                  inactiveColor: ColorConst.Neutral.shade0,
-                  inactiveToggleColor: ColorConst.NeutralVariant.shade40,
-                ),
-              )
+              const Spacer(),
+              FlutterSwitch(
+                value: manageAccountController.homePageController
+                        .userAccounts[widget.accountIndex].isAccountPrimary ??
+                    false,
+                onToggle: (value) {
+                  setState(() {
+                    manageAccountController
+                            .homePageController
+                            .userAccounts[widget.accountIndex]
+                            .isAccountPrimary =
+                        !manageAccountController
+                            .homePageController
+                            .userAccounts[widget.accountIndex]
+                            .isAccountPrimary!;
+                  });
+                },
+                height: 18,
+                width: 32,
+                padding: 2,
+                toggleSize: 14,
+                activeColor: ColorConst.Primary.shade50,
+                activeToggleColor: ColorConst.Primary.shade90,
+                inactiveColor: ColorConst.Neutral.shade0,
+                inactiveToggleColor: ColorConst.NeutralVariant.shade40,
+              ),
             ],
           ),
           0.02.vspace,
@@ -183,24 +198,28 @@ class EditAccountBottomSheet extends StatelessWidget {
                 textAlign: TextAlign.left,
                 style: bodySmall,
               ),
-              Spacer(),
-              Obx(
-                () => FlutterSwitch(
-                  value: editAccountPageController.isHiddenAccount.value,
-                  onToggle: (value) {
-                    editAccountPageController.isHiddenAccount.value =
-                        !editAccountPageController.isHiddenAccount.value;
-                  },
-                  height: 18,
-                  width: 32,
-                  padding: 2,
-                  toggleSize: 14,
-                  activeColor: ColorConst.Primary.shade50,
-                  activeToggleColor: ColorConst.Primary.shade90,
-                  inactiveColor: ColorConst.Neutral.shade0,
-                  inactiveToggleColor: ColorConst.NeutralVariant.shade40,
-                ),
-              )
+              const Spacer(),
+              FlutterSwitch(
+                value: manageAccountController.homePageController
+                        .userAccounts[widget.accountIndex].isAccountHidden ??
+                    false,
+                onToggle: (value) {
+                  setState(() {
+                    manageAccountController.homePageController
+                            .userAccounts[widget.accountIndex].isAccountHidden =
+                        !manageAccountController.homePageController
+                            .userAccounts[widget.accountIndex].isAccountHidden!;
+                  });
+                },
+                height: 18,
+                width: 32,
+                padding: 2,
+                toggleSize: 14,
+                activeColor: ColorConst.Primary.shade50,
+                activeToggleColor: ColorConst.Primary.shade90,
+                inactiveColor: ColorConst.Neutral.shade0,
+                inactiveToggleColor: ColorConst.NeutralVariant.shade40,
+              ),
             ],
           ),
           0.02.vspace,
@@ -236,15 +255,15 @@ class EditAccountBottomSheet extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () async {
-                  var imagePath =
+                  String imagePath =
                       await CreateProfileService().pickANewImageFromGallery();
-                  if (imagePath.isNotEmpty) {
-                    editAccountPageController.currentSelectedType =
-                        AccountProfileImageType.file;
-                    editAccountPageController.selectedImagePath.value =
-                        imagePath;
-                    Get.back();
-                  }
+                  setState(() {
+                    if (imagePath.isNotEmpty) {
+                      widget.account.imageType = AccountProfileImageType.file;
+                      widget.account.profileImage = imagePath;
+                      Get.back();
+                    }
+                  });
                 },
                 child: Container(
                   width: double.infinity,
@@ -263,14 +282,14 @@ class EditAccountBottomSheet extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () async {
-                  var imagePath = await CreateProfileService().takeAPhoto();
-                  if (imagePath.isNotEmpty) {
-                    editAccountPageController.currentSelectedType =
-                        AccountProfileImageType.file;
-                    editAccountPageController.selectedImagePath.value =
-                        imagePath;
-                    Get.back();
-                  }
+                  String imagePath = await CreateProfileService().takeAPhoto();
+                  setState(() {
+                    if (imagePath.isNotEmpty) {
+                      widget.account.imageType = AccountProfileImageType.file;
+                      widget.account.profileImage = imagePath;
+                      Get.back();
+                    }
+                  });
                 },
                 child: Container(
                   width: double.infinity,
@@ -289,11 +308,12 @@ class EditAccountBottomSheet extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  editAccountPageController.currentSelectedType =
-                      AccountProfileImageType.assets;
-                  editAccountPageController.selectedImagePath.value =
-                      ServiceConfig.allAssetsProfileImages[0];
-                  Get.back();
+                  setState(() {
+                    widget.account.imageType = AccountProfileImageType.assets;
+                    widget.account.profileImage =
+                        ServiceConfig.allAssetsProfileImages[0];
+                    Get.back();
+                  });
                 },
                 child: Container(
                   width: double.infinity,

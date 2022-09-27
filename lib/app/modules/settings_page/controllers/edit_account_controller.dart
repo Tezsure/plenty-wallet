@@ -12,10 +12,10 @@ class EditAccountPageController extends GetxController {
   RxBool isPrimaryAccount = false.obs;
   RxBool isHiddenAccount = false.obs;
 
-
   @override
   void onInit() {
     super.onInit();
+    accountNameController.text = '';
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
   }
 }

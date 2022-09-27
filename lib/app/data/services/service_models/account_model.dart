@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:convert';
-
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 
 class AccountModel {
@@ -15,6 +13,8 @@ class AccountModel {
   bool? isWatchOnly = false;
   AccountDataModel? accountDataModel;
   AccountSecretModel? accountSecretModel;
+  bool? isAccountPrimary = false;
+  bool? isAccountHidden = false;
 
   AccountModel({
     this.name,
@@ -26,6 +26,8 @@ class AccountModel {
     this.tezosDomainName,
     this.isWatchOnly = false,
     this.accountDataModel,
+    this.isAccountPrimary = false,
+    this.isAccountHidden = false,
   }) {
     accountDataModel = accountDataModel ?? AccountDataModel();
   }
@@ -229,17 +231,22 @@ class AccountSecretModel {
 
   factory AccountSecretModel.fromMap(Map<String, dynamic> map) {
     return AccountSecretModel(
-      seedPhrase: map['seedPhrase'] != null ? map['seedPhrase'] as String : null,
-      derivationPathIndex: map['derivationPathIndex'] != null ? map['derivationPathIndex'] as int : null,
+      seedPhrase:
+          map['seedPhrase'] != null ? map['seedPhrase'] as String : null,
+      derivationPathIndex: map['derivationPathIndex'] != null
+          ? map['derivationPathIndex'] as int
+          : null,
       publicKey: map['publicKey'] != null ? map['publicKey'] as String : null,
       secretKey: map['secretKey'] != null ? map['secretKey'] as String : null,
-      publicKeyHash: map['publicKeyHash'] != null ? map['publicKeyHash'] as String : null,
+      publicKeyHash:
+          map['publicKeyHash'] != null ? map['publicKeyHash'] as String : null,
     );
   }
 
   Map<String, dynamic> toJson() => toMap();
 
-  factory AccountSecretModel.fromJson(Map<String, dynamic> source) => AccountSecretModel.fromMap(source);
+  factory AccountSecretModel.fromJson(Map<String, dynamic> source) =>
+      AccountSecretModel.fromMap(source);
 
   @override
   String toString() {
@@ -249,21 +256,20 @@ class AccountSecretModel {
   @override
   bool operator ==(covariant AccountSecretModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.seedPhrase == seedPhrase &&
-      other.derivationPathIndex == derivationPathIndex &&
-      other.publicKey == publicKey &&
-      other.secretKey == secretKey &&
-      other.publicKeyHash == publicKeyHash;
+
+    return other.seedPhrase == seedPhrase &&
+        other.derivationPathIndex == derivationPathIndex &&
+        other.publicKey == publicKey &&
+        other.secretKey == secretKey &&
+        other.publicKeyHash == publicKeyHash;
   }
 
   @override
   int get hashCode {
     return seedPhrase.hashCode ^
-      derivationPathIndex.hashCode ^
-      publicKey.hashCode ^
-      secretKey.hashCode ^
-      publicKeyHash.hashCode;
+        derivationPathIndex.hashCode ^
+        publicKey.hashCode ^
+        secretKey.hashCode ^
+        publicKeyHash.hashCode;
   }
 }

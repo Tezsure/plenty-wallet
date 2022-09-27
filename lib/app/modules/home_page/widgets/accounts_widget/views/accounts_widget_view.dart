@@ -112,9 +112,7 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                           child: Obx(
                             () => ListView.builder(
                               itemCount:
-                                  // ignore: invalid_use_of_protected_member
-                                  homePageController.userAccounts.value.length +
-                                      1,
+                                  homePageController.userAccounts.length + 1,
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
                               physics: const BouncingScrollPhysics(),

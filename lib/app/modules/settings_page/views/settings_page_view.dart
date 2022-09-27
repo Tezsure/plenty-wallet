@@ -16,10 +16,12 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+import '../../home_page/controllers/home_page_controller.dart';
 import '../controllers/settings_page_controller.dart';
 
 class SettingsPageView extends GetView<SettingsPageController> {
-  const SettingsPageView({Key? key}) : super(key: key);
+  const SettingsPageView({super.key});
+  static final _homePageController = Get.find<HomePageController>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -68,7 +70,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                           settingOption(
                             onTap: () {
                               Get.to(
-                                BackupPage(),
+                                () => BackupPage(),
                               );
                             },
                             title: "Backup",
@@ -347,7 +349,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
                   height: 27,
                   child: Center(
                     child: Text(
-                      "Account Name",
+                      _homePageController.userAccounts[0].name ??
+                          'Account Name',
                       style: labelMedium,
                     ),
                   ),
