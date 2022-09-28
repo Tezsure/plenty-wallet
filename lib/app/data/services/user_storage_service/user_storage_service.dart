@@ -114,7 +114,7 @@ class UserStorageService {
           value: jsonEncode(accountSecretModel));
 
   Future<AccountSecretModel?> readAccountSecrets(String pkH) async {
-    var accountSecrets = await ServiceConfig.localStorage
+    String? accountSecrets = await ServiceConfig.localStorage
         .read(key: "${ServiceConfig.accountsSecretStorage}_$pkH");
     return accountSecrets != null
         ? AccountSecretModel.fromJson(jsonDecode(accountSecrets))

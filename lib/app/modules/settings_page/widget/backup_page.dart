@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
@@ -11,6 +13,8 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
+
+import '../../../data/services/enums/enums.dart';
 
 class BackupPage extends StatelessWidget {
   BackupPage({super.key});
@@ -71,6 +75,21 @@ class BackupPage extends StatelessWidget {
               radius: 22,
               backgroundColor:
                   ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              child: Container(
+                alignment: Alignment.bottomRight,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image:
+                        accountModel.imageType == AccountProfileImageType.assets
+                            ? AssetImage(accountModel.profileImage!)
+                            : FileImage(
+                                File(accountModel.profileImage!),
+                              ) as ImageProvider,
+                  ),
+                ),
+              ),
             ),
             0.04.hspace,
             Column(
@@ -82,7 +101,6 @@ class BackupPage extends StatelessWidget {
                   style: bodySmall,
                 ),
                 Text(
-                  //TODO What to show here public key or public key hash
                   tz1Shortner(accountModel.accountSecretModel?.publicKey ??
                       'nxkjfbhedvzbv'),
                   style: labelSmall.apply(
@@ -136,29 +154,10 @@ class BackupPage extends StatelessWidget {
                     style: labelMedium,
                   ),
                   onTap: () {
-                    Future.delayed(const Duration(seconds: 30), () {
-                      Get.back();
-                    });
-                    Get.to(SecretPhrasePage(
-                      seedPharese: accountModel.accountSecretModel?.seedPhrase
-                              ?.split(" ") ??
-                          [
-                            "j",
-                            'h',
-                            "y",
-                            " f",
-                            "c",
-                            "u",
-                            "s",
-                            "b",
-                            "j",
-                            "k",
-                            "v",
-                            "d",
-                            "v"
-                          ],
-                      derivationPath: accountModel.derivationPathIndex ?? 0123,
-                    ));
+                    controller.timer;
+                    Get.to(() => SecretPhrasePage(
+                          pkHash: accountModel.publicKeyHash!,
+                        ))?.whenComplete(() => controller.timer.cancel());
                   }),
               const Divider(
                 color: Color(0xff4a454e),
@@ -171,14 +170,10 @@ class BackupPage extends StatelessWidget {
                     style: labelMedium,
                   ),
                   onTap: () {
-                    Future.delayed(const Duration(seconds: 30), () {
-                      Get.back();
-                    });
+                    controller.timer;
                     Get.to(() => PrivateKeyPage(
-                          privateKey: accountModel
-                                  .accountSecretModel?.secretKey ??
-                              "edskS2ZE3Xg2gNUG5SksdtJaGt3VtGo8R7C7zQ5zG7xGW9Z9JscEe1A2uhwVGfqqw9t7d3cHjvmnSMU41t37ppRAYnZJgKUjyt",
-                        ));
+                          pkh: accountModel.publicKeyHash!,
+                        ))?.whenComplete(() => controller.timer.cancel());
                   }),
               const Divider(
                 color: Color(0xff4a454e),

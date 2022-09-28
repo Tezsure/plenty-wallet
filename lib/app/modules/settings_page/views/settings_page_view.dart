@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -16,6 +18,7 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+import '../../../data/services/enums/enums.dart';
 import '../../home_page/controllers/home_page_controller.dart';
 import '../controllers/settings_page_controller.dart';
 
@@ -309,7 +312,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     return GestureDetector(
       onTap: () {
         Get.bottomSheet(
-          ManageAccountsBottomSheet(),
+          const ManageAccountsBottomSheet(),
           isScrollControlled: true,
           barrierColor: ColorConst.Primary.withOpacity(0.2),
           enableDrag: true,
@@ -321,44 +324,64 @@ class SettingsPageView extends GetView<SettingsPageController> {
             borderRadius: BorderRadius.circular(8)),
         height: 71,
         padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-        child: Row(
-          children: [
-            SizedBox(
-              width: 0.165.width,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: CircleAvatar(
-                    radius: 23,
-                    backgroundColor: ColorConst.NeutralVariant.shade40),
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+        child: Obx(() => Row(
               children: [
                 SizedBox(
-                  height: 14,
-                  child: Text(
-                    "Default wallet",
-                    style: labelSmall.apply(
-                      color: ColorConst.NeutralVariant.shade60,
+                  width: 0.165.width,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: CircleAvatar(
+                      radius: 23,
+                      backgroundColor:
+                          ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                      child: Container(
+                        alignment: Alignment.bottomRight,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image:
+                                _homePageController.userAccounts[0].imageType ==
+                                        AccountProfileImageType.assets
+                                    ? AssetImage(_homePageController
+                                        .userAccounts[0].profileImage!)
+                                    : FileImage(
+                                        File(_homePageController
+                                            .userAccounts[0].profileImage!),
+                                      ) as ImageProvider,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 27,
-                  child: Center(
-                    child: Text(
-                      _homePageController.userAccounts[0].name ??
-                          'Account Name',
-                      style: labelMedium,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 14,
+                      child: Text(
+                        "Default wallet",
+                        style: labelSmall.apply(
+                          color: ColorConst.NeutralVariant.shade60,
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      height: 27,
+                      child: Center(
+                        child: Text(
+                          _homePageController.userAccounts[0].name ??
+                              'Account Name',
+                          style: labelMedium,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ],
-        ),
+            )),
       ),
     );
   }

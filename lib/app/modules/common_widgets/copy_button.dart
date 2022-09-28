@@ -13,7 +13,7 @@ class CopyButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 20),
       child: Container(
-        width: .6.width,
+        width: 0.6.width,
         height: 0.06.height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

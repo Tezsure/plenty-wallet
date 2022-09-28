@@ -5,7 +5,6 @@ import 'package:naan_wallet/app/data/services/data_handler_service/account_data_
 import 'package:naan_wallet/app/data/services/data_handler_service/helpers/on_going_tx_helper.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/token_and_xtz_price_handler/token_and_xtz_price_handler.dart';
-import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 
 import 'data_handler_render_service.dart';
 

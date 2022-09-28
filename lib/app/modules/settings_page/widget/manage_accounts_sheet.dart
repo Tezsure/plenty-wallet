@@ -1,18 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
-import 'package:naan_wallet/app/modules/settings_page/controllers/manage_account_controller.dart';
+import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/edit_account_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-class ManageAccountsBottomSheet extends StatelessWidget {
-  ManageAccountsBottomSheet({super.key});
+import '../../../data/services/enums/enums.dart';
 
-  final controller = Get.put(ManageAccountPageController());
+class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
+  const ManageAccountsBottomSheet({super.key});
+
   static final _homePageController = Get.find<HomePageController>();
 
   @override
@@ -73,7 +78,6 @@ class ManageAccountsBottomSheet extends StatelessWidget {
                                 itemCount:
                                     _homePageController.userAccounts.length,
                                 onReorder: (oldIndex, newIndex) {
-                                  print("$oldIndex & $newIndex");
                                   if (oldIndex < newIndex) {
                                     newIndex -= 1;
                                   }
@@ -121,6 +125,20 @@ class ManageAccountsBottomSheet extends StatelessWidget {
       leading: CircleAvatar(
         radius: 30,
         backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+        child: Container(
+          alignment: Alignment.bottomRight,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: accountModel.imageType == AccountProfileImageType.assets
+                  ? AssetImage(accountModel.profileImage!)
+                  : FileImage(
+                      File(accountModel.profileImage!),
+                    ) as ImageProvider,
+            ),
+          ),
+        ),
       ),
       title: SizedBox(
         height: 57,
@@ -131,7 +149,7 @@ class ManageAccountsBottomSheet extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  "Address index : ${accountModel.name}",
+                  "Address index : $index",
                   style: labelSmall.apply(
                       color: ColorConst.NeutralVariant.shade60),
                 ),
@@ -139,10 +157,23 @@ class ManageAccountsBottomSheet extends StatelessWidget {
                   accountModel.name!,
                   style: labelLarge,
                 ),
-                Text(
-                  "243.34",
-                  style: labelSmall.apply(
-                      color: ColorConst.NeutralVariant.shade60),
+                RichText(
+                  text: TextSpan(
+                      text: "${accountModel.accountDataModel?.xtzBalance}",
+                      style: labelSmall.apply(
+                          color: ColorConst.NeutralVariant.shade60),
+                      children: [
+                        WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 4.sp),
+                              child: SvgPicture.asset(
+                                '${PathConst.HOME_PAGE}svg/xtz.svg',
+                                height: 12.sp,
+                                color: ColorConst.NeutralVariant.shade60,
+                              ),
+                            ))
+                      ]),
                 ),
               ],
             ),
@@ -187,8 +218,8 @@ class ManageAccountsBottomSheet extends StatelessWidget {
                               Get.back();
                               Get.bottomSheet(
                                   EditAccountBottomSheet(
-                                      accountIndex: index,
-                                      account: accountModel),
+                                    accountIndex: index,
+                                  ),
                                   barrierColor: Colors.transparent,
                                   isScrollControlled: true);
                             },

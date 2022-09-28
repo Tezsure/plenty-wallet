@@ -30,14 +30,15 @@ class DataHandlerRenderService {
   }
 
   /// read from store and update xtzPrice
-  Future<void> _updateXtzPrice([double? xtzPrice]) async{
-    if(xtzPrice != null){
+  Future<void> _updateXtzPrice([double? xtzPrice]) async {
+    if (xtzPrice != null) {
       xtzPriceUpdater.value = xtzPrice;
       return;
     }
 
-    xtzPriceUpdater.value = double.parse(await ServiceConfig.localStorage.read(key: ServiceConfig.xtzPriceStorage) ?? "0.0");
-
+    xtzPriceUpdater.value = double.parse(await ServiceConfig.localStorage
+            .read(key: ServiceConfig.xtzPriceStorage) ??
+        "0.0");
   }
 
   /// read from store and update account xtz value
@@ -113,7 +114,7 @@ class DataVariable<T> {
     extraParams == null ? updateProcess() : updateProcess(extraParams);
   }
 
-  void registerVariable(rxVar) {
+  void registerVariable(List<AccountModel> rxVar) {
     registerVariabls.add(rxVar);
     _value = 0;
     updateProcess();
