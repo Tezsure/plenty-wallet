@@ -17,6 +17,9 @@ class NaanBottomSheet extends StatelessWidget {
   final Alignment? titleAlignment;
   final TextStyle? titleStyle;
   final double? bottomSheetHorizontalPadding;
+  final CrossAxisAlignment? crossAxisAlignment;
+  final bool isScrollControlled;
+
   final Widget Function(BuildContext context, int index)? draggableListBuilder;
 
   /// Create a bottom sheet of non-draggable and draggable type.
@@ -26,21 +29,23 @@ class NaanBottomSheet extends StatelessWidget {
   /// Use [title] property for the heading of the bottom sheet
   ///
   /// The [height] & [width] property only applies to non-draggable bottom sheet
-  const NaanBottomSheet({
-    super.key,
-    this.height,
-    this.width,
-    this.bottomSheetWidgets,
-    this.title,
-    this.blurRadius,
-    this.gradientStartingOpacity,
-    this.isDraggableBottomSheet = false,
-    this.draggableListBuilder,
-    this.scrollThumbVisibility = true,
-    this.titleAlignment,
-    this.titleStyle,
-    this.bottomSheetHorizontalPadding,
-  }) : assert(
+  const NaanBottomSheet(
+      {super.key,
+      this.height,
+      this.width,
+      this.bottomSheetWidgets,
+      this.title,
+      this.blurRadius,
+      this.gradientStartingOpacity,
+      this.isDraggableBottomSheet = false,
+      this.draggableListBuilder,
+      this.scrollThumbVisibility = true,
+      this.titleAlignment,
+      this.titleStyle,
+      this.bottomSheetHorizontalPadding,
+      this.isScrollControlled = false,
+      this.crossAxisAlignment})
+      : assert(
           isDraggableBottomSheet == false
               ? bottomSheetWidgets != null
               : draggableListBuilder != null,
@@ -57,17 +62,9 @@ class NaanBottomSheet extends StatelessWidget {
               minChildSize: 0.4,
               maxChildSize: 1,
               builder: (_, scrollController) => Container(
-                decoration: BoxDecoration(
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(10)),
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      const Color(0xff07030c).withOpacity(0.49),
-                      const Color(0xff2d004f),
-                    ],
-                  ),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                  gradient: GradConst.GradientBackground,
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 0.05.width),
                 child: Column(
@@ -121,63 +118,54 @@ class NaanBottomSheet extends StatelessWidget {
               ),
             )
           : Container(
-              decoration: BoxDecoration(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(10)),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    const Color(0xff07030c)
-                        .withOpacity(gradientStartingOpacity ?? 0.49),
-                    const Color(0xff2d004f),
-                  ],
-                ),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                gradient: GradConst.GradientBackground,
               ),
               width: width ?? 1.width,
-              height: height ?? 296,
+              height: height,
               padding: EdgeInsets.symmetric(
                   horizontal: bottomSheetHorizontalPadding ?? 32),
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    0.01.vspace,
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        height: 5,
-                        width: 36,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: ColorConst.NeutralVariant.shade60
-                              .withOpacity(0.3),
-                        ),
-                      ),
-                    ),
-                    if (title != null) ...[
-                      0.01.vspace,
-                      Align(
-                        alignment: titleAlignment ?? Alignment.centerLeft,
-                        child: Text(
-                          title!,
-                          textAlign: TextAlign.start,
-                          style: titleStyle ?? titleLarge,
-                        ),
-                      ),
-                    ],
-                    0.020.vspace,
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: bottomSheetWidgets ?? const [],
-                    ),
-                  ],
+              child: isScrollControlled
+                  ? SingleChildScrollView(
+                      child: isScrollControlledUI(),
+                    )
+                  : isScrollControlledUI(),
+            ),
+    );
+  }
+
+  Column isScrollControlledUI() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
+      children: <Widget>[
+            0.01.vspace,
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                height: 5,
+                width: 36,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
                 ),
               ),
             ),
+            if (title != null) ...[
+              0.01.vspace,
+              Align(
+                alignment: titleAlignment ?? Alignment.centerLeft,
+                child: Text(
+                  title!,
+                  textAlign: TextAlign.start,
+                  style: titleStyle ?? titleLarge,
+                ),
+              ),
+            ],
+            0.020.vspace,
+          ] +
+          (bottomSheetWidgets ?? const []),
     );
   }
 }

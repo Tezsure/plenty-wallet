@@ -12,6 +12,7 @@ class PathConst {
   static const SETTINGS_PAGE = "assets/settings_page/";
   static const SEND_PAGE = "assets/send_page/";
   static const CONTACTS_PAGE = "assets/contact_page/";
+  static const ACCOUNT_SUMMARY = "assets/account_summary/";
 }
 
 extension PathExt on String {

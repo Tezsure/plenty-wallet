@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/history_filter_sheet.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -61,9 +62,15 @@ class HistoryPage extends StatelessWidget {
                       ),
                     ),
                     0.02.hspace,
-                    SvgPicture.asset(
-                      '${PathConst.SVG}filter.svg',
-                      fit: BoxFit.contain,
+                    GestureDetector(
+                      onTap: () {
+                        Get.bottomSheet(HistoryFilterSheet(),
+                            isScrollControlled: true);
+                      },
+                      child: SvgPicture.asset(
+                        '${PathConst.SVG}filter.svg',
+                        fit: BoxFit.contain,
+                      ),
                     ),
                     0.01.hspace,
                   ],
