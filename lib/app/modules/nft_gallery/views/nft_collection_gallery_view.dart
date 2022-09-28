@@ -42,6 +42,19 @@ class NFTcollectionGalleryView extends GetView<NftGalleryController> {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Column(
                   children: [
+                    0.01.vspace,
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        height: 5,
+                        width: 36,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.3),
+                        ),
+                      ),
+                    ),
                     nftCollectionGalleryAppBar(),
                     const SizedBox(
                       height: 17,

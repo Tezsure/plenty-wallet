@@ -36,6 +36,20 @@ class NFTCollectionView extends GetView<NftGalleryController> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    0.01.vspace,
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        height: 5,
+                        width: 36,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.3),
+                        ),
+                      ),
+                    ),
+                  
                     Obx(
                       () => AppBar(
                           toolbarHeight:
