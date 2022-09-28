@@ -14,15 +14,15 @@ class UserStorageService {
   Future<void> writeNewAccount(List<AccountModel> accountList,
       [bool isWatchAddress = false,
       bool isAccountSecretsProvided = false]) async {
-    var accountReadKey = isWatchAddress
+    String accountReadKey = isWatchAddress
         ? ServiceConfig.watchAccountsStorage
         : ServiceConfig.accountsStorage;
-    var accounts = await ServiceConfig.localStorage.read(key: accountReadKey);
+    String? accounts =
+        await ServiceConfig.localStorage.read(key: accountReadKey);
     if (accounts == null ||
         accounts == "" ||
         accounts == "[]" ||
         accounts.isEmpty) {
-      accountList[0].isAccountPrimary = true;
       accounts = jsonEncode(accountList);
     } else {
       List<AccountModel> tempAccounts = jsonDecode(accounts)
@@ -34,7 +34,7 @@ class UserStorageService {
         .write(key: accountReadKey, value: accounts);
 
     if (isAccountSecretsProvided) {
-      for (var account in accountList) {
+      for (AccountModel account in accountList) {
         if (account.accountSecretModel != null) {
           await writeNewAccountSecrets(account.accountSecretModel!);
         }

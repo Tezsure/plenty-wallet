@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:dartez/dartez.dart';
@@ -18,26 +17,25 @@ class WalletService {
   Future<AccountModel> createNewAccount(
       String name, AccountProfileImageType imageType, String image) async {
     UserStorageService userStorageService = UserStorageService();
-    AccountModel accountModel;
-    var storedAccounts =
+    List<AccountModel> storedAccounts =
         await userStorageService.getAllAccount(onlyNaanAccount: true);
     int derivationIndex = storedAccounts.isEmpty
         ? 0
         : (storedAccounts.last.derivationPathIndex! + 1);
-    var derivationPath = "m/44'/1729'/$derivationIndex'/0'";
+    String derivationPath = "m/44'/1729'/$derivationIndex'/0'";
 
     AccountSecretModel? accountSecretModel = storedAccounts.isEmpty
         ? null
         : await userStorageService
             .readAccountSecrets(storedAccounts.last.publicKeyHash!);
 
-    var mnemonic = storedAccounts.isEmpty
+    String? mnemonic = storedAccounts.isEmpty
         ? Dartez.generateMnemonic(strength: 128)
         : accountSecretModel != null
             ? accountSecretModel.seedPhrase
             : Dartez.generateMnemonic(strength: 128);
 
-    var keyStore = await Dartez.restoreIdentityFromDerivationPath(
+    List<String> keyStore = await Dartez.restoreIdentityFromDerivationPath(
         derivationPath, mnemonic!);
     accountSecretModel = AccountSecretModel(
       seedPhrase: mnemonic,
@@ -46,8 +44,10 @@ class WalletService {
       derivationPathIndex: derivationIndex,
       publicKeyHash: keyStore[2],
     );
-    accountModel = AccountModel(
+    AccountModel accountModel = AccountModel(
       isNaanAccount: true,
+      isAccountHidden: false,
+      isAccountPrimary: storedAccounts.isEmpty ? true : false,
       derivationPathIndex: derivationIndex,
       name: name,
       imageType: imageType,
@@ -71,8 +71,8 @@ class WalletService {
     UserStorageService userStorageService = UserStorageService();
     AccountModel accountModel;
 
-    var keyStore = Dartez.getKeysFromSecretKey(privateKey);
-    var accountSecretModel = AccountSecretModel(
+    List<String> keyStore = Dartez.getKeysFromSecretKey(privateKey);
+    AccountSecretModel accountSecretModel = AccountSecretModel(
       seedPhrase: "",
       secretKey: keyStore[0],
       publicKey: keyStore[1],
@@ -101,10 +101,10 @@ class WalletService {
   /// startIndex is the starting of derivation index and size is account return list size
   Future<List<AccountModel>> genAccountFromMnemonic(
       String mnemonic, int startIndex, int size) async {
-    var tempAccount = <AccountModel>[];
-    for (var i = 0; i < size; i++) {
+    List<AccountModel> tempAccount = <AccountModel>[];
+    for (int i = 0; i < size; i++) {
       // "m/44'/1729'/$derivationIndex'/0'"
-      var keyStore = await Dartez.restoreIdentityFromDerivationPath(
+      List<String> keyStore = await Dartez.restoreIdentityFromDerivationPath(
           "m/44'/1729'/${i + startIndex}'/0'", mnemonic);
       tempAccount.add(AccountModel(
         isNaanAccount: false,
@@ -128,7 +128,7 @@ class WalletService {
   /// write new watch address into storage
   Future<AccountModel> importWatchAddress(String pkH, String name,
       AccountProfileImageType imageType, String image) async {
-    var account = AccountModel(
+    AccountModel account = AccountModel(
         isNaanAccount: false,
         isWatchOnly: true,
         name: name,

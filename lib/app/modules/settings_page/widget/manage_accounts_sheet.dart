@@ -16,9 +16,9 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import '../../../data/services/enums/enums.dart';
 
 class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
-  const ManageAccountsBottomSheet({super.key});
+  ManageAccountsBottomSheet({super.key});
 
-  static final _homePageController = Get.find<HomePageController>();
+  final _homePageController = Get.find<HomePageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -77,20 +77,7 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
                                     _homePageController.userAccounts[index]),
                                 itemCount:
                                     _homePageController.userAccounts.length,
-                                onReorder: (oldIndex, newIndex) {
-                                  if (oldIndex < newIndex) {
-                                    newIndex -= 1;
-                                  }
-
-                                  AccountModel item = _homePageController
-                                      .userAccounts
-                                      .removeAt(oldIndex);
-                                  if (newIndex == 0) {
-                                    item.isAccountPrimary = true;
-                                  }
-                                  _homePageController.userAccounts
-                                      .insert(newIndex, item);
-                                })
+                                onReorder: controller.reorderUserAccountsList)
                             : ListView.builder(
                                 physics: const BouncingScrollPhysics(),
                                 controller: controller.scrollcontroller.value,
@@ -113,7 +100,6 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
   }
 
   ListTile accountWIdget(int index, AccountModel accountModel) {
-    print(accountModel);
     return ListTile(
       selectedColor: Colors.transparent,
       selectedTileColor: Colors.transparent,
@@ -257,7 +243,9 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
                           color: Colors.white,
                         ),
                       ),
-                if (index == 0 && !controller.isRearranging.value)
+                if (index == 0 &&
+                    !controller.isRearranging.value &&
+                    _homePageController.userAccounts[index].isAccountPrimary!)
                   Container(
                     height: 18,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -267,7 +255,7 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
                       borderRadius: BorderRadius.circular(9),
                     ),
                     child: Text(
-                      accountModel.isAccountPrimary! ? "Primary" : "",
+                      "Primary",
                       style:
                           labelSmall.apply(color: ColorConst.Primary.shade60),
                     ),

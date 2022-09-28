@@ -87,6 +87,20 @@ class SettingsPageController extends GetxController {
     _updateUserAccountsValue();
   }
 
+  /// Rearrange the accounts in the list, if new index is 0 then make it primary acount
+  void reorderUserAccountsList(oldIndex, newIndex) {
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    AccountModel item = homePageController.userAccounts[oldIndex];
+    homePageController.userAccounts.removeAt(oldIndex);
+    if (newIndex == 0) {
+      item.isAccountPrimary = true;
+    }
+    homePageController.userAccounts.insert(newIndex, item);
+    _updateUserAccountsValue();
+  }
+
   /// Remove the account and change the primary account if the primary account is removed
   void removeAccount(int index) {
     if (homePageController.userAccounts.length > 1) {

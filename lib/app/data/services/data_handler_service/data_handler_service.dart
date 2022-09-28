@@ -28,7 +28,7 @@ class DataHandlerService {
 
   /// init all data services which runs in isolate and store user specific data in to local storage
   Future<void> initDataServices() async {
-    // first time if data exists in storage readand render
+    // first time if data exists in storage read and render
     await renderService.updateUi();
     // update the values&store using isolates
     await updateAllTheValues();

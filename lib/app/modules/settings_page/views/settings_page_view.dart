@@ -312,7 +312,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     return GestureDetector(
       onTap: () {
         Get.bottomSheet(
-          const ManageAccountsBottomSheet(),
+          ManageAccountsBottomSheet(),
           isScrollControlled: true,
           barrierColor: ColorConst.Primary.withOpacity(0.2),
           enableDrag: true,
