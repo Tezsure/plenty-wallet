@@ -113,6 +113,7 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
   }
 
   ListTile accountWIdget(int index, AccountModel accountModel) {
+    print(accountModel);
     return ListTile(
       selectedColor: Colors.transparent,
       selectedTileColor: Colors.transparent,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/models/node_model.dart';
@@ -14,9 +15,32 @@ import '../../../data/services/user_storage_service/user_storage_service.dart';
 import '../../home_page/controllers/home_page_controller.dart';
 
 class SettingsPageController extends GetxController {
+  RxBool fingerprint = false.obs;
+
+  RxString enteredPassCode = "".obs;
+  RxBool verifyPassCode = false.obs;
+
+  void changeAppPasscode(String passCode) async {
+    if (verifyPassCode.isTrue) {
+      await AuthService()
+          .setNewPassCode(passCode)
+          .whenComplete(() => Get.back())
+          .whenComplete(() {
+        verifyPassCode.value = false;
+        enteredPassCode.value = "";
+      });
+    } else {
+      await AuthService().verifyPassCode(passCode).then((value) {
+        if (value) {
+          verifyPassCode.value = true;
+        }
+        enteredPassCode.value = "";
+      });
+    }
+  }
+
   final homePageController = Get.find<HomePageController>();
   RxBool backup = true.obs;
-  RxBool fingerprint = false.obs;
   Rx<NetworkType> networkType = NetworkType.mainNet.obs;
   RxList<NodeModel> nodes = <NodeModel>[].obs;
   Rx<NodeModel> selectedNode =
@@ -39,9 +63,15 @@ class SettingsPageController extends GetxController {
   RxBool copyToClipboard = false.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
+    fingerprint.value = await AuthService().getBiometricAuth();
     super.onInit();
+  }
+
+  Future<void> changeBiometricAuth(bool value) async {
+    await AuthService().setBiometricAuth(value);
+    fingerprint.value = value;
   }
 
   /// Make the account primary and move it to the top of the list,if it's already primary do nothing i.e. return
@@ -108,7 +138,8 @@ class SettingsPageController extends GetxController {
   /// Updates the user accounts list with the latest modifications
   Future<void> _updateUserAccountsValue() async {
     await UserStorageService().updateAccounts(homePageController.userAccounts);
-    await UserStorageService().getAllAccount();
+    homePageController.userAccounts.value =
+        await UserStorageService().getAllAccount();
   }
 
   /// Updates the user accounts profile name with the latest name changes

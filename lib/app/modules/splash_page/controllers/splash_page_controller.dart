@@ -3,8 +3,6 @@ import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 
-import '../../../data/services/service_config/service_config.dart';
-
 class SplashPageController extends GetxController {
   @override
   Future<void> onInit() async {
@@ -13,7 +11,7 @@ class SplashPageController extends GetxController {
     await DataHandlerService().initDataServices();
 
     // un-comment below line to test onboarding flow multiple time
-    await ServiceConfig().clearStorage();
+    // await ServiceConfig().clearStorage();
     var walletAccountsLength =
         (await UserStorageService().getAllAccount()).length;
     var watchAccountsLength =

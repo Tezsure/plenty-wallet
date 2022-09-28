@@ -18,8 +18,12 @@ class UserStorageService {
         ? ServiceConfig.watchAccountsStorage
         : ServiceConfig.accountsStorage;
     var accounts = await ServiceConfig.localStorage.read(key: accountReadKey);
-    if (accounts == null) {
-      accounts = jsonEncode(accountList..first.isAccountPrimary = true);
+    if (accounts == null ||
+        accounts == "" ||
+        accounts == "[]" ||
+        accounts.isEmpty) {
+      accountList[0].isAccountPrimary = true;
+      accounts = jsonEncode(accountList);
     } else {
       List<AccountModel> tempAccounts = jsonDecode(accounts)
           .map<AccountModel>((e) => AccountModel.fromJson(e))
@@ -116,6 +120,7 @@ class UserStorageService {
   Future<AccountSecretModel?> readAccountSecrets(String pkH) async {
     String? accountSecrets = await ServiceConfig.localStorage
         .read(key: "${ServiceConfig.accountsSecretStorage}_$pkH");
+    print(accountSecrets);
     return accountSecrets != null
         ? AccountSecretModel.fromJson(jsonDecode(accountSecrets))
         : null;

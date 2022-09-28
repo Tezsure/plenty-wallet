@@ -98,8 +98,8 @@ class AccountModel {
       accountDataModel: map['accountDataModel'] != null
           ? AccountDataModel.fromJson(map['accountDataModel'])
           : null,
-      isAccountHidden: map['isAccountHidden'] ?? false,
       isAccountPrimary: map['isAccountPrimary'] ?? false,
+      isAccountHidden: map['isAccountHidden'] ?? false,
     );
   }
 
