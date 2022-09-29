@@ -120,7 +120,6 @@ class UserStorageService {
   Future<AccountSecretModel?> readAccountSecrets(String pkH) async {
     String? accountSecrets = await ServiceConfig.localStorage
         .read(key: "${ServiceConfig.accountsSecretStorage}_$pkH");
-    print(accountSecrets);
     return accountSecrets != null
         ? AccountSecretModel.fromJson(jsonDecode(accountSecrets))
         : null;

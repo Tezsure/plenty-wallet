@@ -31,6 +31,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         .renderService
         .accountUpdater
         .registerVariable(userAccounts);
+
     // DataHandlerService().renderService.accountNft.registerCallback((data) {
     //   print("Nft data");
     //   print(jsonEncode(data));

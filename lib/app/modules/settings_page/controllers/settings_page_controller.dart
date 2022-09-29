@@ -15,8 +15,26 @@ import '../../../data/services/user_storage_service/user_storage_service.dart';
 import '../../home_page/controllers/home_page_controller.dart';
 
 class SettingsPageController extends GetxController {
-  RxBool fingerprint = false.obs;
+  final homePageController = Get.find<HomePageController>();
+  Rx<NetworkType> networkType = NetworkType.mainNet.obs;
+  RxList<NodeModel> nodes = <NodeModel>[].obs;
+  Rx<NodeModel> selectedNode =
+      NodeModel(title: "title1", address: "address1").obs;
+  RxList<DappModel> dapps = List.generate(
+      4,
+      (index) => DappModel(
+          imgUrl: "", name: "dapp", networkType: NetworkType.mainNet)).obs;
 
+  Rx<ScrollController> scrollcontroller = ScrollController().obs;
+  TextEditingController accountNameController = TextEditingController();
+  AccountProfileImageType currentSelectedType = AccountProfileImageType.assets;
+
+  RxString selectedImagePath = "".obs;
+  RxBool backup = true.obs;
+  RxBool isScrolling = false.obs;
+  RxBool isRearranging = false.obs;
+  RxBool copyToClipboard = false.obs;
+  RxBool fingerprint = false.obs;
   RxString enteredPassCode = "".obs;
   RxBool verifyPassCode = false.obs;
 
@@ -39,29 +57,6 @@ class SettingsPageController extends GetxController {
     }
   }
 
-  final homePageController = Get.find<HomePageController>();
-  RxBool backup = true.obs;
-  Rx<NetworkType> networkType = NetworkType.mainNet.obs;
-  RxList<NodeModel> nodes = <NodeModel>[].obs;
-  Rx<NodeModel> selectedNode =
-      NodeModel(title: "title1", address: "address1").obs;
-  RxList<DappModel> dapps = List.generate(
-      4,
-      (index) => DappModel(
-          imgUrl: "", name: "dapp", networkType: NetworkType.mainNet)).obs;
-
-  Rx<ScrollController> scrollcontroller = ScrollController().obs;
-
-  TextEditingController accountNameController = TextEditingController();
-
-  AccountProfileImageType currentSelectedType = AccountProfileImageType.assets;
-
-  RxString selectedImagePath = "".obs;
-
-  RxBool isScrolling = false.obs;
-  RxBool isRearranging = false.obs;
-  RxBool copyToClipboard = false.obs;
-
   @override
   void onInit() async {
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
@@ -80,7 +75,9 @@ class SettingsPageController extends GetxController {
       element.isAccountPrimary = false;
     }
     AccountModel account = homePageController.userAccounts[index];
-    account.isAccountPrimary = true;
+    account
+      ..isAccountHidden = false
+      ..isAccountPrimary = true;
     homePageController.userAccounts
       ..removeAt(index)
       ..insert(0, account);
@@ -109,6 +106,7 @@ class SettingsPageController extends GetxController {
         ..userAccounts[0].isAccountPrimary = true;
       _updateUserAccountsValue();
     } else {
+      return;
       // Can't remove the only account
     }
   }
@@ -144,6 +142,13 @@ class SettingsPageController extends GetxController {
 
   /// Changes the user account to hidden state on the home page
   void editHideThisAccountStatus(int index) {
+    if (index == 0) {
+      Get.rawSnackbar(
+        message: "Can't hide primary account",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
     homePageController.userAccounts[index].isAccountHidden =
         !homePageController.userAccounts[index].isAccountHidden!;
     _updateUserAccountsValue();
@@ -193,6 +198,7 @@ class SettingsPageController extends GetxController {
   @override
   void dispose() {
     accountNameController.dispose();
+    scrollcontroller.value.dispose();
     super.dispose();
   }
 }
