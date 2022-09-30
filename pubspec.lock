@@ -118,7 +118,7 @@ packages:
     description:
       path: "."
       ref: "feat/tz2_support"
-      resolved-ref: "724eb9857ac42f390bccfe45a61bb8ad0fd9b11d"
+      resolved-ref: "36b11fa09db4f076a0b13b7f4d5a24ece294bfee"
       url: "https://github.com/Tezsure/Dartez.git"
     source: git
     version: "1.0.0"
@@ -290,7 +290,7 @@ packages:
     source: hosted
     version: "4.6.5"
   hex:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: hex
       url: "https://pub.dartlang.org"
