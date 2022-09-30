@@ -24,9 +24,9 @@ class LoadingPageView extends GetView<LoadingPageController> {
             alignment: Alignment.center,
             child: LottieBuilder.asset(
               loadingAsset, //'assets/create_wallet/lottie/wallet_success.json',
-              fit: BoxFit.contain,
-              height: 0.5.height,
-              width: 0.5.width,
+              fit: BoxFit.fitWidth,
+
+              width: 0.7.width,
               frameRate: FrameRate(60),
             ),
           ),

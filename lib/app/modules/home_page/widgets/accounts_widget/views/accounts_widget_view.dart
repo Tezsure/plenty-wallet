@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
@@ -27,161 +26,138 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
   Widget build(BuildContext context) {
     Get.lazyPut(() => AccountsWidgetController());
 
-    return Padding(
-      padding: EdgeInsets.only(left: 0.04.width),
-      child: SizedBox(
-        width: 1.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+    return SizedBox(
+      width: 1.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 0.04.width),
+            child: Text(
               'My Wallets',
               style: titleSmall.copyWith(
                 color: ColorConst.NeutralVariant.shade50,
               ),
             ),
-            0.013.vspace,
-            Obx(
-              () => Visibility(
-                visible: homePageController.userAccounts.isEmpty,
-                replacement: SizedBox(
+          ),
+          0.013.vspace,
+          Obx(() => homePageController.userAccounts.isNotEmpty
+              ? SizedBox(
                   width: 1.width,
-                  height: 0.28.height,
-                  child: PageView.builder(
-                      padEnds: false,
-                      itemCount: homePageController.userAccounts.length + 1,
-                      controller: PageController(
-                        viewportFraction:
-                            homePageController.userAccounts.length - 1 ==
-                                    controller.selectedAccountIndex.value
-                                ? 1
-                                : 0.98,
-                        initialPage: 0,
-                      ),
-                      onPageChanged: controller.onPageChanged,
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (_, index) {
-                        return index == homePageController.userAccounts.length
-                            ? const Padding(
-                                padding: EdgeInsets.only(right: 12.0),
-                                child: AddAccountWidget(),
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.only(right: 12.0),
-                                child: accountContainer(
+                  height: 0.26.height,
+                  child: PageView(
+                    controller: PageController(
+                      viewportFraction: 0.95,
+                    ),
+                    onPageChanged: controller.onPageChanged,
+                    //physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    children: List.generate(
+                            homePageController.userAccounts.length,
+                            (index) => accountContainer(
                                   homePageController.userAccounts[index],
+                                )) +
+                        <Widget>[const AddAccountWidget()],
+                  ),
+                )
+              : const AddAccountWidget()),
+          0.013.vspace,
+          Padding(
+            padding: EdgeInsets.only(left: 0.04.width),
+            child: Visibility(
+              visible: homePageController.userAccounts.isEmpty,
+              replacement: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  0.010.hspace,
+                  SizedBox(
+                    height: 10,
+                    width: 0.55.width,
+                    child: ListView.builder(
+                      itemCount: homePageController.userAccounts.length + 1,
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      itemBuilder: ((context, index) {
+                        return Obx(() => Visibility(
+                              visible: index ==
+                                  homePageController.userAccounts.length - 1,
+                              replacement: Icon(
+                                Icons.add,
+                                color: controller.selectedAccountIndex.value ==
+                                        homePageController.userAccounts.length
+                                    ? Colors.white
+                                    : ColorConst.NeutralVariant.shade50,
+                                size: 10,
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 2.0),
+                                child: Container(
+                                  height: 8,
+                                  width: 8,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: controller
+                                                  .selectedAccountIndex.value ==
+                                              index
+                                          ? Colors.white
+                                          : ColorConst.NeutralVariant.shade40),
                                 ),
-                              );
+                              ),
+                            ));
                       }),
-                ),
-                child: const AddAccountWidget(),
+                    ),
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      'learn account',
+                      style: labelSmall.copyWith(
+                          color: ColorConst.Neutral.shade95),
+                    ),
+                  ),
+                  0.03.hspace,
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  0.04.hspace,
+                  Text(
+                    'Already Have A Wallet?',
+                    style: labelSmall.copyWith(
+                        color: ColorConst.NeutralVariant.shade60),
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      'Restore Account',
+                      style: labelSmall.copyWith(
+                          color: ColorConst.Neutral.shade95),
+                    ),
+                  ),
+                  0.03.hspace,
+                ],
               ),
             ),
-            Obx(
-              () => homePageController.userAccounts.isEmpty
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        0.04.hspace,
-                        Text(
-                          'Already Have A Wallet?',
-                          style: labelSmall.copyWith(
-                              color: ColorConst.NeutralVariant.shade60),
-                        ),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Text(
-                            'Restore Account',
-                            style: labelSmall.copyWith(
-                                color: ColorConst.Neutral.shade95),
-                          ),
-                        ),
-                        0.03.hspace,
-                      ],
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        0.010.hspace,
-                        SizedBox(
-                          height: 10,
-                          width: 0.55.width,
-                          child: Obx(
-                            () => ListView.builder(
-                              itemCount:
-                                  // ignore: invalid_use_of_protected_member
-                                  homePageController.userAccounts.value.length +
-                                      1,
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              padding: EdgeInsets.zero,
-                              itemBuilder: ((context, index) {
-                                return Obx(() {
-                                  return index ==
-                                          homePageController.userAccounts.length
-                                      ? Icon(
-                                          Icons.add,
-                                          color: controller.selectedAccountIndex
-                                                      .value ==
-                                                  homePageController
-                                                      .userAccounts.length
-                                              ? Colors.white
-                                              : ColorConst
-                                                  .NeutralVariant.shade50,
-                                          size: 10,
-                                        )
-                                      : Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 2.0),
-                                          child: Container(
-                                            height: 8,
-                                            width: 8,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: controller
-                                                          .selectedAccountIndex
-                                                          .value ==
-                                                      index
-                                                  ? Colors.white
-                                                  : ColorConst
-                                                      .NeutralVariant.shade40,
-                                            ),
-                                          ),
-                                        );
-                                });
-                              }),
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Text(
-                            'learn account',
-                            style: labelSmall.copyWith(
-                                color: ColorConst.Neutral.shade95),
-                          ),
-                        ),
-                        0.03.hspace,
-                      ],
-                    ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget accountContainer(AccountModel model) {
     return Stack(
+      alignment: Alignment.center,
       children: [
         Container(
           height: 0.26.height,
-          width: 1.width,
+          width: 0.92.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -195,7 +171,8 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
         ),
         Container(
           height: 0.26.height,
-          width: 1.width,
+          width: 0.92.width,
+          padding: EdgeInsets.only(left: 31.0, top: 0.04.height),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               gradient: LinearGradient(
@@ -207,9 +184,6 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                   const Color(0xff4E4D4D).withOpacity(0),
                 ],
               )),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 31.0, top: 0.04.height),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -239,29 +213,10 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                     style: bodySmall,
                   ),
                   0.01.hspace,
-                  InkWell(
-                    onTap: () {
-                      Clipboard.setData(
-                          ClipboardData(text: model.publicKeyHash));
-                      Get.snackbar(
-                        "Info",
-                        "Copied to clipboard",
-                        shouldIconPulse: true,
-                        snackPosition: SnackPosition.BOTTOM,
-                        // icon: const Icon(Icons.copy),
-                        maxWidth: 0.9.width,
-                        // ignore: prefer_const_constructors
-                        margin: EdgeInsets.only(
-                          bottom: 20,
-                        ),
-                        duration: const Duration(milliseconds: 750),
-                      );
-                    },
-                    child: const Icon(
-                      Icons.copy,
-                      size: 11,
-                      color: Colors.white,
-                    ),
+                  const Icon(
+                    Icons.copy,
+                    size: 11,
+                    color: Colors.white,
                   ),
                 ],
               ),

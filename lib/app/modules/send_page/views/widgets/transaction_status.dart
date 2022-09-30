@@ -51,7 +51,7 @@ SnackbarController transactionStatusSnackbar({
         status.lottiePath,
         frameRate: FrameRate(60),
         fit: BoxFit.cover,
-        repeat: true,
+        repeat: status == TransactionStatus.pending ? true : false,
         height: 40.sp,
         width: 40.sp,
       ),
