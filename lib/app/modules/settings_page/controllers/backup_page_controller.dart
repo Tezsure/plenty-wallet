@@ -5,10 +5,13 @@ class BackupPageController extends GetxController {
   RxList<AccountModel> accounts = List.generate(
       20,
       (index) => AccountModel(
-          isNaanAccount: true,
-          name: "NAME $index",
-          secretKey: "dlkjhevhfklndbhvhcusj",
-          publicKey: "nxkjfbhedvzbv",
-          derivationPathIndex: 478382,
-          seedPhrase: "j h w g y f c u s b j k v d v")).obs;
+            isNaanAccount: true,
+            name: "NAME $index",
+            derivationPathIndex: 478382,
+          )..accountSecretModel = AccountSecretModel(
+              secretKey: "dlkjhevhfklndbhvhcusj",
+              publicKey: "nxkjfbhedvzbv",
+              seedPhrase: "j h w g y f c u s b j k v d v",
+              derivationPathIndex: 478382,
+            )).obs;
 }

@@ -29,8 +29,12 @@ class SplashPageController extends GetxController {
         ],
       );
     } else {
-      Future.delayed(const Duration(seconds: 3),
-          () => Get.offAndToNamed(Routes.ONBOARDING_PAGE));
+      Future.delayed(
+        const Duration(seconds: 3),
+        () => Get.offAndToNamed(
+          Routes.ONBOARDING_PAGE,
+        ),
+      );
     }
   }
 }

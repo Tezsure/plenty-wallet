@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
@@ -62,12 +63,19 @@ class ImportWalletPageController extends GetxController {
   Future<void> redirectBasedOnImportWalletType() async {
     if (importWalletDataType == ImportWalletDataType.privateKey ||
         importWalletDataType == ImportWalletDataType.watchAddress) {
+      var isPassCodeSet = await AuthService().getIsPassCodeSet();
+      var previousRoute = Get.previousRoute;
+
       Get.toNamed(
-        Routes.PASSCODE_PAGE,
-        arguments: [
-          false,
-          Routes.BIOMETRIC_PAGE,
-        ],
+        isPassCodeSet ? Routes.CREATE_PROFILE_PAGE : Routes.PASSCODE_PAGE,
+        arguments: isPassCodeSet
+            ? [
+                previousRoute,
+              ]
+            : [
+                false,
+                Routes.BIOMETRIC_PAGE,
+              ],
       );
     } else if (importWalletDataType == ImportWalletDataType.mnemonic) {
       var accountLength = (await UserStorageService().getAllAccount()).length;
@@ -78,12 +86,18 @@ class ImportWalletPageController extends GetxController {
       }
       selectedAccounts.value = selectedAccounts.value;
       Get.back();
+      var isPassCodeSet = await AuthService().getIsPassCodeSet();
+      var previousRoute = Get.previousRoute;
       Get.toNamed(
-        Routes.PASSCODE_PAGE,
-        arguments: [
-          false,
-          Routes.BIOMETRIC_PAGE,
-        ],
+        isPassCodeSet ? Routes.CREATE_PROFILE_PAGE : Routes.PASSCODE_PAGE,
+        arguments: isPassCodeSet
+            ? [
+                previousRoute,
+              ]
+            : [
+                false,
+                Routes.BIOMETRIC_PAGE,
+              ],
       );
     }
   }

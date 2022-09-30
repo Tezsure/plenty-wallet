@@ -8,9 +8,11 @@ import 'package:naan_wallet/app/data/services/data_handler_service/helpers/on_go
 import 'package:naan_wallet/app/data/services/operation_service/operation_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/operation_model.dart';
+import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
@@ -111,16 +113,21 @@ class TransactionBottomSheet extends StatelessWidget {
             title: 'Hold to Send',
             width: 0.85.width,
             isLoading: isLoading,
-            onPressed: () async {
+            onLongPressed: () async {
               if (isLoading.value) {
                 return;
               }
               isLoading.value = true;
+
+              AccountSecretModel? accountSecretModel =
+                  await UserStorageService().readAccountSecrets(
+                      controller.senderAccountModel!.publicKeyHash!);
+
               // submit Tx
               KeyStoreModel keyStoreModel = KeyStoreModel(
                 publicKeyHash: controller.senderAccountModel!.publicKeyHash!,
-                secretKey: controller.senderAccountModel!.secretKey,
-                publicKey: controller.senderAccountModel!.publicKey,
+                secretKey: accountSecretModel!.secretKey,
+                publicKey: accountSecretModel.publicKey,
               );
               OperationModel operationModel;
 
@@ -131,14 +138,6 @@ class TransactionBottomSheet extends StatelessWidget {
               } else {
                 operationModel = OperationModel<AccountTokenModel>();
               }
-
-              // operationModel
-              //     .counter = int.parse((await HttpService.performGetRequest(
-              //         ServiceConfig.currentSelectedNode,
-              //         endpoint:
-              //             "chains/main/blocks/head/context/contracts/${keyStoreModel.publicKeyHash}/counter"))
-              //     .trim()
-              //     .replaceAll('"', ""));
 
               operationModel.amount = !controller.isNFTPage.value
                   ? double.parse(controller.amountController.text)

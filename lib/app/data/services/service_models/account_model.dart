@@ -4,13 +4,9 @@ import 'dart:convert';
 
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 
-// TODO: Create seprate model for storing secrets
 class AccountModel {
   String? name;
-  String? seedPhrase;
   int? derivationPathIndex;
-  String? publicKey;
-  String? secretKey;
   String? publicKeyHash;
   AccountProfileImageType? imageType;
   String? profileImage;
@@ -18,13 +14,11 @@ class AccountModel {
   String? tezosDomainName = "";
   bool? isWatchOnly = false;
   AccountDataModel? accountDataModel;
+  AccountSecretModel? accountSecretModel;
 
   AccountModel({
     this.name,
-    this.seedPhrase,
     this.derivationPathIndex,
-    this.publicKey,
-    this.secretKey,
     this.publicKeyHash,
     this.imageType,
     this.profileImage,
@@ -38,10 +32,7 @@ class AccountModel {
 
   AccountModel copyWith(
       {String? name,
-      String? seedPhrase,
       int? derivationPathIndex,
-      String? publicKey,
-      String? secretKey,
       String? publicKeyHash,
       AccountProfileImageType? imageType,
       String? profileImage,
@@ -51,10 +42,7 @@ class AccountModel {
       AccountDataModel? accountDataModel}) {
     return AccountModel(
       name: name ?? this.name,
-      seedPhrase: seedPhrase ?? this.seedPhrase,
       derivationPathIndex: derivationPathIndex ?? this.derivationPathIndex,
-      publicKey: publicKey ?? this.publicKey,
-      secretKey: secretKey ?? this.secretKey,
       publicKeyHash: publicKeyHash ?? this.publicKeyHash,
       imageType: imageType ?? this.imageType,
       profileImage: profileImage ?? this.profileImage,
@@ -68,10 +56,7 @@ class AccountModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
-      'seedPhrase': seedPhrase,
       'derivationPathIndex': derivationPathIndex,
-      'publicKey': publicKey,
-      'secretKey': secretKey,
       'publicKeyHash': publicKeyHash,
       'imageType': imageType?.name,
       'profileImage': profileImage,
@@ -85,13 +70,9 @@ class AccountModel {
   factory AccountModel.fromMap(Map<String, dynamic> map) {
     return AccountModel(
       name: map['name'] != null ? map['name'] as String : null,
-      seedPhrase:
-          map['seedPhrase'] != null ? map['seedPhrase'] as String : null,
       derivationPathIndex: map['derivationPathIndex'] != null
           ? map['derivationPathIndex'] as int
           : null,
-      publicKey: map['publicKey'] != null ? map['publicKey'] as String : null,
-      secretKey: map['secretKey'] != null ? map['secretKey'] as String : null,
       publicKeyHash:
           map['publicKeyHash'] != null ? map['publicKeyHash'] as String : null,
       imageType: map['imageType'] != null
@@ -106,7 +87,9 @@ class AccountModel {
           ? map['tezosDomainName'] as String
           : null,
       isWatchOnly: map['isWatchOnly'] ?? false,
-      accountDataModel: AccountDataModel.fromJson(map['accountDataModel']),
+      accountDataModel: map['accountDataModel'] != null
+          ? AccountDataModel.fromJson(map['accountDataModel'])
+          : null,
     );
   }
 
@@ -117,7 +100,7 @@ class AccountModel {
 
   @override
   String toString() {
-    return 'AccountModel(name: $name, seedPhrase: $seedPhrase, derivationPathIndex: $derivationPathIndex, publicKey: $publicKey, secretKey: $secretKey, publicKeyHash: $publicKeyHash, imageType: $imageType, profileImage: $profileImage, isNaanAccount: $isNaanAccount, tezosDomainName: $tezosDomainName, isWatchOnly: $isWatchOnly, accountDataModel: $accountDataModel)';
+    return 'AccountModel(name: $name, derivationPathIndex: $derivationPathIndex, publicKeyHash: $publicKeyHash, imageType: $imageType, profileImage: $profileImage, isNaanAccount: $isNaanAccount, tezosDomainName: $tezosDomainName, isWatchOnly: $isWatchOnly, accountDataModel: $accountDataModel)';
   }
 
   @override
@@ -125,10 +108,7 @@ class AccountModel {
     if (identical(this, other)) return true;
 
     return other.name == name &&
-        other.seedPhrase == seedPhrase &&
         other.derivationPathIndex == derivationPathIndex &&
-        other.publicKey == publicKey &&
-        other.secretKey == secretKey &&
         other.publicKeyHash == publicKeyHash &&
         other.imageType == imageType &&
         other.profileImage == profileImage &&
@@ -141,10 +121,7 @@ class AccountModel {
   @override
   int get hashCode {
     return name.hashCode ^
-        seedPhrase.hashCode ^
         derivationPathIndex.hashCode ^
-        publicKey.hashCode ^
-        secretKey.hashCode ^
         publicKeyHash.hashCode ^
         imageType.hashCode ^
         profileImage.hashCode ^
@@ -171,7 +148,7 @@ class AccountDataModel {
   }) {
     return AccountDataModel(
       xtzBalance: xtzBalance ?? this.xtzBalance,
-      totalBalance: tokenXtzBalance ?? this.totalBalance,
+      totalBalance: tokenXtzBalance ?? totalBalance,
     );
   }
 
@@ -208,4 +185,85 @@ class AccountDataModel {
 
   @override
   int get hashCode => xtzBalance.hashCode ^ totalBalance.hashCode;
+}
+
+class AccountSecretModel {
+  String? seedPhrase;
+  int? derivationPathIndex;
+  String? publicKey;
+  String? secretKey;
+  String? publicKeyHash;
+  AccountSecretModel({
+    this.seedPhrase,
+    this.derivationPathIndex,
+    this.publicKey,
+    this.secretKey,
+    this.publicKeyHash,
+  });
+
+  AccountSecretModel copyWith({
+    String? seedPhrase,
+    int? derivationPathIndex,
+    String? publicKey,
+    String? secretKey,
+    String? publicKeyHash,
+  }) {
+    return AccountSecretModel(
+      seedPhrase: seedPhrase ?? this.seedPhrase,
+      derivationPathIndex: derivationPathIndex ?? this.derivationPathIndex,
+      publicKey: publicKey ?? this.publicKey,
+      secretKey: secretKey ?? this.secretKey,
+      publicKeyHash: publicKeyHash ?? this.publicKeyHash,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'seedPhrase': seedPhrase,
+      'derivationPathIndex': derivationPathIndex,
+      'publicKey': publicKey,
+      'secretKey': secretKey,
+      'publicKeyHash': publicKeyHash,
+    };
+  }
+
+  factory AccountSecretModel.fromMap(Map<String, dynamic> map) {
+    return AccountSecretModel(
+      seedPhrase: map['seedPhrase'] != null ? map['seedPhrase'] as String : null,
+      derivationPathIndex: map['derivationPathIndex'] != null ? map['derivationPathIndex'] as int : null,
+      publicKey: map['publicKey'] != null ? map['publicKey'] as String : null,
+      secretKey: map['secretKey'] != null ? map['secretKey'] as String : null,
+      publicKeyHash: map['publicKeyHash'] != null ? map['publicKeyHash'] as String : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() => toMap();
+
+  factory AccountSecretModel.fromJson(Map<String, dynamic> source) => AccountSecretModel.fromMap(source);
+
+  @override
+  String toString() {
+    return 'AccountSecretModel(seedPhrase: $seedPhrase, derivationPathIndex: $derivationPathIndex, publicKey: $publicKey, secretKey: $secretKey, publicKeyHash: $publicKeyHash)';
+  }
+
+  @override
+  bool operator ==(covariant AccountSecretModel other) {
+    if (identical(this, other)) return true;
+  
+    return 
+      other.seedPhrase == seedPhrase &&
+      other.derivationPathIndex == derivationPathIndex &&
+      other.publicKey == publicKey &&
+      other.secretKey == secretKey &&
+      other.publicKeyHash == publicKeyHash;
+  }
+
+  @override
+  int get hashCode {
+    return seedPhrase.hashCode ^
+      derivationPathIndex.hashCode ^
+      publicKey.hashCode ^
+      secretKey.hashCode ^
+      publicKeyHash.hashCode;
+  }
 }

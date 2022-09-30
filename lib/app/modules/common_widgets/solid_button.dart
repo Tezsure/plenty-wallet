@@ -3,9 +3,11 @@ import 'package:get/state_manager.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+// ignore: must_be_immutable
 class SolidButton extends StatelessWidget {
   final String title;
   final GestureTapCallback? onPressed;
+  final GestureLongPressCallback? onLongPressed;
   final Color? textColor;
   final double? height;
   final double? width;
@@ -23,6 +25,7 @@ class SolidButton extends StatelessWidget {
     Key? key,
     this.title = "",
     this.onPressed,
+    this.onLongPressed,
     this.textColor,
     this.height,
     this.width,
@@ -46,6 +49,7 @@ class SolidButton extends StatelessWidget {
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       padding: EdgeInsets.zero,
       onPressed: active ? onPressed : null,
+      onLongPress: onLongPressed,
       disabledColor: disabledButtonColor ??
           ColorConst.NeutralVariant.shade60.withOpacity(0.2),
       color: primaryColor ?? ColorConst.Primary,

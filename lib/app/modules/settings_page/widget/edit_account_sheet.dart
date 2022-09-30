@@ -79,7 +79,7 @@ class EditAccountBottomSheet extends StatelessWidget {
           ),
           0.02.vspace,
           Text(
-            manageAccountPageController.accounts[accountIndex].publicKey ??
+            manageAccountPageController.accounts[accountIndex].accountSecretModel!.publicKey ??
                 "public key",
             style: bodyLarge,
           ),
