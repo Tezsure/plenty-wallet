@@ -28,6 +28,7 @@ dependencies:
   path_provider: ^2.0.11
   http: ^0.13.5
   simple_gql: ^1.2.0
+  url_launcher: ^6.1.6
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,9 @@ flutter:
     - assets/contact_page/svg/
     #profile images
     - assets/profile_images/
+    
+    #node selector
+    - rpc_node/rpc_node.json
 
   uses-material-design: true
 

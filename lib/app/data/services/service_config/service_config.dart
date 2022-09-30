@@ -13,6 +13,9 @@ class ServiceConfig {
   static String coingeckoApi =
       "https://api.coingecko.com/api/v3/simple/price?ids=tezos&vs_currencies=usd";
 
+  /// Rpc Node Selector
+  static String nodeSelector = "rpc_node/rpc_node.json";
+
   static String tzktApiForToken(String pkh) =>
       "https://api.tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true";
 

@@ -1,5 +1,4 @@
 import 'package:dartez/dartez.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/operation_model.dart';
 
 class OperationService {

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+
+import '../../../data/services/service_config/service_config.dart';
 
 class ResetWalletBottomSheet extends StatelessWidget {
   const ResetWalletBottomSheet({Key? key}) : super(key: key);
@@ -38,7 +41,10 @@ class ResetWalletBottomSheet extends StatelessWidget {
                     "Reset Wallet",
                     style: labelMedium.apply(color: ColorConst.Error.shade60),
                   ),
-                  onTap: () {}),
+                  onTap: () async {
+                    await ServiceConfig().clearStorage();
+                    Get.offAllNamed(Routes.SPLASH_PAGE);
+                  }),
               const Divider(
                 color: Color(0xff4a454e),
                 height: 1,

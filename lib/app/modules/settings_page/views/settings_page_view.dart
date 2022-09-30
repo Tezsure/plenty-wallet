@@ -14,9 +14,11 @@ import 'package:naan_wallet/app/modules/settings_page/widget/reset_wallet_sheet.
 import 'package:naan_wallet/app/modules/settings_page/widget/select_network_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/select_node_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../data/services/enums/enums.dart';
 import '../../home_page/controllers/home_page_controller.dart';
@@ -95,21 +97,29 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         title: "Social",
                         settings: [
                           settingOption(
+                            onTap: () => Share.share(
+                                "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. https://naanwallet.com"),
                             title: "Share Naan",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
                           ),
                           settingOption(
+                            onTap: (() => CommonFunctions.launchURL(
+                                "https://twitter.com/Naanwallet")),
                             title: "Follow us on Twitter",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
                           ),
                           settingOption(
+                            onTap: () => CommonFunctions.launchURL(
+                                "https://discord.gg/wpcNRsBbxy"),
                             title: "Join our Discord",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
                           ),
                           settingOption(
+                            onTap: () => CommonFunctions.launchURL(
+                                "mailto:naan-support@tezsure.com"),
                             title: "Feedback & Support",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
@@ -121,11 +131,15 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         title: "About",
                         settings: [
                           settingOption(
+                            onTap: () => CommonFunctions.launchURL(
+                                "https://www.naanwallet.com/privacy-policy.html"),
                             title: "Privacy Policy",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}privacy.svg",
                           ),
                           settingOption(
+                            onTap: () => CommonFunctions.launchURL(
+                                "https://www.naanwallet.com/terms.html"),
                             title: "Terms & Condition",
                             svgPath: "${PathConst.SETTINGS_PAGE.SVG}terms.svg",
                           ),
@@ -174,13 +188,12 @@ class SettingsPageView extends GetView<SettingsPageController> {
                               },
                               trailing: Row(
                                 children: [
-                                  Obx(
-                                    () => Text(
-                                      controller.selectedNode.value.title,
-                                      style: labelSmall.apply(
-                                          color: ColorConst
-                                              .NeutralVariant.shade60),
-                                    ),
+                                  Text(
+                                    controller.selectedNode.value.name ??
+                                        "Mainnet",
+                                    style: labelSmall.apply(
+                                        color:
+                                            ColorConst.NeutralVariant.shade60),
                                   ),
                                   Icon(
                                     Icons.chevron_right_rounded,

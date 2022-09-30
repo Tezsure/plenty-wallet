@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,20 +7,19 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
-import 'package:naan_wallet/app/modules/settings_page/models/node_model.dart';
 
 import '../../../data/services/enums/enums.dart';
 import '../../../data/services/service_config/service_config.dart';
 import '../../../data/services/service_models/account_model.dart';
+import '../../../data/services/service_models/rpc_node_model.dart';
 import '../../../data/services/user_storage_service/user_storage_service.dart';
 import '../../home_page/controllers/home_page_controller.dart';
 
 class SettingsPageController extends GetxController {
   final homePageController = Get.find<HomePageController>();
+  late Rx<NodeSelectorModel> nodeModel = NodeSelectorModel().obs;
+  Rx<NodeModel> selectedNode = NodeModel().obs;
   Rx<NetworkType> networkType = NetworkType.mainNet.obs;
-  RxList<NodeModel> nodes = <NodeModel>[].obs;
-  Rx<NodeModel> selectedNode =
-      NodeModel(title: "title1", address: "address1").obs;
   RxList<DappModel> dapps = List.generate(
       4,
       (index) => DappModel(
@@ -57,8 +57,17 @@ class SettingsPageController extends GetxController {
     }
   }
 
+  Future<void> changeNodeSelector() async {
+    String nodeSelector =
+        await rootBundle.loadString(ServiceConfig.nodeSelector);
+    // await HttpService.performGetRequest(ServiceConfig.nodeSelector); // Uncomment to parse remote json url
+    Map<String, dynamic> json = jsonDecode(nodeSelector);
+    nodeModel.value = NodeSelectorModel.fromJson(json);
+  }
+
   @override
   void onInit() async {
+    changeNodeSelector();
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
     fingerprint.value = await AuthService().getBiometricAuth();
     super.onInit();
@@ -169,13 +178,6 @@ class SettingsPageController extends GetxController {
 
   void switchFingerprint(bool value) => fingerprint.value = value;
   void switchbackup() => backup.value = !backup.value;
-
-  SettingsPageController() {
-    nodes.value = List.generate(5,
-        (index) => NodeModel(title: "title$index", address: "address$index"));
-
-    selectedNode.value = nodes[0];
-  }
 
   Future<void> paste(String? value) async {
     if (value != null) {
