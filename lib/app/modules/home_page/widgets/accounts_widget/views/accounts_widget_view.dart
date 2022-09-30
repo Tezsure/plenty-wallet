@@ -19,7 +19,7 @@ import 'widget/add_account_widget.dart';
 
 // ignore: must_be_immutable
 class AccountsWidget extends GetView<AccountsWidgetController> {
-  AccountsWidget({Key? key}) : super(key: key);
+  AccountsWidget({super.key});
 
   HomePageController homePageController = Get.find<HomePageController>();
 
@@ -46,7 +46,13 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
             0.013.vspace,
             Obx(
               () => homePageController.userAccounts.isEmpty
-                  ? const AddAccountWidget()
+                  ? Padding(
+                      padding: EdgeInsets.only(
+                          right: homePageController.userAccounts.isEmpty
+                              ? 0.04.width
+                              : 0),
+                      child: const AddAccountWidget(),
+                    )
                   : SizedBox(
                       width: 1.width,
                       height: 0.28.height,
