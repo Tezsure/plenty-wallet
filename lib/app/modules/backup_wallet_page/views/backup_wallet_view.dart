@@ -77,7 +77,7 @@ class BackupWalletView extends GetView<BackupWalletController> {
                 GridView.builder(
                     shrinkWrap: true,
                     primary: false,
-                    itemCount: MockData.secretPhrase.length,
+                    itemCount: controller.seedPhrase.length,
                     padding: const EdgeInsets.symmetric(horizontal: 57),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -89,13 +89,13 @@ class BackupWalletView extends GetView<BackupWalletController> {
                     itemBuilder: (_, index) {
                       return PhraseContainer(
                         index: index,
-                        phrase: MockData.secretPhrase[index],
+                        phrase: controller.seedPhrase[index],
                       );
                     }),
                 Padding(
                   padding: EdgeInsets.only(bottom: 0, top: 0.04.height),
                   child: SolidButton(
-                    onPressed: () => Get.toNamed(Routes.VERIFY_PHRASE_PAGE),
+                    onPressed: () => Get.toNamed(Routes.VERIFY_PHRASE_PAGE,arguments: controller.seedPhrase.join(" ")),
                     width: 0.7.width,
                     rowWidget: Icon(
                       Icons.check_circle_outline,

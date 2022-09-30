@@ -72,7 +72,14 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                           SolidButton(
                             title: "Create new wallet",
                             onPressed: () {
-                              Get.toNamed(Routes.PASSCODE_PAGE);
+                              // arguments true is define for setting a new passcode for wallet
+                              Get.toNamed(
+                                Routes.PASSCODE_PAGE,
+                                arguments: [
+                                  false,
+                                  Routes.BIOMETRIC_PAGE,
+                                ],
+                              );
                             },
                           ),
                           0.0125.vspace,

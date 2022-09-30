@@ -1,9 +1,13 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/create_profile_service/create_profile_service.dart';
+import 'package:naan_wallet/app/data/services/enums/enums.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
@@ -18,6 +22,8 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
   const CreateProfilePageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    var args = ModalRoute.of(context)!.settings.arguments as List;
+    controller.previousRoute = args[0] as String;
     return Container(
       decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
       width: 1.width,
@@ -31,30 +37,47 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
             child: Text("Create Profile", style: titleLarge),
           ),
           0.05.vspace,
-          Container(
-            height: 0.3.width,
-            width: 0.3.width,
-            alignment: Alignment.bottomRight,
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(0.15.width),
-            ),
-            child: GestureDetector(
-              onTap: () {
-                Get.bottomSheet(changePhotoBottomSheet());
-              },
-              child: CircleAvatar(
-                radius: 0.046.width,
-                backgroundColor: Colors.white,
-                child: SvgPicture.asset(
-                  "${PathConst.SVG}add_photo.svg",
-                  fit: BoxFit.scaleDown,
+          Obx(
+            () => Container(
+              height: 0.3.width,
+              width: 0.3.width,
+              alignment: Alignment.bottomRight,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: controller.currentSelectedType ==
+                          AccountProfileImageType.assets
+                      ? AssetImage(controller.selectedImagePath.value)
+                      : FileImage(
+                          File(
+                            controller.selectedImagePath.value,
+                          ),
+                        ) as ImageProvider,
+                ),
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  Get.bottomSheet(changePhotoBottomSheet());
+                },
+                child: CircleAvatar(
+                  radius: 0.046.width,
+                  backgroundColor: Colors.white,
+                  child: SvgPicture.asset(
+                    "${PathConst.SVG}add_photo.svg",
+                    fit: BoxFit.scaleDown,
+                  ),
                 ),
               ),
             ),
           ),
           0.05.vspace,
-          const NaanTextfield(hint: "Account Name"),
+          NaanTextfield(
+            hint: "Account Name",
+            controller: controller.accountNameController,
+            onTextChange: (String value) => controller.isContiuneButtonEnable
+                .value = value.length > 2 && value.length < 20,
+          ),
           0.02.vspace,
           Align(
             alignment: Alignment.centerLeft,
@@ -73,31 +96,76 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
               mainAxisSpacing: 0.06.width,
               crossAxisSpacing: 0.06.width,
               children: List.generate(
-                11,
-                (index) => CircleAvatar(
-                  radius: 0.075.width,
+                ServiceConfig.allAssetsProfileImages.length,
+                (index) => GestureDetector(
+                  onTap: () {
+                    controller.currentSelectedType =
+                        AccountProfileImageType.assets;
+                    controller.selectedImagePath.value =
+                        ServiceConfig.allAssetsProfileImages[index];
+                  },
+                  child: CircleAvatar(
+                    radius: 0.08.width,
+                    child: Image.asset(
+                      ServiceConfig.allAssetsProfileImages[index],
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-          SolidButton(
-            onPressed: () {
-              Get.toNamed(Routes.HOME_PAGE, arguments: [true]);
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.check_circle_outline_outlined,
-                  color: ColorConst.Primary.shade95,
-                  size: 20,
-                ),
-                0.02.hspace,
-                Text(
-                  "Start using Naan wallet",
-                  style: titleSmall.apply(color: ColorConst.Primary.shade95),
-                ),
-              ],
+          Obx(
+            () => SolidButton(
+              active: controller.isContiuneButtonEnable.value,
+              onPressed: () {
+                if (controller.previousRoute == Routes.CREATE_WALLET_PAGE ||
+                    controller.previousRoute == Routes.IMPORT_WALLET_PAGE) {
+                  Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                    'assets/create_wallet/lottie/wallet_success.json',
+                    controller.previousRoute,
+                    Routes.HOME_PAGE,
+                  ]);
+                } else if (controller.previousRoute == Routes.HOME_PAGE) {
+                  Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                    'assets/create_wallet/lottie/wallet_success.json',
+                    Routes.IMPORT_WALLET_PAGE,
+                    null,
+                  ]);
+                }
+                // controller.startUsingNaanwallet()
+                // Get.toNamed(Routes.HOME_PAGE, arguments: [true]);
+              },
+              inActiveChild: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.check_circle_outline_outlined,
+                    color: ColorConst.Primary.shade95,
+                    size: 20,
+                  ),
+                  0.02.hspace,
+                  Text(
+                    "Start using Naan wallet",
+                    style: titleSmall.apply(color: ColorConst.Primary.shade95),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.check_circle_outline_outlined,
+                    color: ColorConst.Primary.shade95,
+                    size: 20,
+                  ),
+                  0.02.hspace,
+                  Text(
+                    "Start using Naan wallet",
+                    style: titleSmall.apply(color: ColorConst.Primary.shade95),
+                  ),
+                ],
+              ),
             ),
           ),
           0.05.vspace
@@ -157,7 +225,16 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      var imagePath = await CreateProfileService()
+                          .pickANewImageFromGallery();
+                      if (imagePath.isNotEmpty) {
+                        controller.currentSelectedType =
+                            AccountProfileImageType.file;
+                        controller.selectedImagePath.value = imagePath;
+                        Get.back();
+                      }
+                    },
                     child: Container(
                       width: double.infinity,
                       height: 51,
@@ -174,7 +251,15 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     thickness: 1,
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      var imagePath = await CreateProfileService().takeAPhoto();
+                      if (imagePath.isNotEmpty) {
+                        controller.currentSelectedType =
+                            AccountProfileImageType.file;
+                        controller.selectedImagePath.value = imagePath;
+                        Get.back();
+                      }
+                    },
                     child: Container(
                       width: double.infinity,
                       height: 51,
@@ -191,7 +276,13 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     thickness: 1,
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      controller.currentSelectedType =
+                          AccountProfileImageType.assets;
+                      controller.selectedImagePath.value =
+                          ServiceConfig.allAssetsProfileImages[0];
+                      Get.back();
+                    },
                     child: Container(
                       width: double.infinity,
                       height: 51,

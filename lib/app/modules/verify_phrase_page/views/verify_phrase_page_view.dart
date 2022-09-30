@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -111,11 +110,9 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                         child: InkWell(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(8)),
-                          onTap: () => controller.isPhraseVerified.value
-                              ? Get.offAndToNamed(Routes.HOME_PAGE)
-                              : controller.selectedPhrase.isEmpty
-                                  ? null
-                                  : controller.verifySecretPhrase(),
+                          onTap: () => controller.selectedPhrase.isEmpty
+                              ? null
+                              : controller.verifySecretPhrase(),
                           splashColor: Colors.transparent,
                           child: Container(
                             height: 48,

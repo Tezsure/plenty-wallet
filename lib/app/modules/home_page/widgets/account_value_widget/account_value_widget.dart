@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
+import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+// ignore: must_be_immutable
 class AccountValueWidget extends StatelessWidget {
-  const AccountValueWidget({Key? key}) : super(key: key);
+  AccountValueWidget({Key? key}) : super(key: key);
+
+  HomePageController homePageController = Get.find<HomePageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +48,17 @@ class AccountValueWidget extends StatelessWidget {
             children: [
               SvgPicture.asset("${PathConst.HOME_PAGE.SVG}xtz.svg"),
               0.02.hspace,
-              Text(
-                "1020.00",
-                style: headlineLarge,
+              Obx(
+                () => Text(
+                  homePageController.userAccounts
+                      .fold<double>(
+                          0.0,
+                          (previousValue, element) =>
+                              previousValue +
+                              element.accountDataModel!.totalBalance!)
+                      .toStringAsFixed(6),
+                  style: headlineLarge,
+                ),
               )
             ],
           ),
@@ -51,9 +66,17 @@ class AccountValueWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              actionMethod("Send", "${PathConst.HOME_PAGE.SVG}send.svg"),
+              actionMethod("Send", "${PathConst.HOME_PAGE.SVG}send.svg",
+                  onTap: () => Get.bottomSheet(const SendPage(),
+                      isScrollControlled: true,
+                      settings: RouteSettings(
+                          arguments: homePageController.userAccounts[0]),
+                      barrierColor: Colors.white.withOpacity(0.09))),
               0.09.hspace,
-              actionMethod("Receive", "${PathConst.HOME_PAGE.SVG}receive.svg"),
+              actionMethod("Receive", "${PathConst.HOME_PAGE.SVG}receive.svg",
+                  onTap: () => Get.bottomSheet(const ReceivePageView(),
+                      isScrollControlled: true,
+                      barrierColor: Colors.white.withOpacity(0.09))),
               0.09.hspace,
               actionMethod("Add", "${PathConst.HOME_PAGE.SVG}plus.svg"),
             ],
@@ -64,13 +87,20 @@ class AccountValueWidget extends StatelessWidget {
     );
   }
 
-  Column actionMethod(String title, String svgPath) {
+  Column actionMethod(
+    String title,
+    String svgPath, {
+    GestureTapCallback? onTap,
+  }) {
     return Column(
       children: [
-        CircleAvatar(
-          radius: 0.07.width,
-          backgroundColor: ColorConst.Primary.shade60,
-          child: SvgPicture.asset(svgPath),
+        GestureDetector(
+          onTap: onTap,
+          child: CircleAvatar(
+            radius: 0.07.width,
+            backgroundColor: ColorConst.Primary.shade60,
+            child: SvgPicture.asset(svgPath),
+          ),
         ),
         0.01.vspace,
         Text(

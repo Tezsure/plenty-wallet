@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -18,6 +17,7 @@ class HomePageView extends GetView<HomePageController>
 
   @override
   Widget build(BuildContext context) {
+    controller;
     return Stack(
       children: [
         AnnotatedRegion(
@@ -29,11 +29,12 @@ class HomePageView extends GetView<HomePageController>
                   width: 1.width,
                   color: ColorConst.Primary,
                   child: SafeArea(
+                    bottom: false,
                     child: Stack(
                       children: [
                         Column(
-                          children: const [
-                            HomepageAppBar(),
+                          children: [
+                            const HomepageAppBar(),
                             AccountValueWidget(),
                           ],
                         ),
@@ -89,28 +90,28 @@ class HomePageView extends GetView<HomePageController>
                     ),
                   ))),
         ),
-        Obx(() => Visibility(
-              visible: controller.startAnimation.value,
-              child: Stack(
-                children: [
-                  Container(
-                    height: 1.height,
-                    width: 1.width,
-                    color: Colors.black,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: LottieBuilder.asset(
-                      'assets/create_wallet/lottie/wallet_success.json',
-                      fit: BoxFit.contain,
-                      height: 0.5.height,
-                      width: 0.5.width,
-                      frameRate: FrameRate(60),
-                    ),
-                  ),
-                ],
-              ),
-            ))
+        // Obx(() => Visibility(
+        //       visible: controller.startAnimation.value,
+        //       child: Stack(
+        //         children: [
+        //           Container(
+        //             height: 1.height,
+        //             width: 1.width,
+        //             color: Colors.black,
+        //           ),
+        //           Align(
+        //             alignment: Alignment.center,
+        //             child: LottieBuilder.asset(
+        //               'assets/create_wallet/lottie/wallet_success.json',
+        //               fit: BoxFit.contain,
+        //               height: 0.5.height,
+        //               width: 0.5.width,
+        //               frameRate: FrameRate(60),
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     ))
       ],
     );
   }

@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -15,6 +14,10 @@ class BiometricPageView extends GetView<BiometricPageController> {
   const BiometricPageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    var args = ModalRoute.of(context)!.settings.arguments as List;
+    controller.previousRoute = args[0] as String;
+    controller.nextPageRoute = args[1] as String;
+
     return Container(
       decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
       width: 1.width,
@@ -40,12 +43,14 @@ class BiometricPageView extends GetView<BiometricPageController> {
             const Spacer(),
             SolidButton(
               title: "Enable Biometry Unlock",
-              onPressed: () {},
+              onPressed: () {
+                controller.checkOrWriteNewAndRedirectToNewPage(true);
+              },
             ),
             0.01.vspace,
             GestureDetector(
               onTap: () {
-                Get.toNamed(Routes.CREATE_PROFILE_PAGE);
+                controller.checkOrWriteNewAndRedirectToNewPage(false);
               },
               child: Container(
                 height: 48,

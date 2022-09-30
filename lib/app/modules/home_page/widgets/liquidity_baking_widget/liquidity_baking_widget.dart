@@ -9,14 +9,14 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 import 'widgets/liquidity_baking_slider.dart';
 
-class LiquidityBakingWidget extends GetView<HomePageController> {
-  final bool add = true;
-  final bool activeButton = false;
-  const LiquidityBakingWidget({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class LiquidityBakingWidget extends StatelessWidget {
+  LiquidityBakingWidget({Key? key}) : super(key: key);
+
+  final HomePageController controller = Get.find<HomePageController>();
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => HomePageController());
     return Container(
       width: 0.92.width,
       decoration: BoxDecoration(
@@ -108,9 +108,7 @@ class LiquidityBakingWidget extends GetView<HomePageController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Obx(() => SizedBox(
-                    height: 67,
-                    width: 0.2.width,
+              Obx(() => IntrinsicWidth(
                     child: TextField(
                       keyboardType: TextInputType.number,
                       cursorColor: Colors.black,
@@ -119,7 +117,7 @@ class LiquidityBakingWidget extends GetView<HomePageController> {
                       textAlignVertical: TextAlignVertical.center,
                       style: headlineLarge.apply(color: Colors.black),
                       decoration: InputDecoration(
-                        labelText: controller.isEnabled.value ? '7648' : null,
+                        // labelText: controller.isEnabled.value ? '7648' : null,
                         labelStyle: headlineLarge.copyWith(color: Colors.black),
                         border: InputBorder.none,
                         hintText: !controller.isEnabled.value ? "0.00" : null,
@@ -157,17 +155,19 @@ class LiquidityBakingWidget extends GetView<HomePageController> {
           Padding(
             padding: const EdgeInsets.only(left: 17.0, right: 17, top: 10),
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(
-                    5,
-                    (index) => Text(
-                          "${index > 0 ? index * 25 : index}%",
-                          style: labelLarge.copyWith(
-                              color: (index * 25) < 24
-                                  ? Colors.black
-                                  : ColorConst.Tertiary.shade60,
-                              fontSize: 12),
-                        ))),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(
+                5,
+                (index) => Text(
+                  "${index > 0 ? index * 25 : index}%",
+                  style: labelLarge.copyWith(
+                      color: (index * 25) < 24
+                          ? Colors.black
+                          : ColorConst.Tertiary.shade60,
+                      fontSize: 12),
+                ),
+              ),
+            ),
           ),
           0.02.vspace,
           Obx(() => MaterialButton(

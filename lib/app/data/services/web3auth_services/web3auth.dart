@@ -40,6 +40,7 @@ class Web3Auth {
       try {
         await _socialLogin(socialApp: socialAppName).then((response) {
           print(response);
+          
           Get.offAllNamed(Routes.PASSCODE_PAGE);
         });
       } on UserCancelledException {
