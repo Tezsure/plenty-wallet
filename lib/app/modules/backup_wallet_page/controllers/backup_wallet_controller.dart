@@ -9,8 +9,10 @@ class BackupWalletController extends GetxController {
   //? FUNCTION
   List<String> seedPhrase = <String>[];
 
+  @override
   Future<void> onInit() async {
     seedPhrase = (Get.arguments as String).split(" ");
+    super.onInit();
   }
 
   Future<void> paste() async {

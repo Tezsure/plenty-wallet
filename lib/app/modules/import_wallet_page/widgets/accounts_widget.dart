@@ -14,7 +14,7 @@ class AccountWidget extends StatelessWidget {
   final ImportWalletPageController controller =
       Get.find<ImportWalletPageController>();
 
-  Map<String, double> accountBalances = <String, double>{};
+  final Map<String, double> accountBalances = <String, double>{};
 
   @override
   Widget build(BuildContext context) {

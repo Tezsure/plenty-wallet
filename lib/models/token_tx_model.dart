@@ -60,34 +60,34 @@ class TokenTxModel {
     tokenId = json['token_id'];
     amount = json['amount'];
     counter = json['counter'];
-    token = json['token'] != null ? new Token.fromJson(json['token']) : null;
+    token = json['token'] != null ? Token.fromJson(json['token']) : null;
     alias = json['alias'];
     isSender = json['isSender'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['operationHash'] = this.operationHash;
-    data['tokenName'] = this.tokenName;
-    data['label'] = this.label;
-    data['status'] = this.status;
-    data['indexed_time'] = this.indexedTime;
-    data['network'] = this.network;
-    data['contract'] = this.contract;
-    data['initiator'] = this.initiator;
-    data['hash'] = this.hash;
-    data['timestamp'] = this.timestamp;
-    data['level'] = this.level;
-    data['from'] = this.from;
-    data['to'] = this.to;
-    data['token_id'] = this.tokenId;
-    data['amount'] = this.amount;
-    data['counter'] = this.counter;
-    if (this.token != null) {
-      data['token'] = this.token?.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['operationHash'] = operationHash;
+    data['tokenName'] = tokenName;
+    data['label'] = label;
+    data['status'] = status;
+    data['indexed_time'] = indexedTime;
+    data['network'] = network;
+    data['contract'] = contract;
+    data['initiator'] = initiator;
+    data['hash'] = hash;
+    data['timestamp'] = timestamp;
+    data['level'] = level;
+    data['from'] = from;
+    data['to'] = to;
+    data['token_id'] = tokenId;
+    data['amount'] = amount;
+    data['counter'] = counter;
+    if (token != null) {
+      data['token'] = token?.toJson();
     }
-    data['alias'] = this.alias;
-    data['isSender'] = this.isSender;
+    data['alias'] = alias;
+    data['isSender'] = isSender;
     return data;
   }
 }
@@ -118,13 +118,13 @@ class Token {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['contract'] = this.contract;
-    data['network'] = this.network;
-    data['token_id'] = this.tokenId;
-    data['symbol'] = this.symbol;
-    data['name'] = this.name;
-    data['decimals'] = this.decimals;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['contract'] = contract;
+    data['network'] = network;
+    data['token_id'] = tokenId;
+    data['symbol'] = symbol;
+    data['name'] = name;
+    data['decimals'] = decimals;
     return data;
   }
 }

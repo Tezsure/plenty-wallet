@@ -10,6 +10,7 @@ class AccountTokenModel {
   String contractAddress;
   String tokenId;
   int decimals;
+  double? currentPrice;
   TokenStandardType? tokenStandardType;
   AccountTokenModel({
     this.name,
@@ -21,6 +22,7 @@ class AccountTokenModel {
     required this.tokenId,
     required this.decimals,
     this.tokenStandardType,
+    this.currentPrice,
   });
 
   AccountTokenModel copyWith({
@@ -33,6 +35,7 @@ class AccountTokenModel {
     String? tokenId,
     int? decimals,
     TokenStandardType? tokenStandardType,
+    double? currentPrice,
   }) {
     return AccountTokenModel(
       name: name ?? this.name,
@@ -44,6 +47,7 @@ class AccountTokenModel {
       tokenId: tokenId ?? this.tokenId,
       decimals: decimals ?? this.decimals,
       tokenStandardType: tokenStandardType ?? this.tokenStandardType,
+      currentPrice: currentPrice ?? this.currentPrice,
     );
   }
 
@@ -58,6 +62,7 @@ class AccountTokenModel {
       'tokenId': tokenId,
       'decimals': decimals,
       'tokenStandardType': tokenStandardType?.name,
+      'currentPrice': currentPrice,
     };
   }
 
@@ -77,6 +82,8 @@ class AccountTokenModel {
               .where((element) => element.name == map['tokenStandardType'])
               .toList()[0]
           : null,
+      currentPrice:
+          map['currentPrice'] != null ? map['currentPrice'] as double : null,
     );
   }
 
@@ -102,7 +109,8 @@ class AccountTokenModel {
         other.contractAddress == contractAddress &&
         other.tokenId == tokenId &&
         other.decimals == decimals &&
-        other.tokenStandardType == tokenStandardType;
+        other.tokenStandardType == tokenStandardType &&
+        other.currentPrice == currentPrice;
   }
 
   @override
@@ -115,6 +123,7 @@ class AccountTokenModel {
         contractAddress.hashCode ^
         tokenId.hashCode ^
         decimals.hashCode ^
-        tokenStandardType.hashCode;
+        tokenStandardType.hashCode ^
+        currentPrice.hashCode;
   }
 }

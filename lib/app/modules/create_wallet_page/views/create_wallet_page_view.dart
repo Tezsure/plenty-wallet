@@ -8,6 +8,7 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:web3auth_flutter/enums.dart';
 import '../controllers/create_wallet_page_controller.dart';
 
 class CreateWalletPageView extends GetView<CreateWalletPageController> {
@@ -139,30 +140,22 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CircleAvatar(
-                            radius: 0.07.width,
-                            backgroundColor: Colors.transparent,
-                            child:
-                                SvgPicture.asset("${PathConst.SVG}apple.svg"),
-                          ),
-                          CircleAvatar(
-                            radius: 0.07.width,
-                            backgroundColor: Colors.transparent,
-                            child:
-                                SvgPicture.asset("${PathConst.SVG}google.svg"),
-                          ),
-                          CircleAvatar(
-                            radius: 0.07.width,
-                            backgroundColor: Colors.transparent,
-                            child: SvgPicture.asset(
-                                "${PathConst.SVG}facebook.svg"),
-                          ),
-                          CircleAvatar(
-                            radius: 0.07.width,
-                            backgroundColor: Colors.transparent,
-                            child:
-                                SvgPicture.asset("${PathConst.SVG}twitter.svg"),
-                          ),
+                          SocialLoginButton(
+                              onTap: controller.login(
+                                  socialAppName: Provider.apple),
+                              socialIconPath: "apple.svg"),
+                          SocialLoginButton(
+                              onTap: controller.login(
+                                  socialAppName: Provider.google),
+                              socialIconPath: "google.svg"),
+                          SocialLoginButton(
+                              onTap: controller.login(
+                                  socialAppName: Provider.facebook),
+                              socialIconPath: "facebook.svg"),
+                          SocialLoginButton(
+                              onTap: controller.login(
+                                  socialAppName: Provider.twitter),
+                              socialIconPath: "twitter.svg"),
                         ],
                       ),
                     ),
@@ -187,6 +180,28 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SocialLoginButton extends StatelessWidget {
+  final VoidCallback onTap;
+  final String socialIconPath;
+  const SocialLoginButton({
+    Key? key,
+    required this.onTap,
+    required this.socialIconPath,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: CircleAvatar(
+        radius: 0.07.width,
+        backgroundColor: Colors.transparent,
+        child: SvgPicture.asset("${PathConst.SVG}$socialIconPath"),
       ),
     );
   }
