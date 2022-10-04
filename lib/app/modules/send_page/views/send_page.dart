@@ -148,13 +148,28 @@ class SendPage extends GetView<SendPageController> {
                       ),
                     )),
                 0.02.hspace,
-                Obx(() => controller.suggestedContacts.isEmpty
-                    ? PasteButton(
-                        onTap: controller.paste,
-                      )
-                    : AddContactButton(
-                        contactModel: controller.suggestedContacts.first,
-                      ))
+                Obx(
+                  () => controller.selectedPageIndex.value == 0
+                      ? (controller.suggestedContacts.isEmpty
+                          ? PasteButton(
+                              onTap: controller.paste,
+                            )
+                          : controller.contacts
+                                  .where((p0) =>
+                                      p0.address ==
+                                          controller.searchTextController.value
+                                              .text ||
+                                      p0.name ==
+                                          controller
+                                              .searchTextController.value.text)
+                                  .isEmpty
+                              ? AddContactButton(
+                                  contactModel:
+                                      controller.suggestedContacts.first,
+                                )
+                              : SizedBox())
+                      : SizedBox(),
+                )
               ],
             ),
           ),

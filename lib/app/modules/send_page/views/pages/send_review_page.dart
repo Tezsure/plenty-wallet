@@ -71,6 +71,10 @@ class SendReviewPage extends StatelessWidget {
                     () {
                       var isEnterAmountEnable =
                           controller.amountText.value.isNotEmpty &&
+                              (double.parse(controller.amountText.value != ""
+                                      ? controller.amountText.value
+                                      : "0") >
+                                  0) &&
                               !controller.amountTileError.value &&
                               !controller.amountUsdTileError.value;
                       return SolidButton(

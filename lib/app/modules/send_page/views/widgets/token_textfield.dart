@@ -43,6 +43,7 @@ class TokenSendTextfield extends StatelessWidget {
       cursorColor: Colors.white,
       onChanged: onChanged,
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.zero,
         floatingLabelAlignment: FloatingLabelAlignment.center,
         isDense: true,
         border: InputBorder.none,
