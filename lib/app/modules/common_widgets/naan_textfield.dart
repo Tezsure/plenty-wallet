@@ -8,15 +8,23 @@ class NaanTextfield extends StatelessWidget {
   final TextEditingController? controller;
   var onTextChange;
   final String? hint;
+  final TextStyle? hintTextSyle;
+  final Color? backgroundColor;
 
-  NaanTextfield({Key? key, this.controller, this.hint, this.onTextChange})
+  NaanTextfield(
+      {Key? key,
+      this.controller,
+      this.hint,
+      this.onTextChange,
+      this.backgroundColor,
+      this.hintTextSyle})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(8),
-      color: Colors.white.withOpacity(0.2),
+      color: backgroundColor ?? Colors.white.withOpacity(0.2),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: SizedBox(
@@ -28,7 +36,7 @@ class NaanTextfield extends StatelessWidget {
             style: bodyMedium,
             onChanged: onTextChange,
             decoration: InputDecoration(
-                hintStyle:
+                hintStyle: hintTextSyle ??
                     bodyMedium.apply(color: Colors.white.withOpacity(0.2)),
                 hintText: hint,
                 border: InputBorder.none),

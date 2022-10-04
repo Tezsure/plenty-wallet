@@ -1,30 +1,45 @@
+import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/helpers/on_going_tx_helper.dart';
+import 'package:naan_wallet/app/data/services/operation_service/operation_service.dart';
+import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/operation_model.dart';
+import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'transaction_status.dart';
 
 class TransactionBottomSheet extends StatelessWidget {
-  const TransactionBottomSheet({
-    super.key,
-    required this.showNFTPage,
-  });
+  final SendPageController controller;
+  RxBool isLoading = false.obs;
 
-  final bool showNFTPage;
+  TransactionBottomSheet({
+    super.key,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      blurRadius: showNFTPage ? 50 : 5,
+      blurRadius: controller.isNFTPage.value ? 50 : 5,
       width: 1.width,
-      height: 0.5.height,
+      height: 355.sp,
       title: 'Sending',
       titleAlignment: Alignment.center,
       titleStyle: titleMedium,
@@ -32,19 +47,20 @@ class TransactionBottomSheet extends StatelessWidget {
       bottomSheetWidgets: [
         ListTile(
           title: Text(
-            showNFTPage ? 'Unstable #5' : '\$3.42',
+            controller.isNFTPage.value
+                ? controller.selectedNftModel!.name!
+                : '\$${controller.amountUsdController.text}',
             style: headlineSmall,
           ),
           subtitle: Text(
-            showNFTPage ? 'Unstable dreams' : '1.23 XTZ',
+            controller.isNFTPage.value
+                ? controller.selectedNftModel!.fa!.name!
+                : '${controller.amountController.text} ${controller.selectedTokenModel!.symbol}',
             style: bodyMedium.copyWith(color: ColorConst.Primary.shade70),
           ),
-          trailing: showNFTPage
-              ? Image.asset(
-                  'assets/temp/nft_send.png',
-                  fit: BoxFit.cover,
-                )
-              : SvgPicture.asset('assets/svg/tez.svg'),
+          trailing: controller.isNFTPage.value
+              ? getNftImage(controller.selectedNftModel)
+              : getTokenImage(controller.selectedTokenModel),
         ),
         ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 15),
@@ -65,7 +81,7 @@ class TransactionBottomSheet extends StatelessWidget {
             trailing: SvgPicture.asset('assets/svg/chevron_down.svg')),
         ListTile(
             title: Text(
-              'Bernd.tez',
+              controller.selectedReceiver.value!.name,
               style: headlineSmall,
             ),
             subtitle: SizedBox(
@@ -73,7 +89,7 @@ class TransactionBottomSheet extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    'tz1K...pkDZ',
+                    controller.selectedReceiver.value!.address.tz1Short(),
                     style:
                         bodyMedium.copyWith(color: ColorConst.Primary.shade70),
                   ),
@@ -86,17 +102,89 @@ class TransactionBottomSheet extends StatelessWidget {
                 ],
               ),
             ),
-            trailing: SvgPicture.asset('assets/svg/send.svg')),
+            trailing: Image.asset(
+              controller.selectedReceiver.value!.imagePath,
+              width: 44,
+            )),
         0.02.vspace,
         Align(
           alignment: Alignment.center,
           child: SolidButton(
             title: 'Hold to Send',
-            width: 0.75.width,
-            onPressed: () {
+            width: 0.85.width,
+            isLoading: isLoading,
+            onLongPressed: () async {
+              if (isLoading.value) {
+                return;
+              }
+              isLoading.value = true;
+
+              AccountSecretModel? accountSecretModel =
+                  await UserStorageService().readAccountSecrets(
+                      controller.senderAccountModel!.publicKeyHash!);
+
+              // submit Tx
+              KeyStoreModel keyStoreModel = KeyStoreModel(
+                publicKeyHash: controller.senderAccountModel!.publicKeyHash!,
+                secretKey: accountSecretModel!.secretKey,
+                publicKey: accountSecretModel.publicKey,
+              );
+              OperationModel operationModel;
+
+              String opHash;
+
+              if (controller.isNFTPage.value) {
+                operationModel = OperationModel<NftTokenModel>();
+              } else {
+                operationModel = OperationModel<AccountTokenModel>();
+              }
+
+              operationModel.amount = !controller.isNFTPage.value
+                  ? double.parse(controller.amountController.text)
+                  : 0.0;
+
+              operationModel.keyStoreModel = keyStoreModel;
+
+              operationModel.model = controller.isNFTPage.value
+                  ? controller.selectedNftModel
+                  : controller.selectedTokenModel;
+
+              operationModel.receiverContractAddres =
+                  !controller.isNFTPage.value &&
+                          controller.selectedTokenModel!.name == "Tezos"
+                      ? ""
+                      : controller.isNFTPage.value
+                          ? controller.selectedNftModel!.faContract
+                          : controller.selectedTokenModel!.contractAddress;
+
+              operationModel.receiveAddress =
+                  controller.selectedReceiver.value!.address;
+
+              if (!controller.isNFTPage.value &&
+                  controller.selectedTokenModel!.name == "Tezos") {
+                var opHashData = await OperationService().sendXtzTx(
+                    operationModel, ServiceConfig.currentSelectedNode);
+                opHash = opHashData['operationGroupID']
+                    .toString()
+                    .trim()
+                    .replaceAll('"', "");
+                // print(opHash);
+              } else {
+                operationModel.buildParams();
+                // do preApply from start and inject here
+                operationModel.preAppliedResult = await OperationService()
+                    .preApplyOperation(
+                        operationModel, ServiceConfig.currentSelectedNode);
+                // var opHash =
+                opHash = await OperationService().injectOperation(
+                    operationModel.preAppliedResult!,
+                    ServiceConfig.currentSelectedNode);
+                // print(opHash);
+              }
+
               Get.back();
               Get.bottomSheet(NaanBottomSheet(
-                height: 0.5.height,
+                height: 380.sp,
                 bottomSheetWidgets: [
                   0.04.vspace,
                   Align(
@@ -138,16 +226,43 @@ class TransactionBottomSheet extends StatelessWidget {
                         Get
                           ..back()
                           ..back();
+
+                        DataHandlerService().onGoingTxStatusHelpers.add(
+                            OnGoingTxStatusHelper(
+                                opHash: opHash,
+                                status: TransactionStatus.pending,
+                                transactionAmount: operationModel.amount == 0.0
+                                    ? "1 ${operationModel.model.name}"
+                                    : operationModel.amount!
+                                            .toStringAsFixed(6)
+                                            .removeTrailing0 +
+                                        " " +
+                                        (operationModel.model
+                                                as AccountTokenModel)
+                                            .symbol!,
+                                tezAddress:
+                                    operationModel.receiveAddress!.tz1Short()));
                         transactionStatusSnackbar(
-                            status: TransactionStatus.success,
-                            tezAddress: 'tz1KpKTX1........DZ',
-                            transactionAmount: '1.0');
+                          status: TransactionStatus.pending,
+                          tezAddress: operationModel.receiveAddress!.tz1Short(),
+                          transactionAmount: operationModel.amount == 0.0
+                              ? "1 ${operationModel.model.name}"
+                              : operationModel.amount!
+                                      .toStringAsFixed(6)
+                                      .removeTrailing0 +
+                                  " " +
+                                  (operationModel.model as AccountTokenModel)
+                                      .symbol!,
+                        );
                       }),
                   0.02.vspace,
                   SolidButton(
                     title: 'Share Naan',
                     textColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      Share.share(
+                          "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. https://naanwallet.com");
+                    },
                   ),
                 ],
               ));
@@ -157,4 +272,38 @@ class TransactionBottomSheet extends StatelessWidget {
       ],
     );
   }
+
+  Widget getNftImage(nfTmodel) {
+    return CircleAvatar(
+      radius: 22,
+      foregroundImage: NetworkImage(
+          "https://assets.objkt.media/file/assets-003/${nfTmodel.faContract}/${nfTmodel.tokenId.toString()}/thumb400"),
+    );
+  }
+
+  Widget getTokenImage(tokenModel) => CircleAvatar(
+        radius: 22,
+        backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+        child: tokenModel.iconUrl!.startsWith("assets")
+            ? Image.asset(
+                tokenModel.iconUrl!,
+                fit: BoxFit.cover,
+              )
+            : tokenModel.iconUrl!.endsWith(".svg")
+                ? SvgPicture.network(
+                    tokenModel.iconUrl!,
+                    fit: BoxFit.cover,
+                  )
+                : Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(tokenModel.iconUrl!
+                                  .startsWith("ipfs")
+                              ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
+                              : tokenModel.iconUrl!)),
+                    ),
+                  ),
+      );
 }

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
@@ -19,10 +20,9 @@ class LoadingPageController extends GetxController {
     super.onInit();
     var args = Get.arguments as List<dynamic>;
     fromRoute = args[1] as String;
-    nextRoute = args[2] as String;
+    nextRoute = args[2] as String?;
     startLodingProcess();
   }
-
 
   Future<void> startLodingProcess() async {
     String mnemonic = "";
@@ -37,7 +37,9 @@ class LoadingPageController extends GetxController {
         ),
         Future.delayed(const Duration(seconds: 3))
       ]);
-      mnemonic = (createWalletResult[0] as AccountModel).seedPhrase!;
+      mnemonic = (createWalletResult[0] as AccountModel)
+          .accountSecretModel!
+          .seedPhrase!;
     } else if (fromRoute == Routes.IMPORT_WALLET_PAGE) {
       ImportWalletPageController importWalletPageController =
           Get.find<ImportWalletPageController>();
@@ -61,8 +63,11 @@ class LoadingPageController extends GetxController {
         // mnemonic accounts
         await Future.wait([
           UserStorageService().writeNewAccount(
-              // ignore: invalid_use_of_protected_member
-              importWalletPageController.selectedAccounts.value),
+            // ignore: invalid_use_of_protected_member
+            importWalletPageController.selectedAccounts.value,
+            false,
+            true,
+          ),
           Future.delayed(const Duration(seconds: 3)),
         ]);
       } else {
@@ -83,6 +88,7 @@ class LoadingPageController extends GetxController {
 
     /// once the animation and loadingProcess get finished redirected to next route based on if it's home page or something else
     if (nextRoute == Routes.HOME_PAGE) {
+      // DataHandlerService().forcedUpdateData();
       Get.offAllNamed(
         Routes.HOME_PAGE,
         arguments: mnemonic.isNotEmpty
@@ -94,6 +100,11 @@ class LoadingPageController extends GetxController {
                 false,
               ],
       );
+    } else if (nextRoute == null && fromRoute == Routes.IMPORT_WALLET_PAGE) {
+      // close loading, create profile, import wallet
+      Get.back();
+      Get.back();
+      Get.back();
     } else {
       Get.toNamed(nextRoute!);
     }

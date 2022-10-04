@@ -21,6 +21,11 @@ class AuthService {
         key: ServiceConfig.biometricAuthStorage, value: isEnable ? "1" : "0");
   }
 
+  Future<bool> getIsPassCodeSet() async =>
+      await ServiceConfig.localStorage
+          .read(key: ServiceConfig.passCodeStorage) !=
+      null;
+
   Future<bool> getBiometricAuth() async {
     return (await ServiceConfig.localStorage
             .read(key: ServiceConfig.biometricAuthStorage)) ==

@@ -44,7 +44,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.ONBOARDING_PAGE;
+  static const INITIAL = Routes.SPLASH_PAGE;
 
   static final routes = [
     GetPage(
@@ -99,7 +99,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ACCOUNTS_WIDGET,
-      page: () => const AccountsWidget(),
+      page: () => AccountsWidget(),
       binding: AccountsWidgetBinding(),
     ),
     GetPage(

@@ -34,6 +34,7 @@ SnackbarController transactionStatusSnackbar({
   required TransactionStatus status,
   required String transactionAmount,
   required String tezAddress,
+  Duration duration = const Duration(minutes: 1),
 }) {
   return Get.rawSnackbar(
     backgroundColor: ColorConst.NeutralVariant.shade20,
@@ -55,77 +56,95 @@ SnackbarController transactionStatusSnackbar({
         width: 40.sp,
       ),
     ),
+
     barBlur: 1,
     onTap: (val) {},
     borderRadius: 8,
     maxWidth: 8.width,
     isDismissible: true,
-    margin: const EdgeInsets.only(bottom: 30, left: 15, right: 15),
+    margin: EdgeInsets.only(bottom: 30.sp, left: 15.sp, right: 15.sp),
     messageText: Padding(
-      padding: const EdgeInsets.only(left: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "Sent to $tezAddress",
-            style: labelSmall.copyWith(
-              color: ColorConst.NeutralVariant.shade60,
+      padding: EdgeInsets.only(left: 20.sp),
+      child: SizedBox(
+        height: 0.05.height,
+        child: Stack(
+          fit: StackFit.passthrough,
+          children: [
+            Align(
+                alignment: const Alignment(1, -2),
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 8.sp),
+                  child: MaterialButton(
+                    padding: EdgeInsets.only(left: 90.sp),
+                    height: 2,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    shape: const CircleBorder(),
+                    onPressed: () {},
+                    child: Icon(
+                      Icons.close,
+                      size: 20,
+                      color: ColorConst.NeutralVariant.shade60,
+                    ),
+                  ),
+                )),
+            Padding(
+              padding: EdgeInsets.only(bottom: 8.sp),
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(transactionAmount, style: labelMedium)),
             ),
-          ),
-          const Spacer(),
-          TextButton(
-              style: ButtonStyle(
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  maximumSize:
-                      MaterialStateProperty.all<Size>(const Size(80, 20)),
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.all(0)),
-                  minimumSize:
-                      MaterialStateProperty.all<Size>(const Size(40, 10)),
-                  fixedSize:
-                      MaterialStateProperty.all<Size>(const Size(80, 20)),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35))),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(status.color)),
-              onPressed: () {},
-              child: Center(
-                child: Text(
-                  status.title,
-                  style: labelSmall,
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 2.0, top: 2.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Sent to $tezAddress",
+                      style: labelSmall.copyWith(
+                        color: ColorConst.NeutralVariant.shade60,
+                      ),
+                    ),
+                    const Spacer(),
+                    TextButton(
+                        style: ButtonStyle(
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            maximumSize: MaterialStateProperty.all<Size>(
+                                const Size(80, 20)),
+                            padding: MaterialStateProperty.all<EdgeInsets>(
+                                const EdgeInsets.all(0)),
+                            minimumSize: MaterialStateProperty.all<Size>(
+                                const Size(40, 10)),
+                            fixedSize: MaterialStateProperty.all<Size>(
+                                const Size(80, 20)),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(35))),
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(status.color)),
+                        onPressed: () {},
+                        child: Center(
+                          child: Text(
+                            status.title,
+                            style: labelSmall,
+                          ),
+                        )),
+                  ],
                 ),
-              )),
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
     ),
-    titleText: Padding(
-      padding: const EdgeInsets.only(left: 20.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text("$transactionAmount tez",
-              style: labelMedium.copyWith(height: 0)),
-          IconButton(
-              splashRadius: 15,
-              constraints: BoxConstraints.tight(const Size(20, 20)),
-              iconSize: 20,
-              onPressed: () => Get.back(),
-              padding: const EdgeInsets.only(bottom: 40),
-              icon: const Icon(
-                Icons.close,
-                color: Colors.white,
-                size: 20,
-              ))
-        ],
-      ),
-    ),
+    // titleText: Padding(
+
     shouldIconPulse: false,
     snackStyle: SnackStyle.FLOATING,
-    duration: const Duration(minutes: 1),
+    duration: duration,
     animationDuration: const Duration(seconds: 1),
     snackPosition: SnackPosition.BOTTOM,
   );
