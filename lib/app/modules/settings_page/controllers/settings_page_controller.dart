@@ -16,28 +16,33 @@ import '../../../data/services/user_storage_service/user_storage_service.dart';
 import '../../home_page/controllers/home_page_controller.dart';
 
 class SettingsPageController extends GetxController {
-  final homePageController = Get.find<HomePageController>();
-  late Rx<NodeSelectorModel> nodeModel = NodeSelectorModel().obs;
-  Rx<NodeModel> selectedNode = NodeModel().obs;
-  Rx<NetworkType> networkType = NetworkType.mainNet.obs;
+  final homePageController = Get.find<
+      HomePageController>(); // Home Page controller for accessing user accounts list
+  late Rx<NodeSelectorModel> nodeModel =
+      NodeSelectorModel().obs; // Node selector model
+  Rx<NodeModel> selectedNode = NodeModel().obs; // Node Model
+  Rx<NetworkType> networkType = NetworkType.mainNet.obs; // Network type
   RxList<DappModel> dapps = List.generate(
       4,
       (index) => DappModel(
           imgUrl: "", name: "dapp", networkType: NetworkType.mainNet)).obs;
 
   Rx<ScrollController> scrollcontroller = ScrollController().obs;
-  TextEditingController accountNameController = TextEditingController();
-  AccountProfileImageType currentSelectedType = AccountProfileImageType.assets;
+  TextEditingController accountNameController =
+      TextEditingController(); // Account name controller, to edit user account name
+  AccountProfileImageType currentSelectedType =
+      AccountProfileImageType.assets; // Profile Image type
 
-  RxString selectedImagePath = "".obs;
-  RxBool backup = true.obs;
-  RxBool isScrolling = false.obs;
-  RxBool isRearranging = false.obs;
-  RxBool copyToClipboard = false.obs;
-  RxBool fingerprint = false.obs;
-  RxString enteredPassCode = "".obs;
-  RxBool verifyPassCode = false.obs;
+  RxString selectedImagePath = "".obs; // Selected image path
+  RxBool backup = true.obs; // Wallet Backup status
+  RxBool isScrolling = false.obs; // Scroll status
+  RxBool isRearranging = false.obs; // For Reordering accounts list
+  RxBool copyToClipboard = false.obs; // Copy to clipboard status
+  RxBool fingerprint = false.obs; // Is Biometric enabled
+  RxString enteredPassCode = "".obs; // Entered passcode
+  RxBool verifyPassCode = false.obs; // Verify passcode status
 
+  /// To change the app passcode and verify the passcode if fails, redirects to verify passcode screen otherwise changes the passcode
   void changeAppPasscode(String passCode) async {
     if (verifyPassCode.isTrue) {
       await AuthService()
@@ -57,6 +62,7 @@ class SettingsPageController extends GetxController {
     }
   }
 
+  /// Changes the node selector and parse that node to the node selector model
   Future<void> changeNodeSelector() async {
     String nodeSelector =
         await rootBundle.loadString(ServiceConfig.nodeSelector);
@@ -73,6 +79,7 @@ class SettingsPageController extends GetxController {
     super.onInit();
   }
 
+  /// Change the biometric authentication
   Future<void> changeBiometricAuth(bool value) async {
     await AuthService().setBiometricAuth(value);
     fingerprint.value = value;
@@ -142,6 +149,7 @@ class SettingsPageController extends GetxController {
     _updateUserAccountsValue();
   }
 
+  /// Updates the user account to primary account
   void editPrimaryAccountStatus(int index) {
     homePageController.userAccounts[index].isAccountPrimary =
         !homePageController.userAccounts[index].isAccountPrimary!;
@@ -179,6 +187,7 @@ class SettingsPageController extends GetxController {
   void switchFingerprint(bool value) => fingerprint.value = value;
   void switchbackup() => backup.value = !backup.value;
 
+  /// Paste the copied address to the clipboard
   Future<void> paste(String? value) async {
     if (value != null) {
       await Clipboard.setData(

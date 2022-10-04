@@ -23,6 +23,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../data/services/enums/enums.dart';
 import '../../home_page/controllers/home_page_controller.dart';
 import '../controllers/settings_page_controller.dart';
+import '../widget/change_passcode.dart';
 
 class SettingsPageView extends GetView<SettingsPageController> {
   const SettingsPageView({super.key});
@@ -65,14 +66,14 @@ class SettingsPageView extends GetView<SettingsPageController> {
                       parent: AlwaysScrollableScrollPhysics()),
                   child: Column(
                     children: [
-                      accountOption(),
+                      _accountOption(),
                       SizedBox(height: 0.05.width),
-                      connectedAppsOption(),
+                      _connectedAppsOption(),
                       SizedBox(height: 0.05.width),
-                      settingsSeparator(
+                      _settingsSeparator(
                         title: "Security",
                         settings: [
-                          settingOption(
+                          _settingOption(
                             onTap: () {
                               Get.to(
                                 () => BackupPage(),
@@ -81,43 +82,43 @@ class SettingsPageView extends GetView<SettingsPageController> {
                             title: "Backup",
                             svgPath: "${PathConst.SETTINGS_PAGE.SVG}backup.svg",
                           ),
-                          settingOption(
+                          _settingOption(
                             onTap: () => Get.to(() => const ChangePasscode()),
                             title: "Change passcode",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
                           ),
-                          fingerPrintOption()
+                          _fingerPrintOption()
                         ],
                       ),
                       SizedBox(height: 0.05.width),
-                      backupOption(),
+                      _backupOption(),
                       SizedBox(height: 0.05.width),
-                      settingsSeparator(
+                      _settingsSeparator(
                         title: "Social",
                         settings: [
-                          settingOption(
+                          _settingOption(
                             onTap: () => Share.share(
                                 "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. https://naanwallet.com"),
                             title: "Share Naan",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
                           ),
-                          settingOption(
+                          _settingOption(
                             onTap: (() => CommonFunctions.launchURL(
                                 "https://twitter.com/Naanwallet")),
                             title: "Follow us on Twitter",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
                           ),
-                          settingOption(
+                          _settingOption(
                             onTap: () => CommonFunctions.launchURL(
                                 "https://discord.gg/wpcNRsBbxy"),
                             title: "Join our Discord",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
                           ),
-                          settingOption(
+                          _settingOption(
                             onTap: () => CommonFunctions.launchURL(
                                 "mailto:naan-support@tezsure.com"),
                             title: "Feedback & Support",
@@ -127,17 +128,17 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         ],
                       ),
                       SizedBox(height: 0.05.width),
-                      settingsSeparator(
+                      _settingsSeparator(
                         title: "About",
                         settings: [
-                          settingOption(
+                          _settingOption(
                             onTap: () => CommonFunctions.launchURL(
                                 "https://www.naanwallet.com/privacy-policy.html"),
                             title: "Privacy Policy",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}privacy.svg",
                           ),
-                          settingOption(
+                          _settingOption(
                             onTap: () => CommonFunctions.launchURL(
                                 "https://www.naanwallet.com/terms.html"),
                             title: "Terms & Condition",
@@ -146,10 +147,10 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         ],
                       ),
                       SizedBox(height: 0.05.width),
-                      settingsSeparator(
+                      _settingsSeparator(
                         title: "Others",
                         settings: [
-                          settingOption(
+                          _settingOption(
                             title: "Change Network",
                             svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
                             onTap: () {
@@ -161,8 +162,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                   () => Text(
                                     controller.networkType.value ==
                                             NetworkType.mainNet
-                                        ? "mainnet"
-                                        : "testnet",
+                                        ? "Mainnet"
+                                        : "Testnet",
                                     style: labelSmall.apply(
                                         color:
                                             ColorConst.NeutralVariant.shade60),
@@ -176,7 +177,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                               ],
                             ),
                           ),
-                          settingOption(
+                          _settingOption(
                               title: "Node Selector",
                               svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
                               onTap: () {
@@ -188,13 +189,13 @@ class SettingsPageView extends GetView<SettingsPageController> {
                               },
                               trailing: Row(
                                 children: [
-                                  Text(
-                                    controller.selectedNode.value.name ??
-                                        "Mainnet",
-                                    style: labelSmall.apply(
-                                        color:
-                                            ColorConst.NeutralVariant.shade60),
-                                  ),
+                                  Obx(() => Text(
+                                        controller.selectedNode.value.name ??
+                                            "Default",
+                                        style: labelSmall.apply(
+                                            color: ColorConst
+                                                .NeutralVariant.shade60),
+                                      )),
                                   Icon(
                                     Icons.chevron_right_rounded,
                                     size: 14,
@@ -205,7 +206,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         ],
                       ),
                       SizedBox(height: 0.05.width),
-                      resetOption(),
+                      _resetOption(),
                       SizedBox(height: 0.065.width),
                     ],
                   ),
@@ -218,7 +219,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  Widget settingsSeparator({required List<Widget> settings, required title}) {
+  Widget _settingsSeparator({required List<Widget> settings, required title}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -252,7 +253,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  GestureDetector settingOption({
+  GestureDetector _settingOption({
     required String title,
     required String svgPath,
     GestureTapCallback? onTap,
@@ -282,7 +283,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  Widget fingerPrintOption() {
+  Widget _fingerPrintOption() {
     return SizedBox(
       height: 54,
       child: Row(
@@ -321,7 +322,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  Widget accountOption() {
+  Widget _accountOption() {
     return GestureDetector(
       onTap: () {
         Get.bottomSheet(
@@ -399,7 +400,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  Widget connectedAppsOption() {
+  Widget _connectedAppsOption() {
     return GestureDetector(
       onTap: () {
         Get.bottomSheet(ConnectedDappBottomSheet());
@@ -429,7 +430,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  Widget resetOption() {
+  Widget _resetOption() {
     return GestureDetector(
       onTap: () {
         Get.bottomSheet(const ResetWalletBottomSheet());
@@ -454,7 +455,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  Widget backupOption() {
+  Widget _backupOption() {
     return Obx(
       () => Container(
         decoration: BoxDecoration(
@@ -514,196 +515,4 @@ class SettingsPageView extends GetView<SettingsPageController> {
       ),
     );
   }
-}
-
-class ChangePasscode extends GetView<SettingsPageController> {
-  const ChangePasscode({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-        padding: const EdgeInsets.symmetric(horizontal: 21),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              0.02.vspace,
-              Align(
-                alignment: Alignment.centerLeft,
-                child: backButton(),
-              ),
-              0.05.vspace,
-              Center(
-                child: SizedBox(
-                  height: 0.27.width,
-                  width: 0.27.width,
-                  child: SvgPicture.asset(
-                    "${PathConst.SVG}naan_logo.svg",
-                    fit: BoxFit.fitHeight,
-                  ),
-                ),
-              ),
-              0.05.vspace,
-              Obx(() => Text(
-                    controller.verifyPassCode.value
-                        ? "Set passcode"
-                        : "Enter passcode",
-                    textAlign: TextAlign.center,
-                    style: titleMedium,
-                  )),
-              0.01.vspace,
-              Text(
-                "Protect your wallet by setting a passcode",
-                style:
-                    bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
-              ),
-              0.05.vspace,
-              AppPassCode(onChanged: (value) {
-                if (value.length == 6) {
-                  controller.changeAppPasscode(value);
-                }
-              })
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class AppPassCode extends StatefulWidget {
-  final ValueChanged<String>? onChanged;
-  const AppPassCode({Key? key, this.onChanged}) : super(key: key);
-
-  @override
-  State<AppPassCode> createState() => _AppPassCode();
-}
-
-class _AppPassCode extends State<AppPassCode> {
-  // String passCode = "";
-  final _controller = Get.find<SettingsPageController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 0.45.width,
-          child: Obx(
-            () => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(
-                6,
-                (index) => Container(
-                  height: 22,
-                  width: 22,
-                  decoration: BoxDecoration(
-                    color: _controller.enteredPassCode.value.length - 1 < index
-                        ? Colors.transparent
-                        : Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.white, width: 2),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        0.05.vspace,
-        getKeyBoardWidget(),
-      ],
-    );
-  }
-
-  Widget getKeyBoardWidget() => Container(
-        width: 0.7.width,
-        alignment: Alignment.center,
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          children: [
-            for (var i = 1; i < 4; i++) getButton(i.toString()),
-            for (var i = 4; i < 7; i++) getButton(i.toString()),
-            for (var i = 7; i < 10; i++) getButton(i.toString()),
-            getButton(
-              '',
-              true,
-            ),
-            getButton(
-              '0',
-            ),
-            getButton('', false, Icons.backspace_outlined, () {
-              if (_controller.enteredPassCode.value.isNotEmpty) {
-                _controller.enteredPassCode.value = _controller
-                    .enteredPassCode.value
-                    .substring(0, _controller.enteredPassCode.value.length - 1);
-                if (widget.onChanged != null) {
-                  widget.onChanged!(_controller.enteredPassCode.value);
-                }
-              }
-            })
-          ],
-        ),
-      );
-
-  Widget getButton(String value,
-          [isDisable = false, IconData? iconData, onIconTap]) =>
-      Padding(
-        padding: EdgeInsets.only(
-          left: 0.04.width,
-          right: 0.04.width,
-          bottom: 0.04.width,
-        ),
-        child: Material(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.all(
-            Radius.circular(0.065.width),
-          ),
-          child: InkWell(
-            borderRadius: BorderRadius.all(
-              Radius.circular(0.065.width),
-            ),
-            highlightColor: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
-            splashFactory: NoSplash.splashFactory,
-            onTap: iconData != null
-                ? onIconTap
-                : () {
-                    if (_controller.enteredPassCode.value.length < 6) {
-                      _controller.enteredPassCode.value =
-                          _controller.enteredPassCode.value + value;
-                      if (widget.onChanged != null) {
-                        widget.onChanged!(_controller.enteredPassCode.value);
-                      }
-                    }
-                  },
-            child: Container(
-              width: 0.13.width,
-              height: 0.13.width,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(0.065.width),
-                  ),
-                  color: Colors.transparent),
-              alignment: Alignment.center,
-              child: isDisable
-                  ? Container()
-                  : iconData != null
-                      ? Icon(
-                          iconData,
-                          color: ColorConst.NeutralVariant.shade60,
-                          size: 18.sp,
-                        )
-                      : Text(
-                          value,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0.sp,
-                          ),
-                        ),
-            ),
-          ),
-        ),
-      );
 }

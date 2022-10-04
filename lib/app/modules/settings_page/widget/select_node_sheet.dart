@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/rpc_node_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
@@ -136,11 +137,12 @@ class SelectNodeBottomSheet extends StatelessWidget {
                       state.contains(MaterialState.selected)
                           ? ColorConst.Primary
                           : Colors.white),
-                  value: controller.selectedNode.value != model,
-                  groupValue:
-                      controller.selectedNode.value.name?.contains(model.name!),
+                  value: true,
+                  groupValue: controller.selectedNode.value.name == model.name,
                   onChanged: (val) {
+                    //TODO ! Save the currentSelectedNode to local storage
                     controller.selectedNode.value = model;
+                    ServiceConfig.currentSelectedNode = model.url!;
                   })),
             ],
           ),

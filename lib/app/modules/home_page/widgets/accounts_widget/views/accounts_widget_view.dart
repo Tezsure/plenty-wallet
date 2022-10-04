@@ -28,9 +28,7 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
     Get.lazyPut(() => AccountsWidgetController());
 
     return Padding(
-      padding: EdgeInsets.only(
-        left: 0.04.width,
-      ),
+      padding: EdgeInsets.only(left: 0.04.width),
       child: SizedBox(
         width: 1.width,
         child: Column(
