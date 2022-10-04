@@ -6,18 +6,24 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 class NaanTextfield extends StatelessWidget {
   final TextEditingController? controller;
-  var onTextChange;
+  final Function(String)? onTextChange;
   final String? hint;
   final TextStyle? hintTextSyle;
   final Color? backgroundColor;
+  final Function()? onEditingComplete;
+  final Function(String)? onSubmitted;
+  final FocusNode? focusNode;
 
-  NaanTextfield(
+  const NaanTextfield(
       {Key? key,
+      this.onEditingComplete,
       this.controller,
       this.hint,
       this.onTextChange,
       this.backgroundColor,
-      this.hintTextSyle})
+      this.hintTextSyle,
+      this.onSubmitted,
+      this.focusNode})
       : super(key: key);
 
   @override
@@ -31,10 +37,13 @@ class NaanTextfield extends StatelessWidget {
           width: double.infinity,
           height: 52,
           child: TextField(
+            focusNode: focusNode,
             controller: controller,
             cursorColor: ColorConst.Primary,
             style: bodyMedium,
             onChanged: onTextChange,
+            onSubmitted: onSubmitted,
+            onEditingComplete: onEditingComplete,
             decoration: InputDecoration(
                 hintStyle: hintTextSyle ??
                     bodyMedium.apply(color: Colors.white.withOpacity(0.2)),

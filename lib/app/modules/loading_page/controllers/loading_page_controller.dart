@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
@@ -29,7 +28,7 @@ class LoadingPageController extends GetxController {
     if (fromRoute == Routes.CREATE_WALLET_PAGE) {
       CreateProfilePageController createWalletPageController =
           Get.find<CreateProfilePageController>();
-      var createWalletResult = await Future.wait([
+      List createWalletResult = await Future.wait([
         WalletService().createNewAccount(
           createWalletPageController.accountNameController.text,
           createWalletPageController.currentSelectedType,
@@ -63,8 +62,7 @@ class LoadingPageController extends GetxController {
         // mnemonic accounts
         await Future.wait([
           UserStorageService().writeNewAccount(
-            // ignore: invalid_use_of_protected_member
-            importWalletPageController.selectedAccounts.value,
+            importWalletPageController.selectedAccounts,
             false,
             true,
           ),
@@ -102,9 +100,10 @@ class LoadingPageController extends GetxController {
       );
     } else if (nextRoute == null && fromRoute == Routes.IMPORT_WALLET_PAGE) {
       // close loading, create profile, import wallet
-      Get.back();
-      Get.back();
-      Get.back();
+      Get
+        ..back()
+        ..back()
+        ..back();
     } else {
       Get.toNamed(nextRoute!);
     }

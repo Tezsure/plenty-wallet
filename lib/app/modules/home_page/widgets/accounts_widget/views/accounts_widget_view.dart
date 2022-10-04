@@ -19,7 +19,7 @@ import 'widget/add_account_widget.dart';
 
 // ignore: must_be_immutable
 class AccountsWidget extends GetView<AccountsWidgetController> {
-  AccountsWidget({Key? key}) : super(key: key);
+  AccountsWidget({super.key});
 
   HomePageController homePageController = Get.find<HomePageController>();
 
@@ -43,41 +43,62 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
             ),
             0.013.vspace,
             Obx(
-              () => Visibility(
-                visible: homePageController.userAccounts.isEmpty,
-                replacement: SizedBox(
-                  width: 1.width,
-                  height: 0.28.height,
-                  child: PageView.builder(
-                      padEnds: false,
-                      itemCount: homePageController.userAccounts.length + 1,
-                      controller: PageController(
-                        viewportFraction:
-                            homePageController.userAccounts.length - 1 ==
+              () => homePageController.userAccounts.isEmpty
+                  ? Padding(
+                      padding: EdgeInsets.only(
+                          right: homePageController.userAccounts.isEmpty
+                              ? 0.04.width
+                              : 0),
+                      child: const AddAccountWidget(),
+                    )
+                  : SizedBox(
+                      width: 1.width,
+                      height: 0.28.height,
+                      child: PageView.builder(
+                          padEnds: false,
+                          itemCount: homePageController.userAccounts
+                                  .where((e) => e.isAccountHidden == false)
+                                  .toList()
+                                  .length +
+                              1,
+                          controller: PageController(
+                            viewportFraction: homePageController.userAccounts
+                                        .where(
+                                            (e) => e.isAccountHidden == false)
+                                        .toList()
+                                        .length ==
                                     controller.selectedAccountIndex.value
                                 ? 1
                                 : 0.98,
-                        initialPage: 0,
-                      ),
-                      onPageChanged: controller.onPageChanged,
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (_, index) {
-                        return index == homePageController.userAccounts.length
-                            ? const Padding(
-                                padding: EdgeInsets.only(right: 12.0),
-                                child: AddAccountWidget(),
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.only(right: 12.0),
-                                child: accountContainer(
-                                  homePageController.userAccounts[index],
-                                ),
-                              );
-                      }),
-                ),
-                child: const AddAccountWidget(),
-              ),
+                            initialPage: 0,
+                          ),
+                          onPageChanged: controller.onPageChanged,
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (_, index) {
+                            return index ==
+                                    homePageController.userAccounts
+                                        .where(
+                                            (e) => e.isAccountHidden == false)
+                                        .toList()
+                                        .length
+                                ? const Padding(
+                                    padding: EdgeInsets.only(right: 12.0),
+                                    child: AddAccountWidget(),
+                                  )
+                                : homePageController
+                                        .userAccounts[index].isAccountHidden!
+                                    ? const SizedBox()
+                                    : Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 12.0),
+                                        child: accountContainer(
+                                          homePageController
+                                              .userAccounts[index],
+                                        ),
+                                      );
+                          }),
+                    ),
             ),
             Obx(
               () => homePageController.userAccounts.isEmpty
@@ -111,10 +132,11 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                           width: 0.55.width,
                           child: Obx(
                             () => ListView.builder(
-                              itemCount:
-                                  // ignore: invalid_use_of_protected_member
-                                  homePageController.userAccounts.value.length +
-                                      1,
+                              itemCount: homePageController.userAccounts
+                                      .where((e) => e.isAccountHidden == false)
+                                      .toList()
+                                      .length +
+                                  1,
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
                               physics: const BouncingScrollPhysics(),
@@ -122,13 +144,22 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                               itemBuilder: ((context, index) {
                                 return Obx(() {
                                   return index ==
-                                          homePageController.userAccounts.length
+                                          homePageController.userAccounts
+                                              .where((e) =>
+                                                  e.isAccountHidden == false)
+                                              .toList()
+                                              .length
                                       ? Icon(
                                           Icons.add,
                                           color: controller.selectedAccountIndex
                                                       .value ==
                                                   homePageController
-                                                      .userAccounts.length
+                                                      .userAccounts
+                                                      .where((e) =>
+                                                          e.isAccountHidden ==
+                                                          false)
+                                                      .toList()
+                                                      .length
                                               ? Colors.white
                                               : ColorConst
                                                   .NeutralVariant.shade50,

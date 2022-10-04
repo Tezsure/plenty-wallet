@@ -8,7 +8,7 @@ import '../../../utils/colors/colors.dart';
 
 Widget backButton() {
   return GestureDetector(
-    onTap: () => Get.back(),
+    onTap: Get.back,
     child: CircleAvatar(
       radius: 0.045.width,
       backgroundColor: ColorConst.Primary,

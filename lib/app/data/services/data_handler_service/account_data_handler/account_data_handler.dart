@@ -66,7 +66,7 @@ class AccountDataHandler {
   }
 
   Future<void> _storeData(
-      data, List<AccountModel> accountList, var postProcess) async {
+      List data, List<AccountModel> accountList, var postProcess) async {
     List<TokenPriceModel> tokenPrices = await dataHandlerRenderService
         .getTokenPriceModel((data[1] as Map<String, List<AccountTokenModel>>)
             .values
@@ -113,9 +113,12 @@ class AccountDataHandler {
         .toList();
 
     // update account list before write data into localStorage
-    await postProcess(accountList);
+    if (accountList.isNotEmpty) {
+      accountList.first.isAccountPrimary = true;
+      await postProcess(accountList);
+    }
 
-    // save accoutns data
+    // save accounts data
     await ServiceConfig.localStorage.write(
         key: ServiceConfig.accountsStorage, value: jsonEncode(accountList));
 
@@ -135,7 +138,7 @@ class AccountDataHandler {
         value
             .map(
               (e) {
-                var token = tokenPrices
+                TokenPriceModel token = tokenPrices
                     .where((element) =>
                         e.contractAddress == element.tokenAddress &&
                         (element.type == "fa2"

@@ -10,9 +10,7 @@ import '../../../../../../../utils/colors/colors.dart';
 import '../../../../../../../utils/styles/styles.dart';
 
 class AddAccountWidget extends StatelessWidget {
-  const AddAccountWidget({
-    Key? key,
-  }) : super(key: key);
+  const AddAccountWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +34,7 @@ class AddAccountWidget extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Get.bottomSheet(
-                    addAccountSheet(),
+                    _addAccountSheet(),
                     barrierColor: Colors.transparent,
                   );
                 },
@@ -75,7 +73,7 @@ class AddAccountWidget extends StatelessWidget {
     );
   }
 
-  Widget addAccountSheet() {
+  Widget _addAccountSheet() {
     return NaanBottomSheet(
       blurRadius: 5,
       height: 217,
@@ -99,7 +97,7 @@ class AddAccountWidget extends StatelessWidget {
           ),
           child: Column(
             children: [
-              optionMethod(
+              _optionMethod(
                   child: Text(
                     "Create a new wallet",
                     style: labelMedium,
@@ -119,7 +117,7 @@ class AddAccountWidget extends StatelessWidget {
                 height: 1,
                 thickness: 1,
               ),
-              optionMethod(
+              _optionMethod(
                 child: Text(
                   "Add an exisitng wallet",
                   style: labelMedium,
@@ -136,7 +134,7 @@ class AddAccountWidget extends StatelessWidget {
     );
   }
 
-  InkWell optionMethod({Widget? child, GestureTapCallback? onTap}) {
+  InkWell _optionMethod({Widget? child, GestureTapCallback? onTap}) {
     return InkWell(
       onTap: onTap,
       splashFactory: NoSplash.splashFactory,

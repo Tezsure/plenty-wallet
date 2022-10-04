@@ -10,7 +10,7 @@ class AuthService {
 
   /// verify passcode return true if passCode is right
   Future<bool> verifyPassCode(String passCode) async {
-    var pass = await ServiceConfig.localStorage
+    String? pass = await ServiceConfig.localStorage
         .read(key: ServiceConfig.passCodeStorage);
     return pass == passCode;
   }

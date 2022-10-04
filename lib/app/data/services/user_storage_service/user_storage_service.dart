@@ -14,11 +14,15 @@ class UserStorageService {
   Future<void> writeNewAccount(List<AccountModel> accountList,
       [bool isWatchAddress = false,
       bool isAccountSecretsProvided = false]) async {
-    var accountReadKey = isWatchAddress
+    String accountReadKey = isWatchAddress
         ? ServiceConfig.watchAccountsStorage
         : ServiceConfig.accountsStorage;
-    var accounts = await ServiceConfig.localStorage.read(key: accountReadKey);
-    if (accounts == null) {
+    String? accounts =
+        await ServiceConfig.localStorage.read(key: accountReadKey);
+    if (accounts == null ||
+        accounts == "" ||
+        accounts == "[]" ||
+        accounts.isEmpty) {
       accounts = jsonEncode(accountList);
     } else {
       List<AccountModel> tempAccounts = jsonDecode(accounts)
@@ -30,7 +34,7 @@ class UserStorageService {
         .write(key: accountReadKey, value: accounts);
 
     if (isAccountSecretsProvided) {
-      for (var account in accountList) {
+      for (AccountModel account in accountList) {
         if (account.accountSecretModel != null) {
           await writeNewAccountSecrets(account.accountSecretModel!);
         }
@@ -40,13 +44,20 @@ class UserStorageService {
     await DataHandlerService().forcedUpdateData();
   }
 
+  /// update accountList
+  Future<void> updateAccounts(List<AccountModel> accountList) async =>
+      await ServiceConfig.localStorage.write(
+          key: ServiceConfig.accountsStorage, value: jsonEncode(accountList));
+
   /// Get all accounts in storage <br>
   /// If onlyNaanAccount is true then returns the account list which is created on naan<br>
   /// Else returns all the available accounts in storage<br>
-  Future<List<AccountModel>> getAllAccount(
-      {bool onlyNaanAccount = false,
-      bool watchAccountsList = false,
-      bool isSecretDataRequired = false}) async {
+  Future<List<AccountModel>> getAllAccount({
+    bool onlyNaanAccount = false,
+    bool watchAccountsList = false,
+    bool isSecretDataRequired = false,
+    bool showHideAccounts = false,
+  }) async {
     var accountReadKey = watchAccountsList
         ? ServiceConfig.watchAccountsStorage
         : ServiceConfig.accountsStorage;
@@ -60,6 +71,10 @@ class UserStorageService {
             .toList()
         : jsonDecode(accounts)
             .map<AccountModel>((e) => AccountModel.fromJson(e))
+            .toList()
+            .where(
+              (e) => showHideAccounts ? (e.isAccountHidden == false) : true,
+            )
             .toList();
   }
 
@@ -103,7 +118,7 @@ class UserStorageService {
           value: jsonEncode(accountSecretModel));
 
   Future<AccountSecretModel?> readAccountSecrets(String pkH) async {
-    var accountSecrets = await ServiceConfig.localStorage
+    String? accountSecrets = await ServiceConfig.localStorage
         .read(key: "${ServiceConfig.accountsSecretStorage}_$pkH");
     return accountSecrets != null
         ? AccountSecretModel.fromJson(jsonDecode(accountSecrets))
