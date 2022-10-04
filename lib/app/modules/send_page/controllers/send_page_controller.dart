@@ -132,6 +132,7 @@ class SendPageController extends GetxController {
         iconUrl: "assets/tezos_logo.png",
       ),
     );
+
     userTokens.addAll(await UserStorageService()
         .getUserTokens(userAddress: senderAccountModel!.publicKeyHash!));
   }
@@ -194,8 +195,6 @@ class SendPageController extends GetxController {
     });
     super.onReady();
   }
-
-  
 
   @override
   void onClose() {

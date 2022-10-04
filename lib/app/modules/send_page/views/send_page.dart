@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
 import 'package:naan_wallet/app/modules/send_page/views/pages/contact_page_view.dart';

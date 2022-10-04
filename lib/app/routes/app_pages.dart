@@ -119,7 +119,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.RECEIVE_PAGE,
-      page: () => const ReceivePageView(),
+      page: () => ReceivePageView(),
       binding: ReceivePageBinding(),
     ),
     GetPage(

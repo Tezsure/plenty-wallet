@@ -212,8 +212,11 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
 
   Widget accountContainer(AccountModel model) {
     return InkWell(
-      onTap: () =>
-          Get.bottomSheet(AccountSummaryView(), isScrollControlled: true),
+      onTap: () => Get.bottomSheet(
+        const AccountSummaryView(),
+        settings: RouteSettings(arguments: model),
+        isScrollControlled: true,
+      ),
       child: Stack(
         children: [
           Container(
@@ -322,14 +325,12 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                       padding: const EdgeInsets.all(8),
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       enableFeedback: true,
-                      onPressed: () {
-                        Get.bottomSheet(const SendPage(),
-                            isScrollControlled: true,
-                            settings: RouteSettings(
-                              arguments: model,
-                            ),
-                            barrierColor: Colors.white.withOpacity(0.09));
-                      },
+                      onPressed: () => Get.bottomSheet(const SendPage(),
+                          isScrollControlled: true,
+                          settings: RouteSettings(
+                            arguments: model,
+                          ),
+                          barrierColor: Colors.white.withOpacity(0.09)),
                       fillColor: ColorConst.Primary.shade0,
                       shape: const CircleBorder(side: BorderSide.none),
                       child: const Icon(

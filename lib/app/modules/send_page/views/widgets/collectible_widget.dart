@@ -124,9 +124,9 @@ class CollectibleWidget extends GetView<SendPageController> {
 
 class NFTwidget extends StatelessWidget {
   final NftTokenModel nfTmodel;
-  final onTap;
+  final Function(NftTokenModel) onTap;
   String? nftArtifactUrl;
-  NFTwidget({super.key, required this.nfTmodel, this.onTap}) {
+  NFTwidget({super.key, required this.nfTmodel, required this.onTap}) {
     nftArtifactUrl =
         "https://assets.objkt.media/file/assets-003/${nfTmodel.faContract}/${nfTmodel.tokenId.toString()}/thumb400";
   }

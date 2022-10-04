@@ -8,7 +8,9 @@ import 'package:naan_wallet/utils/utils.dart';
 
 import '../../../../utils/colors/colors.dart';
 import '../../../../utils/constants/path_const.dart';
-import '../../../data/services/service_config/service_config.dart';
+import '../../common_widgets/custom_image_widget.dart';
+import '../../receive_page/views/receive_page_view.dart';
+import '../../send_page/views/send_page.dart';
 import '../controllers/account_summary_controller.dart';
 import 'bottomsheets/account_selector.dart';
 import 'bottomsheets/search_sheet.dart';
@@ -17,11 +19,11 @@ import 'pages/history_tab.dart';
 import 'pages/nft_tab.dart';
 
 class AccountSummaryView extends GetView<AccountSummaryController> {
-  AccountSummaryView({super.key});
-  @override
-  final controller = Get.put(AccountSummaryController());
+  const AccountSummaryView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    Get.put(AccountSummaryController());
     return Material(
       color: Colors.transparent,
       child: Container(
@@ -49,11 +51,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                 ),
               ),
               ListTile(
-                leading: Image.asset(
-                  ServiceConfig.allAssetsProfileImages[0],
-                  fit: BoxFit.contain,
-                  height: 40,
-                  width: 40,
+                leading: CustomImageWidget(
+                  imageType: controller.userAccount.imageType!,
+                  imagePath: controller.userAccount.profileImage!,
+                  imageRadius: 20,
                 ),
                 title: GestureDetector(
                   onTap: (() => Get.bottomSheet(
@@ -67,7 +68,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          'My Main Account',
+                          controller.userAccount.name!,
                           style: labelMedium,
                         ),
                         const SizedBox(width: 5),
@@ -80,7 +81,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                   ),
                 ),
                 subtitle: Text(
-                  tz1Shortner('tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx'),
+                  tz1Shortner(controller.userAccount.publicKeyHash!),
                   style: labelSmall.copyWith(
                       color: ColorConst.NeutralVariant.shade60),
                 ),
@@ -108,7 +109,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('254.00', style: headlineSmall),
+                  Text(
+                    "${controller.userAccount.accountDataModel!.xtzBalance!}",
+                    style: headlineSmall,
+                  ),
                   const SizedBox(width: 5),
                   SvgPicture.asset(
                     "${PathConst.HOME_PAGE.SVG}xtz.svg",
@@ -148,61 +152,76 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                     ),
                   ),
                   0.10.hspace,
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      children: [
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.middle,
-                          child: CircleAvatar(
-                            backgroundColor: ColorConst.NeutralVariant.shade20,
-                            radius: 15,
-                            child: Icon(
-                              Icons.arrow_upward,
-                              color: ColorConst.Primary.shade90,
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                        const WidgetSpan(
-                          child: SizedBox(
-                            width: 8,
-                          ),
-                        ),
-                        TextSpan(
-                            text: 'Send',
-                            style: labelSmall.copyWith(
-                                color: ColorConst.Primary.shade90)),
-                      ],
-                    ),
-                  ),
-                  0.10.hspace,
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      children: [
-                        WidgetSpan(
+                  InkWell(
+                    onTap: () => Get.bottomSheet(const SendPage(),
+                        isScrollControlled: true,
+                        settings:
+                            RouteSettings(arguments: controller.userAccount),
+                        barrierColor: Colors.white.withOpacity(0.09)),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        children: [
+                          WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
                             child: CircleAvatar(
                               backgroundColor:
                                   ColorConst.NeutralVariant.shade20,
                               radius: 15,
                               child: Icon(
-                                Icons.arrow_downward,
+                                Icons.arrow_upward,
                                 color: ColorConst.Primary.shade90,
                                 size: 20,
                               ),
-                            )),
-                        const WidgetSpan(
-                          child: SizedBox(
-                            width: 8,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                            text: 'Receive',
-                            style: labelSmall.copyWith(
-                                color: ColorConst.Primary.shade90)),
-                      ],
+                          const WidgetSpan(
+                            child: SizedBox(
+                              width: 8,
+                            ),
+                          ),
+                          TextSpan(
+                              text: 'Send',
+                              style: labelSmall.copyWith(
+                                  color: ColorConst.Primary.shade90)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  0.10.hspace,
+                  InkWell(
+                    onTap: () => Get.bottomSheet(ReceivePageView(),
+                        settings:
+                            RouteSettings(arguments: controller.userAccount),
+                        isScrollControlled: true,
+                        barrierColor: Colors.white.withOpacity(0.09)),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        children: [
+                          WidgetSpan(
+                              alignment: PlaceholderAlignment.middle,
+                              child: CircleAvatar(
+                                backgroundColor:
+                                    ColorConst.NeutralVariant.shade20,
+                                radius: 15,
+                                child: Icon(
+                                  Icons.arrow_downward,
+                                  color: ColorConst.Primary.shade90,
+                                  size: 20,
+                                ),
+                              )),
+                          const WidgetSpan(
+                            child: SizedBox(
+                              width: 8,
+                            ),
+                          ),
+                          TextSpan(
+                              text: 'Receive',
+                              style: labelSmall.copyWith(
+                                  color: ColorConst.Primary.shade90)),
+                        ],
+                      ),
                     ),
                   ),
                 ],

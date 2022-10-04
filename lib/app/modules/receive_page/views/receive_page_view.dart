@@ -12,17 +12,17 @@ import 'package:share_plus/share_plus.dart';
 import '../controllers/receive_page_controller.dart';
 
 class ReceivePageView extends GetView<ReceivePageController> {
-  const ReceivePageView({super.key});
+  ReceivePageView({super.key});
 
-  final String _accountName = "accountName";
-  final String _accountAddress = "tzkeibotkxxkjpbmvfbv4a8ov5rafrdmf9";
+  @override
+  final ReceivePageController controller = Get.put(ReceivePageController());
+
   @override
   Widget build(BuildContext context) {
-    Get.put(ReceivePageController());
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(
-        height: 0.92.height,
+        height: 0.95.height,
         width: 1.width,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
@@ -54,16 +54,16 @@ class ReceivePageView extends GetView<ReceivePageController> {
             0.047.vspace,
             GestureDetector(
               onTap: () {
-                controller.copyAddress(_accountAddress);
+                controller.copyAddress(controller.userAccount!.publicKeyHash!);
               },
               child: Text(
-                _accountName,
+                controller.userAccount!.name!,
                 style: titleLarge,
               ),
             ),
             0.01.vspace,
             Text(
-              _accountAddress,
+              controller.userAccount!.publicKeyHash!,
               style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
             0.047.vspace,
@@ -83,7 +83,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
           borderRadius: BorderRadius.circular(20), color: Colors.white),
       alignment: Alignment.center,
       child: QrImage(
-        data: _accountAddress,
+        data: controller.userAccount!.publicKeyHash!,
         padding: const EdgeInsets.all(20),
         gapless: false,
         eyeStyle:
@@ -99,7 +99,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
   Widget shareButton() {
     return GestureDetector(
       onTap: () {
-        Share.share(_accountAddress);
+        Share.share(controller.userAccount!.publicKeyHash!);
       },
       child: Container(
         height: 40,
