@@ -82,13 +82,21 @@ class NFTDetailView extends GetView<NftGalleryController> {
                         children: [
                           Positioned.fill(
                               child: Image.asset(
-                            controller.selectedNFTPath.value,
+                            controller
+                                .collectibles[
+                                    controller.selectedCollectibleIndex.value]
+                                .nfts[controller.selectedNftIndex.value]
+                                .nftPath,
                             fit: BoxFit.cover,
                           )),
                           GestureDetector(
                             onTap: () => Get.to(FullScreenNFTImage(
                               child: Image.asset(
-                                controller.selectedNFTPath.value,
+                                controller
+                                    .collectibles[controller
+                                        .selectedCollectibleIndex.value]
+                                    .nfts[controller.selectedNftIndex.value]
+                                    .nftPath,
                                 fit: BoxFit.contain,
                               ),
                             )),

@@ -75,7 +75,7 @@ class NFTaccountsfilterBottomSheet extends StatelessWidget {
               height: 4,
             ),
             Text(
-              tz1Shortner(controller.accounts[index].publicKey ?? ""),
+              tz1Shortner(controller.accounts[index].publicKeyHash ?? ""),
               style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
           ],

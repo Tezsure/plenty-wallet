@@ -49,7 +49,6 @@ class NFTCollectionView extends GetView<NftGalleryController> {
                         ),
                       ),
                     ),
-                  
                     Obx(
                       () => AppBar(
                           toolbarHeight:
@@ -117,9 +116,11 @@ class NFTCollectionView extends GetView<NftGalleryController> {
                                   const SliverSimpleGridDelegateWithMaxCrossAxisExtent(
                                 maxCrossAxisExtent: 200,
                               ),
-                              itemBuilder: (_, i) {
+                              itemBuilder: (_, index) {
                                 return NFTGalleryImages(
-                                  colletibleModel: controller.collectibles[i],
+                                  colletibleModel:
+                                      controller.collectibles[index],
+                                  collectibleIndex: index,
                                 );
                               }),
                           const SizedBox(),
@@ -159,6 +160,7 @@ class NFTCollectionView extends GetView<NftGalleryController> {
 
 class NFTGalleryImages extends GetView<NftGalleryController> {
   final CollectibleModel colletibleModel;
+  final int collectibleIndex;
   final String? titleGallery;
   final int numOfShowImages;
 
@@ -167,6 +169,7 @@ class NFTGalleryImages extends GetView<NftGalleryController> {
     required this.colletibleModel,
     this.titleGallery,
     this.numOfShowImages = 4,
+    required this.collectibleIndex,
   });
   @override
   Widget build(BuildContext context) {
@@ -204,8 +207,9 @@ class NFTGalleryImages extends GetView<NftGalleryController> {
                         : GalleryItemThumbnail(
                             nftModel: colletibleModel.nfts[index],
                             onTap: () {
-                              controller.selectedNFTImage(
-                                  colletibleModel.nfts[index].nftPath);
+                              controller.selectedCollectibleIndex.value =
+                                  collectibleIndex;
+                              controller.currentPageIndex.value = 1;
                             },
                           );
                   }),

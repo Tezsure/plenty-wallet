@@ -79,7 +79,8 @@ class NFTcollectionGalleryView extends GetView<NftGalleryController> {
                                 nftModel: controller
                                     .collectibles[controller
                                         .selectedCollectibleIndex.value]
-                                    .nfts[index]);
+                                    .nfts[index],
+                                nftIndex: index);
                           }),
                     )
                   ],
@@ -106,7 +107,8 @@ class NFTcollectionGalleryView extends GetView<NftGalleryController> {
           width: 12,
         ),
         Text(
-          "stay a vision",
+          controller
+              .collectibles[controller.selectedCollectibleIndex.value].name,
           style: labelLarge,
         ),
         const Spacer(),
@@ -126,39 +128,45 @@ class NFTcollectionGalleryView extends GetView<NftGalleryController> {
     );
   }
 
-  Widget nftWidget({required NFTmodel nftModel}) {
-    return Container(
-      width: (1.width / 2) - 18,
-      decoration: BoxDecoration(
-          color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(8)),
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              nftModel.nftPath,
-              fit: BoxFit.fitWidth,
-              width: double.infinity,
+  Widget nftWidget({required NFTmodel nftModel, required nftIndex}) {
+    return GestureDetector(
+      onTap: () {
+        controller.selectedNftIndex.value = nftIndex;
+        controller.currentPageIndex.value = 2;
+      },
+      child: Container(
+        width: (1.width / 2) - 18,
+        decoration: BoxDecoration(
+            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(
+                nftModel.nftPath,
+                fit: BoxFit.fitWidth,
+                width: double.infinity,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          Text(
-            "data",
-            style: labelMedium,
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          Text(
-            "data",
-            style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
-          )
-        ],
+            const SizedBox(
+              height: 12,
+            ),
+            Text(
+              "data",
+              style: labelMedium,
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            Text(
+              "data",
+              style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+            )
+          ],
+        ),
       ),
     );
   }

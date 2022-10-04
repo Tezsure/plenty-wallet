@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/constants/path_const.dart';
@@ -8,7 +9,7 @@ class NftGalleryController extends GetxController {
   RxInt currentSelectedCategoryIndex = 0.obs;
   RxInt currentPageIndex = 0.obs;
   RxBool searchNft = false.obs;
-  RxString selectedNFTPath = '${PathConst.TEMP}nft_pic.png'.obs;
+  
   List<String> nftChips = const [
     'Art',
     'Collectibles',
@@ -19,6 +20,7 @@ class NftGalleryController extends GetxController {
 
   RxBool isExpanded = false.obs;
   RxInt selectedCollectibleIndex = 0.obs;
+  RxInt selectedNftIndex = 0.obs;
 
   void selectCollectible(int index) {
     selectedCollectibleIndex.value = index;
@@ -36,10 +38,7 @@ class NftGalleryController extends GetxController {
     isExpanded.value = val;
   }
 
-  void selectedNFTImage(String path) {
-    selectedNFTPath.value = path;
-    currentPageIndex.value = 1;
-  }
+  
 
   static const List<String> listofImages = [
     '${PathConst.TEMP}1.png',
@@ -60,7 +59,7 @@ class NftGalleryController extends GetxController {
   RxList<CollectibleModel> collectibles = List.generate(
     20,
     (index) => CollectibleModel(
-      name: "tezos",
+      name: "tezos $index",
       collectibleProfilePath: '${PathConst.TEMP}nft_details.png',
       nfts: List.generate(
         Random().nextInt(listofImages.length) + 1,

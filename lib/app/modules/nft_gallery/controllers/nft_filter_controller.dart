@@ -8,8 +8,12 @@ class NftFilterController extends GetxController {
     (index) => AccountModel(
         isNaanAccount: true,
         name: "Account $index",
-        publicKey: "tezjfbejbfeuvkjvb",
-        profileImage: PathConst.ASSETS + "profile_images/${index + 1}.png"),
+        
+        publicKeyHash: "tzajiewhirweeer",
+        
+        profileImage: PathConst.ASSETS + "profile_images/${index + 1}.png",
+        
+        ),
   ).obs;
 
   RxList<AccountModel> selectedAccounts = <AccountModel>[].obs;
