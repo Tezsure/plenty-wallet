@@ -80,7 +80,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                   ),
                 ),
                 subtitle: Text(
-                  'tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx'.addressShortner(),
+                  tz1Shortner('tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx'),
                   style: labelSmall.copyWith(
                       color: ColorConst.NeutralVariant.shade60),
                 ),

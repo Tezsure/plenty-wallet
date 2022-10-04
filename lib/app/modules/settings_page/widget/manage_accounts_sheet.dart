@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/edit_account_sheet.dart';
@@ -12,8 +11,6 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
-
-import '../../../data/services/enums/enums.dart';
 
 class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
   ManageAccountsBottomSheet({super.key});
@@ -109,24 +106,9 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
         horizontal: 14,
       ),
       key: Key(index.toString()),
-      leading: CircleAvatar(
-        radius: 30,
-        backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-        child: Container(
-          alignment: Alignment.bottomRight,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: accountModel.imageType == AccountProfileImageType.assets
-                  ? AssetImage(accountModel.profileImage!)
-                  : FileImage(
-                      File(accountModel.profileImage!),
-                    ) as ImageProvider,
-            ),
-          ),
-        ),
-      ),
+      leading: CustomImageWidget(
+          imageType: accountModel.imageType!,
+          imagePath: accountModel.profileImage!),
       title: SizedBox(
         height: 57,
         child: Row(

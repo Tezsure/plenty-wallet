@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup_page.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/connected_dapps_sheet.dart';
@@ -20,7 +19,6 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../data/services/enums/enums.dart';
 import '../../home_page/controllers/home_page_controller.dart';
 import '../controllers/settings_page_controller.dart';
 import '../widget/change_passcode.dart';
@@ -343,31 +341,14 @@ class SettingsPageView extends GetView<SettingsPageController> {
                 SizedBox(
                   width: 0.165.width,
                   child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: CircleAvatar(
-                      radius: 23,
-                      backgroundColor:
-                          ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                      child: Container(
-                        alignment: Alignment.bottomRight,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image:
-                                _homePageController.userAccounts[0].imageType ==
-                                        AccountProfileImageType.assets
-                                    ? AssetImage(_homePageController
-                                        .userAccounts[0].profileImage!)
-                                    : FileImage(
-                                        File(_homePageController
-                                            .userAccounts[0].profileImage!),
-                                      ) as ImageProvider,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                      alignment: Alignment.centerLeft,
+                      child: CustomImageWidget(
+                        imageType:
+                            _homePageController.userAccounts[0].imageType!,
+                        imagePath:
+                            _homePageController.userAccounts[0].profileImage!,
+                        imageRadius: 23,
+                      )),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
