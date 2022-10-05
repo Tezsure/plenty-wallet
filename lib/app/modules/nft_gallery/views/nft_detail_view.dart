@@ -80,46 +80,46 @@ class NFTDetailView extends GetView<NftGalleryController> {
                       color: Colors.white,
                       child: Stack(
                         children: [
-                          Positioned.fill(
-                              child: Image.asset(
-                            controller
-                                .collectibles[
-                                    controller.selectedCollectibleIndex.value]
-                                .nfts[controller.selectedNftIndex.value]
-                                .nftPath,
-                            fit: BoxFit.cover,
-                          )),
-                          GestureDetector(
-                            onTap: () => Get.to(FullScreenNFTImage(
-                              child: Image.asset(
-                                controller
-                                    .collectibles[controller
-                                        .selectedCollectibleIndex.value]
-                                    .nfts[controller.selectedNftIndex.value]
-                                    .nftPath,
-                                fit: BoxFit.contain,
-                              ),
-                            )),
-                            child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                    right: 10.sp, bottom: 22.sp),
-                                height: 36.sp,
-                                width: 36.sp,
-                                decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Transform.rotate(
-                                  angle: pi / 180 * 135,
-                                  child: const Icon(
-                                    Icons.code_outlined,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
+                          // Positioned.fill(
+                          //     child: Image.asset(
+                          //   controller
+                          //       .collectibles[
+                          //           controller.selectedCollectibleIndex.value]
+                          //       .nfts[controller.selectedNftIndex.value]
+                          //       .nftPath,
+                          //   fit: BoxFit.cover,
+                          // )),
+                          // GestureDetector(
+                          //   onTap: () => Get.to(FullScreenNFTImage(
+                          //     child: Image.asset(
+                          //       controller
+                          //           .collectibles[controller
+                          //               .selectedCollectibleIndex.value]
+                          //           .nfts[controller.selectedNftIndex.value]
+                          //           .nftPath,
+                          //       fit: BoxFit.contain,
+                          //     ),
+                          //   )),
+                          //   child: Align(
+                          //     alignment: Alignment.bottomRight,
+                          //     child: Container(
+                          //       margin: EdgeInsets.only(
+                          //           right: 10.sp, bottom: 22.sp),
+                          //       height: 36.sp,
+                          //       width: 36.sp,
+                          //       decoration: BoxDecoration(
+                          //           color: Colors.black,
+                          //           borderRadius: BorderRadius.circular(8)),
+                          //       child: Transform.rotate(
+                          //         angle: pi / 180 * 135,
+                          //         child: const Icon(
+                          //           Icons.code_outlined,
+                          //           color: Colors.white,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // )
                         ],
                       ),
                     ),

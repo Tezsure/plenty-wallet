@@ -26,7 +26,7 @@ class NFTaccountsfilterBottomSheet extends StatelessWidget {
           "Accounts",
           style: labelMedium,
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Expanded(
@@ -43,7 +43,7 @@ class NFTaccountsfilterBottomSheet extends StatelessWidget {
             applyButton(),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
       ],
@@ -71,7 +71,7 @@ class NFTaccountsfilterBottomSheet extends StatelessWidget {
               controller.accounts[index].name ?? "",
               style: bodySmall,
             ),
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             Text(
@@ -82,7 +82,7 @@ class NFTaccountsfilterBottomSheet extends StatelessWidget {
         ),
         trailing:
             controller.selectedAccounts.contains(controller.accounts[index])
-                ? SvgPicture.asset(PathConst.NFT_PAGE.SVG + "selected.svg")
+                ? SvgPicture.asset("${PathConst.NFT_PAGE.SVG}selected.svg")
                 : null,
       ),
     );

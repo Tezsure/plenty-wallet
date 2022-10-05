@@ -26,7 +26,7 @@ class NFTfilterBottomSheet extends StatelessWidget {
           "Accounts",
           style: labelMedium,
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         MaterialButton(
@@ -67,7 +67,7 @@ class NFTfilterBottomSheet extends StatelessWidget {
                             maxLines: 1,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
                         CircleAvatar(
@@ -83,14 +83,14 @@ class NFTfilterBottomSheet extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 32,
         ),
         Text(
           "Views",
           style: labelMedium,
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Row(
@@ -113,14 +113,14 @@ class NFTfilterBottomSheet extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 32,
         ),
         Text(
           "Sort by",
           style: labelMedium,
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Row(
@@ -130,7 +130,7 @@ class NFTfilterBottomSheet extends StatelessWidget {
             sortTypeButton(NftSortBy.oldest, "Oldest"),
           ],
         ),
-        Spacer(),
+        const Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -138,7 +138,7 @@ class NFTfilterBottomSheet extends StatelessWidget {
             applyButton(),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
       ],
@@ -171,7 +171,7 @@ class NFTfilterBottomSheet extends StatelessWidget {
                 color: controller.nfTviewType.value == nfTviewType
                     ? Colors.white
                     : ColorConst.NeutralVariant.shade60),
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             Text(
@@ -230,7 +230,7 @@ class NFTfilterBottomSheet extends StatelessWidget {
             controller.nftsortby.value = nftSortBy;
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             height: 32,
             alignment: Alignment.center,
             decoration: BoxDecoration(

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/views/nft_collection_gallery_view.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-
 import '../controllers/nft_gallery_controller.dart';
 import 'nft_collection_view.dart';
 import 'nft_detail_view.dart';

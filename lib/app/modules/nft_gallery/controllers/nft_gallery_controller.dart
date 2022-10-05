@@ -1,15 +1,14 @@
-import 'dart:math';
-
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
-import '../../../../utils/constants/path_const.dart';
+import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 
 class NftGalleryController extends GetxController {
   RxInt currentSelectedCategoryIndex = 0.obs;
   RxInt currentPageIndex = 0.obs;
   RxBool searchNft = false.obs;
-  
+
   List<String> nftChips = const [
     'Art',
     'Collectibles',
@@ -19,11 +18,11 @@ class NftGalleryController extends GetxController {
   ];
 
   RxBool isExpanded = false.obs;
-  RxInt selectedCollectibleIndex = 0.obs;
+  RxString selectedCollectionsKey = "".obs;
   RxInt selectedNftIndex = 0.obs;
 
-  void selectCollectible(int index) {
-    selectedCollectibleIndex.value = index;
+  void selectCollectible(String key) {
+    selectedCollectionsKey.value = key;
   }
 
   void changeCurrentSelectedCategoryIndex(int index) {
@@ -38,56 +37,40 @@ class NftGalleryController extends GetxController {
     isExpanded.value = val;
   }
 
-  
+  RxMap<String, List<NftTokenModel>> usersNfts =
+      <String, List<NftTokenModel>>{}.obs; // List of tokens
 
-  static const List<String> listofImages = [
-    '${PathConst.TEMP}1.png',
-    '${PathConst.TEMP}2.png',
-    '${PathConst.TEMP}3.png',
-    '${PathConst.TEMP}4.png',
-    '${PathConst.TEMP}5.png',
-    '${PathConst.TEMP}6.png',
-    '${PathConst.TEMP}7.png',
-    '${PathConst.TEMP}8.png',
-    '${PathConst.TEMP}9.png',
-    '${PathConst.TEMP}10.png',
-    '${PathConst.TEMP}11.png',
-    '${PathConst.TEMP}12.png',
-    '${PathConst.TEMP}13.png',
-  ];
+  RxList<AccountModel> userAccounts = <AccountModel>[].obs;
 
-  RxList<CollectibleModel> collectibles = List.generate(
-    20,
-    (index) => CollectibleModel(
-      name: "tezos $index",
-      collectibleProfilePath: '${PathConst.TEMP}nft_details.png',
-      nfts: List.generate(
-        Random().nextInt(listofImages.length) + 1,
-        (index) => NFTmodel(
-            title: "Flowers & Bytes",
-            name: "Felix le peintre",
-            nftPath: listofImages[Random().nextInt(listofImages.length)]),
-      ),
-    ),
-  ).obs; //
+  @override
+  void onInit() {
+    super.onInit();
+    userAccounts.value = Get.find<HomePageController>().userAccounts;
+    fetchAllNfts();
+
+    Get.find<HomePageController>().userAccounts.listen((accounts) {
+      userAccounts.value = accounts;
+      fetchAllNfts();
+    });
+  }
+
+  Future<void> fetchAllNfts() async {
+    usersNfts = <String, List<NftTokenModel>>{}.obs;
+    for (var account in userAccounts) {
+      UserStorageService()
+          .getUserNfts(
+        userAddress: account.publicKeyHash!,
+      )
+          .then(
+        (nftList) {
+          for (var i = 0; i < nftList.length; i++) {
+            usersNfts[nftList[i].fa!.contract!] =
+                (usersNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
+          }
+        },
+      );
+    }
+  }
 }
 
 // TODO Remove this models after merging with the send flow branch
-class NFTmodel {
-  final String title;
-  final String name;
-  final String nftPath;
-  NFTmodel({required this.title, required this.name, required this.nftPath});
-}
-
-class CollectibleModel {
-  final String name;
-  final List<NFTmodel> nfts;
-  final String collectibleProfilePath;
-
-  CollectibleModel({
-    required this.name,
-    required this.nfts,
-    required this.collectibleProfilePath,
-  });
-}

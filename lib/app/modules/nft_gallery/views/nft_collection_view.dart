@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/views/nft_gallery_filter.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -107,7 +108,7 @@ class NFTCollectionView extends GetView<NftGalleryController> {
                         child: TabBarView(children: [
                           MasonryGridView.builder(
                               controller: scrollController,
-                              itemCount: controller.collectibles.length,
+                              itemCount: controller.usersNfts.length,
                               crossAxisSpacing: 15,
                               mainAxisSpacing: 15,
                               padding: EdgeInsets.symmetric(
@@ -118,9 +119,12 @@ class NFTCollectionView extends GetView<NftGalleryController> {
                               ),
                               itemBuilder: (_, index) {
                                 return NFTGalleryImages(
-                                  colletibleModel:
-                                      controller.collectibles[index],
-                                  collectibleIndex: index,
+                                  collectionsModel: controller.usersNfts[
+                                      controller.usersNfts.keys
+                                          .toList()[index]]!,
+                                  collectionsIndex: index,
+                                  collectionsKey:
+                                      controller.usersNfts.keys.toList()[index],
                                 );
                               }),
                           const SizedBox(),
@@ -149,7 +153,7 @@ class NFTCollectionView extends GetView<NftGalleryController> {
           decoration: BoxDecoration(
               color: ColorConst.Primary,
               borderRadius: BorderRadius.circular(16)),
-          child: Icon(
+          child: const Icon(
             Icons.filter_list_rounded,
             size: 24,
             color: Colors.white,
@@ -159,22 +163,24 @@ class NFTCollectionView extends GetView<NftGalleryController> {
 }
 
 class NFTGalleryImages extends GetView<NftGalleryController> {
-  final CollectibleModel colletibleModel;
-  final int collectibleIndex;
+  final List<NftTokenModel> collectionsModel;
+  final int collectionsIndex;
+  final String collectionsKey;
   final String? titleGallery;
   final int numOfShowImages;
 
   const NFTGalleryImages({
     super.key,
-    required this.colletibleModel,
+    required this.collectionsModel,
     this.titleGallery,
     this.numOfShowImages = 4,
-    required this.collectibleIndex,
+    required this.collectionsIndex,
+    required this.collectionsKey,
   });
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: _getHeight(colletibleModel.nfts.length),
+      height: _getHeight(collectionsModel.length),
       decoration: BoxDecoration(
         color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         borderRadius: BorderRadius.circular(10),
@@ -188,27 +194,27 @@ class NFTGalleryImages extends GetView<NftGalleryController> {
             Expanded(
               child: GridView.builder(
                   primary: false,
-                  itemCount: colletibleModel.nfts.length > 4
+                  itemCount: collectionsModel.length > 4
                       ? numOfShowImages
-                      : colletibleModel.nfts.length,
+                      : collectionsModel.length,
                   padding: const EdgeInsets.all(0),
                   semanticChildCount: 2,
                   physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: _childCount(colletibleModel.nfts.length),
+                    crossAxisCount: _childCount(collectionsModel.length),
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
                   ),
                   itemBuilder: (BuildContext context, int index) {
-                    return index < colletibleModel.nfts.length - 1 &&
+                    return index < collectionsModel.length - 1 &&
                             index == numOfShowImages - 1
                         ? _expandedNftImageCollectionButton(index)
                         : GalleryItemThumbnail(
-                            nftModel: colletibleModel.nfts[index],
+                            nftModel: collectionsModel[index],
                             onTap: () {
-                              controller.selectedCollectibleIndex.value =
-                                  collectibleIndex;
+                              controller.selectedCollectionsKey.value =
+                                  collectionsKey;
                               controller.currentPageIndex.value = 1;
                             },
                           );
@@ -271,13 +277,13 @@ class NFTGalleryImages extends GetView<NftGalleryController> {
           fit: StackFit.expand,
           children: <Widget>[
             GalleryItemThumbnail(
-              nftModel: colletibleModel.nfts[index],
+              nftModel: collectionsModel[index],
             ),
             Container(
               color: Colors.black.withOpacity(.7),
               child: Center(
                 child: Text(
-                  "+${colletibleModel.nfts.length - index}",
+                  "+${collectionsModel.length - index}",
                   style: titleLarge,
                 ),
               ),
@@ -293,20 +299,23 @@ class NFTGalleryImages extends GetView<NftGalleryController> {
 class GalleryItemThumbnail extends StatelessWidget {
   const GalleryItemThumbnail({super.key, required this.nftModel, this.onTap});
 
-  final NFTmodel nftModel;
+  final NftTokenModel nftModel;
   final GestureTapCallback? onTap;
-
+  // var nftArtifactUrl =
+  //     "https://assets.objkt.media/file/assets-003/${nfTmodel.faContract}/${nfTmodel.tokenId.toString()}/thumb400";
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: onTap,
         child: Hero(
-          tag: nftModel.name,
+          tag: nftModel.name!,
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               image: DecorationImage(
-                image: AssetImage(nftModel.nftPath),
+                image: NetworkImage(
+                  "https://assets.objkt.media/file/assets-003/${nftModel.faContract}/${nftModel.tokenId.toString()}/thumb400",
+                ),
                 fit: BoxFit.cover,
               ),
             ),
