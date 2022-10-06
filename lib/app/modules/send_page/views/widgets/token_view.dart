@@ -145,7 +145,6 @@ class TokenView extends GetView<SendPageController> {
             borderRadius: BorderRadius.circular(8),
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
             child: Obx(() => ListTile(
-              
                   shape: RoundedRectangleBorder(
                       side: BorderSide(
                           color: controller.amountUsdTileError.value
@@ -207,14 +206,13 @@ class TokenView extends GetView<SendPageController> {
                                   TextfieldType.usd
                               ? GestureDetector(
                                   onTap: () {
-                                    if (!controller
-                                        .amountFocusNode.value.hasFocus) {
-                                      controller.amountFocusNode.value
-                                          .requestFocus();
-                                    }
                                     controller.amountController.text =
-                                        controller.selectedTokenModel!.balance
-                                            .toString();
+                                        controller.selectedTokenModel != null
+                                            ? controller
+                                                .selectedTokenModel!.balance
+                                                .toString()
+                                            : "0";
+                                    print(controller.amountController.text);
                                     controller.amountController.selection =
                                         TextSelection.fromPosition(
                                       TextPosition(

@@ -159,9 +159,11 @@ class SendPage extends GetView<SendPageController> {
                                       p0.address ==
                                           controller.searchTextController.value
                                               .text ||
-                                      p0.name ==
-                                          controller
-                                              .searchTextController.value.text)
+                                      (controller.suggestedContacts.isNotEmpty
+                                          ? controller.suggestedContacts[0]
+                                                  .address ==
+                                              p0.address
+                                          : false))
                                   .isEmpty
                               ? AddContactButton(
                                   contactModel:

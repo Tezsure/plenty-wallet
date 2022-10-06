@@ -74,7 +74,13 @@ class AccountValueWidget extends StatelessWidget {
                       barrierColor: Colors.white.withOpacity(0.09))),
               0.09.hspace,
               actionMethod("Receive", "${PathConst.HOME_PAGE.SVG}receive.svg",
-                  onTap: () => Get.bottomSheet(const ReceivePageView(),
+                  onTap: () => Get.bottomSheet(
+                      ReceivePageView(
+                          publicKeyHash: homePageController
+                                  .userAccounts[0].publicKeyHash ??
+                              "",
+                          accountName:
+                              homePageController.userAccounts[0].name ?? ""),
                       isScrollControlled: true,
                       barrierColor: Colors.white.withOpacity(0.09))),
               0.09.hspace,

@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -317,7 +318,14 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                       padding: const EdgeInsets.all(8),
                       constraints: const BoxConstraints(),
                       elevation: 1,
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.bottomSheet(
+                            ReceivePageView(
+                                publicKeyHash: model.publicKeyHash ?? "",
+                                accountName: model.name ?? ""),
+                            isScrollControlled: true,
+                            barrierColor: Colors.white.withOpacity(0.09));
+                      },
                       fillColor: ColorConst.Primary.shade0,
                       shape: const CircleBorder(side: BorderSide.none),
                       child: const Icon(
