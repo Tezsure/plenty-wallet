@@ -3,19 +3,23 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
 import '../../../../../utils/styles/styles.dart';
-import '../../../../data/services/service_models/nft_model.dart';
+import '../../../../data/services/service_models/nft_token_model.dart';
 
 class NFTwidget extends StatelessWidget {
-  final NFTmodel nfTmodel;
-  final GestureTapCallback? onTap;
-  const NFTwidget({super.key, required this.nfTmodel, this.onTap});
+  final NftTokenModel nfTmodel;
+  final Function(NftTokenModel) onTap;
+  String? nftArtifactUrl;
+  NFTwidget({super.key, required this.nfTmodel, required this.onTap}) {
+    nftArtifactUrl =
+        "https://assets.objkt.media/file/assets-003/${nfTmodel.faContract}/${nfTmodel.tokenId.toString()}/thumb400";
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () => onTap(nfTmodel),
       child: Container(
-        width: 0.45.width,
+        width: 0.44.width,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
@@ -29,8 +33,8 @@ class NFTwidget extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(
-                    nfTmodel.nftPath,
+                  image: NetworkImage(
+                    nftArtifactUrl!,
                   ),
                 ),
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
@@ -41,14 +45,15 @@ class NFTwidget extends StatelessWidget {
               height: 12,
             ),
             Text(
-              nfTmodel.title,
+              nfTmodel.name!,
               style: labelMedium,
             ),
             const SizedBox(
               height: 4,
             ),
             Text(
-              nfTmodel.name,
+              nfTmodel.description ?? "",
+              maxLines: 1,
               style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
           ],

@@ -24,35 +24,38 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                 ListView.builder(
                   primary: false,
                   shrinkWrap: true,
-                  itemCount: controller.expandTokenList.value
-                      ? controller.tokens.length
-                      : 3,
-                  itemBuilder: (_, index) =>
-                      controller.tokens[index].isHidden &&
-                              !controller.isEditable.value
-                          ? const SizedBox()
-                          : TokenCheckbox(
-                              tokenModel: controller.tokens,
-                              isEditable: controller.isEditable.value,
-                              tokenIndex: index,
-                              onCheckboxTap: (value) {
-                                controller
-                                  ..tokens[index].isSelected = value ?? false
-                                  ..tokens.refresh();
-                              },
-                              onPinnedTap: () {
-                                controller
-                                  ..tokens[index].isPinned =
-                                      !controller.tokens[index].isPinned
-                                  ..tokens.refresh();
-                              },
-                              onHiddenTap: () {
-                                controller
-                                  ..tokens[index].isHidden =
-                                      !controller.tokens[index].isHidden
-                                  ..tokens.refresh();
-                              },
-                            ),
+                  itemCount: controller.userTokens.length < 3
+                      ? controller.userTokens.length
+                      : (controller.expandTokenList.value
+                          ? controller.userTokens.length
+                          : 3),
+                  itemBuilder: (_, index) => controller
+                              .userTokens[index].isHidden &&
+                          !controller.isEditable.value
+                      ? const SizedBox()
+                      : TokenCheckbox(
+                          xtzPrice: controller.xtzPrice.value,
+                          tokenModel: controller.userTokens,
+                          isEditable: controller.isEditable.value,
+                          tokenIndex: index,
+                          onCheckboxTap: (value) {
+                            controller
+                              ..userTokens[index].isSelected = value ?? false
+                              ..userTokens.refresh();
+                          },
+                          onPinnedTap: () {
+                            controller
+                              ..userTokens[index].isPinned =
+                                  !controller.userTokens[index].isPinned
+                              ..userTokens.refresh();
+                          },
+                          onHiddenTap: () {
+                            controller
+                              ..userTokens[index].isHidden =
+                                  !controller.userTokens[index].isHidden
+                              ..userTokens.refresh();
+                          },
+                        ),
                 ),
                 0.03.vspace,
                 TokenEditTile(
@@ -62,7 +65,7 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                   isEditable: controller.isEditable.value,
                   onEditTap: () => controller.isEditable.value =
                       !controller.isEditable.value,
-                  isAnyTokenSelected: controller.tokens.any(
+                  isAnyTokenSelected: controller.userTokens.any(
                     (element) => element.isSelected,
                   ),
                   onPinTap: controller.onPinToken,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
@@ -50,77 +51,99 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                   ),
                 ),
               ),
-              ListTile(
-                leading: CustomImageWidget(
-                  imageType: controller.userAccount.imageType!,
-                  imagePath: controller.userAccount.profileImage!,
-                  imageRadius: 20,
-                ),
-                title: GestureDetector(
-                  onTap: (() => Get.bottomSheet(
-                        const AccountSelectorSheet(),
-                      )),
-                  child: SizedBox(
+              Obx(
+                () => ListTile(
+                  leading: CustomImageWidget(
+                    imageType: controller.userAccount.value.imageType!,
+                    imagePath: controller.userAccount.value.profileImage!,
+                    imageRadius: 20,
+                  ),
+                  title: GestureDetector(
+                    onTap: (() => Get.bottomSheet(AccountSelectorSheet(
+                          selectedAccount: controller.userAccount.value,
+                          accounts: controller.homePageController.userAccounts,
+                        ))),
+                    child: SizedBox(
+                      height: 20,
+                      width: 30,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            controller.userAccount.value.name!,
+                            style: labelMedium,
+                          ),
+                          const SizedBox(width: 5),
+                          const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  subtitle: Text(
+                    tz1Shortner(controller.userAccount.value.publicKeyHash!),
+                    style: labelSmall.copyWith(
+                        color: ColorConst.NeutralVariant.shade60),
+                  ),
+                  trailing: SizedBox(
                     height: 20,
-                    width: 30,
+                    width: 60,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          controller.userAccount.name!,
-                          style: labelMedium,
+                        InkWell(
+                          onTap: () {
+                            Clipboard.setData(ClipboardData(
+                                text: controller
+                                    .userAccount.value.publicKeyHash));
+                            Get.rawSnackbar(
+                              message: "Copied to clipboard",
+                              shouldIconPulse: true,
+                              snackPosition: SnackPosition.BOTTOM,
+                              maxWidth: 0.9.width,
+                              margin: const EdgeInsets.only(
+                                bottom: 20,
+                              ),
+                              duration: const Duration(milliseconds: 1000),
+                            );
+                          },
+                          child: SvgPicture.asset(
+                            '${PathConst.SVG}copy.svg',
+                            color: ColorConst.Primary.shade90,
+                            fit: BoxFit.contain,
+                          ),
                         ),
-                        const SizedBox(width: 5),
-                        const Icon(
-                          Icons.keyboard_arrow_down,
-                          color: Colors.white,
+                        InkWell(
+                          child: SvgPicture.asset(
+                            '${PathConst.SVG}scanVector.svg',
+                            fit: BoxFit.contain,
+                            color: ColorConst.Primary.shade90,
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                subtitle: Text(
-                  tz1Shortner(controller.userAccount.publicKeyHash!),
-                  style: labelSmall.copyWith(
-                      color: ColorConst.NeutralVariant.shade60),
-                ),
-                trailing: SizedBox(
-                  height: 20,
-                  width: 60,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SvgPicture.asset(
-                        '${PathConst.SVG}copy.svg',
-                        color: ColorConst.Primary.shade90,
-                        fit: BoxFit.contain,
-                      ),
-                      SvgPicture.asset(
-                        '${PathConst.SVG}scanVector.svg',
-                        fit: BoxFit.contain,
-                        color: ColorConst.Primary.shade90,
-                      ),
-                    ],
-                  ),
-                ),
               ),
               0.02.vspace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "${controller.userAccount.accountDataModel!.xtzBalance!}",
-                    style: headlineSmall,
-                  ),
-                  const SizedBox(width: 5),
-                  SvgPicture.asset(
-                    "${PathConst.HOME_PAGE.SVG}xtz.svg",
-                    height: 20,
-                    width: 15,
-                  )
-                ],
-              ),
+              Obx(() => Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${controller.userAccount.value.accountDataModel!.xtzBalance!}",
+                        style: headlineSmall,
+                      ),
+                      const SizedBox(width: 5),
+                      SvgPicture.asset(
+                        "${PathConst.HOME_PAGE.SVG}xtz.svg",
+                        height: 20,
+                        width: 15,
+                      )
+                    ],
+                  )),
               0.03.vspace,
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,8 +178,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                   InkWell(
                     onTap: () => Get.bottomSheet(const SendPage(),
                         isScrollControlled: true,
-                        settings:
-                            RouteSettings(arguments: controller.userAccount),
+                        settings: RouteSettings(
+                            arguments: controller.userAccount.value),
                         barrierColor: Colors.white.withOpacity(0.09)),
                     child: RichText(
                       textAlign: TextAlign.center,
@@ -190,9 +213,9 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                   ),
                   0.10.hspace,
                   InkWell(
-                    onTap: () => Get.bottomSheet(ReceivePageView(),
-                        settings:
-                            RouteSettings(arguments: controller.userAccount),
+                    onTap: () => Get.bottomSheet(const ReceivePageView(),
+                        settings: RouteSettings(
+                            arguments: controller.userAccount.value),
                         isScrollControlled: true,
                         barrierColor: Colors.white.withOpacity(0.09)),
                     child: RichText(
@@ -256,7 +279,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                 child: TabBarView(
                   children: [
                     const CryptoTabPage(),
-                    NFTabPage(collectibles: controller.collectibles),
+                    const NFTabPage(),
                     HistoryPage(
                       onTap: (() => Get.bottomSheet(
                             const SearchBottomSheet(),

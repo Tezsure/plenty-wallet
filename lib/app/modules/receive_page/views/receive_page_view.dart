@@ -12,13 +12,11 @@ import 'package:share_plus/share_plus.dart';
 import '../controllers/receive_page_controller.dart';
 
 class ReceivePageView extends GetView<ReceivePageController> {
-  ReceivePageView({super.key});
-
-  @override
-  final ReceivePageController controller = Get.put(ReceivePageController());
+  const ReceivePageView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ReceivePageController controller = Get.put(ReceivePageController());
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(

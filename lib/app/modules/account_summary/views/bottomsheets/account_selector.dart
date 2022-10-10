@@ -1,15 +1,36 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
 import '../../../../../utils/styles/styles.dart';
 import '../../../../../utils/utils.dart';
+import '../../../../data/services/service_models/account_model.dart';
 
-class AccountSelectorSheet extends StatelessWidget {
-  const AccountSelectorSheet({super.key});
+class AccountSelectorSheet extends StatefulWidget {
+  final List<AccountModel> accounts;
+  final AccountModel selectedAccount;
+  const AccountSelectorSheet({
+    super.key,
+    required this.accounts,
+    required this.selectedAccount,
+  });
+
+  @override
+  State<AccountSelectorSheet> createState() => _AccountSelectorSheetState();
+}
+
+class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
+  final AccountSummaryController controller =
+      Get.find<AccountSummaryController>();
+  late int selectedIndex;
+  @override
+  void initState() {
+    selectedIndex = widget.accounts.indexOf(widget.selectedAccount);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +68,7 @@ class AccountSelectorSheet extends StatelessWidget {
             0.01.vspace,
             Expanded(
               child: ListView.builder(
-                  itemCount: 7,
+                  itemCount: widget.accounts.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(
@@ -59,30 +80,34 @@ class AccountSelectorSheet extends StatelessWidget {
                         color: Colors.transparent,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
-                            color: index == 0
+                            color: index == selectedIndex
                                 ? ColorConst.Primary
                                 : Colors.transparent,
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: ListTile(
-                          onTap: () {},
+                          onTap: () {
+                            setState(() {
+                              controller.userAccount.value =
+                                  widget.accounts[index];
+                              selectedIndex = index;
+                              controller.fetchAllTokens();
+                            });
+                          },
                           dense: true,
-                          leading: Image.asset(
-                            ServiceConfig.allAssetsProfileImages[Random()
-                                .nextInt(ServiceConfig
-                                    .allAssetsProfileImages.length)],
-                            fit: BoxFit.contain,
-                            height: 40,
-                            width: 40,
+                          leading: CustomImageWidget(
+                            imageType: widget.accounts[index].imageType!,
+                            imagePath: widget.accounts[index].profileImage!,
+                            imageRadius: 20,
                           ),
                           title: Text(
-                            index == 0 ? 'My Main Account' : 'Account $index',
+                            '${widget.accounts[index].name}',
                             style: bodySmall,
                           ),
                           subtitle: Text(
                               tz1Shortner(
-                                'tz1TCAF7vUmYV5AinJrNhdEhzHds3hhEsxg5',
+                                "${widget.accounts[index].publicKeyHash}",
                               ),
                               style: labelSmall.copyWith(
                                   color: ColorConst.NeutralVariant.shade60)),
@@ -96,7 +121,7 @@ class AccountSelectorSheet extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                '5.63 tez',
+                                '${widget.accounts[index].accountDataModel?.xtzBalance}',
                                 style: labelSmall.copyWith(
                                     color: ColorConst.NeutralVariant.shade60),
                               ),

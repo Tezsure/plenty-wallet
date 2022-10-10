@@ -101,6 +101,14 @@ class UserStorageService {
           .map<AccountTokenModel>((e) => AccountTokenModel.fromJson(e))
           .toList();
 
+  /// update userTokenList
+  Future<void> updateUserTokens(
+          {required String userAddress,
+          required List<AccountTokenModel> accountTokenList}) async =>
+      await ServiceConfig.localStorage.write(
+          key: "${ServiceConfig.accountTokensStorage}_$userAddress",
+          value: jsonEncode(accountTokenList));
+
   /// read user nft using user address
   Future<List<NftTokenModel>> getUserNfts(
           {required String userAddress}) async =>

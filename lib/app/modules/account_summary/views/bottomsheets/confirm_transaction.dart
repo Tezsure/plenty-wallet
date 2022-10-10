@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -9,8 +10,9 @@ import '../../../../../utils/styles/styles.dart';
 import 'account_selector.dart';
 
 class ConfirmTransactionSheet extends StatelessWidget {
-  const ConfirmTransactionSheet({super.key});
+  ConfirmTransactionSheet({super.key});
 
+  final controller = Get.find<HomePageController>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -146,7 +148,10 @@ class ConfirmTransactionSheet extends StatelessWidget {
                               padding: EdgeInsets.only(top: 0.01.height),
                               child: GestureDetector(
                                 onTap: () => Get.bottomSheet(
-                                  const AccountSelectorSheet(),
+                                  AccountSelectorSheet(
+                                      selectedAccount:
+                                          controller.userAccounts[0],
+                                      accounts: controller.userAccounts),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
