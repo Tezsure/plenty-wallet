@@ -69,6 +69,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                           onTap: (model) {
                             Get.bottomSheet(
                               NFTSummaryBottomSheet(
+                                onBackTap: Get.back,
                                 nftModel: widget.nftList[index],
                               ),
                               isScrollControlled: true,

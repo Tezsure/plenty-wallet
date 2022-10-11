@@ -9,6 +9,8 @@ import 'package:naan_wallet/app/modules/custom_packages/readmore/readmore.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/app/modules/custom_packages/timeago/timeago.dart'
+    as timeago;
 
 import '../../../../../../utils/constants/path_const.dart';
 import '../../../../../../utils/utils.dart';
@@ -102,6 +104,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                           Positioned.fill(
                             child: Image.network(
                               imageUrl,
+                              fit: BoxFit.cover,
                             ),
                           ),
                           GestureDetector(
@@ -155,7 +158,9 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                     style: bodyLarge),
                                 WidgetSpan(
                                   child: ReadMoreText(
-                                    '${widget.nftModel!.description}',
+                                    widget.nftModel!.description == null
+                                        ? ""
+                                        : '${widget.nftModel!.description}',
                                     trimLines: 2,
                                     lessStyle: bodySmall.copyWith(
                                         color: ColorConst.Primary),
@@ -246,8 +251,11 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                 .NeutralVariant.shade60),
                                         children: [
                                           TextSpan(
-                                              text:
-                                                  '${widget.nftModel!.lowestAsk} ',
+                                              text: widget.nftModel!
+                                                          .lowestAsk ==
+                                                      null
+                                                  ? "0 "
+                                                  : "${widget.nftModel!.lowestAsk} ",
                                               style: headlineSmall),
                                           WidgetSpan(
                                               child: SvgPicture.asset(
@@ -255,8 +263,14 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                             height: 20,
                                           )),
                                           TextSpan(
-                                              text:
-                                                  '\n\$${(widget.nftModel!.lowestAsk * _controller.xtzPrice.value).toStringAsFixed(2)}',
+                                              text: widget.nftModel
+                                                              ?.lowestAsk ==
+                                                          0 ||
+                                                      widget.nftModel
+                                                              ?.lowestAsk ==
+                                                          null
+                                                  ? '\n0'
+                                                  : '\n\$${(widget.nftModel?.lowestAsk * _controller.xtzPrice.value).toStringAsFixed(2)}',
                                               style: labelSmall.copyWith(
                                                   color: ColorConst
                                                       .NeutralVariant.shade60)),
@@ -467,7 +481,11 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                         .events![index].price ==
                                                     null
                                                 ? Text(
-                                                    '${widget.nftModel!.events![index].timestamp}',
+                                                    timeago.format(
+                                                        DateTime.parse(widget
+                                                            .nftModel!
+                                                            .events![index]
+                                                            .timestamp!)),
                                                     style: labelSmall.copyWith(
                                                         color: ColorConst
                                                             .NeutralVariant
@@ -492,7 +510,8 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                           ),
                                                         ),
                                                         TextSpan(
-                                                          text: '\n2 days ago',
+                                                          text:
+                                                              '\n${timeago.format(DateTime.parse(widget.nftModel!.events![index].timestamp!))}',
                                                           style: labelSmall.copyWith(
                                                               color: ColorConst
                                                                   .NeutralVariant
