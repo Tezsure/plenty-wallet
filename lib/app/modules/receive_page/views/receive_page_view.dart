@@ -24,7 +24,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
         width: 1.width,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-            gradient: GradConst.GradientBackground),
+            color: Colors.black),
         child: Column(
           children: [
             0.005.vspace,

@@ -77,15 +77,17 @@ class SolidButton extends StatelessWidget {
                     color: Colors.white,
                   ),
                 )
-              : child != null
-                  ? (active ? child! : inActiveChild!)
-                  : Text(
-                      title,
-                      style: titleSmall.apply(
-                          color: active
-                              ? textColor ?? ColorConst.Neutral.shade95
-                              : ColorConst.NeutralVariant.shade60),
-                    ),
+              : rowWidget == null
+                  ? child != null
+                      ? (active ? child! : inActiveChild!)
+                      : Text(
+                          title,
+                          style: titleSmall.apply(
+                              color: active
+                                  ? textColor ?? ColorConst.Neutral.shade95
+                                  : ColorConst.NeutralVariant.shade60),
+                        )
+                  : rowWidget!,
         ),
       ),
     );

@@ -40,7 +40,7 @@ class TokenEditTile extends GetView<AccountSummaryController> {
               width: expandedTokenList ? 55 : 45,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: ColorConst.NeutralVariant.shade30,
+                color: const Color(0xff1e1c1f),
               ),
               alignment: Alignment.center,
               child: Row(
@@ -50,13 +50,14 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                 children: [
                   Text(
                     expandedTokenList ? 'Less' : 'All',
-                    style: labelSmall,
+                    style: labelSmall.copyWith(
+                        color: ColorConst.NeutralVariant.shade60),
                   ),
                   Icon(
                     expandedTokenList
                         ? Icons.keyboard_arrow_up
                         : Icons.arrow_forward_ios,
-                    color: Colors.white,
+                    color: ColorConst.NeutralVariant.shade60,
                     size: expandedTokenList ? 14 : 10,
                   )
                 ],

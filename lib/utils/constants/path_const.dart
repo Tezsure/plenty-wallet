@@ -13,6 +13,7 @@ class PathConst {
   static const SEND_PAGE = "assets/send_page/";
   static const CONTACTS_PAGE = "assets/contact_page/";
   static const ACCOUNT_SUMMARY = "assets/account_summary/";
+  static const EMPTY_STATES = "assets/empty_states/";
 }
 
 extension PathExt on String {

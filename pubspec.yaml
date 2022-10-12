@@ -67,6 +67,9 @@ flutter:
     
     #node selector
     - rpc_node/rpc_node.json
+    
+    #empty states images
+    - assets/empty_states/
 
   uses-material-design: true
 

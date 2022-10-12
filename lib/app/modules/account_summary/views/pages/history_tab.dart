@@ -19,92 +19,120 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.02.width),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                0.02.vspace,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      onTap: onTap,
-                      child: Container(
-                        height: 0.06.height,
-                        width: 0.8.width,
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: ColorConst.NeutralVariant.shade60
-                              .withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.search,
-                              color: ColorConst.NeutralVariant.shade60,
-                              size: 22,
+    return !isNftTransaction
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              0.03.vspace,
+              SvgPicture.asset(
+                "assets/empty_states/empty3.svg",
+                height: 240.sp,
+              ),
+              0.03.vspace,
+              RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                      text: "No transactions\n",
+                      style: titleLarge.copyWith(fontWeight: FontWeight.w700),
+                      children: [
+                        WidgetSpan(child: 0.04.vspace),
+                        TextSpan(
+                            text:
+                                "Your crypto and NFT activity will appear\nhere once you start using your wallet",
+                            style: labelMedium.copyWith(
+                                color: ColorConst.NeutralVariant.shade60))
+                      ])),
+            ],
+          )
+        : CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0.02.width),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      0.02.vspace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: onTap,
+                            child: Container(
+                              height: 0.06.height,
+                              width: 0.8.width,
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: ColorConst.NeutralVariant.shade60
+                                    .withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.search,
+                                    color: ColorConst.NeutralVariant.shade60,
+                                    size: 22,
+                                  ),
+                                  0.02.hspace,
+                                  Text(
+                                    'Search',
+                                    style: bodySmall.copyWith(
+                                        color:
+                                            ColorConst.NeutralVariant.shade70),
+                                  )
+                                ],
+                              ),
                             ),
-                            0.02.hspace,
-                            Text(
-                              'Search',
-                              style: bodySmall.copyWith(
-                                  color: ColorConst.NeutralVariant.shade70),
-                            )
-                          ],
-                        ),
+                          ),
+                          0.02.hspace,
+                          GestureDetector(
+                            onTap: () {
+                              Get.bottomSheet(HistoryFilterSheet(),
+                                  isScrollControlled: true);
+                            },
+                            child: SvgPicture.asset(
+                              '${PathConst.SVG}filter.svg',
+                              fit: BoxFit.contain,
+                              color: ColorConst.Primary,
+                            ),
+                          ),
+                          0.01.hspace,
+                        ],
                       ),
-                    ),
-                    0.02.hspace,
-                    GestureDetector(
-                      onTap: () {
-                        Get.bottomSheet(HistoryFilterSheet(),
-                            isScrollControlled: true);
-                      },
-                      child: SvgPicture.asset(
-                        '${PathConst.SVG}filter.svg',
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    0.01.hspace,
-                  ],
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.only(top: 16.sp, left: 16.sp, bottom: 16.sp),
-            child: Text(
-              'August 15, 2022',
-              style: labelMedium,
-            ),
-          ),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              return index.isEven
-                  ? HistoryTile(
-                      onTap: () => Get.bottomSheet(
-                          const TransactionDetailsBottomSheet()),
-                      status: HistoryStatus.receive,
-                    )
-                  : const NftHistoryTile(
-                      status: HistoryStatus.inProgress,
-                    );
-            },
-            childCount: 10,
-          ),
-        ),
-      ],
-    );
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(top: 16.sp, left: 16.sp, bottom: 16.sp),
+                  child: Text(
+                    'August 15, 2022',
+                    style: labelMedium,
+                  ),
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return index.isEven
+                        ? HistoryTile(
+                            onTap: () => Get.bottomSheet(
+                                const TransactionDetailsBottomSheet()),
+                            status: HistoryStatus.receive,
+                          )
+                        : const NftHistoryTile(
+                            status: HistoryStatus.inProgress,
+                          );
+                  },
+                  childCount: 10,
+                ),
+              ),
+            ],
+          );
   }
 }

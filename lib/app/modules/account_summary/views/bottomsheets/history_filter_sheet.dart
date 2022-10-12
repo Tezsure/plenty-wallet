@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -25,7 +24,7 @@ class HistoryFilterSheet extends StatelessWidget {
           "Asset type",
           style: labelMedium,
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Row(
@@ -33,24 +32,24 @@ class HistoryFilterSheet extends StatelessWidget {
           children: [
             assetTypeButton(
               assetType: AssetType.token,
-              svg: PathConst.ACCOUNT_SUMMARY.SVG + "token.svg",
+              svg: "${PathConst.EMPTY_STATES}token.svg",
               title: "Tokens",
             ),
             assetTypeButton(
               assetType: AssetType.nft,
-              svg: PathConst.ACCOUNT_SUMMARY.SVG + "nft.svg",
+              svg: "${PathConst.EMPTY_STATES}nft.svg",
               title: "NFTs",
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 32,
         ),
         Text(
           "Asset type",
           style: labelMedium,
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Row(
@@ -58,29 +57,29 @@ class HistoryFilterSheet extends StatelessWidget {
           children: [
             transactionTypeButton(
               transactionType: TransactionType.delegation,
-              svg: PathConst.ACCOUNT_SUMMARY.SVG + "delegation.svg",
+              svg: "${PathConst.EMPTY_STATES}delegation.svg",
               title: "Delegation",
             ),
             transactionTypeButton(
               transactionType: TransactionType.send,
-              svg: PathConst.ACCOUNT_SUMMARY.SVG + "send.svg",
+              svg: "${PathConst.EMPTY_STATES}send.svg",
               title: "Send",
             ),
             transactionTypeButton(
               transactionType: TransactionType.receive,
-              svg: PathConst.ACCOUNT_SUMMARY.SVG + "receive.svg",
+              svg: "${PathConst.EMPTY_STATES}receive.svg",
               title: "Receive",
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 32,
         ),
         Text(
           "Date",
           style: labelMedium,
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Row(
@@ -91,11 +90,11 @@ class HistoryFilterSheet extends StatelessWidget {
             dateTypeButton(DateType.last3Months, "Last 3 Months"),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 32,
         ),
         dateRangeButton(),
-        Spacer(),
+        const Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -103,7 +102,7 @@ class HistoryFilterSheet extends StatelessWidget {
             applyButton(),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
       ],
@@ -136,7 +135,7 @@ class HistoryFilterSheet extends StatelessWidget {
                 color: controller.assetType.value == assetType
                     ? Colors.white
                     : ColorConst.NeutralVariant.shade60),
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             Text(
@@ -178,7 +177,7 @@ class HistoryFilterSheet extends StatelessWidget {
                 color: controller.transactionType.value == transactionType
                     ? Colors.white
                     : ColorConst.NeutralVariant.shade60),
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             Text(
@@ -237,7 +236,7 @@ class HistoryFilterSheet extends StatelessWidget {
             controller.setDate(dateType);
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             height: 32,
             alignment: Alignment.center,
             decoration: BoxDecoration(
@@ -270,7 +269,7 @@ class HistoryFilterSheet extends StatelessWidget {
           );
         },
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           width: double.infinity,
           height: 32,
           alignment: Alignment.center,

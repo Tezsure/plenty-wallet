@@ -23,7 +23,7 @@ class EditAccountBottomSheet extends StatefulWidget {
 }
 
 class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
-  static final _controller = Get.find<SettingsPageController>();
+  final _controller = Get.find<SettingsPageController>();
 
   @override
   void initState() {

@@ -26,13 +26,14 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
   Widget build(BuildContext context) {
     Get.put(AccountSummaryController());
     return Material(
+      elevation: 4,
       color: Colors.transparent,
       child: Container(
         height: 0.95.height,
         width: 1.width,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-          gradient: GradConst.GradientBackground,
+          color: Colors.black,
         ),
         child: DefaultTabController(
           length: 3,
@@ -129,52 +130,71 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                 ),
               ),
               0.02.vspace,
-              Obx(() => Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "${controller.userAccount.value.accountDataModel!.xtzBalance!}",
-                        style: headlineSmall,
+              Obx(() => Center(
+                    child: Text(
+                      "\$ ${(controller.userAccount.value.accountDataModel!.xtzBalance! * controller.xtzPrice.value).toStringAsFixed(6)}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 30.sp,
+                        color: Colors.white,
                       ),
-                      const SizedBox(width: 5),
-                      SvgPicture.asset(
-                        "${PathConst.HOME_PAGE.SVG}xtz.svg",
-                        height: 20,
-                        width: 15,
-                      )
-                    ],
+                    ),
                   )),
               0.03.vspace,
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      children: [
-                        WidgetSpan(
+                  InkWell(
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        children: [
+                          const WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
-                            child: CircleAvatar(
-                                backgroundColor:
-                                    ColorConst.NeutralVariant.shade20,
-                                radius: 15,
-                                child: Text('\$',
-                                    style: TextStyle(
-                                        color: ColorConst.Primary.shade90)))),
-                        const WidgetSpan(
-                          child: SizedBox(
-                            width: 8,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8.0),
+                              child: CircleAvatar(
+                                backgroundColor: ColorConst.Primary,
+                                radius: 20,
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                            text: 'Buy',
-                            style: labelSmall.copyWith(
-                                color: ColorConst.Primary.shade90)),
-                      ],
+                          TextSpan(text: '\nBuy', style: labelSmall),
+                        ],
+                      ),
                     ),
                   ),
-                  0.10.hspace,
+                  InkWell(
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        children: [
+                          const WidgetSpan(
+                              alignment: PlaceholderAlignment.middle,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8.0),
+                                child: CircleAvatar(
+                                    backgroundColor: ColorConst.Primary,
+                                    radius: 20,
+                                    child: Text('\$',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20))),
+                              )),
+                          TextSpan(
+                              text: '\nEarn',
+                              style: labelSmall.copyWith(
+                                  color: ColorConst.Primary.shade90)),
+                        ],
+                      ),
+                    ),
+                  ),
                   InkWell(
                     onTap: () => Get.bottomSheet(const SendPage(),
                         isScrollControlled: true,
@@ -187,31 +207,28 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                         children: [
                           WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
-                            child: CircleAvatar(
-                              backgroundColor:
-                                  ColorConst.NeutralVariant.shade20,
-                              radius: 15,
-                              child: Icon(
-                                Icons.arrow_upward,
-                                color: ColorConst.Primary.shade90,
-                                size: 20,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: CircleAvatar(
+                                backgroundColor: ColorConst.Primary,
+                                radius: 20,
+                                child: Icon(
+                                  Icons.arrow_upward,
+                                  color: ColorConst.Primary.shade90,
+                                  size: 20,
+                                ),
                               ),
                             ),
                           ),
-                          const WidgetSpan(
-                            child: SizedBox(
-                              width: 8,
-                            ),
-                          ),
                           TextSpan(
-                              text: 'Send',
+                              text: '\nSend',
                               style: labelSmall.copyWith(
                                   color: ColorConst.Primary.shade90)),
                         ],
                       ),
                     ),
                   ),
-                  0.10.hspace,
                   InkWell(
                     onTap: () => Get.bottomSheet(const ReceivePageView(),
                         settings: RouteSettings(
@@ -224,23 +241,21 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                         children: [
                           WidgetSpan(
                               alignment: PlaceholderAlignment.middle,
-                              child: CircleAvatar(
-                                backgroundColor:
-                                    ColorConst.NeutralVariant.shade20,
-                                radius: 15,
-                                child: Icon(
-                                  Icons.arrow_downward,
-                                  color: ColorConst.Primary.shade90,
-                                  size: 20,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: CircleAvatar(
+                                  backgroundColor: ColorConst.Primary,
+                                  radius: 20,
+                                  child: Icon(
+                                    Icons.arrow_downward,
+                                    color: ColorConst.Primary.shade90,
+                                    size: 20,
+                                  ),
                                 ),
                               )),
-                          const WidgetSpan(
-                            child: SizedBox(
-                              width: 8,
-                            ),
-                          ),
                           TextSpan(
-                              text: 'Receive',
+                              text: '\nReceive',
                               style: labelSmall.copyWith(
                                   color: ColorConst.Primary.shade90)),
                         ],

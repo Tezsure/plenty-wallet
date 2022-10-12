@@ -80,8 +80,8 @@ class GradConst {
 
 class ColorConst {
   ColorConst._();
-  static const int _Primary = 0xFF8637EB;
-  static const int _Secondary = 0xFFFF006E;
+  static const int _Primary = 0xFFFF006E;
+  static const int _Secondary = 0xFF8637EB;
   static const int _Tertiary = 0xFFFFBE0C;
   static const int _Error = 0xFFBA1A1A;
   static const int _Neutral = 0xFF07030C;
@@ -98,25 +98,6 @@ class ColorConst {
     _Primary,
     <int, Color>{
       0: Color(0xFF000000),
-      10: Color(0xFF280056),
-      20: Color(0xFF440088),
-      30: Color(0xFF6100BE),
-      40: Color(0xFF7C29E1),
-      50: Color(0xFF964AFB),
-      60: Color(0xFFAC72FF),
-      70: Color(0xFFC197FF),
-      80: Color(0xFFD7BAFF),
-      90: Color(0xFFEDDCFF),
-      95: Color(0xFFF8EDFF),
-      99: Color(0xFFFFFBFF),
-      100: Color(0xFFFFFFFF),
-    },
-  );
-
-  static const NaaNShadesColor Secondary = NaaNShadesColor(
-    _Secondary,
-    <int, Color>{
-      0: Color(0xFF000000),
       10: Color(0xFF3F0016),
       20: Color(0xFF660028),
       30: Color(0xFF90003B),
@@ -127,6 +108,25 @@ class ColorConst {
       80: Color(0xFFFFB2BF),
       90: Color(0xFFFFD9DE),
       95: Color(0xFFFFECEE),
+      99: Color(0xFFFFFBFF),
+      100: Color(0xFFFFFFFF)
+    },
+  );
+
+  static const NaaNShadesColor Secondary = NaaNShadesColor(
+    _Secondary,
+    <int, Color>{
+      0: Color(0xFF000000),
+      10: Color(0xFF280056),
+      20: Color(0xFF440088),
+      30: Color(0xFF6100BE),
+      40: Color(0xFF7C29E1),
+      50: Color(0xFF964AFB),
+      60: Color(0xFFAC72FF),
+      70: Color(0xFFC197FF),
+      80: Color(0xFFD7BAFF),
+      90: Color(0xFFEDDCFF),
+      95: Color(0xFFF8EDFF),
       99: Color(0xFFFFFBFF),
       100: Color(0xFFFFFFFF),
     },

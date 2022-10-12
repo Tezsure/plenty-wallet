@@ -63,9 +63,10 @@ class NaanBottomSheet extends StatelessWidget {
               maxChildSize: 1,
               builder: (_, scrollController) => Container(
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                  gradient: GradConst.GradientBackground,
-                ),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(10)),
+                    // gradient: GradConst.GradientBackground,
+                    color: Colors.black),
                 padding: EdgeInsets.symmetric(horizontal: 0.05.width),
                 child: Column(
                   children: [
@@ -120,7 +121,7 @@ class NaanBottomSheet extends StatelessWidget {
           : Container(
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                  gradient: GradConst.GradientBackground),
+                  color: Colors.black),
               width: width ?? 1.width,
               height: height,
               padding: EdgeInsets.symmetric(

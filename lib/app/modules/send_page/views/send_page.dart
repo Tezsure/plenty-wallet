@@ -37,9 +37,8 @@ class SendPage extends GetView<SendPageController> {
         height: 0.95.height,
         width: 1.width,
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-          gradient: GradConst.GradientBackground,
-        ),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+            color: Colors.black),
         child: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Column(

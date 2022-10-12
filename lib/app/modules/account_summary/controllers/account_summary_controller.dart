@@ -43,10 +43,11 @@ class AccountSummaryController extends GetxController {
   }
 
   Future<void> fetchAllNfts() async {
+    userNfts.clear();
     UserStorageService()
         .getUserNfts(userAddress: userAccount.value.publicKeyHash!)
         .then((nftList) {
-      for (var i = 0; i < nftList.length; i++) {
+      for (int i = 0; i < nftList.length; i++) {
         userNfts[nftList[i].fa!.contract!] =
             (userNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
       }

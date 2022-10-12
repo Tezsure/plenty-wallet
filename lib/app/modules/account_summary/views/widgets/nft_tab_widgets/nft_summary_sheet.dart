@@ -51,9 +51,9 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
             child: Container(
               width: 1.width,
               decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                gradient: GradConst.GradientBackground,
-              ),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                  // gradient: GradConst.GradientBackground,
+                  color: Colors.black),
               child: SingleChildScrollView(
                 controller: scrollController,
                 child: Column(

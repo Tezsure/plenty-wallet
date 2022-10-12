@@ -18,7 +18,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
     return Container(
       height: 0.8.height,
       width: 1.width,
-      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+      decoration: const BoxDecoration(color: Colors.black),
       padding: EdgeInsets.symmetric(horizontal: 0.035.width),
       child: Column(
         children: [

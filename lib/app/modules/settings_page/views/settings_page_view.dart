@@ -32,8 +32,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
       bottom: false,
       child: Material(
         child: Container(
-          decoration:
-              const BoxDecoration(gradient: GradConst.GradientBackground),
+          decoration: const BoxDecoration(color: Colors.black),
           width: 1.width,
           height: 1.height,
           padding: EdgeInsets.symmetric(horizontal: 0.05.width),

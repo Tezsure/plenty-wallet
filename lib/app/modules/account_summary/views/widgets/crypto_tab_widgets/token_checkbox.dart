@@ -6,7 +6,6 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 import '../../../../../../utils/constants/path_const.dart';
-import '../../../../../../utils/styles/styles.dart';
 
 class TokenCheckbox extends StatelessWidget {
   final List<AccountTokenModel> tokenModel;
@@ -100,6 +99,7 @@ class TokenCheckbox extends StatelessWidget {
                                 )
                               else
                                 Checkbox(
+                                  shape: const CircleBorder(),
                                   materialTapTargetSize:
                                       MaterialTapTargetSize.shrinkWrap,
                                   value: tokenModel[tokenIndex].isSelected,
@@ -107,10 +107,11 @@ class TokenCheckbox extends StatelessWidget {
                                   fillColor: MaterialStateProperty.all<Color>(
                                       tokenModel[tokenIndex].isSelected
                                           ? ColorConst.Primary
-                                          : ColorConst.NeutralVariant.shade40),
+                                          : const Color(0xff1E1C1F)),
                                 ),
                             ] else
                               Checkbox(
+                                shape: const CircleBorder(),
                                 materialTapTargetSize:
                                     MaterialTapTargetSize.shrinkWrap,
                                 value: tokenModel[tokenIndex].isSelected,
@@ -118,7 +119,7 @@ class TokenCheckbox extends StatelessWidget {
                                 fillColor: MaterialStateProperty.all<Color>(
                                     tokenModel[tokenIndex].isSelected
                                         ? ColorConst.Primary
-                                        : ColorConst.NeutralVariant.shade40),
+                                        : const Color(0xff1E1C1F)),
                               ),
                             CircleAvatar(
                               radius: 22,
@@ -189,37 +190,37 @@ class TokenCheckbox extends StatelessWidget {
                   0.03.hspace,
                   RichText(
                       text: TextSpan(
-                          text: tokenModel[tokenIndex].name!,
-                          style: labelSmall,
+                          text: "${tokenModel[tokenIndex].name!}\n",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.5,
+                              fontSize: 14,
+                              color: Colors.white),
                           children: [
+                        WidgetSpan(child: 0.025.vspace),
                         TextSpan(
-                          text:
-                              "\n\$${tokenModel[tokenIndex].balance.toStringAsFixed(6)}",
-                          style: labelSmall.apply(
-                            color: ColorConst.NeutralVariant.shade60,
-                          ),
-                        ),
+                            text:
+                                "${tokenModel[tokenIndex].balance.toStringAsFixed(6)} ${tokenModel[tokenIndex].symbol}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 0.5,
+                                fontSize: 12,
+                                color: ColorConst.NeutralVariant.shade60)),
                       ])),
                   const Spacer(),
-                  Container(
-                    height: 0.03.height,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color:
-                            ColorConst.NeutralVariant.shade60.withOpacity(0.2)),
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    alignment: Alignment.center,
-                    child: Text(
-                      r"$" +
-                          (tokenModel[tokenIndex].name == "Tezos"
-                                  ? xtzPrice
-                                  : (tokenModel[tokenIndex].currentPrice! *
-                                      xtzPrice))
-                              .toStringAsFixed(6)
-                              .removeTrailing0,
-                      style: labelSmall.apply(
-                          color: ColorConst.NeutralVariant.shade60),
-                    ),
+                  Text(
+                    r"$" +
+                        (tokenModel[tokenIndex].name == "Tezos"
+                                ? xtzPrice
+                                : (tokenModel[tokenIndex].currentPrice! *
+                                    xtzPrice))
+                            .toStringAsFixed(6)
+                            .removeTrailing0,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.5,
+                        fontSize: 12,
+                        color: Colors.white),
                   ),
                 ],
               ),
