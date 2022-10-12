@@ -15,18 +15,18 @@ class PasscodePageView extends GetView<PasscodePageController> {
   @override
   Widget build(BuildContext context) {
     var args = ModalRoute.of(context)!.settings.arguments as List;
-    controller.isToVerifyPassCode = args[0] as bool;
+    controller.isToVerifyPassCode.value = args[0] as bool;
     if (args.length == 2) {
       controller.nextPageRoute = args[1] as String;
     }
 
-    if (controller.isToVerifyPassCode) {
+    if (controller.isToVerifyPassCode.value) {
       controller.verifyPassCodeOrBiomatrics();
     }
 
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+        color: Colors.black,
         padding: const EdgeInsets.symmetric(horizontal: 21),
         child: SafeArea(
           child: Column(
@@ -35,7 +35,17 @@ class PasscodePageView extends GetView<PasscodePageController> {
               0.02.vspace,
               Align(
                 alignment: Alignment.centerLeft,
-                child: backButton(),
+                child: GestureDetector(
+                  onTap: () => Get.back(),
+                  child: CircleAvatar(
+                    radius: 0.045.width,
+                    backgroundColor: Colors.transparent,
+                    child: SvgPicture.asset(
+                      "${PathConst.SVG}arrow_back.svg",
+                      fit: BoxFit.scaleDown,
+                    ),
+                  ),
+                ),
               ),
               0.05.vspace,
               Center(
@@ -49,24 +59,36 @@ class PasscodePageView extends GetView<PasscodePageController> {
                 ),
               ),
               0.05.vspace,
-              Text(
-                controller.isToVerifyPassCode
-                    ? "Enter passcode"
-                    : "Set passcode",
-                textAlign: TextAlign.center,
-                style: titleMedium,
+              Obx(
+                () =>  Text(
+                  controller.isToVerifyPassCode.value
+                      ? 
+                      controller.isPassCodeWrong.value
+                          ? "Try Again"
+                          : 
+                          "Enter passcode"
+                      : "Set passcode",
+                  textAlign: TextAlign.center,
+                  style: titleMedium,
+                ),
               ),
               0.01.vspace,
-              Text(
-                "Protect your wallet by setting a passcode",
-                style:
-                    bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+              Obx(
+              () =>  Text(
+                  controller.isPassCodeWrong.value
+                      ? "Passcode doesn’t match"
+                      : "Protect your naan by creating a passcode ",
+                  style:
+                      bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+                ),
               ),
               0.05.vspace,
               PassCodeWidget(onChanged: (value) {
                 if (value.length == 6) {
                   controller.checkOrWriteNewAndRedirectToNewPage(value);
                   // Get.toNamed(Routes.BIOMETRIC_PAGE);
+                } else {
+                  controller.isPassCodeWrong.value = false;
                 }
               })
             ],
@@ -111,7 +133,11 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
                         ? Colors.transparent
                         : Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.white, width: 2),
+                    border: Border.all(
+                        color: controller.isPassCodeWrong.value
+                            ? ColorConst.Error.shade60
+                            : Colors.white,
+                        width: 2),
                   ),
                 ),
               ),

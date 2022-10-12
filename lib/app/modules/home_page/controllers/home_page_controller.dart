@@ -74,7 +74,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
           ),
           .03.vspace,
           SolidButton(
-              textColor: ColorConst.Neutral.shade95,
+              textColor: Colors.white,
               title: "Backup Wallet ( ~1 min )",
               onPressed: () => Get.toNamed(
                     Routes.BACKUP_WALLET,
