@@ -44,7 +44,6 @@ class Web3Auth {
     return () async {
       try {
         await _socialLogin(socialApp: socialAppName).then((response) async {
-          print(response);
           Get.put(Web3AuthController());
           Web3AuthController controller = Get.find<Web3AuthController>();
           controller.privateKey = GenerateKeys.readKeysWithHint(
