@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/painters/indicator_painter.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -22,7 +23,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+      color: Colors.black,
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: SafeArea(
@@ -32,7 +33,13 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             0.03.vspace,
             Row(
               children: [
-                backButton(),
+                GestureDetector(
+                  onTap: () => Get.back(),
+                  child: SvgPicture.asset(
+                    "${PathConst.SVG}arrow_back.svg",
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
                 const Spacer(),
                 GestureDetector(
                   onTap: () {
@@ -44,17 +51,17 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                   },
                   child: Row(
                     children: [
+                      Text(
+                        "Info",
+                        style: titleMedium.apply(
+                            color: ColorConst.NeutralVariant.shade60),
+                      ),
+                      0.01.hspace,
                       Icon(
                         Icons.info_outline,
                         color: ColorConst.NeutralVariant.shade60,
                         size: 16,
                       ),
-                      0.01.hspace,
-                      Text(
-                        "Info",
-                        style: titleMedium.apply(
-                            color: ColorConst.NeutralVariant.shade60),
-                      )
                     ],
                   ),
                 )
@@ -67,10 +74,10 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                   children: [
                     0.05.vspace,
                     Text(
-                      "Import wallet",
+                      "Import account",
                       style: titleLarge,
                     ),
-                    0.05.vspace,
+                    0.023.vspace,
                     Material(
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white.withOpacity(0.2),
@@ -182,8 +189,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               ImportWalletDataType.mnemonic) {
             controller.genAndLoadMoreAccounts(0, 3);
             Get.bottomSheet(
-              accountBottomSheet(),
-              // isScrollControlled: true,
+              AccountBottomSheet(controller: controller),
+              isScrollControlled: true,
               barrierColor: Colors.white.withOpacity(0.2),
             );
           } else {
@@ -231,32 +238,6 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget accountBottomSheet() {
-    return NaanBottomSheet(
-      blurRadius: 5,
-      height: 0.85.height,
-      bottomSheetWidgets: [
-        Text(
-          "Wallets ready to import",
-          textAlign: TextAlign.start,
-          style: titleLarge,
-        ),
-        0.03.vspace,
-        Expanded(
-          child: AccountWidget(),
-        ),
-        0.03.vspace,
-        SolidButton(
-          onPressed: () {
-            controller.redirectBasedOnImportWalletType();
-          },
-          title: "Continue",
-        ),
-        0.05.vspace
-      ],
     );
   }
 
@@ -345,3 +326,123 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     );
   }
 }
+
+class AccountBottomSheet extends StatelessWidget {
+  const AccountBottomSheet({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  final ImportWalletPageController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return NaanBottomSheet(
+      blurRadius: 5,
+      height: 0.85.height,
+      bottomSheetWidgets: [
+        Text(
+          "Select addresses",
+          textAlign: TextAlign.start,
+          style: titleLarge,
+        ),
+        0.014.vspace,
+        Text(
+          "Multiple addresses can be selected",
+          style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+        ),
+        0.03.vspace,
+        Expanded(
+          child: DefaultTabController(
+            length: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Obx(
+                  () => TabBar(
+                    isScrollable: true,
+                    indicatorColor: ColorConst.Primary,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorWeight: 4,
+                    indicatorPadding: EdgeInsets.zero,
+                    labelPadding: EdgeInsets.zero,
+               
+
+                    tabs: [
+                      Tab(
+                        child: SizedBox(
+                          width:
+                              controller.selectedAccounts.isNotEmpty ? 84 : 61,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("tz 1"),
+                              if (controller.selectedAccounts.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: CircleAvatar(
+                                    radius: 8,
+                                    backgroundColor: ColorConst.Primary,
+                                    child: Text(
+                                        controller.selectedAccounts.length
+                                            .toString(),
+                                        style: labelSmall),
+                                  ),
+                                )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: SizedBox(
+                          width:
+                              controller.selectedAccounts.isNotEmpty ? 84 : 61,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("tz 2"),
+                              if (controller.selectedAccounts.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: CircleAvatar(
+                                    radius: 8,
+                                    backgroundColor: ColorConst.Primary,
+                                    child: Text(
+                                        controller.selectedAccounts.length
+                                            .toString(),
+                                        style: labelSmall),
+                                  ),
+                                )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                0.015.vspace,
+                Expanded(
+                  child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [AccountWidget(), AccountWidget()],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        0.03.vspace,
+        SolidButton(
+          onPressed: () {
+            controller.redirectBasedOnImportWalletType();
+          },
+          title: "Continue",
+        ),
+        0.05.vspace
+      ],
+    );
+  }
+}
+

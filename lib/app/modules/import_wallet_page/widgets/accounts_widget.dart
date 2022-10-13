@@ -6,6 +6,7 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:naan_wallet/app/data/services/extension_service/extension_service.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../utils/styles/styles.dart';
 
 class AccountWidget extends StatelessWidget {
@@ -39,6 +40,7 @@ class AccountWidget extends StatelessWidget {
                             controller.generatedAccounts[index], index),
                       ),
                     ),
+                    accountLoadingShimmer(),
                     if (controller.generatedAccounts.length < 100)
                       showMoreAccountButton(
                           controller.generatedAccounts.length - 1),
@@ -57,17 +59,15 @@ class AccountWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       Expanded(
-                        child: ListView.separated(
+                        child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) => accountWidget(
                               controller.generatedAccounts[index], index),
-                          separatorBuilder: (context, index) => const Divider(
-                              color: Color(0xff4a454e),
-                              height: 1,
-                              thickness: 1),
                           itemCount: controller.generatedAccounts.length,
                           shrinkWrap: true,
                         ),
                       ),
+                      accountLoadingShimmer(),
                       if (controller.generatedAccounts.length < 100)
                         showMoreAccountButton(
                             controller.generatedAccounts.length - 1),
@@ -80,44 +80,35 @@ class AccountWidget extends StatelessWidget {
     );
   }
 
-  Column showMoreAccountButton(int index) {
-    return Column(
-      children: [
-        const Divider(
-          color: Color(0xff4a454e),
-          height: 1,
-          thickness: 1,
-        ),
-        GestureDetector(
-          onTap: () {
-            controller.genAndLoadMoreAccounts(index, 3);
+  Widget showMoreAccountButton(int index) {
+    return GestureDetector(
+      onTap: () {
+        controller.genAndLoadMoreAccounts(index, 3);
 
-            // controller.showMoreAccounts();
-            controller.isExpanded.value = true;
-          },
-          child: SizedBox(
-            height: 50,
-            child: Center(
-              child: Text(
-                "Show more accounts",
-                style: labelMedium,
-              ),
-            ),
+        // controller.showMoreAccounts();
+        controller.isExpanded.value = true;
+      },
+      child: SizedBox(
+        height: 50,
+        child: Center(
+          child: Text(
+            "Show more accounts",
+            style: labelMedium,
           ),
         ),
-      ],
+      ),
     );
   }
 
   Widget accountWidget(AccountModel accountModel, index) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      height: 84,
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      height: 48,
       child: Row(
         children: [
           Container(
-            height: 0.13.width,
-            width: 0.13.width,
+            height: 48,
+            width: 48,
             alignment: Alignment.bottomRight,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -129,7 +120,7 @@ class AccountWidget extends StatelessWidget {
           ),
           0.05.hspace,
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -139,7 +130,8 @@ class AccountWidget extends StatelessWidget {
               accountBalances.containsKey(accountModel.publicKeyHash)
                   ? Text(
                       "${accountBalances[accountModel.publicKeyHash]} tez",
-                      style: bodyLarge,
+                      style: labelSmall.apply(
+                          color: ColorConst.NeutralVariant.shade60),
                     )
                   : FutureBuilder<double>(
                       future: accountModel.getUserBalanceInTezos(),
@@ -149,7 +141,8 @@ class AccountWidget extends StatelessWidget {
                             snapshot.data;
                         return Text(
                           "${snapshot.data} tez",
-                          style: bodyLarge,
+                          style: labelSmall.apply(
+                              color: ColorConst.NeutralVariant.shade60),
                         );
                       },
                     ),
@@ -159,6 +152,8 @@ class AccountWidget extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: Checkbox(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               value: controller.selectedAccounts.contains(accountModel),
               onChanged: (value) {
                 if (value!) {
@@ -167,13 +162,30 @@ class AccountWidget extends StatelessWidget {
                   controller.selectedAccounts.remove(accountModel);
                 }
               },
-              checkColor: Colors.black,
-              fillColor: MaterialStateProperty.all(Colors.white),
-              side: const BorderSide(color: Colors.white, width: 1),
+              checkColor: Colors.white,
+              fillColor: MaterialStateProperty.all(ColorConst.Primary),
+              side: BorderSide(
+                  color: ColorConst.NeutralVariant.shade30, width: 1),
             ),
           )
         ],
       ),
+    );
+  }
+
+  Widget accountLoadingShimmer() {
+    return Row(
+      children: [
+        Shimmer.fromColors(
+            direction: ShimmerDirection.ltr,
+            child: CircleAvatar(radius: 24),
+            baseColor: Colors.transparent,
+            highlightColor: Color(0xffe8e8e8).withOpacity(0.24)),
+        0.05.hspace,
+       
+        
+        
+        ],
     );
   }
 }

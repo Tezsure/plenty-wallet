@@ -92,56 +92,60 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                 .value = value.length > 2 && value.length < 20,
           ),
           Spacer(),
-          Obx(
-            () => SolidButton(
-              active: controller.isContiuneButtonEnable.value,
-              onPressed: () {
-                if (controller.previousRoute == Routes.CREATE_WALLET_PAGE ||
-                    controller.previousRoute == Routes.IMPORT_WALLET_PAGE) {
-                  Get.toNamed(Routes.LOADING_PAGE, arguments: [
-                    'assets/create_wallet/lottie/wallet_success.json',
-                    controller.previousRoute,
-                    Routes.HOME_PAGE,
-                  ]);
-                } else if (controller.previousRoute == Routes.HOME_PAGE) {
-                  Get.toNamed(Routes.LOADING_PAGE, arguments: [
-                    'assets/create_wallet/lottie/wallet_success.json',
-                    Routes.IMPORT_WALLET_PAGE,
-                    null,
-                  ]);
-                }
-                // controller.startUsingNaanwallet()
-                // Get.toNamed(Routes.HOME_PAGE, arguments: [true]);
-              },
-              inActiveChild: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.check_circle_outline_outlined,
-                    color: ColorConst.Primary.shade95,
-                    size: 20,
-                  ),
-                  0.02.hspace,
-                  Text(
-                    "Start using Naan wallet",
-                    style: titleSmall.apply(color: ColorConst.Primary.shade95),
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.check_circle_outline_outlined,
-                    color: ColorConst.Primary.shade95,
-                    size: 20,
-                  ),
-                  0.02.hspace,
-                  Text(
-                    "Start using Naan wallet",
-                    style: titleSmall.apply(color: ColorConst.Primary.shade95),
-                  ),
-                ],
+          Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 0.05.width),
+            child: Obx(
+              () => SolidButton(
+                active: controller.isContiuneButtonEnable.value,
+                onPressed: () {
+                  if (controller.previousRoute == Routes.CREATE_WALLET_PAGE ||
+                      controller.previousRoute == Routes.IMPORT_WALLET_PAGE) {
+                    Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                      'assets/create_wallet/lottie/wallet_success.json',
+                      controller.previousRoute,
+                      Routes.HOME_PAGE,
+                    ]);
+                  } else if (controller.previousRoute == Routes.HOME_PAGE) {
+                    Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                      'assets/create_wallet/lottie/wallet_success.json',
+                      Routes.IMPORT_WALLET_PAGE,
+                      null,
+                    ]);
+                  }
+                  // controller.startUsingNaanwallet()
+                  // Get.toNamed(Routes.HOME_PAGE, arguments: [true]);
+                },
+                inActiveChild: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.check_circle_outline_rounded,
+                      color: ColorConst.Primary.shade100,
+                      size: 20,
+                    ),
+                    0.02.hspace,
+                    Text(
+                      "Start using Naan wallet",
+                      style: titleSmall.apply(color: ColorConst.Primary),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.check_circle_outline_outlined,
+                      color: ColorConst.Primary.shade95,
+                      size: 20,
+                    ),
+                    0.02.hspace,
+                    Text(
+                      "Start using Naan wallet",
+                      style:
+                          titleSmall.apply(color: ColorConst.Primary.shade95),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -258,7 +262,6 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
               child: GestureDetector(
                 onTap: () => Get.back(),
                 child: Container(
-                  
                   height: 51,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
