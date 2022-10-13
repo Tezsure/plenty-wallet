@@ -79,6 +79,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                   child: SvgPicture.asset(
                     "${PathConst.SVG}add_photo.svg",
                     fit: BoxFit.scaleDown,
+                    color: ColorConst.Primary,
                   ),
                 ),
               ),
@@ -126,7 +127,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     ),
                     0.015.hspace,
                     Text(
-                      "Start using Naan wallet",
+                      "Start using Naan",
                       style: titleSmall.copyWith(
                           color: const Color(0xFF958E99),
                           fontWeight: FontWeight.w600),
@@ -143,9 +144,10 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     ),
                     0.02.hspace,
                     Text(
-                      "Start using Naan wallet",
-                      style:
-                          titleSmall.apply(color: ColorConst.Primary.shade95),
+                      "Start using Naan",
+                      style: titleSmall.copyWith(
+                          color: ColorConst.Primary.shade95,
+                          fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),

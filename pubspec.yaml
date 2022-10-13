@@ -29,6 +29,7 @@ dependencies:
   http: ^0.13.5
   simple_gql: ^1.2.0
   hex: ^0.2.0
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:
