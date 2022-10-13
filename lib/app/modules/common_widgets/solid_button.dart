@@ -82,7 +82,7 @@ class SolidButton extends StatelessWidget {
                       title,
                       style: titleSmall.apply(
                           color: active
-                              ? textColor ?? ColorConst.Neutral.shade95
+                              ? textColor ?? ColorConst.Neutral.shade100
                               : ColorConst.NeutralVariant.shade60),
                     ),
         ),

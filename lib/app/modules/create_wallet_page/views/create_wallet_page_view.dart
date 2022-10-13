@@ -53,7 +53,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+                      padding: EdgeInsets.symmetric(horizontal: 0.08.width),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
