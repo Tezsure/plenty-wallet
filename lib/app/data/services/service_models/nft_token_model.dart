@@ -252,6 +252,7 @@ class Fa {
   int? floorPrice;
   String? logo;
   String? contract;
+  String? description;
 
   Fa({
     this.name,
@@ -259,6 +260,7 @@ class Fa {
     this.floorPrice,
     this.contract,
     this.logo,
+    this.description,
   });
 
   Fa.fromJson(Map<String, dynamic> json) {
@@ -267,6 +269,7 @@ class Fa {
     floorPrice = json['floor_price'];
     logo = json['logo'] ?? "";
     contract = json['contract'];
+    description = json['description'];
   }
 
   Map<String, dynamic> toJson() {
@@ -276,6 +279,7 @@ class Fa {
     data['floor_price'] = floorPrice;
     data['logo'] = logo;
     data['contract'] = contract;
+    data['description'] = description;
     return data;
   }
 }
