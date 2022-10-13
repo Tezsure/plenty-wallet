@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 // ignore: must_be_immutable
@@ -50,13 +51,12 @@ class SolidButton extends StatelessWidget {
       padding: EdgeInsets.zero,
       onPressed: active ? onPressed : null,
       onLongPress: onLongPressed,
-      disabledColor: disabledButtonColor ??
-          ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+      disabledColor: disabledButtonColor ?? const Color(0xFF1E1C1F),
       color: primaryColor ?? ColorConst.Primary,
       splashColor: ColorConst.Primary.shade60,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Container(
-        height: height ?? 48,
+        height: height ?? 50.sp,
         width: width ?? double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

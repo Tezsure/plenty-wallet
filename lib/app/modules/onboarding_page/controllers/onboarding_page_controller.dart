@@ -51,7 +51,7 @@ class OnboardingPageController extends GetxController {
       }
       _pageController
           .animateToPage(nextPage,
-              duration: const Duration(milliseconds: 250),
+              duration: const Duration(milliseconds: 1000),
               curve: Curves.fastOutSlowIn)
           .then((_) => animateSlider());
     }).onError((error, stackTrace) => null);

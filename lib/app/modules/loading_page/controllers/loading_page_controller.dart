@@ -30,8 +30,13 @@ class LoadingPageController extends GetxController {
     if (fromRoute == Routes.CREATE_WALLET_PAGE) {
       CreateProfilePageController createWalletPageController =
           Get.find<CreateProfilePageController>();
-      Web3AuthController web3authController = Get.find<Web3AuthController>();
-      if (web3authController.privateKey != null) {
+      Web3AuthController? web3authController;
+      try {
+        web3authController = Get.find<Web3AuthController?>();
+      } catch (e) {
+        //
+      }
+      if (web3authController != null && web3authController.privateKey != null) {
         await Future.wait([
           WalletService().importWalletUsingPrivateKey(
             web3authController.privateKey!,

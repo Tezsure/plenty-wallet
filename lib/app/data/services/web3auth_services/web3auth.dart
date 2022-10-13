@@ -84,10 +84,10 @@ class Web3Auth {
       {required web3auth.Provider socialApp}) {
     LoginParams loginParams = LoginParams(
       loginProvider: socialApp,
-      curve: web3auth.Curve.ed25519,
+      curve: web3auth.Curve.secp256k1,
       mfaLevel: web3auth.MFALevel.MANDATORY,
       extraLoginOptions: ExtraLoginOptions(
-        display: web3auth.Display.popup,
+        display: web3auth.Display.wap,
       ),
     );
     return Web3AuthFlutter.login(loginParams);

@@ -22,7 +22,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
         statusBarBrightness: Brightness.light,
         statusBarIconBrightness: Brightness.dark,
         systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Color(0xff2D004F),
+        systemNavigationBarColor: Colors.black,
       ),
       child: Container(
         color: Colors.black,
