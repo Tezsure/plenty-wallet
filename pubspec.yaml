@@ -29,6 +29,7 @@ dependencies:
   http: ^0.13.5
   simple_gql: ^1.2.0
   url_launcher: ^6.1.6
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

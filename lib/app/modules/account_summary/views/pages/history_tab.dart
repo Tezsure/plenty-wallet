@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/history_filter_sheet.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -11,7 +12,6 @@ import '../../../../../utils/styles/styles.dart';
 import '../account_summary_view.dart';
 import '../bottomsheets/transaction_details.dart';
 import '../widgets/history_tab_widgets/history_tile.dart';
-import '../widgets/history_tab_widgets/nft_history_tile.dart';
 
 class HistoryPage extends GetView<AccountSummaryController> {
   final bool isNftTransaction;
@@ -20,7 +20,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
 
   @override
   Widget build(BuildContext context) {
-    return controller.userTransactionHistory.isEmpty
+    return Obx(() => controller.userTransactionHistory.isEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -46,6 +46,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
             ],
           )
         : CustomScrollView(
+            controller: controller.paginationController.value,
             physics: const BouncingScrollPhysics(),
             slivers: [
               SliverToBoxAdapter(
@@ -107,33 +108,78 @@ class HistoryPage extends GetView<AccountSummaryController> {
                   ),
                 ),
               ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(top: 16.sp, left: 16.sp, bottom: 16.sp),
-                  child: Text(
-                    'August 15, 2022',
-                    style: labelMedium,
-                  ),
-                ),
-              ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return index.isEven
-                        ? HistoryTile(
-                            onTap: () => Get.bottomSheet(
-                                const TransactionDetailsBottomSheet()),
-                            status: HistoryStatus.receive,
-                          )
-                        : const NftHistoryTile(
-                            status: HistoryStatus.inProgress,
-                          );
+                    return
+                        // controller.userTransactionHistory[index].type!
+                        //         .contains("transaction")
+                        //     ?
+                        Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        index == 0
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                    top: 16.sp, left: 16.sp, bottom: 16.sp),
+                                child: Text(
+                                  DateFormat.yMMMEd()
+                                      // displaying formatted date
+                                      .format(DateTime.parse(controller
+                                          .userTransactionHistory[index]
+                                          .timestamp!)),
+                                  style: labelMedium,
+                                ),
+                              )
+                            : DateTime.parse(controller
+                                        .userTransactionHistory[index]
+                                        .timestamp!)
+                                    .isSameDate(DateTime.parse(controller
+                                        .userTransactionHistory[
+                                            index == 0 ? 0 : index - 1]
+                                        .timestamp!))
+                                ? const SizedBox()
+                                : Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 16.sp, left: 16.sp, bottom: 16.sp),
+                                    child: Text(
+                                      DateFormat.yMMMEd().format(DateTime.parse(
+                                          controller
+                                              .userTransactionHistory[index]
+                                              .timestamp!)),
+                                      style: labelMedium,
+                                    ),
+                                  ),
+                        HistoryTile(
+                          userAccountAddress:
+                              controller.userAccount.value.publicKeyHash!,
+                          xtzPrice: controller.xtzPrice.value,
+                          historyModel:
+                              controller.userTransactionHistory[index],
+                          onTap: () =>
+                              Get.bottomSheet(TransactionDetailsBottomSheet(
+                            transactionModel:
+                                controller.userTransactionHistory[index],
+                          )),
+                          status: HistoryStatus.receive,
+                        ),
+                      ],
+                    );
+                    // : const NftHistoryTile(
+                    //     status: HistoryStatus.inProgress,
+                    //   );
                   },
-                  childCount: 10,
+                  childCount: controller.userTransactionHistory.length,
                 ),
               ),
             ],
-          );
+          ));
+  }
+}
+
+extension DateOnlyCompare on DateTime {
+  bool isSameDate(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
   }
 }

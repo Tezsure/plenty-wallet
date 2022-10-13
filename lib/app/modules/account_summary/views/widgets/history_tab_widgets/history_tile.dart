@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../utils/colors/colors.dart';
 import '../../../../../../utils/constants/path_const.dart';
 import '../../../../../../utils/styles/styles.dart';
-import '../../../../../../utils/utils.dart';
 import '../../account_summary_view.dart';
 
 class HistoryTile extends StatelessWidget {
   final VoidCallback? onTap;
   final HistoryStatus status;
-  const HistoryTile({super.key, required this.status, this.onTap});
+  final TxHistoryModel historyModel;
+  final double xtzPrice;
+  final String userAccountAddress;
+  const HistoryTile(
+      {super.key,
+      required this.status,
+      this.onTap,
+      required this.historyModel,
+      required this.xtzPrice,
+      required this.userAccountAddress});
 
+// xtz = amount > 0 , parameters == null
+// token/nft = amount == 0 , parameters != null
+// sender contract id is in current token model
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -31,39 +42,60 @@ class HistoryTile extends StatelessWidget {
             leading: CircleAvatar(
                 radius: 20.sp,
                 backgroundColor: ColorConst.Tertiary,
-                child: SvgPicture.asset('${PathConst.SVG}tez.svg')),
-            title: Text(
-              status == HistoryStatus.inProgress
-                  ? '- - Sending'
-                  : status.name.capitalizeFirst ?? '',
-              style: labelMedium.copyWith(
-                color: status == HistoryStatus.inProgress
-                    ? ColorConst.Primary.shade60
-                    : Colors.white,
-              ),
+                child: SvgPicture.asset(
+                  '${PathConst.SVG}tez.svg',
+                  fit: BoxFit.cover,
+                )),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                    historyModel.sender!.address!.contains(userAccountAddress)
+                        ? Icons.arrow_upward
+                        : Icons.arrow_downward,
+                    size: 18.sp,
+                    color: ColorConst.NeutralVariant.shade60),
+                Text(
+                    historyModel.sender!.address!.contains(userAccountAddress)
+                        ? ' Sent'
+                        : ' Received',
+                    style: labelLarge.copyWith(
+                        color: ColorConst.NeutralVariant.shade60,
+                        fontWeight: FontWeight.w600)),
+              ],
             ),
             subtitle: Text(
-              tz1Shortner('tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx'),
-              style:
-                  labelSmall.copyWith(color: ColorConst.NeutralVariant.shade60),
+              historyModel.amount! > 0 && historyModel.parameter == null
+                  ? "Tezos"
+                  : "Token",
+              style: labelLarge,
             ),
             trailing: RichText(
               textAlign: TextAlign.end,
               text: TextSpan(
-                  text: status == HistoryStatus.receive
-                      ? '+18.267\n'
-                      : '-18.267\n',
-                  style: labelMedium.copyWith(
-                    color: status == HistoryStatus.receive
-                        ? ColorConst.naanCustomColor
-                        : Colors.white,
-                  ),
+                  text:
+                      historyModel.amount! > 0 && historyModel.parameter == null
+                          ? '${(historyModel.amount! / 1e6)} tez\n'
+                          : "",
+                  style: labelSmall.copyWith(
+                      color: ColorConst.NeutralVariant.shade60),
                   children: [
                     WidgetSpan(child: 0.02.vspace),
                     TextSpan(
-                        text: '\$23.21',
-                        style: labelSmall.copyWith(
-                            color: ColorConst.NeutralVariant.shade60))
+                      text: historyModel.amount! > 0 &&
+                              historyModel.parameter == null
+                          ? historyModel.sender!.address!
+                                  .contains(userAccountAddress)
+                              ? '- \$${((historyModel.amount! / 1e6) * xtzPrice).toStringAsFixed(2)}'
+                              : '\$${((historyModel.amount! / 1e6) * xtzPrice).toStringAsFixed(2)}'
+                          : "",
+                      style: labelLarge.copyWith(
+                          color: historyModel.sender!.address!
+                                  .contains(userAccountAddress)
+                              ? Colors.white
+                              : ColorConst.naanCustomColor),
+                    )
                   ]),
             ),
           ),

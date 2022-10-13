@@ -144,14 +144,14 @@ class Target {
 
 class Parameter {
   String? entrypoint;
-  Value? value;
+  var value;
 
   Parameter({this.entrypoint, this.value});
 
   Parameter.fromJson(Map<String, dynamic> json) {
     entrypoint = json['entrypoint'];
     try {
-      value = json['value'] != null ? Value.fromJson(json['value']) : null;
+      value = json['value'];
     } catch (e) {}
   }
 
@@ -161,28 +161,6 @@ class Parameter {
     if (value != null) {
       data['value'] = value!.toJson();
     }
-    return data;
-  }
-}
-
-class Value {
-  String? to;
-  String? from;
-  String? value;
-
-  Value({this.to, this.from, this.value});
-
-  Value.fromJson(Map<String, dynamic> json) {
-    to = json['to'];
-    from = json['from'];
-    value = json['value'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['to'] = to;
-    data['from'] = from;
-    data['value'] = value;
     return data;
   }
 }

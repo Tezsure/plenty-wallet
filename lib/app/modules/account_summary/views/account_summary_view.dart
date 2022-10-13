@@ -274,6 +274,9 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
               SizedBox(
                 height: 50,
                 child: TabBar(
+                    onTap: (value) {
+                      value == 2 ? controller.userTransactionLoader() : null;
+                    },
                     isScrollable: true,
                     labelColor: ColorConst.Primary.shade95,
                     indicatorColor: ColorConst.Primary,
@@ -292,6 +295,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
               ),
               Expanded(
                 child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
                   children: [
                     const CryptoTabPage(),
                     const NFTabPage(),

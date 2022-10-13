@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
@@ -15,6 +16,7 @@ import '../../../data/services/user_storage_service/user_storage_service.dart';
 
 class AccountSummaryController extends GetxController {
   final HomePageController homePageController = Get.find<HomePageController>();
+  Rx<ScrollController> paginationController = ScrollController().obs;
   RxBool isEditable = false.obs; // for token edit mode
   RxBool expandTokenList =
       false.obs; // false = show 3 tokens, true = show all tokens
@@ -41,16 +43,33 @@ class AccountSummaryController extends GetxController {
     });
     fetchAllTokens();
     fetchAllNfts();
-    fetchUserTransactionsHistory();
     super.onInit();
   }
 
-  /// Fetches user account transaction history
-  Future<void> fetchUserTransactionsHistory() async {
-    userTransactionHistory.value = await UserStorageService()
-        .getAccountTransactionHistory(
-            accountAddress: userAccount.value.publicKeyHash!);
+  @override
+  void onClose() {
+    paginationController.value.dispose();
+    super.onClose();
   }
+
+  Future<void> userTransactionLoader() async {
+    userTransactionHistory.value = await fetchUserTransactionsHistory();
+    paginationController.value.addListener(() async {
+      if (paginationController.value.position.pixels ==
+          paginationController.value.position.maxScrollExtent) {
+        userTransactionHistory.addAll(await fetchUserTransactionsHistory(
+            lastId: userTransactionHistory.last.id.toString()));
+      }
+    });
+  }
+
+  /// Fetches user account transaction history
+  Future<List<TxHistoryModel>> fetchUserTransactionsHistory(
+          {String? lastId, int? limit}) async =>
+      await UserStorageService().getAccountTransactionHistory(
+          accountAddress: userAccount.value.publicKeyHash!,
+          lastId: lastId,
+          limit: limit);
 
   /// Fetches the user account NFTs
   Future<void> fetchAllNfts() async {
