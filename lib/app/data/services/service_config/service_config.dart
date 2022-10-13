@@ -2,6 +2,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
 class ServiceConfig {
+  // TODO: Add support for testnet on all apis
+
   /// Current selected node
   static String currentSelectedNode =
       "https://tezos-prod.cryptonomic-infra.tech:443";
@@ -18,6 +20,10 @@ class ServiceConfig {
 
   static String tzktApiForToken(String pkh) =>
       "https://api.tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true";
+
+  static String tzktApiForAccountTxs(String pkh,
+          {int limit = 20, String lastId = ""}) =>
+      "https://api.tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId";
 
   // Main storage keys
   static const String oldStorageName = "tezsure-wallet-storage-v1.0.0";
@@ -49,6 +55,9 @@ class ServiceConfig {
 
   // contact storage
   static const String contactStorage = "${storageName}_contacts";
+
+  // tx history storage name append with user address
+  static const String txHistoryStorage = "${storageName}_tx_history";
 
   // user xtz balances, token balances and nfts
   // static const String accountXtzBalances =

@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 
 /// Handle read and write user data
 class UserStorageService {
@@ -131,5 +133,29 @@ class UserStorageService {
     return accountSecrets != null
         ? AccountSecretModel.fromJson(jsonDecode(accountSecrets))
         : null;
+  }
+
+  /// get stored account transaction history
+  /// @param accountAddress account address
+  /// @param lastId last transaction id
+  /// @param limit limit of transaction to fetch
+  /// returns list of transaction history model
+  Future<List<TxHistoryModel>> getAccountTransactionHistory(
+      {required String accountAddress, String? lastId, int? limit}) async {
+    List<TxHistoryModel> transactionHistoryList = <TxHistoryModel>[];
+    String? transactionHistory = await ServiceConfig.localStorage
+        .read(key: "${ServiceConfig.txHistoryStorage}_$accountAddress");
+    if (transactionHistory == null) return <TxHistoryModel>[];
+
+    if (lastId == null) {
+      transactionHistoryList = jsonDecode(transactionHistory)
+          .map<TxHistoryModel>((e) => TxHistoryModel.fromJson(e))
+          .toList();
+    } else {
+      transactionHistoryList = await TzktTxHistoryApiService(accountAddress)
+          .getTxHistory(lastId: lastId);
+    }
+
+    return transactionHistoryList;
   }
 }
