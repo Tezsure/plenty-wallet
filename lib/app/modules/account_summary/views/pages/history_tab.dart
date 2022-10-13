@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/history_filter_sheet.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -12,14 +13,14 @@ import '../bottomsheets/transaction_details.dart';
 import '../widgets/history_tab_widgets/history_tile.dart';
 import '../widgets/history_tab_widgets/nft_history_tile.dart';
 
-class HistoryPage extends StatelessWidget {
+class HistoryPage extends GetView<AccountSummaryController> {
   final bool isNftTransaction;
   final GestureTapCallback? onTap;
   const HistoryPage({super.key, this.isNftTransaction = false, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return !isNftTransaction
+    return controller.userTransactionHistory.isEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

@@ -37,6 +37,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
   void initState() {
     imageUrl =
         "https://assets.objkt.media/file/assets-003/${widget.nftModel!.faContract}/${widget.nftModel!.tokenId.toString()}/thumb400";
+    //  var owned = widget.nftModel!.holders?.forEach((element) {element.holderAddress?.contains(widget.nftModel.)})
     super.initState();
   }
 
@@ -255,7 +256,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                           .lowestAsk ==
                                                       null
                                                   ? "0 "
-                                                  : "${widget.nftModel!.lowestAsk} ",
+                                                  : "${(widget.nftModel!.lowestAsk / 1e6)} ",
                                               style: headlineSmall),
                                           WidgetSpan(
                                               child: SvgPicture.asset(
@@ -270,7 +271,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                               ?.lowestAsk ==
                                                           null
                                                   ? '\n0'
-                                                  : '\n\$${(widget.nftModel?.lowestAsk * _controller.xtzPrice.value).toStringAsFixed(2)}',
+                                                  : '\n\$${((widget.nftModel?.lowestAsk / 1e6) * _controller.xtzPrice.value).toStringAsFixed(2)}',
                                               style: labelSmall.copyWith(
                                                   color: ColorConst
                                                       .NeutralVariant.shade60)),
@@ -284,26 +285,29 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                     ListView.builder(
                         itemCount: widget.nftModel?.creators?.length ?? 0,
                         shrinkWrap: true,
-                        itemBuilder: ((context, index) => ListTile(
-                              leading: CircleAvatar(
-                                backgroundColor: Colors.white,
-                                child: Image.asset(
-                                    '${PathConst.TEMP}nft_summary${Random().nextInt(2) + 1}.png'),
-                              ),
-                              title: RichText(
-                                  textAlign: TextAlign.start,
-                                  text: TextSpan(
-                                      text: 'Created By ',
-                                      style: labelSmall.copyWith(
-                                          color: ColorConst
-                                              .NeutralVariant.shade60),
-                                      children: [
-                                        TextSpan(
-                                            text: tz1Shortner(
-                                                "${widget.nftModel!.creators![index].creatorAddress}"),
-                                            style: labelMedium)
-                                      ])),
-                            ))),
+                        itemBuilder: ((context, index) {
+                          var creator =
+                              "https://services.tzkt.io/v1/avatars/${widget.nftModel!.creators![index].creatorAddress}";
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              foregroundImage: NetworkImage(creator),
+                            ),
+                            title: RichText(
+                                textAlign: TextAlign.start,
+                                text: TextSpan(
+                                    text: 'Created By ',
+                                    style: labelSmall.copyWith(
+                                        color:
+                                            ColorConst.NeutralVariant.shade60),
+                                    children: [
+                                      TextSpan(
+                                          text: tz1Shortner(
+                                              "${widget.nftModel!.creators![index].creatorAddress}"),
+                                          style: labelMedium)
+                                    ])),
+                          );
+                        })),
                     SizedBox(
                       width: 1.width,
                       height: 0.1.height,
@@ -334,6 +338,8 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                       height: isExpanded ? 0.4.height : 0.25.height,
                       child: TabBarView(children: [
                         Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ExpansionTile(
                                 onExpansionChanged: (val) => isExpanded = val,
@@ -365,7 +371,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                         ),
                                         0.01.vspace,
                                         Text(
-                                          ' Donec lectus nibh, consectetur vitae dolor ac, finibus suscipit quam. Nunc at nunc turpis. Donec gradvida',
+                                          widget.nftModel!.fa!.description!,
                                           style: bodySmall.copyWith(
                                               color: ColorConst
                                                   .NeutralVariant.shade60),
@@ -405,7 +411,8 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                       RichText(
                                           textAlign: TextAlign.end,
                                           text: TextSpan(
-                                              text: 'Ox495f...7b5e',
+                                              text:
+                                                  "${tz1Shortner(widget.nftModel!.fa!.contract!)} ",
                                               style: bodySmall.copyWith(
                                                   color: ColorConst.Primary),
                                               children: [
@@ -495,7 +502,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                     textAlign: TextAlign.end,
                                                     text: TextSpan(
                                                       text:
-                                                          '${widget.nftModel!.events![index].price} ',
+                                                          '${(widget.nftModel!.events![index].price / 1e6)} ',
                                                       style: labelSmall,
                                                       children: [
                                                         WidgetSpan(

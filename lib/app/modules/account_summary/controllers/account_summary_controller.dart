@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
@@ -27,6 +28,7 @@ class AccountSummaryController extends GetxController {
   Rx<AccountModel> userAccount = AccountModel(isNaanAccount: true).obs;
   RxDouble xtzPrice = 0.0.obs;
   RxList<AccountTokenModel> userTokens = <AccountTokenModel>[].obs;
+  RxList<TxHistoryModel> userTransactionHistory = <TxHistoryModel>[].obs;
 
   @override
   void onInit() {
@@ -36,12 +38,21 @@ class AccountSummaryController extends GetxController {
         .xtzPriceUpdater
         .registerCallback((value) {
       xtzPrice.value = value;
-      fetchAllTokens();
     });
+    fetchAllTokens();
     fetchAllNfts();
+    fetchUserTransactionsHistory();
     super.onInit();
   }
 
+  /// Fetches user account transaction history
+  Future<void> fetchUserTransactionsHistory() async {
+    userTransactionHistory.value = await UserStorageService()
+        .getAccountTransactionHistory(
+            accountAddress: userAccount.value.publicKeyHash!);
+  }
+
+  /// Fetches the user account NFTs
   Future<void> fetchAllNfts() async {
     userNfts.clear();
     UserStorageService()

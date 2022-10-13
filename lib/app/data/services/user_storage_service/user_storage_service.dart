@@ -105,11 +105,29 @@ class UserStorageService {
 
   /// update userTokenList
   Future<void> updateUserTokens(
-          {required String userAddress,
-          required List<AccountTokenModel> accountTokenList}) async =>
-      await ServiceConfig.localStorage.write(
-          key: "${ServiceConfig.accountTokensStorage}_$userAddress",
-          value: jsonEncode(accountTokenList));
+      {required String userAddress,
+      required List<AccountTokenModel> accountTokenList}) async {
+    List<AccountTokenModel> userTokens =
+        await getUserTokens(userAddress: userAddress);
+    List<String> updateTokenAddresses = accountTokenList
+        .map<String>((e) => e.contractAddress)
+        .toList(); // get all the token addresses which are updated
+    userTokens = userTokens.map((e) {
+      if (updateTokenAddresses.contains(e.contractAddress)) {
+        AccountTokenModel token = accountTokenList
+            .where((element) => element.contractAddress == e.contractAddress)
+            .toList()[0];
+        return e.copyWith(
+            isHidden: token.isHidden,
+            isPinned: token.isPinned,
+            isSelected: token.isSelected);
+      }
+      return e;
+    }).toList();
+    await ServiceConfig.localStorage.write(
+        key: "${ServiceConfig.accountTokensStorage}_$userAddress",
+        value: jsonEncode(accountTokenList));
+  }
 
   /// read user nft using user address
   Future<List<NftTokenModel>> getUserNfts(
