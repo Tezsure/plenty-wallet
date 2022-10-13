@@ -139,6 +139,7 @@ class ServiceConfig {
       logo
       floor_price
       contract
+      description
     }
     metadata
   }
