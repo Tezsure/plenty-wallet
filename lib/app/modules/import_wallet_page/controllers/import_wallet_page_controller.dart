@@ -50,15 +50,16 @@ class ImportWalletPageController extends GetxController {
   }
 
   /// define based on phraseText.value that if it's mnemonic, private key or watch address
-  void checkImportType(value) => importWalletDataType = value.startsWith('edsk')
-      ? ImportWalletDataType.privateKey
-      : value.startsWith("tz1") ||
-              value.startsWith("tz2") ||
-              value.startsWith("tz3")
-          ? ImportWalletDataType.watchAddress
-          : value.split(" ").length == 12
-              ? ImportWalletDataType.mnemonic
-              : ImportWalletDataType.none;
+  void checkImportType(value) => importWalletDataType =
+      value.startsWith('edsk') || value.startsWith('spsk')
+          ? ImportWalletDataType.privateKey
+          : value.startsWith("tz1") ||
+                  value.startsWith("tz2") ||
+                  value.startsWith("tz3")
+              ? ImportWalletDataType.watchAddress
+              : value.split(" ").length == 12
+                  ? ImportWalletDataType.mnemonic
+                  : ImportWalletDataType.none;
 
   Future<void> redirectBasedOnImportWalletType() async {
     if (importWalletDataType == ImportWalletDataType.privateKey ||
