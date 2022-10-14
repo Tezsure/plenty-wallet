@@ -121,7 +121,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Icons.check_circle_outline_outlined,
+                      Icons.check_circle_outline_rounded,
                       color: const Color(0xFF958E99),
                       size: 18.sp,
                     ),
@@ -138,7 +138,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Icons.check_circle_outline_outlined,
+                      Icons.check_circle_outline_rounded,
                       color: ColorConst.Primary.shade95,
                       size: 20,
                     ),

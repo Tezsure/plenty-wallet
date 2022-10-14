@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
+  base58check:
+    dependency: transitive
+    description:
+      name: base58check
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   bip39:
     dependency: transitive
     description:
@@ -118,7 +125,7 @@ packages:
     description:
       path: "."
       ref: "feat/tz2_support"
-      resolved-ref: "36b11fa09db4f076a0b13b7f4d5a24ece294bfee"
+      resolved-ref: "9b12f0a327d40409061c395feb066215aa448608"
       url: "https://github.com/Tezsure/Dartez.git"
     source: git
     version: "1.0.0"
@@ -373,6 +380,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.7.0"
+  kepler:
+    dependency: transitive
+    description:
+      name: kepler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   lints:
     dependency: transitive
     description:

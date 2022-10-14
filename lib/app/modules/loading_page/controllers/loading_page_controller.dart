@@ -32,9 +32,9 @@ class LoadingPageController extends GetxController {
           Get.find<CreateProfilePageController>();
       Web3AuthController? web3authController;
       try {
-        web3authController = Get.find<Web3AuthController?>();
+        web3authController = Get.find<Web3AuthController>();
       } catch (e) {
-        //
+        print(e);
       }
       if (web3authController != null && web3authController.privateKey != null) {
         await Future.wait([
