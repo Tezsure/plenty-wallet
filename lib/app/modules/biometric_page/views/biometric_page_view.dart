@@ -33,7 +33,7 @@ class BiometricPageView extends GetView<BiometricPageController> {
                 : SvgPicture.asset("${PathConst.SVG}faceid.svg"),
             0.05.vspace,
             Text(
-              Platform.isAndroid ? "Enable biometry unlock" : "Enable Face ID",
+              Platform.isAndroid ? "Enable biometric unlock" : "Enable Face ID",
               style: titleLarge,
             ),
             0.01.vspace,

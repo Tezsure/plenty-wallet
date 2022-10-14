@@ -58,7 +58,7 @@ class SolidButton extends StatelessWidget {
       splashColor: ColorConst.Primary.shade60,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Container(
-        height: height ?? 50.sp,
+        height: height ?? 50,
         width: width ?? double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

@@ -19,5 +19,6 @@ class CreateProfilePageController extends GetxController {
     super.onInit();
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
     accountNameFocus.requestFocus();
+    isContiuneButtonEnable.value = true;
   }
 }
