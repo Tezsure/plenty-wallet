@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
@@ -36,6 +35,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
     //   print("Nft data");
     //   print(jsonEncode(data));
     // });
+
   }
 
   @override
@@ -65,7 +65,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         title: 'Backup Your Wallet',
         bottomSheetWidgets: [
           Text(
-            'With no backup. losing your device will result\nin the loss of access forever. The only way to\nguard against losses is to backup your wallet.',
+            'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.',
             textAlign: TextAlign.start,
             style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
           ),
