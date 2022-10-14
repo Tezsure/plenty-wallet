@@ -71,7 +71,11 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  Get.bottomSheet(changePhotoBottomSheet());
+                  Get.bottomSheet(
+                    changePhotoBottomSheet(),
+                    barrierColor: Colors.white.withOpacity(0.01),
+                    isScrollControlled: true,
+                  );
                 },
                 child: CircleAvatar(
                   radius: 0.046.width,
@@ -168,119 +172,127 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             color: Colors.black),
         width: 1.width,
-        height: 296,
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            0.005.vspace,
-            Container(
-              height: 5,
-              width: 36,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              0.005.vspace,
+              Container(
+                height: 5,
+                width: 36,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+                ),
               ),
-            ),
-            0.03.vspace,
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      var imagePath = await CreateProfileService()
-                          .pickANewImageFromGallery();
-                      if (imagePath.isNotEmpty) {
-                        controller.currentSelectedType =
-                            AccountProfileImageType.file;
-                        controller.selectedImagePath.value = imagePath;
-                        Get.back();
-                      }
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 51,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Choose from Library",
-                        style: labelMedium,
+              0.03.vspace,
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        var imagePath = await CreateProfileService()
+                            .pickANewImageFromGallery();
+                        if (imagePath.isNotEmpty) {
+                          controller.currentSelectedType =
+                              AccountProfileImageType.file;
+                          controller.selectedImagePath.value = imagePath;
+                          Get.back();
+                        }
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 51,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Choose from Library",
+                          style: labelMedium,
+                        ),
                       ),
                     ),
-                  ),
-                  const Divider(
-                    color: Color(0xff4a454e),
-                    height: 1,
-                    thickness: 1,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      Get.to(const AvatarPickerView());
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 51,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Pick an avatar",
-                        style: labelMedium,
+                    const Divider(
+                      color: Color(0xff4a454e),
+                      height: 1,
+                      thickness: 1,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        Get.to(const AvatarPickerView());
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 51,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Pick an avatar",
+                          style: labelMedium,
+                        ),
                       ),
                     ),
-                  ),
-                  const Divider(
-                    color: Color(0xff4a454e),
-                    height: 1,
-                    thickness: 1,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      controller.currentSelectedType =
-                          AccountProfileImageType.assets;
-                      controller.selectedImagePath.value =
-                          ServiceConfig.allAssetsProfileImages[0];
-                      Get.back();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 51,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Remove photo",
-                        style:
-                            labelMedium.apply(color: ColorConst.Error.shade60),
+                    if (controller.currentSelectedType ==
+                        AccountProfileImageType.file)
+                      Column(
+                        children: [
+                          const Divider(
+                            color: Color(0xff4a454e),
+                            height: 1,
+                            thickness: 1,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              controller.currentSelectedType =
+                                  AccountProfileImageType.assets;
+                              controller.selectedImagePath.value =
+                                  ServiceConfig.allAssetsProfileImages[0];
+                              Get.back();
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 51,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Remove photo",
+                                style: labelMedium.apply(
+                                    color: ColorConst.Error.shade60),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            0.016.vspace,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: GestureDetector(
-                onTap: () => Get.back(),
-                child: Container(
-                  height: 51,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                  ),
-                  child: Text(
-                    "Cancel",
-                    style: labelMedium.apply(color: Colors.white),
+              0.016.vspace,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: GestureDetector(
+                  onTap: () => Get.back(),
+                  child: Container(
+                    height: 51,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                    ),
+                    child: Text(
+                      "Cancel",
+                      style: labelMedium.apply(color: Colors.white),
+                    ),
                   ),
                 ),
               ),
-            )
-          ],
+              0.063.vspace,
+            ],
+          ),
         ),
       ),
     );

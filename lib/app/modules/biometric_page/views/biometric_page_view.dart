@@ -47,6 +47,9 @@ class BiometricPageView extends GetView<BiometricPageController> {
             const Spacer(),
             SolidButton(
               title: "Enable",
+              titleStyle: titleSmall.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
               onPressed: () {
                 controller.checkOrWriteNewAndRedirectToNewPage(true);
               },
@@ -62,7 +65,8 @@ class BiometricPageView extends GetView<BiometricPageController> {
                 alignment: Alignment.center,
                 child: Text(
                   "Skip",
-                  style: titleSmall.apply(
+                  style: titleSmall.copyWith(
+                      fontWeight: FontWeight.w600,
                       color: ColorConst.NeutralVariant.shade60),
                 ),
               ),

@@ -71,6 +71,9 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                           0.046.vspace,
                           SolidButton(
                             title: "Create a new account",
+                            titleStyle: titleSmall.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
                             onPressed: () {
                               // arguments true is define for setting a new passcode for wallet
                               Get.toNamed(
@@ -82,6 +85,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                               );
                             },
                           ),
+
                           0.0125.vspace,
                           GestureDetector(
                             onTap: () {
@@ -97,8 +101,9 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                                 ),
                               ),
                               alignment: Alignment.center,
-                              child: Text("I already have a wallet",
-                                  style: titleSmall.apply(
+                              child: Text("I already have an account",
+                                  style: titleSmall.copyWith(
+                                      fontWeight: FontWeight.w600,
                                       color: ColorConst.Neutral.shade80)),
                             ),
                           ),
@@ -119,8 +124,9 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Text(
-                              "Or Login with",
-                              style: bodySmall.apply(
+                              "Or login with",
+                              style: bodySmall.copyWith(
+                                fontWeight: FontWeight.w600,
                                 color: ColorConst.NeutralVariant.shade60,
                               ),
                             ),
@@ -168,7 +174,8 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         alignment: Alignment.center,
                         child: Text(
                           "Not now",
-                          style: titleSmall.apply(
+                          style: titleSmall.copyWith(
+                              fontWeight: FontWeight.w600,
                               color: ColorConst.NeutralVariant.shade60),
                         ),
                       ),
