@@ -44,7 +44,7 @@ TextStyle headlineLarge = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 32.sp,
   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-  fontWeight: FontWeight.normal,
+  fontWeight: FontWeight.w700,
   height: 40 / 32,
 );
 
@@ -54,7 +54,7 @@ TextStyle headlineMedium = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 28.sp,
   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-  fontWeight: FontWeight.normal,
+  fontWeight: FontWeight.w700,
   height: 36 / 28,
 );
 
@@ -64,7 +64,7 @@ TextStyle headlineSmall = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 24.sp,
   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-  fontWeight: FontWeight.normal,
+  fontWeight: FontWeight.w700,
   height: 32 / 24,
 );
 
@@ -76,7 +76,7 @@ TextStyle titleLarge = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 22.sp,
   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-  fontWeight: FontWeight.normal,
+  fontWeight: FontWeight.w700,
   height: 28 / 22,
 );
 
@@ -86,7 +86,7 @@ TextStyle titleMedium = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 16.sp,
   letterSpacing: 0.15,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.w700,
   height: 24 / 16,
 );
 
@@ -96,7 +96,7 @@ TextStyle titleSmall = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 14.sp,
   letterSpacing: 0.1,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.w700,
   height: 20 / 14,
 );
 
@@ -108,7 +108,7 @@ TextStyle bodyLarge = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 16.sp,
   letterSpacing: 0.5,
-  fontWeight: FontWeight.normal,
+  fontWeight: FontWeight.w400,
   height: 24 / 16,
 );
 
@@ -118,7 +118,7 @@ TextStyle bodyMedium = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 14.sp,
     letterSpacing: 0.25,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w400,
     height: 20 / 14);
 
 TextStyle bodySmall = TextStyle(
@@ -127,7 +127,7 @@ TextStyle bodySmall = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 12.sp,
   letterSpacing: 0.4,
-  fontWeight: FontWeight.normal,
+  fontWeight: FontWeight.w400,
   height: 16 / 12,
 );
 
@@ -163,86 +163,4 @@ TextStyle labelSmall = TextStyle(
   height: 16 / 11,
 );
 
-//! old typo
 
-TextStyle body12Bold700 = TextStyle(
-  color: Colors.white,
-  decoration: TextDecoration.none,
-  fontSize: 12.sp,
-  fontWeight: FontWeight.w700,
-);
-
-TextStyle body12Bold400 = TextStyle(
-  color: Colors.white,
-  decoration: TextDecoration.none,
-  fontSize: 12.sp,
-  fontWeight: FontWeight.w400,
-);
-
-TextStyle body12 = TextStyle(
-  color: Colors.white,
-  decoration: TextDecoration.none,
-  fontSize: 12.sp,
-  fontWeight: FontWeight.w500,
-);
-
-TextStyle semiboldTitle = TextStyle(
-  fontWeight: FontWeight.bold,
-  fontSize: 19.sp,
-  color: Colors.white,
-  decoration: TextDecoration.none,
-  wordSpacing: 2,
-  letterSpacing: 2,
-);
-
-TextStyle headingBold20 = const TextStyle(
-  color: Colors.white,
-  decoration: TextDecoration.none,
-  fontWeight: FontWeight.w600,
-  fontSize: 20,
-);
-
-TextStyle bold14 = const TextStyle(
-  color: Colors.white,
-  decoration: TextDecoration.none,
-  fontWeight: FontWeight.w500,
-  fontSize: 14,
-);
-
-TextStyle bold16 = const TextStyle(
-  color: Colors.white,
-  decoration: TextDecoration.none,
-  fontWeight: FontWeight.w500,
-  fontSize: 16,
-);
-
-TextStyle bodyMedium10 = const TextStyle(
-  color: ColorConst.grey,
-  fontWeight: FontWeight.w700,
-  fontSize: 10,
-);
-
-TextStyle body10Medium600 = const TextStyle(
-  color: ColorConst.grey,
-  fontWeight: FontWeight.w600,
-  fontSize: 10,
-);
-
-TextStyle body10Medium500 = const TextStyle(
-  color: ColorConst.grey,
-  fontWeight: FontWeight.w500,
-  fontSize: 10,
-);
-
-TextStyle body10Medium400 = const TextStyle(
-  color: Colors.white,
-  decoration: TextDecoration.none,
-  fontWeight: FontWeight.w400,
-  fontSize: 10,
-);
-
-TextStyle blue16Text700 = const TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.w700,
-  color: ColorConst.blue,
-);

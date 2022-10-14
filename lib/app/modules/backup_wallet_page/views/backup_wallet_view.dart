@@ -27,8 +27,7 @@ class BackupWalletView extends GetView<BackupWalletController> {
           height: 1.height,
           width: 1.width,
           padding: const EdgeInsets.only(top: 30),
-          decoration:
-              const BoxDecoration(gradient: GradConst.GradientBackground),
+        color: Colors.black,
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(

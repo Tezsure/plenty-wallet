@@ -18,7 +18,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
         height: 1.height,
         width: 1.width,
         padding: const EdgeInsets.symmetric(vertical: 30),
-        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+        color: Colors.black,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
