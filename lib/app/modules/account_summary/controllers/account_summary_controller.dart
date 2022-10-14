@@ -30,7 +30,6 @@ class AccountSummaryController extends GetxController {
 
   void changeName(String name) {
     userAccount.value.name = name;
-    // UserStorageService().updateAccount(userAccount.value);
   }
 
   @override

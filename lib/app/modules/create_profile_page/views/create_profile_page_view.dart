@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/create_profile_service/create_profile_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/create_profile_page/views/avatar_picker_view.dart';
@@ -21,13 +20,12 @@ import '../../../../utils/styles/styles.dart';
 import '../controllers/create_profile_page_controller.dart';
 
 class CreateProfilePageView extends GetView<CreateProfilePageController> {
-  const CreateProfilePageView({Key? key}) : super(key: key);
+  const CreateProfilePageView({super.key});
   @override
   Widget build(BuildContext context) {
     var args = ModalRoute.of(context)!.settings.arguments as List;
     controller.previousRoute = args[0] as String;
     return Container(
-      //decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
       color: Colors.black,
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),

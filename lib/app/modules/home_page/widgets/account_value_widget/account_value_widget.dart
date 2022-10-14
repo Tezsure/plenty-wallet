@@ -11,7 +11,7 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 // ignore: must_be_immutable
 class AccountValueWidget extends StatelessWidget {
-  AccountValueWidget({Key? key}) : super(key: key);
+  AccountValueWidget({super.key});
 
   HomePageController homePageController = Get.find<HomePageController>();
 
@@ -74,13 +74,7 @@ class AccountValueWidget extends StatelessWidget {
                       barrierColor: Colors.white.withOpacity(0.09))),
               0.09.hspace,
               actionMethod("Receive", "${PathConst.HOME_PAGE.SVG}receive.svg",
-                  onTap: () => Get.bottomSheet(
-                      ReceivePageView(
-                          publicKeyHash: homePageController
-                                  .userAccounts[0].publicKeyHash ??
-                              "",
-                          accountName:
-                              homePageController.userAccounts[0].name ?? ""),
+                  onTap: () => Get.bottomSheet(const ReceivePageView(),
                       isScrollControlled: true,
                       settings: RouteSettings(
                           arguments: homePageController.userAccounts[0]),

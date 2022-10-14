@@ -63,7 +63,9 @@ class SettingsPageView extends GetView<SettingsPageController> {
                       parent: AlwaysScrollableScrollPhysics()),
                   child: Column(
                     children: [
-                      _accountOption(),
+                      Obx(() => _homePageController.userAccounts.isEmpty
+                          ? const SizedBox()
+                          : _accountOption()),
                       SizedBox(height: 0.05.width),
                       _connectedAppsOption(),
                       SizedBox(height: 0.05.width),
@@ -335,47 +337,46 @@ class SettingsPageView extends GetView<SettingsPageController> {
             borderRadius: BorderRadius.circular(8)),
         height: 71,
         padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-        child: Obx(() => Row(
+        child: Row(
+          children: [
+            SizedBox(
+              width: 0.165.width,
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: CustomImageWidget(
+                    imageType: _homePageController.userAccounts[0].imageType!,
+                    imagePath:
+                        _homePageController.userAccounts[0].profileImage!,
+                    imageRadius: 23,
+                  )),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 0.165.width,
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: CustomImageWidget(
-                        imageType:
-                            _homePageController.userAccounts[0].imageType!,
-                        imagePath:
-                            _homePageController.userAccounts[0].profileImage!,
-                        imageRadius: 23,
-                      )),
+                  height: 14,
+                  child: Text(
+                    "Default wallet",
+                    style: labelSmall.apply(
+                      color: ColorConst.NeutralVariant.shade60,
+                    ),
+                  ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 14,
-                      child: Text(
-                        "Default wallet",
-                        style: labelSmall.apply(
-                          color: ColorConst.NeutralVariant.shade60,
-                        ),
-                      ),
+                SizedBox(
+                  height: 27,
+                  child: Center(
+                    child: Text(
+                      _homePageController.userAccounts[0].name ??
+                          'Account Name',
+                      style: labelMedium,
                     ),
-                    SizedBox(
-                      height: 27,
-                      child: Center(
-                        child: Text(
-                          _homePageController.userAccounts[0].name ??
-                              'Account Name',
-                          style: labelMedium,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
-            )),
+            ),
+          ],
+        ),
       ),
     );
   }
