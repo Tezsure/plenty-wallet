@@ -22,7 +22,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
         statusBarBrightness: Brightness.light,
         statusBarIconBrightness: Brightness.dark,
         systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Color(0xff2D004F),
+        systemNavigationBarColor: Colors.black,
       ),
       child: Container(
         color: Colors.black,
@@ -53,7 +53,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+                      padding: EdgeInsets.symmetric(horizontal: 0.08.width),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

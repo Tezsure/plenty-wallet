@@ -186,9 +186,13 @@ class SettingsPageView extends GetView<SettingsPageController> {
                               )),
                         ],
                       ),
-                      SizedBox(height: 0.05.width),
+                      SizedBox(
+                        height: 0.05.width,
+                      ),
                       resetOption(),
-                      SizedBox(height: 0.065.width),
+                      SizedBox(
+                        height: 0.065.width,
+                      ),
                     ],
                   ),
                 ),

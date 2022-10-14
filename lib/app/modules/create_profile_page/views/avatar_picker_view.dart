@@ -96,16 +96,19 @@ class AvatarPickerView extends GetView<CreateProfilePageController> {
               ),
             ),
           ),
-          SolidButton(
-              onPressed: () {
-                Get.back();
-                Get.back();
-              },
-              child: Text(
-                "Confirm",
-                style: titleSmall.apply(color: ColorConst.Primary.shade95),
+          Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 0.05.width),
+            child: SolidButton(
+                onPressed: () {
+                  Get.back();
+                  Get.back();
+                },
+                child: Text(
+                  "Confirm",
+                  style: titleSmall.apply(color: ColorConst.Primary.shade95),
+                ),
               ),
-            ),
+          ),
           
           0.05.vspace
         ],

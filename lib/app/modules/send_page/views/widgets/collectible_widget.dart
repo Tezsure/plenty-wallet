@@ -71,7 +71,7 @@ class CollectibleWidget extends GetView<SendPageController> {
                         shrinkWrap: false,
                         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                             maxCrossAxisExtent: 0.5.width,
-                            mainAxisExtent: 0.3.height,
+                            mainAxisExtent: 0.31.height,
                             childAspectRatio: 1,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10),
@@ -112,10 +112,14 @@ class CollectibleWidget extends GetView<SendPageController> {
           const SizedBox(
             width: 2,
           ),
-          Icon(
-            isExpanded ? Icons.keyboard_arrow_down : Icons.arrow_forward_ios,
-            color: ColorConst.NeutralVariant.shade60,
-            size: 10,
+          AnimatedRotation(
+            duration: Duration(milliseconds: 300),
+            turns: isExpanded ? 1/4 : 0,
+            child: Icon(
+              Icons.arrow_forward_ios,
+              color: ColorConst.NeutralVariant.shade60,
+              size: 10,
+            ),
           )
         ],
       ),
@@ -173,6 +177,7 @@ class NFTwidget extends StatelessWidget {
               nfTmodel.description ?? "",
               maxLines: 1,
               style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

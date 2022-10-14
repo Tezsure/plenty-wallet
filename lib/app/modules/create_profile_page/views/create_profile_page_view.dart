@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/create_profile_service/create_profile_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/create_profile_page/views/avatar_picker_view.dart';
@@ -79,6 +78,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                   child: SvgPicture.asset(
                     "${PathConst.SVG}add_photo.svg",
                     fit: BoxFit.scaleDown,
+                    color: ColorConst.Primary,
                   ),
                 ),
               ),
@@ -91,11 +91,14 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
             onTextChange: (String value) => controller.isContiuneButtonEnable
                 .value = value.length > 2 && value.length < 20,
           ),
-          Spacer(),
-          Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 0.05.width),
-            child: Obx(
-              () => SolidButton(
+          const Spacer(),
+          Obx(
+            () => Container(
+              margin: EdgeInsets.only(
+                left: 14.sp,
+                right: 14.sp,
+              ),
+              child: SolidButton(
                 active: controller.isContiuneButtonEnable.value,
                 onPressed: () {
                   if (controller.previousRoute == Routes.CREATE_WALLET_PAGE ||
@@ -112,21 +115,21 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                       null,
                     ]);
                   }
-                  // controller.startUsingNaanwallet()
-                  // Get.toNamed(Routes.HOME_PAGE, arguments: [true]);
                 },
                 inActiveChild: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.check_circle_outline_rounded,
-                      color: ColorConst.Primary.shade100,
-                      size: 20,
+                      color: const Color(0xFF958E99),
+                      size: 18.sp,
                     ),
-                    0.02.hspace,
+                    0.015.hspace,
                     Text(
-                      "Start using Naan wallet",
-                      style: titleSmall.apply(color: ColorConst.Primary),
+                      "Start using Naan",
+                      style: titleSmall.copyWith(
+                          color: const Color(0xFF958E99),
+                          fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -134,15 +137,16 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Icons.check_circle_outline_outlined,
+                      Icons.check_circle_outline_rounded,
                       color: ColorConst.Primary.shade95,
                       size: 20,
                     ),
                     0.02.hspace,
                     Text(
-                      "Start using Naan wallet",
-                      style:
-                          titleSmall.apply(color: ColorConst.Primary.shade95),
+                      "Start using Naan",
+                      style: titleSmall.copyWith(
+                          color: ColorConst.Primary.shade95,
+                          fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -217,7 +221,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      Get.to(AvatarPickerView());
+                      Get.to(const AvatarPickerView());
                     },
                     child: Container(
                       width: double.infinity,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -19,22 +21,24 @@ class BiometricPageView extends GetView<BiometricPageController> {
     controller.nextPageRoute = args[1] as String;
 
     return Container(
-      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+      color: Colors.black,
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: SafeArea(
         child: Column(
           children: [
             0.2.vspace,
-            SvgPicture.asset("${PathConst.SVG}fingerprint.svg"),
+            Platform.isAndroid
+                ? SvgPicture.asset("${PathConst.SVG}fingerprint.svg")
+                : SvgPicture.asset("${PathConst.SVG}faceid.svg"),
             0.05.vspace,
             Text(
-              "Enable biometry unlock",
+              Platform.isAndroid ? "Enable biometry unlock" : "Enable Face ID",
               style: titleLarge,
             ),
             0.01.vspace,
             Text(
-              "Access Naan wallet with your biometry.\nQuick, easy and secure.",
+              "Access your naan with your ${Platform.isAndroid ? "fingerprint" : "face ID"}",
               textAlign: TextAlign.center,
               style: bodySmall.apply(
                 color: ColorConst.NeutralVariant.shade60,
@@ -42,7 +46,7 @@ class BiometricPageView extends GetView<BiometricPageController> {
             ),
             const Spacer(),
             SolidButton(
-              title: "Enable Biometry Unlock",
+              title: "Enable",
               onPressed: () {
                 controller.checkOrWriteNewAndRedirectToNewPage(true);
               },

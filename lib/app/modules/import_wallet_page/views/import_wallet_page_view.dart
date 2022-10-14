@@ -7,14 +7,12 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/painters/indicator_painter.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../../utils/colors/colors.dart';
 import '../../../../utils/constants/path_const.dart';
-import '../../common_widgets/back_button.dart';
 import '../controllers/import_wallet_page_controller.dart';
 
 class ImportWalletPageView extends GetView<ImportWalletPageController> {
@@ -366,8 +364,6 @@ class AccountBottomSheet extends StatelessWidget {
                     indicatorWeight: 4,
                     indicatorPadding: EdgeInsets.zero,
                     labelPadding: EdgeInsets.zero,
-               
-
                     tabs: [
                       Tab(
                         child: SizedBox(
@@ -377,7 +373,7 @@ class AccountBottomSheet extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("tz 1"),
+                              const Text("tz 1"),
                               if (controller.selectedAccounts.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8),
@@ -402,7 +398,7 @@ class AccountBottomSheet extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("tz 2"),
+                              const Text("tz 2"),
                               if (controller.selectedAccounts.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8),
@@ -445,4 +441,3 @@ class AccountBottomSheet extends StatelessWidget {
     );
   }
 }
-

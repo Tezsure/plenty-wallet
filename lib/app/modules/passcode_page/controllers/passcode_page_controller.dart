@@ -10,6 +10,7 @@ class PasscodePageController extends GetxController {
   /// which will decide to write new passcode or check the already stored passcode
   RxBool isToVerifyPassCode = false.obs;
   String? nextPageRoute;
+  RxString confirmPasscode = "".obs;
   RxString enteredPassCode = "".obs;
 
   RxBool isPassCodeWrong = false.obs;
