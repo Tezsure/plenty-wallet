@@ -21,6 +21,7 @@ class SolidButton extends StatelessWidget {
   final Color borderColor;
   final double borderWidth;
   final Widget? inActiveChild;
+  final TextStyle? fontStyle;
   RxBool? isLoading = false.obs;
   SolidButton({
     Key? key,
@@ -40,6 +41,7 @@ class SolidButton extends StatelessWidget {
     this.borderColor = Colors.transparent,
     this.borderWidth = 0,
     this.isLoading,
+    this.fontStyle,
   }) : super(key: key);
 
   @override
@@ -80,10 +82,11 @@ class SolidButton extends StatelessWidget {
                   ? (active ? child! : inActiveChild!)
                   : Text(
                       title,
-                      style: titleSmall.apply(
-                          color: active
-                              ? textColor ?? ColorConst.Neutral.shade100
-                              : ColorConst.NeutralVariant.shade60),
+                      style: fontStyle ??
+                          titleSmall.apply(
+                              color: active
+                                  ? textColor ?? ColorConst.Neutral.shade100
+                                  : ColorConst.NeutralVariant.shade60),
                     ),
         ),
       ),

@@ -36,15 +36,23 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                   return LinearGradient(
                     colors: [
                       const Color(0xffD9D9D9).withOpacity(0),
-                      const Color(0xffD9D9D9),
+                      const Color(0xffD9D9D9).withOpacity(0.08),
+                      const Color(0xffD9D9D9).withOpacity(0.4),
+                      const Color(0xffD9D9D9).withOpacity(0.9),
                     ],
                     begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
+                    end: const Alignment(0, 0.2),
                   ).createShader(bounds);
                 },
-                child: SvgPicture.asset(
-                  "${PathConst.SVG}create_wallet_background.svg",
-                  fit: BoxFit.fitWidth,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                  child: Container(
+                    margin: EdgeInsets.only(top: 25.sp),
+                    child: SvgPicture.asset(
+                      "${PathConst.SVG}create_wallet_background.svg",
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
               ),
               Align(
@@ -71,6 +79,8 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                           0.046.vspace,
                           SolidButton(
                             title: "Create a new account",
+                            fontStyle: titleSmall.copyWith(
+                                fontWeight: FontWeight.w600),
                             onPressed: () {
                               // arguments true is define for setting a new passcode for wallet
                               Get.toNamed(
@@ -97,8 +107,9 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                                 ),
                               ),
                               alignment: Alignment.center,
-                              child: Text("I already have a wallet",
-                                  style: titleSmall.apply(
+                              child: Text("I already have an account",
+                                  style: titleSmall.copyWith(
+                                      fontWeight: FontWeight.w600,
                                       color: ColorConst.Neutral.shade80)),
                             ),
                           ),
@@ -120,7 +131,8 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Text(
                               "Or Login with",
-                              style: bodySmall.apply(
+                              style: bodySmall.copyWith(
+                                fontWeight: FontWeight.w600,
                                 color: ColorConst.NeutralVariant.shade60,
                               ),
                             ),
@@ -136,7 +148,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     ),
                     0.035.vspace,
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+                      padding: EdgeInsets.symmetric(horizontal: 42.sp),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

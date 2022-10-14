@@ -26,7 +26,6 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
     var args = ModalRoute.of(context)!.settings.arguments as List;
     controller.previousRoute = args[0] as String;
     return Container(
-      //decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
       color: Colors.black,
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
