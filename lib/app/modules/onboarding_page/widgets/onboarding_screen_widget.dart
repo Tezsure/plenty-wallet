@@ -35,7 +35,6 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
         child: PageView.builder(
             controller: widget.controller.pageController,
             itemCount: 4,
-            
             scrollDirection: Axis.horizontal,
             onPageChanged: (value) {
               widget.controller.onPageChanged(value);

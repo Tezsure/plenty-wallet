@@ -111,7 +111,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
       },
       child: Container(
         height: 0.06.height,
-        width: 0.3.width,
+        width: 0.35.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
