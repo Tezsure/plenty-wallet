@@ -59,15 +59,20 @@ class ReceivePageView extends GetView<ReceivePageController> {
               onTap: () {
                 controller.copyAddress(publicKeyHash);
               },
-              child: Text(
-                accountName,
-                style: titleLarge.copyWith(fontWeight: FontWeight.w600),
+              child: Column(
+                children: [
+                  Text(
+                    accountName,
+                    style: titleLarge.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  0.01.vspace,
+                  Text(
+                    tz1Shortner(publicKeyHash),
+                    style: bodySmall.apply(
+                        color: ColorConst.NeutralVariant.shade60),
+                  ),
+                ],
               ),
-            ),
-            0.01.vspace,
-            Text(
-              tz1Shortner(publicKeyHash),
-              style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
             0.047.vspace,
             shareButton(),
