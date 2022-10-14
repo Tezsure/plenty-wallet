@@ -31,7 +31,11 @@ bugs.md
 .pub-cache/
 .pub/
 /build/
+<<<<<<< HEAD
 /android/buildSrc
+=======
+/android/buildSrc/
+>>>>>>> 50c7ca914f931156a15db10fe13edc36a1482a24
 
 # Web related
 lib/generated_plugin_registrant.dart

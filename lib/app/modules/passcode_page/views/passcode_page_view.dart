@@ -15,18 +15,18 @@ class PasscodePageView extends GetView<PasscodePageController> {
   @override
   Widget build(BuildContext context) {
     var args = ModalRoute.of(context)!.settings.arguments as List;
-    controller.isToVerifyPassCode = args[0] as bool;
+    controller.isToVerifyPassCode.value = args[0] as bool;
     if (args.length == 2) {
       controller.nextPageRoute = args[1] as String;
     }
 
-    if (controller.isToVerifyPassCode) {
+    if (controller.isToVerifyPassCode.value) {
       controller.verifyPassCodeOrBiomatrics();
     }
 
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+        color: Colors.black,
         padding: const EdgeInsets.symmetric(horizontal: 21),
         child: SafeArea(
           child: Column(
@@ -35,7 +35,17 @@ class PasscodePageView extends GetView<PasscodePageController> {
               0.02.vspace,
               Align(
                 alignment: Alignment.centerLeft,
-                child: backButton(),
+                child: GestureDetector(
+                  onTap: () => Get.back(),
+                  child: CircleAvatar(
+                    radius: 0.045.width,
+                    backgroundColor: Colors.transparent,
+                    child: SvgPicture.asset(
+                      "${PathConst.SVG}arrow_back.svg",
+                      fit: BoxFit.scaleDown,
+                    ),
+                  ),
+                ),
               ),
               0.05.vspace,
               Center(
@@ -49,24 +59,59 @@ class PasscodePageView extends GetView<PasscodePageController> {
                 ),
               ),
               0.05.vspace,
-              Text(
-                controller.isToVerifyPassCode
-                    ? "Enter passcode"
-                    : "Set passcode",
-                textAlign: TextAlign.center,
-                style: titleMedium,
+              Obx(
+                () => Text(
+                  controller.isToVerifyPassCode.value
+                      ? controller.isPassCodeWrong.value
+                          ? "Try Again"
+                          : "Enter passcode"
+                      : (controller.isPassCodeWrong.value)
+                          ? "Try Again"
+                          : controller.confirmPasscode.value.length < 6
+                              ? "Set passcode"
+                              : "Verify passcode",
+                  textAlign: TextAlign.center,
+                  style: titleMedium,
+                ),
               ),
               0.01.vspace,
-              Text(
-                "Protect your wallet by setting a passcode",
-                style:
-                    bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+              Obx(
+                () => Text(
+                  controller.isPassCodeWrong.value
+                      ? "Passcode doesn’t match"
+                      : "Protect your naan by creating a passcode ",
+                  style:
+                      bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+                ),
               ),
               0.05.vspace,
               PassCodeWidget(onChanged: (value) {
-                if (value.length == 6) {
-                  controller.checkOrWriteNewAndRedirectToNewPage(value);
-                  // Get.toNamed(Routes.BIOMETRIC_PAGE);
+                // debugPrint(
+                //     "confirm passcode : " + controller.confirmPasscode.value);
+                // debugPrint(
+                //     "set passcode : " + controller.enteredPassCode.value);
+
+                if (controller.isToVerifyPassCode.value) {
+                  if (value.length == 6) {
+                    controller.checkOrWriteNewAndRedirectToNewPage(value);
+                  } else {
+                    controller.isPassCodeWrong.value = false;
+                  }
+                } else {
+                  if (controller.enteredPassCode.value.length == 6 &&
+                      controller.confirmPasscode.value ==
+                          controller.enteredPassCode.value) {
+                    controller.checkOrWriteNewAndRedirectToNewPage(value);
+                  } else if (controller.enteredPassCode.value.length == 6 &&
+                      controller.confirmPasscode.value.length == 6 &&
+                      controller.confirmPasscode.value !=
+                          controller.enteredPassCode.value) {
+                    controller.isPassCodeWrong.value = true;
+                    controller.confirmPasscode.value = "";
+                    controller.enteredPassCode.value = "";
+                  } else {
+                    controller.isPassCodeWrong.value = false;
+                  }
                 }
               })
             ],
@@ -107,11 +152,20 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
                   height: 22,
                   width: 22,
                   decoration: BoxDecoration(
-                    color: controller.enteredPassCode.value.length - 1 < index
-                        ? Colors.transparent
-                        : Colors.white,
+                    color: controller.confirmPasscode.value.length == 6 ||
+                            controller.isToVerifyPassCode.value
+                        ? (controller.enteredPassCode.value.length - 1 < index
+                            ? Colors.transparent
+                            : Colors.white)
+                        : (controller.confirmPasscode.value.length - 1 < index
+                            ? Colors.transparent
+                            : Colors.white),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.white, width: 2),
+                    border: Border.all(
+                        color: controller.isPassCodeWrong.value
+                            ? ColorConst.Error.shade60
+                            : Colors.white,
+                        width: 2),
                   ),
                 ),
               ),
@@ -141,12 +195,24 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
               '0',
             ),
             getButton('', false, Icons.backspace_outlined, () {
-              if (controller.enteredPassCode.value.isNotEmpty) {
-                controller.enteredPassCode.value = controller
-                    .enteredPassCode.value
-                    .substring(0, controller.enteredPassCode.value.length - 1);
-                if (widget.onChanged != null) {
-                  widget.onChanged!(controller.enteredPassCode.value);
+              if (controller.confirmPasscode.value.length == 6 ||
+                  controller.isToVerifyPassCode.value) {
+                if (controller.enteredPassCode.value.isNotEmpty) {
+                  controller.enteredPassCode.value =
+                      controller.enteredPassCode.value.substring(
+                          0, controller.enteredPassCode.value.length - 1);
+                  if (widget.onChanged != null) {
+                    widget.onChanged!(controller.enteredPassCode.value);
+                  }
+                }
+              } else {
+                if (controller.confirmPasscode.value.isNotEmpty) {
+                  controller.confirmPasscode.value =
+                      controller.confirmPasscode.value.substring(
+                          0, controller.confirmPasscode.value.length - 1);
+                  if (widget.onChanged != null) {
+                    widget.onChanged!(controller.confirmPasscode.value);
+                  }
                 }
               }
             })
@@ -176,11 +242,22 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
             onTap: iconData != null
                 ? onIconTap
                 : () {
-                    if (controller.enteredPassCode.value.length < 6) {
-                      controller.enteredPassCode.value =
-                          controller.enteredPassCode.value + value;
-                      if (widget.onChanged != null) {
-                        widget.onChanged!(controller.enteredPassCode.value);
+                    if (controller.confirmPasscode.value.length == 6 ||
+                        controller.isToVerifyPassCode.value) {
+                      if (controller.enteredPassCode.value.length < 6) {
+                        controller.enteredPassCode.value =
+                            controller.enteredPassCode.value + value;
+                        if (widget.onChanged != null) {
+                          widget.onChanged!(controller.enteredPassCode.value);
+                        }
+                      }
+                    } else {
+                      if (controller.confirmPasscode.value.length < 6) {
+                        controller.confirmPasscode.value =
+                            controller.confirmPasscode.value + value;
+                        if (widget.onChanged != null) {
+                          widget.onChanged!(controller.confirmPasscode.value);
+                        }
                       }
                     }
                   },

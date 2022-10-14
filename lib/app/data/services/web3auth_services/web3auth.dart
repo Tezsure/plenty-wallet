@@ -1,8 +1,13 @@
 import 'dart:collection';
 import 'dart:io';
 
+import 'package:dartez/dartez.dart';
+import 'package:dartez/helper/generateKeys.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hex/hex.dart';
+import 'package:naan_wallet/app/data/services/web3auth_services/web3AuthController.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:web3auth_flutter/enums.dart' as web3auth;
 import 'package:web3auth_flutter/input.dart';
@@ -38,8 +43,19 @@ class Web3Auth {
   static VoidCallback login({required web3auth.Provider socialAppName}) {
     return () async {
       try {
-        await _socialLogin(socialApp: socialAppName).then((response) {
-          Get.offAllNamed(Routes.PASSCODE_PAGE);
+        await _socialLogin(socialApp: socialAppName).then((response) async {
+          Get.put(Web3AuthController());
+          Web3AuthController controller = Get.find<Web3AuthController>();
+          controller.privateKey = GenerateKeys.readKeysWithHint(
+              Uint8List.fromList(HEX.decoder.convert(response.privKey!)),
+              GenerateKeys.keyPrefixes[PrefixEnum.spsk]!);
+          Get.toNamed(
+            Routes.PASSCODE_PAGE,
+            arguments: [
+              false,
+              Routes.BIOMETRIC_PAGE,
+            ],
+          );
         });
       } on UserCancelledException {
         debugPrint("User cancelled.");
@@ -68,10 +84,10 @@ class Web3Auth {
       {required web3auth.Provider socialApp}) {
     LoginParams loginParams = LoginParams(
       loginProvider: socialApp,
-      curve: web3auth.Curve.ed25519,
+      curve: web3auth.Curve.secp256k1,
       mfaLevel: web3auth.MFALevel.MANDATORY,
       extraLoginOptions: ExtraLoginOptions(
-        display: web3auth.Display.popup,
+        display: web3auth.Display.wap,
       ),
     );
     return Web3AuthFlutter.login(loginParams);

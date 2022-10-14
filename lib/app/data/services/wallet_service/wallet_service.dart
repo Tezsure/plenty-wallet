@@ -1,5 +1,7 @@
-import 'dart:convert';
 import 'dart:math';
+
+// ignore: implementation_imports
+import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
 
 import 'package:dartez/dartez.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
@@ -38,7 +40,14 @@ class WalletService {
             : Dartez.generateMnemonic(strength: 128);
 
     var keyStore = await Dartez.restoreIdentityFromDerivationPath(
-        derivationPath, mnemonic!);
+      derivationPath,
+      mnemonic!,
+      signerCurve: accountSecretModel != null
+          ? accountSecretModel.publicKeyHash!.startsWith("tz1")
+              ? SignerCurve.ED25519
+              : SignerCurve.SECP256K1
+          : SignerCurve.SECP256K1,
+    );
     accountSecretModel = AccountSecretModel(
       seedPhrase: mnemonic,
       secretKey: keyStore[0],

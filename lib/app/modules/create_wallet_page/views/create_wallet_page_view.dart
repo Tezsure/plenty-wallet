@@ -22,10 +22,10 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
         statusBarBrightness: Brightness.light,
         statusBarIconBrightness: Brightness.dark,
         systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Color(0xff2D004F),
+        systemNavigationBarColor: Colors.black,
       ),
       child: Container(
-        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+        color: Colors.black,
         width: 1.width,
         height: 1.height,
         child: SafeArea(
@@ -53,24 +53,24 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+                      padding: EdgeInsets.symmetric(horizontal: 0.08.width),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Welcome to Naan Wallet",
-                            style: titleLarge,
-                          ),
-                          0.01.vspace,
-                          Text(
-                            "Naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.",
-                            style: bodySmall.apply(
-                              color: ColorConst.NeutralVariant.shade60,
-                            ),
-                          ),
+                          // Text(
+                          //   "Welcome to Naan Wallet",
+                          //   style: titleLarge,
+                          // ),
+                          // 0.01.vspace,
+                          // Text(
+                          //   "Naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.",
+                          //   style: bodySmall.apply(
+                          //     color: ColorConst.NeutralVariant.shade60,
+                          //   ),
+                          // ),
                           0.046.vspace,
                           SolidButton(
-                            title: "Create new wallet",
+                            title: "Create a new account",
                             onPressed: () {
                               // arguments true is define for setting a new passcode for wallet
                               Get.toNamed(
