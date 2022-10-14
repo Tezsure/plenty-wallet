@@ -6,16 +6,19 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../controllers/receive_page_controller.dart';
 
 class ReceivePageView extends GetView<ReceivePageController> {
-  const ReceivePageView({super.key});
+  final String publicKeyHash;
+  const ReceivePageView(
+      {super.key, required this.publicKeyHash, required this.accountName});
 
-  final String _accountName = "accountName";
-  final String _accountAddress = "tzkeibotkxxkjpbmvfbv4a8ov5rafrdmf9";
+  final String accountName;
+
   @override
   Widget build(BuildContext context) {
     Get.put(ReceivePageController());
@@ -26,7 +29,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
         width: 1.width,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-            gradient: GradConst.GradientBackground),
+            color: Colors.black),
         child: Column(
           children: [
             0.005.vspace,
@@ -41,30 +44,35 @@ class ReceivePageView extends GetView<ReceivePageController> {
             0.017.vspace,
             Text(
               'Receive',
-              style: titleMedium,
+              style: titleLarge,
             ),
-            0.058.vspace,
+            0.01.vspace,
             Text(
-              'You can send TEZ or any other Tezos\nbased asset to this address using\nTezos network.',
+              'You can send tez or any other Tezos based\nasset to this address Tezos network',
               textAlign: TextAlign.center,
-              style: bodyMedium.apply(color: ColorConst.NeutralVariant.shade60),
+              style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
-            0.039.vspace,
+            0.05.vspace,
             qrCode(),
             0.047.vspace,
             GestureDetector(
               onTap: () {
-                controller.copyAddress(_accountAddress);
+                controller.copyAddress(publicKeyHash);
               },
-              child: Text(
-                _accountName,
-                style: titleLarge,
+              child: Column(
+                children: [
+                  Text(
+                    accountName,
+                    style: titleLarge.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  0.01.vspace,
+                  Text(
+                    tz1Shortner(publicKeyHash),
+                    style: bodySmall.apply(
+                        color: ColorConst.NeutralVariant.shade60),
+                  ),
+                ],
               ),
-            ),
-            0.01.vspace,
-            Text(
-              _accountAddress,
-              style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
             0.047.vspace,
             shareButton(),
@@ -83,7 +91,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
           borderRadius: BorderRadius.circular(20), color: Colors.white),
       alignment: Alignment.center,
       child: QrImage(
-        data: _accountAddress,
+        data: publicKeyHash,
         padding: const EdgeInsets.all(20),
         gapless: false,
         eyeStyle:
@@ -99,7 +107,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
   Widget shareButton() {
     return GestureDetector(
       onTap: () {
-        Share.share(_accountAddress);
+        Share.share(publicKeyHash);
       },
       child: Container(
         height: 40,
@@ -119,7 +127,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
             ),
             Text(
               'Share',
-              style: titleSmall,
+              style: titleSmall.copyWith(fontWeight: FontWeight.w500),
             )
           ],
         ),
