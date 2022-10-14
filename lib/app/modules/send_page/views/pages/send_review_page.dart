@@ -71,10 +71,14 @@ class SendReviewPage extends StatelessWidget {
                     () {
                       var isEnterAmountEnable =
                           controller.amountText.value.isNotEmpty &&
+                              (double.parse(controller.amountText.value != ""
+                                      ? controller.amountText.value
+                                      : "0") >
+                                  0) &&
                               !controller.amountTileError.value &&
                               !controller.amountUsdTileError.value;
                       return SolidButton(
-                        height: 0.05.height,
+                        height: 48,
                         width: 0.8.width,
                         onPressed: () =>
                             controller.amountText.value.isNotEmpty ||
@@ -106,17 +110,21 @@ class SendReviewPage extends StatelessWidget {
                 ),
                 0.02.vspace,
                 Padding(
-                  padding: EdgeInsets.all(12.sp),
-                  child: RichText(
-                    text: TextSpan(
-                        text: 'Estimated Fees\n',
-                        style: labelSmall.copyWith(
-                            color: ColorConst.NeutralVariant.shade60),
-                        children: [
-                          TextSpan(text: '\$0.00181', style: labelMedium),
-                        ]),
-                  ),
-                ),
+                    padding: EdgeInsets.all(12.sp),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Estimated Fees",
+                          style: labelSmall.copyWith(
+                              color: ColorConst.NeutralVariant.shade60),
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text('\$0.00181', style: labelMedium),
+                      ],
+                    )),
               ]),
         ),
       ),
