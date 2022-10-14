@@ -35,8 +35,8 @@ class PasscodePageController extends GetxController {
         previousRoute == Routes.CREATE_WALLET_PAGE) {
       /// set a new passcode and redirect to biometric page if supported else redirect /create-profile-page
       await authService.setNewPassCode(passCode);
-      var isBioSupported =
-          await authService.checkIfDeviceSupportBiometricAuth();
+      var isBioSupported = 
+      await authService.checkIfDeviceSupportBiometricAuth();
 
       /// arguments here defines that whether it's from create new wallet or import new wallet
       Get.toNamed(

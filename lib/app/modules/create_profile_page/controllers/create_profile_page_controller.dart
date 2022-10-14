@@ -6,7 +6,7 @@ import 'package:naan_wallet/app/data/services/service_config/service_config.dart
 class CreateProfilePageController extends GetxController {
   String? previousRoute;
 
-  TextEditingController accountNameController = TextEditingController();
+  TextEditingController accountNameController = TextEditingController(text: 'Account1');
   var currentSelectedType = AccountProfileImageType.assets;
 
   RxBool isContiuneButtonEnable = false.obs;

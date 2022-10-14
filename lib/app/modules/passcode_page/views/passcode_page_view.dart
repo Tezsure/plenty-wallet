@@ -108,7 +108,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
                       controller.confirmPasscode.value !=
                           controller.enteredPassCode.value) {
                     controller.isPassCodeWrong.value = true;
-                    controller.confirmPasscode.value = "";
+                
                     controller.enteredPassCode.value = "";
                   } else {
                     controller.isPassCodeWrong.value = false;

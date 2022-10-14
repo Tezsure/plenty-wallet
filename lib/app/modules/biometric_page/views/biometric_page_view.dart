@@ -27,7 +27,7 @@ class BiometricPageView extends GetView<BiometricPageController> {
       child: SafeArea(
         child: Column(
           children: [
-            0.2.vspace,
+            0.15.vspace,
             Platform.isAndroid
                 ? SvgPicture.asset("${PathConst.SVG}fingerprint.svg")
                 : SvgPicture.asset("${PathConst.SVG}faceid.svg"),
