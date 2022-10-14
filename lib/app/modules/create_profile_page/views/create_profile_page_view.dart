@@ -92,6 +92,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
           0.05.vspace,
           NaanTextfield(
             hint: "Account Name",
+            focusNode: controller.accountNameFocus,
             controller: controller.accountNameController,
             onTextChange: (String value) => controller.isContiuneButtonEnable
                 .value = value.length > 2 && value.length < 20,

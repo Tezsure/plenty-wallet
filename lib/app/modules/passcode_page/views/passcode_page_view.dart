@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -108,8 +109,9 @@ class PasscodePageView extends GetView<PasscodePageController> {
                       controller.confirmPasscode.value !=
                           controller.enteredPassCode.value) {
                     controller.isPassCodeWrong.value = true;
-                
+        
                     controller.enteredPassCode.value = "";
+                    HapticFeedback.vibrate();
                   } else {
                     controller.isPassCodeWrong.value = false;
                   }
