@@ -29,7 +29,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
         width: 1.width,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-            gradient: GradConst.GradientBackground),
+            color: Colors.black),
         child: Column(
           children: [
             0.005.vspace,
@@ -44,15 +44,15 @@ class ReceivePageView extends GetView<ReceivePageController> {
             0.017.vspace,
             Text(
               'Receive',
-              style: titleMedium,
+              style: titleLarge,
             ),
-            0.058.vspace,
+            0.01.vspace,
             Text(
-              'You can send TEZ or any other Tezos\nbased asset to this address using\nTezos network.',
+              'You can send tez or any other Tezos based\nasset to this address Tezos network',
               textAlign: TextAlign.center,
-              style: bodyMedium.apply(color: ColorConst.NeutralVariant.shade60),
+              style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
-            0.039.vspace,
+            0.05.vspace,
             qrCode(),
             0.047.vspace,
             GestureDetector(
@@ -61,7 +61,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
               },
               child: Text(
                 accountName,
-                style: titleLarge,
+                style: titleLarge.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             0.01.vspace,
@@ -122,7 +122,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
             ),
             Text(
               'Share',
-              style: titleSmall,
+              style: titleSmall.copyWith(fontWeight: FontWeight.w500),
             )
           ],
         ),

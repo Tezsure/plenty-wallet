@@ -23,7 +23,7 @@ class ReceivePageController extends GetxController {
         height: 36,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-            color: ColorConst.Neutral.shade30,
+            color: ColorConst.Neutral.shade10,
             borderRadius: BorderRadius.circular(8)),
         child: Row(
           mainAxisSize: MainAxisSize.min,
