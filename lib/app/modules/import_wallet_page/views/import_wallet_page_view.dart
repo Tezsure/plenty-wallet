@@ -183,7 +183,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             controller.genAndLoadMoreAccounts(0, 3);
             Get.bottomSheet(
               accountBottomSheet(),
-              // isScrollControlled: true,
+               isScrollControlled: true,
               barrierColor: Colors.white.withOpacity(0.2),
             );
           } else {

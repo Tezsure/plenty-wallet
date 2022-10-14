@@ -131,6 +131,25 @@ class ColorConst {
       100: Color(0xFFFFFFFF),
     },
   );
+
+  static const NaaNShadesColor Secondary = NaaNShadesColor(
+    _Secondary,
+    <int, Color>{
+      0: Color(0xFF000000),
+      10: Color(0xFF280056),
+      20: Color(0xFF440088),
+      30: Color(0xFF6100BE),
+      40: Color(0xFF7C29E1),
+      50: Color(0xFF964AFB),
+      60: Color(0xFFAC72FF),
+      70: Color(0xFFC197FF),
+      80: Color(0xFFD7BAFF),
+      90: Color(0xFFEDDCFF),
+      95: Color(0xFFF8EDFF),
+      99: Color(0xFFFFFBFF),
+      100: Color(0xFFFFFFFF),
+    },
+  );
   static const NaaNShadesColor Tertiary = NaaNShadesColor(
     _Tertiary,
     <int, Color>{
@@ -171,17 +190,17 @@ class ColorConst {
     _Neutral,
     <int, Color>{
       0: Color(0xFF000000),
-      10: Color(0XFF2D004F),
-      20: Color(0XFF451969),
-      30: Color(0XFF5D3282),
-      40: Color(0XFF764B9C),
-      50: Color(0XFF9064B7),
-      60: Color(0XFFAB7DD2),
-      70: Color(0XFFC798EF),
-      80: Color(0XFFDFB7FF),
-      90: Color(0XFFF1DAFF),
-      95: Color(0XFFFAECFF),
-      99: Color(0XFFFFFBFF),
+      10: Color(0XFF421121),
+      20: Color(0XFF761E3B),
+      30: Color(0XFF802040),
+      40: Color(0XFFB42D5A),
+      50: Color(0XFFBF305F),
+      60: Color(0XFFD65983),
+      70: Color(0XFFD8648A),
+      80: Color(0XFFE597B1),
+      90: Color(0XFFE8A2B9),
+      95: Color(0XFFF2CBD8),
+      99: Color(0XFFFCF5F7),
       100: Color(0XFFFFFFFF),
     },
   );

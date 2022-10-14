@@ -61,12 +61,9 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
       NaanBottomSheet(
         gradientStartingOpacity: 1,
         blurRadius: 5,
-        height: 331,
+        isScrollControlled: true,
         title: 'Backup Your Wallet',
         bottomSheetWidgets: [
-          const SizedBox(
-            height: 44,
-          ),
           Text(
             'With no backup. losing your device will result\nin the loss of access forever. The only way to\nguard against losses is to backup your wallet.',
             textAlign: TextAlign.start,
@@ -74,7 +71,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
           ),
           .03.vspace,
           SolidButton(
-              textColor: ColorConst.Neutral.shade95,
+              textColor: Colors.white,
               title: "Backup Wallet ( ~1 min )",
               onPressed: () => Get.toNamed(
                     Routes.BACKUP_WALLET,
@@ -102,6 +99,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
                   style: titleSmall.apply(color: ColorConst.Primary.shade80)),
             ),
           ),
+          .03.vspace,
         ],
       ),
       enableDrag: true,

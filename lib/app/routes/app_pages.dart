@@ -119,7 +119,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.RECEIVE_PAGE,
-      page: () => ReceivePageView(),
+      page: () => const ReceivePageView(),
       binding: ReceivePageBinding(),
     ),
     GetPage(
@@ -134,7 +134,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ACCOUNT_SUMMARY,
-      page: () => AccountSummaryView(),
+      page: () => const AccountSummaryView(),
       binding: AccountSummaryBinding(),
     ),
   ];

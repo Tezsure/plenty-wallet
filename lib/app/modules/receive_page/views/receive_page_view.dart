@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -39,30 +40,37 @@ class ReceivePageView extends GetView<ReceivePageController> {
             0.017.vspace,
             Text(
               'Receive',
-              style: titleMedium,
+              style: titleLarge,
             ),
-            0.058.vspace,
+            0.01.vspace,
             Text(
-              'You can send TEZ or any other Tezos\nbased asset to this address using\nTezos network.',
+              'You can send tez or any other Tezos based\nasset to this address Tezos network',
               textAlign: TextAlign.center,
-              style: bodyMedium.apply(color: ColorConst.NeutralVariant.shade60),
+              style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
-            0.039.vspace,
+            0.05.vspace,
             qrCode(),
             0.047.vspace,
             GestureDetector(
               onTap: () {
                 controller.copyAddress(controller.userAccount!.publicKeyHash!);
               },
-              child: Text(
-                controller.userAccount!.name!,
-                style: titleLarge,
+              child: Column(
+                children: [
+                  Text(
+                    controller.userAccount!.name!,
+                    style: titleLarge.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  0.01.vspace,
+                  Text(
+                    tz1Shortner(
+                      controller.userAccount!.publicKeyHash!,
+                    ),
+                    style: bodySmall.apply(
+                        color: ColorConst.NeutralVariant.shade60),
+                  ),
+                ],
               ),
-            ),
-            0.01.vspace,
-            Text(
-              controller.userAccount!.publicKeyHash!,
-              style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
             0.047.vspace,
             shareButton(),
@@ -117,7 +125,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
             ),
             Text(
               'Share',
-              style: titleSmall,
+              style: titleSmall.copyWith(fontWeight: FontWeight.w500),
             )
           ],
         ),

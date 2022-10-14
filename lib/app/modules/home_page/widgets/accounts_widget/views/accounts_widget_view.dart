@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/data/services/service_models/account_model.dart'
 import 'package:naan_wallet/app/modules/account_summary/views/account_summary_view.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -212,143 +213,126 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
 
   Widget accountContainer(AccountModel model) {
     return InkWell(
-      onTap: () => Get.bottomSheet(
-        const AccountSummaryView(),
-        settings: RouteSettings(arguments: model),
-        isScrollControlled: true,
-      ),
-      child: Stack(
-        children: [
-          Container(
-            height: 0.26.height,
-            width: 1.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
+        onTap: () => Get.bottomSheet(
+              const AccountSummaryView(),
+              settings: RouteSettings(arguments: model),
+              isScrollControlled: true,
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: SvgPicture.asset(
-                controller.imagePath[Random().nextInt(3)],
-                fit: BoxFit.cover,
+        child: Stack(
+          children: [
+            Container(
+              height: 0.26.height,
+              width: 1.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: SvgPicture.asset(
+                  controller.imagePath[Random().nextInt(3)],
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          Container(
-            height: 0.26.height,
-            width: 1.width,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                gradient: LinearGradient(
-                  begin: const Alignment(-0.1, 0),
-                  end: const Alignment(1, 0),
-                  colors: [
-                    ColorConst.Primary.shade50,
-                    // const Color(0xff9961EC),
-                    const Color(0xff4E4D4D).withOpacity(0),
-                  ],
-                )),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 31.0, top: 0.04.height),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      model.name!,
-                      style: labelSmall,
-                    ),
-                    0.010.hspace,
-                    CustomImageWidget(
-                      imageType: model.imageType!,
-                      imagePath: model.profileImage!,
-                      imageRadius: 8,
-                    )
-                  ],
-                ),
-                0.02.vspace,
-                Row(
-                  children: [
-                    Text(
-                      tz1Shortner(model.publicKeyHash!),
-                      style: bodySmall,
-                    ),
-                    0.01.hspace,
-                    InkWell(
-                      onTap: () {
-                        Clipboard.setData(
-                            ClipboardData(text: model.publicKeyHash));
-                        Get.rawSnackbar(
-                          message: "Copied to clipboard",
-                          shouldIconPulse: true,
-                          snackPosition: SnackPosition.BOTTOM,
-                          maxWidth: 0.9.width,
-                          margin: const EdgeInsets.only(
-                            bottom: 20,
-                          ),
-                          duration: const Duration(milliseconds: 750),
-                        );
-                      },
-                      child: const Icon(
-                        Icons.copy,
-                        size: 11,
-                        color: Colors.white,
+            Container(
+              height: 0.26.height,
+              width: 1.width,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    begin: const Alignment(-0.1, 0),
+                    end: const Alignment(1, 0),
+                    colors: [
+                      ColorConst.Primary.shade50,
+                      // const Color(0xff9961EC),
+                      const Color(0xff4E4D4D).withOpacity(0),
+                    ],
+                  )),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 31.0, top: 0.04.height),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        model.name!,
+                        style: labelSmall,
                       ),
-                    ),
-                  ],
-                ),
-                0.015.vspace,
-                Row(
-                  children: [
-                    Text(
-                      model.accountDataModel!.totalBalance!.toStringAsFixed(6),
-                      style: headlineSmall,
-                    ),
-                    0.010.hspace,
-                    SvgPicture.asset(
-                      'assets/svg/path.svg',
-                      color: Colors.white,
-                      height: 20,
-                      width: 15,
-                    ),
-                  ],
-                ),
-                0.017.vspace,
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    RawMaterialButton(
-                      constraints: const BoxConstraints(),
-                      elevation: 1,
-                      padding: const EdgeInsets.all(8),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      enableFeedback: true,
-                      onPressed: () => Get.bottomSheet(const SendPage(),
-                          isScrollControlled: true,
-                          settings: RouteSettings(
-                            arguments: model,
-                          ),
-                          barrierColor: Colors.white.withOpacity(0.09)),
-                      fillColor: ColorConst.Primary.shade0,
-                      shape: const CircleBorder(side: BorderSide.none),
-                      child: const Icon(
-                        Icons.turn_right_rounded,
-                        color: Colors.white,
-                        size: 16,
+                      0.010.hspace,
+                      CustomImageWidget(
+                        imageType: model.imageType!,
+                        imagePath: model.profileImage!,
+                        imageRadius: 8,
+                      )
+                    ],
+                  ),
+                  0.02.vspace,
+                  Row(
+                    children: [
+                      Text(
+                        tz1Shortner(model.publicKeyHash!),
+                        style: bodySmall,
                       ),
-                    ),
-                    0.016.hspace,
-                    Transform.rotate(
-                      angle: -math.pi / 1,
-                      child: RawMaterialButton(
-                        enableFeedback: true,
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        padding: const EdgeInsets.all(8),
+                      0.01.hspace,
+                      InkWell(
+                        onTap: () {
+                          Clipboard.setData(
+                              ClipboardData(text: model.publicKeyHash));
+                          Get.rawSnackbar(
+                            message: "Copied to clipboard",
+                            shouldIconPulse: true,
+                            snackPosition: SnackPosition.BOTTOM,
+                            maxWidth: 0.9.width,
+                            margin: const EdgeInsets.only(
+                              bottom: 20,
+                            ),
+                            duration: const Duration(milliseconds: 750),
+                          );
+                        },
+                        child: const Icon(
+                          Icons.copy,
+                          size: 11,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                  0.015.vspace,
+                  Row(
+                    children: [
+                      Text(
+                        model.accountDataModel!.totalBalance!
+                            .toStringAsFixed(6),
+                        style: headlineSmall,
+                      ),
+                      0.010.hspace,
+                      SvgPicture.asset(
+                        'assets/svg/path.svg',
+                        color: Colors.white,
+                        height: 20,
+                        width: 15,
+                      ),
+                    ],
+                  ),
+                  0.017.vspace,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      RawMaterialButton(
                         constraints: const BoxConstraints(),
                         elevation: 1,
-                        onPressed: () {},
+                        padding: const EdgeInsets.all(8),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        enableFeedback: true,
+                        onPressed: () => Get.bottomSheet(const SendPage(),
+                            isScrollControlled: true,
+                            settings: RouteSettings(
+                              arguments: model,
+                            ),
+                            barrierColor: Colors.white.withOpacity(0.09)),
                         fillColor: ColorConst.Primary.shade0,
                         shape: const CircleBorder(side: BorderSide.none),
                         child: const Icon(
@@ -357,14 +341,32 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                           size: 16,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      0.016.hspace,
+                      Transform.rotate(
+                        angle: -math.pi / 1,
+                        child: RawMaterialButton(
+                          enableFeedback: true,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          padding: const EdgeInsets.all(8),
+                          constraints: const BoxConstraints(),
+                          elevation: 1,
+                          onPressed: () {},
+                          fillColor: ColorConst.Primary.shade0,
+                          shape: const CircleBorder(side: BorderSide.none),
+                          child: const Icon(
+                            Icons.turn_right_rounded,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 }

@@ -11,7 +11,7 @@ Widget backButton() {
     onTap: Get.back,
     child: CircleAvatar(
       radius: 0.045.width,
-      backgroundColor: ColorConst.Primary,
+      backgroundColor: Colors.transparent,
       child: SvgPicture.asset(
         "${PathConst.SVG}arrow_back.svg",
         fit: BoxFit.scaleDown,
