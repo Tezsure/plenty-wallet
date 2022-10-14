@@ -120,7 +120,7 @@ class NaanBottomSheet extends StatelessWidget {
           : Container(
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                  gradient: GradConst.GradientBackground),
+                  color: Colors.black),
               width: width ?? 1.width,
               height: height,
               padding: EdgeInsets.symmetric(
