@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -44,7 +43,6 @@ class PasscodePageView extends GetView<PasscodePageController> {
                     child: SvgPicture.asset(
                       "${PathConst.SVG}arrow_back.svg",
                       fit: BoxFit.scaleDown,
-                      
                     ),
                   ),
                 ),
@@ -89,9 +87,9 @@ class PasscodePageView extends GetView<PasscodePageController> {
               0.05.vspace,
               PassCodeWidget(onChanged: (value) {
                 debugPrint(
-                    "confirm passcode : " + controller.confirmPasscode.value);
+                    "confirm passcode : ${controller.confirmPasscode.value}");
                 debugPrint(
-                    "set passcode : " + controller.enteredPassCode.value);
+                    "set passcode : ${controller.enteredPassCode.value}");
 
                 if (controller.isToVerifyPassCode.value) {
                   if (value.length == 6) {
@@ -109,7 +107,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
                       controller.confirmPasscode.value !=
                           controller.enteredPassCode.value) {
                     controller.isPassCodeWrong.value = true;
-        
+
                     controller.enteredPassCode.value = "";
                     HapticFeedback.vibrate();
                   } else {
