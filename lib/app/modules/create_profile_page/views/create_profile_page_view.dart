@@ -28,6 +28,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
     return Container(
       color: Colors.black,
       width: 1.width,
+      height: 1.height,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,10 +37,11 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
           Align(
               alignment: Alignment.centerLeft,
               child: GestureDetector(
-                onTap: () => Get.back(),
+                onTap: Get.back,
                 child: SvgPicture.asset(
                   "${PathConst.SVG}arrow_back.svg",
                   fit: BoxFit.scaleDown,
+                  height: 14.sp,
                 ),
               )),
           0.05.vspace,
