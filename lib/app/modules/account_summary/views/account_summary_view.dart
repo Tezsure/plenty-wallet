@@ -60,10 +60,11 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                     imageRadius: 20,
                   ),
                   title: GestureDetector(
-                    onTap: (() => Get.bottomSheet(AccountSelectorSheet(
+                    onTap: (() => Get.bottomSheet(
+                        AccountSelectorSheet(
                           selectedAccount: controller.userAccount.value,
-                          accounts: controller.homePageController.userAccounts,
-                        ))),
+                        ),
+                        isScrollControlled: true)),
                     child: SizedBox(
                       height: 20,
                       width: 30,

@@ -22,7 +22,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+      decoration: const BoxDecoration(color: Colors.black),
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: SafeArea(

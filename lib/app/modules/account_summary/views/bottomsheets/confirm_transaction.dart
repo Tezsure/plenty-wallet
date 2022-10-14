@@ -149,9 +149,8 @@ class ConfirmTransactionSheet extends StatelessWidget {
                               child: GestureDetector(
                                 onTap: () => Get.bottomSheet(
                                   AccountSelectorSheet(
-                                      selectedAccount:
-                                          controller.userAccounts[0],
-                                      accounts: controller.userAccounts),
+                                    selectedAccount: controller.userAccounts[0],
+                                  ),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,

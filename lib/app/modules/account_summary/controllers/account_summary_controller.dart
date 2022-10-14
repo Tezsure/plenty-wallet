@@ -1,22 +1,18 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
-import 'package:naan_wallet/utils/constants/path_const.dart';
 
 import '../../../data/services/data_handler_service/data_handler_service.dart';
 import '../../../data/services/service_models/account_model.dart';
-import '../../../data/services/service_models/collectible_model.dart';
-import '../../../data/services/service_models/nft_model.dart';
 import '../../../data/services/service_models/nft_token_model.dart';
 import '../../../data/services/user_storage_service/user_storage_service.dart';
 
 class AccountSummaryController extends GetxController {
   final HomePageController homePageController = Get.find<HomePageController>();
   Rx<ScrollController> paginationController = ScrollController().obs;
+  RxBool isAccountEditable = false.obs; // To edit account selector
   RxBool isEditable = false.obs; // for token edit mode
   RxBool expandTokenList =
       false.obs; // false = show 3 tokens, true = show all tokens
@@ -31,6 +27,11 @@ class AccountSummaryController extends GetxController {
   RxDouble xtzPrice = 0.0.obs;
   RxList<AccountTokenModel> userTokens = <AccountTokenModel>[].obs;
   RxList<TxHistoryModel> userTransactionHistory = <TxHistoryModel>[].obs;
+
+  void changeName(String name) {
+    userAccount.value.name = name;
+    // UserStorageService().updateAccount(userAccount.value);
+  }
 
   @override
   void onInit() {
@@ -52,7 +53,12 @@ class AccountSummaryController extends GetxController {
     super.onClose();
   }
 
+  void editAccount() {
+    isAccountEditable.value = !isAccountEditable.value;
+  }
+
   Future<void> userTransactionLoader() async {
+    paginationController.value.removeListener(() {});
     userTransactionHistory.value = await fetchUserTransactionsHistory();
     paginationController.value.addListener(() async {
       if (paginationController.value.position.pixels ==
@@ -143,30 +149,4 @@ class AccountSummaryController extends GetxController {
         .whenComplete(() async => userTokens.value = await UserStorageService()
             .getUserTokens(userAddress: userAccount.value.publicKeyHash!));
   }
-
-  // ? NFTS TAB Page Data
-
-  static List<String> mockCollectibleName = [
-    'unstable dreams',
-    'DOGAMI',
-    'hic et nun'
-  ];
-
-  RxList<CollectibleModel> collectibles = List.generate(
-    6,
-    (index) => CollectibleModel(
-      name: mockCollectibleName[Random().nextInt(3)],
-      collectibleProfilePath:
-          "${PathConst.SEND_PAGE}nft_art${(Random().nextInt(3) + 1)}.png",
-      nfts: List.generate(
-        3,
-        (index) => NFTmodel(
-            title: "Unstable #5",
-            name: "unstable dreams",
-            nftPath:
-                "${PathConst.SEND_PAGE}nft_image${(Random().nextInt(4) + 1)}.png"),
-      ),
-    ),
-  ).obs; // List of nft collectibles
-
 }

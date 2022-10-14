@@ -174,8 +174,9 @@ class SettingsPageController extends GetxController {
   /// Updates the user accounts list with the latest modifications
   Future<void> _updateUserAccountsValue() async {
     await UserStorageService().updateAccounts(homePageController.userAccounts);
-    homePageController.userAccounts.value =
-        await UserStorageService().getAllAccount();
+    homePageController.userAccounts.value = await UserStorageService()
+        .getAllAccount()
+        .whenComplete(() => print("changed successfully"));
   }
 
   /// Updates the user accounts profile name with the latest name changes
