@@ -27,13 +27,13 @@ class BiometricPageView extends GetView<BiometricPageController> {
       child: SafeArea(
         child: Column(
           children: [
-            0.2.vspace,
+            0.15.vspace,
             Platform.isAndroid
                 ? SvgPicture.asset("${PathConst.SVG}fingerprint.svg")
                 : SvgPicture.asset("${PathConst.SVG}faceid.svg"),
             0.05.vspace,
             Text(
-              Platform.isAndroid ? "Enable biometry unlock" : "Enable Face ID",
+              Platform.isAndroid ? "Enable biometric unlock" : "Enable Face ID",
               style: titleLarge,
             ),
             0.01.vspace,
@@ -47,6 +47,9 @@ class BiometricPageView extends GetView<BiometricPageController> {
             const Spacer(),
             SolidButton(
               title: "Enable",
+              titleStyle: titleSmall.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
               onPressed: () {
                 controller.checkOrWriteNewAndRedirectToNewPage(true);
               },
@@ -62,7 +65,8 @@ class BiometricPageView extends GetView<BiometricPageController> {
                 alignment: Alignment.center,
                 child: Text(
                   "Skip",
-                  style: titleSmall.apply(
+                  style: titleSmall.copyWith(
+                      fontWeight: FontWeight.w600,
                       color: ColorConst.NeutralVariant.shade60),
                 ),
               ),

@@ -22,7 +22,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+      decoration: const BoxDecoration(color: Colors.black),
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: SafeArea(
@@ -44,17 +44,18 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                   },
                   child: Row(
                     children: [
+                      Text(
+                        "info",
+                        style: titleMedium.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: ColorConst.NeutralVariant.shade60),
+                      ),
+                      0.01.hspace,
                       Icon(
                         Icons.info_outline,
                         color: ColorConst.NeutralVariant.shade60,
                         size: 16,
                       ),
-                      0.01.hspace,
-                      Text(
-                        "Info",
-                        style: titleMedium.apply(
-                            color: ColorConst.NeutralVariant.shade60),
-                      )
                     ],
                   ),
                 )
@@ -183,7 +184,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             controller.genAndLoadMoreAccounts(0, 3);
             Get.bottomSheet(
               accountBottomSheet(),
-               isScrollControlled: true,
+              isScrollControlled: true,
               barrierColor: Colors.white.withOpacity(0.2),
             );
           } else {

@@ -16,7 +16,7 @@ class OnboardingPageController extends GetxController {
 
   late final Map<String, String> _onboardingMessages = {
     'assets/onboarding_page/lottie/Onboarding_1.json':
-        "All your Tezos\nassets in one\nplace",
+        "Manage your\nTezos assets in\none place",
     'assets/onboarding_page/lottie/Onboarding_2.json':
         "Flex your NFTs\nand explore\ngalleries",
     'assets/onboarding_page/lottie/Onboarding_3.json':
