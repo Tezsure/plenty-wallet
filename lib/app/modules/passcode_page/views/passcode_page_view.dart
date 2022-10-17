@@ -106,10 +106,16 @@ class PasscodePageView extends GetView<PasscodePageController> {
                       controller.confirmPasscode.value.length == 6 &&
                       controller.confirmPasscode.value !=
                           controller.enteredPassCode.value) {
+                    controller.wrongPasscodeLimit++;
                     controller.isPassCodeWrong.value = true;
-
                     controller.enteredPassCode.value = "";
-                    HapticFeedback.vibrate();
+                    HapticFeedback.heavyImpact();
+                    if (controller.wrongPasscodeLimit.value == 5) {
+                      controller.wrongPasscodeLimit.value = 0;
+                      controller.isPassCodeWrong.value = false;
+                      controller.confirmPasscode.value = "";
+                      controller.enteredPassCode.value = "";
+                    }
                   } else {
                     controller.isPassCodeWrong.value = false;
                   }
