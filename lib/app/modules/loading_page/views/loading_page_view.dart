@@ -13,24 +13,19 @@ class LoadingPageView extends GetView<LoadingPageController> {
     String loadingAsset = Get.arguments[0] as String;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            height: 1.height,
-            width: 1.width,
-            color: Colors.black,
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: LottieBuilder.asset(
-              loadingAsset, //'assets/create_wallet/lottie/wallet_success.json',
-              fit: BoxFit.fitWidth,
-
-              width: 0.7.width,
-              frameRate: FrameRate(60),
-            ),
-          ),
-        ],
+      body: Container(
+        height: 1.height,
+        width: 1.width,
+        color: Colors.black,
+        alignment: Alignment.topCenter,
+        padding: EdgeInsets.only(top: 0.175.height),
+        child: LottieBuilder.asset(
+          loadingAsset, //'assets/create_wallet/lottie/wallet_success.json',
+          fit: BoxFit.contain,
+          height: 0.5.height,
+          width: 0.5.width,
+          frameRate: FrameRate(60),
+        ),
       ),
     );
   }

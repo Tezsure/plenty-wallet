@@ -34,8 +34,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
         color: widget.controller.colorList[widget.controller.pageIndex()],
         child: PageView.builder(
             controller: widget.controller.pageController,
-            itemCount: 5,
-            physics: const BouncingScrollPhysics(),
+            itemCount: 4,
             scrollDirection: Axis.horizontal,
             onPageChanged: (value) {
               widget.controller.onPageChanged(value);

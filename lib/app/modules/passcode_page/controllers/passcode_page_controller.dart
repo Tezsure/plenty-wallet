@@ -12,7 +12,7 @@ class PasscodePageController extends GetxController {
   String? nextPageRoute;
   RxString confirmPasscode = "".obs;
   RxString enteredPassCode = "".obs;
-
+  RxInt wrongPasscodeLimit = 0.obs;
   RxBool isPassCodeWrong = false.obs;
 
   /// This will check based on isToVerifyPassCode whether to redirect to next page or pop with return data<br>
@@ -28,7 +28,7 @@ class PasscodePageController extends GetxController {
       } else {
         enteredPassCode.value = "";
         isPassCodeWrong.value = true;
-        HapticFeedback.vibrate();
+        HapticFeedback.heavyImpact();
       }
     } else if (nextPageRoute != null &&
         nextPageRoute == Routes.BIOMETRIC_PAGE &&

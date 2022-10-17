@@ -44,7 +44,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
             ),
             0.01.vspace,
             Text(
-              'You can send tez or any other Tezos based\nasset to this address Tezos network',
+              'You can receive tez or any other Tezos\nbased assets on this address by\nsharing this QR code.',
               textAlign: TextAlign.center,
               style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
@@ -108,21 +108,22 @@ class ReceivePageView extends GetView<ReceivePageController> {
         Share.share(controller.userAccount!.publicKeyHash!);
       },
       child: Container(
-        height: 40,
-        width: 120,
+        height: 0.06.height,
+        width: 0.35.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(
               Icons.share_sharp,
               size: 20,
               color: Colors.white,
             ),
+            0.04.hspace,
             Text(
               'Share',
               style: titleSmall.copyWith(fontWeight: FontWeight.w500),

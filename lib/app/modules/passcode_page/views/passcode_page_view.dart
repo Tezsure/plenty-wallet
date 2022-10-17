@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -86,10 +86,10 @@ class PasscodePageView extends GetView<PasscodePageController> {
               ),
               0.05.vspace,
               PassCodeWidget(onChanged: (value) {
-                // debugPrint(
-                //     "confirm passcode : " + controller.confirmPasscode.value);
-                // debugPrint(
-                //     "set passcode : " + controller.enteredPassCode.value);
+                debugPrint(
+                    "confirm passcode : ${controller.confirmPasscode.value}");
+                debugPrint(
+                    "set passcode : ${controller.enteredPassCode.value}");
 
                 if (controller.isToVerifyPassCode.value) {
                   if (value.length == 6) {
@@ -106,9 +106,16 @@ class PasscodePageView extends GetView<PasscodePageController> {
                       controller.confirmPasscode.value.length == 6 &&
                       controller.confirmPasscode.value !=
                           controller.enteredPassCode.value) {
+                    controller.wrongPasscodeLimit++;
                     controller.isPassCodeWrong.value = true;
-                    controller.confirmPasscode.value = "";
                     controller.enteredPassCode.value = "";
+                    HapticFeedback.heavyImpact();
+                    if (controller.wrongPasscodeLimit.value == 5) {
+                      controller.wrongPasscodeLimit.value = 0;
+                      controller.isPassCodeWrong.value = false;
+                      controller.confirmPasscode.value = "";
+                      controller.enteredPassCode.value = "";
+                    }
                   } else {
                     controller.isPassCodeWrong.value = false;
                   }

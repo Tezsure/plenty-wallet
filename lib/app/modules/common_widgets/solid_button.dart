@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 // ignore: must_be_immutable
@@ -22,25 +21,27 @@ class SolidButton extends StatelessWidget {
   final double borderWidth;
   final Widget? inActiveChild;
   RxBool? isLoading = false.obs;
-  SolidButton({
-    Key? key,
-    this.title = "",
-    this.onPressed,
-    this.onLongPressed,
-    this.textColor,
-    this.height,
-    this.width,
-    this.rowWidget,
-    this.active = true,
-    this.child,
-    this.inActiveChild,
-    this.disabledButtonColor,
-    this.primaryColor,
-    this.elevation = 2,
-    this.borderColor = Colors.transparent,
-    this.borderWidth = 0,
-    this.isLoading,
-  }) : super(key: key);
+  final TextStyle? titleStyle;
+  SolidButton(
+      {Key? key,
+      this.title = "",
+      this.onPressed,
+      this.onLongPressed,
+      this.textColor,
+      this.height,
+      this.width,
+      this.rowWidget,
+      this.active = true,
+      this.child,
+      this.inActiveChild,
+      this.disabledButtonColor,
+      this.primaryColor,
+      this.elevation = 2,
+      this.borderColor = Colors.transparent,
+      this.borderWidth = 0,
+      this.isLoading,
+      this.titleStyle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class SolidButton extends StatelessWidget {
       splashColor: ColorConst.Primary.shade60,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Container(
-        height: height ?? 50.sp,
+        height: height ?? 50,
         width: width ?? double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -82,10 +83,11 @@ class SolidButton extends StatelessWidget {
                       ? (active ? child! : inActiveChild!)
                       : Text(
                           title,
-                          style: titleSmall.apply(
-                              color: active
-                                  ? textColor ?? ColorConst.Neutral.shade100
-                                  : ColorConst.NeutralVariant.shade60),
+                          style: titleStyle ??
+                              titleSmall.apply(
+                                  color: active
+                                      ? textColor ?? ColorConst.Neutral.shade100
+                                      : ColorConst.NeutralVariant.shade60),
                         )
                   : rowWidget!,
         ),
