@@ -11,7 +11,10 @@ import '../../../data/services/user_storage_service/user_storage_service.dart';
 
 class AccountSummaryController extends GetxController {
   final HomePageController homePageController = Get.find<HomePageController>();
-  Rx<ScrollController> paginationController = ScrollController().obs;
+
+  Rx<ScrollController> paginationController =
+      ScrollController().obs; // For Transaction history lazy loading
+
   RxBool isAccountEditable = false.obs; // To edit account selector
   RxBool isEditable = false.obs; // for token edit mode
   RxBool expandTokenList =
@@ -23,11 +26,15 @@ class AccountSummaryController extends GetxController {
   RxBool isCollectibleListExpanded =
       false.obs; // false = show 3 collectibles, true = show all collectibles
 
-  Rx<AccountModel> userAccount = AccountModel(isNaanAccount: true).obs;
-  RxDouble xtzPrice = 0.0.obs;
-  RxList<AccountTokenModel> userTokens = <AccountTokenModel>[].obs;
-  RxList<TxHistoryModel> userTransactionHistory = <TxHistoryModel>[].obs;
+  Rx<AccountModel> userAccount =
+      AccountModel(isNaanAccount: true).obs; // Current selected account
+  RxDouble xtzPrice = 0.0.obs; // Current xtz price
+  RxList<AccountTokenModel> userTokens =
+      <AccountTokenModel>[].obs; // List of user tokens
+  RxList<TxHistoryModel> userTransactionHistory =
+      <TxHistoryModel>[].obs; // List of user transactions
 
+  // Changes the current selected account name
   void changeName(String name) {
     userAccount.value.name = name;
   }
@@ -52,10 +59,15 @@ class AccountSummaryController extends GetxController {
     super.onClose();
   }
 
+  int checkPinHideTokenList() =>
+      userTokens.where((e) => e.isPinned == true).toList().length;
+
+  /// Turns the edit mode on or off
   void editAccount() {
     isAccountEditable.value = !isAccountEditable.value;
   }
 
+  /// Loades the user transaction history, and updates the UI after user taps on history tab
   Future<void> userTransactionLoader() async {
     paginationController.value.removeListener(() {});
     userTransactionHistory.value = await fetchUserTransactionsHistory();
@@ -89,8 +101,8 @@ class AccountSummaryController extends GetxController {
     });
   }
 
+  /// Move the selected indexes on top of the list when pin is clicked
   void onPinToken() {
-    // Move the selected indexes on top of the list when pin is clicked
     userTokens
       ..where((token) => token.isSelected && !token.isHidden)
           .toList()
@@ -105,6 +117,7 @@ class AccountSummaryController extends GetxController {
     _updateUserTokenList();
   }
 
+  /// Fetches all the user tokens
   Future<void> fetchAllTokens() async {
     userTokens.clear();
     userTokens.add(
@@ -123,8 +136,8 @@ class AccountSummaryController extends GetxController {
         .getUserTokens(userAddress: userAccount.value.publicKeyHash!));
   }
 
+  /// Move the tokens to the end of the list when hide is clicked
   void onHideToken() {
-    // Move the tokens to the end of the list when hide is clicked
     userTokens
       ..where((token) => token.isSelected && !token.isPinned)
           .toList()
@@ -139,6 +152,7 @@ class AccountSummaryController extends GetxController {
     _updateUserTokenList();
   }
 
+  /// Updates the user token list and stores it in the local storage
   Future<void> _updateUserTokenList() async {
     await UserStorageService()
         .updateUserTokens(

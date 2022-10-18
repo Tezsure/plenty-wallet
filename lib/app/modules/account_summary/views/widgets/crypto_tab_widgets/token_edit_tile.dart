@@ -15,17 +15,18 @@ class TokenEditTile extends GetView<AccountSummaryController> {
   final bool? isAnyTokenSelected;
   final GestureTapCallback? onHideTap;
   final GestureTapCallback? onPinTap;
+  final bool? showEditButton;
 
-  const TokenEditTile({
-    super.key,
-    this.viewAll,
-    required this.expandedTokenList,
-    this.onEditTap,
-    this.isEditable = false,
-    this.isAnyTokenSelected = false,
-    this.onHideTap,
-    this.onPinTap,
-  });
+  const TokenEditTile(
+      {super.key,
+      this.viewAll,
+      required this.expandedTokenList,
+      this.onEditTap,
+      this.isEditable = false,
+      this.isAnyTokenSelected = false,
+      this.onHideTap,
+      this.onPinTap,
+      this.showEditButton = false});
 
   @override
   Widget build(BuildContext context) {
@@ -33,37 +34,39 @@ class TokenEditTile extends GetView<AccountSummaryController> {
       children: [
         Visibility(
           visible: isEditable ?? false,
-          replacement: GestureDetector(
-            onTap: viewAll,
-            child: Container(
-              height: 24,
-              width: expandedTokenList ? 55 : 45,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: const Color(0xff1e1c1f),
-              ),
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    expandedTokenList ? 'Less' : 'All',
-                    style: labelSmall.copyWith(
-                        color: ColorConst.NeutralVariant.shade60),
+          replacement: showEditButton!
+              ? const SizedBox()
+              : GestureDetector(
+                  onTap: viewAll,
+                  child: Container(
+                    height: 24,
+                    width: expandedTokenList ? 55 : 45,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: const Color(0xff1e1c1f),
+                    ),
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          expandedTokenList ? 'Less' : 'All',
+                          style: labelSmall.copyWith(
+                              color: ColorConst.NeutralVariant.shade60),
+                        ),
+                        Icon(
+                          expandedTokenList
+                              ? Icons.keyboard_arrow_up
+                              : Icons.arrow_forward_ios,
+                          color: ColorConst.NeutralVariant.shade60,
+                          size: expandedTokenList ? 14 : 10,
+                        )
+                      ],
+                    ),
                   ),
-                  Icon(
-                    expandedTokenList
-                        ? Icons.keyboard_arrow_up
-                        : Icons.arrow_forward_ios,
-                    color: ColorConst.NeutralVariant.shade60,
-                    size: expandedTokenList ? 14 : 10,
-                  )
-                ],
-              ),
-            ),
-          ),
+                ),
           child: Row(
             children: [
               0.02.hspace,
@@ -100,7 +103,26 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                   ),
                 ),
               )
-            : const SizedBox(),
+            : showEditButton!
+                ? GestureDetector(
+                    onTap: onEditTap,
+                    child: Container(
+                      height: 24,
+                      width: isEditable ?? false ? 55 : 45,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: isEditable ?? false
+                            ? ColorConst.Primary
+                            : ColorConst.NeutralVariant.shade30,
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        isEditable ?? false ? 'Done' : 'Edit',
+                        style: labelSmall,
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
       ],
     );
   }

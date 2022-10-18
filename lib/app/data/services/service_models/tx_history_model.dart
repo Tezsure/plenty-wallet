@@ -109,16 +109,19 @@ class TxHistoryModel {
 
 class Sender {
   String? address;
+  String? alias;
 
-  Sender({this.address});
+  Sender({this.address, this.alias});
 
   Sender.fromJson(Map<String, dynamic> json) {
+    alias = json['alias'];
     address = json['address'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['address'] = address;
+    data['alias'] = alias;
     return data;
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -26,7 +28,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
             children: [
               0.03.vspace,
               SvgPicture.asset(
-                "assets/empty_states/empty3.svg",
+                "${PathConst.EMPTY_STATES}empty3.svg",
                 height: 240.sp,
               ),
               0.03.vspace,
@@ -111,6 +113,21 @@ class HistoryPage extends GetView<AccountSummaryController> {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
+                    print(
+                        "target  ${controller.userTransactionHistory[index].target?.alias}");
+                    if (controller.userTransactionHistory[index].type!
+                        .contains("transaction")) {
+                      print(
+                          jsonEncode(controller.userTransactionHistory[index]));
+                    }
+                    // print(
+                    //     "Has Internals ${controller.userTransactionHistory[index].hasInternals}");
+
+                    // print(
+                    //     "Parameters are: ${controller.userTransactionHistory[index].parameter}");
+                    // print(controller.userTransactionHistory[index].hash);
+
+                    // controller.userTransactionHistory[index].
                     return
                         // controller.userTransactionHistory[index].type!
                         //         .contains("transaction")

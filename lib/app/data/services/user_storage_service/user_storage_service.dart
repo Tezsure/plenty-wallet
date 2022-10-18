@@ -163,7 +163,9 @@ class UserStorageService {
     List<TxHistoryModel> transactionHistoryList = <TxHistoryModel>[];
     String? transactionHistory = await ServiceConfig.localStorage
         .read(key: "${ServiceConfig.txHistoryStorage}_$accountAddress");
-    if (transactionHistory == null) return <TxHistoryModel>[];
+    if (transactionHistory == null) {
+      return await TzktTxHistoryApiService(accountAddress).getTxHistory();
+    }
 
     if (lastId == null) {
       transactionHistoryList = jsonDecode(transactionHistory)

@@ -275,7 +275,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
               SizedBox(
                 height: 50,
                 child: TabBar(
-                    onTap: (value) {
+                    onTap: (value) async {
                       value == 2 ? controller.userTransactionLoader() : null;
                     },
                     isScrollable: true,
