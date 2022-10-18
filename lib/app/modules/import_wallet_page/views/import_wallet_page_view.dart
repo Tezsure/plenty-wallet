@@ -22,7 +22,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black,
+      decoration: const BoxDecoration(color: Colors.black),
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: SafeArea(
@@ -51,8 +51,9 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                   child: Row(
                     children: [
                       Text(
-                        "Info",
-                        style: labelMedium.apply(
+                        "info",
+                        style: titleMedium.copyWith(
+                            fontWeight: FontWeight.w600,
                             color: ColorConst.NeutralVariant.shade60),
                       ),
                       0.01.hspace,
@@ -183,18 +184,81 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   Widget importButton() {
     return Obx(
       () => SolidButton(
-          onPressed: () async {
-            if (controller.importWalletDataType ==
-                ImportWalletDataType.mnemonic) {
-              controller.genAndLoadMoreAccounts(0, 3);
-              Get.bottomSheet(
-                AccountBottomSheet(controller: controller),
-                isScrollControlled: true,
-                barrierColor: Colors.white.withOpacity(0.2),
-              );
-            } else {
-              controller.redirectBasedOnImportWalletType();
-            }
+        onPressed: () async {
+          if (controller.importWalletDataType ==
+              ImportWalletDataType.mnemonic) {
+            controller.genAndLoadMoreAccounts(0, 3);
+            Get.bottomSheet(
+              accountBottomSheet(),
+              isScrollControlled: true,
+              barrierColor: Colors.white.withOpacity(0.2),
+            );
+          } else {
+            controller.redirectBasedOnImportWalletType();
+          }
+        },
+        active: controller.phraseText.split(" ").join().length >= 2 &&
+            controller.importWalletDataType != ImportWalletDataType.none,
+        inActiveChild: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              "${PathConst.SVG}import.svg",
+              fit: BoxFit.scaleDown,
+              color: ColorConst.NeutralVariant.shade60,
+            ),
+            0.03.hspace,
+            Text(
+              "Import",
+              style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
+            )
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              "${PathConst.SVG}import.svg",
+              fit: BoxFit.scaleDown,
+              color: ColorConst.Neutral.shade95,
+            ),
+            0.03.hspace,
+            Text(
+              controller.importWalletDataType == ImportWalletDataType.privateKey
+                  ? "Import using private key"
+                  : controller.importWalletDataType ==
+                          ImportWalletDataType.mnemonic
+                      ? "Import using seed phrase"
+                      : controller.importWalletDataType ==
+                              ImportWalletDataType.watchAddress
+                          ? "Import watch address"
+                          : "Import",
+              style: titleSmall.apply(color: ColorConst.Neutral.shade95),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget accountBottomSheet() {
+    return NaanBottomSheet(
+      blurRadius: 5,
+      height: 0.85.height,
+      bottomSheetWidgets: [
+        Text(
+          "Wallets ready to import",
+          textAlign: TextAlign.start,
+          style: titleLarge,
+        ),
+        0.03.vspace,
+        Expanded(
+          child: AccountWidget(),
+        ),
+        0.03.vspace,
+        SolidButton(
+          onPressed: () {
+            controller.redirectBasedOnImportWalletType();
           },
           active: controller.phraseText.split(" ").join().length >= 2 &&
               controller.importWalletDataType != ImportWalletDataType.none,
@@ -213,7 +277,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                         ? "Import watch address"
                         : "Import",
             style: titleSmall.apply(color: ColorConst.Neutral.shade95),
-          )),
+          )),]
     );
   }
 
