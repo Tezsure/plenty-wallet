@@ -108,30 +108,32 @@ class WalletService {
 
   /// gen account using mnemonic
   /// startIndex is the starting of derivation index and size is account return list size
-  Future<List<AccountModel>> genAccountFromMnemonic(
-      String mnemonic, int startIndex, int size) async {
-    var tempAccount = <AccountModel>[];
-    for (var i = 0; i < size; i++) {
-      // "m/44'/1729'/$derivationIndex'/0'"
-      var keyStore = await Dartez.restoreIdentityFromDerivationPath(
-          "m/44'/1729'/${i + startIndex}'/0'", mnemonic);
-      tempAccount.add(AccountModel(
-        isNaanAccount: false,
-        derivationPathIndex: i + startIndex,
-        name: "",
-        imageType: AccountProfileImageType.assets,
-        profileImage: ServiceConfig.allAssetsProfileImages[
-            Random().nextInt(ServiceConfig.allAssetsProfileImages.length - 1)],
+  Future<AccountModel> genAccountFromMnemonic(String mnemonic, int index,
+      [bool isTz2Address = false]) async {
+    // var tempAccount = <AccountModel>[];
+    // "m/44'/1729'/$derivationIndex'/0'"
+    var keyStore = await Dartez.restoreIdentityFromDerivationPath(
+        "m/44'/1729'/$index'/0'", mnemonic,
+        signerCurve:
+            isTz2Address ? SignerCurve.SECP256K1 : SignerCurve.ED25519);
+    return AccountModel(
+      isNaanAccount: false,
+      derivationPathIndex: index,
+      name: "",
+      imageType: AccountProfileImageType.assets,
+      profileImage: ServiceConfig.allAssetsProfileImages[
+          Random().nextInt(ServiceConfig.allAssetsProfileImages.length - 1)],
+      publicKeyHash: keyStore[2],
+    )..accountSecretModel = AccountSecretModel(
+        seedPhrase: mnemonic,
+        secretKey: keyStore[0],
+        publicKey: keyStore[1],
+        derivationPathIndex: index,
         publicKeyHash: keyStore[2],
-      )..accountSecretModel = AccountSecretModel(
-          seedPhrase: mnemonic,
-          secretKey: keyStore[0],
-          publicKey: keyStore[1],
-          derivationPathIndex: i + startIndex,
-          publicKeyHash: keyStore[2],
-        ));
-    }
-    return tempAccount;
+      );
+    // tempAccount.add();
+
+    // return tempAccount;
   }
 
   /// write new watch address into storage

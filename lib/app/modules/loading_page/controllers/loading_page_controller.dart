@@ -32,9 +32,7 @@ class LoadingPageController extends GetxController {
       Web3AuthController? web3authController;
       try {
         web3authController = Get.find<Web3AuthController>();
-      } catch (e) {
-       
-      }
+      } catch (e) {}
       if (web3authController != null && web3authController.privateKey != null) {
         await Future.wait([
           WalletService().importWalletUsingPrivateKey(
@@ -82,7 +80,10 @@ class LoadingPageController extends GetxController {
         await Future.wait([
           UserStorageService().writeNewAccount(
             // ignore: invalid_use_of_protected_member
-            importWalletPageController.selectedAccounts.value,
+            [
+              ...importWalletPageController.selectedAccountsTz1.value,
+              ...importWalletPageController.selectedAccountsTz2.value
+            ],
             false,
             true,
           ),

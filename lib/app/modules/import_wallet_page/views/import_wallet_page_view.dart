@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
+import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
@@ -184,81 +185,22 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   Widget importButton() {
     return Obx(
       () => SolidButton(
-        onPressed: () async {
-          if (controller.importWalletDataType ==
-              ImportWalletDataType.mnemonic) {
-            controller.genAndLoadMoreAccounts(0, 3);
-            Get.bottomSheet(
-              accountBottomSheet(),
-              isScrollControlled: true,
-              barrierColor: Colors.white.withOpacity(0.2),
-            );
-          } else {
-            controller.redirectBasedOnImportWalletType();
-          }
-        },
-        active: controller.phraseText.split(" ").join().length >= 2 &&
-            controller.importWalletDataType != ImportWalletDataType.none,
-        inActiveChild: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              "${PathConst.SVG}import.svg",
-              fit: BoxFit.scaleDown,
-              color: ColorConst.NeutralVariant.shade60,
-            ),
-            0.03.hspace,
-            Text(
-              "Import",
-              style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
-            )
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              "${PathConst.SVG}import.svg",
-              fit: BoxFit.scaleDown,
-              color: ColorConst.Neutral.shade95,
-            ),
-            0.03.hspace,
-            Text(
-              controller.importWalletDataType == ImportWalletDataType.privateKey
-                  ? "Import using private key"
-                  : controller.importWalletDataType ==
-                          ImportWalletDataType.mnemonic
-                      ? "Import using seed phrase"
-                      : controller.importWalletDataType ==
-                              ImportWalletDataType.watchAddress
-                          ? "Import watch address"
-                          : "Import",
-              style: titleSmall.apply(color: ColorConst.Neutral.shade95),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget accountBottomSheet() {
-    return NaanBottomSheet(
-      blurRadius: 5,
-      height: 0.85.height,
-      bottomSheetWidgets: [
-        Text(
-          "Wallets ready to import",
-          textAlign: TextAlign.start,
-          style: titleLarge,
-        ),
-        0.03.vspace,
-        Expanded(
-          child: AccountWidget(),
-        ),
-        0.03.vspace,
-        SolidButton(
-          onPressed: () {
-            controller.redirectBasedOnImportWalletType();
+          onPressed: () async {
+            if (controller.importWalletDataType ==
+                ImportWalletDataType.mnemonic) {
+              controller.generatedAccountsTz1.value = <AccountModel>[];
+              controller.generatedAccountsTz2.value = <AccountModel>[];
+              controller.isTz1Selected.value = true;
+              controller.tabController!.animateTo(0);
+              controller.genAndLoadMoreAccounts(0, 3);
+              Get.bottomSheet(
+                AccountBottomSheet(controller: controller),
+                isScrollControlled: true,
+                barrierColor: Colors.white.withOpacity(0.2),
+              );
+            } else {
+              controller.redirectBasedOnImportWalletType();
+            }
           },
           active: controller.phraseText.split(" ").join().length >= 2 &&
               controller.importWalletDataType != ImportWalletDataType.none,
@@ -277,7 +219,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                         ? "Import watch address"
                         : "Import",
             style: titleSmall.apply(color: ColorConst.Neutral.shade95),
-          )),]
+          )),
     );
   }
 
@@ -411,27 +353,28 @@ class AccountBottomSheet extends StatelessWidget {
                       topLeftRadius: 4,
                       topRightRadius: 4,
                       strokeWidth: 4,
-                    
                     ),
+                    controller: controller.tabController,
                     labelPadding: EdgeInsets.zero,
                     tabs: [
                       Tab(
                         child: SizedBox(
-                          width:
-                              controller.selectedAccounts.isNotEmpty ? 84 : 61,
+                          width: controller.selectedAccountsTz1.isNotEmpty
+                              ? 84
+                              : 61,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text("tz 1"),
-                              if (controller.selectedAccounts.isNotEmpty)
+                              const Text("Tz1"),
+                              if (controller.selectedAccountsTz1.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8),
                                   child: CircleAvatar(
                                     radius: 8,
                                     backgroundColor: ColorConst.Primary,
                                     child: Text(
-                                        controller.selectedAccounts.length
+                                        controller.selectedAccountsTz1.length
                                             .toString(),
                                         style: labelSmall),
                                   ),
@@ -442,21 +385,22 @@ class AccountBottomSheet extends StatelessWidget {
                       ),
                       Tab(
                         child: SizedBox(
-                          width:
-                              controller.selectedAccounts.isNotEmpty ? 84 : 61,
+                          width: controller.selectedAccountsTz2.isNotEmpty
+                              ? 84
+                              : 61,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text("tz 2"),
-                              if (controller.selectedAccounts.isNotEmpty)
+                              const Text("Tz2"),
+                              if (controller.selectedAccountsTz2.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8),
                                   child: CircleAvatar(
                                     radius: 8,
                                     backgroundColor: ColorConst.Primary,
                                     child: Text(
-                                        controller.selectedAccounts.length
+                                        controller.selectedAccountsTz2.length
                                             .toString(),
                                         style: labelSmall),
                                   ),

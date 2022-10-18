@@ -22,33 +22,13 @@ class AccountWidget extends StatelessWidget {
     return Column(
       children: [
         Obx(
-          () => Visibility(
-              visible: controller.isExpanded.isTrue,
-              replacement: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                ),
-                child: Column(
-                  children: [
-                    Column(
-                      children: List.generate(
-                        controller.generatedAccounts.length,
-                        (index) => accountWidget(
-                            controller.generatedAccounts[index], index),
-                      ),
-                    ),
-                    if (controller.generatedAccounts.length < 100)
-                      showMoreAccountButton(
-                          controller.generatedAccounts.length - 1),
-                  ],
-                ),
-              ),
-              child: Expanded(
-                flex: 2,
-                child: Container(
+          () {
+            if (controller.generatedAccounts.isEmpty) {
+              controller.genAndLoadMoreAccounts(0, 3);
+            }
+            return Visibility(
+                visible: controller.isExpanded.isTrue,
+                replacement: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
                   decoration: BoxDecoration(
@@ -57,13 +37,11 @@ class AccountWidget extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Expanded(
-                        child: ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) => accountWidget(
+                      Column(
+                        children: List.generate(
+                          controller.generatedAccounts.length,
+                          (index) => accountWidget(
                               controller.generatedAccounts[index], index),
-                          itemCount: controller.generatedAccounts.length,
-                          shrinkWrap: true,
                         ),
                       ),
                       if (controller.generatedAccounts.length < 100)
@@ -72,7 +50,35 @@ class AccountWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-              )),
+                child: Expanded(
+                  flex: 2,
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        const EdgeInsets.only(top: 12, left: 12, right: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                    ),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (context, index) => accountWidget(
+                                controller.generatedAccounts[index], index),
+                            itemCount: controller.generatedAccounts.length,
+                            shrinkWrap: true,
+                          ),
+                        ),
+                        if (controller.generatedAccounts.length < 100)
+                          showMoreAccountButton(
+                              controller.generatedAccounts.length - 1),
+                      ],
+                    ),
+                  ),
+                ));
+          },
         ),
       ],
     );
@@ -152,12 +158,18 @@ class AccountWidget extends StatelessWidget {
             child: Checkbox(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
-              value: controller.selectedAccounts.contains(accountModel),
+              value: controller.isTz1Selected.value
+                  ? controller.selectedAccountsTz1.contains(accountModel)
+                  : controller.selectedAccountsTz2.contains(accountModel),
               onChanged: (value) {
                 if (value!) {
-                  controller.selectedAccounts.add(accountModel);
+                  controller.isTz1Selected.value
+                  ? controller.selectedAccountsTz1.add(accountModel)
+                  : controller.selectedAccountsTz2.add(accountModel);
                 } else {
-                  controller.selectedAccounts.remove(accountModel);
+                  controller.isTz1Selected.value
+                  ? controller.selectedAccountsTz1.remove(accountModel)
+                  : controller.selectedAccountsTz2.remove(accountModel);
                 }
               },
               checkColor: Colors.white,
