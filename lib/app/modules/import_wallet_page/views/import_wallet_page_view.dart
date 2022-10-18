@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
+import 'package:naan_wallet/app/modules/import_wallet_page/widgets/custom_tab_indicator.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -51,7 +52,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                     children: [
                       Text(
                         "Info",
-                        style: titleMedium.apply(
+                        style: labelMedium.apply(
                             color: ColorConst.NeutralVariant.shade60),
                       ),
                       0.01.hspace,
@@ -182,60 +183,37 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   Widget importButton() {
     return Obx(
       () => SolidButton(
-        onPressed: () async {
-          if (controller.importWalletDataType ==
-              ImportWalletDataType.mnemonic) {
-            controller.genAndLoadMoreAccounts(0, 3);
-            Get.bottomSheet(
-              AccountBottomSheet(controller: controller),
-              isScrollControlled: true,
-              barrierColor: Colors.white.withOpacity(0.2),
-            );
-          } else {
-            controller.redirectBasedOnImportWalletType();
-          }
-        },
-        active: controller.phraseText.split(" ").join().length >= 2 &&
-            controller.importWalletDataType != ImportWalletDataType.none,
-        inActiveChild: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              "${PathConst.SVG}import.svg",
-              fit: BoxFit.scaleDown,
-              color: ColorConst.NeutralVariant.shade60,
-            ),
-            0.03.hspace,
-            Text(
-              "Import",
-              style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
-            )
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              "${PathConst.SVG}import.svg",
-              fit: BoxFit.scaleDown,
-              color: ColorConst.Neutral.shade95,
-            ),
-            0.03.hspace,
-            Text(
-              controller.importWalletDataType == ImportWalletDataType.privateKey
-                  ? "Import using private key"
-                  : controller.importWalletDataType ==
-                          ImportWalletDataType.mnemonic
-                      ? "Import using seed phrase"
-                      : controller.importWalletDataType ==
-                              ImportWalletDataType.watchAddress
-                          ? "Import watch address"
-                          : "Import",
-              style: titleSmall.apply(color: ColorConst.Neutral.shade95),
-            )
-          ],
-        ),
-      ),
+          onPressed: () async {
+            if (controller.importWalletDataType ==
+                ImportWalletDataType.mnemonic) {
+              controller.genAndLoadMoreAccounts(0, 3);
+              Get.bottomSheet(
+                AccountBottomSheet(controller: controller),
+                isScrollControlled: true,
+                barrierColor: Colors.white.withOpacity(0.2),
+              );
+            } else {
+              controller.redirectBasedOnImportWalletType();
+            }
+          },
+          active: controller.phraseText.split(" ").join().length >= 2 &&
+              controller.importWalletDataType != ImportWalletDataType.none,
+          inActiveChild: Text(
+            "Import",
+            style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
+          ),
+          child: Text(
+            controller.importWalletDataType == ImportWalletDataType.privateKey
+                ? "Import using private key"
+                : controller.importWalletDataType ==
+                        ImportWalletDataType.mnemonic
+                    ? "Next"
+                    : controller.importWalletDataType ==
+                            ImportWalletDataType.watchAddress
+                        ? "Import watch address"
+                        : "Import",
+            style: titleSmall.apply(color: ColorConst.Neutral.shade95),
+          )),
     );
   }
 
@@ -363,6 +341,14 @@ class AccountBottomSheet extends StatelessWidget {
                     indicatorSize: TabBarIndicatorSize.label,
                     indicatorWeight: 4,
                     indicatorPadding: EdgeInsets.zero,
+                    indicator: MaterialIndicator(
+                      color: ColorConst.Primary,
+                      height: 4,
+                      topLeftRadius: 4,
+                      topRightRadius: 4,
+                      strokeWidth: 4,
+                    
+                    ),
                     labelPadding: EdgeInsets.zero,
                     tabs: [
                       Tab(
@@ -434,7 +420,7 @@ class AccountBottomSheet extends StatelessWidget {
           onPressed: () {
             controller.redirectBasedOnImportWalletType();
           },
-          title: "Continue",
+          title: "Import",
         ),
         0.05.vspace
       ],

@@ -40,7 +40,6 @@ class AccountWidget extends StatelessWidget {
                             controller.generatedAccounts[index], index),
                       ),
                     ),
-                    accountLoadingShimmer(),
                     if (controller.generatedAccounts.length < 100)
                       showMoreAccountButton(
                           controller.generatedAccounts.length - 1),
@@ -67,7 +66,6 @@ class AccountWidget extends StatelessWidget {
                           shrinkWrap: true,
                         ),
                       ),
-                      accountLoadingShimmer(),
                       if (controller.generatedAccounts.length < 100)
                         showMoreAccountButton(
                             controller.generatedAccounts.length - 1),
@@ -173,19 +171,17 @@ class AccountWidget extends StatelessWidget {
     );
   }
 
-  Widget accountLoadingShimmer() {
-    return Row(
-      children: [
-        Shimmer.fromColors(
-            direction: ShimmerDirection.ltr,
-            child: CircleAvatar(radius: 24),
-            baseColor: Colors.transparent,
-            highlightColor: Color(0xffe8e8e8).withOpacity(0.24)),
-        0.05.hspace,
-       
-        
-        
-        ],
-    );
-  }
+  // Widget accountLoadingShimmer() {
+  //   return Row(
+  //     children: [
+  //       Shimmer.fromColors(
+  //           direction: ShimmerDirection.ltr,
+  //           child: CircleAvatar(radius: 24),
+  //           baseColor: Colors.transparent,
+  //           highlightColor: Color(0xffe8e8e8).withOpacity(0.24)),
+  //       0.05.hspace,
+
+  //       ],
+  //   );
+  // }
 }
