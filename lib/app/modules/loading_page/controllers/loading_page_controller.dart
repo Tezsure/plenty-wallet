@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
@@ -33,9 +32,7 @@ class LoadingPageController extends GetxController {
       Web3AuthController? web3authController;
       try {
         web3authController = Get.find<Web3AuthController>();
-      } catch (e) {
-       
-      }
+      } catch (e) {}
       if (web3authController != null && web3authController.privateKey != null) {
         await Future.wait([
           WalletService().importWalletUsingPrivateKey(
@@ -83,7 +80,10 @@ class LoadingPageController extends GetxController {
         await Future.wait([
           UserStorageService().writeNewAccount(
             // ignore: invalid_use_of_protected_member
-            importWalletPageController.selectedAccounts.value,
+            [
+              ...importWalletPageController.selectedAccountsTz1.value,
+              ...importWalletPageController.selectedAccountsTz2.value
+            ],
             false,
             true,
           ),

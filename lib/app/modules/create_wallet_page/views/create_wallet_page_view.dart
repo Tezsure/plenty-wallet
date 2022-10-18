@@ -37,15 +37,23 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                   return LinearGradient(
                     colors: [
                       const Color(0xffD9D9D9).withOpacity(0),
-                      const Color(0xffD9D9D9),
+                      const Color(0xffD9D9D9).withOpacity(0.08),
+                      const Color(0xffD9D9D9).withOpacity(0.4),
+                      const Color(0xffD9D9D9).withOpacity(0.9),
                     ],
                     begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
+                    end: const Alignment(0, 0.2),
                   ).createShader(bounds);
                 },
-                child: SvgPicture.asset(
-                  "${PathConst.SVG}create_wallet_background.svg",
-                  fit: BoxFit.fitWidth,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                  child: Container(
+                    margin: EdgeInsets.only(top: 25.sp),
+                    child: SvgPicture.asset(
+                      "${PathConst.SVG}create_wallet_background.svg",
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
               ),
               Padding(
