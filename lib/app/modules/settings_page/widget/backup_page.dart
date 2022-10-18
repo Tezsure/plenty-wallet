@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/naan_app_bar.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/backup_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/private_key_page.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/secret_phrase_page.dart';

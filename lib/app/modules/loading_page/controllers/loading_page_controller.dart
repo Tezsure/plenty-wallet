@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
+import 'package:naan_wallet/app/data/services/web3auth_services/web3AuthController.dart';
 import 'package:naan_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
@@ -29,17 +29,33 @@ class LoadingPageController extends GetxController {
     if (fromRoute == Routes.CREATE_WALLET_PAGE) {
       CreateProfilePageController createWalletPageController =
           Get.find<CreateProfilePageController>();
-      var createWalletResult = await Future.wait([
-        WalletService().createNewAccount(
-          createWalletPageController.accountNameController.text,
-          createWalletPageController.currentSelectedType,
-          createWalletPageController.selectedImagePath.value,
-        ),
-        Future.delayed(const Duration(seconds: 3))
-      ]);
-      mnemonic = (createWalletResult[0] as AccountModel)
-          .accountSecretModel!
-          .seedPhrase!;
+      Web3AuthController? web3authController;
+      try {
+        web3authController = Get.find<Web3AuthController>();
+      } catch (e) {}
+      if (web3authController != null && web3authController.privateKey != null) {
+        await Future.wait([
+          WalletService().importWalletUsingPrivateKey(
+            web3authController.privateKey!,
+            createWalletPageController.accountNameController.text,
+            createWalletPageController.currentSelectedType,
+            createWalletPageController.selectedImagePath.value,
+          ),
+          Future.delayed(const Duration(seconds: 3))
+        ]);
+      } else {
+        var createWalletResult = await Future.wait([
+          WalletService().createNewAccount(
+            createWalletPageController.accountNameController.text,
+            createWalletPageController.currentSelectedType,
+            createWalletPageController.selectedImagePath.value,
+          ),
+          Future.delayed(const Duration(seconds: 3))
+        ]);
+        mnemonic = (createWalletResult[0] as AccountModel)
+            .accountSecretModel!
+            .seedPhrase!;
+      }
     } else if (fromRoute == Routes.IMPORT_WALLET_PAGE) {
       ImportWalletPageController importWalletPageController =
           Get.find<ImportWalletPageController>();
@@ -64,7 +80,10 @@ class LoadingPageController extends GetxController {
         await Future.wait([
           UserStorageService().writeNewAccount(
             // ignore: invalid_use_of_protected_member
-            importWalletPageController.selectedAccounts.value,
+            [
+              ...importWalletPageController.selectedAccountsTz1.value,
+              ...importWalletPageController.selectedAccountsTz2.value
+            ],
             false,
             true,
           ),

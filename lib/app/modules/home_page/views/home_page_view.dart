@@ -32,6 +32,7 @@ class HomePageView extends GetView<HomePageController>
                       children: [
                         Column(
                           children: [
+                           
                             const HomepageAppBar(),
                             AccountValueWidget(),
                           ],

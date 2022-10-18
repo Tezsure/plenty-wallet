@@ -24,7 +24,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
             children: [
               Obx(() => AnimatedSmoothIndicator(
                     activeIndex: controller.pageIndex(),
-                    count: 5,
+                    count: 4,
                     effect: const ExpandingDotsEffect(
                       dotHeight: 8,
                       dotWidth: 8,

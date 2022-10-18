@@ -16,15 +16,13 @@ class OnboardingPageController extends GetxController {
 
   late final Map<String, String> _onboardingMessages = {
     'assets/onboarding_page/lottie/Onboarding_1.json':
-        "All your Tezos\nassets in one\nplace",
+        "Manage your\nTezos assets in\none place",
     'assets/onboarding_page/lottie/Onboarding_2.json':
         "Flex your NFTs\nand explore\ngalleries",
     'assets/onboarding_page/lottie/Onboarding_3.json':
         "Buy tez with\nyour credit\ncard",
     'assets/onboarding_page/lottie/Onboarding_4.json':
         "Discover DApps\nin the Tezos\necosystem",
-    'assets/onboarding_page/lottie/Onboarding_5.json':
-        "Earn high APR\nwith Liquidity\nBaking",
   }; // Onboarding screens lottie animation paths & messages
 
   PageController get pageController => _pageController;
@@ -51,7 +49,7 @@ class OnboardingPageController extends GetxController {
       }
       _pageController
           .animateToPage(nextPage,
-              duration: const Duration(milliseconds: 250),
+              duration: const Duration(milliseconds: 1000),
               curve: Curves.fastOutSlowIn)
           .then((_) => animateSlider());
     }).onError((error, stackTrace) => null);

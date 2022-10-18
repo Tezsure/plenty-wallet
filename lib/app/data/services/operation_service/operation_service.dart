@@ -1,12 +1,21 @@
 import 'package:dartez/dartez.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
+// ignore: implementation_imports
+import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
 import 'package:naan_wallet/app/data/services/service_models/operation_model.dart';
 
 class OperationService {
   Future<dynamic> sendXtzTx(
       OperationModel operationModel, String rpcNode) async {
-    var transactionSigner = await Dartez.createSigner(Dartez.writeKeyWithHint(
-        operationModel.keyStoreModel!.secretKey, 'edsk'));
+    var transactionSigner =  Dartez.createSigner(
+        Dartez.writeKeyWithHint(
+            operationModel.keyStoreModel!.secretKey,
+            operationModel.keyStoreModel!.publicKeyHash.startsWith("tz2")
+                ? 'spsk'
+                : 'edsk'),
+        signerCurve:
+            operationModel.keyStoreModel!.publicKeyHash.startsWith("tz2")
+                ? SignerCurve.SECP256K1
+                : SignerCurve.ED25519);
     return await Dartez.sendTransactionOperation(
       rpcNode,
       transactionSigner,
@@ -19,8 +28,16 @@ class OperationService {
 
   Future<Map<String, dynamic>> sendOperation(
       OperationModel operationModel, String rpcNode) async {
-    var transactionSigner = await Dartez.createSigner(Dartez.writeKeyWithHint(
-        operationModel.keyStoreModel!.secretKey, 'edsk'));
+    var transactionSigner = Dartez.createSigner(
+        Dartez.writeKeyWithHint(
+            operationModel.keyStoreModel!.secretKey,
+            operationModel.keyStoreModel!.publicKeyHash.startsWith("tz2")
+                ? 'spsk'
+                : 'edsk'),
+        signerCurve:
+            operationModel.keyStoreModel!.publicKeyHash.startsWith("tz2")
+                ? SignerCurve.SECP256K1
+                : SignerCurve.ED25519);
     return await Dartez.sendContractInvocatoinOperation(
       rpcNode,
       transactionSigner,
@@ -38,8 +55,16 @@ class OperationService {
 
   Future<Map<String, dynamic>> preApplyOperation(
       OperationModel operationModel, String rpcNode) async {
-    var transactionSigner = await Dartez.createSigner(Dartez.writeKeyWithHint(
-        operationModel.keyStoreModel!.secretKey, 'edsk'));
+    var transactionSigner = Dartez.createSigner(
+        Dartez.writeKeyWithHint(
+            operationModel.keyStoreModel!.secretKey,
+            operationModel.keyStoreModel!.publicKeyHash.startsWith("tz2")
+                ? 'spsk'
+                : 'edsk'),
+        signerCurve:
+            operationModel.keyStoreModel!.publicKeyHash.startsWith("tz2")
+                ? SignerCurve.SECP256K1
+                : SignerCurve.ED25519);
     return await Dartez.preapplyContractInvocationOperation(
       rpcNode,
       transactionSigner,
