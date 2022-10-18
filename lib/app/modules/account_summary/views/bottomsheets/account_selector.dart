@@ -1,27 +1,24 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
+import 'package:naan_wallet/app/modules/import_wallet_page/views/import_wallet_page_view.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
 import '../../../../../utils/constants/path_const.dart';
 import '../../../../../utils/styles/styles.dart';
-import '../../../../data/services/create_profile_service/create_profile_service.dart';
-import '../../../../data/services/enums/enums.dart';
-import '../../../../data/services/service_config/service_config.dart';
 import '../../../../data/services/service_models/account_model.dart';
-import '../../../../routes/app_pages.dart';
 import '../../../common_widgets/bottom_sheet.dart';
-import '../../../common_widgets/naan_textfield.dart';
 import '../../../home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import '../../../send_page/views/pages/contact_page_view.dart';
 import '../../../settings_page/controllers/settings_page_controller.dart';
+import 'edit_account.dart';
 
 class AccountSelectorSheet extends StatefulWidget {
   final AccountModel selectedAccount;
@@ -40,11 +37,11 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
   final SettingsPageController _settingsController =
       Get.put(SettingsPageController());
 
-  late int selectedIndex;
   @override
   void initState() {
     _controller.isAccountEditable.value = false;
-    selectedIndex = _controller.homePageController.userAccounts
+    _controller.selectedAccountIndex.value = _controller
+        .homePageController.userAccounts
         .indexOf(widget.selectedAccount);
     super.initState();
   }
@@ -89,7 +86,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                   0.15.hspace,
                   Text(
                     'Accounts',
-                    style: titleMedium,
+                    style: titleLarge,
                   ),
                   Obx(() => TextButton(
                         style: ButtonStyle(
@@ -129,17 +126,9 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: ListTile(
-                                onTap: () {
-                                  setState(() {
-                                    _controller.userAccount.value = _controller
-                                        .homePageController.userAccounts[index];
-                                    selectedIndex = index;
-                                    _controller
-                                      ..fetchAllTokens()
-                                      ..fetchAllNfts()
-                                      ..userTransactionLoader();
-                                  });
-                                },
+                                onTap: () => setState(() {
+                                      _controller.onAccountTap(index);
+                                    }),
                                 dense: true,
                                 leading: CustomImageWidget(
                                   imageType: _controller.homePageController
@@ -169,7 +158,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                         color: const Color(0xff421121),
                                         itemBuilder: (_) => <PopupMenuEntry>[
                                           CustomPopupMenuItem(
-                                            height: 51,
+                                            height: 0.05.height,
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 11),
                                             onTap: () {
@@ -183,7 +172,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                               );
                                             },
                                             child: Text(
-                                              "Edit Account",
+                                              "Edit",
                                               style: labelMedium,
                                             ),
                                           ),
@@ -197,91 +186,28 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                           CustomPopupMenuItem(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 11),
-                                            height: 51,
+                                            height: 0.05.height,
                                             onTap: () {
                                               Get.bottomSheet(
-                                                removeAccountBottomSheet(index,
-                                                    accountName: _controller
-                                                        .homePageController
-                                                        .userAccounts[index]
-                                                        .name!, onPressed: () {
-                                                  Get.back();
-                                                  Get.back();
-                                                  _controller.isAccountEditable
-                                                      .value = false;
-                                                  // Check whether deleted account was selected account and last in the list, then assign the second last element to current account
-                                                  if (index == 0 &&
-                                                      _controller
-                                                              .homePageController
-                                                              .userAccounts
-                                                              .length ==
-                                                          1) {
-                                                    Get.rawSnackbar(
-                                                      message:
-                                                          "Can't delete only account",
-                                                      shouldIconPulse: true,
-                                                      snackPosition:
-                                                          SnackPosition.BOTTOM,
-                                                      maxWidth: 0.9.width,
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                        bottom: 20,
-                                                      ),
-                                                      duration: const Duration(
-                                                          milliseconds: 1000),
-                                                    );
-                                                  } else if (_controller
-                                                          .homePageController
-                                                          .userAccounts[index]
-                                                          .publicKeyHash!
-                                                          .contains(_controller
-                                                              .userAccount
-                                                              .value
-                                                              .publicKeyHash!) &&
-                                                      index ==
-                                                          _controller
-                                                                  .homePageController
-                                                                  .userAccounts
-                                                                  .length -
-                                                              1) {
-                                                    _controller.userAccount
-                                                        .value = _controller
-                                                            .homePageController
-                                                            .userAccounts[
-                                                        index - 1];
-                                                    selectedIndex = index - 1;
-                                                  } else if (index ==
-                                                      _controller
-                                                              .homePageController
-                                                              .userAccounts
-                                                              .length -
-                                                          1) {
-                                                    _controller.userAccount
-                                                        .value = _controller
-                                                            .homePageController
-                                                            .userAccounts[
-                                                        index - 1];
-                                                    selectedIndex = index - 1;
-                                                  } else {
+                                                removeAccountBottomSheet(
+                                                  index,
+                                                  accountName: _controller
+                                                      .homePageController
+                                                      .userAccounts[index]
+                                                      .name!,
+                                                  onPressed: () {
                                                     _controller
-                                                            .userAccount.value =
-                                                        _controller
-                                                            .homePageController
-                                                            .userAccounts[index];
-                                                    selectedIndex = index;
-                                                  }
-                                                  _settingsController
-                                                      .removeAccount(index);
-                                                  _controller
-                                                    ..fetchAllTokens()
-                                                    ..fetchAllNfts();
-                                                }),
+                                                        .removeAccount(index);
+                                                    _settingsController
+                                                        .removeAccount(index);
+                                                  },
+                                                ),
                                                 barrierColor:
                                                     Colors.transparent,
                                               );
                                             },
                                             child: Text(
-                                              "Delete account",
+                                              "Remove",
                                               style: labelMedium.apply(
                                                   color:
                                                       ColorConst.Error.shade60),
@@ -294,7 +220,9 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                           color: Colors.white,
                                         ),
                                       ),
-                                      child: index == selectedIndex
+                                      child: index ==
+                                              _controller
+                                                  .selectedAccountIndex.value
                                           ? Container(
                                               height: 20.sp,
                                               width: 20.sp,
@@ -356,7 +284,13 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                     Obx(() => InkWell(
                           onTap: () {
                             if (_controller.isAccountEditable.isFalse) {
-                              Get.toNamed(Routes.IMPORT_WALLET_PAGE);
+                              Get.bottomSheet(
+                                  const ImportWalletPageView(
+                                      isBottomSheet: true),
+                                  isScrollControlled: true,
+                                  useRootNavigator: true,
+                                  settings: const RouteSettings(
+                                      arguments: Routes.ACCOUNT_SUMMARY));
                             }
                           },
                           child: Row(
@@ -395,11 +329,17 @@ Widget removeAccountBottomSheet(int index,
   return NaanBottomSheet(
     bottomSheetHorizontalPadding: 32,
     blurRadius: 5,
-    title: "Remove Account",
-    titleStyle: titleLarge.copyWith(fontWeight: FontWeight.w700),
     titleAlignment: Alignment.center,
     height: 0.35.height,
     bottomSheetWidgets: [
+      Center(
+        child: Text(
+          'Remove Account',
+          style: titleLarge.copyWith(fontWeight: FontWeight.w700),
+          textAlign: TextAlign.center,
+        ),
+      ),
+      0.02.vspace,
       Center(
         child: Text(
           'Do you want to remove “$accountName”\nfrom your wallet?',
@@ -415,376 +355,17 @@ Widget removeAccountBottomSheet(int index,
             onPressed: onPressed,
             title: "Remove Account",
             textColor: ColorConst.Primary,
+            titleStyle: labelLarge.copyWith(color: ColorConst.Primary),
           ),
           0.01.vspace,
           SolidButton(
             primaryColor: const Color(0xff1E1C1F),
             onPressed: Get.back,
             title: "Cancel",
+            titleStyle: labelLarge,
           ),
         ],
       ),
     ],
   );
-}
-
-class EditAccountBottomSheet extends StatefulWidget {
-  final int accountIndex;
-  const EditAccountBottomSheet({super.key, required this.accountIndex});
-
-  @override
-  State<EditAccountBottomSheet> createState() => _EditAccountBottomSheetState();
-}
-
-class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
-  final _controller = Get.find<SettingsPageController>();
-  final AccountSummaryController _accountController =
-      Get.find<AccountSummaryController>();
-  FocusNode nameFocusNode = FocusNode();
-
-  @override
-  void initState() {
-    nameFocusNode.requestFocus();
-    _controller.accountNameController.text =
-        _controller.homePageController.userAccounts[widget.accountIndex].name!;
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    nameFocusNode.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return NaanBottomSheet(
-      height: 0.5.height,
-      bottomSheetHorizontalPadding: 32,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      bottomSheetWidgets: [editaccountUI()],
-    );
-  }
-
-  Widget editaccountUI() {
-    return Expanded(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Builder(builder: (context) {
-          return Column(children: [
-            Container(
-              height: 0.3.width,
-              width: 0.3.width,
-              alignment: Alignment.bottomRight,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image:
-                      _controller.showUpdatedProfilePhoto(widget.accountIndex),
-                ),
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  Get.bottomSheet(changePhotoBottomSheet(),
-                          barrierColor: Colors.transparent)
-                      .whenComplete(() {
-                    setState(() {});
-                  });
-                },
-                child: CircleAvatar(
-                  radius: 0.046.width,
-                  backgroundColor: Colors.white,
-                  child: SvgPicture.asset(
-                    "${PathConst.SVG}add_photo.svg",
-                    fit: BoxFit.scaleDown,
-                  ),
-                ),
-              ),
-            ),
-            0.02.vspace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.sp),
-              child: Text(
-                _controller.homePageController.userAccounts[widget.accountIndex]
-                        .publicKeyHash ??
-                    "public key",
-                style: labelSmall,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            0.02.vspace,
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Account Name",
-                style:
-                    labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            NaanTextfield(
-                hint: "Account Name",
-                focusNode: nameFocusNode,
-                controller: _controller.accountNameController,
-                onSubmitted: (value) {
-                  setState(() {
-                    if (_accountController.homePageController
-                        .userAccounts[widget.accountIndex].publicKeyHash!
-                        .contains(_accountController
-                            .userAccount.value.publicKeyHash!)) {
-                      _accountController.userAccount.update((val) {
-                        val!.name = value;
-                      });
-                    }
-                    _controller.editAccountName(widget.accountIndex, value);
-                  });
-                }),
-            0.04.vspace,
-            SolidButton(
-              title: "Save Changes",
-              onPressed: () {
-                if (_accountController.homePageController
-                    .userAccounts[widget.accountIndex].publicKeyHash!
-                    .contains(
-                        _accountController.userAccount.value.publicKeyHash!)) {
-                  _accountController.userAccount.update((val) {
-                    val!.name = _controller.accountNameController.value.text;
-                  });
-                }
-                _controller.editAccountName(widget.accountIndex,
-                    _controller.accountNameController.value.text);
-                _accountController.isAccountEditable.value = false;
-                Get
-                  ..back()
-                  ..back();
-              },
-            ),
-          ]);
-        }),
-      ),
-    );
-  }
-
-  Widget changePhotoBottomSheet() {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-      child: Container(
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-            color: Colors.black),
-        width: 1.width,
-        height: 296,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            0.005.vspace,
-            Container(
-              height: 5,
-              width: 36,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
-              ),
-            ),
-            0.03.vspace,
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      var imagePath = await CreateProfileService()
-                          .pickANewImageFromGallery();
-                      if (imagePath.isNotEmpty) {
-                        _controller.editUserProfilePhoto(
-                            accountIndex: widget.accountIndex,
-                            imagePath: imagePath,
-                            imageType: AccountProfileImageType.file);
-
-                        Get.back();
-                      }
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 51,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Choose from Library",
-                        style: labelMedium,
-                      ),
-                    ),
-                  ),
-                  const Divider(
-                    color: Color(0xff4a454e),
-                    height: 1,
-                    thickness: 1,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      Get.bottomSheet(avatarPicker(), isScrollControlled: true);
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 51,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Pick an avatar",
-                        style: labelMedium,
-                      ),
-                    ),
-                  ),
-                  const Divider(
-                    color: Color(0xff4a454e),
-                    height: 1,
-                    thickness: 1,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _controller.editUserProfilePhoto(
-                          imageType: AccountProfileImageType.assets,
-                          imagePath: ServiceConfig.allAssetsProfileImages[0],
-                          accountIndex: widget.accountIndex);
-
-                      Get.back();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 51,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Remove photo",
-                        style:
-                            labelMedium.apply(color: ColorConst.Error.shade60),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            0.016.vspace,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: GestureDetector(
-                onTap: () => Get.back(),
-                child: Container(
-                  height: 51,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                  ),
-                  child: Text(
-                    "Cancel",
-                    style: labelMedium.apply(color: Colors.white),
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget avatarPicker() {
-    return Container(
-      color: Colors.black,
-      width: 1.width,
-      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          0.04.vspace,
-          Align(
-              alignment: Alignment.centerLeft,
-              child: GestureDetector(
-                onTap: Get.back,
-                child: SvgPicture.asset(
-                  "${PathConst.SVG}arrow_back.svg",
-                  fit: BoxFit.scaleDown,
-                ),
-              )),
-          0.05.vspace,
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text("Pick an Avatar", style: titleLarge),
-          ),
-          0.05.vspace,
-          Obx(
-            () => Container(
-              height: 0.3.width,
-              width: 0.3.width,
-              alignment: Alignment.bottomRight,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image:
-                      _controller.showUpdatedProfilePhoto(widget.accountIndex),
-                ),
-              ),
-            ),
-          ),
-          0.05.vspace,
-          Expanded(
-            child: GridView.count(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              crossAxisCount: 4,
-              mainAxisSpacing: 0.06.width,
-              crossAxisSpacing: 0.06.width,
-              children: List.generate(
-                ServiceConfig.allAssetsProfileImages.length,
-                (index) => GestureDetector(
-                  onTap: () {
-                    _controller.editUserProfilePhoto(
-                        imageType: AccountProfileImageType.assets,
-                        imagePath: ServiceConfig.allAssetsProfileImages[index],
-                        accountIndex: widget.accountIndex);
-                    _accountController.userAccount.update((val) {
-                      val?.imageType = AccountProfileImageType.assets;
-                      val?.profileImage =
-                          ServiceConfig.allAssetsProfileImages[index];
-                    });
-                  },
-                  child: CircleAvatar(
-                    radius: 0.08.width,
-                    child: Image.asset(
-                      ServiceConfig.allAssetsProfileImages[index],
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-            child: SolidButton(
-              onPressed: () {
-                Get.back();
-                Get.back();
-              },
-              child: Text(
-                "Confirm",
-                style: titleSmall.apply(color: ColorConst.Primary.shade95),
-              ),
-            ),
-          ),
-          0.05.vspace
-        ],
-      ),
-    );
-  }
 }

@@ -20,15 +20,21 @@ import '../../../../utils/styles/styles.dart';
 import '../controllers/create_profile_page_controller.dart';
 
 class CreateProfilePageView extends GetView<CreateProfilePageController> {
-  const CreateProfilePageView({super.key});
+  final bool isBottomSheet;
+  const CreateProfilePageView({super.key, this.isBottomSheet = false});
   @override
   Widget build(BuildContext context) {
+    isBottomSheet ? Get.put(CreateProfilePageController()) : null;
     var args = ModalRoute.of(context)!.settings.arguments as List;
     controller.previousRoute = args[0] as String;
-    return Scaffold(
-      body: Container(
+    return DraggableScrollableSheet(
+      initialChildSize: isBottomSheet ? 0.9 : 1,
+      minChildSize: isBottomSheet ? 0.9 : 1,
+      maxChildSize: isBottomSheet ? 0.95 : 1,
+      builder: (context, scrollController) => Container(
         color: Colors.black,
         width: 1.width,
+        height: 1.height,
         padding: EdgeInsets.symmetric(horizontal: 0.05.width),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,6 +125,13 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                         Routes.IMPORT_WALLET_PAGE,
                         null,
                       ]);
+                    } else if (controller.previousRoute ==
+                        Routes.ACCOUNT_SUMMARY) {
+                      Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                        'assets/create_wallet/lottie/wallet_success.json',
+                        Routes.IMPORT_WALLET_PAGE,
+                        null,
+                      ]);
                     }
                   },
                   inActiveChild: Row(
@@ -126,14 +139,12 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     children: [
                       SvgPicture.asset(
                         "${PathConst.SVG}check.svg",
-                        color: const Color(0xFF958E99),
+                        color: Colors.white,
                       ),
                       0.015.hspace,
                       Text(
                         "Start using Naan",
-                        style: titleSmall.copyWith(
-                            color: const Color(0xFF958E99),
-                            fontWeight: FontWeight.w600),
+                        style: titleSmall.copyWith(fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),

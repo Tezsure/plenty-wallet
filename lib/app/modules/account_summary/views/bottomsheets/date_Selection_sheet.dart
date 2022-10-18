@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/history_filter_controller.dart';
 
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -15,7 +14,7 @@ class DateSelectionSheet extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Rx<SelectDateType> _selectDateType = SelectDateType.from.obs;
+  final Rx<SelectDateType> _selectDateType = SelectDateType.from.obs;
   Rx<DateTime> fromDate =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
           .obs;
@@ -35,7 +34,7 @@ class DateSelectionSheet extends StatelessWidget {
             'Select Start Date',
             style: labelMedium,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -72,7 +71,7 @@ class DateSelectionSheet extends StatelessWidget {
             ),
           ),
           confirmButton(),
-          SizedBox(
+          const SizedBox(
             height: 40,
           )
         ],

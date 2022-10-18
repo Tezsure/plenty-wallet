@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
+import 'package:naan_wallet/app/modules/create_profile_page/views/create_profile_page_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 
 class ImportWalletPageController extends GetxController {
@@ -31,6 +32,15 @@ class ImportWalletPageController extends GetxController {
       phraseTextController.value.text = cdata.text!;
       phraseText.value = cdata.text!;
     }
+  }
+
+  @override
+  void onInit() {
+    phraseText.value =
+        "edskRnzCiMnMiVWa3nK86kpFA639feEtYU8PCwXuG1t9kpPuNpnKECphv6yDT22Y23P1WQPe2Ng6ubXA9gYNhJJA2YUY43beFi";
+    phraseTextController.value.text =
+        "edskRnzCiMnMiVWa3nK86kpFA639feEtYU8PCwXuG1t9kpPuNpnKECphv6yDT22Y23P1WQPe2Ng6ubXA9gYNhJJA2YUY43beFi";
+    super.onInit();
   }
 
   // /// To show wallet success animation and redirect to backup wallet page
@@ -61,11 +71,17 @@ class ImportWalletPageController extends GetxController {
                   ? ImportWalletDataType.mnemonic
                   : ImportWalletDataType.none;
 
-  Future<void> redirectBasedOnImportWalletType() async {
+  Future<void> redirectBasedOnImportWalletType([String? pageroute]) async {
     if (importWalletDataType == ImportWalletDataType.privateKey ||
         importWalletDataType == ImportWalletDataType.watchAddress) {
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
-      var previousRoute = Get.previousRoute;
+      var previousRoute = pageroute ?? Get.previousRoute;
+
+      if (pageroute == Routes.ACCOUNT_SUMMARY) {
+        return Get.bottomSheet(const CreateProfilePageView(isBottomSheet: true),
+            isScrollControlled: true,
+            settings: RouteSettings(arguments: [pageroute]));
+      }
 
       Get.toNamed(
         isPassCodeSet ? Routes.CREATE_PROFILE_PAGE : Routes.PASSCODE_PAGE,

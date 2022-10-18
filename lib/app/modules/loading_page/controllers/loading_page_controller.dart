@@ -32,9 +32,7 @@ class LoadingPageController extends GetxController {
       Web3AuthController? web3authController;
       try {
         web3authController = Get.find<Web3AuthController>();
-      } catch (e) {
-       
-      }
+      } catch (e) {}
       if (web3authController != null && web3authController.privateKey != null) {
         await Future.wait([
           WalletService().importWalletUsingPrivateKey(

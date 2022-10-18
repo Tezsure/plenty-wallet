@@ -1,134 +1,149 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
-import 'package:naan_wallet/app/data/services/create_profile_service/create_profile_service.dart';
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
 
-import '../../../../../common_widgets/solid_button.dart';
+import '../../../../../utils/colors/colors.dart';
+import '../../../../../utils/constants/path_const.dart';
+import '../../../../../utils/styles/styles.dart';
+import '../../../../data/services/create_profile_service/create_profile_service.dart';
+import '../../../../data/services/enums/enums.dart';
+import '../../../../data/services/service_config/service_config.dart';
+import '../../../common_widgets/bottom_sheet.dart';
+import '../../../common_widgets/naan_textfield.dart';
+import '../../../common_widgets/solid_button.dart';
+import '../../../settings_page/controllers/settings_page_controller.dart';
+import '../../controllers/account_summary_controller.dart';
 
-class AddNewAccountBottomSheet extends StatelessWidget {
-  AddNewAccountBottomSheet({Key? key}) : super(key: key);
+class EditAccountBottomSheet extends StatefulWidget {
+  final int accountIndex;
+  const EditAccountBottomSheet({super.key, required this.accountIndex});
 
-  final controller = Get.find<AccountsWidgetController>();
+  @override
+  State<EditAccountBottomSheet> createState() => _EditAccountBottomSheetState();
+}
+
+class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
+  final _controller = Get.find<SettingsPageController>();
+  final AccountSummaryController _accountController =
+      Get.find<AccountSummaryController>();
+  FocusNode nameFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    nameFocusNode.requestFocus();
+    _controller.accountNameController.text =
+        _controller.homePageController.userAccounts[widget.accountIndex].name!;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    nameFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    controller.initAddAccount();
-    return Obx(
-      () => NaanBottomSheet(
-        blurRadius: 5,
-        height: 0.85.height,
-        bottomSheetHorizontalPadding: 32,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        bottomSheetWidgets: controller.isCreatingNewAccount.value
-            ? [
-                // loading widget here
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      height: 0.8.height,
-                      width: 1.width,
-                      // color: Colors.black,
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: LottieBuilder.asset(
-                        'assets/create_wallet/lottie/wallet_success.json',
-                        fit: BoxFit.contain,
-                        height: 0.5.height,
-                        width: 0.5.width,
-                        frameRate: FrameRate(60),
-                      ),
-                    ),
-                  ],
-                )
-              ]
-            : [
-                Text(
-                  "Name your account",
-                  style: titleLarge,
+    return NaanBottomSheet(
+      height: 0.5.height,
+      bottomSheetHorizontalPadding: 32,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      bottomSheetWidgets: [editaccountUI()],
+    );
+  }
+
+  Widget editaccountUI() {
+    return Expanded(
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Builder(builder: (context) {
+          return Column(children: [
+            Container(
+              height: 0.3.width,
+              width: 0.3.width,
+              alignment: Alignment.bottomRight,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image:
+                      _controller.showUpdatedProfilePhoto(widget.accountIndex),
                 ),
-                0.045.vspace,
-                Obx(
-                  () => Center(
-                    child: Container(
-                      height: 0.3.width,
-                      width: 0.3.width,
-                      alignment: Alignment.bottomRight,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: controller.currentSelectedType ==
-                                  AccountProfileImageType.assets
-                              ? AssetImage(controller.selectedImagePath.value)
-                              : FileImage(
-                                  File(
-                                    controller.selectedImagePath.value,
-                                  ),
-                                ) as ImageProvider,
-                        ),
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.bottomSheet(changePhotoBottomSheet(),
-                              barrierColor: Colors.transparent);
-                        },
-                        child: CircleAvatar(
-                          radius: 0.046.width,
-                          backgroundColor: Colors.white,
-                          child: SvgPicture.asset(
-                            "${PathConst.SVG}add_photo.svg",
-                            fit: BoxFit.scaleDown,
-                          ),
-                        ),
-                      ),
-                    ),
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  Get.bottomSheet(changePhotoBottomSheet(),
+                          barrierColor: Colors.transparent)
+                      .whenComplete(() {
+                    setState(() {});
+                  });
+                },
+                child: CircleAvatar(
+                  radius: 0.046.width,
+                  backgroundColor: Colors.white,
+                  child: SvgPicture.asset(
+                    "${PathConst.SVG}add_photo.svg",
+                    fit: BoxFit.scaleDown,
                   ),
                 ),
-                0.038.vspace,
-                NaanTextfield(
-                  hint: "Account Name",
-                  controller: controller.accountNameController,
-                ),
-                const Spacer(),
-                SolidButton(
-                  onPressed: () {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                    controller.isCreatingNewAccount.value = true;
-                    controller.createNewWallet();
-                  },
-                  rowWidget: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        "${PathConst.SVG}check.svg",
-                        color: Colors.white,
-                      ),
-                      0.015.hspace,
-                      Text(
-                        "Start using Naan",
-                        style: titleSmall.copyWith(fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                ),
-                0.05.vspace
-              ],
+              ),
+            ),
+            0.02.vspace,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.sp),
+              child: Text(
+                _controller.homePageController.userAccounts[widget.accountIndex]
+                        .publicKeyHash ??
+                    "public key",
+                style: labelSmall.copyWith(fontSize: 10.sp),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            0.02.vspace,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Account Name",
+                style:
+                    labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            NaanTextfield(
+                hint: "Account Name",
+                focusNode: nameFocusNode,
+                controller: _controller.accountNameController,
+                onSubmitted: (value) {
+                  setState(() {
+                    if (_accountController.homePageController
+                        .userAccounts[widget.accountIndex].publicKeyHash!
+                        .contains(_accountController
+                            .userAccount.value.publicKeyHash!)) {
+                      _accountController.userAccount.update((val) {
+                        val!.name = value;
+                      });
+                    }
+                    _controller.editAccountName(widget.accountIndex, value);
+                  });
+                }),
+            0.04.vspace,
+            SolidButton(
+              title: "Save Changes",
+              onPressed: () {
+                _accountController.changeSelectedAccountName(
+                    accountIndex: widget.accountIndex,
+                    changedValue: _controller.accountNameController.value.text);
+                _controller.editAccountName(widget.accountIndex,
+                    _controller.accountNameController.value.text);
+              },
+            ),
+          ]);
+        }),
       ),
     );
   }
@@ -172,10 +187,11 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                       var imagePath = await CreateProfileService()
                           .pickANewImageFromGallery();
                       if (imagePath.isNotEmpty) {
-                        controller.currentSelectedType =
-                            AccountProfileImageType.file;
-                        controller.selectedImagePath.value = imagePath;
-                        Get.back();
+                        _controller.editUserProfilePhoto(
+                            accountIndex: widget.accountIndex,
+                            imagePath: imagePath,
+                            imageType: AccountProfileImageType.file);
+
                         Get.back();
                       }
                     },
@@ -215,10 +231,11 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      controller.currentSelectedType =
-                          AccountProfileImageType.assets;
-                      controller.selectedImagePath.value =
-                          ServiceConfig.allAssetsProfileImages[0];
+                      _controller.editUserProfilePhoto(
+                          imageType: AccountProfileImageType.assets,
+                          imagePath: ServiceConfig.allAssetsProfileImages[0],
+                          accountIndex: widget.accountIndex);
+
                       Get.back();
                     },
                     child: Container(
@@ -239,7 +256,7 @@ class AddNewAccountBottomSheet extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: GestureDetector(
-                onTap: Get.back,
+                onTap: () => Get.back(),
                 child: Container(
                   height: 51,
                   alignment: Alignment.center,
@@ -293,14 +310,8 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: controller.currentSelectedType ==
-                          AccountProfileImageType.assets
-                      ? AssetImage(controller.selectedImagePath.value)
-                      : FileImage(
-                          File(
-                            controller.selectedImagePath.value,
-                          ),
-                        ) as ImageProvider,
+                  image:
+                      _controller.showUpdatedProfilePhoto(widget.accountIndex),
                 ),
               ),
             ),
@@ -317,10 +328,15 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                 ServiceConfig.allAssetsProfileImages.length,
                 (index) => GestureDetector(
                   onTap: () {
-                    controller.currentSelectedType =
-                        AccountProfileImageType.assets;
-                    controller.selectedImagePath.value =
-                        ServiceConfig.allAssetsProfileImages[index];
+                    _controller.editUserProfilePhoto(
+                        imageType: AccountProfileImageType.assets,
+                        imagePath: ServiceConfig.allAssetsProfileImages[index],
+                        accountIndex: widget.accountIndex);
+                    _accountController.userAccount.update((val) {
+                      val?.imageType = AccountProfileImageType.assets;
+                      val?.profileImage =
+                          ServiceConfig.allAssetsProfileImages[index];
+                    });
                   },
                   child: CircleAvatar(
                     radius: 0.08.width,
@@ -337,9 +353,8 @@ class AddNewAccountBottomSheet extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 0.05.width),
             child: SolidButton(
               onPressed: () {
-                Get
-                  ..back()
-                  ..back();
+                Get.back();
+                Get.back();
               },
               child: Text(
                 "Confirm",
