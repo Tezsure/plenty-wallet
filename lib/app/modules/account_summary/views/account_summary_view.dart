@@ -66,20 +66,23 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                         ),
                         isScrollControlled: true)),
                     child: SizedBox(
-                      height: 20,
-                      width: 30,
+                      height: 0.03.height,
+                      width: 0.4.width,
                       child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
                             controller.userAccount.value.name!,
-                            style: labelMedium,
+                            style: labelLarge.copyWith(
+                                fontWeight: FontWeight.w700),
                           ),
                           const SizedBox(width: 5),
                           const Icon(
                             Icons.keyboard_arrow_down,
                             color: Colors.white,
+                            textDirection: TextDirection.rtl,
                           ),
                         ],
                       ),
@@ -114,15 +117,17 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           },
                           child: SvgPicture.asset(
                             '${PathConst.SVG}copy.svg',
-                            color: ColorConst.Primary.shade90,
+                            color: Colors.white,
                             fit: BoxFit.contain,
                           ),
                         ),
                         InkWell(
                           child: SvgPicture.asset(
                             '${PathConst.SVG}scanVector.svg',
-                            fit: BoxFit.contain,
-                            color: ColorConst.Primary.shade90,
+                            fit: BoxFit.cover,
+                            width: 0.03.width,
+                            height: 0.03.height,
+                            color: Colors.white,
                           ),
                         ),
                       ],
@@ -166,7 +171,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                               ),
                             ),
                           ),
-                          TextSpan(text: '\nBuy', style: labelSmall),
+                          TextSpan(
+                              text: '\nBuy',
+                              style: labelSmall.copyWith(
+                                  fontWeight: FontWeight.w600)),
                         ],
                       ),
                     ),
@@ -176,22 +184,27 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                       textAlign: TextAlign.center,
                       text: TextSpan(
                         children: [
-                          const WidgetSpan(
+                          WidgetSpan(
                               alignment: PlaceholderAlignment.middle,
                               child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 8.0),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
                                 child: CircleAvatar(
-                                    backgroundColor: ColorConst.Primary,
-                                    radius: 20,
-                                    child: Text('\$',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20))),
+                                  backgroundColor: ColorConst.Primary,
+                                  radius: 20,
+                                  child: SvgPicture.asset(
+                                    '${PathConst.SVG}dollar_sign.svg',
+                                    fit: BoxFit.cover,
+                                    width: 0.025.width,
+                                    height: 0.025.height,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               )),
                           TextSpan(
                               text: '\nEarn',
                               style: labelSmall.copyWith(
-                                  color: ColorConst.Primary.shade90)),
+                                  fontWeight: FontWeight.w600)),
                         ],
                       ),
                     ),
@@ -225,7 +238,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           TextSpan(
                               text: '\nSend',
                               style: labelSmall.copyWith(
-                                  color: ColorConst.Primary.shade90)),
+                                  fontWeight: FontWeight.w600)),
                         ],
                       ),
                     ),
@@ -258,7 +271,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           TextSpan(
                               text: '\nReceive',
                               style: labelSmall.copyWith(
-                                  color: ColorConst.Primary.shade90)),
+                                  fontWeight: FontWeight.w600)),
                         ],
                       ),
                     ),

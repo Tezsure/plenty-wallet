@@ -22,7 +22,8 @@ class HistoryPage extends GetView<AccountSummaryController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.userTransactionHistory.isEmpty
+    return Obx(() => true
+        //controller.userTransactionHistory.isEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

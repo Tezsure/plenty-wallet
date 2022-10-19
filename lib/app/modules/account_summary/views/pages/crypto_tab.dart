@@ -64,8 +64,7 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                   children: [
                     if (controller.userTokens
                         .where((e) =>
-                            (e.isPinned == true && e.isSelected == true) &&
-                            e.isHidden == false)
+                            (e.isSelected == true) && e.isHidden == false)
                         .toList()
                         .isNotEmpty) ...[
                       ListView.builder(
@@ -114,34 +113,24 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                       ),
                       0.01.vspace,
                       TokenEditTile(
+                        isAnyTokenHidden: controller.onHidePinToken(),
+                        isAnyTokenPinned: controller.onShowPinToken(),
+                        isTokenPinnedColor: controller.pinTokenColor(),
+                        isTokenHiddenColor: controller.hideTokenColor(),
                         showEditButton: controller.userTokens
-                                .where((e) =>
-                                    (e.isPinned == true &&
-                                        e.isSelected == true) &&
-                                    e.isHidden == false)
-                                .toList()
-                                .length <
+                                    .where((e) =>
+                                        (e.isSelected == true) &&
+                                        e.isHidden == false &&
+                                        e.isPinned == true)
+                                    .toList()
+                                    .length -
+                                1 <
                             3,
                         viewAll: () => controller.expandTokenList.value =
                             !controller.expandTokenList.value,
                         expandedTokenList: controller.expandTokenList.value,
                         isEditable: controller.isEditable.value,
-                        onEditTap: () {
-                          controller.isEditable.value =
-                              !controller.isEditable.value;
-                          if (controller.isEditable.isFalse) {
-                            for (var element in controller.userTokens) {
-                              element.isHidden == false &&
-                                      element.isPinned == false
-                                  ? element.isSelected = false
-                                  : element.isSelected = true;
-                            }
-                          }
-                          controller.userTokens.refresh();
-                        },
-                        isAnyTokenSelected: controller.userTokens.any(
-                          (element) => element.isSelected,
-                        ),
+                        onEditTap: controller.onEditTap,
                         onPinTap: controller.onPinToken,
                         onHideTap: controller.onHideToken,
                       ),
@@ -189,26 +178,15 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                     ),
                     0.01.vspace,
                     TokenEditTile(
+                      isAnyTokenHidden: controller.onHidePinToken(),
+                      isAnyTokenPinned: controller.onShowPinToken(),
+                      isTokenPinnedColor: controller.pinTokenColor(),
+                      isTokenHiddenColor: controller.hideTokenColor(),
                       viewAll: () => controller.expandTokenList.value =
                           !controller.expandTokenList.value,
                       expandedTokenList: controller.expandTokenList.value,
                       isEditable: controller.isEditable.value,
-                      onEditTap: () {
-                        controller.isEditable.value =
-                            !controller.isEditable.value;
-                        if (controller.isEditable.isFalse) {
-                          for (var element in controller.userTokens) {
-                            element.isHidden == false &&
-                                    element.isPinned == false
-                                ? element.isSelected = false
-                                : element.isSelected = true;
-                          }
-                        }
-                        controller.userTokens.refresh();
-                      },
-                      isAnyTokenSelected: controller.userTokens.any(
-                        (element) => element.isSelected,
-                      ),
+                      onEditTap: controller.onEditTap,
                       onPinTap: controller.onPinToken,
                       onHideTap: controller.onHideToken,
                     ),

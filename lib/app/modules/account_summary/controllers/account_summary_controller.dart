@@ -138,15 +138,32 @@ class AccountSummaryController extends GetxController {
 
   /// Move the selected indexes on top of the list when pin is clicked
   void onPinToken() {
-    userTokens
-      ..where((token) => token.isSelected && !token.isHidden)
-          .toList()
-          .forEach((element) {
-        element.isPinned = true;
-        userTokens.remove(element);
-        userTokens.insert(0, element);
-      })
-      ..refresh();
+    if (userTokens.where((p0) => p0.isPinned).toList().length ==
+        userTokens
+            .where((p0) => p0.isSelected && !p0.isHidden)
+            .toList()
+            .length) {
+      userTokens
+        ..where((token) => token.isSelected && !token.isHidden)
+            .toList()
+            .forEach((element) {
+          element.isPinned = false;
+          element.isSelected = false;
+          userTokens.remove(element);
+          userTokens.insert(0, element);
+        })
+        ..refresh();
+    } else {
+      userTokens
+        ..where((token) => token.isSelected && !token.isHidden)
+            .toList()
+            .forEach((element) {
+          element.isPinned = true;
+          userTokens.remove(element);
+          userTokens.insert(0, element);
+        })
+        ..refresh();
+    }
     isEditable.value = false;
     expandTokenList.value = false;
     _updateUserTokenList();
@@ -194,17 +211,70 @@ class AccountSummaryController extends GetxController {
     _updateUserTokenList();
   }
 
+  bool hideTokenColor() =>
+      (userTokens.any((element) => element.isSelected && !element.isPinned));
+
+  bool pinTokenColor() =>
+      (userTokens.any((element) => element.isSelected && !element.isHidden));
+
+  bool onShowPinToken() => (userTokens
+              .where((p0) => p0.isPinned)
+              .toList()
+              .length ==
+          userTokens
+              .where((p0) => p0.isSelected && !p0.isHidden)
+              .toList()
+              .length &&
+      userTokens.any((element) => element.isPinned));
+
+  bool onHidePinToken() => (userTokens
+              .where((p0) => p0.isHidden)
+              .toList()
+              .length ==
+          userTokens
+              .where((p0) => p0.isSelected && !p0.isPinned)
+              .toList()
+              .length &&
+      userTokens.any((element) => element.isHidden));
+
+  void onEditTap() {
+    isEditable.value = !isEditable.value;
+    if (isEditable.isFalse) {
+      for (var element in userTokens) {
+        element.isHidden == false && element.isPinned == false
+            ? element.isSelected = false
+            : element.isSelected = true;
+      }
+    }
+    userTokens.refresh();
+  }
+
   /// Move the tokens to the end of the list when hide is clicked
   void onHideToken() {
-    userTokens
-      ..where((token) => token.isSelected && !token.isPinned)
-          .toList()
-          .forEach((element) {
-        element.isHidden = true;
-        userTokens.remove(element);
-        userTokens.add(element);
-      })
-      ..refresh();
+    if (userTokens.any(
+      (element) => element.isSelected && element.isHidden,
+    )) {
+      userTokens
+        ..where((token) => token.isSelected && !token.isPinned)
+            .toList()
+            .forEach((element) {
+          element.isHidden = false;
+          element.isSelected = false;
+          userTokens.remove(element);
+          userTokens.insert(0, element);
+        })
+        ..refresh();
+    } else {
+      userTokens
+        ..where((token) => token.isSelected && !token.isPinned)
+            .toList()
+            .forEach((element) {
+          element.isHidden = true;
+          userTokens.remove(element);
+          userTokens.add(element);
+        })
+        ..refresh();
+    }
     isEditable.value = false;
     expandTokenList.value = false;
     _updateUserTokenList();
