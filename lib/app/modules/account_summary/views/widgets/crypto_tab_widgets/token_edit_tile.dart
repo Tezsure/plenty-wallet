@@ -15,7 +15,9 @@ class TokenEditTile extends GetView<AccountSummaryController> {
   final bool? isAnyTokenSelected;
   final GestureTapCallback? onHideTap;
   final GestureTapCallback? onPinTap;
+  final bool? isAnyTokenHidden;
   final bool? showEditButton;
+  final bool? isAnyTokenPinned;
 
   const TokenEditTile(
       {super.key,
@@ -23,7 +25,9 @@ class TokenEditTile extends GetView<AccountSummaryController> {
       required this.expandedTokenList,
       this.onEditTap,
       this.isEditable = false,
+      this.isAnyTokenHidden = false,
       this.isAnyTokenSelected = false,
+      this.isAnyTokenPinned = false,
       this.onHideTap,
       this.onPinTap,
       this.showEditButton = false});

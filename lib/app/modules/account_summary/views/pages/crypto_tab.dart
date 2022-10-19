@@ -15,7 +15,7 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
 
   @override
   Widget build(BuildContext context) {
-    return controller.userTokens.isEmpty
+    return Obx(() => controller.userTokens.isEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -57,96 +57,17 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
           )
         : SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Obx(() => Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (controller.userTokens
-                          .where((e) =>
-                              (e.isPinned == true && e.isSelected == true) &&
-                              e.isHidden == false)
-                          .toList()
-                          .isNotEmpty) ...[
-                        ListView.builder(
-                          primary: false,
-                          shrinkWrap: true,
-                          itemCount: controller.userTokens.length < 3
-                              ? controller.userTokens.length
-                              : (controller.expandTokenList.value)
-                                  ? controller.userTokens.length
-                                  : 3,
-                          itemBuilder: (_, index) => controller
-                                      .userTokens[index].isHidden &&
-                                  !controller.isEditable.value &&
-                                  controller.userTokens[index].isPinned
-                              ? const SizedBox()
-                              : controller.userTokens[index].isPinned ||
-                                      controller.userTokens[index].isSelected &&
-                                          !controller.userTokens[index].isHidden
-                                  ? TokenCheckbox(
-                                      xtzPrice: controller.xtzPrice.value,
-                                      tokenModel: controller.userTokens,
-                                      isEditable: controller.isEditable.value,
-                                      tokenIndex: index,
-                                      onCheckboxTap: (value) {
-                                        controller
-                                          ..userTokens[index].isSelected =
-                                              value ?? false
-                                          ..userTokens.refresh();
-                                      },
-                                      onPinnedTap: () {
-                                        controller
-                                          ..userTokens[index].isPinned =
-                                              !controller
-                                                  .userTokens[index].isPinned
-                                          ..userTokens.refresh();
-                                      },
-                                      onHiddenTap: () {
-                                        controller
-                                          ..userTokens[index].isHidden =
-                                              !controller
-                                                  .userTokens[index].isHidden
-                                          ..userTokens.refresh();
-                                      },
-                                    )
-                                  : const SizedBox(),
-                        ),
-                        0.01.vspace,
-                        TokenEditTile(
-                          showEditButton: controller.userTokens
-                                  .where((e) =>
-                                      (e.isPinned == true &&
-                                          e.isSelected == true) &&
-                                      e.isHidden == false)
-                                  .toList()
-                                  .length <
-                              3,
-                          viewAll: () => controller.expandTokenList.value =
-                              !controller.expandTokenList.value,
-                          expandedTokenList: controller.expandTokenList.value,
-                          isEditable: controller.isEditable.value,
-                          onEditTap: () {
-                            controller.isEditable.value =
-                                !controller.isEditable.value;
-                            if (controller.isEditable.isFalse) {
-                              for (var element in controller.userTokens) {
-                                element.isHidden == false &&
-                                        element.isPinned == false
-                                    ? element.isSelected = false
-                                    : element.isSelected = true;
-                              }
-                            }
-                            controller.userTokens.refresh();
-                          },
-                          isAnyTokenSelected: controller.userTokens.any(
-                            (element) => element.isSelected,
-                          ),
-                          onPinTap: controller.onPinToken,
-                          onHideTap: controller.onHideToken,
-                        ),
-                        0.03.vspace,
-                      ],
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (controller.userTokens
+                        .where((e) =>
+                            (e.isPinned == true && e.isSelected == true) &&
+                            e.isHidden == false)
+                        .toList()
+                        .isNotEmpty) ...[
                       ListView.builder(
                         primary: false,
                         shrinkWrap: true,
@@ -154,43 +75,53 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                             ? controller.userTokens.length
                             : (controller.expandTokenList.value)
                                 ? controller.userTokens.length
-                                : 3 + controller.checkPinHideTokenList(),
-                        itemBuilder: (_, index) =>
-                            controller.userTokens[index].isHidden &&
-                                    !controller.isEditable.value &&
-                                    !controller.userTokens[index].isPinned
-                                ? const SizedBox()
-                                : !controller.userTokens[index].isPinned
-                                    ? TokenCheckbox(
-                                        xtzPrice: controller.xtzPrice.value,
-                                        tokenModel: controller.userTokens,
-                                        isEditable: controller.isEditable.value,
-                                        tokenIndex: index,
-                                        onCheckboxTap: (value) {
-                                          controller
-                                            ..userTokens[index].isSelected =
-                                                value ?? false
-                                            ..userTokens.refresh();
-                                        },
-                                        onPinnedTap: () {
-                                          controller
-                                            ..userTokens[index].isPinned =
-                                                !controller
-                                                    .userTokens[index].isPinned
-                                            ..userTokens.refresh();
-                                        },
-                                        onHiddenTap: () {
-                                          controller
-                                            ..userTokens[index].isHidden =
-                                                !controller
-                                                    .userTokens[index].isHidden
-                                            ..userTokens.refresh();
-                                        },
-                                      )
-                                    : const SizedBox(),
+                                : 3,
+                        itemBuilder: (_, index) => controller
+                                    .userTokens[index].isHidden &&
+                                !controller.isEditable.value &&
+                                controller.userTokens[index].isPinned
+                            ? const SizedBox()
+                            : controller.userTokens[index].isPinned ||
+                                    controller.userTokens[index].isSelected &&
+                                        !controller.userTokens[index].isHidden
+                                ? TokenCheckbox(
+                                    xtzPrice: controller.xtzPrice.value,
+                                    tokenModel: controller.userTokens,
+                                    isEditable: controller.isEditable.value,
+                                    tokenIndex: index,
+                                    onCheckboxTap: (value) {
+                                      controller
+                                        ..userTokens[index].isSelected =
+                                            value ?? false
+                                        ..userTokens.refresh();
+                                    },
+                                    onPinnedTap: () {
+                                      controller
+                                        ..userTokens[index].isPinned =
+                                            !controller
+                                                .userTokens[index].isPinned
+                                        ..userTokens.refresh();
+                                    },
+                                    onHiddenTap: () {
+                                      controller
+                                        ..userTokens[index].isHidden =
+                                            !controller
+                                                .userTokens[index].isHidden
+                                        ..userTokens.refresh();
+                                    },
+                                  )
+                                : const SizedBox(),
                       ),
                       0.01.vspace,
                       TokenEditTile(
+                        showEditButton: controller.userTokens
+                                .where((e) =>
+                                    (e.isPinned == true &&
+                                        e.isSelected == true) &&
+                                    e.isHidden == false)
+                                .toList()
+                                .length <
+                            3,
                         viewAll: () => controller.expandTokenList.value =
                             !controller.expandTokenList.value,
                         expandedTokenList: controller.expandTokenList.value,
@@ -215,19 +146,85 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                         onHideTap: controller.onHideToken,
                       ),
                       0.03.vspace,
-
-                      // Text(
-                      //   'Delegate',
-                      //   style: labelLarge.copyWith(color: ColorConst.Primary.shade95),
-                      // ),
-                      // 0.02.vspace,
-                      // DelegateTile(
-                      //   isDelegated: controller.isAccountDelegated.value,
-                      // ),
-                      // 0.02.vspace
                     ],
-                  )),
-            ),
-          );
+                    ListView.builder(
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: controller.userTokens.length < 3
+                          ? controller.userTokens.length
+                          : (controller.expandTokenList.value)
+                              ? controller.userTokens.length
+                              : 3 + controller.checkPinHideTokenList(),
+                      itemBuilder: (_, index) => controller
+                                  .userTokens[index].isHidden &&
+                              !controller.isEditable.value &&
+                              !controller.userTokens[index].isPinned
+                          ? const SizedBox()
+                          : !controller.userTokens[index].isPinned
+                              ? TokenCheckbox(
+                                  xtzPrice: controller.xtzPrice.value,
+                                  tokenModel: controller.userTokens,
+                                  isEditable: controller.isEditable.value,
+                                  tokenIndex: index,
+                                  onCheckboxTap: (value) {
+                                    controller
+                                      ..userTokens[index].isSelected =
+                                          value ?? false
+                                      ..userTokens.refresh();
+                                  },
+                                  onPinnedTap: () {
+                                    controller
+                                      ..userTokens[index].isPinned =
+                                          !controller.userTokens[index].isPinned
+                                      ..userTokens.refresh();
+                                  },
+                                  onHiddenTap: () {
+                                    controller
+                                      ..userTokens[index].isHidden =
+                                          !controller.userTokens[index].isHidden
+                                      ..userTokens.refresh();
+                                  },
+                                )
+                              : const SizedBox(),
+                    ),
+                    0.01.vspace,
+                    TokenEditTile(
+                      viewAll: () => controller.expandTokenList.value =
+                          !controller.expandTokenList.value,
+                      expandedTokenList: controller.expandTokenList.value,
+                      isEditable: controller.isEditable.value,
+                      onEditTap: () {
+                        controller.isEditable.value =
+                            !controller.isEditable.value;
+                        if (controller.isEditable.isFalse) {
+                          for (var element in controller.userTokens) {
+                            element.isHidden == false &&
+                                    element.isPinned == false
+                                ? element.isSelected = false
+                                : element.isSelected = true;
+                          }
+                        }
+                        controller.userTokens.refresh();
+                      },
+                      isAnyTokenSelected: controller.userTokens.any(
+                        (element) => element.isSelected,
+                      ),
+                      onPinTap: controller.onPinToken,
+                      onHideTap: controller.onHideToken,
+                    ),
+                    0.03.vspace,
+
+                    // Text(
+                    //   'Delegate',
+                    //   style: labelLarge.copyWith(color: ColorConst.Primary.shade95),
+                    // ),
+                    // 0.02.vspace,
+                    // DelegateTile(
+                    //   isDelegated: controller.isAccountDelegated.value,
+                    // ),
+                    // 0.02.vspace
+                  ],
+                )),
+          ));
   }
 }

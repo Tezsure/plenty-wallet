@@ -155,8 +155,10 @@ class AccountSummaryController extends GetxController {
   /// Fetches all the user tokens
   Future<void> fetchAllTokens() async {
     userTokens.clear();
-    userTokens.add(
-      AccountTokenModel(
+    userTokens.addAll(await UserStorageService()
+        .getUserTokens(userAddress: userAccount.value.publicKeyHash!));
+    if (userTokens.isEmpty) {
+      userTokens.add(AccountTokenModel(
         name: "Tezos",
         balance: userAccount.value.accountDataModel!.xtzBalance!,
         contractAddress: "xtz",
@@ -165,10 +167,31 @@ class AccountSummaryController extends GetxController {
         tokenId: "0",
         decimals: 6,
         iconUrl: "assets/tezos_logo.png",
-      ),
-    );
-    userTokens.addAll(await UserStorageService()
-        .getUserTokens(userAddress: userAccount.value.publicKeyHash!));
+      ));
+    } else {
+      if (userTokens.any((element) => element.name!.contains("Tezos"))) {
+        userTokens.map((element) => element.name!.contains("Tezos")
+            ? element.copyWith(
+                balance: userAccount.value.accountDataModel!.xtzBalance!,
+                currentPrice: xtzPrice.value,
+              )
+            : null);
+      } else {
+        userTokens.insert(
+            0,
+            AccountTokenModel(
+              name: "Tezos",
+              balance: userAccount.value.accountDataModel!.xtzBalance!,
+              contractAddress: "xtz",
+              symbol: "Tezos",
+              currentPrice: xtzPrice.value,
+              tokenId: "0",
+              decimals: 6,
+              iconUrl: "assets/tezos_logo.png",
+            ));
+      }
+    }
+    _updateUserTokenList();
   }
 
   /// Move the tokens to the end of the list when hide is clicked

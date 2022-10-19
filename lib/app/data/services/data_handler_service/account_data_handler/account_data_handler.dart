@@ -112,6 +112,84 @@ class AccountDataHandler {
         )
         .toList();
 
+    // fetches the stored token list if any and updates the respective token values
+    (data[1] as Map<String, List<AccountTokenModel>>)
+        .forEach((key, value) async {
+      await UserStorageService()
+          .getUserTokens(userAddress: key)
+          .then((tokenList) {
+        if (tokenList.isNotEmpty) {
+          List<String> updateTokenAddresses = value
+              .map<String>((e) => e.contractAddress)
+              .toList(); // get all the token addresses which are updated
+          (data[1] as Map<String, List<AccountTokenModel>>).update(
+            key,
+            (pair) => tokenList
+                .map<AccountTokenModel>((e) => updateTokenAddresses
+                        .contains(e.contractAddress)
+                    ? e.copyWith(
+                        balance: pair
+                            .firstWhere(
+                              (element) =>
+                                  element.contractAddress == e.contractAddress,
+                            )
+                            .balance,
+                        currentPrice: pair
+                            .firstWhere(
+                              (element) =>
+                                  element.contractAddress == e.contractAddress,
+                            )
+                            .currentPrice,
+                        decimals: pair
+                            .firstWhere(
+                              (element) =>
+                                  element.contractAddress == e.contractAddress,
+                            )
+                            .decimals,
+                        iconUrl: pair
+                            .firstWhere(
+                              (element) =>
+                                  element.contractAddress == e.contractAddress,
+                            )
+                            .iconUrl,
+                        name: pair
+                            .firstWhere(
+                              (element) =>
+                                  element.contractAddress == e.contractAddress,
+                            )
+                            .name,
+                        symbol: pair
+                            .firstWhere(
+                              (element) =>
+                                  element.contractAddress == e.contractAddress,
+                            )
+                            .symbol,
+                        valueInXtz: pair
+                            .firstWhere(
+                              (element) =>
+                                  element.contractAddress == e.contractAddress,
+                            )
+                            .valueInXtz,
+                        tokenId: pair
+                            .firstWhere(
+                              (element) =>
+                                  element.contractAddress == e.contractAddress,
+                            )
+                            .tokenId,
+                        tokenStandardType: pair
+                            .firstWhere(
+                              (element) =>
+                                  element.contractAddress == e.contractAddress,
+                            )
+                            .tokenStandardType,
+                      )
+                    : e)
+                .toList(),
+          );
+        }
+      });
+    });
+
     // update account list before write data into localStorage
     if (accountList.isNotEmpty) {
       accountList.first.isAccountPrimary = true;
