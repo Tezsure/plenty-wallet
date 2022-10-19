@@ -34,15 +34,6 @@ class ImportWalletPageController extends GetxController {
     }
   }
 
-  @override
-  void onInit() {
-    phraseText.value =
-        "edskRnzCiMnMiVWa3nK86kpFA639feEtYU8PCwXuG1t9kpPuNpnKECphv6yDT22Y23P1WQPe2Ng6ubXA9gYNhJJA2YUY43beFi";
-    phraseTextController.value.text =
-        "edskRnzCiMnMiVWa3nK86kpFA639feEtYU8PCwXuG1t9kpPuNpnKECphv6yDT22Y23P1WQPe2Ng6ubXA9gYNhJJA2YUY43beFi";
-    super.onInit();
-  }
-
   // /// To show wallet success animation and redirect to backup wallet page
   // void showAnimation() {
   //   showSuccessAnimation.value = true;
@@ -104,7 +95,12 @@ class ImportWalletPageController extends GetxController {
       selectedAccounts.value = selectedAccounts.value;
       Get.back();
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
-      var previousRoute = Get.previousRoute;
+      var previousRoute = pageroute ?? Get.previousRoute;
+      if (pageroute == Routes.ACCOUNT_SUMMARY) {
+        return Get.bottomSheet(const CreateProfilePageView(isBottomSheet: true),
+            isScrollControlled: true,
+            settings: RouteSettings(arguments: [pageroute]));
+      }
       Get.toNamed(
         isPassCodeSet ? Routes.CREATE_PROFILE_PAGE : Routes.PASSCODE_PAGE,
         arguments: isPassCodeSet

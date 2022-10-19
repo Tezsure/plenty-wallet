@@ -28,134 +28,139 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
       initialChildSize: isBottomSheet ? 0.9 : 1,
       minChildSize: isBottomSheet ? 0.9 : 1,
       maxChildSize: isBottomSheet ? 0.95 : 1,
-      builder: (context, scrollController) => Container(
-        decoration: const BoxDecoration(color: Colors.black),
-        width: 1.width,
-        height: 1.height,
-        padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              0.03.vspace,
-              Row(
-                children: [
-                  backButton(),
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      Get.bottomSheet(
-                        infoBottomSheet(),
-                        isScrollControlled: true,
-                        barrierColor: Colors.white.withOpacity(0.2),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          "info",
-                          style: titleMedium.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: ColorConst.NeutralVariant.shade60),
-                        ),
-                        0.01.hspace,
-                        Icon(
-                          Icons.info_outline,
-                          color: ColorConst.NeutralVariant.shade60,
-                          size: 16,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      0.05.vspace,
-                      Text(
-                        "Import wallet",
-                        style: titleLarge,
-                      ),
-                      0.05.vspace,
-                      Material(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white.withOpacity(0.2),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 0.02.height,
+      builder: (context, scrollController) => Scaffold(
+        resizeToAvoidBottomInset: isBottomSheet ? false : true,
+        body: Container(
+          decoration: const BoxDecoration(color: Colors.black),
+          width: 1.width,
+          height: 1.height,
+          padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                0.03.vspace,
+                Row(
+                  children: [
+                    backButton(),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        Get.bottomSheet(
+                          infoBottomSheet(),
+                          isScrollControlled: true,
+                          barrierColor: Colors.white.withOpacity(0.2),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            "info",
+                            style: titleMedium.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: ColorConst.NeutralVariant.shade60),
                           ),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 0.18.height,
-                            child: Obx(
-                              () => Column(
-                                children: [
-                                  0.02.vspace,
-                                  Expanded(
-                                    child: TextFormField(
-                                      cursorColor: ColorConst.Primary,
-                                      expands: true,
-                                      controller:
-                                          controller.phraseTextController.value,
-                                      style: bodyMedium,
-                                      onChanged: (value) {
-                                        controller.onTextChange(value);
-                                      },
-                                      maxLines: null,
-                                      minLines: null,
-                                      decoration: InputDecoration(
-                                          contentPadding:
-                                              const EdgeInsets.all(0),
-                                          hintStyle: bodyMedium.apply(
-                                              color: Colors.white
-                                                  .withOpacity(0.2)),
-                                          hintText:
-                                              "Paste your secret phrase, private key\nor watch address",
-                                          border: InputBorder.none),
+                          0.01.hspace,
+                          Icon(
+                            Icons.info_outline,
+                            color: ColorConst.NeutralVariant.shade60,
+                            size: 16,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        0.05.vspace,
+                        Text(
+                          "Import wallet",
+                          style: titleLarge,
+                        ),
+                        0.05.vspace,
+                        Material(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white.withOpacity(0.2),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 0.02.height,
+                            ),
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 0.18.height,
+                              child: Obx(
+                                () => Column(
+                                  children: [
+                                    0.02.vspace,
+                                    Expanded(
+                                      child: TextFormField(
+                                        cursorColor: ColorConst.Primary,
+                                        expands: true,
+                                        controller: controller
+                                            .phraseTextController.value,
+                                        style: bodyMedium,
+                                        onChanged: (value) {
+                                          controller.onTextChange(value);
+                                        },
+                                        maxLines: null,
+                                        minLines: null,
+                                        decoration: InputDecoration(
+                                            contentPadding:
+                                                const EdgeInsets.all(0),
+                                            hintStyle: bodyMedium.apply(
+                                                color: Colors.white
+                                                    .withOpacity(0.2)),
+                                            hintText:
+                                                "Paste your secret phrase, private key\nor watch address",
+                                            border: InputBorder.none),
+                                      ),
                                     ),
-                                  ),
-                                  controller.phraseText.isNotEmpty ||
-                                          controller.phraseText.value != ""
-                                      ? Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              controller.importWalletDataType =
-                                                  ImportWalletDataType.none;
-                                              controller.phraseTextController
-                                                  .value.text = "";
-                                              controller.phraseText.value = "";
-                                            },
-                                            child: Text(
-                                              "Clear",
-                                              style: titleSmall.apply(
-                                                  color: ColorConst.Primary),
+                                    controller.phraseText.isNotEmpty ||
+                                            controller.phraseText.value != ""
+                                        ? Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                controller
+                                                        .importWalletDataType =
+                                                    ImportWalletDataType.none;
+                                                controller.phraseTextController
+                                                    .value.text = "";
+                                                controller.phraseText.value =
+                                                    "";
+                                              },
+                                              child: Text(
+                                                "Clear",
+                                                style: titleSmall.apply(
+                                                    color: ColorConst.Primary),
+                                              ),
                                             ),
-                                          ),
-                                        )
-                                      : Container(),
-                                  0.01.vspace,
-                                ],
+                                          )
+                                        : Container(),
+                                    0.01.vspace,
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Obx(
-                () => controller.phraseText.isEmpty ||
-                        controller.phraseText.value == ""
-                    ? pasteButton()
-                    : importButton(),
-              ),
-              0.05.vspace,
-            ],
+                Obx(
+                  () => controller.phraseText.isEmpty ||
+                          controller.phraseText.value == ""
+                      ? pasteButton()
+                      : importButton(),
+                ),
+                0.05.vspace,
+              ],
+            ),
           ),
         ),
       ),
@@ -191,6 +196,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             controller.genAndLoadMoreAccounts(0, 3);
             Get.bottomSheet(
               accountBottomSheet(),
+              settings: RouteSettings(arguments: Get.arguments),
               isScrollControlled: true,
               barrierColor: Colors.white.withOpacity(0.2),
             );
@@ -264,7 +270,12 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
         0.03.vspace,
         SolidButton(
           onPressed: () {
-            controller.redirectBasedOnImportWalletType();
+            var pageRouteArgument = Get.arguments;
+            if (pageRouteArgument == Routes.ACCOUNT_SUMMARY) {
+              controller.redirectBasedOnImportWalletType(pageRouteArgument);
+            } else {
+              controller.redirectBasedOnImportWalletType();
+            }
           },
           title: "Continue",
         ),

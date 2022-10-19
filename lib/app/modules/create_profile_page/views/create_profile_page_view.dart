@@ -28,7 +28,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
     var args = ModalRoute.of(context)!.settings.arguments as List;
     controller.previousRoute = args[0] as String;
     return DraggableScrollableSheet(
-      initialChildSize: isBottomSheet ? 0.9 : 1,
+      initialChildSize: isBottomSheet ? 0.95 : 1,
       minChildSize: isBottomSheet ? 0.9 : 1,
       maxChildSize: isBottomSheet ? 0.95 : 1,
       builder: (context, scrollController) => Container(
