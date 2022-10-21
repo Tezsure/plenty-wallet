@@ -1,6 +1,11 @@
 import 'package:get/get.dart';
 
+import '../../../data/services/service_models/tx_history_model.dart';
+import 'account_summary_controller.dart';
+
 class HistoryFilterController extends GetxController {
+  final accountController = Get.find<AccountSummaryController>();
+
   Rx<AssetType> assetType = AssetType.token.obs;
   Rx<TransactionType> transactionType = TransactionType.delegation.obs;
   Rx<DateType> dateType = DateType.today.obs;
@@ -9,6 +14,7 @@ class HistoryFilterController extends GetxController {
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
           .obs;
   Rx<DateTime> toDate = DateTime.now().obs;
+  RxBool isFilterApplied = false.obs;
 
   void setDate(DateType type, {DateTime? from, DateTime? to}) {
     dateType.value = type;
@@ -34,10 +40,147 @@ class HistoryFilterController extends GetxController {
     }
   }
 
-  void clear() {
+  Future<void> clear() async {
     assetType.value = AssetType.token;
     transactionType.value = TransactionType.delegation;
     setDate(DateType.today);
+    accountController.userTransactionHistory.value =
+        await accountController.fetchUserTransactionsHistory();
+    accountController.userTransactionHistory.refresh();
+    isFilterApplied.value = false;
+    Get.back();
+  }
+
+  Future<void> apply() async {
+    isFilterApplied.value = true;
+    accountController.userTransactionHistory.value =
+        await accountController.fetchUserTransactionsHistory();
+    if (dateType.value == DateType.today) {
+      accountController.userTransactionHistory.value =
+          accountController.userTransactionHistory.where((element) {
+        DateTime elementTime = DateTime.parse(element.timestamp!);
+        return (DateTime(
+                elementTime.year, elementTime.month, elementTime.day)) ==
+            (DateTime(
+                DateTime.now().year, DateTime.now().month, DateTime.now().day));
+      }).toList();
+      accountController.userTransactionHistory.refresh();
+    } else if (dateType.value == DateType.currentMonth) {
+      accountController.userTransactionHistory.value =
+          accountController.userTransactionHistory.where((element) {
+        DateTime elementTime = DateTime.parse(element.timestamp!);
+        return (DateTime.now().month == elementTime.month) &&
+            (DateTime.now().year == elementTime.year) &&
+            (elementTime.day <= 31);
+      }).toList();
+      accountController.userTransactionHistory.refresh();
+    } else if (dateType.value == DateType.last3Months) {
+      accountController.userTransactionHistory.value =
+          accountController.userTransactionHistory.where((element) {
+        DateTime elementTime = DateTime.parse(element.timestamp!);
+        return (DateTime.now().month - 3 <= elementTime.month) &&
+            (DateTime.now().year == elementTime.year) &&
+            (elementTime.day <= 31);
+      }).toList();
+      accountController.userTransactionHistory.refresh();
+    } else if (dateType.value == DateType.customDate) {
+      accountController.userTransactionHistory.value =
+          await accountController.fetchUserTransactionsHistory(limit: 300);
+      accountController.userTransactionHistory.value =
+          accountController.userTransactionHistory.where((element) {
+        DateTime elementTime = DateTime.parse(element.timestamp!);
+
+        return (elementTime.day >= fromDate.value.day) &&
+            (elementTime.month >= fromDate.value.month) &&
+            (elementTime.year >= fromDate.value.year) &&
+            (elementTime.day <= toDate.value.day) &&
+            (elementTime.month <= toDate.value.month) &&
+            (elementTime.year <= toDate.value.year);
+      }).toList();
+      accountController.userTransactionHistory.refresh();
+    }
+
+    // Filter the transaction list based on the selected transaction type
+    if (transactionType.value == TransactionType.delegation) {
+    } else if (transactionType.value == TransactionType.receive) {
+      accountController.userTransactionHistory.value =
+          accountController.userTransactionHistory.where((element) {
+        return !element.sender!.address!
+            .contains(accountController.userAccount.value.publicKeyHash!);
+      }).toList();
+      accountController.userTransactionHistory.refresh();
+    } else if (transactionType.value == TransactionType.send) {
+      accountController.userTransactionHistory.value =
+          accountController.userTransactionHistory.where((element) {
+        return element.sender!.address!
+            .contains(accountController.userAccount.value.publicKeyHash!);
+      }).toList();
+      accountController.userTransactionHistory.refresh();
+    }
+
+    // Filter the list depending on the selected asset type
+    if (assetType.value == AssetType.nft) {
+    } else if (assetType.value == AssetType.token) {}
+    Get.back();
+  }
+
+  Future<List<TxHistoryModel>> fetchFilteredList(
+      {required List<TxHistoryModel> nextHistoryList}) async {
+    if (isFilterApplied.isTrue) {
+      if (dateType.value == DateType.today) {
+        nextHistoryList = nextHistoryList.where((element) {
+          DateTime elementTime = DateTime.parse(element.timestamp!);
+          return (DateTime(
+                  elementTime.year, elementTime.month, elementTime.day)) ==
+              (DateTime(DateTime.now().year, DateTime.now().month,
+                  DateTime.now().day));
+        }).toList();
+      } else if (dateType.value == DateType.currentMonth) {
+        nextHistoryList = nextHistoryList.where((element) {
+          DateTime elementTime = DateTime.parse(element.timestamp!);
+          return (DateTime.now().month == elementTime.month) &&
+              (DateTime.now().year == elementTime.year) &&
+              (elementTime.day <= 31);
+        }).toList();
+      } else if (dateType.value == DateType.last3Months) {
+        nextHistoryList = nextHistoryList.where((element) {
+          DateTime elementTime = DateTime.parse(element.timestamp!);
+          return (DateTime.now().month - 3 <= elementTime.month) &&
+              (DateTime.now().year == elementTime.year) &&
+              (elementTime.day <= 31);
+        }).toList();
+      } else if (dateType.value == DateType.customDate) {
+        nextHistoryList = nextHistoryList.where((element) {
+          DateTime elementTime = DateTime.parse(element.timestamp!);
+          return (elementTime.day >= fromDate.value.day) &&
+              (elementTime.month >= fromDate.value.month) &&
+              (elementTime.year >= fromDate.value.year) &&
+              (elementTime.day <= toDate.value.day) &&
+              (elementTime.month <= toDate.value.month) &&
+              (elementTime.year <= toDate.value.year);
+        }).toList();
+      }
+      // Filter the transaction list based on the selected transaction type
+      if (transactionType.value == TransactionType.delegation) {
+      } else if (transactionType.value == TransactionType.receive) {
+        nextHistoryList = nextHistoryList.where((element) {
+          return !element.sender!.address!
+              .contains(accountController.userAccount.value.publicKeyHash!);
+        }).toList();
+      } else if (transactionType.value == TransactionType.send) {
+        nextHistoryList = nextHistoryList.where((element) {
+          return element.sender!.address!
+              .contains(accountController.userAccount.value.publicKeyHash!);
+        }).toList();
+      }
+
+      // Filter the list depending on the selected asset type
+      if (assetType.value == AssetType.nft) {
+      } else if (assetType.value == AssetType.token) {}
+      return nextHistoryList;
+    } else {
+      return nextHistoryList;
+    }
   }
 }
 

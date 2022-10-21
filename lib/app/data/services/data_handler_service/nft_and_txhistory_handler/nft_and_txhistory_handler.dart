@@ -109,9 +109,12 @@ class TzktTxHistoryApiService {
 
   /// Get transaction history for a given account recent 20 transactions
   Future<List<TxHistoryModel>> getTxHistory(
-      {int limit = 20, String lastId = ""}) async {
+      {int limit = 20,
+      String lastId = "",
+      String? sortBy = "Descending"}) async {
     var response = await HttpService.performGetRequest(
-        ServiceConfig.tzktApiForAccountTxs(pkH, limit: limit, lastId: lastId));
+        ServiceConfig.tzktApiForAccountTxs(pkH,
+            limit: limit, lastId: lastId, sort: sortBy ?? "Descending"));
 
     /// if response is empty return empty list of tx history
     /// else return list of tx history model

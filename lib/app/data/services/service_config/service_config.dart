@@ -22,8 +22,8 @@ class ServiceConfig {
       "https://api.tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true";
 
   static String tzktApiForAccountTxs(String pkh,
-          {int limit = 20, String lastId = ""}) =>
-      "https://api.tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId";
+          {int limit = 20, String lastId = "", String sort = "Descending"}) =>
+      "https://api.tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId&sort=$sort";
 
   // Main storage keys
   static const String oldStorageName = "tezsure-wallet-storage-v1.0.0";

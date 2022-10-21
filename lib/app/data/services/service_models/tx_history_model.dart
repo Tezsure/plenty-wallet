@@ -1,7 +1,13 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+
 class TxHistoryModel {
   String? type;
-  int? id;
+  int? lastid;
   int? level;
+  String? operationStatus;
+  Parameter? parameter;
   String? timestamp;
   String? block;
   String? hash;
@@ -17,38 +23,37 @@ class TxHistoryModel {
   Target? target;
   int? targetCodeHash;
   int? amount;
-  Parameter? parameter;
-  String? status;
   bool? hasInternals;
   int? tokenTransfersCount;
 
-  TxHistoryModel(
-      {this.type,
-      this.id,
-      this.level,
-      this.timestamp,
-      this.block,
-      this.hash,
-      this.counter,
-      this.sender,
-      this.gasLimit,
-      this.gasUsed,
-      this.storageLimit,
-      this.storageUsed,
-      this.bakerFee,
-      this.storageFee,
-      this.allocationFee,
-      this.target,
-      this.targetCodeHash,
-      this.amount,
-      this.parameter,
-      this.status,
-      this.hasInternals,
-      this.tokenTransfersCount});
+  TxHistoryModel({
+    this.type,
+    this.lastid,
+    this.level,
+    this.timestamp,
+    this.block,
+    this.hash,
+    this.counter,
+    this.sender,
+    this.gasLimit,
+    this.gasUsed,
+    this.storageLimit,
+    this.storageUsed,
+    this.bakerFee,
+    this.storageFee,
+    this.allocationFee,
+    this.target,
+    this.targetCodeHash,
+    this.amount,
+    this.parameter,
+    this.operationStatus,
+    this.hasInternals,
+    this.tokenTransfersCount,
+  });
 
   TxHistoryModel.fromJson(Map<String, dynamic> json) {
     type = json['type'];
-    id = json['id'];
+    lastid = json['id'];
     level = json['level'];
     timestamp = json['timestamp'];
     block = json['block'];
@@ -68,7 +73,7 @@ class TxHistoryModel {
     parameter = json['parameter'] != null
         ? Parameter.fromJson(json['parameter'])
         : null;
-    status = json['status'];
+    operationStatus = json['status'];
     hasInternals = json['hasInternals'];
     tokenTransfersCount = json['tokenTransfersCount'];
   }
@@ -76,7 +81,7 @@ class TxHistoryModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['type'] = type;
-    data['id'] = id;
+    data['id'] = lastid;
     data['level'] = level;
     data['timestamp'] = timestamp;
     data['block'] = block;
@@ -100,7 +105,7 @@ class TxHistoryModel {
     if (parameter != null) {
       data['parameter'] = parameter!.toJson();
     }
-    data['status'] = status;
+    data['status'] = operationStatus;
     data['hasInternals'] = hasInternals;
     data['tokenTransfersCount'] = tokenTransfersCount;
     return data;
@@ -147,23 +152,53 @@ class Target {
 
 class Parameter {
   String? entrypoint;
-  var value;
+  dynamic value;
 
   Parameter({this.entrypoint, this.value});
 
   Parameter.fromJson(Map<String, dynamic> json) {
     entrypoint = json['entrypoint'];
     try {
-      value = json['value'];
-    } catch (e) {}
+      if (json['value'] is List) {
+        // When the transaction within the operations is more than one
+        value = json['value'];
+      } else if (json['value'] is Map<String, dynamic>) {
+        // When the transaction within the operations is one
+        value = json['value'];
+      } else {
+        value = json['value'];
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      throw Exception("$value");
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['entrypoint'] = entrypoint;
     if (value != null) {
-      data['value'] = value!.toJson();
+      data['value'] = jsonEncode(value);
     }
+    return data;
+  }
+}
+
+class Initiator {
+  String? alias;
+  String? address;
+
+  Initiator({this.alias, this.address});
+
+  Initiator.fromJson(Map<String, dynamic> json) {
+    alias = json['alias'];
+    address = json['address'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['alias'] = alias;
+    data['address'] = address;
     return data;
   }
 }

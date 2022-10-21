@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/history_filter_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -297,13 +298,23 @@ class AccountSummaryController extends GetxController {
 
   /// Loades the user transaction history, and updates the UI after user taps on history tab
   Future<void> userTransactionLoader() async {
+    HistoryFilterController? historyFilterController;
     paginationController.value.removeListener(() {});
     userTransactionHistory.value = await fetchUserTransactionsHistory();
+
     paginationController.value.addListener(() async {
       if (paginationController.value.position.pixels ==
           paginationController.value.position.maxScrollExtent) {
-        userTransactionHistory.addAll(await fetchUserTransactionsHistory(
-            lastId: userTransactionHistory.last.id.toString()));
+        if (Get.isRegistered<HistoryFilterController>()) {
+          historyFilterController = Get.find<HistoryFilterController>();
+          userTransactionHistory.addAll(await historyFilterController!
+              .fetchFilteredList(
+                  nextHistoryList: await fetchUserTransactionsHistory(
+                      lastId: userTransactionHistory.last.lastid.toString())));
+        } else {
+          userTransactionHistory.addAll(await fetchUserTransactionsHistory(
+              lastId: userTransactionHistory.last.lastid.toString()));
+        }
       }
     });
   }
@@ -317,6 +328,19 @@ class AccountSummaryController extends GetxController {
           accountAddress: userAccount.value.publicKeyHash!,
           lastId: lastId,
           limit: limit);
+
+  List<TxHistoryModel> searchTransactionHistory(String searchKey) {
+    if (searchKey.isCaseInsensitiveContains("tezos")) {
+      return userTransactionHistory
+          .where((element) =>
+              element.amount != null &&
+              element.amount! > 0 &&
+              element.parameter == null)
+          .toList();
+    } else {
+      return [];
+    }
+  }
 
   // ! NFT Related Functions
 

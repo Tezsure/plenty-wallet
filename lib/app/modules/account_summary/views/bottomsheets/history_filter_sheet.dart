@@ -214,7 +214,7 @@ class HistoryFilterSheet extends StatelessWidget {
   Widget applyButton() {
     return MaterialButton(
       height: 48,
-      onPressed: () {},
+      onPressed: controller.apply,
       color: ColorConst.Primary,
       minWidth: (1.width - 45) / 2,
       shape: RoundedRectangleBorder(

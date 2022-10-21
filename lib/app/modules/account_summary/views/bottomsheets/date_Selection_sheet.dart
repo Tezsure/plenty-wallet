@@ -15,12 +15,8 @@ class DateSelectionSheet extends StatelessWidget {
   }) : super(key: key);
 
   final Rx<SelectDateType> _selectDateType = SelectDateType.from.obs;
-  Rx<DateTime> fromDate =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
-          .obs;
-  Rx<DateTime> toDate = DateTime.now().obs;
 
-  final controller = Get.put(HistoryFilterController());
+  final controller = Get.find<HistoryFilterController>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +37,13 @@ class DateSelectionSheet extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               dateBox(SelectDateType.from,
-                  fromDate.value.toString().substring(0, 11)),
+                  controller.fromDate.value.toString().substring(0, 11)),
               Text(
                 "to",
                 style: bodyMedium,
               ),
-              dateBox(
-                  SelectDateType.to, toDate.value.toString().substring(0, 11)),
+              dateBox(SelectDateType.to,
+                  controller.toDate.value.toString().substring(0, 11)),
             ],
           ),
           Expanded(
@@ -58,9 +54,9 @@ class DateSelectionSheet extends StatelessWidget {
                           color: ColorConst.NeutralVariant.shade60))),
               child: CupertinoDatePicker(
                 onDateTimeChanged: (date) {
-                  _selectDateType == SelectDateType.from
-                      ? fromDate.value = date
-                      : toDate.value = date;
+                  _selectDateType.value == SelectDateType.from
+                      ? controller.fromDate.value = date
+                      : controller.toDate.value = date;
                 },
                 backgroundColor: Colors.transparent,
                 // maximumDate: DateTime.now(),
@@ -87,8 +83,7 @@ class DateSelectionSheet extends StatelessWidget {
         minWidth: double.infinity,
         onPressed: () {
           controller.setDate(DateType.customDate,
-              from: fromDate.value, to: toDate.value);
-
+              from: controller.fromDate.value, to: controller.toDate.value);
           Get.back();
         },
         color: ColorConst.Primary,
@@ -114,7 +109,7 @@ class DateSelectionSheet extends StatelessWidget {
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2)),
         child: Text(date,
             style: bodyMedium.apply(
-                color: _selectDateType == selectDateType
+                color: _selectDateType.value == selectDateType
                     ? ColorConst.Primary.shade60
                     : Colors.white)),
       ),

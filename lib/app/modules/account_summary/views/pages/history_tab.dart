@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -22,8 +20,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => true
-        //controller.userTransactionHistory.isEmpty
+    return Obx(() => controller.userTransactionHistory.isEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -114,13 +111,13 @@ class HistoryPage extends GetView<AccountSummaryController> {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    print(
-                        "target  ${controller.userTransactionHistory[index].target?.alias}");
-                    if (controller.userTransactionHistory[index].type!
-                        .contains("transaction")) {
-                      print(
-                          jsonEncode(controller.userTransactionHistory[index]));
-                    }
+                    // print(
+                    //     "target  ${controller.userTransactionHistory[index].type}");
+                    // if (controller.userTransactionHistory[index].type!
+                    //     .contains("transaction")) {
+                    //   print(
+                    //       jsonEncode(controller.userTransactionHistory[index]));
+                    // }
                     // print(
                     //     "Has Internals ${controller.userTransactionHistory[index].hasInternals}");
 

@@ -66,7 +66,9 @@ class HistoryTile extends StatelessWidget {
               ],
             ),
             subtitle: Text(
-              historyModel.amount! > 0 && historyModel.parameter == null
+              historyModel.amount != null &&
+                      historyModel.amount! > 0 &&
+                      historyModel.parameter == null
                   ? "Tezos"
                   : "Token",
               style: labelLarge,
@@ -74,16 +76,18 @@ class HistoryTile extends StatelessWidget {
             trailing: RichText(
               textAlign: TextAlign.end,
               text: TextSpan(
-                  text:
-                      historyModel.amount! > 0 && historyModel.parameter == null
-                          ? '${(historyModel.amount! / 1e6)} tez\n'
-                          : "",
+                  text: historyModel.amount != null &&
+                          historyModel.amount! > 0 &&
+                          historyModel.parameter == null
+                      ? '${(historyModel.amount! / 1e6)} tez\n'
+                      : "",
                   style: labelSmall.copyWith(
                       color: ColorConst.NeutralVariant.shade60),
                   children: [
                     WidgetSpan(child: 0.02.vspace),
                     TextSpan(
-                      text: historyModel.amount! > 0 &&
+                      text: historyModel.amount != null &&
+                              historyModel.amount! > 0 &&
                               historyModel.parameter == null
                           ? historyModel.sender!.address!
                                   .contains(userAccountAddress)
