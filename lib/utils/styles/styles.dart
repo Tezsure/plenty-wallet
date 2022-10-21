@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 //* new typo
@@ -149,7 +148,7 @@ TextStyle labelMedium = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 12.sp,
   letterSpacing: 0.5,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.w600,
   height: 16 / 12,
 );
 
@@ -162,4 +161,3 @@ TextStyle labelSmall = TextStyle(
   fontWeight: FontWeight.w500,
   height: 16 / 11,
 );
-

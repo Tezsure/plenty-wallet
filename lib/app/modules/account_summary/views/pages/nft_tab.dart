@@ -38,7 +38,7 @@ class NFTabPage extends GetView<AccountSummaryController> {
             ],
           )
         : ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 0.035.width),
+            padding: EdgeInsets.only(left: 14.sp, right: 16.sp),
             itemCount: controller.userNfts.length,
             itemBuilder: ((context, index) => NftCollectibles(
                   nftList: controller

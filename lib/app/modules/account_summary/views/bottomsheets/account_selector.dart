@@ -55,9 +55,9 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+      filter: ImageFilter.blur(sigmaX: 10.sp, sigmaY: 10.sp),
       child: Container(
-        height: 0.8.height,
+        height: 666.sp,
         width: 1.width,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
@@ -71,8 +71,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
               0.01.vspace,
               Center(
                 child: Container(
-                  height: 5,
-                  width: 36,
+                  height: 5.sp,
+                  width: 36.sp,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
@@ -135,15 +135,15 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                       .userAccounts[index].imageType!,
                                   imagePath: _controller.homePageController
                                       .userAccounts[index].profileImage!,
-                                  imageRadius: 20,
+                                  imageRadius: 20.sp,
                                 ),
                                 title: Text(
                                   '${_controller.homePageController.userAccounts[index].name}',
-                                  style: bodySmall,
+                                  style: labelMedium,
                                 ),
                                 subtitle: Text(
                                   '${_controller.homePageController.userAccounts[index].accountDataModel?.xtzBalance} tez',
-                                  style: labelSmall.copyWith(
+                                  style: bodySmall.copyWith(
                                       color: ColorConst.NeutralVariant.shade60),
                                 ),
                                 trailing: Obx(() => Visibility(
@@ -151,88 +151,113 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                           _controller.isAccountEditable.isFalse,
                                       replacement: PopupMenuButton(
                                         enableFeedback: true,
+                                        onCanceled: () {
+                                          _controller.popupIndex.value = 0;
+                                          _controller.isPopupVisible.value =
+                                              false;
+                                        },
+                                        tooltip: "",
                                         position: PopupMenuPosition.under,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(8)),
+                                                BorderRadius.circular(8.sp)),
                                         color: const Color(0xff421121),
-                                        itemBuilder: (_) => <PopupMenuEntry>[
-                                          CustomPopupMenuItem(
-                                            height: 0.05.height,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 11),
-                                            onTap: () {
-                                              Get.bottomSheet(
-                                                EditAccountBottomSheet(
-                                                  accountIndex: index,
-                                                ),
-                                                isScrollControlled: true,
-                                                barrierColor:
-                                                    Colors.transparent,
-                                              );
-                                            },
-                                            child: Text(
-                                              "Edit",
-                                              style: labelMedium,
+                                        itemBuilder: (_) {
+                                          _controller.popupIndex.value = index;
+                                          _controller.isPopupVisible.value =
+                                              true;
+                                          return <PopupMenuEntry>[
+                                            CustomPopupMenuItem(
+                                              width: 140.sp,
+                                              height: 30.sp,
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 11.sp),
+                                              onTap: () {
+                                                Get.bottomSheet(
+                                                  EditAccountBottomSheet(
+                                                    accountIndex: index,
+                                                  ),
+                                                  isScrollControlled: true,
+                                                  barrierColor:
+                                                      Colors.transparent,
+                                                );
+                                              },
+                                              child: Text(
+                                                "Edit",
+                                                style: labelMedium,
+                                              ),
                                             ),
-                                          ),
-                                          CustomPopupMenuDivider(
-                                            height: 1,
-                                            color: ColorConst.Neutral.shade50,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 11),
-                                            thickness: 1,
-                                          ),
-                                          CustomPopupMenuItem(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 11),
-                                            height: 0.05.height,
-                                            onTap: () {
-                                              Get.bottomSheet(
-                                                removeAccountBottomSheet(
-                                                  index,
-                                                  accountName: _controller
-                                                      .homePageController
-                                                      .userAccounts[index]
-                                                      .name!,
-                                                  onPressed: () {
-                                                    _controller
-                                                        .removeAccount(index);
-                                                    _settingsController
-                                                        .removeAccount(index);
-                                                  },
-                                                ),
-                                                barrierColor:
-                                                    Colors.transparent,
-                                              );
-                                            },
-                                            child: Text(
-                                              "Remove",
-                                              style: labelMedium.apply(
-                                                  color:
-                                                      ColorConst.Error.shade60),
+                                            CustomPopupMenuDivider(
+                                              height: 1,
+                                              color: ColorConst.Neutral.shade50,
+                                              thickness: 1,
                                             ),
+                                            CustomPopupMenuItem(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 11.sp),
+                                              width: 140.sp,
+                                              height: 30.sp,
+                                              onTap: () {
+                                                Get.bottomSheet(
+                                                  removeAccountBottomSheet(
+                                                    index,
+                                                    accountName: _controller
+                                                        .homePageController
+                                                        .userAccounts[index]
+                                                        .name!,
+                                                    onPressed: () {
+                                                      _controller
+                                                          .removeAccount(index);
+                                                      _settingsController
+                                                          .removeAccount(index);
+                                                    },
+                                                  ),
+                                                  barrierColor:
+                                                      Colors.transparent,
+                                                );
+                                              },
+                                              child: Text(
+                                                "Remove",
+                                                style: labelMedium.apply(
+                                                    color: ColorConst
+                                                        .Error.shade60),
+                                              ),
+                                            ),
+                                          ];
+                                        },
+                                        child: Container(
+                                          height: 24.sp,
+                                          width: 24.sp,
+                                          decoration: BoxDecoration(
+                                              color: _controller.isPopupVisible
+                                                          .value &&
+                                                      index ==
+                                                          _controller
+                                                              .popupIndex.value
+                                                  ? const Color(0xff421121)
+                                                  : Colors.transparent,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Icon(
+                                            Icons.more_horiz,
+                                            size: 20.sp,
+                                            color: Colors.white,
                                           ),
-                                        ],
-                                        child: const Icon(
-                                          Icons.more_horiz,
-                                          size: 24,
-                                          color: Colors.white,
                                         ),
                                       ),
                                       child: index ==
                                               _controller
                                                   .selectedAccountIndex.value
                                           ? Container(
-                                              height: 20.sp,
-                                              width: 20.sp,
+                                              height: 14.sp,
+                                              width: 14.sp,
                                               decoration: const BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: ColorConst.Primary),
                                               child: Icon(
                                                 Icons.check,
                                                 color: Colors.white,
-                                                size: 14.sp,
+                                                size: 12.sp,
                                               ),
                                             )
                                           : const SizedBox(),
@@ -243,8 +268,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                 ),
               ),
               Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 20.sp, vertical: 10.sp),
+                padding: EdgeInsets.only(bottom: 52.sp, left: 15.sp),
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Column(children: [
@@ -280,7 +304,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                             ],
                           ),
                         )),
-                    0.01.vspace,
+                    0.028.vspace,
                     Obx(() => InkWell(
                           onTap: () {
                             if (_controller.isAccountEditable.isFalse) {
@@ -327,11 +351,12 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
 Widget removeAccountBottomSheet(int index,
     {required String accountName, required Function() onPressed}) {
   return NaanBottomSheet(
-    bottomSheetHorizontalPadding: 32,
+    bottomSheetHorizontalPadding: 32.sp,
     blurRadius: 5,
     titleAlignment: Alignment.center,
-    height: 0.35.height,
+    height: 300.sp,
     bottomSheetWidgets: [
+      0.015.vspace,
       Center(
         child: Text(
           'Remove Account',
@@ -342,8 +367,8 @@ Widget removeAccountBottomSheet(int index,
       0.02.vspace,
       Center(
         child: Text(
-          'Do you want to remove “$accountName”\nfrom your wallet?',
-          style: labelMedium,
+          'Do you want to remove “$accountName”\nfrom your account list?',
+          style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
           textAlign: TextAlign.center,
         ),
       ),
@@ -351,14 +376,18 @@ Widget removeAccountBottomSheet(int index,
       Column(
         children: [
           SolidButton(
+            width: 326.sp,
+            height: 50.sp,
             primaryColor: const Color(0xff1E1C1F),
             onPressed: onPressed,
             title: "Remove Account",
             textColor: ColorConst.Primary,
-            titleStyle: labelLarge.copyWith(color: ColorConst.Primary),
+            titleStyle: labelLarge.copyWith(color: ColorConst.Error.shade60),
           ),
           0.01.vspace,
           SolidButton(
+            width: 326.sp,
+            height: 50.sp,
             primaryColor: const Color(0xff1E1C1F),
             onPressed: Get.back,
             title: "Cancel",
@@ -366,6 +395,7 @@ Widget removeAccountBottomSheet(int index,
           ),
         ],
       ),
+      0.04.vspace
     ],
   );
 }

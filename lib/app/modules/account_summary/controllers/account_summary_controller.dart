@@ -17,6 +17,10 @@ class AccountSummaryController extends GetxController {
   final HomePageController homePageController = Get.find<HomePageController>();
   Rx<ScrollController> paginationController =
       ScrollController().obs; // For Transaction history lazy loading
+  RxList<AccountTokenModel> pinAccountList =
+      <AccountTokenModel>[].obs; // For pin Account List
+  RxList<AccountTokenModel> hiddenAccountList =
+      <AccountTokenModel>[].obs; // For hidden Account List
 
   // ! Account Related Variables
 
@@ -24,6 +28,8 @@ class AccountSummaryController extends GetxController {
   RxBool isAccountEditable = false.obs; // To edit account selector
   Rx<AccountModel> userAccount =
       AccountModel(isNaanAccount: true).obs; // Current selected account
+  RxBool isPopupVisible = false.obs; // To show popup
+  RxInt popupIndex = 0.obs; // To show popup
 
   // ! Token Related Variables
 
@@ -139,34 +145,73 @@ class AccountSummaryController extends GetxController {
 
   /// Move the selected indexes on top of the list when pin is clicked
   void onPinToken() {
-    if (userTokens.where((p0) => p0.isPinned).toList().length ==
+    if (userTokens
+            .where((e) => e.isSelected && e.isPinned && !e.isHidden)
+            .toList()
+            .length ==
         userTokens
             .where((p0) => p0.isSelected && !p0.isHidden)
             .toList()
             .length) {
+      //When no item is selected
+    } else if (userTokens
+                .where((e) => e.isSelected && e.isPinned && !e.isHidden)
+                .toList()
+                .length <
+            userTokens
+                    .where((p0) => p0.isSelected && !p0.isHidden)
+                    .toList()
+                    .length -
+                1 &&
+        userTokens.any((element) =>
+            element.isSelected &&
+            !element.isHidden &&
+            !element.isPinned &&
+            !pinAccountList.contains(element))) {
       userTokens
-        ..where((token) => token.isSelected && !token.isHidden)
-            .toList()
-            .forEach((element) {
-          element.isPinned = false;
-          element.isSelected = false;
-          userTokens.remove(element);
-          userTokens.insert(0, element);
-        })
-        ..refresh();
-    } else {
+          .where((e) => e.isSelected && !e.isHidden && !e.isPinned)
+          .toList()
+          .forEach((element) {
+        element
+          ..isPinned = true
+          ..isSelected = true;
+        userTokens.remove(element);
+        userTokens.add(element);
+      });
+
+      userTokens.refresh();
+    } else if (userTokens.any((element) =>
+        element.isSelected &&
+        !element.isHidden &&
+        !element.isPinned &&
+        pinAccountList.contains(element))) {
+      for (var element in userTokens) {
+        if (pinAccountList.contains(element)) {
+          pinAccountList.remove(element);
+          element
+            ..isPinned = false
+            ..isSelected = false;
+        }
+      }
+      userTokens.refresh();
+      // When token is selected and was pinned before, unpin it, whichever are selected
+    } else if (userTokens.any((element) =>
+        element.isSelected && !element.isHidden && !element.isPinned)) {
       userTokens
-        ..where((token) => token.isSelected && !token.isHidden)
-            .toList()
-            .forEach((element) {
-          element.isPinned = true;
-          userTokens.remove(element);
-          userTokens.insert(0, element);
-        })
-        ..refresh();
+          .where((e) => e.isSelected && !e.isHidden && !e.isPinned)
+          .toList()
+          .forEach((element) {
+        element
+          ..isPinned = true
+          ..isSelected = true;
+        userTokens.remove(element);
+        userTokens.add(element);
+      });
+      userTokens.refresh();
+      // When token is selected and was not pinned before, pin it, whichever are selected
+
     }
     isEditable.value = false;
-    expandTokenList.value = false;
     _updateUserTokenList();
   }
 
@@ -212,73 +257,253 @@ class AccountSummaryController extends GetxController {
     _updateUserTokenList();
   }
 
-  bool hideTokenColor() =>
-      (userTokens.any((element) => element.isSelected && !element.isPinned));
+  bool hideTokenColor() {
+    if (userTokens
+            .where((e) => e.isSelected && !e.isPinned && e.isHidden)
+            .toList()
+            .length ==
+        userTokens
+            .where((p0) => p0.isSelected && !p0.isPinned)
+            .toList()
+            .length) {
+      return false;
+    } else {
+      return (userTokens
+          .any((element) => element.isSelected && !element.isPinned));
+    }
+  }
 
-  bool pinTokenColor() =>
-      (userTokens.any((element) => element.isSelected && !element.isHidden));
+  bool pinTokenColor() {
+    if (userTokens
+            .where((e) => e.isSelected && e.isPinned && !e.isHidden)
+            .toList()
+            .length ==
+        userTokens
+            .where((p0) => p0.isSelected && !p0.isHidden)
+            .toList()
+            .length) {
+      return false;
+    } else {
+      return (userTokens
+          .any((element) => element.isSelected && !element.isHidden));
+    }
+  }
 
-  bool onShowPinToken() => (userTokens
-              .where((p0) => p0.isPinned)
-              .toList()
-              .length ==
-          userTokens
-              .where((p0) => p0.isSelected && !p0.isHidden)
-              .toList()
-              .length &&
-      userTokens.any((element) => element.isPinned));
+  bool onShowPinToken() {
+    if (userTokens
+            .where((e) => e.isSelected && e.isPinned && !e.isHidden)
+            .toList()
+            .length ==
+        userTokens
+            .where((p0) => p0.isSelected && !p0.isHidden)
+            .toList()
+            .length) {
+      return true;
+    } else if (userTokens
+                .where((e) => e.isSelected && e.isPinned && !e.isHidden)
+                .toList()
+                .length <
+            userTokens
+                    .where((p0) => p0.isSelected && !p0.isHidden)
+                    .toList()
+                    .length -
+                1 &&
+        userTokens.any((element) =>
+            element.isSelected &&
+            !element.isHidden &&
+            !element.isPinned &&
+            !pinAccountList.contains(element))) {
+      return true;
+    } else if (userTokens.any((element) =>
+        element.isSelected &&
+        !element.isHidden &&
+        !element.isPinned &&
+        pinAccountList.contains(element))) {
+      return false;
+    } else if (userTokens.any((element) =>
+        element.isSelected && !element.isHidden && !element.isPinned)) {
+      return true;
+    } else if (userTokens
+        .any((element) => element.isSelected && !element.isHidden)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-  bool onHidePinToken() => (userTokens
-              .where((p0) => p0.isHidden)
-              .toList()
-              .length ==
-          userTokens
-              .where((p0) => p0.isSelected && !p0.isPinned)
-              .toList()
-              .length &&
-      userTokens.any((element) => element.isHidden));
+  bool onHidePinToken() {
+    if (userTokens
+            .where((e) => e.isSelected && !e.isPinned && e.isHidden)
+            .toList()
+            .length ==
+        userTokens
+            .where((p0) => p0.isSelected && !p0.isPinned)
+            .toList()
+            .length) {
+      return true;
+    } else if (userTokens
+                .where((e) => e.isSelected && !e.isPinned && e.isHidden)
+                .toList()
+                .length <
+            userTokens
+                    .where((p0) => p0.isSelected && !p0.isPinned)
+                    .toList()
+                    .length -
+                1 &&
+        userTokens.any((element) =>
+            element.isSelected &&
+            !element.isHidden &&
+            !element.isPinned &&
+            !hiddenAccountList.contains(element))) {
+      return true;
+    } else if (userTokens.any((element) =>
+        element.isSelected &&
+        !element.isHidden &&
+        !element.isPinned &&
+        hiddenAccountList.contains(element))) {
+      return false;
+    } else if (userTokens.any((element) =>
+        element.isSelected && !element.isHidden && !element.isPinned)) {
+      return true;
+    } else if (userTokens
+        .any((element) => element.isSelected && !element.isPinned)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   void onEditTap() {
     isEditable.value = !isEditable.value;
     if (isEditable.isFalse) {
-      for (var element in userTokens) {
-        element.isHidden == false && element.isPinned == false
-            ? element.isSelected = false
-            : element.isSelected = true;
+      for (var e in userTokens) {
+        if (e.isHidden == false &&
+            e.isPinned == false &&
+            pinAccountList.contains(e)) {
+          e.isPinned = true;
+        } else if (e.isHidden == false &&
+            e.isPinned == false &&
+            hiddenAccountList.contains(e)) {
+          e.isHidden = true;
+        } else if (e.isHidden == false && e.isPinned == false) {
+          e.isSelected = false;
+        } else {
+          e.isSelected = true;
+        }
       }
+      pinAccountList.clear();
+      hiddenAccountList.clear();
+      userTokens.refresh();
     }
-    userTokens.refresh();
   }
 
   /// Move the tokens to the end of the list when hide is clicked
   void onHideToken() {
-    if (userTokens.any(
-      (element) => element.isSelected && element.isHidden,
-    )) {
+    if (userTokens
+            .where((e) => e.isSelected && !e.isPinned && e.isHidden)
+            .toList()
+            .length ==
+        userTokens
+            .where((p0) => p0.isSelected && !p0.isPinned)
+            .toList()
+            .length) {
+      //When no item is selected
+    } else if (userTokens
+                .where((e) => e.isSelected && !e.isPinned && e.isHidden)
+                .toList()
+                .length <
+            userTokens
+                    .where((p0) => p0.isSelected && !p0.isPinned)
+                    .toList()
+                    .length -
+                1 &&
+        userTokens.any((element) =>
+            element.isSelected &&
+            !element.isHidden &&
+            !element.isPinned &&
+            !hiddenAccountList.contains(element))) {
+      //When new tokens are selected
       userTokens
         ..where((token) => token.isSelected && !token.isPinned)
             .toList()
             .forEach((element) {
-          element.isHidden = false;
-          element.isSelected = false;
-          userTokens.remove(element);
-          userTokens.insert(0, element);
-        })
-        ..refresh();
-    } else {
-      userTokens
-        ..where((token) => token.isSelected && !token.isPinned)
-            .toList()
-            .forEach((element) {
-          element.isHidden = true;
+          element
+            ..isHidden = true
+            ..isSelected = true;
           userTokens.remove(element);
           userTokens.add(element);
         })
         ..refresh();
+    } else if (userTokens.any((element) =>
+        element.isSelected &&
+        !element.isHidden &&
+        !element.isPinned &&
+        hiddenAccountList.contains(element))) {
+      for (var element in userTokens) {
+        if (hiddenAccountList.contains(element)) {
+          hiddenAccountList.remove(element);
+          element.isHidden = false;
+          element.isSelected = false;
+        }
+      }
+      userTokens.refresh();
+      // When token is selected and was pinned before, unpin it, whichever are selected
+    } else if (userTokens.any((element) =>
+        element.isSelected && !element.isHidden && !element.isPinned)) {
+      userTokens
+          .where((e) => e.isSelected && !e.isHidden && !e.isPinned)
+          .toList()
+          .forEach((element) {
+        element
+          ..isHidden = true
+          ..isSelected = true;
+      });
+      userTokens.refresh();
+      // When token is selected and was not pinned before, pin it, whichever are selected
     }
     isEditable.value = false;
-    expandTokenList.value = false;
     _updateUserTokenList();
+  }
+
+  void onCheckBoxTap(bool value, int index) {
+    if (userTokens[index].isSelected == true &&
+        userTokens[index].isPinned == true) {
+    } else if (pinAccountList.contains(userTokens[index])) {
+      userTokens[index].isPinned = !userTokens[index].isPinned;
+      userTokens.refresh();
+    } else if (hiddenAccountList.contains(userTokens[index])) {
+      userTokens[index].isHidden = !userTokens[index].isHidden;
+      userTokens.refresh();
+    } else {
+      userTokens[index].isSelected = value;
+      userTokens.refresh();
+    }
+  }
+
+  void onPinnedBoxTap(int index) {
+    if (userTokens[index].isPinned == true) {
+      userTokens[index].isPinned = !userTokens[index].isPinned;
+      userTokens.refresh();
+      pinAccountList.addIf(
+          !pinAccountList.contains(userTokens[index]), userTokens[index]);
+    } else {
+      pinAccountList.contains(userTokens[index])
+          ? pinAccountList.remove(userTokens[index])
+          : null;
+    }
+  }
+
+  void onHideBoxTap(int index) {
+    if (userTokens[index].isHidden == true) {
+      userTokens[index].isHidden = !userTokens[index].isHidden;
+      userTokens.refresh();
+      hiddenAccountList.addIf(
+          !hiddenAccountList.contains(userTokens[index]), userTokens[index]);
+    } else {
+      hiddenAccountList.contains(userTokens[index])
+          ? hiddenAccountList.remove(userTokens[index])
+          : null;
+    }
   }
 
   /// Updates the user token list and stores it in the local storage
@@ -293,8 +518,17 @@ class AccountSummaryController extends GetxController {
   }
 
   /// Number of pinned tokens in the user token list
-  int checkPinHideTokenList() =>
-      userTokens.where((e) => e.isPinned == true).toList().length;
+  int pinnedTokenCounts() {
+    return userTokens.where((e) => e.isPinned).toList().length;
+  }
+
+  int selectedPinnedTokenCounts() {
+    return userTokens
+        .where((e) =>
+            pinAccountList.contains(e) && e.isSelected == true && e.isHidden)
+        .toList()
+        .length;
+  }
 
   /// Loades the user transaction history, and updates the UI after user taps on history tab
   Future<void> userTransactionLoader() async {

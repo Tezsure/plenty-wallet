@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 import '../../../../../../utils/constants/path_const.dart';
@@ -49,67 +50,51 @@ class TokenCheckbox extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            if (tokenModel[tokenIndex].isSelected) ...[
-                              if (tokenModel[tokenIndex].isPinned)
-                                GestureDetector(
-                                  onTap: onPinnedTap,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, right: 10),
-                                    child: Container(
-                                      height: 20.sp,
-                                      width: 20.sp,
-                                      decoration: BoxDecoration(
-                                        color:
-                                            ColorConst.NeutralVariant.shade40,
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      child: Icon(
-                                        Icons.star,
-                                        color: ColorConst.Tertiary,
-                                        size: 14.sp,
-                                      ),
+                            if (tokenModel[tokenIndex].isPinned)
+                              GestureDetector(
+                                onTap: onPinnedTap,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0, right: 10),
+                                  child: Container(
+                                    height: 20.sp,
+                                    width: 20.sp,
+                                    decoration: BoxDecoration(
+                                      color: ColorConst.NeutralVariant.shade40,
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    child: Icon(
+                                      Icons.star,
+                                      color: ColorConst.Tertiary,
+                                      size: 14.sp,
                                     ),
                                   ),
-                                )
-                              else if (tokenModel[tokenIndex].isHidden)
-                                GestureDetector(
-                                  onTap: onHiddenTap,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, right: 10),
-                                    child: Container(
-                                      height: 20.sp,
-                                      width: 20.sp,
-                                      decoration: BoxDecoration(
-                                        color:
-                                            ColorConst.NeutralVariant.shade40,
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        "${PathConst.HOME_PAGE.SVG}eye_hide.svg",
-                                        color:
-                                            ColorConst.NeutralVariant.shade70,
-                                        height: 10,
-                                        width: 10,
-                                        fit: BoxFit.scaleDown,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              else
-                                Checkbox(
-                                  shape: const CircleBorder(),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  value: tokenModel[tokenIndex].isSelected,
-                                  onChanged: onCheckboxTap,
-                                  fillColor: MaterialStateProperty.all<Color>(
-                                      tokenModel[tokenIndex].isSelected
-                                          ? ColorConst.Primary
-                                          : const Color(0xff1E1C1F)),
                                 ),
-                            ] else
+                              )
+                            else if (tokenModel[tokenIndex].isHidden)
+                              GestureDetector(
+                                onTap: onHiddenTap,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0, right: 10),
+                                  child: Container(
+                                    height: 20.sp,
+                                    width: 20.sp,
+                                    decoration: BoxDecoration(
+                                      color: ColorConst.NeutralVariant.shade40,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: SvgPicture.asset(
+                                      "${PathConst.HOME_PAGE.SVG}eye_hide.svg",
+                                      color: ColorConst.NeutralVariant.shade70,
+                                      height: 10,
+                                      width: 10,
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            else
                               Checkbox(
                                 shape: const CircleBorder(),
                                 materialTapTargetSize:
@@ -191,20 +176,17 @@ class TokenCheckbox extends StatelessWidget {
                   RichText(
                       text: TextSpan(
                           text: "${tokenModel[tokenIndex].name!}\n",
-                          style: const TextStyle(
+                          style: labelLarge.copyWith(
                               fontWeight: FontWeight.w600,
-                              letterSpacing: 0.5,
-                              fontSize: 14,
-                              color: Colors.white),
+                              fontSize: tokenModel[tokenIndex].name!.length > 25
+                                  ? 12.sp
+                                  : 14.sp),
                           children: [
                         WidgetSpan(child: 0.025.vspace),
                         TextSpan(
                             text:
                                 "${tokenModel[tokenIndex].balance.toStringAsFixed(6)} ${tokenModel[tokenIndex].symbol}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 0.5,
-                                fontSize: 12,
+                            style: labelSmall.copyWith(
                                 color: ColorConst.NeutralVariant.shade60)),
                       ])),
                   const Spacer(),
@@ -216,11 +198,7 @@ class TokenCheckbox extends StatelessWidget {
                                     xtzPrice))
                             .toStringAsFixed(6)
                             .removeTrailing0,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 0.5,
-                        fontSize: 12,
-                        color: Colors.white),
+                    style: labelSmall,
                   ),
                 ],
               ),

@@ -45,29 +45,32 @@ class TokenEditTile extends GetView<AccountSummaryController> {
               : GestureDetector(
                   onTap: viewAll,
                   child: Container(
-                    height: 24,
-                    width: expandedTokenList ? 55 : 45,
+                    height: 32.sp,
+                    width: expandedTokenList ? 76.sp : 63.sp,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(20),
                       color: const Color(0xff1e1c1f),
                     ),
                     alignment: Alignment.center,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: expandedTokenList
+                          ? CrossAxisAlignment.end
+                          : CrossAxisAlignment.center,
                       children: [
                         Text(
                           expandedTokenList ? 'Less' : 'All',
-                          style: labelSmall.copyWith(
+                          style: labelLarge.copyWith(
+                              fontWeight: FontWeight.w600,
                               color: ColorConst.NeutralVariant.shade60),
                         ),
                         Icon(
                           expandedTokenList
-                              ? Icons.keyboard_arrow_up
+                              ? Icons.keyboard_arrow_down
                               : Icons.arrow_forward_ios,
                           color: ColorConst.NeutralVariant.shade60,
-                          size: expandedTokenList ? 14 : 10,
+                          size: expandedTokenList ? 22.sp : 14.sp,
                         )
                       ],
                     ),
@@ -77,12 +80,12 @@ class TokenEditTile extends GetView<AccountSummaryController> {
             children: [
               0.02.hspace,
               EditButtons(
-                  buttonName: isAnyTokenPinned! ? 'Unpin' : 'Pin',
+                  buttonName: isAnyTokenPinned! ? 'Pin' : 'Unpin',
                   isDone: isTokenPinnedColor!,
                   onTap: onPinTap),
               0.02.hspace,
               EditButtons(
-                buttonName: isAnyTokenHidden! ? 'Unhide' : 'Hide',
+                buttonName: isAnyTokenHidden! ? 'Hide' : 'Unhide',
                 isDone: isTokenHiddenColor!,
                 onTap: onHideTap,
               ),
@@ -94,18 +97,22 @@ class TokenEditTile extends GetView<AccountSummaryController> {
             ? GestureDetector(
                 onTap: onEditTap,
                 child: Container(
-                  height: 24,
-                  width: isEditable ?? false ? 55 : 45,
+                  height: 32.sp,
+                  width: isEditable ?? false ? 63.sp : 52.sp,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(20),
                     color: isEditable ?? false
                         ? ColorConst.Primary
-                        : ColorConst.NeutralVariant.shade30,
+                        : const Color(0xff1e1c1f),
                   ),
                   alignment: Alignment.center,
                   child: Text(
                     isEditable ?? false ? 'Done' : 'Edit',
-                    style: labelSmall,
+                    style: labelLarge.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: isEditable ?? false
+                            ? Colors.white
+                            : ColorConst.NeutralVariant.shade60),
                   ),
                 ),
               )
@@ -113,18 +120,20 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                 ? GestureDetector(
                     onTap: onEditTap,
                     child: Container(
-                      height: 24,
-                      width: isEditable ?? false ? 55 : 45,
+                      height: 32.sp,
+                      width: 63.sp,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(20),
                         color: isEditable ?? false
                             ? ColorConst.Primary
-                            : ColorConst.NeutralVariant.shade30,
+                            : const Color(0xff1e1c1f),
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         isEditable ?? false ? 'Done' : 'Edit',
-                        style: labelSmall,
+                        style: labelLarge.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   )

@@ -30,12 +30,21 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   final AccountSummaryController _accountController =
       Get.find<AccountSummaryController>();
   FocusNode nameFocusNode = FocusNode();
+  bool isNameEmpty = false;
 
   @override
   void initState() {
+    _controller.accountNameController.removeListener(() {});
     nameFocusNode.requestFocus();
     _controller.accountNameController.text =
         _controller.homePageController.userAccounts[widget.accountIndex].name!;
+    _controller.accountNameController.addListener(() {
+      setState(() {
+        _controller.accountNameController.text.isEmpty
+            ? isNameEmpty = true
+            : isNameEmpty = false;
+      });
+    });
     super.initState();
   }
 
@@ -124,22 +133,33 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                         .userAccounts[widget.accountIndex].publicKeyHash!
                         .contains(_accountController
                             .userAccount.value.publicKeyHash!)) {
-                      _accountController.userAccount.update((val) {
-                        val!.name = value;
-                      });
+                      if (value.isNotEmpty) {
+                        _accountController.userAccount.update((val) {
+                          val!.name = value;
+                        });
+                      }
                     }
-                    _controller.editAccountName(widget.accountIndex, value);
+                    if (value.isNotEmpty) {
+                      _controller.editAccountName(widget.accountIndex, value);
+                    }
                   });
                 }),
             0.04.vspace,
             SolidButton(
+              primaryColor:
+                  _controller.accountNameController.value.text.isNotEmpty
+                      ? ColorConst.Primary
+                      : const Color(0xFF1E1C1F),
               title: "Save Changes",
               onPressed: () {
-                _accountController.changeSelectedAccountName(
-                    accountIndex: widget.accountIndex,
-                    changedValue: _controller.accountNameController.value.text);
-                _controller.editAccountName(widget.accountIndex,
-                    _controller.accountNameController.value.text);
+                if (_controller.accountNameController.value.text.isNotEmpty) {
+                  _accountController.changeSelectedAccountName(
+                      accountIndex: widget.accountIndex,
+                      changedValue:
+                          _controller.accountNameController.value.text);
+                  _controller.editAccountName(widget.accountIndex,
+                      _controller.accountNameController.value.text);
+                }
               },
             ),
           ]);

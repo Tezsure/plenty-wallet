@@ -21,13 +21,13 @@ class _NftCollectiblesState extends State<NftCollectibles> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
+      padding: EdgeInsets.symmetric(vertical: 2.sp),
       child: Column(
         children: [
           ExpansionTile(
             tilePadding: EdgeInsets.zero,
             leading: CircleAvatar(
-              radius: 20,
+              radius: 20.sp,
               backgroundColor:
                   ColorConst.NeutralVariant.shade60.withOpacity(0.2),
               foregroundImage: NetworkImage(
@@ -38,18 +38,14 @@ class _NftCollectiblesState extends State<NftCollectibles> {
             ),
             onExpansionChanged: (isExpand) =>
                 setState(() => isExpanded = isExpand),
-            trailing: SizedBox(
-              height: 0.03.height,
-              width: 0.14.width,
-              child: expandButton(isExpanded: isExpanded),
-            ),
+            trailing: expandButton(isExpanded: isExpanded),
             title: Text(
               widget.nftList.first.fa!.name!,
               style: labelLarge,
             ),
             children: [
-              const SizedBox(
-                height: 16,
+              SizedBox(
+                height: 16.sp,
               ),
               SizedBox(
                   height: 0.31.height * (widget.nftList.length / 2).ceil(),
@@ -89,31 +85,22 @@ class _NftCollectiblesState extends State<NftCollectibles> {
   }
 
   Widget expandButton({required bool isExpanded}) {
-    return Container(
-      height: 24,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-      ),
-      alignment: Alignment.center,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "${widget.nftList.length}",
-            style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
-          ),
-          const SizedBox(
-            width: 2,
-          ),
-          Icon(
-            isExpanded ? Icons.keyboard_arrow_down : Icons.arrow_forward_ios,
-            color: ColorConst.NeutralVariant.shade60,
-            size: 10,
-          )
-        ],
-      ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "${widget.nftList.length}",
+          style: labelSmall.apply(color: Colors.white),
+        ),
+        SizedBox(
+          width: 2.sp,
+        ),
+        Icon(
+          isExpanded ? Icons.keyboard_arrow_down : Icons.arrow_forward_ios,
+          color: Colors.white,
+          size: isExpanded ? 16.sp : 10.sp,
+        )
+      ],
     );
   }
 }
