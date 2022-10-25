@@ -66,9 +66,9 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                             ),
                             isScrollControlled: true)),
                         enableFeedback: true,
-                        horizontalTitleGap: 14.sp,
-                        visualDensity: VisualDensity.compact,
-                        dense: true,
+                        horizontalTitleGap: 8.sp,
+                        visualDensity: VisualDensity.standard,
+                        dense: false,
                         leading: CustomImageWidget(
                           imageType: controller.userAccount.value.imageType!,
                           imagePath: controller.userAccount.value.profileImage!,
@@ -109,7 +109,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           height: 20.sp,
                           width: 60.sp,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
                                 onTap: () {
@@ -131,14 +131,15 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                   '${PathConst.SVG}copy.svg',
                                   color: Colors.white,
                                   fit: BoxFit.contain,
+                                  height: 16.sp,
                                 ),
                               ),
+                              0.04.hspace,
                               InkWell(
                                 child: SvgPicture.asset(
                                   '${PathConst.SVG}scanVector.svg',
-                                  fit: BoxFit.cover,
-                                  width: 0.03.width,
-                                  height: 0.03.height,
+                                  fit: BoxFit.contain,
+                                  height: 16.sp,
                                   color: Colors.white,
                                 ),
                               ),
@@ -269,8 +270,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                 WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8.sp),
                                       child: CircleAvatar(
                                         backgroundColor: ColorConst.Primary,
                                         radius: 20.sp,
@@ -300,6 +301,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                     ),
                     SizedBox(
                       height: 50.sp,
+                      width: 1.width,
                       child: TabBar(
                           onTap: (value) async {
                             value == 2
@@ -310,17 +312,30 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           labelColor: ColorConst.Primary.shade95,
                           indicatorColor: ColorConst.Primary,
                           indicatorSize: TabBarIndicatorSize.tab,
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          labelPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
+                          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                          labelPadding: EdgeInsets.symmetric(
+                            horizontal: 20.sp,
                           ),
                           enableFeedback: true,
+                          labelStyle: labelLarge,
                           unselectedLabelColor:
                               ColorConst.NeutralVariant.shade60,
-                          tabs: const [
-                            Tab(text: "Crypto"),
-                            Tab(text: "NFTs"),
-                            Tab(text: "History"),
+                          tabs: [
+                            Tab(
+                              height: 30.sp,
+                              text: "Crypto",
+                              iconMargin: EdgeInsets.zero,
+                            ),
+                            Tab(
+                              height: 30.sp,
+                              text: "NFTs",
+                              iconMargin: EdgeInsets.zero,
+                            ),
+                            Tab(
+                              height: 30.sp,
+                              text: "History",
+                              iconMargin: EdgeInsets.zero,
+                            ),
                           ]),
                     ),
                     Expanded(

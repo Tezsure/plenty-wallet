@@ -42,7 +42,8 @@ class HistoryTile extends StatelessWidget {
           ),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           child: ListTile(
-            dense: true,
+            dense: false,
+            enableFeedback: true,
             leading: CircleAvatar(
               radius: 20.sp,
               backgroundColor: ColorConst.NeutralVariant.shade60,
@@ -60,7 +61,7 @@ class HistoryTile extends StatelessWidget {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                                 image: NetworkImage(tokenIconUrl
                                         .startsWith("ipfs")
                                     ? "https://ipfs.io/ipfs/${tokenIconUrl.replaceAll("ipfs://", '')}"

@@ -112,8 +112,8 @@ class CollectibleWidget extends GetView<SendPageController> {
             width: 2,
           ),
           AnimatedRotation(
-            duration: Duration(milliseconds: 300),
-            turns: isExpanded ? 1/4 : 0,
+            duration: const Duration(milliseconds: 300),
+            turns: isExpanded ? 1 / 4 : 0,
             child: Icon(
               Icons.arrow_forward_ios,
               color: ColorConst.NeutralVariant.shade60,
@@ -141,6 +141,7 @@ class NFTwidget extends StatelessWidget {
       onTap: () => onTap(nfTmodel),
       child: Container(
         width: 0.44.width,
+        height: 0.32.height,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
@@ -149,7 +150,7 @@ class NFTwidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 0.42.width,
+              height: 140.sp,
               width: double.infinity,
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -162,8 +163,8 @@ class NFTwidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            const SizedBox(
-              height: 12,
+            SizedBox(
+              height: 10.sp,
             ),
             Text(
               nfTmodel.name!,

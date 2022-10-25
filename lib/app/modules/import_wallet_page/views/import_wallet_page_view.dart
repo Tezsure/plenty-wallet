@@ -34,7 +34,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           decoration: const BoxDecoration(color: Colors.black),
           width: 1.width,
           height: 1.height,
-          padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+          padding: EdgeInsets.symmetric(horizontal: 14.sp),
           child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +64,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                           Icon(
                             Icons.info_outline,
                             color: ColorConst.NeutralVariant.shade60,
-                            size: 16,
+                            size: 16.sp,
                           ),
                         ],
                       ),
@@ -81,10 +81,11 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                           "Import wallet",
                           style: titleLarge,
                         ),
-                        0.05.vspace,
+                        0.04.vspace,
                         Material(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(8.sp),
+                          shadowColor: Colors.white.withOpacity(0.2),
+                          color: const Color(0xff1E1C1F),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: 0.02.height,
@@ -167,87 +168,98 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     );
   }
 
-  SolidButton pasteButton() {
-    return SolidButton(
-      onPressed: controller.paste,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            "${PathConst.SVG}paste.svg",
-            fit: BoxFit.scaleDown,
-          ),
-          0.02.hspace,
-          Text(
-            "Paste",
-            style: titleSmall.apply(color: ColorConst.Neutral.shade95),
-          )
-        ],
+  Center pasteButton() {
+    return Center(
+      child: SolidButton(
+        height: 40.sp,
+        width: 326.sp,
+        onPressed: controller.paste,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              "${PathConst.SVG}paste.svg",
+              fit: BoxFit.contain,
+              height: 16.sp,
+            ),
+            0.02.hspace,
+            Text(
+              "Paste",
+              style: titleSmall,
+            )
+          ],
+        ),
       ),
     );
   }
 
   Widget importButton() {
     return Obx(
-      () => SolidButton(
-        onPressed: () async {
-          if (controller.importWalletDataType ==
-              ImportWalletDataType.mnemonic) {
-            controller.genAndLoadMoreAccounts(0, 3);
-            Get.bottomSheet(
-              accountBottomSheet(),
-              settings: RouteSettings(arguments: Get.arguments),
-              isScrollControlled: true,
-              barrierColor: Colors.white.withOpacity(0.2),
-            );
-          } else {
-            var pageRouteArgument = Get.arguments;
-            if (pageRouteArgument == Routes.ACCOUNT_SUMMARY) {
-              controller.redirectBasedOnImportWalletType(pageRouteArgument);
+      () => Center(
+        child: SolidButton(
+          height: 40.sp,
+          width: 326.sp,
+          onPressed: () async {
+            if (controller.importWalletDataType ==
+                ImportWalletDataType.mnemonic) {
+              controller.genAndLoadMoreAccounts(0, 3);
+              Get.bottomSheet(
+                accountBottomSheet(),
+                settings: RouteSettings(arguments: Get.arguments),
+                isScrollControlled: true,
+                barrierColor: Colors.white.withOpacity(0.2),
+              );
             } else {
-              controller.redirectBasedOnImportWalletType();
+              var pageRouteArgument = Get.arguments;
+              if (pageRouteArgument == Routes.ACCOUNT_SUMMARY) {
+                controller.redirectBasedOnImportWalletType(pageRouteArgument);
+              } else {
+                controller.redirectBasedOnImportWalletType();
+              }
             }
-          }
-        },
-        active: controller.phraseText.split(" ").join().length >= 2 &&
-            controller.importWalletDataType != ImportWalletDataType.none,
-        inActiveChild: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              "${PathConst.SVG}import.svg",
-              fit: BoxFit.scaleDown,
-              color: ColorConst.NeutralVariant.shade60,
-            ),
-            0.03.hspace,
-            Text(
-              "Import",
-              style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
-            )
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              "${PathConst.SVG}import.svg",
-              fit: BoxFit.scaleDown,
-              color: ColorConst.Neutral.shade95,
-            ),
-            0.03.hspace,
-            Text(
-              controller.importWalletDataType == ImportWalletDataType.privateKey
-                  ? "Import using private key"
-                  : controller.importWalletDataType ==
-                          ImportWalletDataType.mnemonic
-                      ? "Import using seed phrase"
-                      : controller.importWalletDataType ==
-                              ImportWalletDataType.watchAddress
-                          ? "Import watch address"
-                          : "Import",
-              style: titleSmall.apply(color: ColorConst.Neutral.shade95),
-            )
-          ],
+          },
+          active: controller.phraseText.split(" ").join().length >= 2 &&
+              controller.importWalletDataType != ImportWalletDataType.none,
+          inActiveChild: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                "${PathConst.SVG}import.svg",
+                fit: BoxFit.scaleDown,
+                color: ColorConst.NeutralVariant.shade60,
+              ),
+              0.03.hspace,
+              Text(
+                "Import",
+                style:
+                    titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
+              )
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                "${PathConst.SVG}import.svg",
+                fit: BoxFit.contain,
+                height: 16.sp,
+              ),
+              0.03.hspace,
+              Text(
+                controller.importWalletDataType ==
+                        ImportWalletDataType.privateKey
+                    ? "Import using private key"
+                    : controller.importWalletDataType ==
+                            ImportWalletDataType.mnemonic
+                        ? "Import using seed phrase"
+                        : controller.importWalletDataType ==
+                                ImportWalletDataType.watchAddress
+                            ? "Import watch address"
+                            : "Import",
+                style: titleSmall.apply(color: ColorConst.Neutral.shade95),
+              )
+            ],
+          ),
         ),
       ),
     );

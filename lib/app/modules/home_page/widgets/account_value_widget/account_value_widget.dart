@@ -80,7 +80,10 @@ class AccountValueWidget extends StatelessWidget {
                           arguments: homePageController.userAccounts[0]),
                       barrierColor: Colors.white.withOpacity(0.09))),
               0.09.hspace,
-              actionMethod("Add", "${PathConst.HOME_PAGE.SVG}plus.svg"),
+              actionMethod(
+                "Add",
+                "${PathConst.HOME_PAGE.SVG}plus.svg",
+              ),
             ],
           ),
           0.06.vspace,
@@ -101,7 +104,11 @@ class AccountValueWidget extends StatelessWidget {
           child: CircleAvatar(
             radius: 0.07.width,
             backgroundColor: ColorConst.Primary.shade60,
-            child: SvgPicture.asset(svgPath),
+            child: SvgPicture.asset(
+              svgPath,
+              height: 16.sp,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
         0.01.vspace,

@@ -70,8 +70,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                     0.01.vspace,
                     Center(
                       child: Container(
-                        height: 5,
-                        width: 36,
+                        height: 5.sp,
+                        width: 36.sp,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: ColorConst.NeutralVariant.shade60
@@ -106,7 +106,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                               prefixIcon: Icon(
                                 Icons.search,
                                 color: ColorConst.NeutralVariant.shade60,
-                                size: 22,
+                                size: 16.sp,
                               ),
                               counterStyle: const TextStyle(
                                   backgroundColor: Colors.white),

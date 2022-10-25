@@ -14,8 +14,8 @@ class ResetWalletBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      blurRadius: 5,
-      height: 247,
+      blurRadius: 5.sp,
+      height: 150.sp,
       bottomSheetWidgets: [
         Center(
           child: Text(

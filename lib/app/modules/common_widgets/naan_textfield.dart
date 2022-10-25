@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class NaanTextfield extends StatelessWidget {
@@ -29,13 +30,13 @@ class NaanTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(6.sp),
       color: backgroundColor ?? Colors.white.withOpacity(0.2),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        padding: EdgeInsets.symmetric(horizontal: 12.sp),
         child: SizedBox(
           width: double.infinity,
-          height: 52,
+          height: 40.sp,
           child: TextField(
             focusNode: focusNode,
             controller: controller,

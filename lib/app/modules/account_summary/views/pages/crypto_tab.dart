@@ -17,44 +17,51 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => controller.userTokens.isEmpty
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                "assets/empty_states/empty1.svg",
-                height: 180.sp,
-              ),
-              0.03.vspace,
-              RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                      text: "No token found\n",
-                      style: titleLarge.copyWith(fontWeight: FontWeight.w700),
-                      children: [
-                        WidgetSpan(child: 0.04.vspace),
-                        TextSpan(
-                            text:
-                                "Buy or Transfer token from another\n wallet or elsewhere",
-                            style: labelMedium.copyWith(
-                                color: ColorConst.NeutralVariant.shade60))
-                      ])),
-              0.05.vspace,
-              SolidButton(
-                width: 0.5.width,
-                title: "Get token",
-                rowWidget: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset("assets/empty_states/coins.png"),
-                    0.03.hspace,
-                    Text(
-                      "Get token",
-                      style: titleSmall.apply(color: Colors.white),
-                    ),
-                  ],
+        ? SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  "assets/empty_states/empty1.svg",
+                  height: 120.sp,
                 ),
-              ),
-            ],
+                0.03.vspace,
+                RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                        text: "No token found\n",
+                        style: titleLarge.copyWith(fontWeight: FontWeight.w700),
+                        children: [
+                          WidgetSpan(child: 0.04.vspace),
+                          TextSpan(
+                              text:
+                                  "Buy or Transfer token from another\n wallet or elsewhere",
+                              style: labelMedium.copyWith(
+                                  color: ColorConst.NeutralVariant.shade60))
+                        ])),
+                0.05.vspace,
+                SolidButton(
+                  height: 40.sp,
+                  width: 0.5.width,
+                  title: "Get token",
+                  rowWidget: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/empty_states/coins.png",
+                        height: 16.sp,
+                        fit: BoxFit.contain,
+                      ),
+                      0.03.hspace,
+                      Text(
+                        "Get token",
+                        style: titleSmall.apply(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           )
         : SingleChildScrollView(
             child: Padding(
@@ -211,6 +218,7 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                                   controller.onHideBoxTap(index));
                         },
                       ),
+                      0.01.vspace,
                       TokenEditTile(
                         isAnyTokenHidden: controller.onHidePinToken(),
                         isAnyTokenPinned: controller.onShowPinToken(),

@@ -17,15 +17,15 @@ class HistoryFilterSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 15,
-      height: 561,
+      height: 517.sp,
       crossAxisAlignment: CrossAxisAlignment.start,
       bottomSheetWidgets: [
         Text(
           "Asset type",
           style: labelMedium,
         ),
-        const SizedBox(
-          height: 12,
+        SizedBox(
+          height: 10.sp,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,15 +42,15 @@ class HistoryFilterSheet extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(
-          height: 32,
+        SizedBox(
+          height: 20.sp,
         ),
         Text(
           "Asset type",
           style: labelMedium,
         ),
-        const SizedBox(
-          height: 12,
+        SizedBox(
+          height: 10.sp,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,15 +72,15 @@ class HistoryFilterSheet extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(
-          height: 32,
+        SizedBox(
+          height: 20.sp,
         ),
         Text(
           "Date",
           style: labelMedium,
         ),
-        const SizedBox(
-          height: 12,
+        SizedBox(
+          height: 10.sp,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -116,7 +116,7 @@ class HistoryFilterSheet extends StatelessWidget {
   }) {
     return Obx(
       () => MaterialButton(
-        height: 79,
+        height: 79.sp,
         onPressed: () {
           controller.assetType.value = assetType;
         },
@@ -131,12 +131,16 @@ class HistoryFilterSheet extends StatelessWidget {
                 width: 1.5)),
         child: Column(
           children: [
-            SvgPicture.asset(svg,
-                color: controller.assetType.value == assetType
-                    ? Colors.white
-                    : ColorConst.NeutralVariant.shade60),
-            const SizedBox(
-              height: 4,
+            SvgPicture.asset(
+              svg,
+              height: 16.sp,
+              color: controller.assetType.value == assetType
+                  ? Colors.white
+                  : ColorConst.NeutralVariant.shade60,
+              fit: BoxFit.contain,
+            ),
+            SizedBox(
+              height: 4.sp,
             ),
             Text(
               title,
@@ -158,7 +162,7 @@ class HistoryFilterSheet extends StatelessWidget {
   }) {
     return Obx(
       () => MaterialButton(
-        height: 79,
+        height: 79.sp,
         onPressed: () {
           controller.transactionType.value = transactionType;
         },
@@ -174,11 +178,13 @@ class HistoryFilterSheet extends StatelessWidget {
         child: Column(
           children: [
             SvgPicture.asset(svg,
+                height: 16.sp,
+                fit: BoxFit.contain,
                 color: controller.transactionType.value == transactionType
                     ? Colors.white
                     : ColorConst.NeutralVariant.shade60),
-            const SizedBox(
-              height: 4,
+            SizedBox(
+              height: 4.sp,
             ),
             Text(
               title,
@@ -195,7 +201,7 @@ class HistoryFilterSheet extends StatelessWidget {
 
   Widget clearButton() {
     return MaterialButton(
-      height: 48,
+      height: 48.sp,
       onPressed: () {
         controller.clear();
       },
@@ -213,7 +219,7 @@ class HistoryFilterSheet extends StatelessWidget {
 
   Widget applyButton() {
     return MaterialButton(
-      height: 48,
+      height: 48.sp,
       onPressed: controller.apply,
       color: ColorConst.Primary,
       minWidth: (1.width - 45) / 2,
@@ -229,15 +235,15 @@ class HistoryFilterSheet extends StatelessWidget {
 
   Widget dateTypeButton(DateType dateType, String text) {
     return Padding(
-      padding: const EdgeInsets.only(right: 12),
+      padding: EdgeInsets.only(right: 12.sp),
       child: Obx(
         () => GestureDetector(
           onTap: () {
             controller.setDate(dateType);
           },
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            height: 32,
+            padding: EdgeInsets.symmetric(horizontal: 12.sp),
+            height: 32.sp,
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 color: controller.dateType.value == dateType
@@ -269,9 +275,9 @@ class HistoryFilterSheet extends StatelessWidget {
           );
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+          padding: EdgeInsets.symmetric(horizontal: 12.sp),
           width: double.infinity,
-          height: 32,
+          height: 32.sp,
           alignment: Alignment.center,
           decoration: BoxDecoration(
               color: controller.dateType.value == DateType.customDate

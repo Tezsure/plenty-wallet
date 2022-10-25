@@ -57,7 +57,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 10.sp, sigmaY: 10.sp),
       child: Container(
-        height: 666.sp,
+        height: 0.9.height,
         width: 1.width,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
@@ -290,6 +290,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                 _controller.isAccountEditable.isFalse
                                     ? "${PathConst.EMPTY_STATES}plus.png"
                                     : "${PathConst.EMPTY_STATES}plus_faded.png",
+                                height: 14.sp,
+                                fit: BoxFit.contain,
                                 scale: 1,
                               ),
                               0.02.hspace,
@@ -323,6 +325,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                 _controller.isAccountEditable.isFalse
                                     ? "${PathConst.EMPTY_STATES}union.png"
                                     : "${PathConst.EMPTY_STATES}union_faded.png",
+                                height: 14.sp,
+                                fit: BoxFit.contain,
                                 scale: 1,
                               ),
                               0.02.hspace,

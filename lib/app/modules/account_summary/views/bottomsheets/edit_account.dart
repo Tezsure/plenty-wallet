@@ -57,7 +57,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      height: 0.5.height,
+      height: 0.6.height,
       bottomSheetHorizontalPadding: 32,
       crossAxisAlignment: CrossAxisAlignment.center,
       bottomSheetWidgets: [editaccountUI()],
@@ -95,7 +95,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                   backgroundColor: Colors.white,
                   child: SvgPicture.asset(
                     "${PathConst.SVG}add_photo.svg",
-                    fit: BoxFit.scaleDown,
+                    fit: BoxFit.contain,
+                    height: 16.sp,
                   ),
                 ),
               ),
@@ -146,6 +147,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                 }),
             0.04.vspace,
             SolidButton(
+              height: 40.sp,
               primaryColor:
                   _controller.accountNameController.value.text.isNotEmpty
                       ? ColorConst.Primary
@@ -176,14 +178,14 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             color: Colors.black),
         width: 1.width,
-        height: 296,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        height: 200.sp,
+        padding: EdgeInsets.symmetric(horizontal: 16.sp),
         child: Column(
           children: [
             0.005.vspace,
             Container(
-              height: 5,
-              width: 36,
+              height: 5.sp,
+              width: 36.sp,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
@@ -192,8 +194,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             0.03.vspace,
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
+              padding: EdgeInsets.symmetric(
+                horizontal: 12.sp,
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
@@ -217,7 +219,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 51,
+                      height: 40.sp,
                       alignment: Alignment.center,
                       child: Text(
                         "Choose from Library",
@@ -236,7 +238,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 51,
+                      height: 40.sp,
                       alignment: Alignment.center,
                       child: Text(
                         "Pick an avatar",
@@ -260,7 +262,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 51,
+                      height: 40.sp,
                       alignment: Alignment.center,
                       child: Text(
                         "Remove photo",
@@ -274,11 +276,11 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             ),
             0.016.vspace,
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16.sp),
               child: GestureDetector(
                 onTap: () => Get.back(),
                 child: Container(
-                  height: 51,
+                  height: 40.sp,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
@@ -359,19 +361,22 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                     });
                   },
                   child: CircleAvatar(
-                    radius: 0.08.width,
+                    radius: 70.sp,
                     child: Image.asset(
                       ServiceConfig.allAssetsProfileImages[index],
                       fit: BoxFit.cover,
+                      height: 72.sp,
                     ),
                   ),
                 ),
               ),
             ),
           ),
+          0.01.vspace,
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+            padding: EdgeInsets.symmetric(horizontal: 20.sp),
             child: SolidButton(
+              height: 40.sp,
               onPressed: () {
                 Get.back();
                 Get.back();

@@ -22,7 +22,7 @@ class NFTabPage extends GetView<AccountSummaryController> {
               0.04.vspace,
               SvgPicture.asset(
                 "assets/empty_states/empty2.svg",
-                height: 240.sp,
+                height: 120.sp,
               ),
               RichText(
                   textAlign: TextAlign.center,

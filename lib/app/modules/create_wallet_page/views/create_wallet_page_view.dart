@@ -30,7 +30,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
         height: 1.height,
         child: SafeArea(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               ShaderMask(
                 shaderCallback: (Rect bounds) {
@@ -45,13 +45,15 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                 },
                 child: SvgPicture.asset(
                   "${PathConst.SVG}create_wallet_background.svg",
-                  fit: BoxFit.fitWidth,
+                  fit: BoxFit.contain,
+                  height: 450.sp,
+                  width: 357.sp,
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 0.08.width),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Text(
                     //   "Welcome to Naan Wallet",
@@ -64,8 +66,10 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     //     color: ColorConst.NeutralVariant.shade60,
                     //   ),
                     // ),
-                    0.046.vspace,
+                    0.03.vspace,
                     SolidButton(
+                      height: 40.sp,
+                      width: 326.sp,
                       title: "Create a new account",
                       titleStyle: titleSmall.copyWith(
                         fontWeight: FontWeight.w600,
@@ -88,7 +92,8 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         Get.toNamed(Routes.IMPORT_WALLET_PAGE);
                       },
                       child: Container(
-                        height: 48,
+                        height: 40.sp,
+                        width: 326.sp,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
@@ -114,8 +119,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     Expanded(
                         child: Divider(
                       thickness: 1,
-                      color: ColorConst.NeutralVariant.shade60
-                          .withOpacity(0.4),
+                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
                     )),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -130,33 +134,30 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     Expanded(
                         child: Divider(
                       thickness: 1,
-                      color: ColorConst.NeutralVariant.shade60
-                          .withOpacity(0.4),
+                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
                     )),
                   ],
                 ),
               ),
               0.035.vspace,
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+                padding: EdgeInsets.symmetric(horizontal: 36.sp),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SocialLoginButton(
-                        onTap: controller.login(
-                            socialAppName: Provider.apple),
+                        onTap: controller.login(socialAppName: Provider.apple),
                         socialIconPath: "apple.svg"),
                     SocialLoginButton(
-                        onTap: controller.login(
-                            socialAppName: Provider.google),
+                        onTap: controller.login(socialAppName: Provider.google),
                         socialIconPath: "google.svg"),
                     SocialLoginButton(
-                        onTap: controller.login(
-                            socialAppName: Provider.facebook),
+                        onTap:
+                            controller.login(socialAppName: Provider.facebook),
                         socialIconPath: "facebook.svg"),
                     SocialLoginButton(
-                        onTap: controller.login(
-                            socialAppName: Provider.twitter),
+                        onTap:
+                            controller.login(socialAppName: Provider.twitter),
                         socialIconPath: "twitter.svg"),
                   ],
                 ),
@@ -201,7 +202,12 @@ class SocialLoginButton extends StatelessWidget {
       child: CircleAvatar(
         radius: 0.07.width,
         backgroundColor: Colors.transparent,
-        child: SvgPicture.asset("${PathConst.SVG}$socialIconPath"),
+        child: SvgPicture.asset(
+          "${PathConst.SVG}$socialIconPath",
+          fit: BoxFit.contain,
+          height: 48.sp,
+          width: 48.sp,
+        ),
       ),
     );
   }

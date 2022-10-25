@@ -34,7 +34,7 @@ class TokenCheckbox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: SizedBox(
-        height: 0.06.height,
+        height: 48.sp,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -54,8 +54,8 @@ class TokenCheckbox extends StatelessWidget {
                               GestureDetector(
                                 onTap: onPinnedTap,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 10),
+                                  padding: EdgeInsets.only(
+                                      left: 10.sp, right: 10.sp),
                                   child: Container(
                                     height: 20.sp,
                                     width: 20.sp,
@@ -75,8 +75,8 @@ class TokenCheckbox extends StatelessWidget {
                               GestureDetector(
                                 onTap: onHiddenTap,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 10),
+                                  padding: EdgeInsets.only(
+                                      left: 10.sp, right: 10.sp),
                                   child: Container(
                                     height: 20.sp,
                                     width: 20.sp,
@@ -87,27 +87,33 @@ class TokenCheckbox extends StatelessWidget {
                                     child: SvgPicture.asset(
                                       "${PathConst.HOME_PAGE.SVG}eye_hide.svg",
                                       color: ColorConst.NeutralVariant.shade70,
-                                      height: 10,
-                                      width: 10,
-                                      fit: BoxFit.scaleDown,
+                                      height: 10.sp,
+                                      width: 10.sp,
+                                      fit: BoxFit.contain,
                                     ),
                                   ),
                                 ),
                               )
                             else
-                              Checkbox(
-                                shape: const CircleBorder(),
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                value: tokenModel[tokenIndex].isSelected,
-                                onChanged: onCheckboxTap,
-                                fillColor: MaterialStateProperty.all<Color>(
-                                    tokenModel[tokenIndex].isSelected
-                                        ? ColorConst.Primary
-                                        : const Color(0xff1E1C1F)),
+                              Padding(
+                                padding: EdgeInsets.all(8.sp),
+                                child: Transform.scale(
+                                  scale: 1.sp,
+                                  child: Checkbox(
+                                    shape: const CircleBorder(),
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.padded,
+                                    value: tokenModel[tokenIndex].isSelected,
+                                    onChanged: onCheckboxTap,
+                                    fillColor: MaterialStateProperty.all<Color>(
+                                        tokenModel[tokenIndex].isSelected
+                                            ? ColorConst.Primary
+                                            : const Color(0xff1E1C1F)),
+                                  ),
+                                ),
                               ),
                             CircleAvatar(
-                              radius: 22,
+                              radius: 20.sp,
                               backgroundColor: ColorConst.NeutralVariant.shade60
                                   .withOpacity(0.2),
                               child: tokenModel[tokenIndex]
@@ -142,7 +148,7 @@ class TokenCheckbox extends StatelessWidget {
                           ],
                         )
                       : CircleAvatar(
-                          radius: 22,
+                          radius: 20.sp,
                           backgroundColor: ColorConst.NeutralVariant.shade60
                               .withOpacity(0.2),
                           child: tokenModel[tokenIndex]

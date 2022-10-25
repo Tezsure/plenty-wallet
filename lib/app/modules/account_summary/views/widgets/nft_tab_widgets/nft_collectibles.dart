@@ -21,7 +21,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2.sp),
+      padding: EdgeInsets.symmetric(vertical: 4.sp),
       child: Column(
         children: [
           ExpansionTile(
@@ -48,7 +48,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                 height: 16.sp,
               ),
               SizedBox(
-                  height: 0.31.height * (widget.nftList.length / 2).ceil(),
+                  height: 0.37.height * (widget.nftList.length / 2).ceil(),
                   width: 1.width,
                   child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
@@ -56,7 +56,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                     shrinkWrap: false,
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 0.5.width,
-                        mainAxisExtent: 0.3.height,
+                        mainAxisExtent: 0.36.height,
                         childAspectRatio: 1,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10),

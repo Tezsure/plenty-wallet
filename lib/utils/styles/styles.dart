@@ -138,7 +138,7 @@ TextStyle labelLarge = TextStyle(
   fontFamily: 'Poppins',
   fontSize: 14.sp,
   letterSpacing: 0.1,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.w600,
   height: 20 / 14,
 );
 

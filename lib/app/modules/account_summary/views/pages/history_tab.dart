@@ -29,7 +29,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
               0.03.vspace,
               SvgPicture.asset(
                 "${PathConst.EMPTY_STATES}empty3.svg",
-                height: 240.sp,
+                height: 120.sp,
               ),
               0.03.vspace,
               RichText(
@@ -65,7 +65,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
                           GestureDetector(
                             onTap: onTap,
                             child: Container(
-                              height: 0.06.height,
+                              height: 0.065.height,
                               width: 0.8.width,
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
@@ -78,9 +78,9 @@ class HistoryPage extends GetView<AccountSummaryController> {
                                   Icon(
                                     Icons.search,
                                     color: ColorConst.NeutralVariant.shade60,
-                                    size: 22,
+                                    size: 16.sp,
                                   ),
-                                  0.02.hspace,
+                                  0.01.hspace,
                                   Text(
                                     'Search',
                                     style: bodySmall.copyWith(
@@ -101,6 +101,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
                               '${PathConst.SVG}filter.svg',
                               fit: BoxFit.contain,
                               color: ColorConst.Primary,
+                              height: 16.sp,
                             ),
                           ),
                           0.01.hspace,
@@ -147,126 +148,101 @@ class HistoryPage extends GetView<AccountSummaryController> {
                         }
                       }
                     }
-                    return controller.userTransactionHistory[index].hash!
-                                .contains(controller
-                                    .userTransactionHistory[index - 1].hash!) &&
-                            controller.userTransactionHistory[index].hash!
-                                .contains(controller
-                                    .userTransactionHistory[controller
-                                                    .userTransactionHistory
-                                                    .length -
-                                                1 ==
-                                            index
-                                        ? index
-                                        : index + 1]
-                                    .hash!)
-                        ? const SizedBox()
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              index == 0
-                                  ? Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 16.sp,
-                                          left: 16.sp,
-                                          bottom: 16.sp),
-                                      child: Text(
-                                        DateFormat.yMMMEd()
-                                            // displaying formatted date
-                                            .format(DateTime.parse(controller
-                                                .userTransactionHistory[index]
-                                                .timestamp!)),
-                                        style: labelMedium,
-                                      ),
-                                    )
-                                  : DateTime.parse(controller
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        index == 0
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                    top: 16.sp, left: 16.sp, bottom: 16.sp),
+                                child: Text(
+                                  DateFormat.yMMMEd()
+                                      // displaying formatted date
+                                      .format(DateTime.parse(controller
+                                          .userTransactionHistory[index]
+                                          .timestamp!)),
+                                  style: labelMedium,
+                                ),
+                              )
+                            : DateTime.parse(controller
+                                        .userTransactionHistory[index]
+                                        .timestamp!)
+                                    .isSameDate(DateTime.parse(controller
+                                        .userTransactionHistory[
+                                            index == 0 ? 0 : index - 1]
+                                        .timestamp!))
+                                ? const SizedBox()
+                                : Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 16.sp, left: 16.sp, bottom: 16.sp),
+                                    child: Text(
+                                      DateFormat.yMMMEd().format(DateTime.parse(
+                                          controller
                                               .userTransactionHistory[index]
-                                              .timestamp!)
-                                          .isSameDate(DateTime.parse(controller
-                                              .userTransactionHistory[
-                                                  index == 0 ? 0 : index - 1]
-                                              .timestamp!))
-                                      ? const SizedBox()
-                                      : Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 16.sp,
-                                              left: 16.sp,
-                                              bottom: 16.sp),
-                                          child: Text(
-                                            DateFormat.yMMMEd().format(
-                                                DateTime.parse(controller
-                                                    .userTransactionHistory[
-                                                        index]
-                                                    .timestamp!)),
-                                            style: labelMedium,
-                                          ),
-                                        ),
-                              HistoryTile(
-                                tokenName: controller.userTransactionHistory[index].amount != null &&
-                                        controller.userTransactionHistory[index].amount! >
-                                            0 &&
-                                        controller.userTransactionHistory[index]
-                                                .parameter ==
-                                            null
-                                    ? "Tezos"
-                                    : controller.userTransactionHistory[index].parameter != null &&
-                                            controller.userTransactionHistory[index].parameter?.entrypoint ==
-                                                "transfer"
-                                        ? controller
-                                                .userTransactionHistory[index]
-                                                .parameter!
-                                                .value is List
-                                            ? controller.tokensList
-                                                    .where((p0) =>
-                                                        (p0.tokenAddress!
-                                                            .contains(controller
-                                                                .userTransactionHistory[index]
-                                                                .target!
-                                                                .address!)) &&
-                                                        p0.tokenId!.contains(controller.userTransactionHistory[index].parameter?.value[0]["txs"][0]["token_id"]))
-                                                    .isEmpty
-                                                ? controller.tokensList.firstWhere((p0) => (p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!))).name!
-                                                : controller.tokensList.firstWhere((p0) => (p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!)) && p0.tokenId!.contains(controller.userTransactionHistory[index].parameter?.value[0]["txs"][0]["token_id"])).name!
-                                            : controller.tokensList.where((p0) => (p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!))).first.name!
-                                        : "Can be nfts",
-                                tokenIconUrl: controller
-                                                .userTransactionHistory[index]
-                                                .amount !=
-                                            null &&
-                                        controller.userTransactionHistory[index].amount! >
-                                            0 &&
-                                        controller.userTransactionHistory[index].parameter ==
-                                            null
-                                    ? '${PathConst.ASSETS}tezos_logo.png'
-                                    : controller.userTransactionHistory[index].target == null ||
-                                            controller.tokensList
-                                                .where((p0) => p0.tokenAddress!
-                                                    .contains(controller
-                                                        .userTransactionHistory[
-                                                            index]
-                                                        .target!
-                                                        .address!))
-                                                .isEmpty
-                                        ? '${PathConst.ASSETS}tezos_logo.png'
-                                        : controller.tokensList
-                                            .where((p0) => p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!))
-                                            .first
-                                            .thumbnailUri!,
-                                userAccountAddress:
-                                    controller.userAccount.value.publicKeyHash!,
-                                xtzPrice: controller.xtzPrice.value,
-                                historyModel:
-                                    controller.userTransactionHistory[index],
-                                onTap: () => Get.bottomSheet(
-                                    TransactionDetailsBottomSheet(
-                                  transactionModel:
-                                      controller.userTransactionHistory[index],
-                                )),
-                                status: HistoryStatus.receive,
-                              ),
-                            ],
-                          );
+                                              .timestamp!)),
+                                      style: labelMedium,
+                                    ),
+                                  ),
+                        HistoryTile(
+                          tokenName: controller.userTransactionHistory[index].amount != null &&
+                                  controller.userTransactionHistory[index].amount! >
+                                      0 &&
+                                  controller.userTransactionHistory[index].parameter ==
+                                      null
+                              ? "Tezos"
+                              : controller.userTransactionHistory[index].parameter != null &&
+                                      controller.userTransactionHistory[index]
+                                              .parameter?.entrypoint ==
+                                          "transfer"
+                                  ? controller.userTransactionHistory[index]
+                                          .parameter!.value is List
+                                      ? controller.tokensList
+                                              .where((p0) =>
+                                                  (p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!)) &&
+                                                  p0.tokenId!.contains(controller
+                                                      .userTransactionHistory[index]
+                                                      .parameter
+                                                      ?.value[0]["txs"][0]["token_id"]))
+                                              .isEmpty
+                                          ? controller.tokensList.firstWhere((p0) => (p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!))).name!
+                                          : controller.tokensList.firstWhere((p0) => (p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!)) && p0.tokenId!.contains(controller.userTransactionHistory[index].parameter?.value[0]["txs"][0]["token_id"])).name!
+                                      : controller.tokensList.where((p0) => (p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!))).first.name!
+                                  : "Can be nfts",
+                          tokenIconUrl: controller.userTransactionHistory[index].amount != null &&
+                                  controller.userTransactionHistory[index].amount! >
+                                      0 &&
+                                  controller.userTransactionHistory[index].parameter ==
+                                      null
+                              ? '${PathConst.ASSETS}tezos_logo.png'
+                              : controller.userTransactionHistory[index].target == null ||
+                                      controller.tokensList
+                                          .where((p0) => p0.tokenAddress!
+                                              .contains(controller
+                                                  .userTransactionHistory[index]
+                                                  .target!
+                                                  .address!))
+                                          .isEmpty
+                                  ? '${PathConst.ASSETS}tezos_logo.png'
+                                  : controller.tokensList
+                                      .where((p0) => p0.tokenAddress!.contains(
+                                          controller.userTransactionHistory[index].target!.address!))
+                                      .first
+                                      .thumbnailUri!,
+                          userAccountAddress:
+                              controller.userAccount.value.publicKeyHash!,
+                          xtzPrice: controller.xtzPrice.value,
+                          historyModel:
+                              controller.userTransactionHistory[index],
+                          onTap: () =>
+                              Get.bottomSheet(TransactionDetailsBottomSheet(
+                            transactionModel:
+                                controller.userTransactionHistory[index],
+                          )),
+                          status: HistoryStatus.receive,
+                        ),
+                      ],
+                    );
                   },
                   childCount: controller.userTransactionHistory.length,
                 ),
