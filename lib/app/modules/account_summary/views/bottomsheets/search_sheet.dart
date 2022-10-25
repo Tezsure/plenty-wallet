@@ -10,6 +10,7 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../../../utils/colors/colors.dart';
+import '../../../../../utils/constants/path_const.dart';
 import '../account_summary_view.dart';
 import '../widgets/history_tab_widgets/history_tile.dart';
 import 'transaction_details.dart';
@@ -219,6 +220,57 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                                                     ),
                                                   ),
                                         HistoryTile(
+                                          tokenName: controller.userTransactionHistory[index].amount !=
+                                                      null &&
+                                                  controller.userTransactionHistory[index].amount! >
+                                                      0 &&
+                                                  controller.userTransactionHistory[index].parameter ==
+                                                      null
+                                              ? "Tezos"
+                                              : controller.userTransactionHistory[index].amount ==
+                                                          0 &&
+                                                      controller
+                                                              .userTransactionHistory[
+                                                                  index]
+                                                              .parameter
+                                                              ?.entrypoint ==
+                                                          "transfer"
+                                                  ? controller.tokensList
+                                                      .where((p0) => p0
+                                                          .tokenAddress!
+                                                          .contains(controller
+                                                              .userTransactionHistory[index]
+                                                              .target!
+                                                              .address!))
+                                                      .first
+                                                      .name!
+                                                  : "NFTs",
+                                          tokenIconUrl: controller
+                                                          .userTransactionHistory[
+                                                              index]
+                                                          .amount !=
+                                                      null &&
+                                                  controller
+                                                          .userTransactionHistory[
+                                                              index]
+                                                          .amount! >
+                                                      0 &&
+                                                  controller
+                                                          .userTransactionHistory[
+                                                              index]
+                                                          .parameter ==
+                                                      null
+                                              ? '${PathConst.SVG}tez.svg'
+                                              : controller.tokensList
+                                                  .where((p0) => p0
+                                                      .tokenAddress!
+                                                      .contains(controller
+                                                          .userTransactionHistory[
+                                                              index]
+                                                          .target!
+                                                          .address!))
+                                                  .first
+                                                  .thumbnailUri!,
                                           userAccountAddress: controller
                                               .userAccount.value.publicKeyHash!,
                                           xtzPrice: controller.xtzPrice.value,

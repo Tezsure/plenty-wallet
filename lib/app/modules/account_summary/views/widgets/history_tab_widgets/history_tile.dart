@@ -4,7 +4,6 @@ import 'package:naan_wallet/app/data/services/service_models/tx_history_model.da
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../utils/colors/colors.dart';
-import '../../../../../../utils/constants/path_const.dart';
 import '../../../../../../utils/styles/styles.dart';
 import '../../account_summary_view.dart';
 
@@ -14,13 +13,18 @@ class HistoryTile extends StatelessWidget {
   final TxHistoryModel historyModel;
   final double xtzPrice;
   final String userAccountAddress;
+  final String tokenName;
+  final String tokenIconUrl;
+
   const HistoryTile(
       {super.key,
       required this.status,
       this.onTap,
       required this.historyModel,
       required this.xtzPrice,
-      required this.userAccountAddress});
+      required this.userAccountAddress,
+      required this.tokenName,
+      required this.tokenIconUrl});
 
 // xtz = amount > 0 , parameters == null
 // token/nft = amount == 0 , parameters != null
@@ -40,12 +44,30 @@ class HistoryTile extends StatelessWidget {
           child: ListTile(
             dense: true,
             leading: CircleAvatar(
-                radius: 20.sp,
-                backgroundColor: ColorConst.Tertiary,
-                child: SvgPicture.asset(
-                  '${PathConst.SVG}tez.svg',
-                  fit: BoxFit.cover,
-                )),
+              radius: 20.sp,
+              backgroundColor: ColorConst.NeutralVariant.shade60,
+              child: tokenIconUrl.startsWith("assets")
+                  ? Image.asset(
+                      tokenIconUrl,
+                      fit: BoxFit.cover,
+                    )
+                  : tokenIconUrl.endsWith(".svg")
+                      ? SvgPicture.network(
+                          tokenIconUrl,
+                          fit: BoxFit.cover,
+                        )
+                      : Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(tokenIconUrl
+                                        .startsWith("ipfs")
+                                    ? "https://ipfs.io/ipfs/${tokenIconUrl.replaceAll("ipfs://", '')}"
+                                    : tokenIconUrl)),
+                          ),
+                        ),
+            ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,11 +88,7 @@ class HistoryTile extends StatelessWidget {
               ],
             ),
             subtitle: Text(
-              historyModel.amount != null &&
-                      historyModel.amount! > 0 &&
-                      historyModel.parameter == null
-                  ? "Tezos"
-                  : "Token",
+              tokenName,
               style: labelLarge,
             ),
             trailing: RichText(

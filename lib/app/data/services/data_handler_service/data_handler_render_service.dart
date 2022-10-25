@@ -75,14 +75,19 @@ class DataHandlerRenderService {
       [List<String>? contractAddress]) async {
     String? tokensPrice = await ServiceConfig.localStorage
         .read(key: ServiceConfig.tokenPricesStorage);
-    if (tokensPrice != null) {
+    if (tokensPrice != null && contractAddress != null) {
       return jsonDecode(tokensPrice)
           .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
           .toList()
-          .where((e) => contractAddress!.contains(e.tokenAddress.toString()))
+          .where((e) => contractAddress.contains(e.tokenAddress.toString()))
           .toList();
+    } else if (tokensPrice != null) {
+      return jsonDecode(tokensPrice)
+          .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
+          .toList();
+    } else {
+      return [];
     }
-    return [];
   }
 }
 

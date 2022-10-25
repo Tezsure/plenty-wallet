@@ -20,10 +20,12 @@ class TokenAndXtzPriceHandler {
     // fetch token prices using teztools api
     String tokenPricesResponse =
         await HttpService.performGetRequest(ServiceConfig.tezToolsApi);
+
     List<TokenPriceModel> tokenPriceModels =
         jsonDecode(tokenPricesResponse)['contracts']
             .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
             .toList();
+
     args[0].send({
       "xtzPrice": xtzPrice.toString(),
       "tokenPrices": jsonEncode(tokenPriceModels),

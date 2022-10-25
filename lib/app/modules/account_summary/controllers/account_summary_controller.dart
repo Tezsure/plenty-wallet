@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/history_filter_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
@@ -21,6 +22,7 @@ class AccountSummaryController extends GetxController {
       <AccountTokenModel>[].obs; // For pin Account List
   RxList<AccountTokenModel> hiddenAccountList =
       <AccountTokenModel>[].obs; // For hidden Account List
+  RxList<TokenPriceModel> tokensList = <TokenPriceModel>[].obs;
 
   // ! Account Related Variables
 
@@ -57,7 +59,7 @@ class AccountSummaryController extends GetxController {
       false.obs; // To check if current account is delegated
 
   @override
-  void onInit() {
+  void onInit() async {
     userAccount.value = Get.arguments as AccountModel;
     DataHandlerService()
         .renderService
@@ -67,6 +69,8 @@ class AccountSummaryController extends GetxController {
     });
     fetchAllTokens();
     fetchAllNfts();
+    tokensList.value =
+        await DataHandlerService().renderService.getTokenPriceModel();
     super.onInit();
   }
 
