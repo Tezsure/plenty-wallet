@@ -165,12 +165,16 @@ class UserStorageService {
   /// @param limit limit of transaction to fetch
   /// returns list of transaction history model
   Future<List<TxHistoryModel>> getAccountTransactionHistory(
-      {required String accountAddress, String? lastId, int? limit}) async {
+      {required String accountAddress, String? lastId = "", int? limit}) async {
     List<TxHistoryModel> transactionHistoryList = <TxHistoryModel>[];
     String? transactionHistory = await ServiceConfig.localStorage
         .read(key: "${ServiceConfig.txHistoryStorage}_$accountAddress");
+
     if (transactionHistory == null) {
       return await TzktTxHistoryApiService(accountAddress).getTxHistory();
+    } else if (limit != null) {
+      return await TzktTxHistoryApiService(accountAddress)
+          .getTxHistory(limit: limit);
     }
 
     if (lastId == null) {

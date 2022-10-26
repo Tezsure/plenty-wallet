@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 
 import '../../../data/services/service_models/tx_history_model.dart';
@@ -54,7 +56,7 @@ class HistoryFilterController extends GetxController {
   Future<void> apply() async {
     isFilterApplied.value = true;
     accountController.userTransactionHistory.value =
-        await accountController.fetchUserTransactionsHistory();
+        await accountController.fetchUserTransactionsHistory(limit: 300);
     if (dateType.value == DateType.today) {
       accountController.userTransactionHistory.value =
           accountController.userTransactionHistory.where((element) {
@@ -86,16 +88,13 @@ class HistoryFilterController extends GetxController {
     } else if (dateType.value == DateType.customDate) {
       accountController.userTransactionHistory.value =
           await accountController.fetchUserTransactionsHistory(limit: 300);
+
       accountController.userTransactionHistory.value =
           accountController.userTransactionHistory.where((element) {
         DateTime elementTime = DateTime.parse(element.timestamp!);
 
-        return (elementTime.day >= fromDate.value.day) &&
-            (elementTime.month >= fromDate.value.month) &&
-            (elementTime.year >= fromDate.value.year) &&
-            (elementTime.day <= toDate.value.day) &&
-            (elementTime.month <= toDate.value.month) &&
-            (elementTime.year <= toDate.value.year);
+        return elementTime.isAfter(fromDate.value) &&
+            elementTime.isBefore(toDate.value);
       }).toList();
       accountController.userTransactionHistory.refresh();
     }
@@ -120,7 +119,100 @@ class HistoryFilterController extends GetxController {
 
     // Filter the list depending on the selected asset type
     if (assetType.value == AssetType.nft) {
-    } else if (assetType.value == AssetType.token) {}
+      accountController.userTransactionHistory.value =
+          accountController.userTransactionHistory.where((element) {
+        if (element.parameter != null &&
+            element.parameter?.entrypoint == "transfer") {
+          if (element.parameter?.value is Map) {
+            return false;
+          } else {
+            if (element.parameter?.value is List) {
+              if (accountController.tokensList
+                  .where((p0) =>
+                      (p0.tokenAddress!.contains(element.target!.address!)) &&
+                      p0.tokenId!.contains(
+                          element.parameter?.value[0]["txs"][0]["token_id"]))
+                  .isEmpty) {
+                return true;
+              } else {
+                return false;
+              }
+            } else if (element.parameter?.value is String) {
+              var decodedString = jsonDecode(element.parameter!.value);
+              if (decodedString is List) {
+                if (accountController.tokensList
+                    .where((p0) =>
+                        (p0.tokenAddress!.contains(element.target!.address!)) &&
+                        p0.tokenId!.contains(
+                            jsonDecode(element.parameter!.value)[0]["txs"][0]
+                                ["token_id"]))
+                    .isEmpty) {
+                  return true;
+                } else {
+                  return false;
+                }
+              } else {
+                return false;
+              }
+            } else {
+              return false;
+            }
+          }
+        } else {
+          return false;
+        }
+      }).toList();
+      accountController.userTransactionHistory.refresh();
+    } else if (assetType.value == AssetType.token) {
+      accountController.userTransactionHistory.value =
+          accountController.userTransactionHistory.where((element) {
+        if (element.amount != null &&
+            element.amount! > 0 &&
+            element.parameter == null) {
+          return true;
+        } else if (element.parameter != null &&
+            element.parameter?.entrypoint == "transfer") {
+          if (element.parameter?.value is Map) {
+            return true;
+          } else {
+            if (element.parameter?.value is List) {
+              if (accountController.tokensList
+                  .where((p0) =>
+                      (p0.tokenAddress!.contains(element.target!.address!)) &&
+                      p0.tokenId!.contains(
+                          element.parameter?.value[0]["txs"][0]["token_id"]))
+                  .isEmpty) {
+                return false;
+              } else {
+                return true;
+              }
+            } else if (element.parameter?.value is String) {
+              var decodedString = jsonDecode(element.parameter!.value);
+              if (decodedString is List) {
+                if (accountController.tokensList
+                    .where((p0) =>
+                        (p0.tokenAddress!.contains(element.target!.address!)) &&
+                        p0.tokenId!.contains(
+                            jsonDecode(element.parameter!.value)[0]["txs"][0]
+                                ["token_id"]))
+                    .isEmpty) {
+                  return false;
+                } else {
+                  return true;
+                }
+              } else {
+                return true;
+              }
+            } else {
+              return false;
+            }
+          }
+        } else {
+          return false;
+        }
+      }).toList();
+      accountController.userTransactionHistory.refresh();
+    }
     Get.back();
   }
 
@@ -163,15 +255,15 @@ class HistoryFilterController extends GetxController {
       // Filter the transaction list based on the selected transaction type
       if (transactionType.value == TransactionType.delegation) {
       } else if (transactionType.value == TransactionType.receive) {
-        nextHistoryList = nextHistoryList.where((element) {
-          return !element.sender!.address!
-              .contains(accountController.userAccount.value.publicKeyHash!);
-        }).toList();
+        nextHistoryList = nextHistoryList
+            .where((element) => !element.sender!.address!
+                .contains(accountController.userAccount.value.publicKeyHash!))
+            .toList();
       } else if (transactionType.value == TransactionType.send) {
-        nextHistoryList = nextHistoryList.where((element) {
-          return element.sender!.address!
-              .contains(accountController.userAccount.value.publicKeyHash!);
-        }).toList();
+        nextHistoryList = nextHistoryList
+            .where((element) => element.sender!.address!
+                .contains(accountController.userAccount.value.publicKeyHash!))
+            .toList();
       }
 
       // Filter the list depending on the selected asset type
