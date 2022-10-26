@@ -11,7 +11,6 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../../../utils/colors/colors.dart';
 import '../../../../../utils/constants/path_const.dart';
-import '../account_summary_view.dart';
 import '../widgets/history_tab_widgets/history_tile.dart';
 import 'transaction_details.dart';
 
@@ -220,6 +219,9 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                                                     ),
                                                   ),
                                         HistoryTile(
+                                          tokenSymbol: "tez",
+                                          dollarAmount: 0,
+                                          tezAmount: 0,
                                           tokenName: controller.userTransactionHistory[index].amount !=
                                                       null &&
                                                   controller.userTransactionHistory[index].amount! >
@@ -277,10 +279,14 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                                           historyModel: searchResult[index],
                                           onTap: () => Get.bottomSheet(
                                               TransactionDetailsBottomSheet(
+                                            tokenInfo: TokenInfo(index: 0),
                                             transactionModel:
                                                 searchResult[index],
+                                            userAccountAddress: controller
+                                                .userAccount
+                                                .value
+                                                .publicKeyHash!,
                                           )),
-                                          status: HistoryStatus.receive,
                                         ),
                                       ],
                                     );

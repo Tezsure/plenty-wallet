@@ -88,6 +88,12 @@ class UserStorageService {
           .map<ContactModel>((e) => ContactModel.fromJson(e))
           .toList();
 
+  /// update saved contact list
+  Future<void> updateContactList(List<ContactModel> contactModelList) async =>
+      await ServiceConfig.localStorage.write(
+          key: ServiceConfig.contactStorage,
+          value: jsonEncode((contactModelList)));
+
   /// write new contact in storage
   Future<void> writeNewContact(ContactModel contactModel) async =>
       await ServiceConfig.localStorage.write(

@@ -167,8 +167,8 @@ class SendPage extends GetView<SendPageController> {
                                   contactModel:
                                       controller.suggestedContacts.first,
                                 )
-                              : SizedBox())
-                      : SizedBox(),
+                              : const SizedBox())
+                      : const SizedBox(),
                 )
               ],
             ),

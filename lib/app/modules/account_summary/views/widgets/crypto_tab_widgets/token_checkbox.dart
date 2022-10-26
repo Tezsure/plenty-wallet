@@ -32,9 +32,9 @@ class TokenCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: 8.sp),
       child: SizedBox(
-        height: 48.sp,
+        height: 50.sp,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -95,21 +95,18 @@ class TokenCheckbox extends StatelessWidget {
                                 ),
                               )
                             else
-                              Padding(
-                                padding: EdgeInsets.all(8.sp),
-                                child: Transform.scale(
-                                  scale: 1.sp,
-                                  child: Checkbox(
-                                    shape: const CircleBorder(),
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.padded,
-                                    value: tokenModel[tokenIndex].isSelected,
-                                    onChanged: onCheckboxTap,
-                                    fillColor: MaterialStateProperty.all<Color>(
-                                        tokenModel[tokenIndex].isSelected
-                                            ? ColorConst.Primary
-                                            : const Color(0xff1E1C1F)),
-                                  ),
+                              Transform.scale(
+                                scale: 1.sp,
+                                child: Checkbox(
+                                  shape: const CircleBorder(),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  value: tokenModel[tokenIndex].isSelected,
+                                  onChanged: onCheckboxTap,
+                                  fillColor: MaterialStateProperty.all<Color>(
+                                      tokenModel[tokenIndex].isSelected
+                                          ? ColorConst.Primary
+                                          : const Color(0xff1E1C1F)),
                                 ),
                               ),
                             CircleAvatar(

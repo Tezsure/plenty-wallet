@@ -124,67 +124,32 @@ class AccountDataHandler {
               .toList(); // get all the token addresses which are updated
           (data[1] as Map<String, List<AccountTokenModel>>).update(
             key,
-            (pair) => tokenList
-                .map<AccountTokenModel>((e) => updateTokenAddresses
-                        .contains(e.contractAddress)
-                    ? e.copyWith(
-                        balance: pair
-                            .firstWhere(
-                              (element) =>
-                                  element.contractAddress == e.contractAddress,
-                            )
-                            .balance,
-                        currentPrice: pair
-                            .firstWhere(
-                              (element) =>
-                                  element.contractAddress == e.contractAddress,
-                            )
-                            .currentPrice,
-                        decimals: pair
-                            .firstWhere(
-                              (element) =>
-                                  element.contractAddress == e.contractAddress,
-                            )
-                            .decimals,
-                        iconUrl: pair
-                            .firstWhere(
-                              (element) =>
-                                  element.contractAddress == e.contractAddress,
-                            )
-                            .iconUrl,
-                        name: pair
-                            .firstWhere(
-                              (element) =>
-                                  element.contractAddress == e.contractAddress,
-                            )
-                            .name,
-                        symbol: pair
-                            .firstWhere(
-                              (element) =>
-                                  element.contractAddress == e.contractAddress,
-                            )
-                            .symbol,
-                        valueInXtz: pair
-                            .firstWhere(
-                              (element) =>
-                                  element.contractAddress == e.contractAddress,
-                            )
-                            .valueInXtz,
-                        tokenId: pair
-                            .firstWhere(
-                              (element) =>
-                                  element.contractAddress == e.contractAddress,
-                            )
-                            .tokenId,
-                        tokenStandardType: pair
-                            .firstWhere(
-                              (element) =>
-                                  element.contractAddress == e.contractAddress,
-                            )
-                            .tokenStandardType,
+            (tokens) => tokenList.map<AccountTokenModel>((e) {
+              AccountTokenModel updatedToken;
+              tokens
+                      .where(
+                        (element) =>
+                            element.contractAddress == e.contractAddress,
                       )
-                    : e)
-                .toList(),
+                      .isNotEmpty
+                  ? updatedToken = tokens.firstWhere(
+                      (element) => element.contractAddress == e.contractAddress,
+                    )
+                  : updatedToken = e;
+              return updateTokenAddresses.contains(e.contractAddress)
+                  ? e.copyWith(
+                      balance: updatedToken.balance,
+                      currentPrice: updatedToken.currentPrice,
+                      decimals: updatedToken.decimals,
+                      iconUrl: updatedToken.iconUrl,
+                      name: updatedToken.name,
+                      symbol: updatedToken.symbol,
+                      valueInXtz: updatedToken.valueInXtz,
+                      tokenId: updatedToken.tokenId,
+                      tokenStandardType: updatedToken.tokenStandardType,
+                    )
+                  : e;
+            }).toList(),
           );
         }
       });

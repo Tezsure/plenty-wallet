@@ -226,7 +226,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               SvgPicture.asset(
                 "${PathConst.SVG}import.svg",
                 fit: BoxFit.scaleDown,
-                color: ColorConst.NeutralVariant.shade60,
+                color: Colors.white,
               ),
               0.03.hspace,
               Text(
@@ -243,6 +243,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                 "${PathConst.SVG}import.svg",
                 fit: BoxFit.contain,
                 height: 16.sp,
+                color: Colors.white,
               ),
               0.03.hspace,
               Text(

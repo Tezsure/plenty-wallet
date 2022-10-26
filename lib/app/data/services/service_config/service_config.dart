@@ -91,6 +91,62 @@ class ServiceConfig {
     await localStorage.deleteAll();
   }
 
+  static const String nftQuery = r'''
+    query getNFT($address: String!, $token_id: String!) {
+      token(where: {token_id: {_eq: $token_id}, fa_contract: {_eq: $address}}) {
+ artifact_uri
+    description
+    display_uri
+    lowest_ask
+    level
+    mime
+    pk
+    royalties {
+      id
+      decimals
+      amount
+    }
+    supply
+    thumbnail_uri
+    timestamp
+    fa_contract
+    token_id
+    name
+    creators {
+      creator_address
+      token_pk
+    }
+    holders(where: {holder_address: {_eq: $address}, quantity: {_gt: "0"}}) {
+      quantity
+      holder_address
+    }
+    events(where: {recipient: {address: {_eq: $address}}, event_type: {}}) {
+      id
+      fa_contract
+      price
+      recipient_address
+      timestamp
+      creator {
+        address
+        alias
+      }
+      event_type
+      amount
+    }
+    fa {
+      name
+      collection_type
+      logo
+      floor_price
+      contract
+      description
+    }
+    metadata
+  
+    }
+  }
+  ''';
+
   static const String gQuery = r'''
         query GetNftForUser($address: String!) {
   token(where: {holders: {holder: {address: {_eq: $address}}, token: {}}, fa_contract: {_neq: "KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS"}}) {

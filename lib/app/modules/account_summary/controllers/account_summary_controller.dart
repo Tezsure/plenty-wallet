@@ -1,14 +1,20 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/history_filter_controller.dart';
+import 'package:naan_wallet/app/modules/account_summary/views/pages/history_tab.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../data/services/data_handler_service/data_handler_service.dart';
+import '../../../data/services/service_config/service_config.dart';
 import '../../../data/services/service_models/account_model.dart';
+import '../../../data/services/service_models/contact_model.dart';
 import '../../../data/services/service_models/nft_token_model.dart';
 import '../../../data/services/user_storage_service/user_storage_service.dart';
 
@@ -53,6 +59,7 @@ class AccountSummaryController extends GetxController {
 
   RxList<TxHistoryModel> userTransactionHistory =
       <TxHistoryModel>[].obs; // List of user transactions
+  RxBool isTransactionPopUpOpened = false.obs; // To show popup
 
   // ! Others
   RxBool isAccountDelegated =
@@ -71,6 +78,7 @@ class AccountSummaryController extends GetxController {
     fetchAllNfts();
     tokensList.value =
         await DataHandlerService().renderService.getTokenPriceModel();
+    updateSavedContacts();
     super.onInit();
   }
 
@@ -147,31 +155,40 @@ class AccountSummaryController extends GetxController {
 
   // ! Token Related Functions
 
+  bool isAnyTokenSelected() =>
+      userTokens
+          .where((e) => e.isSelected && e.isPinned && !e.isHidden)
+          .toList()
+          .length ==
+      userTokens.where((p0) => p0.isSelected && !p0.isHidden).toList().length;
+
+  bool isNewTokenSelected() =>
+      userTokens
+              .where((e) => e.isSelected && e.isPinned && !e.isHidden)
+              .toList()
+              .length <
+          userTokens
+                  .where((p0) => p0.isSelected && !p0.isHidden)
+                  .toList()
+                  .length -
+              1 &&
+      userTokens.any((element) =>
+          element.isSelected &&
+          !element.isHidden &&
+          !element.isPinned &&
+          !pinAccountList.contains(element));
+
+  bool isTokenUnpin() => userTokens.any((element) =>
+      element.isSelected &&
+      !element.isHidden &&
+      !element.isPinned &&
+      pinAccountList.contains(element));
+
   /// Move the selected indexes on top of the list when pin is clicked
   void onPinToken() {
-    if (userTokens
-            .where((e) => e.isSelected && e.isPinned && !e.isHidden)
-            .toList()
-            .length ==
-        userTokens
-            .where((p0) => p0.isSelected && !p0.isHidden)
-            .toList()
-            .length) {
+    if (isAnyTokenSelected()) {
       //When no item is selected
-    } else if (userTokens
-                .where((e) => e.isSelected && e.isPinned && !e.isHidden)
-                .toList()
-                .length <
-            userTokens
-                    .where((p0) => p0.isSelected && !p0.isHidden)
-                    .toList()
-                    .length -
-                1 &&
-        userTokens.any((element) =>
-            element.isSelected &&
-            !element.isHidden &&
-            !element.isPinned &&
-            !pinAccountList.contains(element))) {
+    } else if (isNewTokenSelected()) {
       userTokens
           .where((e) => e.isSelected && !e.isHidden && !e.isPinned)
           .toList()
@@ -199,8 +216,7 @@ class AccountSummaryController extends GetxController {
       }
       userTokens.refresh();
       // When token is selected and was pinned before, unpin it, whichever are selected
-    } else if (userTokens.any((element) =>
-        element.isSelected && !element.isHidden && !element.isPinned)) {
+    } else if (isTokenUnpin()) {
       userTokens
           .where((e) => e.isSelected && !e.isHidden && !e.isPinned)
           .toList()
@@ -401,31 +417,42 @@ class AccountSummaryController extends GetxController {
     }
   }
 
+  bool isTokenSelectedOnHide() =>
+      userTokens
+          .where((e) => e.isSelected && !e.isPinned && e.isHidden)
+          .toList()
+          .length ==
+      userTokens.where((p) => p.isSelected && !p.isPinned).toList().length;
+  bool isNewTokenSelectedOnHide() =>
+      userTokens
+              .where((e) => e.isSelected && !e.isPinned && e.isHidden)
+              .toList()
+              .length <
+          userTokens
+                  .where((p0) => p0.isSelected && !p0.isPinned)
+                  .toList()
+                  .length -
+              1 &&
+      userTokens.any((element) =>
+          element.isSelected &&
+          !element.isHidden &&
+          !element.isPinned &&
+          !hiddenAccountList.contains(element));
+
+  bool unHideToken() => userTokens.any((element) =>
+      element.isSelected &&
+      !element.isHidden &&
+      !element.isPinned &&
+      hiddenAccountList.contains(element));
+
+  bool hideToken() => userTokens.any((element) =>
+      element.isSelected && !element.isHidden && !element.isPinned);
+
   /// Move the tokens to the end of the list when hide is clicked
   void onHideToken() {
-    if (userTokens
-            .where((e) => e.isSelected && !e.isPinned && e.isHidden)
-            .toList()
-            .length ==
-        userTokens
-            .where((p0) => p0.isSelected && !p0.isPinned)
-            .toList()
-            .length) {
+    if (isTokenSelectedOnHide()) {
       //When no item is selected
-    } else if (userTokens
-                .where((e) => e.isSelected && !e.isPinned && e.isHidden)
-                .toList()
-                .length <
-            userTokens
-                    .where((p0) => p0.isSelected && !p0.isPinned)
-                    .toList()
-                    .length -
-                1 &&
-        userTokens.any((element) =>
-            element.isSelected &&
-            !element.isHidden &&
-            !element.isPinned &&
-            !hiddenAccountList.contains(element))) {
+    } else if (isNewTokenSelectedOnHide()) {
       //When new tokens are selected
       userTokens
         ..where((token) => token.isSelected && !token.isPinned)
@@ -438,22 +465,18 @@ class AccountSummaryController extends GetxController {
           userTokens.add(element);
         })
         ..refresh();
-    } else if (userTokens.any((element) =>
-        element.isSelected &&
-        !element.isHidden &&
-        !element.isPinned &&
-        hiddenAccountList.contains(element))) {
+    } else if (unHideToken()) {
       for (var element in userTokens) {
         if (hiddenAccountList.contains(element)) {
           hiddenAccountList.remove(element);
-          element.isHidden = false;
-          element.isSelected = false;
+          element
+            ..isHidden = false
+            ..isSelected = false;
         }
       }
       userTokens.refresh();
-      // When token is selected and was pinned before, unpin it, whichever are selected
-    } else if (userTokens.any((element) =>
-        element.isSelected && !element.isHidden && !element.isPinned)) {
+      // When token is selected and was hidden before, unhide it, whichever are selected
+    } else if (hideToken()) {
       userTokens
           .where((e) => e.isSelected && !e.isHidden && !e.isPinned)
           .toList()
@@ -463,7 +486,7 @@ class AccountSummaryController extends GetxController {
           ..isSelected = true;
       });
       userTokens.refresh();
-      // When token is selected and was not pinned before, pin it, whichever are selected
+      // When token is selected and was not hidden before, hide it, whichever are selected
     }
     isEditable.value = false;
     _updateUserTokenList();
@@ -539,7 +562,6 @@ class AccountSummaryController extends GetxController {
     HistoryFilterController? historyFilterController;
     paginationController.value.removeListener(() {});
     userTransactionHistory.value = await fetchUserTransactionsHistory();
-
     paginationController.value.addListener(() async {
       if (paginationController.value.position.pixels ==
           paginationController.value.position.maxScrollExtent) {
@@ -580,6 +602,29 @@ class AccountSummaryController extends GetxController {
     }
   }
 
+  RxList<ContactModel> contacts = <ContactModel>[].obs;
+  Rx<ContactModel?>? contact;
+
+  Future<void> updateSavedContacts() async {
+    contacts.value = await UserStorageService().getAllSavedContacts();
+  }
+
+  ContactModel? getContact(String address) {
+    return contacts.firstWhereOrNull((element) => element.address == address);
+  }
+
+  void onAddContact(
+    String address,
+    String name,
+  ) {
+    contacts.add(ContactModel(
+        name: name,
+        address: address,
+        imagePath: ServiceConfig.allAssetsProfileImages[Random().nextInt(
+          ServiceConfig.allAssetsProfileImages.length - 1,
+        )]));
+  }
+
   // ! NFT Related Functions
 
   /// Fetches the user account NFTs
@@ -594,4 +639,73 @@ class AccountSummaryController extends GetxController {
       }
     });
   }
+
+  bool isSameTimeStamp(int index) =>
+      DateTime.parse(userTransactionHistory[index].timestamp!).isSameDate(
+          DateTime.parse(
+              userTransactionHistory[index == 0 ? 0 : index - 1].timestamp!));
+
+  bool isTezosTransaction(int index) =>
+      userTransactionHistory[index].amount != null &&
+      userTransactionHistory[index].amount! > 0 &&
+      userTransactionHistory[index].parameter == null;
+  bool isAnyTokenOrNFTTransaction(int index) =>
+      userTransactionHistory[index].parameter != null &&
+      userTransactionHistory[index].parameter?.entrypoint == "transfer";
+  bool isFa2Token(int index) {
+    if (userTransactionHistory[index].parameter!.value is Map) {
+      return false;
+    } else if (userTransactionHistory[index].parameter!.value is List) {
+      return true;
+    } else if (userTransactionHistory[index].parameter!.value is String) {
+      var decodedString =
+          jsonDecode(userTransactionHistory[index].parameter!.value);
+      if (decodedString is List) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  bool isFa2TokenListEmpty(int index) => tokensList
+      .where((p0) =>
+          (p0.tokenAddress!
+              .contains(userTransactionHistory[index].target!.address!)) &&
+          p0.tokenId!.contains(userTransactionHistory[index].parameter!.value
+                  is List
+              ? userTransactionHistory[index].parameter?.value[0]["txs"][0]
+                  ["token_id"]
+              : jsonDecode(userTransactionHistory[index].parameter!.value)[0]
+                  ["txs"][0]["token_id"]))
+      .isEmpty;
+
+  String getImageUrl(int index) => tokensList
+      .where((p0) => p0.tokenAddress!
+          .contains(userTransactionHistory[index].target!.address!))
+      .first
+      .thumbnailUri!;
+  TokenPriceModel fa2TokenName(int index) => tokensList.firstWhere((p0) =>
+      (p0.tokenAddress!
+          .contains(userTransactionHistory[index].target!.address!)) &&
+      p0.tokenId!.contains(userTransactionHistory[index].parameter!.value
+              is List
+          ? userTransactionHistory[index].parameter?.value[0]["txs"][0]
+              ["token_id"]
+          : jsonDecode(userTransactionHistory[index].parameter!.value)[0]["txs"]
+              [0]["token_id"]));
+
+  TokenPriceModel fa1TokenName(int index) => tokensList
+      .where((p0) => (p0.tokenAddress!
+          .contains(userTransactionHistory[index].target!.address!)))
+      .first;
+  bool isHashSame(int index) =>
+      userTransactionHistory[index]
+          .hash!
+          .contains(userTransactionHistory[index - 1].hash!) &&
+      userTransactionHistory[index].hash!.contains(userTransactionHistory[
+              userTransactionHistory.length - 1 == index ? index : index + 1]
+          .hash!);
 }

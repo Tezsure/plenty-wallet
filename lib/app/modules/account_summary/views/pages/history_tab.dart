@@ -1,17 +1,20 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
-import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/history_filter_sheet.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
 import '../../../../../utils/styles/styles.dart';
-import '../account_summary_view.dart';
+import '../../../../data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
+import '../../../../data/services/service_models/nft_token_model.dart';
+import '../bottomsheets/history_filter_sheet.dart';
 import '../bottomsheets/transaction_details.dart';
 import '../widgets/history_tab_widgets/history_tile.dart';
 
@@ -22,234 +25,295 @@ class HistoryPage extends GetView<AccountSummaryController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.userTransactionHistory.isEmpty
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              0.03.vspace,
-              SvgPicture.asset(
-                "${PathConst.EMPTY_STATES}empty3.svg",
-                height: 120.sp,
-              ),
-              0.03.vspace,
-              RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                      text: "No transactions\n",
-                      style: titleLarge.copyWith(fontWeight: FontWeight.w700),
+    return Obx(() => CustomScrollView(
+          controller: controller.paginationController.value,
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    0.02.vspace,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        WidgetSpan(child: 0.04.vspace),
-                        TextSpan(
-                            text:
-                                "Your crypto and NFT activity will appear\nhere once you start using your wallet",
-                            style: labelMedium.copyWith(
-                                color: ColorConst.NeutralVariant.shade60))
-                      ])),
-            ],
-          )
-        : CustomScrollView(
-            controller: controller.paginationController.value,
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 0.02.width),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      0.02.vspace,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: onTap,
-                            child: Container(
-                              height: 0.065.height,
-                              width: 0.8.width,
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: ColorConst.NeutralVariant.shade60
-                                    .withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.search,
-                                    color: ColorConst.NeutralVariant.shade60,
-                                    size: 16.sp,
-                                  ),
-                                  0.01.hspace,
-                                  Text(
-                                    'Search',
-                                    style: bodySmall.copyWith(
-                                        color:
-                                            ColorConst.NeutralVariant.shade70),
-                                  )
-                                ],
-                              ),
+                        GestureDetector(
+                          onTap: onTap,
+                          child: Container(
+                            height: 0.06.height,
+                            width: 0.8.width,
+                            padding: EdgeInsets.only(left: 14.5.sp),
+                            decoration: BoxDecoration(
+                              color: ColorConst.NeutralVariant.shade60
+                                  .withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          ),
-                          0.02.hspace,
-                          GestureDetector(
-                            onTap: () {
-                              Get.bottomSheet(HistoryFilterSheet(),
-                                  isScrollControlled: true);
-                            },
-                            child: SvgPicture.asset(
-                              '${PathConst.SVG}filter.svg',
-                              fit: BoxFit.contain,
-                              color: ColorConst.Primary,
-                              height: 16.sp,
-                            ),
-                          ),
-                          0.01.hspace,
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    if (controller.userTransactionHistory[index].amount == 0) {
-                      /// For NFTs :- Target Alias is null &&
-                      if (controller.userTransactionHistory[index].parameter
-                              ?.entrypoint ==
-                          "transfer") {
-                        // print(
-                        //     "Debug ${controller.userTransactionHistory[index].target!.alias}");
-                        var value = controller
-                            .userTransactionHistory[index].parameter?.value;
-                        // print(
-                        //     "Entry Point ${controller.userTransactionHistory[index].parameter?.value}");
-                        // print(
-                        //     "${controller.tokensList.where((p0) => p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!)).first.name}");
-                        if (value is Map<String, dynamic>) {
-                          // print("Value Map $value");
-                        } else if (value is List) {
-                          // print("Value List $value");
-                          // print(
-                          //     "fa2 token are ${controller.tokensList.firstWhere((p0) => (p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!)) && p0.tokenId!.contains("${value[0]["txs"][0]["token_id"]}")).name}");
-                        } else {
-                          var data = json.decode(value);
-
-                          // print("Decoded json $data");
-
-                          if (data is Map<String, dynamic>) {
-                            // print("data map json $data");
-
-                            // print("Is Converted to map");
-                          } else if (data is List<dynamic>) {
-                            // print("data List json $data");
-                          }
-                        }
-                      }
-                    }
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        index == 0
-                            ? Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.sp, left: 16.sp, bottom: 16.sp),
-                                child: Text(
-                                  DateFormat.yMMMEd()
-                                      // displaying formatted date
-                                      .format(DateTime.parse(controller
-                                          .userTransactionHistory[index]
-                                          .timestamp!)),
-                                  style: labelMedium,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.search,
+                                  color: ColorConst.NeutralVariant.shade60,
+                                  size: 22,
                                 ),
-                              )
-                            : DateTime.parse(controller
-                                        .userTransactionHistory[index]
-                                        .timestamp!)
-                                    .isSameDate(DateTime.parse(controller
-                                        .userTransactionHistory[
-                                            index == 0 ? 0 : index - 1]
-                                        .timestamp!))
-                                ? const SizedBox()
-                                : Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 16.sp, left: 16.sp, bottom: 16.sp),
-                                    child: Text(
-                                      DateFormat.yMMMEd().format(DateTime.parse(
-                                          controller
-                                              .userTransactionHistory[index]
-                                              .timestamp!)),
-                                      style: labelMedium,
-                                    ),
-                                  ),
-                        HistoryTile(
-                          tokenName: controller.userTransactionHistory[index].amount != null &&
-                                  controller.userTransactionHistory[index].amount! >
-                                      0 &&
-                                  controller.userTransactionHistory[index].parameter ==
-                                      null
-                              ? "Tezos"
-                              : controller.userTransactionHistory[index].parameter != null &&
-                                      controller.userTransactionHistory[index]
-                                              .parameter?.entrypoint ==
-                                          "transfer"
-                                  ? controller.userTransactionHistory[index]
-                                          .parameter!.value is List
-                                      ? controller.tokensList
-                                              .where((p0) =>
-                                                  (p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!)) &&
-                                                  p0.tokenId!.contains(controller
-                                                      .userTransactionHistory[index]
-                                                      .parameter
-                                                      ?.value[0]["txs"][0]["token_id"]))
-                                              .isEmpty
-                                          ? controller.tokensList.firstWhere((p0) => (p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!))).name!
-                                          : controller.tokensList.firstWhere((p0) => (p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!)) && p0.tokenId!.contains(controller.userTransactionHistory[index].parameter?.value[0]["txs"][0]["token_id"])).name!
-                                      : controller.tokensList.where((p0) => (p0.tokenAddress!.contains(controller.userTransactionHistory[index].target!.address!))).first.name!
-                                  : "Can be nfts",
-                          tokenIconUrl: controller.userTransactionHistory[index].amount != null &&
-                                  controller.userTransactionHistory[index].amount! >
-                                      0 &&
-                                  controller.userTransactionHistory[index].parameter ==
-                                      null
-                              ? '${PathConst.ASSETS}tezos_logo.png'
-                              : controller.userTransactionHistory[index].target == null ||
-                                      controller.tokensList
-                                          .where((p0) => p0.tokenAddress!
-                                              .contains(controller
-                                                  .userTransactionHistory[index]
-                                                  .target!
-                                                  .address!))
-                                          .isEmpty
-                                  ? '${PathConst.ASSETS}tezos_logo.png'
-                                  : controller.tokensList
-                                      .where((p0) => p0.tokenAddress!.contains(
-                                          controller.userTransactionHistory[index].target!.address!))
-                                      .first
-                                      .thumbnailUri!,
-                          userAccountAddress:
-                              controller.userAccount.value.publicKeyHash!,
-                          xtzPrice: controller.xtzPrice.value,
-                          historyModel:
-                              controller.userTransactionHistory[index],
-                          onTap: () =>
-                              Get.bottomSheet(TransactionDetailsBottomSheet(
-                            transactionModel:
-                                controller.userTransactionHistory[index],
-                          )),
-                          status: HistoryStatus.receive,
+                                0.02.hspace,
+                                Text(
+                                  'Search',
+                                  style: bodySmall.copyWith(
+                                      color: ColorConst.NeutralVariant.shade70),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
+                        0.02.hspace,
+                        GestureDetector(
+                          onTap: () {
+                            Get.bottomSheet(HistoryFilterSheet(),
+                                isScrollControlled: true);
+                          },
+                          child: SvgPicture.asset(
+                            '${PathConst.SVG}filter.svg',
+                            fit: BoxFit.contain,
+                            color: ColorConst.Primary,
+                          ),
+                        ),
+                        0.01.hspace,
                       ],
-                    );
-                  },
-                  childCount: controller.userTransactionHistory.length,
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ));
+            ),
+            controller.userTransactionHistory.isEmpty
+                ? SliverToBoxAdapter(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        0.03.vspace,
+                        SvgPicture.asset(
+                          "${PathConst.EMPTY_STATES}empty3.svg",
+                          height: 120.sp,
+                        ),
+                        0.03.vspace,
+                        RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                                text: "No transactions\n",
+                                style: titleLarge.copyWith(
+                                    fontWeight: FontWeight.w700),
+                                children: [
+                                  WidgetSpan(child: 0.04.vspace),
+                                  TextSpan(
+                                      text:
+                                          "Your crypto and NFT activity will appear\nhere once you start using your wallet",
+                                      style: labelMedium.copyWith(
+                                          color: ColorConst
+                                              .NeutralVariant.shade60))
+                                ])),
+                      ],
+                    ),
+                  )
+                : SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        late TokenInfo token;
+                        token = tokenInfo(index);
+                        return token.isNft
+                            ? nftLoader(index)
+                            : token.skip
+                                ? const SizedBox()
+                                : index == 0
+                                    ? tokenLoader(token)
+                                    : controller.isHashSame(index)
+                                        ? const SizedBox()
+                                        : tokenLoader(token);
+                      },
+                      childCount: controller.userTransactionHistory.length,
+                    ),
+                  ),
+          ],
+        ));
   }
+
+  TokenInfo tokenInfo(int index) {
+    if (controller.isTezosTransaction(index)) {
+      return TokenInfo(
+        index: index,
+        tokenSymbol: "tez",
+        tokenAmount: controller.userTransactionHistory[index].amount! / 1e6,
+        dollarAmount: (controller.userTransactionHistory[index].amount! / 1e6) *
+            controller.xtzPrice.value,
+      );
+    } else if (controller.isAnyTokenOrNFTTransaction(index)) {
+      if (controller.isFa2Token(index)) {
+        if (controller.isFa2TokenListEmpty(index)) {
+          return TokenInfo(isNft: true, index: index);
+        } else {
+          TokenPriceModel fa2Token = controller.fa2TokenName(index);
+
+          String amount =
+              controller.userTransactionHistory[index].parameter?.value is List
+                  ? controller.userTransactionHistory[index].parameter?.value[0]
+                      ['txs'][0]['amount']
+                  : jsonDecode(controller.userTransactionHistory[index]
+                      .parameter!.value)[0]['txs'][0]['amount'];
+
+          return TokenInfo(
+              index: index,
+              name: fa2Token.name!,
+              dollarAmount: double.parse(amount) /
+                  pow(10, fa2Token.decimals!) *
+                  fa2Token.currentPrice!,
+              tokenSymbol: fa2Token.symbol!,
+              tokenAmount: double.parse(amount) / pow(10, fa2Token.decimals!),
+              imageUrl: controller.getImageUrl(index));
+        }
+      } else {
+        TokenPriceModel faToken = controller.fa1TokenName(index);
+        late String amount = "0";
+        if (controller.userTransactionHistory[index].parameter!.value is Map) {
+          amount = controller
+              .userTransactionHistory[index].parameter!.value['value'];
+        } else if (controller.userTransactionHistory[index].parameter!.value
+            is String) {
+          var decodedString = jsonDecode(
+              controller.userTransactionHistory[index].parameter!.value);
+          amount = decodedString['value'];
+        }
+
+        return TokenInfo(
+            index: index,
+            name: faToken.name!,
+            dollarAmount: (double.parse(amount) /
+                pow(10, faToken.decimals!) *
+                faToken.currentPrice!),
+            tokenSymbol: faToken.symbol!,
+            tokenAmount: double.parse(amount) / pow(10, faToken.decimals!),
+            imageUrl: controller.getImageUrl(index));
+      }
+    } else {
+      return TokenInfo(
+        skip: true,
+        index: index,
+      );
+    }
+  }
+
+  Widget tokenLoader(TokenInfo token) => Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          token.index == 0
+              ? Padding(
+                  padding:
+                      EdgeInsets.only(top: 16.sp, left: 16.sp, bottom: 16.sp),
+                  child: Text(
+                    DateFormat.yMMMEd()
+                        // displaying formatted date
+                        .format(DateTime.parse(controller
+                            .userTransactionHistory[token.index].timestamp!)),
+                    style: labelMedium,
+                  ),
+                )
+              : DateTime.parse(controller
+                          .userTransactionHistory[token.index].timestamp!)
+                      .isSameDate(DateTime.parse(controller
+                          .userTransactionHistory[
+                              token.index == 0 ? 0 : token.index - 1]
+                          .timestamp!))
+                  ? const SizedBox()
+                  : Padding(
+                      padding: EdgeInsets.only(
+                          top: 16.sp, left: 16.sp, bottom: 16.sp),
+                      child: Text(
+                        DateFormat.yMMMEd()
+                            // displaying formatted date
+                            .format(DateTime.parse(controller
+                                .userTransactionHistory[token.index]
+                                .timestamp!)),
+                        style: labelMedium,
+                      ),
+                    ),
+          HistoryTile(
+            tokenSymbol: token.tokenSymbol,
+            dollarAmount: token.dollarAmount,
+            tezAmount: token.tokenAmount,
+            tokenName: token.name,
+            tokenIconUrl: token.imageUrl,
+            userAccountAddress: controller.userAccount.value.publicKeyHash!,
+            xtzPrice: controller.xtzPrice.value,
+            historyModel: controller.userTransactionHistory[token.index],
+            onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
+              tokenInfo: token,
+              userAccountAddress: controller.userAccount.value.publicKeyHash!,
+              transactionModel: controller.userTransactionHistory[token.index],
+            )),
+          ),
+        ],
+      );
+
+  Widget nftLoader(int index) => FutureBuilder(
+      future: ObjktNftApiService().getTransactionNFT(
+          controller.userTransactionHistory[index].target!.address!,
+          controller.userTransactionHistory[index].parameter?.value[0]["txs"][0]
+              ["token_id"]),
+      builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
+        if (!snapshot.hasData) {
+          // while data is loading:
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          TokenInfo token = TokenInfo(
+              index: index,
+              isNft: true,
+              tokenSymbol: snapshot.data!.fa!.name!,
+              dollarAmount: snapshot.data!.lowestAsk / 1e6,
+              tokenAmount: snapshot.data!.lowestAsk != null &&
+                      snapshot.data!.lowestAsk != 0
+                  ? snapshot.data!.lowestAsk / 1e6
+                  : 0,
+              name: snapshot.data!.name!,
+              imageUrl: snapshot.data!.displayUri!);
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    EdgeInsets.only(top: 16.sp, left: 16.sp, bottom: 16.sp),
+                child: Text(
+                  DateFormat.yMMMEd()
+                      // displaying formatted date
+                      .format(DateTime.parse(
+                          controller.userTransactionHistory[index].timestamp!)),
+                  style: labelMedium,
+                ),
+              ),
+              HistoryTile(
+                tokenSymbol: token.tokenSymbol,
+                isNft: token.isNft,
+                dollarAmount: token.dollarAmount,
+                tezAmount: token.tokenAmount,
+                tokenName: token.name,
+                tokenIconUrl: token.imageUrl,
+                userAccountAddress: controller.userAccount.value.publicKeyHash!,
+                xtzPrice: controller.xtzPrice.value,
+                historyModel: controller.userTransactionHistory[index],
+                onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
+                  tokenInfo: token,
+                  userAccountAddress:
+                      controller.userAccount.value.publicKeyHash!,
+                  transactionModel: controller.userTransactionHistory[index],
+                )),
+              ),
+            ],
+          );
+        }
+      }));
 }
 
 extension DateOnlyCompare on DateTime {
@@ -258,19 +322,23 @@ extension DateOnlyCompare on DateTime {
   }
 }
 
-extension TokenNameCheck on dynamic {
-  String getTokenId() {
-    print(this);
-    if (this is Map<String, dynamic>) {
-      return this["token_id"] == null
-          ? this["token_info"]["name"]
-          : this["token_info"]["name"];
-    } else if (this is List<dynamic>) {
-      return this[0]["txs"][0]["token_id"] == null
-          ? this[0]["txs"][0]["token_id"]
-          : "Unknown";
-    } else {
-      return "";
-    }
-  }
+class TokenInfo {
+  final String name;
+  final String imageUrl;
+  final bool isNft;
+  final bool skip;
+  final int index;
+  final double tokenAmount;
+  final double dollarAmount;
+  final String tokenSymbol;
+
+  TokenInfo(
+      {this.name = "Tezos",
+      this.imageUrl = "${PathConst.ASSETS}tezos_logo.png",
+      this.isNft = false,
+      this.skip = false,
+      this.dollarAmount = 0,
+      this.tokenSymbol = "tez",
+      this.tokenAmount = 0,
+      required this.index});
 }
