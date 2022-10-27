@@ -117,11 +117,15 @@ class AccountSummaryController extends GetxController {
 
   /// Changes the current selected account from the account list
   void onAccountTap(int index) {
+    selectedAccountSet.clear();
     selectedAccountIndex.value = index;
-    userAccount.value = homePageController.userAccounts[index];
-    fetchAllTokens();
-    fetchAllNfts();
-    userTransactionLoader();
+    if (userAccount.value.publicKeyHash! !=
+        homePageController.userAccounts[index].publicKeyHash) {
+      userAccount.value = homePageController.userAccounts[index];
+      fetchAllTokens();
+      fetchAllNfts();
+      userTransactionLoader();
+    }
   }
 
   /// Remove account from the account list
@@ -311,6 +315,7 @@ class AccountSummaryController extends GetxController {
             ..add(token)
             ..removeAt(index);
           hideAccountSet.add(token.name!);
+          pinAccountSet.remove(name);
         }
       } else if (hideAccountSet.containsAll(selectedAccountSet)) {
         //? If tokens are already hidden and are in hideAccountSet, unhide them and remove from the set
@@ -321,6 +326,7 @@ class AccountSummaryController extends GetxController {
             ..isHidden = false
             ..isSelected = false;
           userTokens[index] = token;
+          pinAccountSet.remove(name);
         }
         hideAccountSet.removeAll(selectedAccountSet);
       } else {
@@ -337,6 +343,7 @@ class AccountSummaryController extends GetxController {
               ..removeAt(index)
               ..add(token);
           }
+          pinAccountSet.remove(name);
           hideAccountSet.add(token.name!);
         }
       }
@@ -486,6 +493,7 @@ class AccountSummaryController extends GetxController {
 
   /// Fetches the user account NFTs
   Future<void> fetchAllNfts() async {
+    userNfts.clear();
     UserStorageService()
         .getUserNfts(userAddress: userAccount.value.publicKeyHash!)
         .then((nftList) {

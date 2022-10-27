@@ -78,7 +78,8 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                         itemCount: controller.userTokens.length,
                         itemBuilder: (_, index) {
                           String tokenName = controller.userTokens[index].name!;
-                          return controller.pinAccountSet.contains(tokenName)
+                          return controller.pinAccountSet.contains(tokenName) &&
+                                  !controller.hideAccountSet.contains(tokenName)
                               ? _tokenBox(index)
                               : const SizedBox();
                         },

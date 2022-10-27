@@ -151,18 +151,20 @@ class NFTwidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 164.sp,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    nftArtifactUrl!,
+            Flexible(
+              child: Container(
+                height: 164.sp,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                      nftArtifactUrl!,
+                    ),
                   ),
+                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(8),
               ),
             ),
             SizedBox(

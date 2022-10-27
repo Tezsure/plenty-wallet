@@ -15,7 +15,7 @@ class NFTabPage extends GetView<AccountSummaryController> {
 
   @override
   Widget build(BuildContext context) {
-    return controller.userNfts.isEmpty
+    return Obx(() => controller.userNfts.isEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -44,6 +44,6 @@ class NFTabPage extends GetView<AccountSummaryController> {
                   nftList: controller
                       .userNfts[controller.userNfts.keys.toList()[index]]!,
                 )),
-          );
+          ));
   }
 }

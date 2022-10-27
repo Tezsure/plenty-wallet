@@ -22,8 +22,7 @@ import '../../../../../common_widgets/solid_button.dart';
 class AddNewAccountBottomSheet extends StatelessWidget {
   AddNewAccountBottomSheet({Key? key}) : super(key: key);
 
-  final controller = Get.find<AccountsWidgetController>();
-
+  final controller = Get.put(AccountsWidgetController());
   @override
   Widget build(BuildContext context) {
     controller.initAddAccount();

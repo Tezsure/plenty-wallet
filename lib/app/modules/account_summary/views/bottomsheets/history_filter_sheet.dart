@@ -17,7 +17,7 @@ class HistoryFilterSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 15.sp,
-      height: 578.sp,
+      height: 550.sp,
       crossAxisAlignment: CrossAxisAlignment.start,
       bottomSheetWidgets: [
         SizedBox(
@@ -46,7 +46,7 @@ class HistoryFilterSheet extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 32.sp,
+          height: 26.sp,
         ),
         Text(
           "Transaction type",
@@ -76,7 +76,7 @@ class HistoryFilterSheet extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 32.sp,
+          height: 26.sp,
         ),
         Text(
           "Date",
@@ -118,43 +118,48 @@ class HistoryFilterSheet extends StatelessWidget {
     required String svg,
   }) {
     return Obx(
-      () => MaterialButton(
-        height: 79.sp,
-        onPressed: () {
-          controller.assetType.value = assetType;
-        },
-        color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-        minWidth: (1.width - 45) / 2,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-            side: BorderSide(
-                color: controller.assetType.value == assetType ||
-                        controller.assetType.value == AssetType.all
-                    ? ColorConst.Primary
-                    : ColorConst.NeutralVariant.shade60,
-                width: 1.5)),
-        child: Column(
-          children: [
-            SvgPicture.asset(
-              svg,
-              height: 26.sp,
-              color: controller.assetType.value == assetType ||
-                      controller.assetType.value == AssetType.all
-                  ? Colors.white
-                  : ColorConst.NeutralVariant.shade60,
-              fit: BoxFit.contain,
-            ),
-            SizedBox(
-              height: 4.sp,
-            ),
-            Text(
-              title,
-              style: labelMedium.apply(
-                  color: controller.assetType.value == assetType
+      () => Flexible(
+        child: Padding(
+          padding: EdgeInsets.only(right: 12.sp),
+          child: MaterialButton(
+            height: 79.sp,
+            onPressed: () {
+              controller.assetType.value = assetType;
+            },
+            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+            minWidth: (1.width - 45) / 2,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                    color: controller.assetType.value == assetType ||
+                            controller.assetType.value == AssetType.all
+                        ? ColorConst.Primary
+                        : ColorConst.NeutralVariant.shade60,
+                    width: 1.5)),
+            child: Column(
+              children: [
+                SvgPicture.asset(
+                  svg,
+                  height: 26.sp,
+                  color: controller.assetType.value == assetType ||
+                          controller.assetType.value == AssetType.all
                       ? Colors.white
-                      : ColorConst.NeutralVariant.shade60),
-            )
-          ],
+                      : ColorConst.NeutralVariant.shade60,
+                  fit: BoxFit.contain,
+                ),
+                SizedBox(
+                  height: 4.sp,
+                ),
+                Text(
+                  title,
+                  style: labelMedium.apply(
+                      color: controller.assetType.value == assetType
+                          ? Colors.white
+                          : ColorConst.NeutralVariant.shade60),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -166,78 +171,95 @@ class HistoryFilterSheet extends StatelessWidget {
     required String svg,
   }) {
     return Obx(
-      () => MaterialButton(
-        height: 79.sp,
-        onPressed: () {
-          controller.transactionType.value = transactionType;
-        },
-        color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-        minWidth: (1.width / 3) - 16,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-            side: BorderSide(
-                color: controller.transactionType.value == transactionType ||
-                        controller.transactionType.value == TransactionType.all
-                    ? ColorConst.Primary
-                    : ColorConst.NeutralVariant.shade60,
-                width: 1.5)),
-        child: Column(
-          children: [
-            SvgPicture.asset(svg,
-                height: 26.sp,
-                fit: BoxFit.contain,
-                color: controller.transactionType.value == transactionType ||
-                        controller.transactionType.value == TransactionType.all
-                    ? Colors.white
-                    : ColorConst.NeutralVariant.shade60),
-            SizedBox(
-              height: 4.sp,
+      () => Flexible(
+        child: Padding(
+          padding: EdgeInsets.only(right: 12.sp),
+          child: MaterialButton(
+            height: 79.sp,
+            onPressed: () {
+              controller.transactionType.value = transactionType;
+            },
+            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+            minWidth: (1.width / 3) - 16,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                    color:
+                        controller.transactionType.value == transactionType ||
+                                controller.transactionType.value ==
+                                    TransactionType.all
+                            ? ColorConst.Primary
+                            : ColorConst.NeutralVariant.shade60,
+                    width: 1.5)),
+            child: Column(
+              children: [
+                SvgPicture.asset(svg,
+                    height: 26.sp,
+                    fit: BoxFit.contain,
+                    color:
+                        controller.transactionType.value == transactionType ||
+                                controller.transactionType.value ==
+                                    TransactionType.all
+                            ? Colors.white
+                            : ColorConst.NeutralVariant.shade60),
+                SizedBox(
+                  height: 4.sp,
+                ),
+                Text(
+                  title,
+                  style: labelMedium.apply(
+                      color:
+                          controller.transactionType.value == transactionType ||
+                                  controller.transactionType.value ==
+                                      TransactionType.all
+                              ? Colors.white
+                              : ColorConst.NeutralVariant.shade60),
+                )
+              ],
             ),
-            Text(
-              title,
-              style: labelMedium.apply(
-                  color: controller.transactionType.value == transactionType ||
-                          controller.transactionType.value ==
-                              TransactionType.all
-                      ? Colors.white
-                      : ColorConst.NeutralVariant.shade60),
-            )
-          ],
+          ),
         ),
       ),
     );
   }
 
   Widget clearButton() {
-    return MaterialButton(
-      height: 48.sp,
-      onPressed: () {
-        controller.clear();
-      },
-      color: Colors.black,
-      minWidth: (1.width - 45) / 2,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: BorderSide(color: ColorConst.Primary.shade80, width: 1)),
-      child: Text(
-        "Clear",
-        style: titleSmall.apply(color: ColorConst.Primary.shade80),
+    return Flexible(
+      child: Padding(
+        padding: EdgeInsets.only(right: 12.sp),
+        child: MaterialButton(
+          height: 48.sp,
+          onPressed: () {
+            controller.clear();
+          },
+          color: Colors.black,
+          minWidth: (1.width - 45) / 2,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: BorderSide(color: ColorConst.Primary.shade80, width: 1)),
+          child: Text(
+            "Clear",
+            style: titleSmall.apply(color: ColorConst.Primary.shade80),
+          ),
+        ),
       ),
     );
   }
 
   Widget applyButton() {
-    return MaterialButton(
-      height: 48.sp,
-      onPressed: controller.apply,
-      color: ColorConst.Primary,
-      minWidth: (1.width - 45) / 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        "Apply",
-        style: titleSmall,
+    return Flexible(
+      child: MaterialButton(
+        height: 48.sp,
+        onPressed: controller.apply,
+        color: ColorConst.Primary,
+        minWidth: (1.width - 45) / 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          "Apply",
+          style: titleSmall,
+        ),
       ),
     );
   }
