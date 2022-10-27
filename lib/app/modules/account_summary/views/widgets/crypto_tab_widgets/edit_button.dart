@@ -21,7 +21,7 @@ class EditButtons extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 32.sp,
+        height: 28.sp,
         width: 58.sp,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),

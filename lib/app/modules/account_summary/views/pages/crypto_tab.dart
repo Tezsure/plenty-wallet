@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -219,19 +218,22 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                         },
                       ),
                       0.01.vspace,
-                      TokenEditTile(
-                        isAnyTokenHidden: controller.onHidePinToken(),
-                        isAnyTokenPinned: controller.onShowPinToken(),
-                        isTokenPinnedColor: controller.pinTokenColor(),
-                        isTokenHiddenColor: controller.hideTokenColor(),
-                        viewAll: () => controller.expandTokenList.value =
-                            !controller.expandTokenList.value,
-                        expandedTokenList: controller.expandTokenList.value,
-                        isEditable: controller.isEditable.value,
-                        onEditTap: controller.onEditTap,
-                        onPinTap: controller.onPinToken,
-                        onHideTap: controller.onHideToken,
-                      ),
+                      controller.userTokens.length > 1
+                          ? TokenEditTile(
+                              isAnyTokenHidden: controller.onHidePinToken(),
+                              isAnyTokenPinned: controller.onShowPinToken(),
+                              isTokenPinnedColor: controller.pinTokenColor(),
+                              isTokenHiddenColor: controller.hideTokenColor(),
+                              viewAll: () => controller.expandTokenList.value =
+                                  !controller.expandTokenList.value,
+                              expandedTokenList:
+                                  controller.expandTokenList.value,
+                              isEditable: controller.isEditable.value,
+                              onEditTap: controller.onEditTap,
+                              onPinTap: controller.onPinToken,
+                              onHideTap: controller.onHideToken,
+                            )
+                          : const SizedBox(),
                       controller.expandTokenList.value
                           ? ListView.builder(
                               primary: false,
@@ -270,6 +272,4 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                 )),
           ));
   }
-
-  jsonEncode(AccountTokenModel userToken) {}
 }

@@ -56,7 +56,10 @@ class HistoryFilterController extends GetxController {
   Future<void> apply() async {
     isFilterApplied.value = true;
     accountController.userTransactionHistory.value =
-        await accountController.fetchUserTransactionsHistory(limit: 300);
+        await accountController.fetchUserTransactionsHistory(
+      limit: 200,
+    );
+
     if (dateType.value == DateType.today) {
       accountController.userTransactionHistory.value =
           accountController.userTransactionHistory.where((element) {

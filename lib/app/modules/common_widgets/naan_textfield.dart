@@ -14,6 +14,7 @@ class NaanTextfield extends StatelessWidget {
   final Function()? onEditingComplete;
   final Function(String)? onSubmitted;
   final FocusNode? focusNode;
+  final double? height;
 
   const NaanTextfield(
       {Key? key,
@@ -24,7 +25,8 @@ class NaanTextfield extends StatelessWidget {
       this.backgroundColor,
       this.hintTextSyle,
       this.onSubmitted,
-      this.focusNode})
+      this.focusNode,
+      this.height})
       : super(key: key);
 
   @override
@@ -36,7 +38,7 @@ class NaanTextfield extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 12.sp),
         child: SizedBox(
           width: double.infinity,
-          height: 40.sp,
+          height: height ?? 40.sp,
           child: TextField(
             focusNode: focusNode,
             controller: controller,

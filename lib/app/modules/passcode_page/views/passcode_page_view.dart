@@ -45,12 +45,12 @@ class PasscodePageView extends GetView<PasscodePageController> {
                     child: SvgPicture.asset(
                       "${PathConst.SVG}arrow_back.svg",
                       fit: BoxFit.cover,
-                      height: 12.sp,
+                      height: 20.sp,
                     ),
                   ),
                 ),
               ),
-              0.05.vspace,
+              0.07.vspace,
               Center(
                 child: SizedBox(
                   height: 107.sp,
@@ -161,8 +161,8 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
               children: List.generate(
                 6,
                 (index) => Container(
-                  height: 10.sp,
-                  width: 10.sp,
+                  height: 18.sp,
+                  width: 18.sp,
                   decoration: BoxDecoration(
                     color: controller.confirmPasscode.value.length == 6 ||
                             controller.isToVerifyPassCode.value

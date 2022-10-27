@@ -59,92 +59,106 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                       ),
                     ),
                     Obx(
-                      () => ListTile(
-                        onTap: (() => Get.bottomSheet(
-                            AccountSelectorSheet(
-                              selectedAccount: controller.userAccount.value,
-                            ),
-                            isScrollControlled: true)),
-                        enableFeedback: true,
-                        horizontalTitleGap: 8.sp,
-                        visualDensity: VisualDensity.standard,
-                        dense: false,
-                        leading: CustomImageWidget(
-                          imageType: controller.userAccount.value.imageType!,
-                          imagePath: controller.userAccount.value.profileImage!,
-                          imageRadius: 20.sp,
-                        ),
-                        title: SizedBox(
-                          height: 0.035.height,
-                          width: 0.4.width,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                controller.userAccount.value.name!,
-                                style: labelLarge.copyWith(
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              SizedBox(width: 2.sp),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 20.sp,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        subtitle: Text(
-                          tz1Shortner(
-                              controller.userAccount.value.publicKeyHash!),
-                          style: labelSmall.copyWith(
-                              color: ColorConst.NeutralVariant.shade60),
-                        ),
-                        trailing: SizedBox(
-                          height: 20.sp,
-                          width: 60.sp,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Clipboard.setData(ClipboardData(
-                                      text: controller
-                                          .userAccount.value.publicKeyHash));
-                                  Get.rawSnackbar(
-                                    message: "Copied to clipboard",
-                                    shouldIconPulse: true,
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    maxWidth: 0.9.width,
-                                    margin: EdgeInsets.only(
-                                      bottom: 20.sp,
+                      () => Padding(
+                        padding: EdgeInsets.only(
+                            left: 13.sp, right: 19.sp, top: 14.sp),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.bottomSheet(
+                                    AccountSelectorSheet(
+                                      selectedAccount:
+                                          controller.userAccount.value,
                                     ),
-                                    duration: const Duration(milliseconds: 700),
-                                  );
-                                },
-                                child: SvgPicture.asset(
-                                  '${PathConst.SVG}copy.svg',
-                                  color: Colors.white,
-                                  fit: BoxFit.contain,
-                                  height: 16.sp,
-                                ),
+                                    isScrollControlled: true);
+                              },
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  0.01.hspace,
+                                  CustomImageWidget(
+                                    imageType:
+                                        controller.userAccount.value.imageType!,
+                                    imagePath: controller
+                                        .userAccount.value.profileImage!,
+                                    imageRadius: 18.sp,
+                                  ),
+                                  0.03.hspace,
+                                  RichText(
+                                    text: TextSpan(
+                                        text:
+                                            controller.userAccount.value.name!,
+                                        style: labelLarge.copyWith(
+                                            fontWeight: FontWeight.w700),
+                                        children: [
+                                          WidgetSpan(
+                                              child: SizedBox(
+                                            width: 2.sp,
+                                          )),
+                                          WidgetSpan(
+                                            alignment:
+                                                PlaceholderAlignment.bottom,
+                                            child: Icon(
+                                              Icons.keyboard_arrow_down,
+                                              size: 20.sp,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                "\n${(controller.userAccount.value.publicKeyHash!).tz1Short()}",
+                                            style: labelSmall.copyWith(
+                                                height: 0,
+                                                color: ColorConst
+                                                    .NeutralVariant.shade60),
+                                          )
+                                        ]),
+                                  ),
+                                ],
                               ),
-                              0.04.hspace,
-                              InkWell(
-                                child: SvgPicture.asset(
-                                  '${PathConst.SVG}scanVector.svg',
-                                  fit: BoxFit.contain,
-                                  height: 16.sp,
-                                  color: Colors.white,
+                            ),
+                            const Spacer(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Clipboard.setData(ClipboardData(
+                                        text: controller
+                                            .userAccount.value.publicKeyHash));
+                                    Get.rawSnackbar(
+                                      message: "Copied to clipboard",
+                                      shouldIconPulse: true,
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      maxWidth: 0.9.width,
+                                      margin: EdgeInsets.only(
+                                        bottom: 20.sp,
+                                      ),
+                                      duration:
+                                          const Duration(milliseconds: 700),
+                                    );
+                                  },
+                                  child: SvgPicture.asset(
+                                    '${PathConst.SVG}copy.svg',
+                                    color: Colors.white,
+                                    fit: BoxFit.contain,
+                                    height: 20.sp,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
+                                0.04.hspace,
+                                InkWell(
+                                  child: SvgPicture.asset(
+                                    '${PathConst.SVG}scanVector.svg',
+                                    fit: BoxFit.contain,
+                                    height: 20.sp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -316,7 +330,13 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           labelPadding: EdgeInsets.symmetric(
                             horizontal: 20.sp,
                           ),
+                          indicatorWeight: 4.sp,
                           enableFeedback: true,
+                          indicator: UnderlineTabIndicator(
+                            insets: EdgeInsets.only(left: 4.sp, right: 4.sp),
+                            borderSide: BorderSide(
+                                color: ColorConst.Primary, width: 4.sp),
+                          ),
                           labelStyle: labelLarge,
                           unselectedLabelColor:
                               ColorConst.NeutralVariant.shade60,

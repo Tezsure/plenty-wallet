@@ -57,7 +57,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 10.sp, sigmaY: 10.sp),
       child: Container(
-        height: 0.9.height,
+        height: 0.8.height,
         width: 1.width,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
@@ -376,7 +376,7 @@ Widget removeAccountBottomSheet(int index,
           textAlign: TextAlign.center,
         ),
       ),
-      0.03.vspace,
+      0.02.vspace,
       Column(
         children: [
           SolidButton(
@@ -388,7 +388,7 @@ Widget removeAccountBottomSheet(int index,
             textColor: ColorConst.Primary,
             titleStyle: labelLarge.copyWith(color: ColorConst.Error.shade60),
           ),
-          0.01.vspace,
+          0.015.vspace,
           SolidButton(
             width: 326.sp,
             height: 50.sp,
@@ -399,7 +399,7 @@ Widget removeAccountBottomSheet(int index,
           ),
         ],
       ),
-      0.04.vspace
+      0.05.vspace
     ],
   );
 }

@@ -121,6 +121,15 @@ class HistoryPage extends GetView<AccountSummaryController> {
                       (context, index) {
                         late TokenInfo token;
                         token = tokenInfo(index);
+                        controller.tokenInfoList.addIf(
+                            !controller.tokenInfoList.any((element) =>
+                                element.id == null
+                                    ? true
+                                    : element.id!.isEqual(controller
+                                        .userTransactionHistory[index]
+                                        .lastid!)),
+                            token);
+
                         return token.isNft
                             ? nftLoader(index)
                             : token.skip
@@ -141,6 +150,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
   TokenInfo tokenInfo(int index) {
     if (controller.isTezosTransaction(index)) {
       return TokenInfo(
+        id: controller.userTransactionHistory[index].lastid,
         index: index,
         tokenSymbol: "tez",
         tokenAmount: controller.userTransactionHistory[index].amount! / 1e6,
@@ -162,6 +172,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
                       .parameter!.value)[0]['txs'][0]['amount'];
 
           return TokenInfo(
+              id: controller.userTransactionHistory[index].lastid,
               index: index,
               name: fa2Token.name!,
               dollarAmount: double.parse(amount) /
@@ -186,6 +197,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
 
         return TokenInfo(
             index: index,
+            id: controller.userTransactionHistory[index].lastid,
             name: faToken.name!,
             dollarAmount: (double.parse(amount) /
                 pow(10, faToken.decimals!) *
@@ -270,6 +282,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
           TokenInfo token = TokenInfo(
               index: index,
               isNft: true,
+              id: controller.userTransactionHistory[index].lastid,
               tokenSymbol: snapshot.data!.fa!.name!,
               dollarAmount: snapshot.data!.lowestAsk / 1e6,
               tokenAmount: snapshot.data!.lowestAsk != null &&
@@ -278,6 +291,13 @@ class HistoryPage extends GetView<AccountSummaryController> {
                   : 0,
               name: snapshot.data!.name!,
               imageUrl: snapshot.data!.displayUri!);
+
+          controller.tokenInfoList.addIf(
+              !controller.tokenInfoList.any((element) => element.id == null
+                  ? true
+                  : element.id!.isEqual(
+                      controller.userTransactionHistory[index].lastid!)),
+              token);
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -331,6 +351,7 @@ class TokenInfo {
   final double tokenAmount;
   final double dollarAmount;
   final String tokenSymbol;
+  final int? id;
 
   TokenInfo(
       {this.name = "Tezos",
@@ -340,5 +361,6 @@ class TokenInfo {
       this.dollarAmount = 0,
       this.tokenSymbol = "tez",
       this.tokenAmount = 0,
+      this.id,
       required this.index});
 }

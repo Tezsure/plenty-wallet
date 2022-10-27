@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
@@ -29,6 +30,8 @@ class AccountSummaryController extends GetxController {
   RxList<AccountTokenModel> hiddenAccountList =
       <AccountTokenModel>[].obs; // For hidden Account List
   RxList<TokenPriceModel> tokensList = <TokenPriceModel>[].obs;
+  Timer? searchDebounceTimer;
+  RxList<TokenInfo> tokenInfoList = <TokenInfo>[].obs;
 
   // ! Account Related Variables
 
@@ -590,7 +593,7 @@ class AccountSummaryController extends GetxController {
           limit: limit);
 
   List<TxHistoryModel> searchTransactionHistory(String searchKey) {
-    if (searchKey.isCaseInsensitiveContains("tezos")) {
+    if (searchKey.isCaseInsensitiveContainsAny("tezos")) {
       return userTransactionHistory
           .where((element) =>
               element.amount != null &&

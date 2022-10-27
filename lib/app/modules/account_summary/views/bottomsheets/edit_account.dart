@@ -57,7 +57,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      height: 0.6.height,
+      height: 0.55.height,
       bottomSheetHorizontalPadding: 32,
       crossAxisAlignment: CrossAxisAlignment.center,
       bottomSheetWidgets: [editaccountUI()],
@@ -70,6 +70,9 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
         physics: const BouncingScrollPhysics(),
         child: Builder(builder: (context) {
           return Column(children: [
+            0.01.vspace,
+            Text("Edit Account", style: titleLarge),
+            0.02.vspace,
             Container(
               height: 0.3.width,
               width: 0.3.width,
@@ -113,18 +116,13 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               ),
             ),
             0.02.vspace,
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Account Name",
-                style:
-                    labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
-              ),
-            ),
             const SizedBox(
               height: 8,
             ),
             NaanTextfield(
+                height: 52.sp,
+                backgroundColor:
+                    ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                 hint: "Account Name",
                 focusNode: nameFocusNode,
                 controller: _controller.accountNameController,
@@ -153,6 +151,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                       ? ColorConst.Primary
                       : const Color(0xFF1E1C1F),
               title: "Save Changes",
+              titleStyle: labelLarge,
               onPressed: () {
                 if (_controller.accountNameController.value.text.isNotEmpty) {
                   _accountController.changeSelectedAccountName(

@@ -150,7 +150,7 @@ class NFTwidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 140.sp,
+              height: 164.sp,
               width: double.infinity,
               decoration: BoxDecoration(
                 image: DecorationImage(
