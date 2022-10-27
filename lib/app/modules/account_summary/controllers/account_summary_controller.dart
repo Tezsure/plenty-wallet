@@ -84,11 +84,6 @@ class AccountSummaryController extends GetxController {
         await DataHandlerService().renderService.getTokenPriceModel();
     updateSavedContacts();
 
-    pinAccountSet.addAll(// ? This is for pinned accounts
-        userTokens.where((p) => p.isPinned).map((e) => e.name!).toList());
-    hideAccountSet.addAll(// ? This is for hidden accounts
-        userTokens.where((p) => p.isHidden).map((e) => e.name!).toList());
-
     super.onInit();
   }
 
@@ -119,13 +114,10 @@ class AccountSummaryController extends GetxController {
   void onAccountTap(int index) {
     selectedAccountSet.clear();
     selectedAccountIndex.value = index;
-    if (userAccount.value.publicKeyHash! !=
-        homePageController.userAccounts[index].publicKeyHash) {
-      userAccount.value = homePageController.userAccounts[index];
-      fetchAllTokens();
-      fetchAllNfts();
-      userTransactionLoader();
-    }
+    userAccount.value = homePageController.userAccounts[index];
+    fetchAllTokens();
+    fetchAllNfts();
+    //? userTransactionLoader();
   }
 
   /// Remove account from the account list
@@ -208,6 +200,12 @@ class AccountSummaryController extends GetxController {
             ));
       }
     }
+    pinAccountSet.clear();
+    hideAccountSet.clear();
+    pinAccountSet.addAll(// ? This is for pinned accounts
+        userTokens.where((p) => p.isPinned).map((e) => e.name!).toList());
+    hideAccountSet.addAll(// ? This is for hidden accounts
+        userTokens.where((p) => p.isHidden).map((e) => e.name!).toList());
     _updateUserTokenList();
   }
 

@@ -225,9 +225,9 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                       width: 1.width,
                       child: TabBar(
                           onTap: (value) async {
-                            value == 2
-                                ? controller.userTransactionLoader()
-                                : null;
+                            // value == 2
+                            //     ? controller.userTransactionLoader()
+                            //     : null;
                           },
                           isScrollable: true,
                           labelColor: ColorConst.Primary.shade95,
