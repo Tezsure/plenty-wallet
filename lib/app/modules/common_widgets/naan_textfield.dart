@@ -32,8 +32,9 @@ class NaanTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: BorderRadius.circular(6.sp),
-      color: backgroundColor ?? Colors.white.withOpacity(0.2),
+      borderRadius: BorderRadius.circular(8.sp),
+      color: backgroundColor ?? Colors.white.withOpacity(0.1),
+      shadowColor: Colors.white.withOpacity(0.2),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12.sp),
         child: SizedBox(

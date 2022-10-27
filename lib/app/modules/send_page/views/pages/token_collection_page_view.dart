@@ -156,8 +156,8 @@ class TokenAndNftPageView extends GetView<SendPageController> {
             ),
             AnimatedRotation(
               turns: controller.isCollectibleExpanded.value ? -0 / 25 : 0,
-              duration: Duration(milliseconds: 300),
-              child: Icon(
+              duration: const Duration(milliseconds: 300),
+              child: const Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.white,
                 size: 10,

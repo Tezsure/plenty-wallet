@@ -61,7 +61,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
       NaanBottomSheet(
         gradientStartingOpacity: 1,
         blurRadius: 5,
-        height: 260.sp,
+        height: 290.sp,
         isScrollControlled: true,
         bottomSheetWidgets: [
           0.03.vspace,

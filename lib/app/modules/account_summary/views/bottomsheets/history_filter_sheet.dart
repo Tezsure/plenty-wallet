@@ -16,16 +16,19 @@ class HistoryFilterSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 15,
-      height: 517.sp,
+      bottomSheetHorizontalPadding: 15.sp,
+      height: 578.sp,
       crossAxisAlignment: CrossAxisAlignment.start,
       bottomSheetWidgets: [
-        Text(
-          "Asset type",
-          style: labelMedium,
-        ),
         SizedBox(
           height: 10.sp,
+        ),
+        Text(
+          "Asset type",
+          style: titleSmall.copyWith(letterSpacing: 0.5),
+        ),
+        SizedBox(
+          height: 12.sp,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,14 +46,14 @@ class HistoryFilterSheet extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 20.sp,
+          height: 32.sp,
         ),
         Text(
-          "Asset type",
-          style: labelMedium,
+          "Transaction type",
+          style: titleSmall.copyWith(letterSpacing: 0.5),
         ),
         SizedBox(
-          height: 10.sp,
+          height: 12.sp,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,14 +76,14 @@ class HistoryFilterSheet extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 20.sp,
+          height: 32.sp,
         ),
         Text(
           "Date",
           style: labelMedium,
         ),
         SizedBox(
-          height: 10.sp,
+          height: 12.sp,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -90,8 +93,8 @@ class HistoryFilterSheet extends StatelessWidget {
             dateTypeButton(DateType.last3Months, "Last 3 Months"),
           ],
         ),
-        const SizedBox(
-          height: 32,
+        SizedBox(
+          height: 40.sp,
         ),
         dateRangeButton(),
         const Spacer(),
@@ -102,8 +105,8 @@ class HistoryFilterSheet extends StatelessWidget {
             applyButton(),
           ],
         ),
-        const SizedBox(
-          height: 40,
+        SizedBox(
+          height: 37.sp,
         ),
       ],
     );
@@ -125,7 +128,8 @@ class HistoryFilterSheet extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
             side: BorderSide(
-                color: controller.assetType.value == assetType
+                color: controller.assetType.value == assetType ||
+                        controller.assetType.value == AssetType.all
                     ? ColorConst.Primary
                     : ColorConst.NeutralVariant.shade60,
                 width: 1.5)),
@@ -133,8 +137,9 @@ class HistoryFilterSheet extends StatelessWidget {
           children: [
             SvgPicture.asset(
               svg,
-              height: 16.sp,
-              color: controller.assetType.value == assetType
+              height: 26.sp,
+              color: controller.assetType.value == assetType ||
+                      controller.assetType.value == AssetType.all
                   ? Colors.white
                   : ColorConst.NeutralVariant.shade60,
               fit: BoxFit.contain,
@@ -171,16 +176,18 @@ class HistoryFilterSheet extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
             side: BorderSide(
-                color: controller.transactionType.value == transactionType
+                color: controller.transactionType.value == transactionType ||
+                        controller.transactionType.value == TransactionType.all
                     ? ColorConst.Primary
                     : ColorConst.NeutralVariant.shade60,
                 width: 1.5)),
         child: Column(
           children: [
             SvgPicture.asset(svg,
-                height: 16.sp,
+                height: 26.sp,
                 fit: BoxFit.contain,
-                color: controller.transactionType.value == transactionType
+                color: controller.transactionType.value == transactionType ||
+                        controller.transactionType.value == TransactionType.all
                     ? Colors.white
                     : ColorConst.NeutralVariant.shade60),
             SizedBox(
@@ -189,7 +196,9 @@ class HistoryFilterSheet extends StatelessWidget {
             Text(
               title,
               style: labelMedium.apply(
-                  color: controller.transactionType.value == transactionType
+                  color: controller.transactionType.value == transactionType ||
+                          controller.transactionType.value ==
+                              TransactionType.all
                       ? Colors.white
                       : ColorConst.NeutralVariant.shade60),
             )
@@ -205,7 +214,7 @@ class HistoryFilterSheet extends StatelessWidget {
       onPressed: () {
         controller.clear();
       },
-      color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+      color: Colors.black,
       minWidth: (1.width - 45) / 2,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
@@ -249,12 +258,15 @@ class HistoryFilterSheet extends StatelessWidget {
                 color: controller.dateType.value == dateType
                     ? ColorConst.Primary
                     : ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(32),
+                borderRadius: BorderRadius.circular(14.sp),
                 border: Border.all(
-                    width: 1, color: ColorConst.NeutralVariant.shade30)),
+                    width: 1,
+                    color: controller.dateType.value == dateType
+                        ? ColorConst.Primary.shade70
+                        : ColorConst.NeutralVariant.shade30)),
             child: Text(
               text,
-              style: labelSmall.apply(
+              style: labelMedium.apply(
                   color: controller.dateType.value == dateType
                       ? Colors.white
                       : ColorConst.NeutralVariant.shade60),
@@ -283,14 +295,17 @@ class HistoryFilterSheet extends StatelessWidget {
               color: controller.dateType.value == DateType.customDate
                   ? ColorConst.Primary
                   : ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(32),
+              borderRadius: BorderRadius.circular(14.sp),
               border: Border.all(
-                  width: 1, color: ColorConst.NeutralVariant.shade30)),
+                  width: 1,
+                  color: controller.dateType.value == DateType.customDate
+                      ? ColorConst.Primary.shade70
+                      : ColorConst.NeutralVariant.shade30)),
           child: Text(
             controller.dateType.value == DateType.customDate
                 ? "${controller.fromDate.value.year}/${controller.fromDate.value.month}/${controller.fromDate.value.day} - ${controller.toDate.value.year}/${controller.toDate.value.month}/${controller.toDate.value.day}"
                 : "Select Date Range",
-            style: labelSmall.apply(
+            style: labelMedium.apply(
                 color: controller.dateType.value == DateType.customDate
                     ? Colors.white
                     : ColorConst.NeutralVariant.shade60),

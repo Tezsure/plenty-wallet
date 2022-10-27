@@ -54,7 +54,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+      filter: ImageFilter.blur(sigmaX: 20.sp, sigmaY: 20.sp),
       child: DraggableScrollableSheet(
           maxChildSize: 0.95,
           initialChildSize: 0.9,
@@ -71,7 +71,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    0.01.vspace,
+                    0.02.vspace,
                     Center(
                       child: Container(
                         height: 5.sp,
@@ -87,52 +87,58 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        SizedBox(
-                          height: 0.06.height,
-                          width: 0.7.width,
-                          child: TextFormField(
-                            controller: searchController,
-                            textAlignVertical: TextAlignVertical.top,
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(color: Colors.white),
-                            focusNode: focusNode,
-                            onChanged: ((value) {
-                              if (controller.searchDebounceTimer != null) {
-                                controller.searchDebounceTimer!.cancel();
-                              }
-                              controller.searchDebounceTimer =
-                                  Timer(const Duration(milliseconds: 250), () {
-                                setState(() {
-                                  searchResult =
-                                      controller.searchTransactionHistory(
-                                          value.toLowerCase());
-                                });
-                              });
-                            }),
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: ColorConst.NeutralVariant.shade60
-                                  .withOpacity(0.2),
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: ColorConst.NeutralVariant.shade60,
-                                size: 16.sp,
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 16.sp),
+                            child: SizedBox(
+                              height: 50.sp,
+                              child: TextFormField(
+                                controller: searchController,
+                                textAlignVertical: TextAlignVertical.top,
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(color: Colors.white),
+                                focusNode: focusNode,
+                                onChanged: ((value) {
+                                  if (controller.searchDebounceTimer != null) {
+                                    controller.searchDebounceTimer!.cancel();
+                                  }
+                                  controller.searchDebounceTimer = Timer(
+                                      const Duration(milliseconds: 250), () {
+                                    setState(() {
+                                      searchResult =
+                                          controller.searchTransactionHistory(
+                                              value.toLowerCase());
+                                    });
+                                  });
+                                }),
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: ColorConst.NeutralVariant.shade60
+                                      .withOpacity(0.2),
+                                  prefixIcon: Icon(
+                                    Icons.search,
+                                    color: ColorConst.NeutralVariant.shade60,
+                                    size: 18.sp,
+                                  ),
+                                  counterStyle: const TextStyle(
+                                      backgroundColor: Colors.white),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide.none),
+                                  hintText: 'Search',
+                                  hintStyle: labelMedium.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 0.25,
+                                      color: ColorConst.NeutralVariant.shade70),
+                                  labelStyle: labelSmall,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 10.sp, vertical: 20.sp),
+                                ),
                               ),
-                              counterStyle: const TextStyle(
-                                  backgroundColor: Colors.white),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide.none),
-                              hintText: 'Search',
-                              hintStyle: bodySmall.copyWith(
-                                  color: ColorConst.NeutralVariant.shade70),
-                              labelStyle: labelSmall,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 20),
                             ),
                           ),
                         ),
@@ -164,15 +170,16 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                         ),
                       ],
                     ),
-                    0.03.vspace,
                     searchController.text.isEmpty && searchResult.isEmpty
                         ? Center(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
+                              padding: EdgeInsets.only(top: 44.sp),
                               child: Text(
                                   "Try searching for token,\n protocols, and tags",
                                   textAlign: TextAlign.center,
-                                  style: bodySmall.copyWith(
+                                  style: labelLarge.copyWith(
+                                      letterSpacing: 0.25,
+                                      fontWeight: FontWeight.w400,
                                       color:
                                           ColorConst.NeutralVariant.shade70)),
                             ),

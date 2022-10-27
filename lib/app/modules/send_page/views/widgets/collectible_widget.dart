@@ -8,6 +8,8 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+import '../../../../data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
+
 class CollectibleWidget extends GetView<SendPageController> {
   CollectibleWidget({
     super.key,
@@ -173,12 +175,22 @@ class NFTwidget extends StatelessWidget {
             const SizedBox(
               height: 4,
             ),
-            Text(
-              nfTmodel.description ?? "",
-              maxLines: 1,
-              style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
-              overflow: TextOverflow.ellipsis,
-            ),
+            FutureBuilder(
+                initialData: 'Artist',
+                future: ObjktNftApiService()
+                    .getNftCreator(nfTmodel.creators!.first.creatorAddress!),
+                builder: ((context, AsyncSnapshot<String> snapshot) {
+                  return Text(
+                    snapshot.data!.isEmpty
+                        ? nfTmodel.description
+                        : snapshot.data!,
+                    maxLines: 1,
+                    style: labelMedium.copyWith(
+                        color: ColorConst.NeutralVariant.shade60,
+                        fontWeight: FontWeight.w400),
+                    overflow: TextOverflow.ellipsis,
+                  );
+                })),
           ],
         ),
       ),

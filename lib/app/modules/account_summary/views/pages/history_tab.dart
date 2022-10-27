@@ -49,19 +49,21 @@ class HistoryPage extends GetView<AccountSummaryController> {
                             decoration: BoxDecoration(
                               color: ColorConst.NeutralVariant.shade60
                                   .withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10.sp),
                             ),
                             child: Row(
                               children: [
                                 Icon(
                                   Icons.search,
                                   color: ColorConst.NeutralVariant.shade60,
-                                  size: 22,
+                                  size: 22.sp,
                                 ),
                                 0.02.hspace,
                                 Text(
                                   'Search',
-                                  style: bodySmall.copyWith(
+                                  style: labelLarge.copyWith(
+                                      letterSpacing: 0.25,
+                                      fontWeight: FontWeight.w400,
                                       color: ColorConst.NeutralVariant.shade70),
                                 )
                               ],
@@ -75,8 +77,11 @@ class HistoryPage extends GetView<AccountSummaryController> {
                                 isScrollControlled: true);
                           },
                           child: SvgPicture.asset(
-                            '${PathConst.SVG}filter.svg',
+                            controller.isFilterApplied.value
+                                ? "${PathConst.SVG}filter_selected.svg"
+                                : '${PathConst.SVG}filter.svg',
                             fit: BoxFit.contain,
+                            height: 24.sp,
                             color: ColorConst.Primary,
                           ),
                         ),
@@ -87,7 +92,8 @@ class HistoryPage extends GetView<AccountSummaryController> {
                 ),
               ),
             ),
-            controller.userTransactionHistory.isEmpty
+            // controller.userTransactionHistory.isEmpty
+            true
                 ? SliverToBoxAdapter(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,

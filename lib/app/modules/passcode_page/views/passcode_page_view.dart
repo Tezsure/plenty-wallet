@@ -50,7 +50,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
                   ),
                 ),
               ),
-              0.07.vspace,
+              0.05.vspace,
               Center(
                 child: SizedBox(
                   height: 107.sp,
@@ -61,9 +61,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20.sp,
-              ),
+              0.05.vspace,
               Obx(
                 () => Text(
                   controller.isToVerifyPassCode.value
@@ -177,14 +175,14 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
                         color: controller.isPassCodeWrong.value
                             ? ColorConst.Error.shade60
                             : Colors.white,
-                        width: 1.sp),
+                        width: 2.sp),
                   ),
                 ),
               ),
             ),
           ),
         ),
-        0.045.vspace,
+        0.05.vspace,
         getKeyBoardWidget(),
       ],
     );
@@ -276,7 +274,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
                   },
             child: Container(
               width: 52.sp,
-              height: 46.sp,
+              height: 52.sp,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
                     Radius.circular(0.065.width),

@@ -76,8 +76,7 @@ class NaanBottomSheet extends StatelessWidget {
                         width: 36,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: ColorConst.NeutralVariant.shade60
-                              .withOpacity(0.3),
+                          color: const Color(0xffEBEBF5).withOpacity(0.3),
                         ),
                       ),
                     ),

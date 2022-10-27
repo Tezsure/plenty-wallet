@@ -10,13 +10,12 @@ class HistoryFilterController extends GetxController {
 
   Rx<AssetType> assetType = AssetType.token.obs;
   Rx<TransactionType> transactionType = TransactionType.delegation.obs;
-  Rx<DateType> dateType = DateType.today.obs;
+  Rx<DateType> dateType = DateType.notSelected.obs;
 
   Rx<DateTime> fromDate =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
           .obs;
   Rx<DateTime> toDate = DateTime.now().obs;
-  RxBool isFilterApplied = false.obs;
 
   void setDate(DateType type, {DateTime? from, DateTime? to}) {
     dateType.value = type;
@@ -43,22 +42,22 @@ class HistoryFilterController extends GetxController {
   }
 
   Future<void> clear() async {
-    assetType.value = AssetType.token;
-    transactionType.value = TransactionType.delegation;
-    setDate(DateType.today);
+    assetType.value = AssetType.all;
+    transactionType.value = TransactionType.all;
+    dateType.value = DateType.notSelected;
     accountController.userTransactionHistory.value =
         await accountController.fetchUserTransactionsHistory();
     accountController.userTransactionHistory.refresh();
-    isFilterApplied.value = false;
+    accountController.isFilterApplied.value = false;
     Get.back();
   }
 
   Future<void> apply() async {
-    isFilterApplied.value = true;
-    accountController.userTransactionHistory.value =
-        await accountController.fetchUserTransactionsHistory(
-      limit: 200,
-    );
+    accountController.isFilterApplied.value = true;
+    // accountController.userTransactionHistory.value =
+    //     await accountController.fetchUserTransactionsHistory(
+    //   limit: 200,
+    // );
 
     if (dateType.value == DateType.today) {
       accountController.userTransactionHistory.value =
@@ -221,7 +220,7 @@ class HistoryFilterController extends GetxController {
 
   Future<List<TxHistoryModel>> fetchFilteredList(
       {required List<TxHistoryModel> nextHistoryList}) async {
-    if (isFilterApplied.isTrue) {
+    if (accountController.isFilterApplied.isTrue) {
       if (dateType.value == DateType.today) {
         nextHistoryList = nextHistoryList.where((element) {
           DateTime elementTime = DateTime.parse(element.timestamp!);
@@ -279,8 +278,8 @@ class HistoryFilterController extends GetxController {
   }
 }
 
-enum AssetType { token, nft }
+enum AssetType { token, nft, all }
 
-enum TransactionType { delegation, send, receive }
+enum TransactionType { delegation, send, receive, all }
 
-enum DateType { today, currentMonth, last3Months, customDate }
+enum DateType { today, currentMonth, last3Months, customDate, notSelected }

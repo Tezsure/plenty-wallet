@@ -4,11 +4,9 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 import '../../../../../../utils/colors/colors.dart';
-import '../../account_summary_view.dart';
 
 class NftHistoryTile extends StatelessWidget {
-  final HistoryStatus status;
-  const NftHistoryTile({super.key, required this.status});
+  const NftHistoryTile({super.key});
 
   @override
   Widget build(BuildContext context) {

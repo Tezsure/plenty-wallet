@@ -91,6 +91,18 @@ class ServiceConfig {
     await localStorage.deleteAll();
   }
 
+  static const String cQuery = r'''
+  query getCreator ($address: String!) {
+  holder_by_pk(address: $address) {
+    alias
+    description
+    logo
+    tzdomain
+    address
+    }
+  }
+  ''';
+
   static const String nftQuery = r'''
     query getNFT($address: String!, $token_id: String!) {
       token(where: {token_id: {_eq: $token_id}, fa_contract: {_eq: $address}}) {

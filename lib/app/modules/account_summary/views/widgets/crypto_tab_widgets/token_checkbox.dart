@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
-import '../../../../../../utils/constants/path_const.dart';
+import '../../../../../../utils/styles/styles.dart';
+import '../../../../custom_packages/custom_checkbox.dart';
 
 class TokenCheckbox extends StatelessWidget {
   final List<AccountTokenModel> tokenModel;
@@ -33,182 +34,171 @@ class TokenCheckbox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.sp),
-      child: SizedBox(
-        height: 50.sp,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            InkWell(
-              onTap: onTap,
-              child: Row(
-                children: [
-                  isEditable
-                      ? Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            if (tokenModel[tokenIndex].isPinned)
-                              GestureDetector(
-                                onTap: onPinnedTap,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 10.sp, right: 10.sp),
-                                  child: Container(
-                                    height: 20.sp,
-                                    width: 20.sp,
-                                    decoration: BoxDecoration(
-                                      color: ColorConst.NeutralVariant.shade40,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    child: Icon(
-                                      Icons.star,
-                                      color: ColorConst.Tertiary,
-                                      size: 14.sp,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            else if (tokenModel[tokenIndex].isHidden)
-                              GestureDetector(
-                                onTap: onHiddenTap,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 10.sp, right: 10.sp),
-                                  child: Container(
-                                    height: 20.sp,
-                                    width: 20.sp,
-                                    decoration: BoxDecoration(
-                                      color: ColorConst.NeutralVariant.shade40,
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    child: SvgPicture.asset(
-                                      "${PathConst.HOME_PAGE.SVG}eye_hide.svg",
-                                      color: ColorConst.NeutralVariant.shade70,
-                                      height: 10.sp,
-                                      width: 10.sp,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            else
-                              Transform.scale(
-                                scale: 1.sp,
-                                child: Checkbox(
-                                  shape: const CircleBorder(),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  value: tokenModel[tokenIndex].isSelected,
-                                  onChanged: onCheckboxTap,
-                                  fillColor: MaterialStateProperty.all<Color>(
-                                      tokenModel[tokenIndex].isSelected
-                                          ? ColorConst.Primary
-                                          : const Color(0xff1E1C1F)),
-                                ),
-                              ),
-                            CircleAvatar(
-                              radius: 20.sp,
-                              backgroundColor: ColorConst.NeutralVariant.shade60
-                                  .withOpacity(0.2),
-                              child: tokenModel[tokenIndex]
-                                      .iconUrl!
-                                      .startsWith("assets")
-                                  ? Image.asset(
-                                      tokenModel[tokenIndex].iconUrl!,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : tokenModel[tokenIndex]
-                                          .iconUrl!
-                                          .endsWith(".svg")
-                                      ? SvgPicture.network(
-                                          tokenModel[tokenIndex].iconUrl!,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Container(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: NetworkImage(tokenModel[
-                                                            tokenIndex]
-                                                        .iconUrl!
-                                                        .startsWith("ipfs")
-                                                    ? "https://ipfs.io/ipfs/${tokenModel[tokenIndex].iconUrl!.replaceAll("ipfs://", '')}"
-                                                    : tokenModel[tokenIndex]
-                                                        .iconUrl!)),
-                                          ),
-                                        ),
-                            ),
-                          ],
-                        )
-                      : CircleAvatar(
-                          radius: 20.sp,
-                          backgroundColor: ColorConst.NeutralVariant.shade60
-                              .withOpacity(0.2),
-                          child: tokenModel[tokenIndex]
-                                  .iconUrl!
-                                  .startsWith("assets")
-                              ? Image.asset(
-                                  tokenModel[tokenIndex].iconUrl!,
-                                  fit: BoxFit.cover,
-                                )
-                              : tokenModel[tokenIndex].iconUrl!.endsWith(".svg")
-                                  ? SvgPicture.network(
-                                      tokenModel[tokenIndex].iconUrl!,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(tokenModel[
-                                                        tokenIndex]
-                                                    .iconUrl!
-                                                    .startsWith("ipfs")
-                                                ? "https://ipfs.io/ipfs/${tokenModel[tokenIndex].iconUrl!.replaceAll("ipfs://", '')}"
-                                                : tokenModel[tokenIndex]
-                                                    .iconUrl!)),
-                                      ),
-                                    ),
-                        ),
-                  0.03.hspace,
-                  RichText(
-                      text: TextSpan(
-                          text: "${tokenModel[tokenIndex].name!}\n",
-                          style: labelLarge.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: tokenModel[tokenIndex].name!.length > 25
-                                  ? 12.sp
-                                  : 14.sp),
-                          children: [
-                        WidgetSpan(child: 0.025.vspace),
-                        TextSpan(
-                            text:
-                                "${tokenModel[tokenIndex].balance.toStringAsFixed(6)} ${tokenModel[tokenIndex].symbol}",
-                            style: labelSmall.copyWith(
-                                color: ColorConst.NeutralVariant.shade60)),
-                      ])),
-                  const Spacer(),
-                  Text(
-                    r"$" +
-                        (tokenModel[tokenIndex].name == "Tezos"
-                                ? xtzPrice
-                                : (tokenModel[tokenIndex].currentPrice! *
-                                    xtzPrice))
-                            .toStringAsFixed(6)
-                            .removeTrailing0,
-                    style: labelSmall,
-                  ),
-                ],
+      child: GestureDetector(
+        onTap: () {
+          if (tokenModel[tokenIndex].isPinned) {
+            onPinnedTap?.call();
+          } else if (tokenModel[tokenIndex].isHidden) {
+            onHiddenTap?.call();
+          } else if (tokenModel[tokenIndex].isSelected) {
+            onCheckboxTap?.call(false);
+          } else {
+            onCheckboxTap?.call(true);
+          }
+        },
+        child: SizedBox(
+          height: 50.sp,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                child: Row(
+                  children: [
+                    isEditable
+                        ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              if (tokenModel[tokenIndex].isPinned)
+                                _isPinnedTokenSelector()
+                              else if (tokenModel[tokenIndex].isHidden)
+                                _isHiddenTokenSelector()
+                              else
+                                CustomCheckBox(
+                                    margins: EdgeInsets.only(right: 10.sp),
+                                    borderRadius: 12.sp,
+                                    checkedIcon: Icons.done,
+                                    borderWidth: 2,
+                                    checkBoxIconSize: 12,
+                                    checkBoxSize: 20.sp,
+                                    borderColor: const Color(0xff1E1C1F),
+                                    checkedIconColor: Colors.white,
+                                    uncheckedFillColor: Colors.transparent,
+                                    uncheckedIconColor: Colors.transparent,
+                                    checkedFillColor:
+                                        tokenModel[tokenIndex].isSelected
+                                            ? ColorConst.Primary
+                                            : const Color(0xff1E1C1F),
+                                    value: tokenModel[tokenIndex].isSelected,
+                                    onChanged: onCheckboxTap!),
+                              _imageAvatar(),
+                            ],
+                          )
+                        : _imageAvatar(),
+                    0.03.hspace,
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(tokenModel[tokenIndex].name!,
+                              overflow: tokenModel[tokenIndex].name!.length < 15
+                                  ? TextOverflow.visible
+                                  : TextOverflow.fade,
+                              softWrap: false,
+                              style: labelLarge.copyWith(
+                                  letterSpacing: 0.5, height: 16 / 14)),
+                          SizedBox(
+                            height: 3.sp,
+                          ),
+                          Text(
+                              "${tokenModel[tokenIndex].balance.toStringAsFixed(6)} ${tokenModel[tokenIndex].symbol}",
+                              softWrap: false,
+                              overflow: TextOverflow.fade,
+                              style: labelMedium.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color: ColorConst.NeutralVariant.shade60)),
+                        ],
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      r"$" +
+                          (tokenModel[tokenIndex].name == "Tezos"
+                                  ? xtzPrice
+                                  : (tokenModel[tokenIndex].currentPrice! *
+                                      xtzPrice))
+                              .toStringAsFixed(6)
+                              .removeTrailing0,
+                      style: labelMedium.copyWith(fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
+
+  Widget _imageAvatar() => CircleAvatar(
+        radius: 20.sp,
+        backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+        child: tokenModel[tokenIndex].iconUrl!.startsWith("assets")
+            ? Image.asset(
+                tokenModel[tokenIndex].iconUrl!,
+                fit: BoxFit.cover,
+              )
+            : tokenModel[tokenIndex].iconUrl!.endsWith(".svg")
+                ? SvgPicture.network(
+                    tokenModel[tokenIndex].iconUrl!,
+                    fit: BoxFit.cover,
+                  )
+                : Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(tokenModel[tokenIndex]
+                                  .iconUrl!
+                                  .startsWith("ipfs")
+                              ? "https://ipfs.io/ipfs/${tokenModel[tokenIndex].iconUrl!.replaceAll("ipfs://", '')}"
+                              : tokenModel[tokenIndex].iconUrl!)),
+                    ),
+                  ),
+      );
+
+  Widget _isPinnedTokenSelector() => Padding(
+        padding: EdgeInsets.only(right: 10.sp),
+        child: Container(
+          height: 20.sp,
+          width: 20.sp,
+          decoration: BoxDecoration(
+            color: const Color(0xff1E1C1F),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: Icon(
+            Icons.star,
+            color: ColorConst.Tertiary,
+            size: 14.sp,
+          ),
+        ),
+      );
+
+  Widget _isHiddenTokenSelector() => Padding(
+        padding: EdgeInsets.only(right: 10.sp),
+        child: Container(
+          height: 20.sp,
+          width: 20.sp,
+          decoration: BoxDecoration(
+            color: const Color(0xff4A454E),
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: Transform.scale(
+            scale: 1.2,
+            child: SvgPicture.asset(
+              "${PathConst.SVG}eye_hide.svg",
+              color: ColorConst.NeutralVariant.shade70,
+              height: 10.sp,
+              width: 10.sp,
+              fit: BoxFit.scaleDown,
+            ),
+          ),
+        ),
+      );
 }

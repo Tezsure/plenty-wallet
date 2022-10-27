@@ -122,8 +122,10 @@ class SendPageController extends GetxController {
 
   Future<void> fetchAllTokens() async {
     userTokens.clear();
-    userTokens.add(
-      AccountTokenModel(
+    userTokens.addAll(await UserStorageService()
+        .getUserTokens(userAddress: senderAccountModel!.publicKeyHash!));
+    if (userTokens.isEmpty) {
+      userTokens.add(AccountTokenModel(
         name: "Tezos",
         balance: senderAccountModel!.accountDataModel!.xtzBalance!,
         contractAddress: "xtz",
@@ -132,11 +134,30 @@ class SendPageController extends GetxController {
         tokenId: "0",
         decimals: 6,
         iconUrl: "assets/tezos_logo.png",
-      ),
-    );
-
-    userTokens.addAll(await UserStorageService()
-        .getUserTokens(userAddress: senderAccountModel!.publicKeyHash!));
+      ));
+    } else {
+      if (userTokens.any((element) => element.name!.contains("Tezos"))) {
+        userTokens.map((element) => element.name!.contains("Tezos")
+            ? element.copyWith(
+                balance: senderAccountModel!.accountDataModel!.xtzBalance!,
+                currentPrice: xtzPrice.value,
+              )
+            : null);
+      } else {
+        userTokens.insert(
+            0,
+            AccountTokenModel(
+              name: "Tezos",
+              balance: senderAccountModel!.accountDataModel!.xtzBalance!,
+              contractAddress: "xtz",
+              symbol: "Tezos",
+              currentPrice: xtzPrice.value,
+              tokenId: "0",
+              decimals: 6,
+              iconUrl: "assets/tezos_logo.png",
+            ));
+      }
+    }
   }
 
   Future<void> fetchAllNfts() async {

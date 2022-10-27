@@ -61,7 +61,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                     Obx(
                       () => Padding(
                         padding: EdgeInsets.only(
-                            left: 13.sp, right: 19.sp, top: 14.sp),
+                            left: 16.sp, right: 16.sp, top: 14.sp),
                         child: Row(
                           children: [
                             GestureDetector(
@@ -90,8 +90,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                     text: TextSpan(
                                         text:
                                             controller.userAccount.value.name!,
-                                        style: labelLarge.copyWith(
-                                            fontWeight: FontWeight.w700),
+                                        style: labelMedium.copyWith(
+                                            fontWeight: FontWeight.w600),
                                         children: [
                                           WidgetSpan(
                                               child: SizedBox(
@@ -101,7 +101,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                             alignment:
                                                 PlaceholderAlignment.bottom,
                                             child: Icon(
-                                              Icons.keyboard_arrow_down,
+                                              Icons.keyboard_arrow_down_rounded,
                                               size: 20.sp,
                                               color: Colors.white,
                                             ),
@@ -109,8 +109,9 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                           TextSpan(
                                             text:
                                                 "\n${(controller.userAccount.value.publicKeyHash!).tz1Short()}",
-                                            style: labelSmall.copyWith(
+                                            style: labelMedium.copyWith(
                                                 height: 0,
+                                                fontWeight: FontWeight.w400,
                                                 color: ColorConst
                                                     .NeutralVariant.shade60),
                                           )
@@ -144,7 +145,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                     '${PathConst.SVG}copy.svg',
                                     color: Colors.white,
                                     fit: BoxFit.contain,
-                                    height: 20.sp,
+                                    height: 24.sp,
                                   ),
                                 ),
                                 0.04.hspace,
@@ -152,7 +153,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                   child: SvgPicture.asset(
                                     '${PathConst.SVG}scanVector.svg',
                                     fit: BoxFit.contain,
-                                    height: 20.sp,
+                                    height: 24.sp,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -162,7 +163,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                         ),
                       ),
                     ),
-                    0.02.vspace,
+                    0.036.vspace,
                     Obx(() => Center(
                           child: Text(
                             "\$ ${(controller.userAccount.value.accountDataModel!.totalBalance! * controller.xtzPrice.value).toStringAsFixed(6)}",
@@ -174,145 +175,51 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           ),
                         )),
                     0.03.vspace,
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        InkWell(
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 8.sp),
-                                    child: CircleAvatar(
-                                      backgroundColor: ColorConst.Primary,
-                                      radius: 20.sp,
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                        size: 20.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TextSpan(
-                                    text: '\nBuy',
-                                    style: labelSmall.copyWith(
-                                        fontWeight: FontWeight.w600)),
-                              ],
-                            ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 17.sp, right: 16.sp),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _actionButton(
+                              imagePath: '${PathConst.SVG}plus.svg',
+                              label: 'Buy'),
+                          0.04.hspace,
+                          _actionButton(
+                              imagePath: '${PathConst.SVG}dollar_sign.svg',
+                              label: 'Earn'),
+                          0.04.hspace,
+                          _actionButton(
+                            imagePath: '${PathConst.SVG}arrow_up.svg',
+                            label: 'Send',
+                            onTap: (() => Get.bottomSheet(const SendPage(),
+                                settings: RouteSettings(
+                                    arguments: controller.userAccount.value),
+                                isScrollControlled: true,
+                                barrierColor: Colors.white.withOpacity(0.09))),
                           ),
-                        ),
-                        InkWell(
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                    alignment: PlaceholderAlignment.middle,
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 8.sp),
-                                      child: CircleAvatar(
-                                        backgroundColor: ColorConst.Primary,
-                                        radius: 20.sp,
-                                        child: SvgPicture.asset(
-                                          '${PathConst.SVG}dollar_sign.svg',
-                                          fit: BoxFit.cover,
-                                          width: 0.025.width,
-                                          height: 0.025.height,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    )),
-                                TextSpan(
-                                    text: '\nEarn',
-                                    style: labelSmall.copyWith(
-                                        fontWeight: FontWeight.w600)),
-                              ],
-                            ),
+                          0.04.hspace,
+                          _actionButton(
+                            imagePath: '${PathConst.SVG}arrow_down.svg',
+                            label: 'Receive',
+                            onTap: (() => Get.bottomSheet(
+                                const ReceivePageView(),
+                                settings: RouteSettings(
+                                    arguments: controller.userAccount.value),
+                                isScrollControlled: true,
+                                barrierColor: Colors.white.withOpacity(0.09))),
                           ),
-                        ),
-                        InkWell(
-                          onTap: () => Get.bottomSheet(const SendPage(),
-                              isScrollControlled: true,
-                              settings: RouteSettings(
-                                  arguments: controller.userAccount.value),
-                              barrierColor: Colors.white.withOpacity(0.09)),
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 8.sp),
-                                    child: CircleAvatar(
-                                      backgroundColor: ColorConst.Primary,
-                                      radius: 20.sp,
-                                      child: Icon(
-                                        Icons.arrow_upward,
-                                        color: ColorConst.Primary.shade90,
-                                        size: 20.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TextSpan(
-                                    text: '\nSend',
-                                    style: labelSmall.copyWith(
-                                        fontWeight: FontWeight.w600)),
-                              ],
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => Get.bottomSheet(const ReceivePageView(),
-                              settings: RouteSettings(
-                                  arguments: controller.userAccount.value),
-                              isScrollControlled: true,
-                              barrierColor: Colors.white.withOpacity(0.09)),
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                    alignment: PlaceholderAlignment.middle,
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 8.sp),
-                                      child: CircleAvatar(
-                                        backgroundColor: ColorConst.Primary,
-                                        radius: 20.sp,
-                                        child: Icon(
-                                          Icons.arrow_downward,
-                                          color: ColorConst.Primary.shade90,
-                                          size: 20.sp,
-                                        ),
-                                      ),
-                                    )),
-                                TextSpan(
-                                    text: '\nReceive',
-                                    style: labelSmall.copyWith(
-                                        fontWeight: FontWeight.w600)),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    0.03.vspace,
+                    0.02.vspace,
                     Divider(
-                      height: 20.sp,
+                      height: 0.sp,
                       color: ColorConst.NeutralVariant.shade20,
-                      endIndent: 20.sp,
-                      indent: 20.sp,
+                      endIndent: 16.sp,
+                      indent: 16.sp,
                     ),
+                    0.02.vspace,
                     SizedBox(
                       height: 50.sp,
                       width: 1.width,
@@ -326,9 +233,9 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           labelColor: ColorConst.Primary.shade95,
                           indicatorColor: ColorConst.Primary,
                           indicatorSize: TabBarIndicatorSize.tab,
-                          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                          padding: EdgeInsets.symmetric(horizontal: 15.sp),
                           labelPadding: EdgeInsets.symmetric(
-                            horizontal: 20.sp,
+                            horizontal: 8.sp,
                           ),
                           indicatorWeight: 4.sp,
                           enableFeedback: true,
@@ -341,20 +248,29 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           unselectedLabelColor:
                               ColorConst.NeutralVariant.shade60,
                           tabs: [
-                            Tab(
-                              height: 30.sp,
-                              text: "Crypto",
-                              iconMargin: EdgeInsets.zero,
+                            SizedBox(
+                              width: 70.sp,
+                              child: Tab(
+                                height: 30.sp,
+                                text: "Crypto",
+                                iconMargin: EdgeInsets.zero,
+                              ),
                             ),
-                            Tab(
-                              height: 30.sp,
-                              text: "NFTs",
-                              iconMargin: EdgeInsets.zero,
+                            SizedBox(
+                              width: 70.sp,
+                              child: Tab(
+                                height: 30.sp,
+                                text: "NFTs",
+                                iconMargin: EdgeInsets.zero,
+                              ),
                             ),
-                            Tab(
-                              height: 30.sp,
-                              text: "History",
-                              iconMargin: EdgeInsets.zero,
+                            SizedBox(
+                              width: 70.sp,
+                              child: Tab(
+                                height: 30.sp,
+                                text: "History",
+                                iconMargin: EdgeInsets.zero,
+                              ),
                             ),
                           ]),
                     ),
@@ -380,10 +296,37 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
       ),
     );
   }
-}
 
-enum HistoryStatus {
-  receive,
-  sent,
-  inProgress,
+  Widget _actionButton(
+      {required String imagePath, required String label, Function()? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          children: [
+            WidgetSpan(
+                alignment: PlaceholderAlignment.middle,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.sp),
+                  child: CircleAvatar(
+                    backgroundColor: ColorConst.Primary,
+                    radius: 20.sp,
+                    child: SvgPicture.asset(
+                      imagePath,
+                      fit: BoxFit.cover,
+                      height: 20.sp,
+                      color: Colors.white,
+                    ),
+                  ),
+                )),
+            TextSpan(
+                text: '\n$label',
+                style: labelMedium.copyWith(
+                    letterSpacing: 0.1.sp, height: 20 / 12)),
+          ],
+        ),
+      ),
+    );
+  }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../utils/colors/colors.dart';
 import '../../../../../../utils/styles/styles.dart';
-import '../../../controllers/account_summary_controller.dart';
 import 'edit_button.dart';
 
 class TokenEditTile extends GetView<AccountSummaryController> {
@@ -37,6 +37,8 @@ class TokenEditTile extends GetView<AccountSummaryController> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Visibility(
           visible: isEditable ?? false,
@@ -44,42 +46,46 @@ class TokenEditTile extends GetView<AccountSummaryController> {
               ? const SizedBox()
               : GestureDetector(
                   onTap: viewAll,
-                  child: Container(
-                    height: 28.sp,
-                    width: expandedTokenList ? 70.sp : 58.sp,
+                  child: AnimatedContainer(
+                    margin: EdgeInsets.symmetric(vertical: 12.sp),
+                    duration: const Duration(milliseconds: 200),
+                    height: 30.sp,
+                    width: expandedTokenList ? 70.sp : 63.sp,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.sp),
                       color: const Color(0xff1e1c1f),
                     ),
                     alignment: Alignment.center,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: expandedTokenList
-                          ? CrossAxisAlignment.end
-                          : CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           expandedTokenList ? 'Less' : 'All',
                           style: labelLarge.copyWith(
                               fontWeight: FontWeight.w600,
+                              letterSpacing: 0.5,
+                              height: 16 / 14,
                               color: ColorConst.NeutralVariant.shade60),
                         ),
-                        0.002.hspace,
-                        Icon(
-                          expandedTokenList
-                              ? Icons.keyboard_arrow_down
-                              : Icons.arrow_forward_ios,
-                          color: ColorConst.NeutralVariant.shade60,
-                          size: expandedTokenList ? 20.sp : 12.sp,
-                        )
+                        AnimatedRotation(
+                          turns: controller.expandTokenList.isTrue ? 1 / 4 : 0,
+                          duration: const Duration(milliseconds: 200),
+                          child: Icon(
+                            Icons.keyboard_arrow_right_rounded,
+                            color: ColorConst.NeutralVariant.shade60,
+                            size: 20.sp,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              0.02.hspace,
               EditButtons(
                   buttonName: isAnyTokenPinned! ? 'Pin' : 'Unpin',
                   isDone: isTokenPinnedColor!,
@@ -94,14 +100,16 @@ class TokenEditTile extends GetView<AccountSummaryController> {
           ),
         ),
         const Spacer(),
-        expandedTokenList
+        expandedTokenList || showEditButton!
             ? GestureDetector(
                 onTap: onEditTap,
-                child: Container(
-                  height: 28.sp,
+                child: AnimatedContainer(
+                  margin: EdgeInsets.symmetric(vertical: 12.sp),
+                  duration: const Duration(milliseconds: 200),
+                  height: 30.sp,
                   width: isEditable ?? false ? 60.sp : 50.sp,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.sp),
                     color: isEditable ?? false
                         ? ColorConst.Primary
                         : const Color(0xff1e1c1f),
@@ -117,28 +125,7 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                   ),
                 ),
               )
-            : showEditButton!
-                ? GestureDetector(
-                    onTap: onEditTap,
-                    child: Container(
-                      height: 28.sp,
-                      width: 60.sp,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: isEditable ?? false
-                            ? ColorConst.Primary
-                            : const Color(0xff1e1c1f),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        isEditable ?? false ? 'Done' : 'Edit',
-                        style: labelLarge.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
+            : const SizedBox(),
       ],
     );
   }
