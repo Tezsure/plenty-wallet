@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
 import '../../../../../utils/styles/styles.dart';
-import '../../controllers/account_summary_controller.dart';
 import '../widgets/crypto_tab_widgets/token_checkbox.dart';
 import '../widgets/crypto_tab_widgets/token_edit_tile.dart';
 
@@ -71,7 +71,8 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Pinned Token Section
-                    if (controller.pinTokenSet.isNotEmpty) ...[
+                    if (controller.pinTokenSet.isNotEmpty &&
+                        controller.pinTokenSet.length > 4) ...[
                       ListView.builder(
                         primary: false,
                         shrinkWrap: true,
@@ -115,10 +116,17 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                       ListView.builder(
                         primary: false,
                         shrinkWrap: true,
-                        itemCount: controller.userTokens.length > 4
-                            ? 4
-                            : controller.userTokens.length,
-                        itemBuilder: (_, index) => _tokenBox(index),
+                        itemCount: controller.userTokens.length,
+                        itemBuilder: (_, index) {
+                          String tokenName = controller.userTokens[index].name!;
+                          return index < 4
+                              ? controller.pinTokenSet.contains(tokenName) &&
+                                      !controller.hideTokenSet
+                                          .contains(tokenName)
+                                  ? _tokenBox(index)
+                                  : _tokenBox(index)
+                              : const SizedBox();
+                        },
                       ),
                       // Token Edit Tile
                       if (controller.userTokens.length > 4) ...[

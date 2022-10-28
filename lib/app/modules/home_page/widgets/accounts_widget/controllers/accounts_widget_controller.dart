@@ -21,6 +21,7 @@ class AccountsWidgetController extends GetxController {
   /// add account functions
   TextEditingController accountNameController = TextEditingController();
   AccountProfileImageType currentSelectedType = AccountProfileImageType.assets;
+  RxString phrase = "".obs;
 
   RxString selectedImagePath = "".obs;
 

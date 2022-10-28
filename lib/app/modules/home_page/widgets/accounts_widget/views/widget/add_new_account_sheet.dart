@@ -9,7 +9,6 @@ import 'package:naan_wallet/app/data/services/create_profile_service/create_prof
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -17,6 +16,7 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+import '../../../../../common_widgets/back_button.dart';
 import '../../../../../common_widgets/solid_button.dart';
 
 class AddNewAccountBottomSheet extends StatelessWidget {
@@ -27,111 +27,163 @@ class AddNewAccountBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.initAddAccount();
     return Obx(
-      () => NaanBottomSheet(
-        blurRadius: 5,
-        height: 0.85.height,
-        bottomSheetHorizontalPadding: 32,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        bottomSheetWidgets: controller.isCreatingNewAccount.value
-            ? [
-                // loading widget here
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      height: 0.8.height,
-                      width: 1.width,
-                      // color: Colors.black,
+      () => controller.isCreatingNewAccount.value
+          ? Container(
+              height: 1.height,
+              width: 1.width,
+              color: Colors.black,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    height: 0.8.height,
+                    width: 1.width,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: LottieBuilder.asset(
+                      'assets/create_wallet/lottie/wallet_success.json',
+                      fit: BoxFit.contain,
+                      height: 0.5.height,
+                      width: 0.5.width,
+                      frameRate: FrameRate(60),
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: LottieBuilder.asset(
-                        'assets/create_wallet/lottie/wallet_success.json',
-                        fit: BoxFit.contain,
-                        height: 0.5.height,
-                        width: 0.5.width,
-                        frameRate: FrameRate(60),
-                      ),
-                    ),
-                  ],
-                )
-              ]
-            : [
-                Text(
-                  "Name your account",
-                  style: titleLarge,
-                ),
-                0.045.vspace,
-                Obx(
-                  () => Center(
-                    child: Container(
-                      height: 0.3.width,
-                      width: 0.3.width,
-                      alignment: Alignment.bottomRight,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: controller.currentSelectedType ==
-                                  AccountProfileImageType.assets
-                              ? AssetImage(controller.selectedImagePath.value)
-                              : FileImage(
-                                  File(
-                                    controller.selectedImagePath.value,
+                  ),
+                ],
+              ),
+            )
+          : BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+              child: DraggableScrollableSheet(
+                  initialChildSize: 0.95,
+                  minChildSize: 0.9,
+                  maxChildSize: 0.95,
+                  builder: (context, scrollController) {
+                    return Scaffold(
+                      resizeToAvoidBottomInset: false,
+                      backgroundColor: Colors.transparent,
+                      body: Container(
+                        color: Colors.black,
+                        width: 1.width,
+                        height: 1.height,
+                        padding: EdgeInsets.symmetric(horizontal: 32.sp),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            0.01.vspace,
+                            Center(
+                              child: Container(
+                                height: 5.sp,
+                                width: 36.sp,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: ColorConst.NeutralVariant.shade60
+                                      .withOpacity(0.3),
+                                ),
+                              ),
+                            ),
+                            0.01.vspace,
+                            backButton(),
+                            0.03.vspace,
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child:
+                                  Text("Name your account", style: titleLarge),
+                            ),
+                            0.05.vspace,
+                            Obx(
+                              () => Center(
+                                child: Container(
+                                  height: 120.sp,
+                                  width: 120.sp,
+                                  alignment: Alignment.bottomRight,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: controller.currentSelectedType ==
+                                              AccountProfileImageType.assets
+                                          ? AssetImage(controller
+                                              .selectedImagePath.value)
+                                          : FileImage(
+                                              File(
+                                                controller
+                                                    .selectedImagePath.value,
+                                              ),
+                                            ) as ImageProvider,
+                                    ),
                                   ),
-                                ) as ImageProvider,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Get.bottomSheet(
+                                        changePhotoBottomSheet(),
+                                        barrierColor:
+                                            Colors.white.withOpacity(0.01),
+                                        isScrollControlled: true,
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 20.sp,
+                                      backgroundColor: Colors.white,
+                                      child: SvgPicture.asset(
+                                        "${PathConst.SVG}add_photo.svg",
+                                        fit: BoxFit.contain,
+                                        height: 20.sp,
+                                        color: ColorConst.Primary,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            0.038.vspace,
+                            NaanTextfield(
+                              height: 52.sp,
+                              onTextChange: (e) {
+                                controller.phrase.value = e;
+                              },
+                              hint: "Account Name",
+                              controller: controller.accountNameController,
+                            ),
+                            const Spacer(),
+                            Obx(() => SolidButton(
+                                  primaryColor: controller.phrase.isNotEmpty
+                                      ? ColorConst.Primary
+                                      : const Color(0xFF1E1C1F),
+                                  height: 52.sp,
+                                  onPressed: controller.phrase.isEmpty
+                                      ? null
+                                      : () {
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                          controller.isCreatingNewAccount
+                                              .value = true;
+                                          controller.createNewWallet();
+                                        },
+                                  rowWidget: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        "${PathConst.SVG}check.svg",
+                                        color: Colors.white,
+                                        height: 16.sp,
+                                      ),
+                                      0.015.hspace,
+                                      Text(
+                                        "Start using Naan",
+                                        style: titleSmall.copyWith(
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                            0.05.vspace
+                          ],
                         ),
                       ),
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.bottomSheet(changePhotoBottomSheet(),
-                              barrierColor: Colors.transparent);
-                        },
-                        child: CircleAvatar(
-                          radius: 0.046.width,
-                          backgroundColor: Colors.white,
-                          child: SvgPicture.asset(
-                            "${PathConst.SVG}add_photo.svg",
-                            height: 16.sp,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                0.038.vspace,
-                NaanTextfield(
-                  height: 52.sp,
-                  hint: "Account Name",
-                  controller: controller.accountNameController,
-                ),
-                const Spacer(),
-                SolidButton(
-                  height: 52.sp,
-                  onPressed: () {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                    controller.isCreatingNewAccount.value = true;
-                    controller.createNewWallet();
-                  },
-                  rowWidget: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        "${PathConst.SVG}check.svg",
-                        color: Colors.white,
-                        height: 16.sp,
-                      ),
-                      0.015.hspace,
-                      Text(
-                        "Start using Naan",
-                        style: titleSmall.copyWith(fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                ),
-                0.05.vspace
-              ],
-      ),
+                    );
+                  }),
+            ),
     );
   }
 

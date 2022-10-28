@@ -201,8 +201,8 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
             children: [
               0.005.vspace,
               Container(
-                height: 5,
-                width: 36,
+                height: 5.sp,
+                width: 36.sp,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),

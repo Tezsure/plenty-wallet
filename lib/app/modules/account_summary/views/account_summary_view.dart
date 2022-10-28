@@ -25,7 +25,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AccountSummaryController());
+    Get.put((AccountSummaryController()));
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 20.sp, sigmaY: 20.sp),
       child: DraggableScrollableSheet(

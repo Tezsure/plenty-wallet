@@ -135,25 +135,32 @@ class AccountSummaryController extends GetxController {
         ),
         duration: const Duration(milliseconds: 1000),
       );
-    } else if (homePageController.userAccounts[index].publicKeyHash!
-            .contains(userAccount.value.publicKeyHash!) &&
-        index == homePageController.userAccounts.length - 1) {
-      userAccount.value = homePageController.userAccounts[index - 1];
-      selectedAccountIndex.value = index - 1;
+      return;
     } else if (index == homePageController.userAccounts.length - 1) {
-      userAccount.value = homePageController.userAccounts[index - 1];
-      selectedAccountIndex.value = index - 1;
+      // When the last index is selected
+      if (isSelectedAccount(index)) {
+        selectedAccountIndex.value = index - 1;
+        userAccount.value = homePageController.userAccounts[index - 1];
+      }
     } else {
-      userAccount.value = homePageController.userAccounts[index];
-      selectedAccountIndex.value = index;
+      if (isSelectedAccount(index)) {
+        selectedAccountIndex.value = index;
+        userAccount.value = homePageController.userAccounts[index + 1];
+      }
     }
+    userAccount.refresh();
     fetchAllTokens();
     fetchAllNfts();
+    updatePinHideTokenSet();
     Get
       ..back()
       ..back();
     isAccountEditable.value = false;
   }
+
+  bool isSelectedAccount(int index) =>
+      homePageController.userAccounts[index].publicKeyHash!
+          .contains(userAccount.value.publicKeyHash!);
 
   /// Turns the edit mode on or off
   void editAccount() {
@@ -309,6 +316,15 @@ class AccountSummaryController extends GetxController {
         }
       }
     }
+    if (pinTokenSet.length < 5) {
+      for (var element in userTokens) {
+        if (element.isPinned) {
+          userTokens.remove(element);
+          userTokens.insert(0, element);
+        }
+      }
+    }
+
     selectedTokenSet.clear();
     userTokens.refresh();
     isEditable.value = false;

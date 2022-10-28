@@ -119,9 +119,10 @@ class TokenCheckbox extends StatelessWidget {
                     Text(
                       r"$" +
                           (tokenModel[tokenIndex].name == "Tezos"
-                                  ? xtzPrice
-                                  : (tokenModel[tokenIndex].currentPrice! *
-                                      xtzPrice))
+                                  ? tokenModel[tokenIndex].balance * xtzPrice
+                                  : tokenModel[tokenIndex].balance *
+                                      (tokenModel[tokenIndex].currentPrice! *
+                                          xtzPrice))
                               .toStringAsFixed(6)
                               .removeTrailing0,
                       style: labelMedium.copyWith(fontWeight: FontWeight.w400),

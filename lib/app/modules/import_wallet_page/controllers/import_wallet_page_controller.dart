@@ -40,6 +40,10 @@ class ImportWalletPageController extends GetxController
   @override
   void onInit() {
     super.onInit();
+    phraseText.value =
+        "shine lake tank rough omit blur general choose vital amused surprise drum";
+    phraseTextController.value.text =
+        "shine lake tank rough omit blur general choose vital amused surprise drum";
     tabController = TabController(length: 2, vsync: this);
     tabController!.addListener(() {
       isTz1Selected.value = tabController!.index == 0;

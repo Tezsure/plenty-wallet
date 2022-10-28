@@ -415,7 +415,9 @@ Widget removeAccountBottomSheet(int index,
             width: 326.sp,
             height: 50.sp,
             primaryColor: const Color(0xff1E1C1F).withOpacity(0.8),
-            onPressed: Get.back,
+            onPressed: () {
+              Get.back();
+            },
             title: "Cancel",
             titleStyle: labelLarge,
           ),
