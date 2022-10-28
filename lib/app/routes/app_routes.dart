@@ -23,6 +23,7 @@ abstract class Routes {
   static const RECEIVE_PAGE = _Paths.RECEIVE_PAGE;
   static const SPLASH_PAGE = _Paths.SPLASH_PAGE;
   static const LOADING_PAGE = _Paths.LOADING_PAGE;
+  static const DAPP_BROWSER = _Paths.DAPP_BROWSER;
 }
 
 abstract class _Paths {
@@ -43,4 +44,5 @@ abstract class _Paths {
   static const RECEIVE_PAGE = '/receive-page';
   static const SPLASH_PAGE = '/splash-page';
   static const LOADING_PAGE = '/loading-page';
+  static const DAPP_BROWSER = '/dapp-browser';
 }

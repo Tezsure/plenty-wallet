@@ -30,11 +30,11 @@ dependencies:
   simple_gql: ^1.2.0
   hex: ^0.2.0
   shimmer: ^2.0.0
+  flutter_inappwebview: ^5.7.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
 
 flutter:
   assets:
