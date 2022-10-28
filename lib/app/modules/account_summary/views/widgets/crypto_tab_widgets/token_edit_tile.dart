@@ -19,20 +19,23 @@ class TokenEditTile extends GetView<AccountSummaryController> {
   final bool? isAnyTokenPinned;
   final bool? isTokenPinnedColor;
   final bool? isTokenHiddenColor;
+  final bool? showHideButton;
 
-  const TokenEditTile(
-      {super.key,
-      this.viewAll,
-      required this.expandedTokenList,
-      this.onEditTap,
-      this.isEditable = false,
-      this.isAnyTokenHidden = false,
-      this.isAnyTokenPinned = false,
-      this.onHideTap,
-      this.onPinTap,
-      this.showEditButton = false,
-      this.isTokenHiddenColor = false,
-      this.isTokenPinnedColor = false});
+  const TokenEditTile({
+    super.key,
+    this.viewAll,
+    required this.expandedTokenList,
+    this.onEditTap,
+    this.isEditable = false,
+    this.isAnyTokenHidden = false,
+    this.isAnyTokenPinned = false,
+    this.onHideTap,
+    this.onPinTap,
+    this.showEditButton = false,
+    this.isTokenHiddenColor = false,
+    this.isTokenPinnedColor = false,
+    this.showHideButton = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -90,12 +93,14 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                   buttonName: isAnyTokenPinned! ? 'Pin' : 'Unpin',
                   isDone: isTokenPinnedColor!,
                   onTap: onPinTap),
-              0.02.hspace,
-              EditButtons(
-                buttonName: isAnyTokenHidden! ? 'Hide' : 'Unhide',
-                isDone: isTokenHiddenColor!,
-                onTap: onHideTap,
-              ),
+              if (showHideButton!) ...[
+                0.02.hspace,
+                EditButtons(
+                  buttonName: isAnyTokenHidden! ? 'Hide' : 'Unhide',
+                  isDone: isTokenHiddenColor!,
+                  onTap: onHideTap,
+                ),
+              ],
             ],
           ),
         ),

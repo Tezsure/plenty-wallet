@@ -7,8 +7,7 @@ import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controll
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
-
-import '../../../../data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 class CollectibleWidget extends GetView<SendPageController> {
   CollectibleWidget({
@@ -153,7 +152,7 @@ class NFTwidget extends StatelessWidget {
           children: [
             Flexible(
               child: Container(
-                height: 164.sp,
+                height: 170.sp,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -173,26 +172,21 @@ class NFTwidget extends StatelessWidget {
             Text(
               nfTmodel.name!,
               style: labelMedium,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
             const SizedBox(
               height: 4,
             ),
-            FutureBuilder(
-                initialData: 'Artist',
-                future: ObjktNftApiService()
-                    .getNftCreator(nfTmodel.creators!.first.creatorAddress!),
-                builder: ((context, AsyncSnapshot<String> snapshot) {
-                  return Text(
-                    snapshot.data!.isEmpty
-                        ? nfTmodel.description
-                        : snapshot.data!,
-                    maxLines: 1,
-                    style: labelMedium.copyWith(
-                        color: ColorConst.NeutralVariant.shade60,
-                        fontWeight: FontWeight.w400),
-                    overflow: TextOverflow.ellipsis,
-                  );
-                })),
+            Text(
+              nfTmodel.creators?.first.holder?.alias ??
+                  nfTmodel.creators!.first.holder!.address!.tz1Short(),
+              maxLines: 1,
+              style: labelMedium.copyWith(
+                  color: ColorConst.NeutralVariant.shade60,
+                  fontWeight: FontWeight.w400),
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
       ),

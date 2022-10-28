@@ -111,7 +111,7 @@ class TransactionDetailsBottomSheet extends GetView<AccountSummaryController> {
             ],
           ),
           subtitle: Text(
-            tokenInfo.name,
+            tokenInfo.isNft ? tokenInfo.tokenSymbol : tokenInfo.name,
             style: labelLarge,
           ),
         ),
@@ -129,7 +129,7 @@ class TransactionDetailsBottomSheet extends GetView<AccountSummaryController> {
                     visualDensity: VisualDensity.compact,
                     leading: Text(
                         tokenInfo.isNft
-                            ? tokenInfo.tokenSymbol
+                            ? tokenInfo.name
                             : transactionModel.sender!.address!
                                     .contains(userAccountAddress)
                                 ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}'
@@ -166,7 +166,7 @@ class TransactionDetailsBottomSheet extends GetView<AccountSummaryController> {
           child: GestureDetector(
             onTap: () {
               CommonFunctions.launchURL(
-                  "https://tzkt.io/${getSenderAddress()}");
+                  "https://tzkt.io/${transactionModel.hash!}");
             },
             child: Container(
                 margin: EdgeInsets.symmetric(vertical: 20.sp),

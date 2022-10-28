@@ -71,15 +71,15 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Pinned Token Section
-                    if (controller.pinAccountSet.isNotEmpty) ...[
+                    if (controller.pinTokenSet.isNotEmpty) ...[
                       ListView.builder(
                         primary: false,
                         shrinkWrap: true,
                         itemCount: controller.userTokens.length,
                         itemBuilder: (_, index) {
                           String tokenName = controller.userTokens[index].name!;
-                          return controller.pinAccountSet.contains(tokenName) &&
-                                  !controller.hideAccountSet.contains(tokenName)
+                          return controller.pinTokenSet.contains(tokenName) &&
+                                  !controller.hideTokenSet.contains(tokenName)
                               ? _tokenBox(index)
                               : const SizedBox();
                         },
@@ -96,20 +96,21 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                                   String tokenName =
                                       controller.userTokens[index].name!;
                                   return controller.isEditable.isFalse &&
-                                          !controller.pinAccountSet
+                                          !controller.pinTokenSet
                                               .contains(tokenName) &&
-                                          !controller.hideAccountSet
+                                          !controller.hideTokenSet
                                               .contains(tokenName)
                                       ? _tokenBox(index)
                                       : controller.isEditable.isTrue &&
-                                              !controller.pinAccountSet
+                                              !controller.pinTokenSet
                                                   .contains(tokenName)
                                           ? _tokenBox(index)
                                           : const SizedBox();
                                 },
                               )
                             : const SizedBox(),
-                      ],
+                      ] else
+                        _tokenEditTile(true),
                     ] else ...[
                       ListView.builder(
                         primary: false,
@@ -133,20 +134,21 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                                   return index < 4
                                       ? const SizedBox()
                                       : controller.isEditable.isFalse &&
-                                              !controller.pinAccountSet
+                                              !controller.pinTokenSet
                                                   .contains(tokenName) &&
-                                              !controller.hideAccountSet
+                                              !controller.hideTokenSet
                                                   .contains(tokenName)
                                           ? _tokenBox(index)
                                           : controller.isEditable.isTrue &&
-                                                  !controller.pinAccountSet
+                                                  !controller.pinTokenSet
                                                       .contains(tokenName)
                                               ? _tokenBox(index)
                                               : const SizedBox();
                                 },
                               )
                             : const SizedBox(),
-                      ],
+                      ] else
+                        _tokenEditTile(true),
                     ],
                   ],
                 )),
@@ -162,7 +164,9 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
       onPinnedTap: () => controller.isPinTapped(index),
       onHiddenTap: () => controller.isHideTapped(index));
 
-  Widget _tokenEditTile() => TokenEditTile(
+  Widget _tokenEditTile([bool showEdit = false]) => TokenEditTile(
+        showHideButton: (controller.userTokens.length > 4),
+        showEditButton: showEdit,
         isAnyTokenHidden: controller.onHideTokenClick,
         isAnyTokenPinned: controller.onPinTokenClick,
         isTokenPinnedColor: controller.pinButtonColor,

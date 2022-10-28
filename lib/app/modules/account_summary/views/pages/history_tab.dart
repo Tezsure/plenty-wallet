@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -20,8 +21,10 @@ import '../widgets/history_tab_widgets/history_tile.dart';
 
 class HistoryPage extends GetView<AccountSummaryController> {
   final bool isNftTransaction;
-  final GestureTapCallback? onTap;
-  const HistoryPage({super.key, this.isNftTransaction = false, this.onTap});
+  const HistoryPage({
+    super.key,
+    this.isNftTransaction = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,10 @@ class HistoryPage extends GetView<AccountSummaryController> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         GestureDetector(
-                          onTap: onTap,
+                          // onTap: (() => Get.bottomSheet(
+                          //       const SearchBottomSheet(),
+                          //       isScrollControlled: true,
+                          //     )),
                           child: Container(
                             height: 0.06.height,
                             width: 0.8.width,
@@ -92,8 +98,8 @@ class HistoryPage extends GetView<AccountSummaryController> {
                 ),
               ),
             ),
-            // controller.userTransactionHistory.isEmpty
             true
+                // controller.userTransactionHistory.isEmpty
                 ? SliverToBoxAdapter(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -127,14 +133,18 @@ class HistoryPage extends GetView<AccountSummaryController> {
                       (context, index) {
                         late TokenInfo token;
                         token = tokenInfo(index);
-                        controller.tokenInfoList.addIf(
-                            !controller.tokenInfoList.any((element) =>
-                                element.id == null
-                                    ? true
-                                    : element.id!.isEqual(controller
-                                        .userTransactionHistory[index]
-                                        .lastid!)),
-                            token);
+                        if (!token.isNft) {
+                          controller
+                            ..tokenInfoList.addIf(
+                                !controller.tokenTransactionID.contains(
+                                    controller
+                                        .userTransactionHistory[index].lastid
+                                        .toString()),
+                                token)
+                            ..tokenTransactionID.add(controller
+                                .userTransactionHistory[index].lastid
+                                .toString());
+                        }
 
                         return token.isNft
                             ? nftLoader(index)
@@ -156,7 +166,8 @@ class HistoryPage extends GetView<AccountSummaryController> {
   TokenInfo tokenInfo(int index) {
     if (controller.isTezosTransaction(index)) {
       return TokenInfo(
-        id: controller.userTransactionHistory[index].lastid,
+        token: controller.userTransactionHistory[index],
+        id: controller.userTransactionHistory[index].lastid.toString(),
         index: index,
         tokenSymbol: "tez",
         tokenAmount: controller.userTransactionHistory[index].amount! / 1e6,
@@ -178,17 +189,21 @@ class HistoryPage extends GetView<AccountSummaryController> {
                       .parameter!.value)[0]['txs'][0]['amount'];
 
           return TokenInfo(
-              id: controller.userTransactionHistory[index].lastid,
+              token: controller.userTransactionHistory[index],
+              id: controller.userTransactionHistory[index].lastid.toString(),
               index: index,
               name: fa2Token.name!,
               dollarAmount: double.parse(amount) /
                   pow(10, fa2Token.decimals!) *
-                  fa2Token.currentPrice!,
+                  controller.xtzPrice.value,
               tokenSymbol: fa2Token.symbol!,
               tokenAmount: double.parse(amount) / pow(10, fa2Token.decimals!),
               imageUrl: controller.getImageUrl(index));
         }
       } else {
+        if (controller.isFa1TokenEmpty(index)) {
+          return TokenInfo(index: index, skip: true);
+        }
         TokenPriceModel faToken = controller.fa1TokenName(index);
         late String amount = "0";
         if (controller.userTransactionHistory[index].parameter!.value is Map) {
@@ -202,12 +217,13 @@ class HistoryPage extends GetView<AccountSummaryController> {
         }
 
         return TokenInfo(
+            token: controller.userTransactionHistory[index],
             index: index,
-            id: controller.userTransactionHistory[index].lastid,
+            id: controller.userTransactionHistory[index].lastid.toString(),
             name: faToken.name!,
             dollarAmount: (double.parse(amount) /
                 pow(10, faToken.decimals!) *
-                faToken.currentPrice!),
+                controller.xtzPrice.value),
             tokenSymbol: faToken.symbol!,
             tokenAmount: double.parse(amount) / pow(10, faToken.decimals!),
             imageUrl: controller.getImageUrl(index));
@@ -273,73 +289,91 @@ class HistoryPage extends GetView<AccountSummaryController> {
         ],
       );
 
-  Widget nftLoader(int index) => FutureBuilder(
-      future: ObjktNftApiService().getTransactionNFT(
-          controller.userTransactionHistory[index].target!.address!,
-          controller.userTransactionHistory[index].parameter?.value[0]["txs"][0]
-              ["token_id"]),
-      builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
-        if (!snapshot.hasData) {
-          // while data is loading:
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          TokenInfo token = TokenInfo(
-              index: index,
-              isNft: true,
-              id: controller.userTransactionHistory[index].lastid,
-              tokenSymbol: snapshot.data!.fa!.name!,
-              dollarAmount: snapshot.data!.lowestAsk / 1e6,
-              tokenAmount: snapshot.data!.lowestAsk != null &&
-                      snapshot.data!.lowestAsk != 0
-                  ? snapshot.data!.lowestAsk / 1e6
-                  : 0,
-              name: snapshot.data!.name!,
-              imageUrl: snapshot.data!.displayUri!);
+  Widget nftLoader(int index) {
+    late String contractAddress;
+    late String tokenId;
+    var typeCheck = controller.userTransactionHistory[index].parameter!.value;
+    if (typeCheck is String) {
+      contractAddress =
+          controller.userTransactionHistory[index].target!.address!;
+      tokenId = jsonDecode(typeCheck)[0]['txs'][0]['token_id'];
+    } else if (typeCheck is Map) {
+    } else if (typeCheck is List) {
+      contractAddress =
+          controller.userTransactionHistory[index].target!.address!;
+      tokenId = typeCheck[0]['txs'][0]['token_id'];
+    } else {}
+    return FutureBuilder(
+        future:
+            ObjktNftApiService().getTransactionNFT(contractAddress, tokenId),
+        builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
+          if (!snapshot.hasData) {
+            // while data is loading:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            TokenInfo token = TokenInfo(
+                token: controller.userTransactionHistory[index],
+                index: index,
+                isNft: true,
+                id: controller.userTransactionHistory[index].lastid.toString(),
+                tokenSymbol: snapshot.data!.fa!.name!,
+                dollarAmount: (snapshot.data!.lowestAsk / 1e6) *
+                    controller.xtzPrice.value,
+                tokenAmount: snapshot.data!.lowestAsk != null &&
+                        snapshot.data!.lowestAsk != 0
+                    ? snapshot.data!.lowestAsk / 1e6
+                    : 0,
+                name: snapshot.data!.name!,
+                imageUrl: snapshot.data!.displayUri!);
 
-          controller.tokenInfoList.addIf(
-              !controller.tokenInfoList.any((element) => element.id == null
-                  ? true
-                  : element.id!.isEqual(
-                      controller.userTransactionHistory[index].lastid!)),
-              token);
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding:
-                    EdgeInsets.only(top: 16.sp, left: 16.sp, bottom: 16.sp),
-                child: Text(
-                  DateFormat.yMMMEd()
-                      // displaying formatted date
-                      .format(DateTime.parse(
-                          controller.userTransactionHistory[index].timestamp!)),
-                  style: labelMedium,
+            controller
+              ..tokenInfoList.addIf(
+                  !controller.tokenTransactionID.contains(controller
+                      .userTransactionHistory[index].lastid
+                      .toString()),
+                  token)
+              ..tokenTransactionID.add(
+                  controller.userTransactionHistory[index].lastid.toString());
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.only(top: 16.sp, left: 16.sp, bottom: 16.sp),
+                  child: Text(
+                    DateFormat.yMMMEd()
+                        // displaying formatted date
+                        .format(DateTime.parse(controller
+                            .userTransactionHistory[index].timestamp!)),
+                    style: labelMedium,
+                  ),
                 ),
-              ),
-              HistoryTile(
-                tokenSymbol: token.tokenSymbol,
-                isNft: token.isNft,
-                dollarAmount: token.dollarAmount,
-                tezAmount: token.tokenAmount,
-                tokenName: token.name,
-                tokenIconUrl: token.imageUrl,
-                userAccountAddress: controller.userAccount.value.publicKeyHash!,
-                xtzPrice: controller.xtzPrice.value,
-                historyModel: controller.userTransactionHistory[index],
-                onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
-                  tokenInfo: token,
+                HistoryTile(
+                  tokenSymbol: token.tokenSymbol,
+                  isNft: token.isNft,
+                  dollarAmount: token.dollarAmount,
+                  tezAmount: token.tokenAmount,
+                  tokenName: token.name,
+                  tokenIconUrl: token.imageUrl,
                   userAccountAddress:
                       controller.userAccount.value.publicKeyHash!,
-                  transactionModel: controller.userTransactionHistory[index],
-                )),
-              ),
-            ],
-          );
-        }
-      }));
+                  xtzPrice: controller.xtzPrice.value,
+                  historyModel: controller.userTransactionHistory[index],
+                  onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
+                    tokenInfo: token,
+                    userAccountAddress:
+                        controller.userAccount.value.publicKeyHash!,
+                    transactionModel: controller.userTransactionHistory[index],
+                  )),
+                ),
+              ],
+            );
+          }
+        }));
+  }
 }
 
 extension DateOnlyCompare on DateTime {
@@ -357,7 +391,8 @@ class TokenInfo {
   final double tokenAmount;
   final double dollarAmount;
   final String tokenSymbol;
-  final int? id;
+  final String id;
+  final TxHistoryModel? token;
 
   TokenInfo(
       {this.name = "Tezos",
@@ -367,6 +402,7 @@ class TokenInfo {
       this.dollarAmount = 0,
       this.tokenSymbol = "tez",
       this.tokenAmount = 0,
-      this.id,
+      this.id = "",
+      this.token,
       required this.index});
 }

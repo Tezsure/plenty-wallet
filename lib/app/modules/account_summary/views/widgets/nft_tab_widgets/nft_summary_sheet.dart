@@ -37,7 +37,6 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
   void initState() {
     imageUrl =
         "https://assets.objkt.media/file/assets-003/${widget.nftModel!.faContract}/${widget.nftModel!.tokenId.toString()}/thumb400";
-    //  var owned = widget.nftModel!.holders?.forEach((element) {element.holderAddress?.contains(widget.nftModel.)})
     super.initState();
   }
 
@@ -53,7 +52,6 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
               width: 1.width,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                  // gradient: GradConst.GradientBackground,
                   color: Colors.black),
               child: SingleChildScrollView(
                 controller: scrollController,
@@ -64,8 +62,8 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                     0.01.vspace,
                     Center(
                       child: Container(
-                        height: 5,
-                        width: 36,
+                        height: 5.sp,
+                        width: 36.sp,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: ColorConst.NeutralVariant.shade60
@@ -79,20 +77,30 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                       children: [
                         IconButton(
                             onPressed: widget.onBackTap,
-                            icon: const Icon(Icons.arrow_back_ios_new,
-                                color: Colors.white)),
+                            icon: Icon(
+                              Icons.arrow_back_ios_new,
+                              color: Colors.white,
+                              size: 16.sp,
+                            )),
                         const Spacer(),
                         IconButton(
                             onPressed: () {},
                             padding: EdgeInsets.zero,
                             visualDensity: VisualDensity.compact,
-                            icon: const Icon(Icons.share, color: Colors.white)),
+                            icon: Icon(
+                              Icons.share,
+                              color: Colors.white,
+                              size: 16.sp,
+                            )),
                         IconButton(
                             onPressed: () {},
                             padding: EdgeInsets.zero,
                             visualDensity: VisualDensity.compact,
-                            icon: const Icon(Icons.cast_rounded,
-                                color: Colors.white)),
+                            icon: Icon(
+                              Icons.cast_rounded,
+                              color: Colors.white,
+                              size: 16.sp,
+                            )),
                       ],
                     ),
                     Container(
@@ -129,8 +137,9 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: Transform.rotate(
                                   angle: pi / 180 * 135,
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.code_outlined,
+                                    size: 20.sp,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -285,6 +294,8 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                     ListView.builder(
                         itemCount: widget.nftModel?.creators?.length ?? 0,
                         shrinkWrap: true,
+                        primary: false,
+                        controller: scrollController,
                         itemBuilder: ((context, index) {
                           var creator =
                               "https://services.tzkt.io/v1/avatars/${widget.nftModel!.creators![index].creatorAddress}";
@@ -337,105 +348,112 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                     SizedBox(
                       height: isExpanded ? 0.4.height : 0.25.height,
                       child: TabBarView(children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ExpansionTile(
-                                onExpansionChanged: (val) => isExpanded = val,
-                                title: Text(
-                                  'About Collection',
-                                  style: labelSmall,
-                                ),
-                                iconColor: Colors.white,
-                                collapsedIconColor: Colors.white,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 16.sp, right: 13.sp),
-                                    child: Column(
+                        SingleChildScrollView(
+                          controller: scrollController,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ExpansionTile(
+                                  onExpansionChanged: (val) => setState(() {
+                                        isExpanded = val;
+                                      }),
+                                  title: Text(
+                                    'About Collection',
+                                    style: labelSmall,
+                                  ),
+                                  iconColor: Colors.white,
+                                  collapsedIconColor: Colors.white,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 16.sp, right: 13.sp),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              CircleAvatar(
+                                                  radius: 10,
+                                                  backgroundColor: Colors.white,
+                                                  foregroundImage: NetworkImage(
+                                                      "${widget.nftModel!.fa!.logo}")),
+                                              0.04.hspace,
+                                              Text(
+                                                "${widget.nftModel!.fa!.name}",
+                                                style: labelSmall,
+                                              ),
+                                            ],
+                                          ),
+                                          0.01.vspace,
+                                          Text(
+                                            widget.nftModel!.description!,
+                                            style: bodySmall.copyWith(
+                                                color: ColorConst
+                                                    .NeutralVariant.shade60),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ]),
+                              Divider(
+                                color: ColorConst.NeutralVariant.shade20,
+                                endIndent: 14.sp,
+                                indent: 14.sp,
+                              ),
+                              ExpansionTile(
+                                  onExpansionChanged: (val) => setState(() {
+                                        isExpanded = val;
+                                      }),
+                                  iconColor: Colors.white,
+                                  collapsedIconColor: Colors.white,
+                                  title: Text(
+                                    'Details',
+                                    style: labelSmall,
+                                  ),
+                                  children: [
+                                    Row(
                                       children: [
-                                        Row(
-                                          children: [
-                                            CircleAvatar(
-                                                radius: 10,
-                                                backgroundColor: Colors.white,
-                                                foregroundImage: NetworkImage(
-                                                    "${widget.nftModel!.fa!.logo}")),
-                                            0.04.hspace,
-                                            Text(
-                                              "${widget.nftModel!.fa!.name}",
-                                              style: labelSmall,
-                                            ),
-                                          ],
-                                        ),
-                                        0.01.vspace,
-                                        Text(
-                                          widget.nftModel!.fa!.description!,
-                                          style: bodySmall.copyWith(
-                                              color: ColorConst
-                                                  .NeutralVariant.shade60),
-                                        )
+                                        0.04.hspace,
+                                        RichText(
+                                            textAlign: TextAlign.start,
+                                            text: TextSpan(
+                                                text: 'Contract Address\n',
+                                                style: labelSmall,
+                                                children: [
+                                                  TextSpan(
+                                                      text: 'Token ID',
+                                                      style: labelSmall)
+                                                ])),
+                                        const Spacer(),
+                                        RichText(
+                                            textAlign: TextAlign.end,
+                                            text: TextSpan(
+                                                text:
+                                                    "${tz1Shortner(widget.nftModel!.fa!.contract!)} ",
+                                                style: bodySmall.copyWith(
+                                                    color: ColorConst.Primary),
+                                                children: [
+                                                  const WidgetSpan(
+                                                    child: Icon(
+                                                      Icons.open_in_new,
+                                                      size: 14,
+                                                      color: ColorConst.Primary,
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                      text:
+                                                          '\n${widget.nftModel!.tokenId}',
+                                                      style: bodySmall.copyWith(
+                                                          color: ColorConst
+                                                              .NeutralVariant
+                                                              .shade60))
+                                                ])),
+                                        0.04.hspace,
                                       ],
                                     ),
-                                  )
-                                ]),
-                            Divider(
-                              color: ColorConst.NeutralVariant.shade20,
-                              endIndent: 14.sp,
-                              indent: 14.sp,
-                            ),
-                            ExpansionTile(
-                                onExpansionChanged: (val) => isExpanded = val,
-                                iconColor: Colors.white,
-                                collapsedIconColor: Colors.white,
-                                title: Text(
-                                  'Details',
-                                  style: labelSmall,
-                                ),
-                                children: [
-                                  Row(
-                                    children: [
-                                      0.04.hspace,
-                                      RichText(
-                                          textAlign: TextAlign.start,
-                                          text: TextSpan(
-                                              text: 'Contract Address\n',
-                                              style: labelSmall,
-                                              children: [
-                                                TextSpan(
-                                                    text: 'Token ID',
-                                                    style: labelSmall)
-                                              ])),
-                                      const Spacer(),
-                                      RichText(
-                                          textAlign: TextAlign.end,
-                                          text: TextSpan(
-                                              text:
-                                                  "${tz1Shortner(widget.nftModel!.fa!.contract!)} ",
-                                              style: bodySmall.copyWith(
-                                                  color: ColorConst.Primary),
-                                              children: [
-                                                const WidgetSpan(
-                                                  child: Icon(
-                                                    Icons.open_in_new,
-                                                    size: 14,
-                                                    color: ColorConst.Primary,
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                    text:
-                                                        '\n${widget.nftModel!.tokenId}',
-                                                    style: bodySmall.copyWith(
-                                                        color: ColorConst
-                                                            .NeutralVariant
-                                                            .shade60))
-                                              ])),
-                                      0.04.hspace,
-                                    ],
-                                  ),
-                                ]),
-                          ],
+                                  ]),
+                            ],
+                          ),
                         ),
                         // Sliver List Builder
                         CustomScrollView(
@@ -534,145 +552,6 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                             ),
                           ],
                         ),
-
-                        // ListView.builder(
-                        //   controller: scrollController,
-                        //   primary: false,
-                        //   padding: EdgeInsets.all(10.sp),
-                        //   itemCount: widget.nftModel!.events!.length,
-                        //   itemBuilder: ((context, index) => Padding(
-                        //         padding: EdgeInsets.only(bottom: 6.sp),
-                        //         child: Material(
-                        //           color: ColorConst.NeutralVariant.shade60
-                        //               .withOpacity(0.2),
-                        //           shape: const RoundedRectangleBorder(
-                        //               borderRadius: BorderRadius.all(
-                        //                   Radius.circular(10))),
-                        //           child: ListTile(
-                        //             dense: true,
-                        //             leading: CircleAvatar(
-                        //               backgroundColor: Colors.transparent,
-                        //               child: SvgPicture.asset(
-                        //                 '${PathConst.SVG}bi_arrow.svg',
-                        //                 fit: BoxFit.contain,
-                        //               ),
-                        //             ),
-                        //             title: Text(
-                        //               // "${widget.nftModel!.events!}",
-                        //               'Transfer',
-                        //               style: labelMedium,
-                        //             ),
-                        //             subtitle: Text(
-                        //               'to ${tz1Shortner('tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx')}',
-                        //               style: bodySmall.copyWith(
-                        //                   color: ColorConst
-                        //                       .NeutralVariant.shade60),
-                        //             ),
-                        //             trailing: Text(
-                        //               '1.5 hours ago',
-                        //               style: labelSmall.copyWith(
-                        //                   color: ColorConst
-                        //                       .NeutralVariant.shade60),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       )),
-                        // ),
-
-                        // Padding(
-                        //   padding: EdgeInsets.all(10.sp),
-                        //   child: Column(
-                        //     children: [
-                        //       0.01.vspace,
-                        //       Material(
-                        //         color: ColorConst.NeutralVariant.shade60
-                        //             .withOpacity(0.2),
-                        //         shape: const RoundedRectangleBorder(
-                        //             borderRadius:
-                        //                 BorderRadius.all(Radius.circular(10))),
-                        //         child: ListTile(
-                        //           dense: true,
-                        //           leading: CircleAvatar(
-                        //             backgroundColor: Colors.transparent,
-                        //             child: SvgPicture.asset(
-                        //               '${PathConst.SVG}bi_arrow.svg',
-                        //               fit: BoxFit.contain,
-                        //             ),
-                        //           ),
-                        //           title: Text(
-                        //             // "${widget.nftModel!.events!}",
-                        //             'Transfer',
-                        //             style: labelMedium,
-                        //           ),
-                        //           subtitle: Text(
-                        //             'to ${tz1Shortner('tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx')}',
-                        //             style: bodySmall.copyWith(
-                        //                 color:
-                        //                     ColorConst.NeutralVariant.shade60),
-                        //           ),
-                        //           trailing: Text(
-                        //             '1.5 hours ago',
-                        //             style: labelSmall.copyWith(
-                        //                 color:
-                        //                     ColorConst.NeutralVariant.shade60),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       0.01.vspace,
-                        //       Material(
-                        //         color: ColorConst.NeutralVariant.shade60
-                        //             .withOpacity(0.2),
-                        //         shape: const RoundedRectangleBorder(
-                        //             borderRadius:
-                        //                 BorderRadius.all(Radius.circular(10))),
-                        //         child: ListTile(
-                        //           dense: true,
-                        //           leading: CircleAvatar(
-                        //             backgroundColor: Colors.transparent,
-                        //             child: SvgPicture.asset(
-                        //               '${PathConst.SVG}cart.svg',
-                        //               fit: BoxFit.contain,
-                        //             ),
-                        //           ),
-                        //           title: Text(
-                        //             'Sale',
-                        //             style: labelMedium,
-                        //           ),
-                        //           subtitle: Text(
-                        //             'to ${tz1Shortner('tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx')}',
-                        //             style: bodySmall.copyWith(
-                        //                 color:
-                        //                     ColorConst.NeutralVariant.shade60),
-                        //           ),
-                        //           trailing: RichText(
-                        //             textAlign: TextAlign.end,
-                        //             text: TextSpan(
-                        //               text: '123 ',
-                        //               style: labelSmall,
-                        //               children: [
-                        //                 WidgetSpan(
-                        //                   alignment:
-                        //                       PlaceholderAlignment.middle,
-                        //                   child: SvgPicture.asset(
-                        //                     '${PathConst.HOME_PAGE}svg/xtz.svg',
-                        //                     height: 12.sp,
-                        //                     color: Colors.white,
-                        //                   ),
-                        //                 ),
-                        //                 TextSpan(
-                        //                   text: '\n2 days ago',
-                        //                   style: labelSmall.copyWith(
-                        //                       color: ColorConst
-                        //                           .NeutralVariant.shade60),
-                        //                 ),
-                        //               ],
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                       ]),
                     ),
                   ],

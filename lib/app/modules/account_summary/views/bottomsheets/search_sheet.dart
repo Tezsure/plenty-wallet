@@ -30,7 +30,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   FocusNode focusNode = FocusNode();
   TextEditingController searchController = TextEditingController();
   AccountSummaryController controller = Get.find<AccountSummaryController>();
-  List<TxHistoryModel> searchResult = [];
+  List<TxHistoryModel?> searchResult = [];
 
   @override
   void initState() {
@@ -104,11 +104,10 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                                   }
                                   controller.searchDebounceTimer = Timer(
                                       const Duration(milliseconds: 250), () {
-                                    setState(() {
-                                      searchResult =
-                                          controller.searchTransactionHistory(
-                                              value.toLowerCase());
-                                    });
+                                    searchResult =
+                                        controller.searchTransactionHistory(
+                                            value.toLowerCase());
+                                    setState(() {});
                                   });
                                 }),
                                 decoration: InputDecoration(
@@ -193,17 +192,17 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                               SliverList(
                                 delegate: SliverChildBuilderDelegate(
                                   (context, index) {
-                                    late TokenInfo token;
-                                    token = tokenInfo(index);
-                                    return token.isNft
-                                        ? nftLoader(index)
-                                        : token.skip
-                                            ? const SizedBox()
-                                            : index == 0
-                                                ? tokenLoader(token)
-                                                : controller.isHashSame(index)
-                                                    ? const SizedBox()
-                                                    : tokenLoader(token);
+                                    if (searchResult[index] == null) {
+                                      return const SizedBox();
+                                    } else {
+                                      late TokenInfo token;
+                                      token = tokenInfo(index);
+                                      return token.isNft
+                                          ? nftLoader(index)
+                                          : token.skip
+                                              ? const SizedBox()
+                                              : tokenLoader(token);
+                                    }
                                   },
                                   childCount: searchResult.length,
                                 ),
@@ -217,55 +216,72 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   }
 
   TokenInfo tokenInfo(int index) {
-    if (controller.isTezosTransaction(index)) {
-      return TokenInfo(
-        index: index,
-        tokenSymbol: "tez",
-        tokenAmount: searchResult[index].amount! / 1e6,
-        dollarAmount:
-            (searchResult[index].amount! / 1e6) * controller.xtzPrice.value,
-      );
-    } else if (searchResult[index].isTezosTransaction()) {
-      if (searchResult[index].isFa2Token()) {
-        if (searchResult[index].isFa2TokenListEmpty()) {
-          return TokenInfo(isNft: true, index: index);
-        } else {
-          TokenPriceModel fa2Token = searchResult[index].fa2TokenName();
-
-          String amount = searchResult[index].parameter?.value is List
-              ? searchResult[index].parameter?.value[0]['txs'][0]['amount']
-              : jsonDecode(searchResult[index].parameter!.value)[0]['txs'][0]
-                  ['amount'];
-
-          return TokenInfo(
-              index: index,
-              name: fa2Token.name!,
-              dollarAmount: double.parse(amount) /
-                  pow(10, fa2Token.decimals!) *
-                  fa2Token.currentPrice!,
-              tokenSymbol: fa2Token.symbol!,
-              tokenAmount: double.parse(amount) / pow(10, fa2Token.decimals!),
-              imageUrl: searchResult[index].getImageUrl());
-        }
-      } else {
-        TokenPriceModel faToken = searchResult[index].fa1TokenName();
-        late String amount = "0";
-        if (searchResult[index].parameter!.value is Map) {
-          amount = searchResult[index].parameter!.value['value'];
-        } else if (searchResult[index].parameter!.value is String) {
-          var decodedString = jsonDecode(searchResult[index].parameter!.value);
-          amount = decodedString['value'];
-        }
-
+    if (searchResult[index] != null) {
+      if (controller.isTezosTransaction(index)) {
         return TokenInfo(
+          index: index,
+          tokenSymbol: "tez",
+          tokenAmount: searchResult[index]!.amount! / 1e6,
+          dollarAmount:
+              (searchResult[index]!.amount! / 1e6) * controller.xtzPrice.value,
+        );
+      } else {
+        if (isTezosTransaction(index)) {
+          if (isFa2Token(index)) {
+            if (searchResult[index]!.isFa2TokenListEmpty()) {
+              return TokenInfo(isNft: true, index: index);
+            } else {
+              TokenPriceModel fa2Token = searchResult[index]!.fa2TokenName();
+
+              String amount = searchResult[index]!.parameter?.value is List
+                  ? searchResult[index]!.parameter?.value[0]['txs'][0]['amount']
+                  : jsonDecode(searchResult[index]!.parameter!.value)[0]['txs']
+                      [0]['amount'];
+
+              return TokenInfo(
+                  index: index,
+                  name: fa2Token.name!,
+                  dollarAmount: double.parse(amount) /
+                      pow(10, fa2Token.decimals!) *
+                      fa2Token.currentPrice!,
+                  tokenSymbol: fa2Token.symbol!,
+                  tokenAmount:
+                      double.parse(amount) / pow(10, fa2Token.decimals!),
+                  imageUrl: searchResult[index]!.getImageUrl());
+            }
+          } else {
+            if (searchResult[index]!.isFa2TokenListEmpty()) {
+              return TokenInfo(
+                skip: true,
+                index: index,
+              );
+            }
+            TokenPriceModel faToken = searchResult[index]!.fa1TokenName();
+            late String amount = "0";
+            if (searchResult[index]!.parameter!.value is Map) {
+              amount = searchResult[index]!.parameter!.value['value'];
+            } else if (searchResult[index]!.parameter!.value is String) {
+              var decodedString =
+                  jsonDecode(searchResult[index]!.parameter!.value);
+              amount = decodedString['value'];
+            }
+
+            return TokenInfo(
+                index: index,
+                name: faToken.name!,
+                dollarAmount: (double.parse(amount) /
+                    pow(10, faToken.decimals!) *
+                    faToken.currentPrice!),
+                tokenSymbol: faToken.symbol!,
+                tokenAmount: double.parse(amount) / pow(10, faToken.decimals!),
+                imageUrl: searchResult[index]!.getImageUrl());
+          }
+        } else {
+          return TokenInfo(
+            skip: true,
             index: index,
-            name: faToken.name!,
-            dollarAmount: (double.parse(amount) /
-                pow(10, faToken.decimals!) *
-                faToken.currentPrice!),
-            tokenSymbol: faToken.symbol!,
-            tokenAmount: double.parse(amount) / pow(10, faToken.decimals!),
-            imageUrl: searchResult[index].getImageUrl());
+          );
+        }
       }
     } else {
       return TokenInfo(
@@ -287,13 +303,13 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                     DateFormat.yMMMEd()
                         // displaying formatted date
                         .format(DateTime.parse(
-                            searchResult[token.index].timestamp!)),
+                            searchResult[token.index]!.timestamp!)),
                     style: labelMedium,
                   ),
                 )
-              : DateTime.parse(searchResult[token.index].timestamp!).isSameDate(
-                      DateTime.parse(
-                          searchResult[token.index == 0 ? 0 : token.index - 1]
+              : DateTime.parse(searchResult[token.index]!.timestamp!)
+                      .isSameDate(DateTime.parse(
+                          searchResult[token.index == 0 ? 0 : token.index - 1]!
                               .timestamp!))
                   ? const SizedBox()
                   : Padding(
@@ -303,7 +319,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                         DateFormat.yMMMEd()
                             // displaying formatted date
                             .format(DateTime.parse(
-                                searchResult[token.index].timestamp!)),
+                                searchResult[token.index]!.timestamp!)),
                         style: labelMedium,
                       ),
                     ),
@@ -315,11 +331,11 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
             tokenIconUrl: token.imageUrl,
             userAccountAddress: controller.userAccount.value.publicKeyHash!,
             xtzPrice: controller.xtzPrice.value,
-            historyModel: searchResult[token.index],
+            historyModel: searchResult[token.index]!,
             onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
               tokenInfo: token,
               userAccountAddress: controller.userAccount.value.publicKeyHash!,
-              transactionModel: searchResult[token.index],
+              transactionModel: searchResult[token.index]!,
             )),
           ),
         ],
@@ -327,8 +343,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
 
   Widget nftLoader(int index) => FutureBuilder(
       future: ObjktNftApiService().getTransactionNFT(
-          searchResult[index].target!.address!,
-          searchResult[index].parameter?.value[0]["txs"][0]["token_id"]),
+          searchResult[index]!.target!.address!,
+          searchResult[index]!.parameter?.value[0]["txs"][0]["token_id"]),
       builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
         if (!snapshot.hasData) {
           // while data is loading:
@@ -357,7 +373,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                 child: Text(
                   DateFormat.yMMMEd()
                       // displaying formatted date
-                      .format(DateTime.parse(searchResult[index].timestamp!)),
+                      .format(DateTime.parse(searchResult[index]!.timestamp!)),
                   style: labelMedium,
                 ),
               ),
@@ -370,36 +386,37 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                 tokenIconUrl: token.imageUrl,
                 userAccountAddress: controller.userAccount.value.publicKeyHash!,
                 xtzPrice: controller.xtzPrice.value,
-                historyModel: searchResult[index],
+                historyModel: searchResult[index]!,
                 onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
                   tokenInfo: token,
                   userAccountAddress:
                       controller.userAccount.value.publicKeyHash!,
-                  transactionModel: searchResult[index],
+                  transactionModel: searchResult[index]!,
                 )),
               ),
             ],
           );
         }
       }));
-}
 
-extension SearchExtension on TxHistoryModel {
-  bool isTezosTransaction() {
-    return amount != null && amount! > 0 && parameter == null;
-  }
+  bool isTezosTransaction(int index) =>
+      searchResult[index]!.amount != null &&
+      searchResult[index]!.amount! > 0 &&
+      searchResult[index]!.parameter == null;
 
-  bool isAnyTokenOrNFTTransaction() {
-    return parameter != null && parameter?.entrypoint == "transfer";
-  }
+  bool isAnyTokenOrNftTransaction(int index) =>
+      searchResult[index]!.parameter != null &&
+      searchResult[index]!.parameter?.entrypoint == "transfer";
 
-  bool isFa2Token() {
-    if (parameter!.value is Map) {
+  bool isFa2Token(int index) {
+    if (searchResult[index]!.parameter == null) {
       return false;
-    } else if (parameter!.value is List) {
+    } else if (searchResult[index]!.parameter!.value is Map) {
+      return false;
+    } else if (searchResult[index]!.parameter!.value is List) {
       return true;
-    } else if (parameter!.value is String) {
-      var decodedString = jsonDecode(parameter!.value);
+    } else if (searchResult[index]!.parameter!.value is String) {
+      var decodedString = jsonDecode(searchResult[index]!.parameter!.value);
       if (decodedString is List) {
         return true;
       } else {
@@ -409,6 +426,33 @@ extension SearchExtension on TxHistoryModel {
       return false;
     }
   }
+}
+
+extension SearchExtension on TxHistoryModel {
+  // bool isTezosTransaction() {
+  //   return amount != null && amount! > 0 && parameter == null;
+  // }
+
+  // bool isAnyTokenOrNFTTransaction() {
+  //   return parameter != null && parameter?.entrypoint == "transfer";
+  // }
+
+  // bool isFa2Token() {
+  //   if (parameter!.value is Map) {
+  //     return false;
+  //   } else if (parameter!.value is List) {
+  //     return true;
+  //   } else if (parameter!.value is String) {
+  //     var decodedString = jsonDecode(parameter!.value);
+  //     if (decodedString is List) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   bool isFa2TokenListEmpty() => Get.find<AccountSummaryController>()
       .tokensList
@@ -430,8 +474,13 @@ extension SearchExtension on TxHistoryModel {
           p0.tokenId!.contains(parameter!.value is List
               ? parameter?.value[0]["txs"][0]["token_id"]
               : jsonDecode(parameter!.value)[0]["txs"][0]["token_id"]));
+
   TokenPriceModel fa1TokenName() => Get.find<AccountSummaryController>()
       .tokensList
       .where((p0) => (p0.tokenAddress!.contains(target!.address!)))
       .first;
+  bool isTokenListEmpty() => Get.find<AccountSummaryController>()
+      .tokensList
+      .where((p0) => p0.tokenAddress!.contains(target!.address!))
+      .isEmpty;
 }

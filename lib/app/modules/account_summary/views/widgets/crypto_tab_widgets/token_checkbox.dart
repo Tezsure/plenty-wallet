@@ -96,10 +96,9 @@ class TokenCheckbox extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(tokenModel[tokenIndex].name!,
-                              overflow: tokenModel[tokenIndex].name!.length < 15
-                                  ? TextOverflow.visible
-                                  : TextOverflow.fade,
+                              overflow: TextOverflow.ellipsis,
                               softWrap: false,
+                              maxLines: 1,
                               style: labelLarge.copyWith(
                                   letterSpacing: 0.5, height: 16 / 14)),
                           SizedBox(
@@ -108,7 +107,8 @@ class TokenCheckbox extends StatelessWidget {
                           Text(
                               "${tokenModel[tokenIndex].balance.toStringAsFixed(6)} ${tokenModel[tokenIndex].symbol}",
                               softWrap: false,
-                              overflow: TextOverflow.fade,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                               style: labelMedium.copyWith(
                                   fontWeight: FontWeight.w400,
                                   color: ColorConst.NeutralVariant.shade60)),

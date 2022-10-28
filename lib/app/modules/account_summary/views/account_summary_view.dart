@@ -16,7 +16,6 @@ import '../../receive_page/views/receive_page_view.dart';
 import '../../send_page/views/send_page.dart';
 import '../controllers/account_summary_controller.dart';
 import 'bottomsheets/account_selector.dart';
-import 'bottomsheets/search_sheet.dart';
 import 'pages/crypto_tab.dart';
 import 'pages/history_tab.dart';
 import 'pages/nft_tab.dart';
@@ -225,9 +224,9 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                       width: 1.width,
                       child: TabBar(
                           onTap: (value) async {
-                            // value == 2
-                            //     ? controller.userTransactionLoader()
-                            //     : null;
+                            value == 2
+                                ? controller.userTransactionLoader()
+                                : null;
                           },
                           isScrollable: true,
                           labelColor: ColorConst.Primary.shade95,
@@ -274,18 +273,13 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                             ),
                           ]),
                     ),
-                    Expanded(
+                    const Expanded(
                       child: TabBarView(
-                        physics: const NeverScrollableScrollPhysics(),
+                        physics: NeverScrollableScrollPhysics(),
                         children: [
-                          const CryptoTabPage(),
-                          const NFTabPage(),
-                          HistoryPage(
-                            onTap: (() => Get.bottomSheet(
-                                  const SearchBottomSheet(),
-                                  isScrollControlled: true,
-                                )),
-                          ),
+                          CryptoTabPage(),
+                          NFTabPage(),
+                          HistoryPage(),
                         ],
                       ),
                     ),

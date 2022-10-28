@@ -29,6 +29,7 @@ class AccountSummaryController extends GetxController {
   RxList<TokenPriceModel> tokensList = <TokenPriceModel>[].obs;
   Timer? searchDebounceTimer;
   RxList<TokenInfo> tokenInfoList = <TokenInfo>[].obs;
+  Set<String> tokenTransactionID = <String>{};
   RxBool isFilterApplied = false.obs;
 
   // ! Account Related Variables
@@ -48,9 +49,9 @@ class AccountSummaryController extends GetxController {
   RxDouble xtzPrice = 0.0.obs; // Current xtz price
   RxList<AccountTokenModel> userTokens =
       <AccountTokenModel>[].obs; // List of user tokens
-  Set<String> pinAccountSet = {}, // Set of pinned accounts
-      hideAccountSet = {}, // Set of hidden accounts
-      selectedAccountSet = {}; // Set of selected accounts
+  Set<String> pinTokenSet = {}, // Set of pinned accounts
+      hideTokenSet = {}, // Set of hidden accounts
+      selectedTokenSet = {}; // Set of selected accounts
 
   // ! NFT Related Variables
 
@@ -71,6 +72,7 @@ class AccountSummaryController extends GetxController {
 
   @override
   void onInit() async {
+    tokenInfoList.clear();
     userAccount.value = Get.arguments as AccountModel;
     DataHandlerService()
         .renderService
@@ -83,7 +85,6 @@ class AccountSummaryController extends GetxController {
     tokensList.value =
         await DataHandlerService().renderService.getTokenPriceModel();
     updateSavedContacts();
-
     super.onInit();
   }
 
@@ -112,12 +113,12 @@ class AccountSummaryController extends GetxController {
 
   /// Changes the current selected account from the account list
   void onAccountTap(int index) {
-    selectedAccountSet.clear();
     selectedAccountIndex.value = index;
     userAccount.value = homePageController.userAccounts[index];
     fetchAllTokens();
     fetchAllNfts();
-    //? userTransactionLoader();
+    userTransactionLoader();
+    updatePinHideTokenSet();
   }
 
   /// Remove account from the account list
@@ -200,23 +201,18 @@ class AccountSummaryController extends GetxController {
             ));
       }
     }
-    pinAccountSet.clear();
-    hideAccountSet.clear();
-    pinAccountSet.addAll(// ? This is for pinned accounts
-        userTokens.where((p) => p.isPinned).map((e) => e.name!).toList());
-    hideAccountSet.addAll(// ? This is for hidden accounts
-        userTokens.where((p) => p.isHidden).map((e) => e.name!).toList());
+    updatePinHideTokenSet();
     _updateUserTokenList();
   }
 
-  bool get hideButtonColor => selectedAccountSet.isEmpty ? false : true;
+  bool get hideButtonColor => selectedTokenSet.isEmpty ? false : true;
 
-  bool get pinButtonColor => selectedAccountSet.isEmpty ? false : true;
+  bool get pinButtonColor => selectedTokenSet.isEmpty ? false : true;
 
   bool get onPinTokenClick {
-    if (selectedAccountSet.isEmpty) {
+    if (selectedTokenSet.isEmpty) {
       return true;
-    } else if (pinAccountSet.containsAll(selectedAccountSet)) {
+    } else if (pinTokenSet.containsAll(selectedTokenSet)) {
       return false;
     } else {
       return true;
@@ -224,26 +220,45 @@ class AccountSummaryController extends GetxController {
   }
 
   bool get onHideTokenClick {
-    if (selectedAccountSet.isEmpty) {
+    if (selectedTokenSet.isEmpty) {
       return true;
-    } else if (hideAccountSet.containsAll(selectedAccountSet)) {
+    } else if (hideTokenSet.containsAll(selectedTokenSet)) {
       return false;
     } else {
       return true;
     }
   }
 
+  void updatePinHideTokenSet() {
+    isEditable.value = false;
+    selectedTokenSet.clear();
+    pinTokenSet.clear();
+    hideTokenSet.clear();
+    pinTokenSet.addAll(// ? This is for pinned accounts
+        userTokens.where((p) => p.isPinned).map((e) => e.name!).toList());
+    hideTokenSet.addAll(// ? This is for hidden accounts
+        userTokens.where((p) => p.isHidden).map((e) => e.name!).toList());
+  }
+
   void onEditTap() {
     isEditable.value = !isEditable.value;
     for (var element in userTokens) {
-      if (pinAccountSet.contains(element.name) ||
-          hideAccountSet.contains(element.name)) {
-        element.isSelected = true;
+      if (pinTokenSet.contains(element.name)) {
+        element
+          ..isPinned = true
+          ..isSelected = false;
+      } else if (hideTokenSet.contains(element.name)) {
+        element
+          ..isHidden = true
+          ..isSelected = false;
       } else {
-        element.isSelected = false;
+        element
+          ..isPinned = false
+          ..isHidden = false
+          ..isSelected = false;
       }
     }
-    selectedAccountSet.clear();
+    selectedTokenSet.clear();
     userTokens.refresh();
     _updateUserTokenList();
   }
@@ -251,20 +266,21 @@ class AccountSummaryController extends GetxController {
   /// Move the selected indexes on top of the list when pin is clicked
   void onPinToken() {
     //? If tokens are selected
-    if (selectedAccountSet.isNotEmpty) {
-      //? If new tokens are selected, pin them to the top
-      if (pinAccountSet.isEmpty) {
-        for (var name in selectedAccountSet) {
+    if (selectedTokenSet.isNotEmpty) {
+      //? If new tokens are selected, pin them to the top, and if hidden remove from hide list
+      if (pinTokenSet.isEmpty) {
+        for (var name in selectedTokenSet) {
           int index = userTokens.indexWhere((element) => element.name == name);
           AccountTokenModel token = userTokens[index]
             ..isPinned = true
             ..isHidden = false;
           userTokens[index] = token;
-          pinAccountSet.add(token.name!);
+          hideTokenSet.remove(name);
+          pinTokenSet.add(name);
         }
-      } else if (pinAccountSet.containsAll(selectedAccountSet)) {
+      } else if (pinTokenSet.containsAll(selectedTokenSet)) {
         //? If tokens are already pinned and are in pinnedTokenSet, unpin them and remove from the set
-        for (var name in selectedAccountSet) {
+        for (var name in selectedTokenSet) {
           int index = userTokens.indexWhere((element) => element.name == name);
           AccountTokenModel token = userTokens[index]
             ..isPinned = false
@@ -273,26 +289,27 @@ class AccountSummaryController extends GetxController {
 
           userTokens[index] = token;
         }
-        pinAccountSet.removeAll(selectedAccountSet);
+        pinTokenSet.removeAll(selectedTokenSet);
       } else {
         //? If both the selected and pinned tokens are present, pin both the tokens
-        for (var name in selectedAccountSet) {
+        for (var name in selectedTokenSet) {
           int index = userTokens.indexWhere((element) => element.name == name);
           AccountTokenModel token = userTokens[index]
             ..isPinned = true
             ..isHidden = false;
-          if (pinAccountSet.contains(name)) {
+          if (pinTokenSet.contains(name)) {
             userTokens[index] = token;
           } else {
             userTokens
               ..insert(index, token)
               ..removeAt(index);
           }
-          pinAccountSet.add(token.name!);
+          hideTokenSet.remove(name);
+          pinTokenSet.add(token.name!);
         }
       }
     }
-    selectedAccountSet.clear();
+    selectedTokenSet.clear();
     userTokens.refresh();
     isEditable.value = false;
     _updateUserTokenList();
@@ -301,10 +318,10 @@ class AccountSummaryController extends GetxController {
   /// Move the tokens to the end of the list when hide is clicked
   void onHideToken() {
     //? If tokens are selected
-    if (selectedAccountSet.isNotEmpty) {
+    if (selectedTokenSet.isNotEmpty) {
       //? If new tokens are selected, hide them to the bottom
-      if (hideAccountSet.isEmpty) {
-        for (var name in selectedAccountSet) {
+      if (hideTokenSet.isEmpty) {
+        for (var name in selectedTokenSet) {
           int index = userTokens.indexWhere((element) => element.name == name);
           AccountTokenModel token = userTokens[index]
             ..isHidden = true
@@ -312,74 +329,80 @@ class AccountSummaryController extends GetxController {
           userTokens
             ..add(token)
             ..removeAt(index);
-          hideAccountSet.add(token.name!);
-          pinAccountSet.remove(name);
+          hideTokenSet.add(token.name!);
+          pinTokenSet.remove(name);
         }
-      } else if (hideAccountSet.containsAll(selectedAccountSet)) {
+      } else if (hideTokenSet.containsAll(selectedTokenSet)) {
         //? If tokens are already hidden and are in hideAccountSet, unhide them and remove from the set
-        for (var name in selectedAccountSet) {
+        for (var name in selectedTokenSet) {
           int index = userTokens.indexWhere((element) => element.name == name);
           AccountTokenModel token = userTokens[index]
             ..isPinned = false
             ..isHidden = false
             ..isSelected = false;
           userTokens[index] = token;
-          pinAccountSet.remove(name);
+          pinTokenSet.remove(name);
         }
-        hideAccountSet.removeAll(selectedAccountSet);
+        hideTokenSet.removeAll(selectedTokenSet);
+        for (var element in userTokens) {
+          if (element.isHidden) {
+            userTokens.remove(element);
+            userTokens.add(element);
+          }
+        }
       } else {
         //? If both the selected and hide tokens are present, hide both the tokens
-        for (var name in selectedAccountSet) {
+        for (var name in selectedTokenSet) {
           int index = userTokens.indexWhere((element) => element.name == name);
           AccountTokenModel token = userTokens[index]
             ..isPinned = false
             ..isHidden = true;
-          if (hideAccountSet.contains(name)) {
+          if (hideTokenSet.contains(name)) {
             userTokens[index] = token;
           } else {
             userTokens
               ..removeAt(index)
               ..add(token);
           }
-          pinAccountSet.remove(name);
-          hideAccountSet.add(token.name!);
+          pinTokenSet.remove(name);
+          hideTokenSet.add(token.name!);
         }
       }
     }
-    selectedAccountSet.clear();
+    isEditable.value = false;
+    selectedTokenSet.clear();
     userTokens.refresh();
     _updateUserTokenList();
-    isEditable.value = false;
   }
 
   void onCheckBoxTap(int index) {
     //? If no tokens is selected
-    if (selectedAccountSet.isEmpty) {
-      selectedAccountSet.add(userTokens[index].name!);
+    if (selectedTokenSet.isEmpty) {
+      selectedTokenSet.add(userTokens[index].name!);
       userTokens[index].isSelected = true;
     } else {
       //? If tokens are selected
-      if (selectedAccountSet.contains(userTokens[index].name)) {
+      if (selectedTokenSet.contains(userTokens[index].name)) {
         //? If tokens were pinned previously, revert to default
-        if (pinAccountSet.contains(userTokens[index].name)) {
+        if (pinTokenSet.contains(userTokens[index].name)) {
           userTokens[index]
             ..isPinned = !userTokens[index].isPinned
             ..isSelected = false;
-          selectedAccountSet.remove(userTokens[index].name);
-        } else if (hideAccountSet.contains(userTokens[index].name)) {
+          selectedTokenSet.remove(userTokens[index].name);
+        } else if (hideTokenSet.contains(userTokens[index].name)) {
           //? If tokens were hidden previously, revert to default
           userTokens[index]
             ..isHidden = !userTokens[index].isHidden
             ..isSelected = false;
-          selectedAccountSet.remove(userTokens[index].name);
+          selectedTokenSet.remove(userTokens[index].name);
         } else {
           //? If tokens were selected previously,
-          selectedAccountSet.remove(userTokens[index].name);
+          selectedTokenSet.remove(userTokens[index].name);
           userTokens[index].isSelected = !userTokens[index].isSelected;
         }
       } else {
         //? If tokens were not selected previously
-        selectedAccountSet.add(userTokens[index].name!);
+        selectedTokenSet.add(userTokens[index].name!);
         userTokens[index].isSelected = true;
       }
     }
@@ -393,7 +416,7 @@ class AccountSummaryController extends GetxController {
         ..isPinned = !userTokens[index].isPinned
         ..isSelected = true;
       userTokens.refresh();
-      selectedAccountSet.add(userTokens[index].name!);
+      selectedTokenSet.add(userTokens[index].name!);
     }
   }
 
@@ -403,7 +426,7 @@ class AccountSummaryController extends GetxController {
       userTokens[index]
         ..isHidden = !userTokens[index].isHidden
         ..isSelected = true;
-      selectedAccountSet.add(userTokens[index].name!);
+      selectedTokenSet.add(userTokens[index].name!);
       userTokens.refresh();
     }
   }
@@ -451,17 +474,23 @@ class AccountSummaryController extends GetxController {
           lastId: lastId,
           limit: limit);
 
-  List<TxHistoryModel> searchTransactionHistory(String searchKey) {
+  List<TxHistoryModel?> searchTransactionHistory(String searchKey) {
+    List<TxHistoryModel?> searchResult = [];
     if (searchKey.isCaseInsensitiveContainsAny("tezos")) {
-      return userTransactionHistory
+      searchResult.addAll(userTransactionHistory
           .where((element) =>
               element.amount != null &&
               element.amount! > 0 &&
               element.parameter == null)
-          .toList();
+          .toList());
     } else {
-      return [];
+      for (var element in tokenInfoList) {
+        if (element.name.isCaseInsensitiveContainsAny(searchKey)) {
+          searchResult.add(element.token);
+        }
+      }
     }
+    return searchResult.isNotEmpty ? searchResult : [];
   }
 
   RxList<ContactModel> contacts = <ContactModel>[].obs;
@@ -563,6 +592,11 @@ class AccountSummaryController extends GetxController {
       .where((p0) => (p0.tokenAddress!
           .contains(userTransactionHistory[index].target!.address!)))
       .first;
+
+  bool isFa1TokenEmpty(int index) => tokensList
+      .where((p0) => (p0.tokenAddress!
+          .contains(userTransactionHistory[index].target!.address!)))
+      .isEmpty;
   bool isHashSame(int index) =>
       userTransactionHistory[index]
           .hash!

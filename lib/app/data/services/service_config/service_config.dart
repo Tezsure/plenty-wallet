@@ -127,6 +127,10 @@ class ServiceConfig {
     creators {
       creator_address
       token_pk
+       holder {
+        alias
+        address
+      }
     }
     holders(where: {holder_address: {_eq: $address}, quantity: {_gt: "0"}}) {
       quantity
@@ -183,6 +187,10 @@ class ServiceConfig {
     creators {
       creator_address
       token_pk
+      holder {
+        alias
+        address
+      }
     }
     holders(where: {holder_address: {_eq: $address}, quantity: {_gt: "0"}}) {
       quantity
@@ -207,7 +215,6 @@ class ServiceConfig {
       logo
       floor_price
       contract
-      description
     }
     metadata
   }
