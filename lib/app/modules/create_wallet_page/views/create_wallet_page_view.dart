@@ -30,7 +30,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
         height: 1.height,
         child: SafeArea(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ShaderMask(
                 shaderCallback: (Rect bounds) {
@@ -46,29 +46,18 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                 child: SvgPicture.asset(
                   "${PathConst.SVG}create_wallet_background.svg",
                   fit: BoxFit.contain,
-                  height: 450.sp,
-                  width: 357.sp,
+                  height: 400.sp,
+                  width: 340.sp,
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 0.08.width),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Text(
-                    //   "Welcome to Naan Wallet",
-                    //   style: titleLarge,
-                    // ),
-                    // 0.01.vspace,
-                    // Text(
-                    //   "Naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.",
-                    //   style: bodySmall.apply(
-                    //     color: ColorConst.NeutralVariant.shade60,
-                    //   ),
-                    // ),
-                    0.03.vspace,
+                    0.046.vspace,
                     SolidButton(
-                      height: 40.sp,
+                      height: 50.sp,
                       width: 326.sp,
                       title: "Create a new account",
                       titleStyle: titleSmall.copyWith(
@@ -85,17 +74,16 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         );
                       },
                     ),
-
                     0.0125.vspace,
                     GestureDetector(
                       onTap: () {
                         Get.toNamed(Routes.IMPORT_WALLET_PAGE);
                       },
                       child: Container(
-                        height: 40.sp,
+                        height: 48.sp,
                         width: 326.sp,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8.sp),
                           border: Border.all(
                             color: ColorConst.Neutral.shade80,
                             width: 1.50,
@@ -139,7 +127,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                   ],
                 ),
               ),
-              0.035.vspace,
+              0.03.vspace,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 36.sp),
                 child: Row(
@@ -166,7 +154,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
               GestureDetector(
                 onTap: () => Get.offAndToNamed(Routes.HOME_PAGE),
                 child: Container(
-                  height: 48,
+                  height: 48.sp,
                   width: double.infinity,
                   alignment: Alignment.center,
                   child: Text(

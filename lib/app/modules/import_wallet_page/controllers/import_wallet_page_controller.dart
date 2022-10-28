@@ -6,23 +6,45 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
-import 'package:naan_wallet/app/modules/create_profile_page/views/create_profile_page_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 
-class ImportWalletPageController extends GetxController {
+import '../../create_profile_page/views/create_profile_page_view.dart';
+
+class ImportWalletPageController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   //? VARIABLES
   Rx<bool> showSuccessAnimation = false.obs; // to show success animation
   Rx<TextEditingController> phraseTextController = TextEditingController().obs;
   Rx<String> phraseText = "".obs; // to store phrase text
-  RxList<AccountModel> generatedAccounts = <AccountModel>[].obs;
+  RxList<AccountModel> generatedAccountsTz1 = <AccountModel>[].obs;
+  RxList<AccountModel> generatedAccountsTz2 = <AccountModel>[].obs;
+
+  RxBool isTz1Selected = true.obs;
+
+  RxList<AccountModel> get generatedAccounts =>
+      isTz1Selected.value ? generatedAccountsTz1 : generatedAccountsTz2;
+
   // accounts imported;
-  RxList<AccountModel> selectedAccounts =
+  RxList<AccountModel> selectedAccountsTz1 = <AccountModel>[].obs;
+
+  RxList<AccountModel> selectedAccountsTz2 =
       <AccountModel>[].obs; // accounts selected;
   RxBool isExpanded = false.obs;
 
   ImportWalletDataType? importWalletDataType;
 
+  TabController? tabController;
+
   //? FUNCTION
+
+  @override
+  void onInit() {
+    super.onInit();
+    tabController = TabController(length: 2, vsync: this);
+    tabController!.addListener(() {
+      isTz1Selected.value = tabController!.index == 0;
+    });
+  }
 
   /// To paste the phrase from clipboard
   void paste() async {
@@ -33,16 +55,6 @@ class ImportWalletPageController extends GetxController {
       phraseText.value = cdata.text!;
     }
   }
-
-  // /// To show wallet success animation and redirect to backup wallet page
-  // void showAnimation() {
-  //   showSuccessAnimation.value = true;
-  //   Get.back();
-  //   Future.delayed(const Duration(milliseconds: 3500), () {
-  //     showSuccessAnimation.value = false;
-  //     Get.offAllNamed(Routes.HOME_PAGE, arguments: [true]);
-  //   });
-  // }
 
   /// To assign the phrase text to the phrase text variable
   void onTextChange(String value) {
@@ -62,16 +74,16 @@ class ImportWalletPageController extends GetxController {
                   ? ImportWalletDataType.mnemonic
                   : ImportWalletDataType.none;
 
-  Future<void> redirectBasedOnImportWalletType([String? pageroute]) async {
+  Future<void> redirectBasedOnImportWalletType([String? pageRoute]) async {
     if (importWalletDataType == ImportWalletDataType.privateKey ||
         importWalletDataType == ImportWalletDataType.watchAddress) {
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
-      var previousRoute = pageroute ?? Get.previousRoute;
+      var previousRoute = pageRoute ?? Get.previousRoute;
 
-      if (pageroute == Routes.ACCOUNT_SUMMARY) {
+      if (pageRoute == Routes.ACCOUNT_SUMMARY) {
         return Get.bottomSheet(const CreateProfilePageView(isBottomSheet: true),
             isScrollControlled: true,
-            settings: RouteSettings(arguments: [pageroute]));
+            settings: RouteSettings(arguments: [pageRoute]));
       }
 
       Get.toNamed(
@@ -88,6 +100,8 @@ class ImportWalletPageController extends GetxController {
     } else if (importWalletDataType == ImportWalletDataType.mnemonic) {
       var accountLength = (await UserStorageService().getAllAccount()).length;
 
+      var selectedAccounts = selectedAccountsTz1 + selectedAccountsTz2;
+
       for (var i = 0; i < selectedAccounts.length; i++) {
         selectedAccounts[i] = selectedAccounts[i]
           ..name = "Account ${accountLength + i}";
@@ -95,11 +109,12 @@ class ImportWalletPageController extends GetxController {
       selectedAccounts.value = selectedAccounts.value;
       Get.back();
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
-      var previousRoute = pageroute ?? Get.previousRoute;
-      if (pageroute == Routes.ACCOUNT_SUMMARY) {
+      var previousRoute = Get.previousRoute;
+
+      if (pageRoute == Routes.ACCOUNT_SUMMARY) {
         return Get.bottomSheet(const CreateProfilePageView(isBottomSheet: true),
             isScrollControlled: true,
-            settings: RouteSettings(arguments: [pageroute]));
+            settings: RouteSettings(arguments: [pageRoute]));
       }
       Get.toNamed(
         isPassCodeSet ? Routes.CREATE_PROFILE_PAGE : Routes.PASSCODE_PAGE,
@@ -115,11 +130,17 @@ class ImportWalletPageController extends GetxController {
     }
   }
 
+  Future<AccountModel> getAccountModelIndexAt(int index) async {
+    var account = await WalletService()
+        .genAccountFromMnemonic(phraseText.value, index, !isTz1Selected.value);
+    return account;
+  }
+
   Future<void> genAndLoadMoreAccounts(int startIndex, int size) async {
     if (startIndex == 0) generatedAccounts.value = <AccountModel>[];
-    WalletService()
-        .genAccountFromMnemonic(phraseText.value.trim(), startIndex, size)
-        .then(generatedAccounts.addAll);
+    for (var i = startIndex; i < startIndex + size; i++) {
+      generatedAccounts.add(await getAccountModelIndexAt(i));
+    }
   }
 
   /// load acounts

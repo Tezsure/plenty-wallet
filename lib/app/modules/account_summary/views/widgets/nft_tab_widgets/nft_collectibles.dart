@@ -57,18 +57,18 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                 height: 16.sp,
               ),
               SizedBox(
-                  height: 240.arP * (widget.nftList.length / 2).ceil(),
+                  height: 0.31.height * (widget.nftList.length / 2).ceil(),
                   width: 1.width,
                   child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: widget.nftList.length,
                     shrinkWrap: false,
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 0.5.width,
-                        mainAxisExtent: 232.arP,
+                        maxCrossAxisExtent: 0.3.height,
+                        mainAxisExtent: 0.3.height,
                         childAspectRatio: 1,
-                        crossAxisSpacing: 10.sp,
-                        mainAxisSpacing: 10.sp),
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10),
                     itemBuilder: ((context, index) => NFTwidget(
                           nfTmodel: widget.nftList[index],
                           onTap: (model) {

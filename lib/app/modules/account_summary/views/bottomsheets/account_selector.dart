@@ -6,8 +6,6 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/account_summ
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
-import 'package:naan_wallet/app/modules/import_wallet_page/views/import_wallet_page_view.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
@@ -336,12 +334,12 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                   Obx(() => InkWell(
                         onTap: () {
                           if (_controller.isAccountEditable.isFalse) {
-                            Get.bottomSheet(
-                                const ImportWalletPageView(isBottomSheet: true),
-                                isScrollControlled: true,
-                                useRootNavigator: true,
-                                settings: const RouteSettings(
-                                    arguments: Routes.ACCOUNT_SUMMARY));
+                            // Get.bottomSheet(
+                            //     const ImportWalletPageView(isBottomSheet: true),
+                            //     isScrollControlled: true,
+                            //     useRootNavigator: true,
+                            //     settings: const RouteSettings(
+                            //         arguments: Routes.ACCOUNT_SUMMARY));
                           }
                         },
                         child: Row(
@@ -406,24 +404,24 @@ Widget removeAccountBottomSheet(int index,
           SolidButton(
             width: 326.sp,
             height: 50.sp,
-            primaryColor: const Color(0xff1E1C1F),
+            primaryColor: const Color(0xff1E1C1F).withOpacity(0.8),
             onPressed: onPressed,
             title: "Remove Account",
             textColor: ColorConst.Primary,
             titleStyle: labelLarge.copyWith(color: ColorConst.Error.shade60),
           ),
-          0.015.vspace,
+          0.012.vspace,
           SolidButton(
             width: 326.sp,
             height: 50.sp,
-            primaryColor: const Color(0xff1E1C1F),
+            primaryColor: const Color(0xff1E1C1F).withOpacity(0.8),
             onPressed: Get.back,
             title: "Cancel",
             titleStyle: labelLarge,
           ),
         ],
       ),
-      0.05.vspace
+      0.04.vspace
     ],
   );
 }

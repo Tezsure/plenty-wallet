@@ -21,7 +21,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(
-        height: 0.95.height,
+        height: 0.9.height,
         width: 1.width,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
@@ -30,17 +30,17 @@ class ReceivePageView extends GetView<ReceivePageController> {
           children: [
             0.005.vspace,
             Container(
-              height: 5,
-              width: 36,
+              height: 5.sp,
+              width: 36.sp,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
               ),
             ),
-            0.017.vspace,
+            0.036.vspace,
             Text(
               'Receive',
-              style: titleLarge,
+              style: titleLarge.copyWith(height: 24 / 22, letterSpacing: 0.15),
             ),
             0.01.vspace,
             Text(
@@ -59,20 +59,22 @@ class ReceivePageView extends GetView<ReceivePageController> {
                 children: [
                   Text(
                     controller.userAccount!.name!,
-                    style: titleLarge.copyWith(fontWeight: FontWeight.w600),
+                    style: titleLarge,
                   ),
-                  0.01.vspace,
-                  Text(
-                    tz1Shortner(
-                      controller.userAccount!.publicKeyHash!,
+                  Padding(
+                    padding: EdgeInsets.only(top: 8.sp),
+                    child: Text(
+                      tz1Shortner(
+                        controller.userAccount!.publicKeyHash!,
+                      ),
+                      style: bodySmall.apply(
+                          color: ColorConst.NeutralVariant.shade60),
                     ),
-                    style: bodySmall.apply(
-                        color: ColorConst.NeutralVariant.shade60),
                   ),
                 ],
               ),
             ),
-            0.047.vspace,
+            0.04.vspace,
             shareButton(),
             0.06.vspace,
           ],
@@ -86,11 +88,11 @@ class ReceivePageView extends GetView<ReceivePageController> {
       height: 0.3.height,
       width: 0.3.height,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: Colors.white),
+          borderRadius: BorderRadius.circular(20.sp), color: Colors.white),
       alignment: Alignment.center,
       child: QrImage(
         data: controller.userAccount!.publicKeyHash!,
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.sp),
         gapless: false,
         eyeStyle:
             const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
@@ -108,19 +110,19 @@ class ReceivePageView extends GetView<ReceivePageController> {
         Share.share(controller.userAccount!.publicKeyHash!);
       },
       child: Container(
-        height: 0.06.height,
-        width: 0.35.width,
+        height: 50.sp,
+        width: 130.sp,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20.sp),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.share_sharp,
-              size: 20,
+              size: 16.sp,
               color: Colors.white,
             ),
             0.04.hspace,

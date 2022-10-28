@@ -143,7 +143,7 @@ class NFTwidget extends StatelessWidget {
       child: Container(
         width: 0.44.width,
         height: 0.32.height,
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(10.sp),
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
             borderRadius: BorderRadius.circular(8)),

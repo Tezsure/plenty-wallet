@@ -32,152 +32,156 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
       initialChildSize: isBottomSheet ? 0.95 : 1,
       minChildSize: isBottomSheet ? 0.9 : 1,
       maxChildSize: isBottomSheet ? 0.95 : 1,
-      builder: (context, scrollController) => Container(
-        color: Colors.black,
-        width: 1.width,
-        height: 1.height,
-        padding: EdgeInsets.symmetric(horizontal: 16.5.sp),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            0.04.vspace,
-            backButton(),
-            0.05.vspace,
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text("Name your account", style: titleLarge),
-            ),
-            0.05.vspace,
-            Obx(
-              () => Center(
-                child: Container(
-                  height: 120.sp,
-                  width: 120.sp,
-                  alignment: Alignment.bottomRight,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: controller.currentSelectedType ==
-                              AccountProfileImageType.assets
-                          ? AssetImage(controller.selectedImagePath.value)
-                          : FileImage(
-                              File(
-                                controller.selectedImagePath.value,
-                              ),
-                            ) as ImageProvider,
+      builder: (context, scrollController) => Scaffold(
+        body: Container(
+          color: Colors.black,
+          width: 1.width,
+          height: 1.height,
+          padding: EdgeInsets.symmetric(horizontal: 16.5.sp),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              0.04.vspace,
+              backButton(),
+              0.05.vspace,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Name your account", style: titleLarge),
+              ),
+              0.05.vspace,
+              Obx(
+                () => Center(
+                  child: Container(
+                    height: 120.sp,
+                    width: 120.sp,
+                    alignment: Alignment.bottomRight,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: controller.currentSelectedType ==
+                                AccountProfileImageType.assets
+                            ? AssetImage(controller.selectedImagePath.value)
+                            : FileImage(
+                                File(
+                                  controller.selectedImagePath.value,
+                                ),
+                              ) as ImageProvider,
+                      ),
                     ),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.bottomSheet(
-                        changePhotoBottomSheet(),
-                        barrierColor: Colors.white.withOpacity(0.01),
-                        isScrollControlled: true,
-                      );
-                    },
-                    child: CircleAvatar(
-                      radius: 20.sp,
-                      backgroundColor: Colors.white,
-                      child: SvgPicture.asset(
-                        "${PathConst.SVG}add_photo.svg",
-                        fit: BoxFit.contain,
-                        height: 12.sp,
-                        color: ColorConst.Primary,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.bottomSheet(
+                          changePhotoBottomSheet(),
+                          barrierColor: Colors.white.withOpacity(0.01),
+                          isScrollControlled: true,
+                        );
+                      },
+                      child: CircleAvatar(
+                        radius: 20.sp,
+                        backgroundColor: Colors.white,
+                        child: SvgPicture.asset(
+                          "${PathConst.SVG}add_photo.svg",
+                          fit: BoxFit.contain,
+                          height: 20.sp,
+                          color: ColorConst.Primary,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            0.05.vspace,
-            Center(
-              child: NaanTextfield(
-                backgroundColor: const Color(0xff1E1C1F),
-                hint: "Account Name",
-                focusNode: controller.accountNameFocus,
-                controller: controller.accountNameController,
-                onTextChange: (String value) => controller
-                    .isContiuneButtonEnable
-                    .value = value.length > 2 && value.length < 20,
+              0.05.vspace,
+              Center(
+                child: NaanTextfield(
+                  height: 52.sp,
+                  backgroundColor: const Color(0xff1E1C1F),
+                  hint: "Account Name",
+                  focusNode: controller.accountNameFocus,
+                  controller: controller.accountNameController,
+                  onTextChange: (String value) => controller
+                      .isContiuneButtonEnable
+                      .value = value.length > 2 && value.length < 20,
+                ),
               ),
-            ),
-            const Spacer(),
-            Obx(
-              () => Center(
-                child: Container(
-                  margin: EdgeInsets.only(
-                    left: 14.sp,
-                    right: 14.sp,
-                  ),
-                  child: SolidButton(
-                    height: 40.sp,
-                    width: 326.sp,
-                    active: controller.isContiuneButtonEnable.value,
-                    onPressed: () {
-                      if (controller.previousRoute ==
-                              Routes.CREATE_WALLET_PAGE ||
-                          controller.previousRoute ==
-                              Routes.IMPORT_WALLET_PAGE) {
-                        Get.toNamed(Routes.LOADING_PAGE, arguments: [
-                          'assets/create_wallet/lottie/wallet_success.json',
-                          controller.previousRoute,
-                          Routes.HOME_PAGE,
-                        ]);
-                      } else if (controller.previousRoute == Routes.HOME_PAGE) {
-                        Get.toNamed(Routes.LOADING_PAGE, arguments: [
-                          'assets/create_wallet/lottie/wallet_success.json',
-                          Routes.IMPORT_WALLET_PAGE,
-                          null,
-                        ]);
-                      } else if (controller.previousRoute ==
-                          Routes.ACCOUNT_SUMMARY) {
-                        Get.toNamed(Routes.LOADING_PAGE, arguments: [
-                          'assets/create_wallet/lottie/wallet_success.json',
-                          Routes.IMPORT_WALLET_PAGE,
-                          null,
-                        ]);
-                      }
-                    },
-                    inActiveChild: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          "${PathConst.SVG}check.svg",
-                          color: Colors.white,
-                          height: 16.6.sp,
-                          fit: BoxFit.contain,
-                        ),
-                        0.015.hspace,
-                        Text(
-                          "Start using Naan",
-                          style:
-                              titleSmall.copyWith(fontWeight: FontWeight.w600),
-                        ),
-                      ],
+              const Spacer(),
+              Obx(
+                () => Center(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      left: 14.sp,
+                      right: 14.sp,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          "${PathConst.SVG}check.svg",
-                          height: 16.6.sp,
-                          color: Colors.white,
-                        ),
-                        0.02.hspace,
-                        Text(
-                          "Start using Naan",
-                          style:
-                              titleSmall.copyWith(fontWeight: FontWeight.w600),
-                        ),
-                      ],
+                    child: SolidButton(
+                      height: 50.sp,
+                      width: 326.sp,
+                      active: controller.isContiuneButtonEnable.value,
+                      onPressed: () {
+                        if (controller.previousRoute ==
+                                Routes.CREATE_WALLET_PAGE ||
+                            controller.previousRoute ==
+                                Routes.IMPORT_WALLET_PAGE) {
+                          Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                            'assets/create_wallet/lottie/wallet_success.json',
+                            controller.previousRoute,
+                            Routes.HOME_PAGE,
+                          ]);
+                        } else if (controller.previousRoute ==
+                            Routes.HOME_PAGE) {
+                          Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                            'assets/create_wallet/lottie/wallet_success.json',
+                            Routes.IMPORT_WALLET_PAGE,
+                            null,
+                          ]);
+                        } else if (controller.previousRoute ==
+                            Routes.ACCOUNT_SUMMARY) {
+                          Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                            'assets/create_wallet/lottie/wallet_success.json',
+                            Routes.IMPORT_WALLET_PAGE,
+                            null,
+                          ]);
+                        }
+                      },
+                      inActiveChild: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            "${PathConst.SVG}check.svg",
+                            color: Colors.white,
+                            height: 16.6.sp,
+                            fit: BoxFit.contain,
+                          ),
+                          0.015.hspace,
+                          Text(
+                            "Start using Naan",
+                            style: titleSmall.copyWith(
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            "${PathConst.SVG}check.svg",
+                            height: 16.6.sp,
+                            color: Colors.white,
+                          ),
+                          0.02.hspace,
+                          Text(
+                            "Start using Naan",
+                            style: titleSmall.copyWith(
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            0.05.vspace
-          ],
+              0.05.vspace
+            ],
+          ),
         ),
       ),
     );

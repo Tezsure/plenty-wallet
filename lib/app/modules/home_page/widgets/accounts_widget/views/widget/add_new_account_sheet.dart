@@ -92,7 +92,7 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                           backgroundColor: Colors.white,
                           child: SvgPicture.asset(
                             "${PathConst.SVG}add_photo.svg",
-                            fit: BoxFit.scaleDown,
+                            height: 16.sp,
                           ),
                         ),
                       ),
@@ -101,11 +101,13 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                 ),
                 0.038.vspace,
                 NaanTextfield(
+                  height: 52.sp,
                   hint: "Account Name",
                   controller: controller.accountNameController,
                 ),
                 const Spacer(),
                 SolidButton(
+                  height: 52.sp,
                   onPressed: () {
                     FocusManager.instance.primaryFocus?.unfocus();
                     controller.isCreatingNewAccount.value = true;
@@ -117,6 +119,7 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                       SvgPicture.asset(
                         "${PathConst.SVG}check.svg",
                         color: Colors.white,
+                        height: 16.sp,
                       ),
                       0.015.hspace,
                       Text(

@@ -24,6 +24,7 @@ class LoadingPageView extends GetView<LoadingPageController> {
           fit: BoxFit.contain,
           height: 0.5.height,
           width: 0.5.width,
+          repeat: false,
           frameRate: FrameRate(60),
         ),
       ),

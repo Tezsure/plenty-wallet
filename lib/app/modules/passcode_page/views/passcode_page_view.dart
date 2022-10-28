@@ -170,7 +170,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
                         : (controller.confirmPasscode.value.length - 1 < index
                             ? Colors.transparent
                             : Colors.white),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.sp),
                     border: Border.all(
                         color: controller.isPassCodeWrong.value
                             ? ColorConst.Error.shade60
@@ -190,7 +190,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
 
   Widget getKeyBoardWidget() => Container(
         width: 0.7.width,
-        height: 222.sp,
+        height: 200.sp,
         alignment: Alignment.center,
         child: Wrap(
           alignment: WrapAlignment.center,

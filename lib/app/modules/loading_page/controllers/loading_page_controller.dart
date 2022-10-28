@@ -79,7 +79,10 @@ class LoadingPageController extends GetxController {
         // mnemonic accounts
         await Future.wait([
           UserStorageService().writeNewAccount(
-            importWalletPageController.selectedAccounts,
+            [
+              ...importWalletPageController.selectedAccountsTz1,
+              ...importWalletPageController.selectedAccountsTz2
+            ],
             false,
             true,
           ),

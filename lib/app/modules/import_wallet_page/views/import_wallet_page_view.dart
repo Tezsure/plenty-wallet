@@ -5,10 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
+import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -16,6 +16,7 @@ import '../../../../utils/colors/colors.dart';
 import '../../../../utils/constants/path_const.dart';
 import '../../common_widgets/back_button.dart';
 import '../controllers/import_wallet_page_controller.dart';
+import '../widgets/custom_tab_indicator.dart';
 
 class ImportWalletPageView extends GetView<ImportWalletPageController> {
   final bool isBottomSheet;
@@ -56,7 +57,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                         children: [
                           Text(
                             "info",
-                            style: titleMedium.copyWith(
+                            style: labelMedium.copyWith(
                                 fontWeight: FontWeight.w600,
                                 color: ColorConst.NeutralVariant.shade60),
                           ),
@@ -197,25 +198,31 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     return Obx(
       () => Center(
         child: SolidButton(
-          height: 40.sp,
+          height: 50.sp,
           width: 326.sp,
           onPressed: () async {
             if (controller.importWalletDataType ==
                 ImportWalletDataType.mnemonic) {
+              controller.generatedAccountsTz1.value = <AccountModel>[];
+              controller.generatedAccountsTz2.value = <AccountModel>[];
+              controller.isTz1Selected.value = true;
+              controller.tabController!.animateTo(0);
               controller.genAndLoadMoreAccounts(0, 3);
               Get.bottomSheet(
-                accountBottomSheet(),
+                AccountBottomSheet(
+                  controller: controller,
+                ),
                 settings: RouteSettings(arguments: Get.arguments),
                 isScrollControlled: true,
                 barrierColor: Colors.white.withOpacity(0.2),
               );
             } else {
-              var pageRouteArgument = Get.arguments;
-              if (pageRouteArgument == Routes.ACCOUNT_SUMMARY) {
-                controller.redirectBasedOnImportWalletType(pageRouteArgument);
-              } else {
-                controller.redirectBasedOnImportWalletType();
-              }
+              // var pageRouteArgument = Get.arguments;
+              // if (pageRouteArgument == Routes.ACCOUNT_SUMMARY) {
+              //   controller.redirectBasedOnImportWalletType(pageRouteArgument);
+              // } else {
+              //   controller.redirectBasedOnImportWalletType();
+              // }
             }
           },
           active: controller.phraseText.split(" ").join().length >= 2 &&
@@ -226,6 +233,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               SvgPicture.asset(
                 "${PathConst.SVG}import.svg",
                 fit: BoxFit.scaleDown,
+                height: 16.sp,
                 color: Colors.white,
               ),
               0.03.hspace,
@@ -257,43 +265,12 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                 ImportWalletDataType.watchAddress
                             ? "Import watch address"
                             : "Import",
-                style: titleSmall.apply(color: ColorConst.Neutral.shade95),
+                style: titleSmall,
               )
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget accountBottomSheet() {
-    return NaanBottomSheet(
-      blurRadius: 5,
-      height: 0.85.height,
-      bottomSheetWidgets: [
-        Text(
-          "Wallets ready to import",
-          textAlign: TextAlign.start,
-          style: titleLarge,
-        ),
-        0.03.vspace,
-        Expanded(
-          child: AccountWidget(),
-        ),
-        0.03.vspace,
-        SolidButton(
-          onPressed: () {
-            var pageRouteArgument = Get.arguments;
-            if (pageRouteArgument == Routes.ACCOUNT_SUMMARY) {
-              controller.redirectBasedOnImportWalletType(pageRouteArgument);
-            } else {
-              controller.redirectBasedOnImportWalletType();
-            }
-          },
-          title: "Continue",
-        ),
-        0.05.vspace
-      ],
     );
   }
 
@@ -379,6 +356,133 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           );
         },
       ),
+    );
+  }
+}
+
+class AccountBottomSheet extends StatelessWidget {
+  const AccountBottomSheet({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  final ImportWalletPageController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return NaanBottomSheet(
+      blurRadius: 5,
+      height: 0.85.height,
+      bottomSheetWidgets: [
+        Text(
+          "Select addresses",
+          textAlign: TextAlign.start,
+          style: titleLarge,
+        ),
+        0.014.vspace,
+        Text(
+          "Multiple addresses can be selected",
+          style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+        ),
+        0.03.vspace,
+        Expanded(
+          child: DefaultTabController(
+            length: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Obx(
+                  () => TabBar(
+                    isScrollable: true,
+                    indicatorColor: ColorConst.Primary,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorWeight: 4,
+                    indicatorPadding: EdgeInsets.zero,
+                    indicator: const MaterialIndicator(
+                      color: ColorConst.Primary,
+                      height: 4,
+                      topLeftRadius: 4,
+                      topRightRadius: 4,
+                      strokeWidth: 4,
+                    ),
+                    controller: controller.tabController,
+                    labelPadding: EdgeInsets.zero,
+                    tabs: [
+                      Tab(
+                        child: SizedBox(
+                          width: controller.selectedAccountsTz1.isNotEmpty
+                              ? 84
+                              : 61,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Tz1"),
+                              if (controller.selectedAccountsTz1.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: CircleAvatar(
+                                    radius: 8,
+                                    backgroundColor: ColorConst.Primary,
+                                    child: Text(
+                                        controller.selectedAccountsTz1.length
+                                            .toString(),
+                                        style: labelSmall),
+                                  ),
+                                )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: SizedBox(
+                          width: controller.selectedAccountsTz2.isNotEmpty
+                              ? 84
+                              : 61,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Tz2"),
+                              if (controller.selectedAccountsTz2.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: CircleAvatar(
+                                    radius: 8,
+                                    backgroundColor: ColorConst.Primary,
+                                    child: Text(
+                                        controller.selectedAccountsTz2.length
+                                            .toString(),
+                                        style: labelSmall),
+                                  ),
+                                )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                0.015.vspace,
+                Expanded(
+                  child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [AccountWidget(), AccountWidget()],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        0.03.vspace,
+        SolidButton(
+          onPressed: () {
+            controller.redirectBasedOnImportWalletType();
+          },
+          title: "Import",
+        ),
+        0.05.vspace
+      ],
     );
   }
 }
