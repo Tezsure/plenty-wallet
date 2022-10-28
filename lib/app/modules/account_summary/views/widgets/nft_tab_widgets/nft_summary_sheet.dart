@@ -386,7 +386,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                           ),
                                           0.01.vspace,
                                           Text(
-                                            widget.nftModel!.description!,
+                                            widget.nftModel?.description ?? "",
                                             style: bodySmall.copyWith(
                                                 color: ColorConst
                                                     .NeutralVariant.shade60),
