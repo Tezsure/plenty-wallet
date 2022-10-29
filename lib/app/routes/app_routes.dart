@@ -24,6 +24,9 @@ abstract class Routes {
   static const SPLASH_PAGE = _Paths.SPLASH_PAGE;
   static const LOADING_PAGE = _Paths.LOADING_PAGE;
   static const DAPP_BROWSER = _Paths.DAPP_BROWSER;
+  static const PAIR_REQUEST = _Paths.PAIR_REQUEST;
+  static const PAYLOAD_REQUEST = _Paths.PAYLOAD_REQUEST;
+  static const OPREATION_REQUEST = _Paths.OPREATION_REQUEST;
 }
 
 abstract class _Paths {
@@ -45,4 +48,8 @@ abstract class _Paths {
   static const SPLASH_PAGE = '/splash-page';
   static const LOADING_PAGE = '/loading-page';
   static const DAPP_BROWSER = '/dapp-browser';
+  static const PAIR_REQUEST = '/pair-request';
+  static const PAYLOAD_REQUEST = '/payload-request';
+  static const OPREATION_REQUEST = '/opreation-request';
+  static const BEACON_BOTTOM_SHEET = '/beacon-bottom-sheet';
 }

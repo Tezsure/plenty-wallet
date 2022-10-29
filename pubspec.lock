@@ -22,6 +22,22 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  base_codecs:
+    dependency: transitive
+    description:
+      name: base_codecs
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
+  beacon_flutter:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "94e29d28147977efa7cca50f65f6406fe963077f"
+      resolved-ref: "94e29d28147977efa7cca50f65f6406fe963077f"
+      url: "https://github.com/Tezsure/beacon_flutter_naan.git"
+    source: git
+    version: "1.0.4"
   bip39:
     dependency: transitive
     description:

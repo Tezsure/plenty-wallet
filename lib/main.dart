@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
@@ -12,6 +13,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  Get.put(BeaconService());
   runApp(
     GetMaterialApp(
       title: "Naan",

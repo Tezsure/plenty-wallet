@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -114,26 +115,34 @@ class DappBrowserView extends GetView<DappBrowserController> {
                 );
               },
               shouldOverrideUrlLoading: (controller, navigationAction) async {
-                /*       var uri = navigationAction.request.url.toString();
-                            if (uri.startsWith('tezos://') || uri.startsWith('naan://')) {
-                              uri = uri.substring(uri.indexOf("data=") + 5, uri.length);
-                              try {
-                                var data = String.fromCharCodes(base58.decode(uri));
-                                if (!data.endsWith("}"))
-                                  data = data.substring(0, data.lastIndexOf('}') + 1);
-                                var baseData = jsonDecode(data);
-                                await BeaconPlugin.pair(baseData['name'], uri);
-                                // await BeaconPlugin.addPeer(
-                                //   baseData['id'],
-                                //   baseData['name'],
-                                //   baseData['publicKey'],
-                                //   baseData['relayServer'],
-                                //   baseData['version'] ?? "2",
-                                // );
-                              } catch (e) {}
-                              return NavigationActionPolicy.CANCEL;
-                            }
-                            widget.controller.lastVisitedUrlOnDapp = uri; */
+                var uri = navigationAction.request.url.toString();
+                if (uri.startsWith('tezos://') || uri.startsWith('naan://')) {
+                  uri = uri.substring(uri.indexOf("data=") + 5, uri.length);
+                  try {
+                    //print(uri);
+/*                     var data = String.fromCharCodes(base58.decode(uri));
+                    if (!data.endsWith("}"))
+                      data = data.substring(0, data.lastIndexOf('}') + 1);
+                    var baseData = jsonDecode(data); */
+                    await this
+                        .controller
+                        .beaconPlugin
+                        .pair(pairingRequest: uri);
+
+                    //print("response yo: $response");
+                    // await BeaconPlugin.addPeer(
+                    //   baseData['id'],
+                    //   baseData['name'],
+                    //   baseData['publicKey'],
+                    //   baseData['relayServer'],
+                    //   baseData['version'] ?? "2",
+                    // );
+                    return NavigationActionPolicy.CANCEL;
+                  } catch (e) {
+                    print("Erron from beacon $e");
+                  }
+                }
+
                 return NavigationActionPolicy.ALLOW;
               },
               onLoadStop: (controller, url) async {
