@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:math';
 
@@ -49,9 +50,11 @@ class AccountSummaryController extends GetxController {
   RxDouble xtzPrice = 0.0.obs; // Current xtz price
   RxList<AccountTokenModel> userTokens =
       <AccountTokenModel>[].obs; // List of user tokens
-  Set<String> pinTokenSet = {}, // Set of pinned accounts
-      hideTokenSet = {}, // Set of hidden accounts
-      selectedTokenSet = {}; // Set of selected accounts
+  SplayTreeSet<int> selectedTokenIndexSet =
+      SplayTreeSet(); // Set of selected accounts index
+  RxInt minTokens = 4.obs;
+  RxList<AccountTokenModel> pinnedList = <AccountTokenModel>[].obs;
+  RxList<AccountTokenModel> unPinnedList = <AccountTokenModel>[].obs;
 
   // ! NFT Related Variables
 
@@ -70,6 +73,7 @@ class AccountSummaryController extends GetxController {
   RxBool isAccountDelegated =
       false.obs; // To check if current account is delegated
 
+  // ! Global Functions
   @override
   void onInit() async {
     tokenInfoList.clear();
@@ -80,10 +84,11 @@ class AccountSummaryController extends GetxController {
         .registerCallback((value) {
       xtzPrice.value = value;
     });
-    fetchAllTokens();
-    fetchAllNfts();
+    _fetchAllTokens();
+    _fetchAllNfts();
     tokensList.value =
         await DataHandlerService().renderService.getTokenPriceModel();
+    selectedTokenIndexSet.clear();
     updateSavedContacts();
     super.onInit();
   }
@@ -92,6 +97,53 @@ class AccountSummaryController extends GetxController {
   void onClose() {
     paginationController.value.dispose();
     super.onClose();
+  }
+
+  /// Fetches all the user tokens
+  Future<void> _fetchAllTokens() async {
+    userTokens.clear();
+    AccountTokenModel tezos = AccountTokenModel(
+      name: "Tezos",
+      balance: userAccount.value.accountDataModel!.xtzBalance!,
+      contractAddress: "xtz",
+      symbol: "Tezos",
+      currentPrice: xtzPrice.value,
+      tokenId: "0",
+      decimals: 6,
+      iconUrl: "assets/tezos_logo.png",
+    );
+    userTokens.addAll(await UserStorageService()
+        .getUserTokens(userAddress: userAccount.value.publicKeyHash!));
+    if (userTokens.isEmpty) {
+      userTokens.add(tezos);
+    } else {
+      if (userTokens.any((element) => element.name!.contains("Tezos"))) {
+        userTokens.map((element) => element.name!.contains("Tezos")
+            ? element.copyWith(
+                balance: userAccount.value.accountDataModel!.xtzBalance!,
+                currentPrice: xtzPrice.value,
+              )
+            : null);
+      } else {
+        userTokens.insert(0, tezos);
+      }
+    }
+    _tokenSort();
+
+    _updateUserTokenList();
+  }
+
+  /// Fetches the user account NFTs
+  Future<void> _fetchAllNfts() async {
+    userNfts.clear();
+    UserStorageService()
+        .getUserNfts(userAddress: userAccount.value.publicKeyHash!)
+        .then((nftList) {
+      for (var i = 0; i < nftList.length; i++) {
+        userNfts[nftList[i].fa!.contract!] =
+            (userNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
+      }
+    });
   }
 
   // ! Account Related Functions
@@ -115,15 +167,16 @@ class AccountSummaryController extends GetxController {
   void onAccountTap(int index) {
     selectedAccountIndex.value = index;
     userAccount.value = homePageController.userAccounts[index];
-    fetchAllTokens();
-    fetchAllNfts();
+    _fetchAllTokens();
+
+    _fetchAllNfts();
     userTransactionLoader();
-    updatePinHideTokenSet();
   }
 
   /// Remove account from the account list
   void removeAccount(int index) {
-    // Check whether deleted account was selected account and last in the list, then assign the second last element to current account
+    // Check whether deleted account was selected account and last in the list,
+    //then assign the second last element to current account
     if (index == 0 && homePageController.userAccounts.length == 1) {
       Get.rawSnackbar(
         message: "Can't delete only account",
@@ -149,9 +202,8 @@ class AccountSummaryController extends GetxController {
       }
     }
     userAccount.refresh();
-    fetchAllTokens();
-    fetchAllNfts();
-    updatePinHideTokenSet();
+    _fetchAllTokens();
+    _fetchAllNfts();
     Get
       ..back()
       ..back();
@@ -169,281 +221,145 @@ class AccountSummaryController extends GetxController {
 
   // ! Token Related Functions
 
-  /// Fetches all the user tokens
-  Future<void> fetchAllTokens() async {
-    userTokens.clear();
-    userTokens.addAll(await UserStorageService()
-        .getUserTokens(userAddress: userAccount.value.publicKeyHash!));
-    if (userTokens.isEmpty) {
-      userTokens.add(AccountTokenModel(
-        name: "Tezos",
-        balance: userAccount.value.accountDataModel!.xtzBalance!,
-        contractAddress: "xtz",
-        symbol: "Tezos",
-        currentPrice: xtzPrice.value,
-        tokenId: "0",
-        decimals: 6,
-        iconUrl: "assets/tezos_logo.png",
-      ));
+  Comparator<AccountTokenModel> tokenComparator = (a, b) {
+    a.isSelected = false;
+    b.isSelected = false;
+    if (a.isPinned) {
+      return -1;
+    } else if (b.isPinned) {
+      return 1;
     } else {
-      if (userTokens.any((element) => element.name!.contains("Tezos"))) {
-        userTokens.map((element) => element.name!.contains("Tezos")
-            ? element.copyWith(
-                balance: userAccount.value.accountDataModel!.xtzBalance!,
-                currentPrice: xtzPrice.value,
-              )
-            : null);
+      if (b.isHidden) {
+        return -1;
+      } else if (a.isHidden) {
+        return 1;
       } else {
-        userTokens.insert(
-            0,
-            AccountTokenModel(
-              name: "Tezos",
-              balance: userAccount.value.accountDataModel!.xtzBalance!,
-              contractAddress: "xtz",
-              symbol: "Tezos",
-              currentPrice: xtzPrice.value,
-              tokenId: "0",
-              decimals: 6,
-              iconUrl: "assets/tezos_logo.png",
-            ));
+        return 0;
       }
     }
-    updatePinHideTokenSet();
-    _updateUserTokenList();
-  }
+  };
 
-  bool get hideButtonColor => selectedTokenSet.isEmpty ? false : true;
-
-  bool get pinButtonColor => selectedTokenSet.isEmpty ? false : true;
-
-  bool get onPinTokenClick {
-    if (selectedTokenSet.isEmpty) {
-      return true;
-    } else if (pinTokenSet.containsAll(selectedTokenSet)) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  bool get onHideTokenClick {
-    if (selectedTokenSet.isEmpty) {
-      return true;
-    } else if (hideTokenSet.containsAll(selectedTokenSet)) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  void updatePinHideTokenSet() {
-    isEditable.value = false;
-    selectedTokenSet.clear();
-    pinTokenSet.clear();
-    hideTokenSet.clear();
-    pinTokenSet.addAll(// ? This is for pinned accounts
-        userTokens.where((p) => p.isPinned).map((e) => e.name!).toList());
-    hideTokenSet.addAll(// ? This is for hidden accounts
-        userTokens.where((p) => p.isHidden).map((e) => e.name!).toList());
+  void _tokenSort() {
+    userTokens.sort(tokenComparator);
+    _pinnedTokens = userTokens.indexWhere((element) => !element.isPinned);
+    _hiddenTokens = userTokens.indexWhere((element) => element.isHidden);
+    _pinnedTokens = _pinnedTokens < 0 ? userTokens.length : _pinnedTokens;
+    minTokens.value = min(4, userTokens.length);
+    minTokens.value = max<int>(_pinnedTokens,
+        minTokens.value); // Either show default tokens or pinned tokens
+    pinnedList.value = userTokens.sublist(0, minTokens.value);
+    unPinnedList.value = userTokens.sublist(minTokens.value);
+    pinnedList.refresh();
+    unPinnedList.refresh();
   }
 
   void onEditTap() {
     isEditable.value = !isEditable.value;
-    for (var element in userTokens) {
-      if (pinTokenSet.contains(element.name)) {
-        element
-          ..isPinned = true
-          ..isSelected = false;
-      } else if (hideTokenSet.contains(element.name)) {
-        element
-          ..isHidden = true
-          ..isSelected = false;
+    for (var element in selectedTokenIndexSet) {
+      if (element < minTokens.value) {
+        pinnedList[element].isSelected = false;
       } else {
-        element
-          ..isPinned = false
-          ..isHidden = false
-          ..isSelected = false;
+        unPinnedList[element - minTokens.value].isSelected = false;
       }
+      userTokens[element].isSelected = false;
     }
-    selectedTokenSet.clear();
-    userTokens.refresh();
+    selectedTokenIndexSet.clear();
+    pinnedList.refresh();
+    unPinnedList.refresh();
     _updateUserTokenList();
   }
 
-  /// Move the selected indexes on top of the list when pin is clicked
+  static int _pinnedTokens = 0;
+  static int _hiddenTokens = 0;
+
+  bool get showPinButton =>
+      selectedTokenIndexSet.isEmpty ||
+      (selectedTokenIndexSet.first < _pinnedTokens &&
+          selectedTokenIndexSet.last >= _pinnedTokens) ||
+      selectedTokenIndexSet.first >= _pinnedTokens;
+
+  bool get showHideButton =>
+      selectedTokenIndexSet.isEmpty ||
+      selectedTokenIndexSet.first < _hiddenTokens ||
+      _pinnedTokens == userTokens.length ||
+      _hiddenTokens == -1;
+
+  bool get pinAll =>
+      selectedTokenIndexSet.isNotEmpty &&
+      selectedTokenIndexSet.first < _pinnedTokens &&
+      selectedTokenIndexSet.last >= _pinnedTokens;
+
   void onPinToken() {
-    //? If tokens are selected
-    if (selectedTokenSet.isNotEmpty) {
-      //? If new tokens are selected, pin them to the top, and if hidden remove from hide list
-      if (pinTokenSet.isEmpty) {
-        for (var name in selectedTokenSet) {
-          int index = userTokens.indexWhere((element) => element.name == name);
-          AccountTokenModel token = userTokens[index]
-            ..isPinned = true
-            ..isHidden = false;
-          userTokens[index] = token;
-          hideTokenSet.remove(name);
-          pinTokenSet.add(name);
+    if (pinAll) {
+      for (var i in selectedTokenIndexSet) {
+        if (userTokens[i].isPinned) {
+          --_pinnedTokens;
         }
-      } else if (pinTokenSet.containsAll(selectedTokenSet)) {
-        //? If tokens are already pinned and are in pinnedTokenSet, unpin them and remove from the set
-        for (var name in selectedTokenSet) {
-          int index = userTokens.indexWhere((element) => element.name == name);
-          AccountTokenModel token = userTokens[index]
-            ..isPinned = false
-            ..isHidden = false
-            ..isSelected = false;
-
-          userTokens[index] = token;
-        }
-        pinTokenSet.removeAll(selectedTokenSet);
-      } else {
-        //? If both the selected and pinned tokens are present, pin both the tokens
-        for (var name in selectedTokenSet) {
-          int index = userTokens.indexWhere((element) => element.name == name);
-          AccountTokenModel token = userTokens[index]
-            ..isPinned = true
-            ..isHidden = false;
-          if (pinTokenSet.contains(name)) {
-            userTokens[index] = token;
-          } else {
-            userTokens
-              ..insert(index, token)
-              ..removeAt(index);
-          }
-          hideTokenSet.remove(name);
-          pinTokenSet.add(token.name!);
-        }
-      }
-    }
-    if (pinTokenSet.length < 5) {
-      for (var element in userTokens) {
-        if (element.isPinned) {
-          userTokens.remove(element);
-          userTokens.insert(0, element);
-        }
-      }
-    }
-
-    selectedTokenSet.clear();
-    userTokens.refresh();
-    isEditable.value = false;
-    _updateUserTokenList();
-  }
-
-  /// Move the tokens to the end of the list when hide is clicked
-  void onHideToken() {
-    //? If tokens are selected
-    if (selectedTokenSet.isNotEmpty) {
-      //? If new tokens are selected, hide them to the bottom
-      if (hideTokenSet.isEmpty) {
-        for (var name in selectedTokenSet) {
-          int index = userTokens.indexWhere((element) => element.name == name);
-          AccountTokenModel token = userTokens[index]
-            ..isHidden = true
-            ..isPinned = false;
-          userTokens
-            ..add(token)
-            ..removeAt(index);
-          hideTokenSet.add(token.name!);
-          pinTokenSet.remove(name);
-        }
-      } else if (hideTokenSet.containsAll(selectedTokenSet)) {
-        //? If tokens are already hidden and are in hideAccountSet, unhide them and remove from the set
-        for (var name in selectedTokenSet) {
-          int index = userTokens.indexWhere((element) => element.name == name);
-          AccountTokenModel token = userTokens[index]
-            ..isPinned = false
-            ..isHidden = false
-            ..isSelected = false;
-          userTokens[index] = token;
-          pinTokenSet.remove(name);
-        }
-        hideTokenSet.removeAll(selectedTokenSet);
-        for (var element in userTokens) {
-          if (element.isHidden) {
-            userTokens.remove(element);
-            userTokens.add(element);
-          }
-        }
-      } else {
-        //? If both the selected and hide tokens are present, hide both the tokens
-        for (var name in selectedTokenSet) {
-          int index = userTokens.indexWhere((element) => element.name == name);
-          AccountTokenModel token = userTokens[index]
-            ..isPinned = false
-            ..isHidden = true;
-          if (hideTokenSet.contains(name)) {
-            userTokens[index] = token;
-          } else {
-            userTokens
-              ..removeAt(index)
-              ..add(token);
-          }
-          pinTokenSet.remove(name);
-          hideTokenSet.add(token.name!);
-        }
-      }
-    }
-    isEditable.value = false;
-    selectedTokenSet.clear();
-    userTokens.refresh();
-    _updateUserTokenList();
-  }
-
-  void onCheckBoxTap(int index) {
-    //? If no tokens is selected
-    if (selectedTokenSet.isEmpty) {
-      selectedTokenSet.add(userTokens[index].name!);
-      userTokens[index].isSelected = true;
-    } else {
-      //? If tokens are selected
-      if (selectedTokenSet.contains(userTokens[index].name)) {
-        //? If tokens were pinned previously, revert to default
-        if (pinTokenSet.contains(userTokens[index].name)) {
-          userTokens[index]
-            ..isPinned = !userTokens[index].isPinned
-            ..isSelected = false;
-          selectedTokenSet.remove(userTokens[index].name);
-        } else if (hideTokenSet.contains(userTokens[index].name)) {
-          //? If tokens were hidden previously, revert to default
-          userTokens[index]
-            ..isHidden = !userTokens[index].isHidden
-            ..isSelected = false;
-          selectedTokenSet.remove(userTokens[index].name);
+        userTokens[i]
+          ..isPinned = true
+          ..isSelected = false
+          ..isHidden = false;
+        if (userTokens[i].isPinned) {
+          ++_pinnedTokens;
         } else {
-          //? If tokens were selected previously,
-          selectedTokenSet.remove(userTokens[index].name);
-          userTokens[index].isSelected = !userTokens[index].isSelected;
+          --_pinnedTokens;
         }
-      } else {
-        //? If tokens were not selected previously
-        selectedTokenSet.add(userTokens[index].name!);
-        userTokens[index].isSelected = true;
+      }
+    } else {
+      for (var i in selectedTokenIndexSet) {
+        userTokens[i]
+          ..isPinned = !userTokens[i].isPinned
+          ..isSelected = false
+          ..isHidden = false;
+        if (userTokens[i].isPinned) {
+          ++_pinnedTokens;
+        } else {
+          --_pinnedTokens;
+        }
       }
     }
-    userTokens.refresh();
+    _tokenSort();
+    selectedTokenIndexSet.clear();
+    isEditable.value = false;
+    _updateUserTokenList();
   }
 
-  void isPinTapped(int index) {
-    //? If token is pinned, remove from pinned token set and add to selected account set
-    if (userTokens[index].isPinned == true) {
-      userTokens[index]
-        ..isPinned = !userTokens[index].isPinned
-        ..isSelected = true;
-      userTokens.refresh();
-      selectedTokenSet.add(userTokens[index].name!);
+  void onHideToken() {
+    if (showHideButton) {
+      for (var i in selectedTokenIndexSet) {
+        userTokens[i]
+          ..isPinned = false
+          ..isSelected = false
+          ..isHidden = true;
+      }
+    } else {
+      for (var i in selectedTokenIndexSet) {
+        userTokens[i]
+          ..isHidden = !userTokens[i].isHidden
+          ..isSelected = false
+          ..isPinned = false;
+      }
     }
+    _tokenSort();
+    selectedTokenIndexSet.clear();
+    isEditable.value = false;
+    _updateUserTokenList();
   }
 
-  void isHideTapped(int index) {
-    //? If token is hidden, remove from hidden token set and add to selected account set
-    if (userTokens[index].isHidden == true) {
-      userTokens[index]
-        ..isHidden = !userTokens[index].isHidden
-        ..isSelected = true;
-      selectedTokenSet.add(userTokens[index].name!);
-      userTokens.refresh();
+  void onCheckBoxTap(bool isPinnedList, int index) {
+    if (isPinnedList) {
+      pinnedList[index].isSelected = !pinnedList[index].isSelected;
+      pinnedList.refresh();
+    } else {
+      unPinnedList[index].isSelected = !unPinnedList[index].isSelected;
+      unPinnedList.refresh();
+      index += minTokens.value;
+    }
+    userTokens[index].isSelected = !userTokens[index].isSelected;
+    if (userTokens[index].isSelected) {
+      selectedTokenIndexSet.add(index);
+    } else {
+      selectedTokenIndexSet.remove(index);
     }
   }
 
@@ -533,19 +449,6 @@ class AccountSummaryController extends GetxController {
   }
 
   // ! NFT Related Functions
-
-  /// Fetches the user account NFTs
-  Future<void> fetchAllNfts() async {
-    userNfts.clear();
-    UserStorageService()
-        .getUserNfts(userAddress: userAccount.value.publicKeyHash!)
-        .then((nftList) {
-      for (var i = 0; i < nftList.length; i++) {
-        userNfts[nftList[i].fa!.contract!] =
-            (userNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
-      }
-    });
-  }
 
   bool isSameTimeStamp(int index) =>
       DateTime.parse(userTransactionHistory[index].timestamp!).isSameDate(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -63,122 +64,64 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
               ],
             ),
           )
-        : SingleChildScrollView(
-            child: Padding(
-                padding: EdgeInsets.only(left: 17.sp, right: 16.sp, top: 24.sp),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Pinned Token Section
-                    if (controller.pinTokenSet.isNotEmpty &&
-                        controller.pinTokenSet.length > 4) ...[
-                      ListView.builder(
-                        primary: false,
-                        shrinkWrap: true,
-                        itemCount: controller.userTokens.length,
-                        itemBuilder: (_, index) {
-                          String tokenName = controller.userTokens[index].name!;
-                          return controller.pinTokenSet.contains(tokenName) &&
-                                  !controller.hideTokenSet.contains(tokenName)
-                              ? _tokenBox(index)
-                              : const SizedBox();
-                        },
+        : CustomScrollView(slivers: [
+            SliverPadding(
+              padding: EdgeInsets.only(left: 17.sp, right: 16.sp, top: 24.sp),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) =>
+                      _tokenBox(controller.pinnedList[index], index, true),
+                  childCount: controller.pinnedList.length,
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.only(left: 17.sp, right: 16.sp),
+              sliver: SliverToBoxAdapter(
+                child: _tokenEditTile(),
+              ),
+            ),
+            controller.expandTokenList.value
+                ? SliverPadding(
+                    padding: EdgeInsets.only(
+                      left: 17.sp,
+                      right: 16.sp,
+                    ),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) => controller.isEditable.value
+                            ? _tokenBox(
+                                controller.unPinnedList[index], index, false)
+                            : !controller.unPinnedList[index].isHidden
+                                ? _tokenBox(controller.unPinnedList[index],
+                                    index, false)
+                                : const SizedBox(),
+                        childCount: controller.unPinnedList.length,
                       ),
-                      // Token Edit Tile
-                      if (controller.userTokens.length > 4) ...[
-                        _tokenEditTile(),
-                        controller.expandTokenList.value
-                            ? ListView.builder(
-                                primary: false,
-                                shrinkWrap: true,
-                                itemCount: controller.userTokens.length,
-                                itemBuilder: (_, index) {
-                                  String tokenName =
-                                      controller.userTokens[index].name!;
-                                  return controller.isEditable.isFalse &&
-                                          !controller.pinTokenSet
-                                              .contains(tokenName) &&
-                                          !controller.hideTokenSet
-                                              .contains(tokenName)
-                                      ? _tokenBox(index)
-                                      : controller.isEditable.isTrue &&
-                                              !controller.pinTokenSet
-                                                  .contains(tokenName)
-                                          ? _tokenBox(index)
-                                          : const SizedBox();
-                                },
-                              )
-                            : const SizedBox(),
-                      ] else
-                        _tokenEditTile(true),
-                    ] else ...[
-                      ListView.builder(
-                        primary: false,
-                        shrinkWrap: true,
-                        itemCount: controller.userTokens.length,
-                        itemBuilder: (_, index) {
-                          String tokenName = controller.userTokens[index].name!;
-                          return index < 4
-                              ? controller.pinTokenSet.contains(tokenName) &&
-                                      !controller.hideTokenSet
-                                          .contains(tokenName)
-                                  ? _tokenBox(index)
-                                  : _tokenBox(index)
-                              : const SizedBox();
-                        },
-                      ),
-                      // Token Edit Tile
-                      if (controller.userTokens.length > 4) ...[
-                        _tokenEditTile(),
-                        controller.expandTokenList.value
-                            ? ListView.builder(
-                                primary: false,
-                                shrinkWrap: true,
-                                itemCount: controller.userTokens.length,
-                                itemBuilder: (_, index) {
-                                  String tokenName =
-                                      controller.userTokens[index].name!;
-                                  return index < 4
-                                      ? const SizedBox()
-                                      : controller.isEditable.isFalse &&
-                                              !controller.pinTokenSet
-                                                  .contains(tokenName) &&
-                                              !controller.hideTokenSet
-                                                  .contains(tokenName)
-                                          ? _tokenBox(index)
-                                          : controller.isEditable.isTrue &&
-                                                  !controller.pinTokenSet
-                                                      .contains(tokenName)
-                                              ? _tokenBox(index)
-                                              : const SizedBox();
-                                },
-                              )
-                            : const SizedBox(),
-                      ] else
-                        _tokenEditTile(true),
-                    ],
-                  ],
-                )),
-          ));
+                    ),
+                  )
+                : const SliverToBoxAdapter(),
+          ]));
   }
 
-  Widget _tokenBox(int index) => TokenCheckbox(
-      xtzPrice: controller.xtzPrice.value,
-      tokenModel: controller.userTokens,
-      isEditable: controller.isEditable.value,
-      tokenIndex: index,
-      onCheckboxTap: (value) => controller.onCheckBoxTap(index),
-      onPinnedTap: () => controller.isPinTapped(index),
-      onHiddenTap: () => controller.isHideTapped(index));
+  Widget _tokenBox(AccountTokenModel token, int index, bool isPinnedList) =>
+      TokenCheckbox(
+        xtzPrice: controller.xtzPrice.value,
+        tokenModel: token,
+        isEditable: controller.isEditable.value,
+        onCheckboxTap: () => controller.isEditable.isTrue
+            ? controller.onCheckBoxTap(isPinnedList, index)
+            : null,
+      );
 
-  Widget _tokenEditTile([bool showEdit = false]) => TokenEditTile(
-        showHideButton: (controller.userTokens.length > 4),
-        showEditButton: showEdit,
-        isAnyTokenHidden: controller.onHideTokenClick,
-        isAnyTokenPinned: controller.onPinTokenClick,
-        isTokenPinnedColor: controller.pinButtonColor,
-        isTokenHiddenColor: controller.hideButtonColor,
+  Widget _tokenEditTile() => TokenEditTile(
+        showHideButton: (controller.pinnedList.length >= 4),
+        showEditButton:
+            controller.pinnedList.length == controller.userTokens.length,
+        isAnyTokenHidden: controller.showHideButton,
+        isAnyTokenPinned: controller.showPinButton,
+        isTokenPinnedColor: controller.selectedTokenIndexSet.isNotEmpty,
+        isTokenHiddenColor: controller.selectedTokenIndexSet.isNotEmpty,
         viewAll: () => controller.expandTokenList.value =
             !controller.expandTokenList.value,
         expandedTokenList: controller.expandTokenList.value,

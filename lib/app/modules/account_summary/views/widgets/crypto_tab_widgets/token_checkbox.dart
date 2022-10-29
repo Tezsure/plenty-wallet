@@ -10,23 +10,17 @@ import '../../../../../../utils/styles/styles.dart';
 import '../../../../custom_packages/custom_checkbox.dart';
 
 class TokenCheckbox extends StatelessWidget {
-  final List<AccountTokenModel> tokenModel;
+  final AccountTokenModel tokenModel;
   final double xtzPrice;
   final GestureTapCallback? onTap;
-  final int tokenIndex;
-  final void Function(bool?)? onCheckboxTap;
+  final void Function()? onCheckboxTap;
   final bool isEditable;
-  final GestureTapCallback? onPinnedTap;
-  final GestureTapCallback? onHiddenTap;
   const TokenCheckbox({
     super.key,
     required this.tokenModel,
     this.onTap,
-    required this.tokenIndex,
     this.onCheckboxTap,
     this.isEditable = false,
-    this.onPinnedTap,
-    this.onHiddenTap,
     this.xtzPrice = 0,
   });
 
@@ -35,17 +29,7 @@ class TokenCheckbox extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.sp),
       child: GestureDetector(
-        onTap: () {
-          if (tokenModel[tokenIndex].isPinned) {
-            onPinnedTap?.call();
-          } else if (tokenModel[tokenIndex].isHidden) {
-            onHiddenTap?.call();
-          } else if (tokenModel[tokenIndex].isSelected) {
-            onCheckboxTap?.call(false);
-          } else {
-            onCheckboxTap?.call(true);
-          }
-        },
+        onTap: onCheckboxTap,
         child: SizedBox(
           height: 50.sp,
           child: Column(
@@ -62,28 +46,14 @@ class TokenCheckbox extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              if (tokenModel[tokenIndex].isPinned)
+                              if (tokenModel.isSelected)
+                                _checkBox()
+                              else if (tokenModel.isPinned)
                                 _isPinnedTokenSelector()
-                              else if (tokenModel[tokenIndex].isHidden)
+                              else if (tokenModel.isHidden)
                                 _isHiddenTokenSelector()
                               else
-                                CustomCheckBox(
-                                    margins: EdgeInsets.only(right: 10.sp),
-                                    borderRadius: 12.sp,
-                                    checkedIcon: Icons.done,
-                                    borderWidth: 2,
-                                    checkBoxIconSize: 12,
-                                    checkBoxSize: 20.sp,
-                                    borderColor: const Color(0xff1E1C1F),
-                                    checkedIconColor: Colors.white,
-                                    uncheckedFillColor: Colors.transparent,
-                                    uncheckedIconColor: Colors.transparent,
-                                    checkedFillColor:
-                                        tokenModel[tokenIndex].isSelected
-                                            ? ColorConst.Primary
-                                            : const Color(0xff1E1C1F),
-                                    value: tokenModel[tokenIndex].isSelected,
-                                    onChanged: onCheckboxTap!),
+                                _checkBox(),
                               _imageAvatar(),
                             ],
                           )
@@ -95,7 +65,7 @@ class TokenCheckbox extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(tokenModel[tokenIndex].name!,
+                          Text(tokenModel.name!,
                               overflow: TextOverflow.ellipsis,
                               softWrap: false,
                               maxLines: 1,
@@ -105,7 +75,7 @@ class TokenCheckbox extends StatelessWidget {
                             height: 3.sp,
                           ),
                           Text(
-                              "${tokenModel[tokenIndex].balance.toStringAsFixed(6)} ${tokenModel[tokenIndex].symbol}",
+                              "${tokenModel.balance.toStringAsFixed(6)} ${tokenModel.symbol}",
                               softWrap: false,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -118,11 +88,10 @@ class TokenCheckbox extends StatelessWidget {
                     const Spacer(),
                     Text(
                       r"$" +
-                          (tokenModel[tokenIndex].name == "Tezos"
-                                  ? tokenModel[tokenIndex].balance * xtzPrice
-                                  : tokenModel[tokenIndex].balance *
-                                      (tokenModel[tokenIndex].currentPrice! *
-                                          xtzPrice))
+                          (tokenModel.name == "Tezos"
+                                  ? tokenModel.balance * xtzPrice
+                                  : tokenModel.balance *
+                                      (tokenModel.currentPrice! * xtzPrice))
                               .toStringAsFixed(6)
                               .removeTrailing0,
                       style: labelMedium.copyWith(fontWeight: FontWeight.w400),
@@ -137,17 +106,33 @@ class TokenCheckbox extends StatelessWidget {
     );
   }
 
+  Widget _checkBox() => CustomCheckBox(
+      margins: EdgeInsets.only(right: 10.sp),
+      borderRadius: 12.sp,
+      checkedIcon: Icons.done,
+      borderWidth: 2,
+      checkBoxIconSize: 12,
+      checkBoxSize: 20.sp,
+      borderColor: const Color(0xff1E1C1F),
+      checkedIconColor: Colors.white,
+      uncheckedFillColor: Colors.transparent,
+      uncheckedIconColor: Colors.transparent,
+      checkedFillColor:
+          tokenModel.isSelected ? ColorConst.Primary : const Color(0xff1E1C1F),
+      value: tokenModel.isSelected,
+      onChanged: (v) => onCheckboxTap);
+
   Widget _imageAvatar() => CircleAvatar(
         radius: 20.sp,
         backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-        child: tokenModel[tokenIndex].iconUrl!.startsWith("assets")
+        child: tokenModel.iconUrl!.startsWith("assets")
             ? Image.asset(
-                tokenModel[tokenIndex].iconUrl!,
+                tokenModel.iconUrl!,
                 fit: BoxFit.cover,
               )
-            : tokenModel[tokenIndex].iconUrl!.endsWith(".svg")
+            : tokenModel.iconUrl!.endsWith(".svg")
                 ? SvgPicture.network(
-                    tokenModel[tokenIndex].iconUrl!,
+                    tokenModel.iconUrl!,
                     fit: BoxFit.cover,
                   )
                 : Container(
@@ -155,11 +140,10 @@ class TokenCheckbox extends StatelessWidget {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(tokenModel[tokenIndex]
-                                  .iconUrl!
+                          image: NetworkImage(tokenModel.iconUrl!
                                   .startsWith("ipfs")
-                              ? "https://ipfs.io/ipfs/${tokenModel[tokenIndex].iconUrl!.replaceAll("ipfs://", '')}"
-                              : tokenModel[tokenIndex].iconUrl!)),
+                              ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
+                              : tokenModel.iconUrl!)),
                     ),
                   ),
       );
