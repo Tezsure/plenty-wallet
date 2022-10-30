@@ -9,8 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
-import 'package:naan_wallet/app/modules/account_summary/views/pages/history_tab.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
@@ -23,8 +21,9 @@ import 'package:naan_wallet/utils/utils.dart';
 
 import '../../../../../utils/constants/path_const.dart';
 import '../../../../data/services/service_config/service_config.dart';
+import '../../controllers/transaction_controller.dart';
 
-class TransactionDetailsBottomSheet extends GetView<AccountSummaryController> {
+class TransactionDetailsBottomSheet extends GetView<TransactionController> {
   final TxHistoryModel transactionModel;
   final TokenInfo tokenInfo;
   final String userAccountAddress;
@@ -410,7 +409,7 @@ class TransactionDetailsBottomSheet extends GetView<AccountSummaryController> {
   }
 }
 
-class RemoveContactBottomSheet extends GetView<AccountSummaryController> {
+class RemoveContactBottomSheet extends GetView<TransactionController> {
   final ContactModel contactModel;
   const RemoveContactBottomSheet({super.key, required this.contactModel});
 

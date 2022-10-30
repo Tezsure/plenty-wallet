@@ -9,7 +9,6 @@ import 'package:naan_wallet/app/data/services/service_models/account_model.dart'
 import 'package:naan_wallet/app/modules/account_summary/views/account_summary_view.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
-import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';

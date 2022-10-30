@@ -44,80 +44,107 @@ class HistoryTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-          child: ListTile(
-            dense: true,
-            enableFeedback: true,
-            leading: CircleAvatar(
-              radius: 20.sp,
-              backgroundColor: ColorConst.NeutralVariant.shade60,
-              child: tokenIconUrl.startsWith("assets")
-                  ? Image.asset(
-                      tokenIconUrl,
-                      fit: BoxFit.cover,
-                    )
-                  : tokenIconUrl.endsWith(".svg")
-                      ? SvgPicture.network(
-                          tokenIconUrl,
-                          fit: BoxFit.cover,
-                        )
-                      : Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                fit: BoxFit.contain,
-                                image: NetworkImage(tokenIconUrl
-                                        .startsWith("ipfs")
-                                    ? "https://ipfs.io/ipfs/${tokenIconUrl.replaceAll("ipfs://", '')}"
-                                    : tokenIconUrl)),
+          child: SizedBox(
+            height: 60.sp,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 20.sp,
+                    backgroundColor: ColorConst.NeutralVariant.shade60,
+                    child: tokenIconUrl.startsWith("assets")
+                        ? Image.asset(
+                            tokenIconUrl,
+                            fit: BoxFit.cover,
+                          )
+                        : tokenIconUrl.endsWith(".svg")
+                            ? SvgPicture.network(
+                                tokenIconUrl,
+                                fit: BoxFit.cover,
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: NetworkImage(tokenIconUrl
+                                              .startsWith("ipfs")
+                                          ? "https://ipfs.io/ipfs/${tokenIconUrl.replaceAll("ipfs://", '')}"
+                                          : tokenIconUrl)),
+                                ),
+                              ),
+                  ),
+                  0.02.hspace,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                              historyModel.sender!.address!
+                                      .contains(userAccountAddress)
+                                  ? Icons.arrow_upward
+                                  : Icons.arrow_downward,
+                              size: 18.sp,
+                              color: ColorConst.NeutralVariant.shade60),
+                          Text(
+                              historyModel.sender!.address!
+                                      .contains(userAccountAddress)
+                                  ? ' Sent'
+                                  : ' Received',
+                              style: labelLarge.copyWith(
+                                  color: ColorConst.NeutralVariant.shade60,
+                                  fontWeight: FontWeight.w600)),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 4.sp),
+                        child: SizedBox(
+                          width: 180.sp,
+                          child: Text(
+                            tokenName,
+                            style: labelLarge,
+                            softWrap: false,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-            ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                    historyModel.sender!.address!.contains(userAccountAddress)
-                        ? Icons.arrow_upward
-                        : Icons.arrow_downward,
-                    size: 18.sp,
-                    color: ColorConst.NeutralVariant.shade60),
-                Text(
-                    historyModel.sender!.address!.contains(userAccountAddress)
-                        ? ' Sent'
-                        : ' Received',
-                    style: labelLarge.copyWith(
-                        color: ColorConst.NeutralVariant.shade60,
-                        fontWeight: FontWeight.w600)),
-              ],
-            ),
-            subtitle: Text(
-              tokenName,
-              style: labelLarge,
-            ),
-            trailing: RichText(
-              textAlign: TextAlign.end,
-              text: TextSpan(
-                  text: isNft
-                      ? "$tokenSymbol\n"
-                      : "${tezAmount.toStringAsFixed(6)} $tokenSymbol\n",
-                  style: labelSmall.copyWith(
-                      color: ColorConst.NeutralVariant.shade60),
-                  children: [
-                    WidgetSpan(child: 0.02.vspace),
-                    TextSpan(
-                      text: historyModel.sender!.address!
-                              .contains(userAccountAddress)
-                          ? '- \$${(dollarAmount).toStringAsFixed(2)}'
-                          : '\$${(dollarAmount).toStringAsFixed(2)}',
-                      style: labelLarge.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: historyModel.sender!.address!
-                                  .contains(userAccountAddress)
-                              ? Colors.white
-                              : ColorConst.naanCustomColor),
-                    )
-                  ]),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  RichText(
+                    textAlign: TextAlign.end,
+                    text: TextSpan(
+                        text: isNft
+                            ? "$tokenSymbol\n"
+                            : "${tezAmount.toStringAsFixed(6)} $tokenSymbol\n",
+                        style: labelSmall.copyWith(
+                            color: ColorConst.NeutralVariant.shade60),
+                        children: [
+                          WidgetSpan(child: 0.02.vspace),
+                          TextSpan(
+                            text: historyModel.sender!.address!
+                                    .contains(userAccountAddress)
+                                ? '- \$${(dollarAmount).toStringAsFixed(2)}'
+                                : '\$${(dollarAmount).toStringAsFixed(2)}',
+                            style: labelLarge.copyWith(
+                                fontWeight: FontWeight.w400,
+                                color: historyModel.sender!.address!
+                                        .contains(userAccountAddress)
+                                    ? Colors.white
+                                    : ColorConst.naanCustomColor),
+                          )
+                        ]),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

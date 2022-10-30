@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
-import 'package:naan_wallet/app/modules/account_summary/views/pages/history_tab.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -16,6 +15,7 @@ import '../../../../../utils/colors/colors.dart';
 import '../../../../data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
 import '../../../../data/services/service_models/nft_token_model.dart';
 import '../../../../data/services/service_models/token_price_model.dart';
+import '../../controllers/transaction_controller.dart';
 import '../widgets/history_tab_widgets/history_tile.dart';
 import 'transaction_details.dart';
 
@@ -29,7 +29,7 @@ class SearchBottomSheet extends StatefulWidget {
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
   FocusNode focusNode = FocusNode();
   TextEditingController searchController = TextEditingController();
-  AccountSummaryController controller = Get.find<AccountSummaryController>();
+  TransactionController controller = Get.find<TransactionController>();
   List<TxHistoryModel?> searchResult = [];
 
   @override
@@ -222,8 +222,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
           index: index,
           tokenSymbol: "tez",
           tokenAmount: searchResult[index]!.amount! / 1e6,
-          dollarAmount:
-              (searchResult[index]!.amount! / 1e6) * controller.xtzPrice.value,
+          dollarAmount: (searchResult[index]!.amount! / 1e6) *
+              controller.accController.xtzPrice.value,
         );
       } else {
         if (isTezosTransaction(index)) {
@@ -329,12 +329,14 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
             tezAmount: token.tokenAmount,
             tokenName: token.name,
             tokenIconUrl: token.imageUrl,
-            userAccountAddress: controller.userAccount.value.publicKeyHash!,
-            xtzPrice: controller.xtzPrice.value,
+            userAccountAddress:
+                controller.accController.userAccount.value.publicKeyHash!,
+            xtzPrice: controller.accController.xtzPrice.value,
             historyModel: searchResult[token.index]!,
             onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
               tokenInfo: token,
-              userAccountAddress: controller.userAccount.value.publicKeyHash!,
+              userAccountAddress:
+                  controller.accController.userAccount.value.publicKeyHash!,
               transactionModel: searchResult[token.index]!,
             )),
           ),
@@ -384,13 +386,14 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                 tezAmount: token.tokenAmount,
                 tokenName: token.name,
                 tokenIconUrl: token.imageUrl,
-                userAccountAddress: controller.userAccount.value.publicKeyHash!,
-                xtzPrice: controller.xtzPrice.value,
+                userAccountAddress:
+                    controller.accController.userAccount.value.publicKeyHash!,
+                xtzPrice: controller.accController.xtzPrice.value,
                 historyModel: searchResult[index]!,
                 onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
                   tokenInfo: token,
                   userAccountAddress:
-                      controller.userAccount.value.publicKeyHash!,
+                      controller.accController.userAccount.value.publicKeyHash!,
                   transactionModel: searchResult[index]!,
                 )),
               ),

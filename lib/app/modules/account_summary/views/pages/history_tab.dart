@@ -6,8 +6,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -15,11 +13,12 @@ import '../../../../../utils/colors/colors.dart';
 import '../../../../../utils/styles/styles.dart';
 import '../../../../data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
 import '../../../../data/services/service_models/nft_token_model.dart';
+import '../../controllers/transaction_controller.dart';
 import '../bottomsheets/history_filter_sheet.dart';
 import '../bottomsheets/transaction_details.dart';
 import '../widgets/history_tab_widgets/history_tile.dart';
 
-class HistoryPage extends GetView<AccountSummaryController> {
+class HistoryPage extends GetView<TransactionController> {
   final bool isNftTransaction;
   const HistoryPage({
     super.key,
@@ -98,8 +97,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
                 ),
               ),
             ),
-            true
-                // controller.userTransactionHistory.isEmpty
+            true // controller.userTransactionHistory.isEmpty
                 ? SliverToBoxAdapter(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -172,7 +170,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
         tokenSymbol: "tez",
         tokenAmount: controller.userTransactionHistory[index].amount! / 1e6,
         dollarAmount: (controller.userTransactionHistory[index].amount! / 1e6) *
-            controller.xtzPrice.value,
+            controller.accController.xtzPrice.value,
       );
     } else if (controller.isAnyTokenOrNFTTransaction(index)) {
       if (controller.isFa2Token(index)) {
@@ -195,7 +193,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
               name: fa2Token.name!,
               dollarAmount: double.parse(amount) /
                   pow(10, fa2Token.decimals!) *
-                  controller.xtzPrice.value,
+                  controller.accController.xtzPrice.value,
               tokenSymbol: fa2Token.symbol!,
               tokenAmount: double.parse(amount) / pow(10, fa2Token.decimals!),
               imageUrl: controller.getImageUrl(index));
@@ -223,7 +221,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
             name: faToken.name!,
             dollarAmount: (double.parse(amount) /
                 pow(10, faToken.decimals!) *
-                controller.xtzPrice.value),
+                controller.accController.xtzPrice.value),
             tokenSymbol: faToken.symbol!,
             tokenAmount: double.parse(amount) / pow(10, faToken.decimals!),
             imageUrl: controller.getImageUrl(index));
@@ -277,12 +275,14 @@ class HistoryPage extends GetView<AccountSummaryController> {
             tezAmount: token.tokenAmount,
             tokenName: token.name,
             tokenIconUrl: token.imageUrl,
-            userAccountAddress: controller.userAccount.value.publicKeyHash!,
-            xtzPrice: controller.xtzPrice.value,
+            userAccountAddress:
+                controller.accController.userAccount.value.publicKeyHash!,
+            xtzPrice: controller.accController.xtzPrice.value,
             historyModel: controller.userTransactionHistory[token.index],
             onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
               tokenInfo: token,
-              userAccountAddress: controller.userAccount.value.publicKeyHash!,
+              userAccountAddress:
+                  controller.accController.userAccount.value.publicKeyHash!,
               transactionModel: controller.userTransactionHistory[token.index],
             )),
           ),
@@ -320,7 +320,7 @@ class HistoryPage extends GetView<AccountSummaryController> {
                 id: controller.userTransactionHistory[index].lastid.toString(),
                 tokenSymbol: snapshot.data!.fa!.name!,
                 dollarAmount: (snapshot.data!.lowestAsk / 1e6) *
-                    controller.xtzPrice.value,
+                    controller.accController.xtzPrice.value,
                 tokenAmount: snapshot.data!.lowestAsk != null &&
                         snapshot.data!.lowestAsk != 0
                     ? snapshot.data!.lowestAsk / 1e6
@@ -359,13 +359,13 @@ class HistoryPage extends GetView<AccountSummaryController> {
                   tokenName: token.name,
                   tokenIconUrl: token.imageUrl,
                   userAccountAddress:
-                      controller.userAccount.value.publicKeyHash!,
-                  xtzPrice: controller.xtzPrice.value,
+                      controller.accController.userAccount.value.publicKeyHash!,
+                  xtzPrice: controller.accController.xtzPrice.value,
                   historyModel: controller.userTransactionHistory[index],
                   onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
                     tokenInfo: token,
-                    userAccountAddress:
-                        controller.userAccount.value.publicKeyHash!,
+                    userAccountAddress: controller
+                        .accController.userAccount.value.publicKeyHash!,
                     transactionModel: controller.userTransactionHistory[index],
                   )),
                 ),
@@ -374,35 +374,4 @@ class HistoryPage extends GetView<AccountSummaryController> {
           }
         }));
   }
-}
-
-extension DateOnlyCompare on DateTime {
-  bool isSameDate(DateTime other) {
-    return year == other.year && month == other.month && day == other.day;
-  }
-}
-
-class TokenInfo {
-  final String name;
-  final String imageUrl;
-  final bool isNft;
-  final bool skip;
-  final int index;
-  final double tokenAmount;
-  final double dollarAmount;
-  final String tokenSymbol;
-  final String id;
-  final TxHistoryModel? token;
-
-  TokenInfo(
-      {this.name = "Tezos",
-      this.imageUrl = "${PathConst.ASSETS}tezos_logo.png",
-      this.isNft = false,
-      this.skip = false,
-      this.dollarAmount = 0,
-      this.tokenSymbol = "tez",
-      this.tokenAmount = 0,
-      this.id = "",
-      this.token,
-      required this.index});
 }

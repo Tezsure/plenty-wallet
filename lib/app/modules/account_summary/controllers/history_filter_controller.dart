@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 
 import '../../../data/services/service_models/tx_history_model.dart';
-import 'account_summary_controller.dart';
 
 class HistoryFilterController extends GetxController {
-  final accountController = Get.find<AccountSummaryController>();
+  final accountController = Get.find<TransactionController>();
 
   Rx<AssetType> assetType = AssetType.token.obs;
   Rx<TransactionType> transactionType = TransactionType.delegation.obs;
@@ -109,15 +109,15 @@ class HistoryFilterController extends GetxController {
     } else if (transactionType.value == TransactionType.receive) {
       accountController.userTransactionHistory.value =
           accountController.userTransactionHistory.where((element) {
-        return !element.sender!.address!
-            .contains(accountController.userAccount.value.publicKeyHash!);
+        return !element.sender!.address!.contains(
+            accountController.accController.userAccount.value.publicKeyHash!);
       }).toList();
       accountController.userTransactionHistory.refresh();
     } else if (transactionType.value == TransactionType.send) {
       accountController.userTransactionHistory.value =
           accountController.userTransactionHistory.where((element) {
-        return element.sender!.address!
-            .contains(accountController.userAccount.value.publicKeyHash!);
+        return element.sender!.address!.contains(
+            accountController.accController.userAccount.value.publicKeyHash!);
       }).toList();
       accountController.userTransactionHistory.refresh();
     }
@@ -132,7 +132,7 @@ class HistoryFilterController extends GetxController {
             return false;
           } else {
             if (element.parameter?.value is List) {
-              if (accountController.tokensList
+              if (accountController.accController.tokensList
                   .where((p0) =>
                       (p0.tokenAddress!.contains(element.target!.address!)) &&
                       p0.tokenId!.contains(
@@ -145,7 +145,7 @@ class HistoryFilterController extends GetxController {
             } else if (element.parameter?.value is String) {
               var decodedString = jsonDecode(element.parameter!.value);
               if (decodedString is List) {
-                if (accountController.tokensList
+                if (accountController.accController.tokensList
                     .where((p0) =>
                         (p0.tokenAddress!.contains(element.target!.address!)) &&
                         p0.tokenId!.contains(
@@ -181,7 +181,7 @@ class HistoryFilterController extends GetxController {
             return true;
           } else {
             if (element.parameter?.value is List) {
-              if (accountController.tokensList
+              if (accountController.accController.tokensList
                   .where((p0) =>
                       (p0.tokenAddress!.contains(element.target!.address!)) &&
                       p0.tokenId!.contains(
@@ -194,7 +194,7 @@ class HistoryFilterController extends GetxController {
             } else if (element.parameter?.value is String) {
               var decodedString = jsonDecode(element.parameter!.value);
               if (decodedString is List) {
-                if (accountController.tokensList
+                if (accountController.accController.tokensList
                     .where((p0) =>
                         (p0.tokenAddress!.contains(element.target!.address!)) &&
                         p0.tokenId!.contains(
@@ -261,13 +261,15 @@ class HistoryFilterController extends GetxController {
       if (transactionType.value == TransactionType.delegation) {
       } else if (transactionType.value == TransactionType.receive) {
         nextHistoryList = nextHistoryList
-            .where((element) => !element.sender!.address!
-                .contains(accountController.userAccount.value.publicKeyHash!))
+            .where((element) => !element.sender!.address!.contains(
+                accountController
+                    .accController.userAccount.value.publicKeyHash!))
             .toList();
       } else if (transactionType.value == TransactionType.send) {
         nextHistoryList = nextHistoryList
-            .where((element) => element.sender!.address!
-                .contains(accountController.userAccount.value.publicKeyHash!))
+            .where((element) => element.sender!.address!.contains(
+                accountController
+                    .accController.userAccount.value.publicKeyHash!))
             .toList();
       }
 

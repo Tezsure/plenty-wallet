@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
@@ -126,7 +126,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
               if (nameController.text.isEmpty) return;
               await UserStorageService().writeNewContact(widget.contactModel
                   .copyWith(name: nameController.text.trim()));
-              var accountController = Get.find<AccountSummaryController>();
+              var accountController = Get.find<TransactionController>();
               accountController.onAddContact(
                   widget.contactModel.address, nameController.text);
               await accountController.updateSavedContacts();
@@ -134,7 +134,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                 ..back()
                 ..back();
             } else if (widget.isTransactionContact && widget.isEditContact) {
-              var accountController = Get.find<AccountSummaryController>();
+              var accountController = Get.find<TransactionController>();
               accountController.contacts.value = accountController.contacts
                   .map((item) =>
                       item.address.contains(widget.contactModel.address)
