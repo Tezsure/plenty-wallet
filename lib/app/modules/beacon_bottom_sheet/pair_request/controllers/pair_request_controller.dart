@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:beacon_flutter/models/beacon_request.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';

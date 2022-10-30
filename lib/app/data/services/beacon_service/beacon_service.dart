@@ -4,6 +4,7 @@ import 'package:beacon_flutter/beacon_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
+import 'package:naan_wallet/app/modules/beacon_bottom_sheet/payload_request/views/payload_request_view.dart';
 
 class BeaconService extends GetxService {
   final beaconPlugin = Beacon();
@@ -32,6 +33,10 @@ class BeaconService extends GetxService {
               break;
             case RequestType.signPayload:
               print("payload request $beaconRequest");
+              Get.bottomSheet(const PayloadRequestView(),
+                  barrierColor: Colors.white.withOpacity(0.09),
+                  isScrollControlled: true,
+                  settings: RouteSettings(arguments: beaconRequest));
               break;
             case RequestType.operation:
               print("operation request $beaconRequest");

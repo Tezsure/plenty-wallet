@@ -13,7 +13,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  Get.put(BeaconService());
+  Get.put(BeaconService(), permanent: true);
   runApp(
     GetMaterialApp(
       title: "Naan",

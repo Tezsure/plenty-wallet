@@ -59,7 +59,7 @@ class PairRequestView extends GetView<PairRequestController> {
               style: bodySmall.copyWith(color: ColorConst.grey),
             ),
             Padding(
-              padding: EdgeInsets.all(4),
+              padding: const EdgeInsets.all(4),
               child: Container(
                 height: 36,
                 width: 0.6.width,
