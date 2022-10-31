@@ -11,6 +11,7 @@ class NaanTextfield extends StatelessWidget {
   final TextStyle? hintTextSyle;
   final Color? backgroundColor;
   final FocusNode? focusNode;
+  TextStyle? textStyle;
 
   NaanTextfield(
       {Key? key,
@@ -19,7 +20,8 @@ class NaanTextfield extends StatelessWidget {
       this.onTextChange,
       this.backgroundColor,
       this.focusNode,
-      this.hintTextSyle})
+      this.hintTextSyle,
+      this.textStyle})
       : super(key: key);
 
   @override
@@ -34,9 +36,9 @@ class NaanTextfield extends StatelessWidget {
           height: 52,
           child: TextField(
             controller: controller,
-            focusNode:focusNode,
+            focusNode: focusNode,
             cursorColor: ColorConst.Primary,
-            style: bodyMedium,
+            style: textStyle ?? bodyMedium,
             onChanged: onTextChange,
             decoration: InputDecoration(
                 hintStyle: hintTextSyle ??

@@ -11,7 +11,6 @@ class OnboardingPageController extends GetxController {
     const Color(0xff9961EC),
     const Color(0xffFD3289),
     const Color(0xffFA6163),
-    const Color(0xffF77A3A),
   ]; // Onboarding screens background colors
 
   late final Map<String, String> _onboardingMessages = {

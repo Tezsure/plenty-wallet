@@ -164,12 +164,12 @@ class AccountWidget extends StatelessWidget {
               onChanged: (value) {
                 if (value!) {
                   controller.isTz1Selected.value
-                  ? controller.selectedAccountsTz1.add(accountModel)
-                  : controller.selectedAccountsTz2.add(accountModel);
+                      ? controller.selectedAccountsTz1.add(accountModel)
+                      : controller.selectedAccountsTz2.add(accountModel);
                 } else {
                   controller.isTz1Selected.value
-                  ? controller.selectedAccountsTz1.remove(accountModel)
-                  : controller.selectedAccountsTz2.remove(accountModel);
+                      ? controller.selectedAccountsTz1.remove(accountModel)
+                      : controller.selectedAccountsTz2.remove(accountModel);
                 }
               },
               checkColor: Colors.white,

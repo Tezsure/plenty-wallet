@@ -13,7 +13,7 @@ class TokenAndXtzPriceHandler {
 
   static Future<void> _isolateProcess(List<dynamic> args) async {
     // fetch xtz price using coingecko
-    var xtzPriceResponse = jsonDecode(await HttpService.performGetRequestStream(
+    var xtzPriceResponse = jsonDecode(await HttpService.performGetRequest(
       ServiceConfig.coingeckoApi,
     ));
     double xtzPrice = xtzPriceResponse['tezos']['usd'] as double;

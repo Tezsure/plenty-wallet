@@ -126,7 +126,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
-                        PathConst.SVG + "check.svg",
+                        "${PathConst.SVG}check.svg",
                         color: const Color(0xFF958E99),
                       ),
                       0.015.hspace,
@@ -142,7 +142,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(
-                        PathConst.SVG + "check.svg",
+                        "${PathConst.SVG}check.svg",
                         color:  ColorConst.Primary.shade95,
                       ),
                       0.02.hspace,

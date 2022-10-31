@@ -19,6 +19,7 @@ class SendPageController extends GetxController {
       <AccountTokenModel>[].obs; // List of tokens
   RxMap<String, List<NftTokenModel>> userNfts =
       <String, List<NftTokenModel>>{}.obs; // List of tokens
+  
 
   Rx<TextfieldType> selectedTextfieldType = TextfieldType.token.obs;
   @override

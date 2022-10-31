@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
@@ -225,10 +227,9 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
                     backgroundColor: Colors.white,
                     maxRadius: 8,
                     minRadius: 8,
-                    child: Image.asset(
-                      'assets/temp/account_profile.png',
-                      fit: BoxFit.contain,
-                    ),
+                    child: model.imageType == AccountProfileImageType.assets
+                        ? Image.asset(model.profileImage!)
+                        : Image.file(File(model.profileImage!)),
                   )
                 ],
               ),

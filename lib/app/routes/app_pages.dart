@@ -13,16 +13,10 @@ import '../modules/home_page/bindings/home_page_binding.dart';
 import '../modules/home_page/views/home_page_view.dart';
 import '../modules/home_page/widgets/accounts_widget/bindings/accounts_widget_binding.dart';
 import '../modules/home_page/widgets/accounts_widget/views/accounts_widget_view.dart';
-import '../modules/home_page/widgets/delegate_widget/bindings/delegate_widget_binding.dart';
-import '../modules/home_page/widgets/delegate_widget/views/delegate_widget_view.dart';
-import '../modules/home_page/widgets/info_stories/models/story_page/bindings/story_page_binding.dart';
-import '../modules/home_page/widgets/info_stories/models/story_page/views/story_page_view.dart';
 import '../modules/import_wallet_page/bindings/import_wallet_page_binding.dart';
 import '../modules/import_wallet_page/views/import_wallet_page_view.dart';
 import '../modules/loading_page/bindings/loading_page_binding.dart';
 import '../modules/loading_page/views/loading_page_view.dart';
-import '../modules/nft_gallery/bindings/nft_gallery_binding.dart';
-import '../modules/nft_gallery/views/nft_gallery_view.dart';
 import '../modules/onboarding_page/bindings/onboarding_page_binding.dart';
 import '../modules/onboarding_page/views/onboarding_page_view.dart';
 import '../modules/passcode_page/bindings/passcode_page_binding.dart';
@@ -93,19 +87,9 @@ class AppPages {
       binding: ImportWalletPageBinding(),
     ),
     GetPage(
-      name: _Paths.STORY_PAGE,
-      page: () => const StoryPageView(profileImagePath: [], storyTitle: []),
-      binding: StoryPageBinding(),
-    ),
-    GetPage(
       name: _Paths.ACCOUNTS_WIDGET,
       page: () => AccountsWidget(),
       binding: AccountsWidgetBinding(),
-    ),
-    GetPage(
-      name: _Paths.DELEGATE_WIDGET,
-      page: () => const DelegateWidget(),
-      binding: DelegateWidgetBinding(),
     ),
     GetPage(
       name: _Paths.SETTINGS_PAGE,
@@ -132,10 +116,6 @@ class AppPages {
       page: () => const LoadingPageView(),
       binding: LoadingPageBinding(),
     ),
-    GetPage(
-      name: _Paths.NFT_GALLERY,
-      page: () => NftGalleryView(),
-      binding: NftGalleryBinding(),
-    ),
+   
   ];
 }

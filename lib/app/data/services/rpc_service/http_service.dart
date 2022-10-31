@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 class HttpService {
   static Future<String> performGetRequest(String server,
-      {String endpoint = "", headers = const {}}) async {
+      {String endpoint = "", Map<String, String>? headers}) async {
     var response = await http.get(
         Uri.parse(
           "$server${endpoint.isNotEmpty ? '/$endpoint' : ''}",
@@ -33,7 +33,8 @@ class HttpService {
     /// and yield the response
     HttpClientResponse response = await request.close();
 
-    Future.delayed(const Duration(seconds: 7), (() => completer.complete("")));
+    Future.delayed(const Duration(seconds: 7),
+        (() => !completer.isCompleted ? completer.complete("") : null));
 
     await for (var data in response.transform(const Utf8Decoder())) {
       try {

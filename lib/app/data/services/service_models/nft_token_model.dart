@@ -144,18 +144,21 @@ class Royalties {
 class Creators {
   String? creatorAddress;
   int? tokenPk;
+  FaHolder? holder;
 
-  Creators({this.creatorAddress, this.tokenPk});
+  Creators({this.creatorAddress, this.tokenPk, this.holder});
 
   Creators.fromJson(Map<String, dynamic> json) {
     creatorAddress = json['creator_address'];
     tokenPk = json['token_pk'];
+    holder = FaHolder.fromJson(json['holder']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['creator_address'] = creatorAddress;
     data['token_pk'] = tokenPk;
+    data['holder'] = holder!.toJson();
     return data;
   }
 }
@@ -276,6 +279,25 @@ class Fa {
     data['floor_price'] = floorPrice;
     data['logo'] = logo;
     data['contract'] = contract;
+    return data;
+  }
+}
+
+class FaHolder {
+  String? alias;
+  String? address;
+
+  FaHolder({this.alias, this.address});
+
+  FaHolder.fromJson(Map<String, dynamic> json) {
+    alias = json['alias'];
+    address = json['address'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['alias'] = alias;
+    data['address'] = address;
     return data;
   }
 }

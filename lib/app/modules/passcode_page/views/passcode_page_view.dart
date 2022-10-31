@@ -86,10 +86,10 @@ class PasscodePageView extends GetView<PasscodePageController> {
               ),
               0.05.vspace,
               PassCodeWidget(onChanged: (value) {
-                debugPrint(
-                    "confirm passcode : ${controller.confirmPasscode.value}");
-                debugPrint(
-                    "set passcode : ${controller.enteredPassCode.value}");
+                // debugPrint(
+                //     "confirm passcode : ${controller.confirmPasscode.value}");
+                // debugPrint(
+                //     "set passcode : ${controller.enteredPassCode.value}");
 
                 if (controller.isToVerifyPassCode.value) {
                   if (value.length == 6) {

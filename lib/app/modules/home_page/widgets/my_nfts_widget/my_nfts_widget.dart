@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/nft_gallery/views/nft_gallery_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -13,12 +12,12 @@ class MyNFTwidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.bottomSheet(
-        NftGalleryView(),
-        isDismissible: true,
-        enableDrag: true,
-        isScrollControlled: true,
-      ),
+      onTap: () => null,
+      // Get.bottomSheet(
+      //   isDismissible: true,
+      //   enableDrag: true,
+      //   isScrollControlled: true,
+      // ),
       child: ShaderMask(
         shaderCallback: (rect) {
           return const LinearGradient(

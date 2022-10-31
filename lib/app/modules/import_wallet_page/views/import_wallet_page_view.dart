@@ -209,15 +209,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
           ),
           child: Text(
-            controller.importWalletDataType == ImportWalletDataType.privateKey
-                ? "Import using private key"
-                : controller.importWalletDataType ==
-                        ImportWalletDataType.mnemonic
-                    ? "Next"
-                    : controller.importWalletDataType ==
-                            ImportWalletDataType.watchAddress
-                        ? "Import watch address"
-                        : "Import",
+            "Import",
             style: titleSmall.apply(color: ColorConst.Neutral.shade95),
           )),
     );

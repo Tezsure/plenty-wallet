@@ -12,9 +12,11 @@ class NftAndTxHistoryHandler {
   NftAndTxHistoryHandler(this.dataHandlerRenderService);
 
   static Future<void> _isolateProcess(List<dynamic> args) async {
-    List<String> accountAddress = args[1].toList();
+    List<String> accountAddress = args[1][0].toList();
+    List<String> watchAccountAddress = args[1][1].toList();
     List<List<NftTokenModel>> accountsNft = await Future.wait(
-      accountAddress.map<Future<List<NftTokenModel>>>(
+      [...accountAddress, ...watchAccountAddress]
+          .map<Future<List<NftTokenModel>>>(
         (e) => _ObjktNftApiService(e).getNfts(),
       ),
     );
@@ -23,8 +25,14 @@ class NftAndTxHistoryHandler {
     args[0].send([
       // account nfts as Map<String(address),List<NftTokenModel>>
       <String, List<NftTokenModel>>{
-        for (int i = 0; i < accountAddress.length; i++)
-          accountAddress[i]: accountsNft[i]
+        ...{
+          for (int i = 0; i < accountAddress.length; i++)
+            accountAddress[i]: accountsNft[i]
+        },
+        ...{
+          for (int i = 0; i < watchAccountAddress.length; i++)
+            watchAccountAddress[i]: accountsNft[i + accountAddress.length]
+        }
       },
     ]);
   }
@@ -36,9 +44,16 @@ class NftAndTxHistoryHandler {
       _isolateProcess,
       <dynamic>[
         receivePort.sendPort,
-        (await UserStorageService().getAllAccount())
-            .map<String>((e) => e.publicKeyHash!)
-            .toList(),
+        [
+          (await UserStorageService().getAllAccount())
+              .map<String>((e) => e.publicKeyHash!)
+              .toList(),
+          (await UserStorageService().getAllAccount(
+            watchAccountsList: true,
+          ))
+              .map<String>((e) => e.publicKeyHash!)
+              .toList()
+        ],
       ],
       debugName: "nft & tx-history",
     );
@@ -67,7 +82,7 @@ class _ObjktNftApiService {
   Future<List<NftTokenModel>> getNfts() async {
     try {
       final response = await GQLClient(
-        'https://data.objkt.com/v2/graphql',
+        'https://data.objkt.com/v3/graphql',
       ).query(
         query: ServiceConfig.gQuery,
         variables: {'address': pkH},
