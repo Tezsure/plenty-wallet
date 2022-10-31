@@ -123,7 +123,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                   ),
                   0.02.vspace,
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 14.aR),
+                    padding: EdgeInsets.symmetric(horizontal: 8.sp),
                     child: Text(
                       _controller
                               .homePageController

@@ -84,6 +84,7 @@ class AccountSummaryController extends GetxController {
     );
     userTokens.addAll(await UserStorageService()
         .getUserTokens(userAddress: userAccount.value.publicKeyHash!));
+    userTokens.value = userTokens.toSet().toList();
     if (userTokens.isNotEmpty &&
         userTokens.any((element) => element.name!.contains("Tezos"))) {
       userTokens.map((element) => element.name!.contains("Tezos")
@@ -97,21 +98,7 @@ class AccountSummaryController extends GetxController {
           ? null
           : userTokens.insert(0, tezos);
     }
-    // if (userTokens.isEmpty &&
-    //     userAccount.value.accountDataModel!.xtzBalance! != 0) {
-    //   userTokens.add(tezos);
-    // } else {
-    //   if (userTokens.any((element) => element.name!.contains("Tezos"))) {
-    //     userTokens.map((element) => element.name!.contains("Tezos")
-    //         ? element.copyWith(
-    //             balance: userAccount.value.accountDataModel!.xtzBalance!,
-    //             currentPrice: xtzPrice.value,
-    //           )
-    //         : null);
-    //   } else {
-    //     userTokens.insert(0, tezos);
-    //   }
-    // }
+
     _tokenSort();
     _updateUserTokenList();
   }
@@ -150,11 +137,13 @@ class AccountSummaryController extends GetxController {
 
   /// Changes the current selected account from the account list
   void onAccountTap(int index) {
-    selectedAccountIndex.value = index;
-    userAccount.value = homePageController.userAccounts[index];
-    _fetchAllTokens();
-    _fetchAllNfts();
-    loadUserTransaction();
+    if (!_isSelectedAccount(index)) {
+      selectedAccountIndex.value = index;
+      userAccount.value = homePageController.userAccounts[index];
+      _fetchAllTokens();
+      _fetchAllNfts();
+      loadUserTransaction();
+    }
   }
 
   /// Remove account from the account list
@@ -175,12 +164,12 @@ class AccountSummaryController extends GetxController {
       return;
     } else if (index == homePageController.userAccounts.length - 1) {
       // When the last index is selected
-      if (isSelectedAccount(index)) {
+      if (_isSelectedAccount(index)) {
         selectedAccountIndex.value = index - 1;
         userAccount.value = homePageController.userAccounts[index - 1];
       }
     } else {
-      if (isSelectedAccount(index)) {
+      if (_isSelectedAccount(index)) {
         selectedAccountIndex.value = index;
         userAccount.value = homePageController.userAccounts[index + 1];
       }
@@ -194,7 +183,7 @@ class AccountSummaryController extends GetxController {
     isAccountEditable.value = false;
   }
 
-  bool isSelectedAccount(int index) =>
+  bool _isSelectedAccount(int index) =>
       homePageController.userAccounts[index].publicKeyHash!
           .contains(userAccount.value.publicKeyHash!);
 

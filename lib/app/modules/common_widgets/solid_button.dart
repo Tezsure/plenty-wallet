@@ -21,6 +21,7 @@ class SolidButton extends StatelessWidget {
   final Color borderColor;
   final double borderWidth;
   final Widget? inActiveChild;
+  final double? borderRadius;
   RxBool? isLoading = false.obs;
   final TextStyle? titleStyle;
   SolidButton(
@@ -41,7 +42,8 @@ class SolidButton extends StatelessWidget {
       this.borderColor = Colors.transparent,
       this.borderWidth = 0,
       this.isLoading,
-      this.titleStyle})
+      this.titleStyle,
+      this.borderRadius})
       : super(key: key);
 
   @override
@@ -57,7 +59,8 @@ class SolidButton extends StatelessWidget {
       disabledColor: disabledButtonColor ?? const Color(0xFF1E1C1F),
       color: primaryColor ?? ColorConst.Primary,
       splashColor: ColorConst.Primary.shade60,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.aR)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius ?? 8.aR)),
       child: Container(
         height: height ?? 50,
         width: width ?? double.infinity,
