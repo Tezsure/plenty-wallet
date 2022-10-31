@@ -62,8 +62,8 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                     0.01.vspace,
                     Center(
                       child: Container(
-                        height: 5.sp,
-                        width: 36.sp,
+                        height: 5.aR,
+                        width: 36.aR,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: ColorConst.NeutralVariant.shade60
@@ -80,7 +80,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                             icon: Icon(
                               Icons.arrow_back_ios_new,
                               color: Colors.white,
-                              size: 16.sp,
+                              size: 16.aR,
                             )),
                         const Spacer(),
                         IconButton(
@@ -90,7 +90,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                             icon: Icon(
                               Icons.share,
                               color: Colors.white,
-                              size: 16.sp,
+                              size: 16.aR,
                             )),
                         IconButton(
                             onPressed: () {},
@@ -99,7 +99,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                             icon: Icon(
                               Icons.cast_rounded,
                               color: Colors.white,
-                              size: 16.sp,
+                              size: 16.aR,
                             )),
                       ],
                     ),
@@ -129,9 +129,9 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                               alignment: Alignment.bottomRight,
                               child: Container(
                                 margin: EdgeInsets.only(
-                                    right: 10.sp, bottom: 22.sp),
-                                height: 36.sp,
-                                width: 36.sp,
+                                    right: 10.aR, bottom: 22.aR),
+                                height: 36.aR,
+                                width: 36.aR,
                                 decoration: BoxDecoration(
                                     color: Colors.black,
                                     borderRadius: BorderRadius.circular(8)),
@@ -139,7 +139,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                   angle: pi / 180 * 135,
                                   child: Icon(
                                     Icons.code_outlined,
-                                    size: 20.sp,
+                                    size: 20.aR,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -150,7 +150,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 16.sp, right: 13.sp),
+                      padding: EdgeInsets.only(left: 16.aR, right: 13.aR),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,11 +161,12 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                 TextSpan(
                                     text: '${widget.nftModel!.fa!.name}\n',
                                     style: labelSmall.copyWith(
+                                        fontSize: 11.aR,
                                         color:
                                             ColorConst.NeutralVariant.shade60)),
                                 TextSpan(
                                     text: '${widget.nftModel!.name}\n',
-                                    style: bodyLarge),
+                                    style: bodyLarge.copyWith(fontSize: 16.aR)),
                                 WidgetSpan(
                                   child: ReadMoreText(
                                     widget.nftModel!.description == null
@@ -173,6 +174,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                         : '${widget.nftModel!.description}',
                                     trimLines: 2,
                                     lessStyle: bodySmall.copyWith(
+                                        fontSize: 12.aR,
                                         color: ColorConst.Primary),
                                     style: bodySmall.copyWith(
                                         color:
@@ -182,6 +184,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                     trimCollapsedText: ' Show more',
                                     trimExpandedText: ' Show less',
                                     moreStyle: bodySmall.copyWith(
+                                        fontSize: 12.aR,
                                         color: ColorConst.Primary),
                                   ),
                                 ),
@@ -206,6 +209,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                         TextSpan(
                                             text: 'Owned',
                                             style: labelSmall.copyWith(
+                                                fontSize: 11.aR,
                                                 color: ColorConst
                                                     .NeutralVariant.shade70))
                                       ])),
@@ -219,6 +223,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                         TextSpan(
                                             text: 'Owners',
                                             style: labelSmall.copyWith(
+                                                fontSize: 11.aR,
                                                 color: ColorConst
                                                     .NeutralVariant.shade70))
                                       ])),
@@ -226,7 +231,8 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                   textAlign: TextAlign.center,
                                   text: TextSpan(
                                       text: '${widget.nftModel!.supply}\n',
-                                      style: labelLarge,
+                                      style:
+                                          labelLarge.copyWith(fontSize: 14.aR),
                                       children: [
                                         TextSpan(
                                             text: 'Editions',
@@ -240,9 +246,9 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                             child: Container(
                               margin:
                                   EdgeInsets.symmetric(vertical: 0.02.height),
-                              height: 0.12.height,
+                              height: 100.aR,
                               width: 1.width,
-                              padding: EdgeInsets.all(8.sp),
+                              padding: EdgeInsets.all(8.aR),
                               decoration: BoxDecoration(
                                 color: Colors.transparent,
                                 border: Border.all(
@@ -251,7 +257,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.all(8.sp),
+                                padding: EdgeInsets.all(8.aR),
                                 child: RichText(
                                     textAlign: TextAlign.start,
                                     text: TextSpan(
@@ -266,11 +272,12 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                       null
                                                   ? "0 "
                                                   : "${(widget.nftModel!.lowestAsk / 1e6)} ",
-                                              style: headlineSmall),
+                                              style: headlineSmall.copyWith(
+                                                  fontSize: 24.aR)),
                                           WidgetSpan(
                                               child: SvgPicture.asset(
                                             '${PathConst.HOME_PAGE}svg/xtz.svg',
-                                            height: 20,
+                                            height: 20.aR,
                                           )),
                                           TextSpan(
                                               text: widget.nftModel
@@ -282,6 +289,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                   ? '\n0'
                                                   : '\n\$${((widget.nftModel?.lowestAsk / 1e6) * _controller.xtzPrice.value).toStringAsFixed(2)}',
                                               style: labelSmall.copyWith(
+                                                  fontSize: 11.aR,
                                                   color: ColorConst
                                                       .NeutralVariant.shade60)),
                                         ])),
@@ -309,13 +317,15 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                 text: TextSpan(
                                     text: 'Created By ',
                                     style: labelSmall.copyWith(
+                                        fontSize: 11.aR,
                                         color:
                                             ColorConst.NeutralVariant.shade60),
                                     children: [
                                       TextSpan(
                                           text: tz1Shortner(
                                               "${widget.nftModel!.creators![index].creatorAddress}"),
-                                          style: labelMedium)
+                                          style: labelMedium.copyWith(
+                                              fontSize: 12.aR))
                                     ])),
                           );
                         })),
@@ -323,15 +333,16 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                       width: 1.width,
                       height: 0.1.height,
                       child: TabBar(
-                          padding: EdgeInsets.all(8.sp),
+                          padding: EdgeInsets.all(8.aR),
                           enableFeedback: true,
                           isScrollable: true,
                           indicatorColor: ColorConst.Primary,
                           unselectedLabelColor:
                               ColorConst.NeutralVariant.shade60,
-                          unselectedLabelStyle: labelLarge,
+                          unselectedLabelStyle:
+                              labelLarge.copyWith(fontSize: 14.aR),
                           labelColor: ColorConst.Primary.shade95,
-                          labelStyle: labelLarge,
+                          labelStyle: labelLarge.copyWith(fontSize: 14.aR),
                           tabs: const [
                             Tab(
                               child: Text(
@@ -360,7 +371,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                       }),
                                   title: Text(
                                     'About Collection',
-                                    style: labelSmall,
+                                    style: labelSmall.copyWith(fontSize: 11.aR),
                                   ),
                                   iconColor: Colors.white,
                                   collapsedIconColor: Colors.white,
@@ -373,14 +384,15 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                           Row(
                                             children: [
                                               CircleAvatar(
-                                                  radius: 10,
+                                                  radius: 10.aR,
                                                   backgroundColor: Colors.white,
                                                   foregroundImage: NetworkImage(
                                                       "${widget.nftModel!.fa!.logo}")),
                                               0.04.hspace,
                                               Text(
                                                 "${widget.nftModel!.fa!.name}",
-                                                style: labelSmall,
+                                                style: labelSmall.copyWith(
+                                                    fontSize: 11.aR),
                                               ),
                                             ],
                                           ),
@@ -388,6 +400,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                           Text(
                                             widget.nftModel?.description ?? "",
                                             style: bodySmall.copyWith(
+                                                fontSize: 12.aR,
                                                 color: ColorConst
                                                     .NeutralVariant.shade60),
                                           )
@@ -408,7 +421,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                   collapsedIconColor: Colors.white,
                                   title: Text(
                                     'Details',
-                                    style: labelSmall,
+                                    style: labelSmall.copyWith(fontSize: 11.aR),
                                   ),
                                   children: [
                                     Row(
@@ -418,11 +431,14 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                             textAlign: TextAlign.start,
                                             text: TextSpan(
                                                 text: 'Contract Address\n',
-                                                style: labelSmall,
+                                                style: labelSmall.copyWith(
+                                                    fontSize: 11.aR),
                                                 children: [
                                                   TextSpan(
                                                       text: 'Token ID',
-                                                      style: labelSmall)
+                                                      style:
+                                                          labelSmall.copyWith(
+                                                              fontSize: 11.aR))
                                                 ])),
                                         const Spacer(),
                                         RichText(
@@ -431,12 +447,13 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                 text:
                                                     "${tz1Shortner(widget.nftModel!.fa!.contract!)} ",
                                                 style: bodySmall.copyWith(
+                                                    fontSize: 12.aR,
                                                     color: ColorConst.Primary),
                                                 children: [
-                                                  const WidgetSpan(
+                                                  WidgetSpan(
                                                     child: Icon(
                                                       Icons.open_in_new,
-                                                      size: 14,
+                                                      size: 14.aR,
                                                       color: ColorConst.Primary,
                                                     ),
                                                   ),
@@ -444,6 +461,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                       text:
                                                           '\n${widget.nftModel!.tokenId}',
                                                       style: bodySmall.copyWith(
+                                                          fontSize: 12.aR,
                                                           color: ColorConst
                                                               .NeutralVariant
                                                               .shade60))
@@ -493,11 +511,13 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                       .contains("transfer")
                                                   ? "Transfer"
                                                   : "Sale",
-                                              style: labelMedium,
+                                              style: labelMedium.copyWith(
+                                                  fontSize: 12.aR),
                                             ),
                                             subtitle: Text(
                                               'to ${tz1Shortner('${widget.nftModel!.events![index].recipientAddress}')}',
                                               style: bodySmall.copyWith(
+                                                  fontSize: 12.aR,
                                                   color: ColorConst
                                                       .NeutralVariant.shade60),
                                             ),
@@ -521,7 +541,9 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                     text: TextSpan(
                                                       text:
                                                           '${(widget.nftModel!.events![index].price / 1e6)} ',
-                                                      style: labelSmall,
+                                                      style:
+                                                          labelSmall.copyWith(
+                                                              fontSize: 11.aR),
                                                       children: [
                                                         WidgetSpan(
                                                           alignment:
@@ -530,7 +552,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                           child:
                                                               SvgPicture.asset(
                                                             '${PathConst.HOME_PAGE}svg/xtz.svg',
-                                                            height: 12.sp,
+                                                            height: 12.aR,
                                                             color: Colors.white,
                                                           ),
                                                         ),
@@ -538,6 +560,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                           text:
                                                               '\n${timeago.format(DateTime.parse(widget.nftModel!.events![index].timestamp!))}',
                                                           style: labelSmall.copyWith(
+                                                              fontSize: 11.aR,
                                                               color: ColorConst
                                                                   .NeutralVariant
                                                                   .shade60),
@@ -605,10 +628,10 @@ class FullScreenView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                 ),
                 onPressed: Get.back,
-                child: const Icon(
-                  Icons.arrow_back,
+                child: Icon(
+                  Icons.arrow_back_ios_new_rounded,
                   color: Colors.white,
-                  size: 25,
+                  size: 25.aR,
                 ),
               ),
             ),

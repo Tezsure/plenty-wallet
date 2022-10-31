@@ -23,15 +23,15 @@ class ReceivePageView extends GetView<ReceivePageController> {
       child: Container(
         height: 0.9.height,
         width: 1.width,
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10.aR)),
             color: Colors.black),
         child: Column(
           children: [
             0.005.vspace,
             Container(
-              height: 5.sp,
-              width: 36.sp,
+              height: 5.aR,
+              width: 36.aR,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
@@ -40,13 +40,15 @@ class ReceivePageView extends GetView<ReceivePageController> {
             0.036.vspace,
             Text(
               'Receive',
-              style: titleLarge.copyWith(height: 24 / 22, letterSpacing: 0.15),
+              style: titleLarge.copyWith(
+                  fontSize: 22.aR, height: 24 / 22, letterSpacing: 0.15.aR),
             ),
             0.01.vspace,
             Text(
               'You can receive tez or any other Tezos\nbased assets on this address by\nsharing this QR code.',
               textAlign: TextAlign.center,
-              style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+              style: bodySmall.copyWith(
+                  fontSize: 12.aR, color: ColorConst.NeutralVariant.shade60),
             ),
             0.05.vspace,
             qrCode(),
@@ -59,7 +61,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
                 children: [
                   Text(
                     controller.userAccount!.name!,
-                    style: titleLarge,
+                    style: titleLarge.copyWith(fontSize: 22.aR),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 8.sp),
@@ -110,25 +112,26 @@ class ReceivePageView extends GetView<ReceivePageController> {
         Share.share(controller.userAccount!.publicKeyHash!);
       },
       child: Container(
-        height: 50.sp,
-        width: 130.sp,
+        height: 50.aR,
+        width: 130.aR,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.aR),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 20.sp),
+        padding: EdgeInsets.symmetric(horizontal: 20.aR),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.share_sharp,
-              size: 16.sp,
+              size: 16.aR,
               color: Colors.white,
             ),
             0.04.hspace,
             Text(
               'Share',
-              style: titleSmall.copyWith(fontWeight: FontWeight.w500),
+              style: titleSmall.copyWith(
+                  fontWeight: FontWeight.w500, fontSize: 14.aR),
             )
           ],
         ),
