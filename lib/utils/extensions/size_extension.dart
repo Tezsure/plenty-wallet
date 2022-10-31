@@ -12,6 +12,10 @@ extension SizeExtension on num {
 
   double get arP => this * (Get.size.aspectRatio * 2);
 
+  double get aR => Get.width > 1100
+      ? this * Get.size.aspectRatio
+      : this * (Get.size.aspectRatio * 2);
+
   SizedBox get vspace => SizedBox(
         height: height.toDouble(),
       );

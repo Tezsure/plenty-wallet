@@ -27,11 +27,11 @@ class TokenCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.sp),
+      padding: EdgeInsets.symmetric(vertical: 8.aR),
       child: GestureDetector(
         onTap: onCheckboxTap,
         child: SizedBox(
-          height: 50.sp,
+          height: 50.aR,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -70,7 +70,9 @@ class TokenCheckbox extends StatelessWidget {
                               softWrap: false,
                               maxLines: 1,
                               style: labelLarge.copyWith(
-                                  letterSpacing: 0.5, height: 16 / 14)),
+                                  letterSpacing: 0.5.aR,
+                                  fontSize: 14.aR,
+                                  height: 16 / 14)),
                           SizedBox(
                             height: 3.sp,
                           ),
@@ -80,6 +82,7 @@ class TokenCheckbox extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: labelMedium.copyWith(
+                                  fontSize: 12.aR,
                                   fontWeight: FontWeight.w400,
                                   color: ColorConst.NeutralVariant.shade60)),
                         ],
@@ -94,7 +97,8 @@ class TokenCheckbox extends StatelessWidget {
                                       (tokenModel.currentPrice! * xtzPrice))
                               .toStringAsFixed(6)
                               .removeTrailing0,
-                      style: labelMedium.copyWith(fontWeight: FontWeight.w400),
+                      style: labelMedium.copyWith(
+                          fontSize: 12.aR, fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -107,12 +111,12 @@ class TokenCheckbox extends StatelessWidget {
   }
 
   Widget _checkBox() => CustomCheckBox(
-      margins: EdgeInsets.only(right: 10.sp),
-      borderRadius: 12.sp,
+      margins: EdgeInsets.only(right: 10.aR),
+      borderRadius: 12.aR,
       checkedIcon: Icons.done,
       borderWidth: 2,
-      checkBoxIconSize: 12,
-      checkBoxSize: 20.sp,
+      checkBoxIconSize: 12.aR,
+      checkBoxSize: 20.aR,
       borderColor: const Color(0xff1E1C1F),
       checkedIconColor: Colors.white,
       uncheckedFillColor: Colors.transparent,
@@ -123,7 +127,7 @@ class TokenCheckbox extends StatelessWidget {
       onChanged: (v) => onCheckboxTap);
 
   Widget _imageAvatar() => CircleAvatar(
-        radius: 20.sp,
+        radius: 20.aR,
         backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         child: tokenModel.iconUrl!.startsWith("assets")
             ? Image.asset(
@@ -149,10 +153,10 @@ class TokenCheckbox extends StatelessWidget {
       );
 
   Widget _isPinnedTokenSelector() => Padding(
-        padding: EdgeInsets.only(right: 10.sp),
+        padding: EdgeInsets.only(right: 10.aR),
         child: Container(
-          height: 20.sp,
-          width: 20.sp,
+          height: 20.aR,
+          width: 20.aR,
           decoration: BoxDecoration(
             color: const Color(0xff1E1C1F),
             borderRadius: BorderRadius.circular(25),
@@ -160,16 +164,16 @@ class TokenCheckbox extends StatelessWidget {
           child: Icon(
             Icons.star,
             color: ColorConst.Tertiary,
-            size: 14.sp,
+            size: 14.aR,
           ),
         ),
       );
 
   Widget _isHiddenTokenSelector() => Padding(
-        padding: EdgeInsets.only(right: 10.sp),
+        padding: EdgeInsets.only(right: 10.aR),
         child: Container(
-          height: 20.sp,
-          width: 20.sp,
+          height: 20.aR,
+          width: 20.aR,
           decoration: BoxDecoration(
             color: const Color(0xff4A454E),
             borderRadius: BorderRadius.circular(50),
@@ -179,8 +183,8 @@ class TokenCheckbox extends StatelessWidget {
             child: SvgPicture.asset(
               "${PathConst.SVG}eye_hide.svg",
               color: ColorConst.NeutralVariant.shade70,
-              height: 10.sp,
-              width: 10.sp,
+              height: 10.aR,
+              width: 10.aR,
               fit: BoxFit.scaleDown,
             ),
           ),

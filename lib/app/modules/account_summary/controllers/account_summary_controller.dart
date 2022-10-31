@@ -84,20 +84,34 @@ class AccountSummaryController extends GetxController {
     );
     userTokens.addAll(await UserStorageService()
         .getUserTokens(userAddress: userAccount.value.publicKeyHash!));
-    if (userTokens.isEmpty) {
-      userTokens.add(tezos);
+    if (userTokens.isNotEmpty &&
+        userTokens.any((element) => element.name!.contains("Tezos"))) {
+      userTokens.map((element) => element.name!.contains("Tezos")
+          ? element.copyWith(
+              balance: userAccount.value.accountDataModel!.xtzBalance!,
+              currentPrice: xtzPrice.value,
+            )
+          : null);
     } else {
-      if (userTokens.any((element) => element.name!.contains("Tezos"))) {
-        userTokens.map((element) => element.name!.contains("Tezos")
-            ? element.copyWith(
-                balance: userAccount.value.accountDataModel!.xtzBalance!,
-                currentPrice: xtzPrice.value,
-              )
-            : null);
-      } else {
-        userTokens.insert(0, tezos);
-      }
+      userAccount.value.accountDataModel!.xtzBalance! == 0
+          ? null
+          : userTokens.insert(0, tezos);
     }
+    // if (userTokens.isEmpty &&
+    //     userAccount.value.accountDataModel!.xtzBalance! != 0) {
+    //   userTokens.add(tezos);
+    // } else {
+    //   if (userTokens.any((element) => element.name!.contains("Tezos"))) {
+    //     userTokens.map((element) => element.name!.contains("Tezos")
+    //         ? element.copyWith(
+    //             balance: userAccount.value.accountDataModel!.xtzBalance!,
+    //             currentPrice: xtzPrice.value,
+    //           )
+    //         : null);
+    //   } else {
+    //     userTokens.insert(0, tezos);
+    //   }
+    // }
     _tokenSort();
     _updateUserTokenList();
   }

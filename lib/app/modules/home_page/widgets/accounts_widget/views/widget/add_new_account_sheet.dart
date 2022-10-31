@@ -66,15 +66,15 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                         color: Colors.black,
                         width: 1.width,
                         height: 1.height,
-                        padding: EdgeInsets.symmetric(horizontal: 32.sp),
+                        padding: EdgeInsets.symmetric(horizontal: 32.aR),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             0.01.vspace,
                             Center(
                               child: Container(
-                                height: 5.sp,
-                                width: 36.sp,
+                                height: 5.aR,
+                                width: 36.aR,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
                                   color: ColorConst.NeutralVariant.shade60
@@ -87,15 +87,15 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                             0.03.vspace,
                             Align(
                               alignment: Alignment.centerLeft,
-                              child:
-                                  Text("Name your account", style: titleLarge),
+                              child: Text("Name your account",
+                                  style: titleLarge.copyWith(fontSize: 22.aR)),
                             ),
                             0.05.vspace,
                             Obx(
                               () => Center(
                                 child: Container(
-                                  height: 120.sp,
-                                  width: 120.sp,
+                                  height: 120.aR,
+                                  width: 120.aR,
                                   alignment: Alignment.bottomRight,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
@@ -123,12 +123,12 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                                       );
                                     },
                                     child: CircleAvatar(
-                                      radius: 20.sp,
+                                      radius: 20.aR,
                                       backgroundColor: Colors.white,
                                       child: SvgPicture.asset(
                                         "${PathConst.SVG}add_photo.svg",
                                         fit: BoxFit.contain,
-                                        height: 20.sp,
+                                        height: 20.aR,
                                         color: ColorConst.Primary,
                                       ),
                                     ),
@@ -138,7 +138,7 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                             ),
                             0.038.vspace,
                             NaanTextfield(
-                              height: 52.sp,
+                              height: 52.aR,
                               onTextChange: (e) {
                                 controller.phrase.value = e;
                               },
@@ -150,7 +150,7 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                                   primaryColor: controller.phrase.isNotEmpty
                                       ? ColorConst.Primary
                                       : const Color(0xFF1E1C1F),
-                                  height: 52.sp,
+                                  height: 52.aR,
                                   onPressed: controller.phrase.isEmpty
                                       ? null
                                       : () {
@@ -166,12 +166,13 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                                       SvgPicture.asset(
                                         "${PathConst.SVG}check.svg",
                                         color: Colors.white,
-                                        height: 16.sp,
+                                        height: 16.aR,
                                       ),
                                       0.015.hspace,
                                       Text(
                                         "Start using Naan",
                                         style: titleSmall.copyWith(
+                                            fontSize: 14.aR,
                                             fontWeight: FontWeight.w600),
                                       ),
                                     ],

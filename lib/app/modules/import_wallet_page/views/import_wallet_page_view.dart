@@ -14,6 +14,7 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../../utils/colors/colors.dart';
 import '../../../../utils/constants/path_const.dart';
+import '../../../routes/app_pages.dart';
 import '../../common_widgets/back_button.dart';
 import '../controllers/import_wallet_page_controller.dart';
 import '../widgets/custom_tab_indicator.dart';
@@ -217,12 +218,12 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                 barrierColor: Colors.white.withOpacity(0.2),
               );
             } else {
-              // var pageRouteArgument = Get.arguments;
-              // if (pageRouteArgument == Routes.ACCOUNT_SUMMARY) {
-              //   controller.redirectBasedOnImportWalletType(pageRouteArgument);
-              // } else {
-              //   controller.redirectBasedOnImportWalletType();
-              // }
+              var pageRouteArgument = Get.arguments;
+              if (pageRouteArgument == Routes.ACCOUNT_SUMMARY) {
+                controller.redirectBasedOnImportWalletType(pageRouteArgument);
+              } else {
+                controller.redirectBasedOnImportWalletType();
+              }
             }
           },
           active: controller.phraseText.split(" ").join().length >= 2 &&

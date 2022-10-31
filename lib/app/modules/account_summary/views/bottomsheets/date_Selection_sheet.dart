@@ -5,6 +5,7 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/history_filt
 
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 enum SelectDateType { from, to }
@@ -22,16 +23,16 @@ class DateSelectionSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => NaanBottomSheet(
-        height: 425,
-        bottomSheetHorizontalPadding: 15,
+        height: 425.aR,
+        bottomSheetHorizontalPadding: 15.aR,
         crossAxisAlignment: CrossAxisAlignment.center,
         bottomSheetWidgets: [
           Text(
             'Select Start Date',
-            style: labelMedium,
+            style: labelMedium.copyWith(fontSize: 12.aR),
           ),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: 20.aR,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,7 +41,7 @@ class DateSelectionSheet extends StatelessWidget {
                   controller.fromDate.value.toString().substring(0, 11)),
               Text(
                 "to",
-                style: bodyMedium,
+                style: bodyMedium.copyWith(fontSize: 14.aR),
               ),
               dateBox(SelectDateType.to,
                   controller.toDate.value.toString().substring(0, 11)),
@@ -50,7 +51,8 @@ class DateSelectionSheet extends StatelessWidget {
             child: CupertinoTheme(
               data: CupertinoThemeData(
                   textTheme: CupertinoTextThemeData(
-                      dateTimePickerTextStyle: labelMedium.apply(
+                      dateTimePickerTextStyle: labelMedium.copyWith(
+                          fontSize: 12.aR,
                           color: ColorConst.NeutralVariant.shade60))),
               child: CupertinoDatePicker(
                 onDateTimeChanged: (date) {
@@ -67,8 +69,8 @@ class DateSelectionSheet extends StatelessWidget {
             ),
           ),
           confirmButton(),
-          const SizedBox(
-            height: 40,
+          SizedBox(
+            height: 40.aR,
           )
         ],
       ),
@@ -77,7 +79,7 @@ class DateSelectionSheet extends StatelessWidget {
 
   MaterialButton confirmButton() {
     return MaterialButton(
-        height: 48,
+        height: 48.aR,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: EdgeInsets.zero,
         minWidth: double.infinity,
@@ -91,7 +93,8 @@ class DateSelectionSheet extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Text(
           "Confirm",
-          style: titleSmall.apply(color: ColorConst.Primary.shade90),
+          style: titleSmall.copyWith(
+              color: ColorConst.Primary.shade90, fontSize: 14.aR),
         ));
   }
 
@@ -102,13 +105,14 @@ class DateSelectionSheet extends StatelessWidget {
       },
       child: Container(
         alignment: Alignment.center,
-        height: 52,
-        width: 149,
+        height: 52.aR,
+        width: 149.aR,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.aR),
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2)),
         child: Text(date,
-            style: bodyMedium.apply(
+            style: bodyMedium.copyWith(
+                fontSize: 14.aR,
                 color: _selectDateType.value == selectDateType
                     ? ColorConst.Primary.shade60
                     : Colors.white)),

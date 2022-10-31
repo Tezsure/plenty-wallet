@@ -69,29 +69,30 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               controller: scrollController,
               child: Container(
                 width: 1.width,
-                padding: EdgeInsets.symmetric(horizontal: 31.sp),
+                padding: EdgeInsets.symmetric(horizontal: 31.aR),
                 height: 1.height,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10)),
+                        BorderRadius.vertical(top: Radius.circular(10.aR)),
                     color: Colors.black),
                 child: Column(children: [
                   0.02.vspace,
                   Center(
                     child: Container(
-                      height: 5.sp,
-                      width: 36.sp,
+                      height: 5.aR,
+                      width: 36.aR,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(5.aR),
                           color: const Color(0xffEBEBF5).withOpacity(0.3)),
                     ),
                   ),
                   0.036.vspace,
-                  Text("Edit Account", style: titleLarge),
+                  Text("Edit Account",
+                      style: titleLarge.copyWith(fontSize: 22.aR)),
                   0.031.vspace,
                   Container(
-                    height: 0.3.width,
-                    width: 0.3.width,
+                    height: 120.aR,
+                    width: 120.aR,
                     alignment: Alignment.bottomRight,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -110,35 +111,35 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                         });
                       },
                       child: CircleAvatar(
-                        radius: 0.046.width,
+                        radius: 20.aR,
                         backgroundColor: Colors.white,
                         child: SvgPicture.asset(
                           "${PathConst.SVG}add_photo.svg",
                           fit: BoxFit.contain,
-                          height: 20.sp,
+                          height: 20.aR,
                         ),
                       ),
                     ),
                   ),
                   0.02.vspace,
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30.sp),
+                    padding: EdgeInsets.symmetric(horizontal: 14.aR),
                     child: Text(
                       _controller
                               .homePageController
                               .userAccounts[widget.accountIndex]
                               .publicKeyHash ??
                           "public key",
-                      style: labelMedium.copyWith(fontSize: 10.sp),
+                      style: labelMedium.copyWith(fontSize: 12.aR),
                       textAlign: TextAlign.center,
                     ),
                   ),
                   0.02.vspace,
-                  const SizedBox(
-                    height: 8,
+                  SizedBox(
+                    height: 8.aR,
                   ),
                   NaanTextfield(
-                      height: 52.sp,
+                      height: 50.aR,
                       backgroundColor:
                           ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                       hint: "Account Name",
@@ -164,13 +165,14 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                       }),
                   0.044.vspace,
                   SolidButton(
-                    height: 50.sp,
+                    height: 50.aR,
+                    width: 0.8.width,
                     primaryColor:
                         _controller.accountNameController.value.text.isNotEmpty
                             ? ColorConst.Primary
                             : const Color(0xFF1E1C1F),
                     title: "Save Changes",
-                    titleStyle: labelLarge,
+                    titleStyle: labelLarge.copyWith(fontSize: 14.aR),
                     onPressed: () {
                       if (_controller
                           .accountNameController.value.text.isNotEmpty) {
@@ -300,14 +302,14 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             color: Colors.black),
         width: 1.width,
-        height: 317.sp,
+        height: 317.aR,
         padding: EdgeInsets.symmetric(horizontal: 16.sp),
         child: Column(
           children: [
             0.005.vspace,
             Container(
-              height: 5.sp,
-              width: 36.sp,
+              height: 5.aR,
+              width: 36.aR,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
@@ -317,10 +319,10 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(
-                horizontal: 12.sp,
+                horizontal: 12.aR,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8.aR),
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
               ),
               child: Column(
@@ -341,11 +343,11 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 51.sp,
+                      height: 51.aR,
                       alignment: Alignment.center,
                       child: Text(
                         "Choose from Library",
-                        style: labelMedium,
+                        style: labelMedium.copyWith(fontSize: 12.aR),
                       ),
                     ),
                   ),
@@ -360,11 +362,11 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 51.sp,
+                      height: 51.aR,
                       alignment: Alignment.center,
                       child: Text(
                         "Pick an avatar",
-                        style: labelMedium,
+                        style: labelMedium.copyWith(fontSize: 12.aR),
                       ),
                     ),
                   ),
@@ -373,26 +375,32 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                     height: 1,
                     thickness: 1,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      _controller.editUserProfilePhoto(
-                          imageType: AccountProfileImageType.assets,
-                          imagePath: ServiceConfig.allAssetsProfileImages[0],
-                          accountIndex: widget.accountIndex);
+                  _controller.homePageController
+                              .userAccounts[widget.accountIndex].imageType! ==
+                          AccountProfileImageType.file
+                      ? GestureDetector(
+                          onTap: () {
+                            _controller.editUserProfilePhoto(
+                                imageType: AccountProfileImageType.assets,
+                                imagePath:
+                                    ServiceConfig.allAssetsProfileImages[0],
+                                accountIndex: widget.accountIndex);
 
-                      Get.back();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 51.sp,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Remove photo",
-                        style:
-                            labelMedium.apply(color: ColorConst.Error.shade60),
-                      ),
-                    ),
-                  ),
+                            Get.back();
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 51.aR,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Remove photo",
+                              style: labelMedium.copyWith(
+                                  color: ColorConst.Error.shade60,
+                                  fontSize: 12.aR),
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),
@@ -402,15 +410,16 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               child: GestureDetector(
                 onTap: () => Get.back(),
                 child: Container(
-                  height: 51.sp,
+                  height: 51.aR,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.aR),
                     color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                   ),
                   child: Text(
                     "Cancel",
-                    style: labelMedium.apply(color: Colors.white),
+                    style: labelMedium.copyWith(
+                        color: Colors.white, fontSize: 12.aR),
                   ),
                 ),
               ),

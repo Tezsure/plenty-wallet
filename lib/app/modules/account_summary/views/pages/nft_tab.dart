@@ -22,23 +22,25 @@ class NFTabPage extends GetView<AccountSummaryController> {
               0.04.vspace,
               SvgPicture.asset(
                 "assets/empty_states/empty2.svg",
-                height: 120.sp,
+                height: 120.aR,
               ),
               RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
                       text: "No Collections",
-                      style: titleLarge.copyWith(fontWeight: FontWeight.w700),
+                      style: titleLarge.copyWith(
+                          fontWeight: FontWeight.w700, fontSize: 22.aR),
                       children: [
                         TextSpan(
                             text: "\nExplore new collectibles on objkt",
                             style: labelMedium.copyWith(
+                                fontSize: 12.aR,
                                 color: ColorConst.NeutralVariant.shade60))
                       ]))
             ],
           )
         : ListView.builder(
-            padding: EdgeInsets.only(left: 14.sp, right: 14.sp, top: 14.sp),
+            padding: EdgeInsets.only(left: 14.aR, right: 14.aR, top: 14.aR),
             itemCount: controller.userNfts.length,
             itemBuilder: ((context, index) => NftCollectibles(
                   nftList: controller

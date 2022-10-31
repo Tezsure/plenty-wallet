@@ -40,19 +40,25 @@ class NaanTextfield extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           height: height ?? 40.sp,
-          child: TextField(
-            focusNode: focusNode,
-            controller: controller,
-            cursorColor: ColorConst.Primary,
-            style: bodyMedium,
-            onChanged: onTextChange,
-            onSubmitted: onSubmitted,
-            onEditingComplete: onEditingComplete,
-            decoration: InputDecoration(
-                hintStyle: hintTextSyle ??
-                    bodyMedium.apply(color: Colors.white.withOpacity(0.2)),
-                hintText: hint,
-                border: InputBorder.none),
+          child: Center(
+            child: TextField(
+              focusNode: focusNode,
+              controller: controller,
+              cursorColor: ColorConst.Primary,
+              style: bodyMedium.copyWith(fontSize: 14.aR),
+              textAlign: TextAlign.start,
+              textAlignVertical: TextAlignVertical.center,
+              onChanged: onTextChange,
+              onSubmitted: onSubmitted,
+              onEditingComplete: onEditingComplete,
+              decoration: InputDecoration(
+                  hintStyle: hintTextSyle ??
+                      bodyMedium.copyWith(
+                          fontSize: 14.aR,
+                          color: Colors.white.withOpacity(0.2)),
+                  hintText: hint,
+                  border: InputBorder.none),
+            ),
           ),
         ),
       ),

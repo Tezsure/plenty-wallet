@@ -22,14 +22,14 @@ class _NftCollectiblesState extends State<NftCollectibles> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.sp),
+      padding: EdgeInsets.symmetric(vertical: 10.aR),
       child: Column(
         children: [
           ExpansionTile(
             tilePadding: EdgeInsets.zero,
             leading: Container(
-              height: 40.sp,
-              width: 40.sp,
+              height: 40.aR,
+              width: 40.aR,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(
@@ -40,7 +40,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                 ),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  width: 1.5.sp,
+                  width: 1.5.aR,
                   color: ColorConst.NeutralVariant.shade60,
                 ),
               ),
@@ -50,25 +50,26 @@ class _NftCollectiblesState extends State<NftCollectibles> {
             trailing: expandButton(isExpanded: isExpanded),
             title: Text(
               widget.nftList.first.fa!.name!,
-              style: labelLarge,
+              style:
+                  labelLarge.copyWith(fontSize: 14.aR, letterSpacing: 0.1.aR),
             ),
             children: [
               SizedBox(
-                height: 16.sp,
+                height: 16.aR,
               ),
               SizedBox(
-                  height: 0.31.height * (widget.nftList.length / 2).ceil(),
+                  height: 260.aR * (widget.nftList.length / 2).ceil(),
                   width: 1.width,
                   child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: widget.nftList.length,
                     shrinkWrap: false,
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 0.3.height,
-                        mainAxisExtent: 0.3.height,
+                        maxCrossAxisExtent: 300.arP,
+                        mainAxisExtent: 250.aR,
                         childAspectRatio: 1,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10),
+                        crossAxisSpacing: 10.aR,
+                        mainAxisSpacing: 10.aR),
                     itemBuilder: ((context, index) => NFTwidget(
                           nfTmodel: widget.nftList[index],
                           onTap: (model) {
@@ -96,10 +97,12 @@ class _NftCollectiblesState extends State<NftCollectibles> {
         Text(
           "${widget.nftList.length}",
           style: labelMedium.copyWith(
-              color: Colors.white, fontWeight: FontWeight.w400),
+              fontSize: 12.aR,
+              color: Colors.white,
+              fontWeight: FontWeight.w400),
         ),
         SizedBox(
-          width: 2.sp,
+          width: 2.aR,
         ),
         AnimatedRotation(
           turns: isExpanded ? 1 / 4 : 0,
@@ -107,7 +110,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
           child: Icon(
             Icons.keyboard_arrow_right_rounded,
             color: Colors.white,
-            size: 20.sp,
+            size: 20.aR,
           ),
         ),
       ],

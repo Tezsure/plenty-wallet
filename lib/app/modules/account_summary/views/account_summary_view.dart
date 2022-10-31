@@ -13,6 +13,7 @@ import 'package:naan_wallet/utils/utils.dart';
 import '../../../../utils/colors/colors.dart';
 import '../../../../utils/constants/path_const.dart';
 import '../../common_widgets/custom_image_widget.dart';
+import '../../import_wallet_page/widgets/custom_tab_indicator.dart';
 import '../../receive_page/views/receive_page_view.dart';
 import '../../send_page/views/send_page.dart';
 import '../controllers/account_summary_controller.dart';
@@ -50,10 +51,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                     0.01.vspace,
                     Center(
                       child: Container(
-                        height: 5.sp,
-                        width: 36.sp,
+                        height: 5.aR,
+                        width: 36.aR,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.sp),
+                          borderRadius: BorderRadius.circular(8.aR),
                           color: ColorConst.NeutralVariant.shade60
                               .withOpacity(0.3),
                         ),
@@ -62,7 +63,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                     Obx(
                       () => Padding(
                         padding: EdgeInsets.only(
-                            left: 16.sp, right: 16.sp, top: 14.sp),
+                            left: 16.aR, right: 16.aR, top: 14.aR),
                         child: Row(
                           children: [
                             GestureDetector(
@@ -84,7 +85,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                         controller.userAccount.value.imageType!,
                                     imagePath: controller
                                         .userAccount.value.profileImage!,
-                                    imageRadius: 18.sp,
+                                    imageRadius: 18.aR,
                                   ),
                                   0.03.hspace,
                                   RichText(
@@ -92,6 +93,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                         text:
                                             controller.userAccount.value.name!,
                                         style: labelMedium.copyWith(
+                                            fontSize: 12.aR,
                                             fontWeight: FontWeight.w600),
                                         children: [
                                           WidgetSpan(
@@ -103,7 +105,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                 PlaceholderAlignment.bottom,
                                             child: Icon(
                                               Icons.keyboard_arrow_down_rounded,
-                                              size: 20.sp,
+                                              size: 20.aR,
                                               color: Colors.white,
                                             ),
                                           ),
@@ -111,6 +113,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                             text:
                                                 "\n${(controller.userAccount.value.publicKeyHash!).tz1Short()}",
                                             style: labelMedium.copyWith(
+                                                fontSize: 12.aR,
                                                 height: 0,
                                                 fontWeight: FontWeight.w400,
                                                 color: ColorConst
@@ -136,7 +139,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                       snackPosition: SnackPosition.BOTTOM,
                                       maxWidth: 0.9.width,
                                       margin: EdgeInsets.only(
-                                        bottom: 20.sp,
+                                        bottom: 20.aR,
                                       ),
                                       duration:
                                           const Duration(milliseconds: 700),
@@ -146,7 +149,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                     '${PathConst.SVG}copy.svg',
                                     color: Colors.white,
                                     fit: BoxFit.contain,
-                                    height: 24.sp,
+                                    height: 24.aR,
                                   ),
                                 ),
                                 0.04.hspace,
@@ -154,7 +157,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                   child: SvgPicture.asset(
                                     '${PathConst.SVG}scanVector.svg',
                                     fit: BoxFit.contain,
-                                    height: 24.sp,
+                                    height: 24.aR,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -170,7 +173,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                             "\$ ${(controller.userAccount.value.accountDataModel!.totalBalance! * controller.xtzPrice.value).toStringAsFixed(6)}",
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              fontSize: 30.sp,
+                              fontSize: 30.aR,
                               color: Colors.white,
                             ),
                           ),
@@ -217,12 +220,12 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                     Divider(
                       height: 0.sp,
                       color: ColorConst.NeutralVariant.shade20,
-                      endIndent: 16.sp,
-                      indent: 16.sp,
+                      endIndent: 16.aR,
+                      indent: 16.aR,
                     ),
                     0.02.vspace,
                     SizedBox(
-                      height: 50.sp,
+                      height: 50.aR,
                       width: 1.width,
                       child: TabBar(
                           onTap: (value) async {
@@ -234,18 +237,21 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           labelColor: ColorConst.Primary.shade95,
                           indicatorColor: ColorConst.Primary,
                           indicatorSize: TabBarIndicatorSize.tab,
-                          padding: EdgeInsets.symmetric(horizontal: 15.sp),
+                          padding: EdgeInsets.symmetric(horizontal: 15.aR),
                           labelPadding: EdgeInsets.symmetric(
-                            horizontal: 8.sp,
+                            horizontal: 6.aR,
                           ),
-                          indicatorWeight: 4.sp,
+                          indicatorWeight: 4.aR,
                           enableFeedback: true,
-                          indicator: UnderlineTabIndicator(
-                            insets: EdgeInsets.only(left: 4.sp, right: 4.sp),
-                            borderSide: BorderSide(
-                                color: ColorConst.Primary, width: 4.sp),
+                          indicator: MaterialIndicator(
+                            color: ColorConst.Primary,
+                            height: 4.aR,
+                            topLeftRadius: 4.aR,
+                            topRightRadius: 4.aR,
+                            strokeWidth: 4.aR,
                           ),
-                          labelStyle: labelLarge,
+                          labelStyle: labelLarge.copyWith(
+                              fontSize: 14.aR, letterSpacing: 0.1.aR),
                           unselectedLabelColor:
                               ColorConst.NeutralVariant.shade60,
                           tabs: [
@@ -307,11 +313,11 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                   padding: EdgeInsets.symmetric(vertical: 8.sp),
                   child: CircleAvatar(
                     backgroundColor: ColorConst.Primary,
-                    radius: 20.sp,
+                    radius: 20.aR,
                     child: SvgPicture.asset(
                       imagePath,
                       fit: BoxFit.cover,
-                      height: 20.sp,
+                      height: 20.aR,
                       color: Colors.white,
                     ),
                   ),
@@ -319,7 +325,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
             TextSpan(
                 text: '\n$label',
                 style: labelMedium.copyWith(
-                    letterSpacing: 0.1.sp, height: 20 / 12)),
+                    fontSize: 12.aR, letterSpacing: 0.1.aR, height: 20 / 12)),
           ],
         ),
       ),

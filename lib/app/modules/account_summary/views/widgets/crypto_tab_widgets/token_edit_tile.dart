@@ -50,12 +50,12 @@ class TokenEditTile extends GetView<AccountSummaryController> {
               : GestureDetector(
                   onTap: viewAll,
                   child: AnimatedContainer(
-                    margin: EdgeInsets.symmetric(vertical: 12.sp),
+                    margin: EdgeInsets.symmetric(vertical: 12.aR),
                     duration: const Duration(milliseconds: 200),
-                    height: 30.sp,
-                    width: expandedTokenList ? 70.sp : 63.sp,
+                    height: 30.aR,
+                    width: expandedTokenList ? 70.aR : 63.aR,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.sp),
+                      borderRadius: BorderRadius.circular(20.aR),
                       color: const Color(0xff1e1c1f),
                     ),
                     alignment: Alignment.center,
@@ -68,7 +68,8 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                           expandedTokenList ? 'Less' : 'All',
                           style: labelLarge.copyWith(
                               fontWeight: FontWeight.w600,
-                              letterSpacing: 0.5,
+                              letterSpacing: 0.5.aR,
+                              fontSize: 14.aR,
                               height: 16 / 14,
                               color: ColorConst.NeutralVariant.shade60),
                         ),
@@ -78,7 +79,7 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                           child: Icon(
                             Icons.keyboard_arrow_right_rounded,
                             color: ColorConst.NeutralVariant.shade60,
-                            size: 20.sp,
+                            size: 20.aR,
                           ),
                         ),
                       ],
@@ -109,12 +110,12 @@ class TokenEditTile extends GetView<AccountSummaryController> {
             ? GestureDetector(
                 onTap: onEditTap,
                 child: AnimatedContainer(
-                  margin: EdgeInsets.symmetric(vertical: 12.sp),
+                  margin: EdgeInsets.symmetric(vertical: 12.aR),
                   duration: const Duration(milliseconds: 200),
-                  height: 30.sp,
-                  width: isEditable ?? false ? 60.sp : 50.sp,
+                  height: 30.aR,
+                  width: isEditable ?? false ? 60.aR : 50.aR,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.sp),
+                    borderRadius: BorderRadius.circular(20.aR),
                     color: isEditable ?? false
                         ? ColorConst.Primary
                         : const Color(0xff1e1c1f),
@@ -123,6 +124,7 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                   child: Text(
                     isEditable ?? false ? 'Done' : 'Edit',
                     style: labelLarge.copyWith(
+                        fontSize: 14.aR,
                         fontWeight: FontWeight.w600,
                         color: isEditable ?? false
                             ? Colors.white

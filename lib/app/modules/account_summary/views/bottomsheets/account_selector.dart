@@ -53,12 +53,12 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 10.sp, sigmaY: 10.sp),
+      filter: ImageFilter.blur(sigmaX: 10.aR, sigmaY: 10.aR),
       child: Container(
         height: 0.8.height,
         width: 1.width,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10.sp)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10.aR)),
             color: Colors.black),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -67,8 +67,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
             0.01.vspace,
             Center(
               child: Container(
-                height: 5.sp,
-                width: 36.sp,
+                height: 5.aR,
+                width: 36.aR,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
@@ -79,11 +79,11 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                0.15.hspace,
+                0.05.aR.hspace,
                 Text(
                   'Accounts',
-                  style:
-                      titleLarge.copyWith(letterSpacing: 0.5, height: 24 / 22),
+                  style: titleLarge.copyWith(
+                      fontSize: 22.aR, letterSpacing: 0.5.aR, height: 24 / 22),
                 ),
                 Obx(() => TextButton(
                       style: ButtonStyle(
@@ -95,7 +95,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                       onPressed: _controller.editAccount,
                       child: Text(
                         _controller.isAccountEditable.value ? "Done" : "Edit",
-                        style: labelMedium.copyWith(color: ColorConst.Primary),
+                        style: labelMedium.copyWith(
+                            color: ColorConst.Primary, fontSize: 12.aR),
                       ),
                     )),
               ],
@@ -113,17 +114,17 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                           side: const BorderSide(
                             color: Colors.transparent,
                           ),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10.aR),
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(
-                              top: 8.sp, left: 16.sp, right: 16.sp),
+                              top: 8.aR, left: 16.aR, right: 16.aR),
                           child: InkWell(
                             onTap: () => setState(() {
                               _controller.onAccountTap(index);
                             }),
                             child: SizedBox(
-                              height: 48.sp,
+                              height: 48.aR,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -134,7 +135,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                         .userAccounts[index].imageType!,
                                     imagePath: _controller.homePageController
                                         .userAccounts[index].profileImage!,
-                                    imageRadius: 18.sp,
+                                    imageRadius: 18.aR,
                                   ),
                                   0.03.hspace,
                                   RichText(
@@ -142,16 +143,18 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                         text:
                                             '${_controller.homePageController.userAccounts[index].name}\n',
                                         style: labelMedium.copyWith(
+                                            fontSize: 12.aR,
                                             letterSpacing: 0.4),
                                         children: [
                                           WidgetSpan(
                                               child: SizedBox(
-                                            height: 18.sp,
+                                            height: 18.aR,
                                           )),
                                           TextSpan(
                                             text:
                                                 '${_controller.homePageController.userAccounts[index].accountDataModel?.xtzBalance} tez',
                                             style: labelMedium.copyWith(
+                                                fontSize: 12.aR,
                                                 fontWeight: FontWeight.w400,
                                                 color: ColorConst
                                                     .NeutralVariant.shade60),
@@ -183,8 +186,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                 true;
                                             return <PopupMenuEntry>[
                                               CustomPopupMenuItem(
-                                                width: 140.sp,
-                                                height: 30.sp,
+                                                width: 140.aR,
+                                                height: 30.aR,
                                                 padding: EdgeInsets.only(
                                                     left: 12.sp, bottom: 5.sp),
                                                 onTap: () {
@@ -199,7 +202,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                 },
                                                 child: Text(
                                                   "Edit",
-                                                  style: labelMedium,
+                                                  style: labelMedium.copyWith(
+                                                      fontSize: 12.aR),
                                                 ),
                                               ),
                                               CustomPopupMenuDivider(
@@ -211,8 +215,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                               CustomPopupMenuItem(
                                                 padding: EdgeInsets.only(
                                                     left: 12.sp, top: 5.sp),
-                                                width: 140.sp,
-                                                height: 30.sp,
+                                                width: 140.aR,
+                                                height: 30.aR,
                                                 onTap: () {
                                                   Get.bottomSheet(
                                                     removeAccountBottomSheet(
@@ -236,7 +240,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                 },
                                                 child: Text(
                                                   "Remove",
-                                                  style: labelMedium.apply(
+                                                  style: labelMedium.copyWith(
+                                                      fontSize: 12.aR,
                                                       color: ColorConst
                                                           .Error.shade60),
                                                 ),
@@ -244,8 +249,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                             ];
                                           },
                                           child: Container(
-                                            height: 24.sp,
-                                            width: 24.sp,
+                                            height: 24.aR,
+                                            width: 24.aR,
                                             decoration: BoxDecoration(
                                                 color: _controller
                                                             .isPopupVisible
@@ -260,7 +265,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                     BorderRadius.circular(20)),
                                             child: Icon(
                                               Icons.more_horiz,
-                                              size: 20.sp,
+                                              size: 20.aR,
                                               color: Colors.white,
                                             ),
                                           ),
@@ -269,15 +274,15 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                 _controller
                                                     .selectedAccountIndex.value
                                             ? Container(
-                                                height: 14.sp,
-                                                width: 14.sp,
+                                                height: 14.aR,
+                                                width: 14.aR,
                                                 decoration: const BoxDecoration(
                                                     shape: BoxShape.circle,
                                                     color: ColorConst.Primary),
                                                 child: Icon(
                                                   Icons.check,
                                                   color: Colors.white,
-                                                  size: 10.sp,
+                                                  size: 10.aR,
                                                 ),
                                               )
                                             : const SizedBox(),
@@ -314,7 +319,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                               _controller.isAccountEditable.isFalse
                                   ? "${PathConst.EMPTY_STATES}plus.png"
                                   : "${PathConst.EMPTY_STATES}plus_faded.png",
-                              height: 16.sp,
+                              height: 16.aR,
                               fit: BoxFit.contain,
                               scale: 1,
                             ),
@@ -322,6 +327,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                             Text(
                               "Create a new account",
                               style: labelLarge.copyWith(
+                                  fontSize: 14.aR,
                                   color: _controller.isAccountEditable.isFalse
                                       ? ColorConst.Primary
                                       : ColorConst.NeutralVariant.shade60,
@@ -348,7 +354,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                               _controller.isAccountEditable.isFalse
                                   ? "${PathConst.EMPTY_STATES}union.png"
                                   : "${PathConst.EMPTY_STATES}union_faded.png",
-                              height: 16.sp,
+                              height: 16.aR,
                               fit: BoxFit.contain,
                               scale: 1,
                             ),
@@ -356,6 +362,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                             Text(
                               "Add an existing account",
                               style: labelLarge.copyWith(
+                                  fontSize: 14.aR,
                                   color: _controller.isAccountEditable.isFalse
                                       ? ColorConst.Primary
                                       : ColorConst.NeutralVariant.shade60,
@@ -380,13 +387,14 @@ Widget removeAccountBottomSheet(int index,
     bottomSheetHorizontalPadding: 32.sp,
     blurRadius: 5,
     titleAlignment: Alignment.center,
-    height: 300.sp,
+    height: 300.aR,
     bottomSheetWidgets: [
       0.015.vspace,
       Center(
         child: Text(
           'Remove Account',
-          style: titleLarge.copyWith(fontWeight: FontWeight.w700),
+          style:
+              titleLarge.copyWith(fontWeight: FontWeight.w700, fontSize: 16.aR),
           textAlign: TextAlign.center,
         ),
       ),
@@ -394,7 +402,8 @@ Widget removeAccountBottomSheet(int index,
       Center(
         child: Text(
           'Do you want to remove “$accountName”\nfrom your account list?',
-          style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
+          style: bodySmall.copyWith(
+              color: ColorConst.NeutralVariant.shade60, fontSize: 14.aR),
           textAlign: TextAlign.center,
         ),
       ),
@@ -403,23 +412,24 @@ Widget removeAccountBottomSheet(int index,
         children: [
           SolidButton(
             width: 326.sp,
-            height: 50.sp,
+            height: 50.aR,
             primaryColor: const Color(0xff1E1C1F).withOpacity(0.8),
             onPressed: onPressed,
             title: "Remove Account",
             textColor: ColorConst.Primary,
-            titleStyle: labelLarge.copyWith(color: ColorConst.Error.shade60),
+            titleStyle: labelLarge.copyWith(
+                color: ColorConst.Error.shade60, fontSize: 14.aR),
           ),
           0.012.vspace,
           SolidButton(
             width: 326.sp,
-            height: 50.sp,
+            height: 50.aR,
             primaryColor: const Color(0xff1E1C1F).withOpacity(0.8),
             onPressed: () {
               Get.back();
             },
             title: "Cancel",
-            titleStyle: labelLarge,
+            titleStyle: labelLarge.copyWith(fontSize: 14.aR),
           ),
         ],
       ),

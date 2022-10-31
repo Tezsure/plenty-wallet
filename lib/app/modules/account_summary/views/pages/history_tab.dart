@@ -33,7 +33,7 @@ class HistoryPage extends GetView<TransactionController> {
           slivers: [
             SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                padding: EdgeInsets.symmetric(horizontal: 16.aR),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,24 +50,25 @@ class HistoryPage extends GetView<TransactionController> {
                           child: Container(
                             height: 0.06.height,
                             width: 0.8.width,
-                            padding: EdgeInsets.only(left: 14.5.sp),
+                            padding: EdgeInsets.only(left: 14.5.aR),
                             decoration: BoxDecoration(
                               color: ColorConst.NeutralVariant.shade60
                                   .withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10.sp),
+                              borderRadius: BorderRadius.circular(10.aR),
                             ),
                             child: Row(
                               children: [
                                 Icon(
                                   Icons.search,
                                   color: ColorConst.NeutralVariant.shade60,
-                                  size: 22.sp,
+                                  size: 22.aR,
                                 ),
                                 0.02.hspace,
                                 Text(
                                   'Search',
                                   style: labelLarge.copyWith(
-                                      letterSpacing: 0.25,
+                                      letterSpacing: 0.25.aR,
+                                      fontSize: 14.aR,
                                       fontWeight: FontWeight.w400,
                                       color: ColorConst.NeutralVariant.shade70),
                                 )
@@ -86,7 +87,7 @@ class HistoryPage extends GetView<TransactionController> {
                                 ? "${PathConst.SVG}filter_selected.svg"
                                 : '${PathConst.SVG}filter.svg',
                             fit: BoxFit.contain,
-                            height: 24.sp,
+                            height: 24.aR,
                             color: ColorConst.Primary,
                           ),
                         ),
@@ -105,14 +106,15 @@ class HistoryPage extends GetView<TransactionController> {
                         0.03.vspace,
                         SvgPicture.asset(
                           "${PathConst.EMPTY_STATES}empty3.svg",
-                          height: 120.sp,
+                          height: 120.aR,
                         ),
-                        0.03.vspace,
+                        0.02.vspace,
                         RichText(
                             textAlign: TextAlign.center,
                             text: TextSpan(
                                 text: "No transactions\n",
                                 style: titleLarge.copyWith(
+                                    fontSize: 22.aR,
                                     fontWeight: FontWeight.w700),
                                 children: [
                                   WidgetSpan(child: 0.04.vspace),
@@ -120,6 +122,7 @@ class HistoryPage extends GetView<TransactionController> {
                                       text:
                                           "Your crypto and NFT activity will appear\nhere once you start using your wallet",
                                       style: labelMedium.copyWith(
+                                          fontSize: 12.aR,
                                           color: ColorConst
                                               .NeutralVariant.shade60))
                                 ])),

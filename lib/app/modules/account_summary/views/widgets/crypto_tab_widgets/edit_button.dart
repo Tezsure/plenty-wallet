@@ -21,18 +21,19 @@ class EditButtons extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 12.sp),
-        height: 30.sp,
-        width: buttonName.length > 3 ? 60.sp : 47.sp,
+        margin: EdgeInsets.symmetric(vertical: 12.aR),
+        height: 30.aR,
+        width: buttonName.length > 4 ? 65.aR : 50.aR,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.sp),
+          borderRadius: BorderRadius.circular(20.aR),
           color: isDone ? ColorConst.Primary : const Color(0xff1e1c1f),
         ),
         alignment: Alignment.center,
         child: Text(
           buttonName,
           style: labelLarge.copyWith(
-              letterSpacing: 0.5,
+              letterSpacing: 0.5.aR,
+              fontSize: 14.aR,
               height: 16 / 14,
               fontWeight: FontWeight.w600,
               color: isDone ? Colors.white : ColorConst.NeutralVariant.shade60),

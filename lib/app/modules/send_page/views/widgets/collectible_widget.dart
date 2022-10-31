@@ -143,16 +143,16 @@ class NFTwidget extends StatelessWidget {
       child: Container(
         width: 0.44.width,
         height: 0.32.height,
-        padding: EdgeInsets.all(10.sp),
+        padding: EdgeInsets.all(10.aR),
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(8)),
+            borderRadius: BorderRadius.circular(8.aR)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
               child: Container(
-                height: 170.sp,
+                height: 180.aR,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -162,27 +162,28 @@ class NFTwidget extends StatelessWidget {
                     ),
                   ),
                   color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(8.aR),
                 ),
               ),
             ),
             SizedBox(
-              height: 10.sp,
+              height: 10.aR,
             ),
             Text(
               nfTmodel.name!,
-              style: labelMedium,
+              style: labelMedium.copyWith(fontSize: 12.aR),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
-            const SizedBox(
-              height: 4,
+            SizedBox(
+              height: 4.aR,
             ),
             Text(
               nfTmodel.creators?.first.holder?.alias ??
                   nfTmodel.creators!.first.holder!.address!.tz1Short(),
               maxLines: 1,
               style: labelMedium.copyWith(
+                  fontSize: 12.aR,
                   color: ColorConst.NeutralVariant.shade60,
                   fontWeight: FontWeight.w400),
               overflow: TextOverflow.ellipsis,

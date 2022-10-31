@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
@@ -24,49 +23,30 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                 0.02.vspace,
                 SvgPicture.asset(
                   "assets/empty_states/empty1.svg",
-                  height: 120.sp,
+                  height: 120.aR,
                 ),
                 0.03.vspace,
                 RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
                         text: "No token found\n",
-                        style: titleLarge.copyWith(fontWeight: FontWeight.w700),
+                        style: titleLarge.copyWith(
+                            fontWeight: FontWeight.w700, fontSize: 22.aR),
                         children: [
                           WidgetSpan(child: 0.04.vspace),
                           TextSpan(
                               text:
                                   "Buy or Transfer token from another\n wallet or elsewhere",
                               style: labelMedium.copyWith(
+                                  fontSize: 12.aR,
                                   color: ColorConst.NeutralVariant.shade60))
                         ])),
-                0.05.vspace,
-                SolidButton(
-                  height: 40.sp,
-                  width: 0.5.width,
-                  title: "Get token",
-                  rowWidget: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/empty_states/coins.png",
-                        height: 16.sp,
-                        fit: BoxFit.contain,
-                      ),
-                      0.03.hspace,
-                      Text(
-                        "Get token",
-                        style: titleSmall.apply(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           )
         : CustomScrollView(slivers: [
             SliverPadding(
-              padding: EdgeInsets.only(left: 17.sp, right: 16.sp, top: 24.sp),
+              padding: EdgeInsets.only(left: 17.aR, right: 16.aR, top: 24.aR),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) =>
@@ -76,7 +56,7 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
               ),
             ),
             SliverPadding(
-              padding: EdgeInsets.only(left: 17.sp, right: 16.sp),
+              padding: EdgeInsets.only(left: 17.aR, right: 16.aR),
               sliver: SliverToBoxAdapter(
                 child: _tokenEditTile(),
               ),
@@ -84,8 +64,8 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
             controller.expandTokenList.value
                 ? SliverPadding(
                     padding: EdgeInsets.only(
-                      left: 17.sp,
-                      right: 16.sp,
+                      left: 17.aR,
+                      right: 16.aR,
                     ),
                     sliver: SliverList(
                       delegate: SliverChildBuilderDelegate(
@@ -109,9 +89,7 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
         xtzPrice: controller.xtzPrice.value,
         tokenModel: token,
         isEditable: controller.isEditable.value,
-        onCheckboxTap: () => controller.isEditable.isTrue
-            ? controller.onCheckBoxTap(isPinnedList, index)
-            : null,
+        onCheckboxTap: () => controller.onCheckBoxTap(isPinnedList, index),
       );
 
   Widget _tokenEditTile() => TokenEditTile(
