@@ -26,6 +26,7 @@ class TransactionController extends GetxController {
   RxBool isFilterApplied = false.obs;
   Timer? searchDebounceTimer;
   Set<String> tokenTransactionID = <String>{};
+  RxList<TokenInfo> filteredTokenList = <TokenInfo>[].obs;
 
   @override
   void onInit() {
@@ -40,11 +41,88 @@ class TransactionController extends GetxController {
     super.onClose();
   }
 
+  List<TokenInfo> tokenTransactionList = <TokenInfo>[];
+  static final Set<String> _tokenTransactionID = <String>{};
+
   /// Loades the user transaction history, and updates the UI after user taps on history tab
   Future<void> userTransactionLoader() async {
+    late TokenInfo tokenInfo;
+    String? isHashSame;
     HistoryFilterController? historyFilterController;
+    tokenTransactionList.clear();
+    _tokenTransactionID.clear();
     paginationController.value.removeListener(() {});
-    userTransactionHistory.value = await fetchUserTransactionsHistory();
+    userTransactionHistory.value =
+        await fetchUserTransactionsHistory(limit: 40);
+    for (var tx in userTransactionHistory) {
+      tokenInfo = TokenInfo(
+        isHashSame: isHashSame == null ? false : tx.hash!.contains(isHashSame),
+        token: tx,
+        timeStamp: DateTime.parse(tx.timestamp!),
+        isSent: tx.sender!.address!
+            .contains(accController.userAccount.value.publicKeyHash!),
+      );
+      isHashSame = tx.hash!;
+      // For tezos transaction
+      if (tx.isTezosTransaction) {
+        tokenInfo = tokenInfo.copyWith(
+          token: tx,
+          tokenSymbol: "tez",
+          tokenAmount: tx.amount! / 1e6,
+          dollarAmount: (tx.amount! / 1e6) * accController.xtzPrice.value,
+        );
+      }
+      // For normal transaction
+      else if (tx.isAnyTokenOrNFTTransaction) {
+        if (tx.isFa2Token) {
+          if (tx.isNft) {
+            tokenInfo = tokenInfo.copyWith(
+              isNft: true,
+              nftContractAddress: tx.target!.address!,
+              nftTokenId: tx.nftTokenId,
+            );
+          } else {
+            TokenPriceModel token = tx.getFa2TokenName;
+            String amount = tx.fa2TokenAmount;
+            tokenInfo = tokenInfo.copyWith(
+                name: token.name!,
+                imageUrl: token.thumbnailUri!,
+                tokenSymbol: token.symbol!,
+                tokenAmount: double.parse(amount) / pow(10, token.decimals!),
+                dollarAmount: double.parse(amount) /
+                    pow(10, token.decimals!) *
+                    accController.xtzPrice.value);
+          }
+        } else {
+          if (tx.isFa1Token) {
+            TokenPriceModel token = tx.getFa1TokenName;
+            String amount = tx.fa1TokenAmount;
+            tokenInfo = tokenInfo.copyWith(
+                token: tx,
+                name: token.name!,
+                imageUrl: token.thumbnailUri!,
+                tokenSymbol: token.symbol!,
+                tokenAmount: double.parse(amount) / pow(10, token.decimals!),
+                dollarAmount: double.parse(amount) /
+                    pow(10, token.decimals!) *
+                    accController.xtzPrice.value);
+          } else {
+            tokenInfo = tokenInfo.copyWith(skip: true);
+          }
+        }
+      }
+      // For delegation transaction
+      else if (tx.type!.toLowerCase().contains("delegation")) {
+        tokenInfo = tokenInfo.copyWith(isDelegated: true, token: tx);
+      } else {
+        tokenInfo = tokenInfo.copyWith(skip: true);
+      }
+      tokenTransactionList.addIf(
+          !_tokenTransactionID.contains(tx.lastid.toString()), tokenInfo);
+      _tokenTransactionID.add(tx.lastid.toString());
+    }
+
+    // Lazy Loading
     paginationController.value.addListener(() async {
       if (paginationController.value.position.pixels ==
           paginationController.value.position.maxScrollExtent) {
@@ -72,24 +150,10 @@ class TransactionController extends GetxController {
           lastId: lastId,
           limit: limit);
 
-  List<TxHistoryModel?> searchTransactionHistory(String searchKey) {
-    List<TxHistoryModel?> searchResult = [];
-    if (searchKey.isCaseInsensitiveContainsAny("tezos")) {
-      searchResult.addAll(userTransactionHistory
-          .where((element) =>
-              element.amount != null &&
-              element.amount! > 0 &&
-              element.parameter == null)
-          .toList());
-    } else {
-      for (var element in tokenInfoList) {
-        if (element.name.isCaseInsensitiveContainsAny(searchKey)) {
-          searchResult.add(element.token);
-        }
-      }
-    }
-    return searchResult.isNotEmpty ? searchResult : [];
-  }
+  List<TokenInfo?> searchTransactionHistory(String searchKey) =>
+      tokenTransactionList
+          .where((p0) => p0.name.isCaseInsensitiveContainsAny(searchKey))
+          .toList();
 
   RxList<ContactModel> contacts = <ContactModel>[].obs;
   Rx<ContactModel?>? contact;
@@ -113,27 +177,91 @@ class TransactionController extends GetxController {
           ServiceConfig.allAssetsProfileImages.length - 1,
         )]));
   }
+}
 
-  bool isSameTimeStamp(int index) =>
-      DateTime.parse(userTransactionHistory[index].timestamp!).isSameDate(
-          DateTime.parse(
-              userTransactionHistory[index == 0 ? 0 : index - 1].timestamp!));
+class TokenInfo {
+  final String name;
+  final String imageUrl;
+  final bool isNft;
+  final bool skip;
+  final double tokenAmount;
+  final double dollarAmount;
+  final String tokenSymbol;
+  final String lastId;
+  final bool isSent;
+  final TxHistoryModel? token;
+  final bool isDelegated;
+  final String? nftContractAddress;
+  final String? nftTokenId;
+  final bool? isHashSame;
+  final DateTime? timeStamp;
 
-  bool isTezosTransaction(int index) =>
-      userTransactionHistory[index].amount != null &&
-      userTransactionHistory[index].amount! > 0 &&
-      userTransactionHistory[index].parameter == null;
-  bool isAnyTokenOrNFTTransaction(int index) =>
-      userTransactionHistory[index].parameter != null &&
-      userTransactionHistory[index].parameter?.entrypoint == "transfer";
-  bool isFa2Token(int index) {
-    if (userTransactionHistory[index].parameter!.value is Map) {
+  TokenInfo({
+    this.name = "Tezos",
+    this.imageUrl = "${PathConst.ASSETS}tezos_logo.png",
+    this.isNft = false,
+    this.skip = false,
+    this.dollarAmount = 0,
+    this.tokenSymbol = "tez",
+    this.tokenAmount = 0,
+    this.lastId = "",
+    this.token,
+    this.isDelegated = false,
+    this.nftContractAddress,
+    this.nftTokenId,
+    this.isSent = false,
+    this.isHashSame = false,
+    this.timeStamp,
+  });
+
+  TokenInfo copyWith({
+    String? name,
+    String? imageUrl,
+    bool? isNft,
+    bool? skip,
+    double? tokenAmount,
+    double? dollarAmount,
+    String? tokenSymbol,
+    String? lastId,
+    bool? isReceived,
+    TxHistoryModel? token,
+    bool? isDelegated,
+    String? nftContractAddress,
+    String? nftTokenId,
+    bool? isHashSame = false,
+    DateTime? timeStamp,
+  }) {
+    return TokenInfo(
+        name: name ?? this.name,
+        imageUrl: imageUrl ?? this.imageUrl,
+        isNft: isNft ?? this.isNft,
+        skip: skip ?? this.skip,
+        tokenAmount: tokenAmount ?? this.tokenAmount,
+        dollarAmount: dollarAmount ?? this.dollarAmount,
+        tokenSymbol: tokenSymbol ?? this.tokenSymbol,
+        lastId: lastId ?? this.lastId,
+        isSent: isReceived ?? isSent,
+        token: token ?? this.token,
+        isDelegated: isDelegated ?? this.isDelegated,
+        nftContractAddress: nftContractAddress ?? this.nftContractAddress,
+        nftTokenId: nftTokenId ?? this.nftTokenId,
+        isHashSame: isHashSame ?? this.isHashSame,
+        timeStamp: timeStamp ?? this.timeStamp);
+  }
+}
+
+extension TransactionChecker on TxHistoryModel {
+  bool get isTezosTransaction =>
+      amount != null && amount! > 0 && parameter == null;
+  bool get isAnyTokenOrNFTTransaction =>
+      parameter != null && parameter?.entrypoint == "transfer";
+  bool get isFa2Token {
+    if (parameter!.value is Map) {
       return false;
-    } else if (userTransactionHistory[index].parameter!.value is List) {
+    } else if (parameter!.value is List) {
       return true;
-    } else if (userTransactionHistory[index].parameter!.value is String) {
-      var decodedString =
-          jsonDecode(userTransactionHistory[index].parameter!.value);
+    } else if (parameter!.value is String) {
+      var decodedString = jsonDecode(parameter!.value);
       if (decodedString is List) {
         return true;
       } else {
@@ -144,79 +272,56 @@ class TransactionController extends GetxController {
     }
   }
 
-  bool isFa2TokenListEmpty(int index) => accController.tokensList
-      .where((p0) =>
-          (p0.tokenAddress!
-              .contains(userTransactionHistory[index].target!.address!)) &&
-          p0.tokenId!.contains(userTransactionHistory[index].parameter!.value
-                  is List
-              ? userTransactionHistory[index].parameter?.value[0]["txs"][0]
-                  ["token_id"]
-              : jsonDecode(userTransactionHistory[index].parameter!.value)[0]
-                  ["txs"][0]["token_id"]))
+  bool get isNft => Get.find<AccountSummaryController>()
+      .tokensList
+      .where((p0) => (p0.tokenAddress!.contains(target!.address!) &&
+          p0.tokenId!.contains(parameter!.value is List
+              ? parameter?.value[0]["txs"][0]["token_id"]
+              : jsonDecode(parameter!.value)[0]["txs"][0]["token_id"])))
       .isEmpty;
 
-  String getImageUrl(int index) => accController.tokensList
-      .where((p0) => p0.tokenAddress!
-          .contains(userTransactionHistory[index].target!.address!))
-      .first
-      .thumbnailUri!;
-  TokenPriceModel fa2TokenName(int index) => accController.tokensList
-      .firstWhere((p0) =>
-          (p0.tokenAddress!.contains(
-              userTransactionHistory[index].target!.address!)) &&
-          p0.tokenId!.contains(userTransactionHistory[index].parameter!.value
-                  is List
-              ? userTransactionHistory[index].parameter?.value[0]["txs"][0]
-                  ["token_id"]
-              : jsonDecode(userTransactionHistory[index].parameter!.value)[0]
-                  ["txs"][0]["token_id"]));
+  bool get isFa1Token => Get.find<AccountSummaryController>()
+      .tokensList
+      .where((p0) => (p0.tokenAddress!.contains(target!.address!)))
+      .isNotEmpty;
 
-  TokenPriceModel fa1TokenName(int index) => accController.tokensList
-      .where((p0) => (p0.tokenAddress!
-          .contains(userTransactionHistory[index].target!.address!)))
-      .first;
+  String get fa2TokenAmount => parameter?.value is List
+      ? parameter?.value[0]["txs"][0]["amount"]
+      : jsonDecode(parameter!.value)[0]["txs"][0]["amount"];
 
-  bool isFa1TokenEmpty(int index) => accController.tokensList
-      .where((p0) => (p0.tokenAddress!
-          .contains(userTransactionHistory[index].target!.address!)))
-      .isEmpty;
-  bool isHashSame(int index) =>
-      userTransactionHistory[index]
-          .hash!
-          .contains(userTransactionHistory[index - 1].hash!) &&
-      userTransactionHistory[index].hash!.contains(userTransactionHistory[
-              userTransactionHistory.length - 1 == index ? index : index + 1]
-          .hash!);
+  String get nftTokenId {
+    if (parameter?.value is String) {
+      var decodedString = jsonDecode(parameter!.value);
+      return decodedString is Map
+          ? decodedString["txs"][0]["token_id"]
+          : decodedString[0]["txs"][0]["token_id"];
+    } else if (parameter?.value is Map) {
+      return parameter?.value["txs"][0]["token_id"];
+    } else if (parameter?.value is List) {
+      return parameter?.value[0]["txs"][0]["token_id"];
+    } else {
+      return "";
+    }
+  }
+
+  String get fa1TokenAmount => parameter?.value is Map
+      ? parameter!.value['value']
+      : jsonDecode(parameter!.value)['value'];
+
+  TokenPriceModel get getFa1TokenName => Get.find<AccountSummaryController>()
+      .tokensList
+      .firstWhere((p0) => (p0.tokenAddress!.contains(target!.address!)));
+
+  TokenPriceModel get getFa2TokenName => Get.find<AccountSummaryController>()
+      .tokensList
+      .firstWhere((p0) => (p0.tokenAddress!.contains(target!.address!) &&
+          p0.tokenId!.contains(parameter!.value is List
+              ? parameter?.value[0]["txs"][0]["token_id"]
+              : jsonDecode(parameter!.value)[0]["txs"][0]["token_id"])));
 }
 
 extension DateOnlyCompare on DateTime {
-  bool isSameDate(DateTime other) {
-    return year == other.year && month == other.month && day == other.day;
+  bool isSameMonth(DateTime other) {
+    return year == other.year && month == other.month;
   }
-}
-
-class TokenInfo {
-  final String name;
-  final String imageUrl;
-  final bool isNft;
-  final bool skip;
-  final int index;
-  final double tokenAmount;
-  final double dollarAmount;
-  final String tokenSymbol;
-  final String id;
-  final TxHistoryModel? token;
-
-  TokenInfo(
-      {this.name = "Tezos",
-      this.imageUrl = "${PathConst.ASSETS}tezos_logo.png",
-      this.isNft = false,
-      this.skip = false,
-      this.dollarAmount = 0,
-      this.tokenSymbol = "tez",
-      this.tokenAmount = 0,
-      this.id = "",
-      this.token,
-      required this.index});
 }

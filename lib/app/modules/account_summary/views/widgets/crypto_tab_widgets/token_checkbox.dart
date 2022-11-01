@@ -124,7 +124,7 @@ class TokenCheckbox extends StatelessWidget {
       checkedFillColor:
           tokenModel.isSelected ? ColorConst.Primary : const Color(0xff1E1C1F),
       value: tokenModel.isSelected,
-      onChanged: (v) => onCheckboxTap);
+      onChanged: (v) => onCheckboxTap?.call());
 
   Widget _imageAvatar() => CircleAvatar(
         radius: 20.aR,

@@ -25,6 +25,8 @@ class TxHistoryModel {
   int? amount;
   bool? hasInternals;
   int? tokenTransfersCount;
+  Delegate? prevDelegate;
+  Delegate? newDelegate;
 
   TxHistoryModel({
     this.type,
@@ -49,6 +51,8 @@ class TxHistoryModel {
     this.operationStatus,
     this.hasInternals,
     this.tokenTransfersCount,
+    this.prevDelegate,
+    this.newDelegate,
   });
 
   TxHistoryModel.fromJson(Map<String, dynamic> json) {
@@ -76,6 +80,12 @@ class TxHistoryModel {
     operationStatus = json['status'];
     hasInternals = json['hasInternals'];
     tokenTransfersCount = json['tokenTransfersCount'];
+    prevDelegate = json['prevDelegate'] != null
+        ? Delegate.fromJson(json['prevDelegate'])
+        : null;
+    newDelegate = json['newDelegate'] != null
+        ? Delegate.fromJson(json['newDelegate'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -108,6 +118,12 @@ class TxHistoryModel {
     data['status'] = operationStatus;
     data['hasInternals'] = hasInternals;
     data['tokenTransfersCount'] = tokenTransfersCount;
+    if (prevDelegate != null) {
+      data['prevDelegate'] = prevDelegate!.toJson();
+    }
+    if (newDelegate != null) {
+      data['newDelegate'] = newDelegate!.toJson();
+    }
     return data;
   }
 }
@@ -146,6 +162,25 @@ class Target {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['alias'] = alias;
     data['address'] = address;
+    return data;
+  }
+}
+
+class Delegate {
+  String? address;
+  String? alias;
+
+  Delegate({this.address, this.alias});
+
+  Delegate.fromJson(Map<String, dynamic> json) {
+    address = json['address'];
+    alias = json['alias'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['address'] = address;
+    data['alias'] = alias;
     return data;
   }
 }

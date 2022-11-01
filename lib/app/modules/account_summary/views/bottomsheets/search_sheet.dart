@@ -1,23 +1,16 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/transaction_details.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../../../utils/colors/colors.dart';
-import '../../../../data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
-import '../../../../data/services/service_models/nft_token_model.dart';
-import '../../../../data/services/service_models/token_price_model.dart';
 import '../../controllers/transaction_controller.dart';
 import '../widgets/history_tab_widgets/history_tile.dart';
-import 'transaction_details.dart';
 
 class SearchBottomSheet extends StatefulWidget {
   const SearchBottomSheet({super.key});
@@ -30,7 +23,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   FocusNode focusNode = FocusNode();
   TextEditingController searchController = TextEditingController();
   TransactionController controller = Get.find<TransactionController>();
-  List<TxHistoryModel?> searchResult = [];
+  List<TokenInfo?> searchResult = [];
 
   @override
   void initState() {
@@ -169,7 +162,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                         ),
                       ],
                     ),
-                    searchController.text.isEmpty && searchResult.isEmpty
+                    searchController.text.isEmpty || searchResult.isEmpty
                         ? Center(
                             child: Padding(
                               padding: EdgeInsets.only(top: 44.sp),
@@ -195,13 +188,11 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                                     if (searchResult[index] == null) {
                                       return const SizedBox();
                                     } else {
-                                      late TokenInfo token;
-                                      token = tokenInfo(index);
-                                      return token.isNft
-                                          ? nftLoader(index)
-                                          : token.skip
-                                              ? const SizedBox()
-                                              : tokenLoader(token);
+                                      return searchResult[index]!.skip ||
+                                              searchResult[index]!.isHashSame ==
+                                                  true
+                                          ? const SizedBox()
+                                          : tokenLoader(index);
                                     }
                                   },
                                   childCount: searchResult.length,
@@ -215,275 +206,49 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     );
   }
 
-  TokenInfo tokenInfo(int index) {
-    if (searchResult[index] != null) {
-      if (controller.isTezosTransaction(index)) {
-        return TokenInfo(
-          index: index,
-          tokenSymbol: "tez",
-          tokenAmount: searchResult[index]!.amount! / 1e6,
-          dollarAmount: (searchResult[index]!.amount! / 1e6) *
-              controller.accController.xtzPrice.value,
-        );
-      } else {
-        if (isTezosTransaction(index)) {
-          if (isFa2Token(index)) {
-            if (searchResult[index]!.isFa2TokenListEmpty()) {
-              return TokenInfo(isNft: true, index: index);
-            } else {
-              TokenPriceModel fa2Token = searchResult[index]!.fa2TokenName();
-
-              String amount = searchResult[index]!.parameter?.value is List
-                  ? searchResult[index]!.parameter?.value[0]['txs'][0]['amount']
-                  : jsonDecode(searchResult[index]!.parameter!.value)[0]['txs']
-                      [0]['amount'];
-
-              return TokenInfo(
-                  index: index,
-                  name: fa2Token.name!,
-                  dollarAmount: double.parse(amount) /
-                      pow(10, fa2Token.decimals!) *
-                      fa2Token.currentPrice!,
-                  tokenSymbol: fa2Token.symbol!,
-                  tokenAmount:
-                      double.parse(amount) / pow(10, fa2Token.decimals!),
-                  imageUrl: searchResult[index]!.getImageUrl());
-            }
-          } else {
-            if (searchResult[index]!.isFa2TokenListEmpty()) {
-              return TokenInfo(
-                skip: true,
-                index: index,
-              );
-            }
-            TokenPriceModel faToken = searchResult[index]!.fa1TokenName();
-            late String amount = "0";
-            if (searchResult[index]!.parameter!.value is Map) {
-              amount = searchResult[index]!.parameter!.value['value'];
-            } else if (searchResult[index]!.parameter!.value is String) {
-              var decodedString =
-                  jsonDecode(searchResult[index]!.parameter!.value);
-              amount = decodedString['value'];
-            }
-
-            return TokenInfo(
-                index: index,
-                name: faToken.name!,
-                dollarAmount: (double.parse(amount) /
-                    pow(10, faToken.decimals!) *
-                    faToken.currentPrice!),
-                tokenSymbol: faToken.symbol!,
-                tokenAmount: double.parse(amount) / pow(10, faToken.decimals!),
-                imageUrl: searchResult[index]!.getImageUrl());
-          }
-        } else {
-          return TokenInfo(
-            skip: true,
-            index: index,
-          );
-        }
-      }
-    } else {
-      return TokenInfo(
-        skip: true,
-        index: index,
-      );
-    }
-  }
-
-  Widget tokenLoader(TokenInfo token) => Column(
+  Widget tokenLoader(int index) => Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          token.index == 0
+          index == 0
               ? Padding(
                   padding:
-                      EdgeInsets.only(top: 16.sp, left: 16.sp, bottom: 16.sp),
+                      EdgeInsets.only(top: 24.sp, left: 16.sp, bottom: 16.sp),
                   child: Text(
-                    DateFormat.yMMMEd()
+                    DateFormat.MMMM()
                         // displaying formatted date
                         .format(DateTime.parse(
-                            searchResult[token.index]!.timestamp!)),
-                    style: labelMedium,
+                            searchResult[index]!.token!.timestamp!)),
+                    style: labelLarge,
                   ),
                 )
-              : DateTime.parse(searchResult[token.index]!.timestamp!)
-                      .isSameDate(DateTime.parse(
-                          searchResult[token.index == 0 ? 0 : token.index - 1]!
+              : DateTime.parse(searchResult[index]!.token!.timestamp!)
+                      .isSameMonth(DateTime.parse(
+                          searchResult[index == 0 ? 0 : index - 1]!
+                              .token!
                               .timestamp!))
                   ? const SizedBox()
                   : Padding(
                       padding: EdgeInsets.only(
-                          top: 16.sp, left: 16.sp, bottom: 16.sp),
+                          top: 20.sp, left: 16.sp, bottom: 12.sp),
                       child: Text(
-                        DateFormat.yMMMEd()
+                        DateFormat.MMMM()
                             // displaying formatted date
                             .format(DateTime.parse(
-                                searchResult[token.index]!.timestamp!)),
-                        style: labelMedium,
+                                searchResult[index]!.token!.timestamp!)),
+                        style: labelLarge,
                       ),
                     ),
           HistoryTile(
-            tokenSymbol: token.tokenSymbol,
-            dollarAmount: token.dollarAmount,
-            tezAmount: token.tokenAmount,
-            tokenName: token.name,
-            tokenIconUrl: token.imageUrl,
-            userAccountAddress:
-                controller.accController.userAccount.value.publicKeyHash!,
+            tokenInfo: searchResult[index]!,
             xtzPrice: controller.accController.xtzPrice.value,
-            historyModel: searchResult[token.index]!,
             onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
-              tokenInfo: token,
+              tokenInfo: searchResult[index]!,
               userAccountAddress:
                   controller.accController.userAccount.value.publicKeyHash!,
-              transactionModel: searchResult[token.index]!,
+              transactionModel: searchResult[index]!.token!,
             )),
           ),
         ],
       );
-
-  Widget nftLoader(int index) => FutureBuilder(
-      future: ObjktNftApiService().getTransactionNFT(
-          searchResult[index]!.target!.address!,
-          searchResult[index]!.parameter?.value[0]["txs"][0]["token_id"]),
-      builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
-        if (!snapshot.hasData) {
-          // while data is loading:
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          TokenInfo token = TokenInfo(
-              index: index,
-              isNft: true,
-              tokenSymbol: snapshot.data!.fa!.name!,
-              dollarAmount: snapshot.data!.lowestAsk / 1e6,
-              tokenAmount: snapshot.data!.lowestAsk != null &&
-                      snapshot.data!.lowestAsk != 0
-                  ? snapshot.data!.lowestAsk / 1e6
-                  : 0,
-              name: snapshot.data!.name!,
-              imageUrl: snapshot.data!.displayUri!);
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding:
-                    EdgeInsets.only(top: 16.sp, left: 16.sp, bottom: 16.sp),
-                child: Text(
-                  DateFormat.yMMMEd()
-                      // displaying formatted date
-                      .format(DateTime.parse(searchResult[index]!.timestamp!)),
-                  style: labelMedium,
-                ),
-              ),
-              HistoryTile(
-                tokenSymbol: token.tokenSymbol,
-                isNft: token.isNft,
-                dollarAmount: token.dollarAmount,
-                tezAmount: token.tokenAmount,
-                tokenName: token.name,
-                tokenIconUrl: token.imageUrl,
-                userAccountAddress:
-                    controller.accController.userAccount.value.publicKeyHash!,
-                xtzPrice: controller.accController.xtzPrice.value,
-                historyModel: searchResult[index]!,
-                onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
-                  tokenInfo: token,
-                  userAccountAddress:
-                      controller.accController.userAccount.value.publicKeyHash!,
-                  transactionModel: searchResult[index]!,
-                )),
-              ),
-            ],
-          );
-        }
-      }));
-
-  bool isTezosTransaction(int index) =>
-      searchResult[index]!.amount != null &&
-      searchResult[index]!.amount! > 0 &&
-      searchResult[index]!.parameter == null;
-
-  bool isAnyTokenOrNftTransaction(int index) =>
-      searchResult[index]!.parameter != null &&
-      searchResult[index]!.parameter?.entrypoint == "transfer";
-
-  bool isFa2Token(int index) {
-    if (searchResult[index]!.parameter == null) {
-      return false;
-    } else if (searchResult[index]!.parameter!.value is Map) {
-      return false;
-    } else if (searchResult[index]!.parameter!.value is List) {
-      return true;
-    } else if (searchResult[index]!.parameter!.value is String) {
-      var decodedString = jsonDecode(searchResult[index]!.parameter!.value);
-      if (decodedString is List) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
-}
-
-extension SearchExtension on TxHistoryModel {
-  // bool isTezosTransaction() {
-  //   return amount != null && amount! > 0 && parameter == null;
-  // }
-
-  // bool isAnyTokenOrNFTTransaction() {
-  //   return parameter != null && parameter?.entrypoint == "transfer";
-  // }
-
-  // bool isFa2Token() {
-  //   if (parameter!.value is Map) {
-  //     return false;
-  //   } else if (parameter!.value is List) {
-  //     return true;
-  //   } else if (parameter!.value is String) {
-  //     var decodedString = jsonDecode(parameter!.value);
-  //     if (decodedString is List) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
-  bool isFa2TokenListEmpty() => Get.find<AccountSummaryController>()
-      .tokensList
-      .where((p0) =>
-          (p0.tokenAddress!.contains(target!.address!)) &&
-          p0.tokenId!.contains(parameter!.value is List
-              ? parameter?.value[0]["txs"][0]["token_id"]
-              : jsonDecode(parameter!.value)[0]["txs"][0]["token_id"]))
-      .isEmpty;
-  String getImageUrl() => Get.find<AccountSummaryController>()
-      .tokensList
-      .where((p0) => p0.tokenAddress!.contains(target!.address!))
-      .first
-      .thumbnailUri!;
-
-  TokenPriceModel fa2TokenName() =>
-      Get.find<AccountSummaryController>().tokensList.firstWhere((p0) =>
-          (p0.tokenAddress!.contains(target!.address!)) &&
-          p0.tokenId!.contains(parameter!.value is List
-              ? parameter?.value[0]["txs"][0]["token_id"]
-              : jsonDecode(parameter!.value)[0]["txs"][0]["token_id"]));
-
-  TokenPriceModel fa1TokenName() => Get.find<AccountSummaryController>()
-      .tokensList
-      .where((p0) => (p0.tokenAddress!.contains(target!.address!)))
-      .first;
-  bool isTokenListEmpty() => Get.find<AccountSummaryController>()
-      .tokensList
-      .where((p0) => p0.tokenAddress!.contains(target!.address!))
-      .isEmpty;
 }

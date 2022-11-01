@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../utils/colors/colors.dart';
@@ -8,28 +8,14 @@ import '../../../../../../utils/styles/styles.dart';
 
 class HistoryTile extends StatelessWidget {
   final VoidCallback? onTap;
-  final TxHistoryModel historyModel;
   final double xtzPrice;
-  final String userAccountAddress;
-  final String tokenName;
-  final String tokenIconUrl;
-  final double tezAmount;
-  final double dollarAmount;
-  final String tokenSymbol;
-  final bool isNft;
+  final TokenInfo tokenInfo;
 
   const HistoryTile({
     super.key,
     this.onTap,
-    required this.historyModel,
     required this.xtzPrice,
-    required this.userAccountAddress,
-    required this.tokenName,
-    required this.tokenIconUrl,
-    required this.tezAmount,
-    required this.dollarAmount,
-    required this.tokenSymbol,
-    this.isNft = false,
+    required this.tokenInfo,
   });
 
   @override
@@ -37,17 +23,17 @@ class HistoryTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: 16.sp, vertical: 0.003.height),
+        padding: EdgeInsets.only(left: 16.sp, right: 16.sp, bottom: 10.sp),
         child: Material(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.sp),
           ),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           child: SizedBox(
-            height: 60.sp,
+            height: 61.sp,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.only(
+                  left: 12.sp, right: 9.sp, top: 10.sp, bottom: 10.sp),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -55,25 +41,32 @@ class HistoryTile extends StatelessWidget {
                   CircleAvatar(
                     radius: 20.sp,
                     backgroundColor: ColorConst.NeutralVariant.shade60,
-                    child: tokenIconUrl.startsWith("assets")
+                    child: tokenInfo.imageUrl.startsWith("assets")
                         ? Image.asset(
-                            tokenIconUrl,
+                            tokenInfo.imageUrl,
                             fit: BoxFit.cover,
                           )
-                        : tokenIconUrl.endsWith(".svg")
+                        : tokenInfo.imageUrl.endsWith(".svg")
                             ? SvgPicture.network(
-                                tokenIconUrl,
+                                tokenInfo.imageUrl,
                                 fit: BoxFit.cover,
                               )
                             : Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
+                                  border: tokenInfo.isNft
+                                      ? Border.all(
+                                          width: 1.5.sp,
+                                          color:
+                                              ColorConst.NeutralVariant.shade60,
+                                        )
+                                      : const Border(),
                                   image: DecorationImage(
-                                      fit: BoxFit.contain,
-                                      image: NetworkImage(tokenIconUrl
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(tokenInfo.imageUrl
                                               .startsWith("ipfs")
-                                          ? "https://ipfs.io/ipfs/${tokenIconUrl.replaceAll("ipfs://", '')}"
-                                          : tokenIconUrl)),
+                                          ? "https://ipfs.io/ipfs/${tokenInfo.imageUrl.replaceAll("ipfs://", '')}"
+                                          : tokenInfo.imageUrl)),
                                 ),
                               ),
                   ),
@@ -87,18 +80,13 @@ class HistoryTile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
-                              historyModel.sender!.address!
-                                      .contains(userAccountAddress)
+                              tokenInfo.isSent
                                   ? Icons.arrow_upward
                                   : Icons.arrow_downward,
-                              size: 18.sp,
+                              size: 14.sp,
                               color: ColorConst.NeutralVariant.shade60),
-                          Text(
-                              historyModel.sender!.address!
-                                      .contains(userAccountAddress)
-                                  ? ' Sent'
-                                  : ' Received',
-                              style: labelLarge.copyWith(
+                          Text(tokenInfo.isSent ? ' Sent' : ' Received',
+                              style: labelMedium.copyWith(
                                   color: ColorConst.NeutralVariant.shade60,
                                   fontWeight: FontWeight.w600)),
                         ],
@@ -108,8 +96,10 @@ class HistoryTile extends StatelessWidget {
                         child: SizedBox(
                           width: 180.sp,
                           child: Text(
-                            tokenName,
-                            style: labelLarge,
+                            tokenInfo.name,
+                            style: labelLarge.copyWith(
+                                letterSpacing: 0.5,
+                                fontWeight: FontWeight.w400),
                             softWrap: false,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -122,22 +112,20 @@ class HistoryTile extends StatelessWidget {
                   RichText(
                     textAlign: TextAlign.end,
                     text: TextSpan(
-                        text: isNft
-                            ? "$tokenSymbol\n"
-                            : "${tezAmount.toStringAsFixed(6)} $tokenSymbol\n",
+                        text: tokenInfo.isNft
+                            ? "${tokenInfo.tokenSymbol}\n"
+                            : "${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}\n",
                         style: labelSmall.copyWith(
                             color: ColorConst.NeutralVariant.shade60),
                         children: [
                           WidgetSpan(child: 0.02.vspace),
                           TextSpan(
-                            text: historyModel.sender!.address!
-                                    .contains(userAccountAddress)
-                                ? '- \$${(dollarAmount).toStringAsFixed(2)}'
-                                : '\$${(dollarAmount).toStringAsFixed(2)}',
+                            text: tokenInfo.isSent
+                                ? '- \$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'
+                                : '\$${(tokenInfo.dollarAmount).toStringAsFixed(2)}',
                             style: labelLarge.copyWith(
                                 fontWeight: FontWeight.w400,
-                                color: historyModel.sender!.address!
-                                        .contains(userAccountAddress)
+                                color: tokenInfo.isSent
                                     ? Colors.white
                                     : ColorConst.naanCustomColor),
                           )

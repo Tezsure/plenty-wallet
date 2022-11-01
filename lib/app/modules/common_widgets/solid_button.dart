@@ -88,7 +88,8 @@ class SolidButton extends StatelessWidget {
                       : Text(
                           title,
                           style: titleStyle ??
-                              titleSmall.apply(
+                              titleSmall.copyWith(
+                                  fontSize: 14.aR,
                                   color: active
                                       ? textColor ?? ColorConst.Neutral.shade100
                                       : ColorConst.NeutralVariant.shade60),

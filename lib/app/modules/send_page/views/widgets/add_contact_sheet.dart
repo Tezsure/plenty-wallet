@@ -45,19 +45,19 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
           TextPosition(offset: nameController.text.length));
     }
     return NaanBottomSheet(
-      height: widget.isTransactionContact ? 450.sp : 262.sp,
-      bottomSheetHorizontalPadding: 32,
+      height: widget.isTransactionContact ? 500.sp : 262.sp,
+      bottomSheetHorizontalPadding: 32.aR,
       blurRadius: 5,
       bottomSheetWidgets: [
         if (widget.isTransactionContact) ...[
-          0.02.vspace,
+          0.03.vspace,
           Center(
             child: Text(
               widget.isEditContact ? "Edit Contact" : 'Add Contact',
-              style: titleMedium,
+              style: titleMedium.copyWith(fontSize: 16.aR),
             ),
           ),
-          0.02.vspace,
+          0.03.vspace,
           Center(
             child: Container(
               height: 0.3.width,
@@ -76,12 +76,12 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                       barrierColor: Colors.transparent);
                 },
                 child: CircleAvatar(
-                  radius: 0.046.width,
+                  radius: 20.aR,
                   backgroundColor: Colors.white,
                   child: SvgPicture.asset(
                     "${PathConst.SVG}add_photo.svg",
                     fit: BoxFit.contain,
-                    height: 16.sp,
+                    height: 16.aR,
                   ),
                 ),
               ),
@@ -91,7 +91,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
           Center(
             child: Text(
               widget.contactModel.address,
-              style: labelSmall,
+              style: labelMedium.copyWith(fontSize: 12.aR),
             ),
           ),
         ] else
@@ -101,7 +101,10 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
           ),
         0.03.vspace,
         NaanTextfield(
-          hint: 'Enter Name',
+          height: 52.aR,
+          hint: 'Enter contact name',
+          hintTextSyle:
+              bodyMedium.copyWith(color: ColorConst.NeutralVariant.shade60),
           onTextChange: (val) {
             setState(() {});
           },
@@ -112,10 +115,10 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
             ? const SizedBox()
             : Text(
                 widget.contactModel.address,
-                style:
-                    labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+                style: labelSmall.copyWith(
+                    color: ColorConst.NeutralVariant.shade60),
               ),
-        0.025.vspace,
+        0.04.vspace,
         MaterialButton(
           color: nameController.text.isEmpty
               ? const Color(0xff1E1C1F)
@@ -155,17 +158,20 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
           },
           child: SizedBox(
             width: double.infinity,
-            height: 48.sp,
+            height: 50.aR,
             child: Center(
                 child: Text(
               widget.isTransactionContact ? "Add to contacts" : 'Add contact',
               style: titleSmall.copyWith(
+                  fontSize: 14.aR,
+                  fontWeight: FontWeight.w600,
                   color: nameController.text.isEmpty
                       ? ColorConst.NeutralVariant.shade60
                       : Colors.white),
             )),
           ),
         ),
+        0.04.vspace,
       ],
     );
   }
@@ -178,14 +184,14 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             color: Colors.black),
         width: 1.width,
-        height: 200.sp,
-        padding: EdgeInsets.symmetric(horizontal: 16.sp),
+        height: 250.aR,
+        padding: EdgeInsets.symmetric(horizontal: 16.aR),
         child: Column(
           children: [
             0.005.vspace,
             Container(
-              height: 5.sp,
-              width: 36.sp,
+              height: 5.aR,
+              width: 36.aR,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
@@ -195,7 +201,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
             Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(
-                horizontal: 12.sp,
+                horizontal: 12.aR,
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
@@ -219,11 +225,11 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 40.sp,
+                      height: 40.aR,
                       alignment: Alignment.center,
                       child: Text(
                         "Choose from Library",
-                        style: labelMedium,
+                        style: labelMedium.copyWith(fontSize: 12.aR),
                       ),
                     ),
                   ),
@@ -238,11 +244,11 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 40.sp,
+                      height: 40.aR,
                       alignment: Alignment.center,
                       child: Text(
                         "Pick an avatar",
-                        style: labelMedium,
+                        style: labelMedium.copyWith(fontSize: 12.aR),
                       ),
                     ),
                   ),
@@ -255,12 +261,12 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                     onTap: () {},
                     child: Container(
                       width: double.infinity,
-                      height: 40.sp,
+                      height: 40.aR,
                       alignment: Alignment.center,
                       child: Text(
                         "Remove photo",
-                        style:
-                            labelMedium.apply(color: ColorConst.Error.shade60),
+                        style: labelMedium.copyWith(
+                            color: ColorConst.Error.shade60, fontSize: 12.aR),
                       ),
                     ),
                   ),
@@ -269,19 +275,20 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
             ),
             0.016.vspace,
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.sp),
+              padding: EdgeInsets.symmetric(horizontal: 16.aR),
               child: GestureDetector(
                 onTap: () => Get.back(),
                 child: Container(
-                  height: 40.sp,
+                  height: 40.aR,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.aR),
                     color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                   ),
                   child: Text(
                     "Cancel",
-                    style: labelMedium.apply(color: Colors.white),
+                    style: labelMedium.copyWith(
+                        fontSize: 12.aR, color: Colors.white),
                   ),
                 ),
               ),

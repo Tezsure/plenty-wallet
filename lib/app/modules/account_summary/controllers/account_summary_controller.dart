@@ -217,7 +217,7 @@ class AccountSummaryController extends GetxController {
     _pinnedTokens = userTokens.indexWhere((element) => !element.isPinned);
     _hiddenTokens = userTokens.indexWhere((element) => element.isHidden);
     _pinnedTokens = _pinnedTokens < 0 ? userTokens.length : _pinnedTokens;
-    minTokens.value = min(4, userTokens.length);
+    minTokens.value = min(4, userTokens.length); // setting the default value
     minTokens.value = max<int>(_pinnedTokens,
         minTokens.value); // Either show default tokens or pinned tokens
     pinnedList.value = userTokens.sublist(0, minTokens.value);
