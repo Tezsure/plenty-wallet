@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/enums/enums.dart';
+import 'package:naan_wallet/app/modules/beacon_bottom_sheet/widgets/account_selector/account_selector.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -60,14 +64,72 @@ class PairRequestView extends GetView<PairRequestController> {
             ),
             Padding(
               padding: const EdgeInsets.all(4),
-              child: Container(
-                height: 36,
-                width: 0.6.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: ColorConst.darkGrey,
-                ),
-                child: Center(child: Text("Account 1", style: bodyMedium)),
+              child: InkWell(
+                onTap: () {
+                  controller.changeAccount();
+                },
+                child: Obx(() => Container(
+                      height: 42,
+                      width: 0.5.width,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: ColorConst.grey,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                        color: ColorConst.darkGrey,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Container(
+                              height: 0.06.width,
+                              width: 0.06.width,
+                              alignment: Alignment.bottomRight,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: controller
+                                              .accountModels[controller
+                                                  .selectedAccount.value]
+                                              .imageType ==
+                                          AccountProfileImageType.assets
+                                      ? AssetImage(controller
+                                          .accountModels[
+                                              controller.selectedAccount.value]
+                                          .profileImage
+                                          .toString())
+                                      : FileImage(
+                                          File(
+                                            controller
+                                                .accountModels[controller
+                                                    .selectedAccount.value]
+                                                .profileImage
+                                                .toString(),
+                                          ),
+                                        ) as ImageProvider,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Text(
+                              controller
+                                  .accountModels[
+                                      controller.selectedAccount.value]
+                                  .name
+                                  .toString(),
+                              style: titleSmall.copyWith(
+                                  fontWeight: FontWeight.w500)),
+                          const Icon(
+                            Icons.keyboard_arrow_right_rounded,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                    )),
               ),
             ),
             Expanded(

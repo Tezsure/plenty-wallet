@@ -18,8 +18,26 @@ class PayloadRequestController extends GetxController {
 
   final beaconPlugin = Get.find<BeaconService>().beaconPlugin;
 
-  final RxList<AccountModel> accountModels =
-      Get.find<HomePageController>().userAccounts;
+  Rx<AccountModel>? accountModel;
+
+  @override
+  void onInit() async {
+    accountModel = Get.find<HomePageController>()
+        .userAccounts
+        .firstWhere((element) =>
+            element.publicKeyHash == beaconRequest.request!.sourceAddress)
+        .obs;
+    if (accountModel == null) {
+      beaconPlugin.signPayloadResponse(
+        id: beaconRequest.request!.id!,
+        signature: null,
+      );
+      Get.back();
+      Get.snackbar('Error', 'Connect wallet not found',
+          backgroundColor: ColorConst.Error, colorText: Colors.white);
+    }
+    super.onInit();
+  }
 
   confirm() async {
     try {
@@ -30,13 +48,13 @@ class PayloadRequestController extends GetxController {
                 signer: Dartez.createSigner(
                     Dartez.writeKeyWithHint(
                         (await UserStorageService().readAccountSecrets(
-                                accountModels[0].publicKeyHash!))!
+                                accountModel!.value.publicKeyHash!))!
                             .secretKey,
-                        accountModels[0].publicKeyHash!.startsWith("tz2")
+                        accountModel!.value.publicKeyHash!.startsWith("tz2")
                             ? 'spsk'
                             : 'edsk'),
                     signerCurve:
-                        accountModels[0].publicKeyHash!.startsWith("tz2")
+                        accountModel!.value.publicKeyHash!.startsWith("tz2")
                             ? SignerCurve.SECP256K1
                             : SignerCurve.ED25519),
                 payload: beaconRequest.request!.payload!),

@@ -1,12 +1,10 @@
 import 'dart:convert';
 
 import 'package:beacon_flutter/models/beacon_request.dart';
-import 'package:beacon_flutter/models/operation_details.dart';
 import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
-import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_render_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/operation_service/operation_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
@@ -22,31 +20,33 @@ class OpreationRequestController extends GetxController {
 
   final beaconPlugin = Get.find<BeaconService>().beaconPlugin;
 
-  final RxList<AccountModel> accountModels =
-      Get.find<HomePageController>().userAccounts;
-  final dollarPrice = 0.0.obs;
+  Rx<AccountModel>? accountModels;
 
   final error = "".obs;
+
+  final dollarPrice = 0.0.obs;
 
   RxMap<String, dynamic> operation = <String, dynamic>{}.obs;
 
   final amount = "0".obs;
 
-  final fees = "0".obs;
+  final fees = "0.023".obs;
 
   @override
   void onInit() async {
     try {
-      if (beaconRequest.operationDetails != null) {
+      accountModels = Get.find<HomePageController>()
+          .userAccounts
+          .firstWhere((element) =>
+              element.publicKeyHash == beaconRequest.request!.sourceAddress)
+          .obs;
+
+      if (beaconRequest.operationDetails != null && accountModels != null) {
         DataHandlerService()
             .renderService
             .xtzPriceUpdater
             .registerCallback((value) {
           dollarPrice.value = value;
-          fees.value = (((beaconRequest.operationDetails!
-                  .map((e) => e.fee == null ? 0 : int.parse(e.fee!))
-                  .reduce((int value, int element) => value + element))))
-              .toString();
 
           amount.value = (beaconRequest.operationDetails!
                       .map((e) => e.amount == null ? 0 : int.parse(e.amount!))
@@ -74,12 +74,12 @@ class OpreationRequestController extends GetxController {
             ServiceConfig.currentSelectedNode,
             KeyStoreModel(
               publicKey: (await UserStorageService()
-                      .readAccountSecrets(accountModels[0].publicKeyHash!))!
+                      .readAccountSecrets(accountModels!.value.publicKeyHash!))!
                   .publicKey,
               secretKey: (await UserStorageService()
-                      .readAccountSecrets(accountModels[0].publicKeyHash!))!
+                      .readAccountSecrets(accountModels!.value.publicKeyHash!))!
                   .secretKey,
-              publicKeyHash: accountModels[0].publicKeyHash!,
+              publicKeyHash: accountModels!.value.publicKeyHash!,
             ));
         print("operation ${operation.toString()}");
       } else {
@@ -102,7 +102,7 @@ class OpreationRequestController extends GetxController {
 
       final Map response = await beaconPlugin.operationResponse(
         id: beaconRequest.request!.id!,
-        transactionHash: txHash,
+        transactionHash: txHash.toString().replaceAll('\n', ''),
       );
 
       final bool success = json.decode(response['success'].toString()) as bool;
