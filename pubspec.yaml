@@ -22,7 +22,7 @@ dependencies:
   dartez:
     git:
       url: https://github.com/AniketSindhu/Dartez.git
-      ref: 70910d375c03616da46b291da8d4bf7451c67ca0
+      ref: 6c448d79219eb2453a86f13768e3c89fe0727b26
   local_auth: ^2.1.2
   image_picker: ^0.8.5+3
   path_provider: ^2.0.11
@@ -31,10 +31,7 @@ dependencies:
   hex: ^0.2.0
   shimmer: ^2.0.0
   flutter_inappwebview: ^5.7.1
-  beacon_flutter:
-    git:
-      url: https://github.com/Tezsure/beacon_flutter_naan.git
-      ref: 7b6fc9ff79c614d215af9ab2cfc16a761f583f9a
+  beacon_flutter: ^1.0.6
 
 dev_dependencies:
   flutter_test:

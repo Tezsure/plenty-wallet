@@ -1,3 +1,3 @@
 class AppConstant {
-  static const String defaultUrl = 'https://www.naanwallet.com/dapp.html';
+  static const String defaultUrl = 'https://dapps-naan.netlify.app/';
 }

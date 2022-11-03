@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -124,6 +123,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                     if (!data.endsWith("}"))
                       data = data.substring(0, data.lastIndexOf('}') + 1);
                     var baseData = jsonDecode(data); */
+                    print("got here $uri");
                     await this
                         .controller
                         .beaconPlugin

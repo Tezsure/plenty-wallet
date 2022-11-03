@@ -30,7 +30,7 @@ class OpreationRequestController extends GetxController {
 
   final amount = "0".obs;
 
-  final fees = "0.023".obs;
+  final fees = "calculating...".obs;
 
   @override
   void onInit() async {
@@ -47,13 +47,11 @@ class OpreationRequestController extends GetxController {
             .xtzPriceUpdater
             .registerCallback((value) {
           dollarPrice.value = value;
-
           amount.value = (beaconRequest.operationDetails!
                       .map((e) => e.amount == null ? 0 : int.parse(e.amount!))
                       .reduce((int value, int element) => value + element) /
                   pow(10, 6))
               .toString();
-          print("amount $amount fees $fees dollar $dollarPrice");
         });
 
         var operationModels = beaconRequest.operationDetails!.map((e) {
@@ -69,7 +67,7 @@ class OpreationRequestController extends GetxController {
                           : e.parameters))));
         }).toList();
 
-        operation.value = await OperationService().preApplyOperationBatch(
+        var op = await OperationService().preApplyOperationBatch(
             operationModels,
             ServiceConfig.currentSelectedNode,
             KeyStoreModel(
@@ -81,13 +79,19 @@ class OpreationRequestController extends GetxController {
                   .secretKey,
               publicKeyHash: accountModels!.value.publicKeyHash!,
             ));
+        operation.value = op['opPair'];
+        fees.value =
+            ((int.parse(op['gasEstimation']) / pow(10, 6)) * dollarPrice.value)
+                .toStringAsFixed(4);
         print("operation ${operation.toString()}");
       } else {
         error.value = "Operation details is null";
+        fees.value = "0.0";
         throw Exception("Operation details is null");
       }
     } catch (e) {
       error.value = "Error: $e";
+      fees.value = "0.0";
       print("errorc $e");
     }
     super.onInit();
