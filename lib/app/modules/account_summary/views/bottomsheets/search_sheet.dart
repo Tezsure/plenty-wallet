@@ -23,10 +23,19 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   FocusNode focusNode = FocusNode();
   TextEditingController searchController = TextEditingController();
   TransactionController controller = Get.find<TransactionController>();
-  List<TokenInfo?> searchResult = [];
+  ScrollController paginationController = ScrollController();
+  String searchQuery = '';
 
   @override
   void initState() {
+    paginationController.removeListener(() {});
+    paginationController.addListener(() async {
+      if (paginationController.position.pixels ==
+          paginationController.position.maxScrollExtent) {
+        await controller.loadSearchResults(searchQuery);
+        setState(() {});
+      }
+    });
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
         setState(() {});
@@ -95,11 +104,12 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                                   if (controller.searchDebounceTimer != null) {
                                     controller.searchDebounceTimer!.cancel();
                                   }
-                                  controller.searchDebounceTimer = Timer(
-                                      const Duration(milliseconds: 250), () {
-                                    searchResult =
-                                        controller.searchTransactionHistory(
-                                            value.toLowerCase());
+                                  controller.searchDebounceTimer =
+                                      Timer(const Duration(milliseconds: 250),
+                                          () async {
+                                    searchQuery = value.toLowerCase();
+                                    await controller
+                                        .searchTransactionHistory(searchQuery);
                                     setState(() {});
                                   });
                                 }),
@@ -150,7 +160,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                               setState(() {
                                 searchController.clear();
                                 focusNode.unfocus();
-                                searchResult.clear();
+                                controller.searchTransactionList.clear();
                               });
                             },
                             child: Text(
@@ -162,7 +172,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                         ),
                       ],
                     ),
-                    searchController.text.isEmpty || searchResult.isEmpty
+                    searchController.text.isEmpty ||
+                            controller.searchTransactionList.isEmpty
                         ? Center(
                             child: Padding(
                               padding: EdgeInsets.only(top: 44.sp),
@@ -178,24 +189,25 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                           )
                         : Expanded(
                             child: CustomScrollView(
-                            controller: scrollController,
-                            // controller: controller.paginationController.value,
+                            controller: paginationController,
                             physics: const BouncingScrollPhysics(),
                             slivers: [
                               SliverList(
                                 delegate: SliverChildBuilderDelegate(
                                   (context, index) {
-                                    if (searchResult[index] == null) {
-                                      return const SizedBox();
-                                    } else {
-                                      return searchResult[index]!.skip ||
-                                              searchResult[index]!.isHashSame ==
-                                                  true
-                                          ? const SizedBox()
-                                          : tokenLoader(index);
-                                    }
+                                    return controller
+                                                .searchTransactionList[index]
+                                                .skip ||
+                                            controller
+                                                    .searchTransactionList[
+                                                        index]
+                                                    .isHashSame ==
+                                                true
+                                        ? const SizedBox()
+                                        : tokenLoader(index);
                                   },
-                                  childCount: searchResult.length,
+                                  childCount:
+                                      controller.searchTransactionList.length,
                                 ),
                               ),
                             ],
@@ -217,16 +229,17 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   child: Text(
                     DateFormat.MMMM()
                         // displaying formatted date
-                        .format(DateTime.parse(
-                            searchResult[index]!.token!.timestamp!)),
+                        .format(DateTime.parse(controller
+                            .searchTransactionList[index].token!.timestamp!)),
                     style: labelLarge,
                   ),
                 )
-              : DateTime.parse(searchResult[index]!.token!.timestamp!)
-                      .isSameMonth(DateTime.parse(
-                          searchResult[index == 0 ? 0 : index - 1]!
-                              .token!
-                              .timestamp!))
+              : DateTime.parse(controller
+                          .searchTransactionList[index].token!.timestamp!)
+                      .isSameMonth(DateTime.parse(controller
+                          .searchTransactionList[index == 0 ? 0 : index - 1]
+                          .token!
+                          .timestamp!))
                   ? const SizedBox()
                   : Padding(
                       padding: EdgeInsets.only(
@@ -234,19 +247,21 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                       child: Text(
                         DateFormat.MMMM()
                             // displaying formatted date
-                            .format(DateTime.parse(
-                                searchResult[index]!.token!.timestamp!)),
+                            .format(DateTime.parse(controller
+                                .searchTransactionList[index]
+                                .token!
+                                .timestamp!)),
                         style: labelLarge,
                       ),
                     ),
           HistoryTile(
-            tokenInfo: searchResult[index]!,
+            tokenInfo: controller.searchTransactionList[index],
             xtzPrice: controller.accController.xtzPrice.value,
             onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
-              tokenInfo: searchResult[index]!,
+              tokenInfo: controller.searchTransactionList[index],
               userAccountAddress:
                   controller.accController.userAccount.value.publicKeyHash!,
-              transactionModel: searchResult[index]!.token!,
+              transactionModel: controller.searchTransactionList[index].token!,
             )),
           ),
         ],

@@ -98,7 +98,6 @@ class AccountSummaryController extends GetxController {
           ? null
           : userTokens.insert(0, tezos);
     }
-
     _tokenSort();
     _updateUserTokenList();
   }

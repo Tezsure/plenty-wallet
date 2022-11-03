@@ -22,6 +22,7 @@ import 'package:naan_wallet/utils/utils.dart';
 import '../../../../../utils/constants/path_const.dart';
 import '../../../../data/services/service_config/service_config.dart';
 import '../../controllers/transaction_controller.dart';
+import '../../models/token_info.dart';
 
 class TransactionDetailsBottomSheet extends GetView<TransactionController> {
   final TxHistoryModel transactionModel;

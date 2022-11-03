@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../utils/colors/colors.dart';
 import '../../../../../../utils/styles/styles.dart';
+import '../../../models/token_info.dart';
 
 class HistoryTile extends StatelessWidget {
   final VoidCallback? onTap;

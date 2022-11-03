@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/account_summary/models/token_info.dart';
 
-import '../../../../utils/constants/path_const.dart';
 import '../../../data/services/service_config/service_config.dart';
 import '../../../data/services/service_models/contact_model.dart';
 import '../../../data/services/user_storage_service/user_storage_service.dart';
@@ -16,7 +16,6 @@ import 'history_filter_controller.dart';
 
 class TransactionController extends GetxController {
   final accController = Get.find<AccountSummaryController>();
-  RxList<TokenInfo> tokenInfoList = <TokenInfo>[].obs;
 
   RxList<TxHistoryModel> userTransactionHistory =
       <TxHistoryModel>[].obs; // List of user transactions
@@ -26,11 +25,10 @@ class TransactionController extends GetxController {
   RxBool isFilterApplied = false.obs;
   Timer? searchDebounceTimer;
   Set<String> tokenTransactionID = <String>{};
-  RxList<TokenInfo> filteredTokenList = <TokenInfo>[].obs;
+  RxList<TokenInfo> filteredTransactionList = <TokenInfo>[].obs;
 
   @override
   void onInit() {
-    tokenInfoList.clear();
     updateSavedContacts();
     super.onInit();
   }
@@ -41,20 +39,79 @@ class TransactionController extends GetxController {
     super.onClose();
   }
 
-  List<TokenInfo> tokenTransactionList = <TokenInfo>[];
+  RxBool isTransactionLoading = false.obs;
+  List<TokenInfo> defaultTransactionList = <TokenInfo>[];
   static final Set<String> _tokenTransactionID = <String>{};
 
   /// Loades the user transaction history, and updates the UI after user taps on history tab
   Future<void> userTransactionLoader() async {
-    late TokenInfo tokenInfo;
-    String? isHashSame;
-    HistoryFilterController? historyFilterController;
-    tokenTransactionList.clear();
+    defaultTransactionList.clear();
     _tokenTransactionID.clear();
     paginationController.value.removeListener(() {});
-    userTransactionHistory.value =
-        await fetchUserTransactionsHistory(limit: 40);
-    for (var tx in userTransactionHistory) {
+    userTransactionHistory.value = await fetchUserTransactionsHistory();
+    defaultTransactionList.addAll(_sortTransaction(userTransactionHistory));
+    // Lazy Loading
+    paginationController.value.addListener(() async {
+      if (paginationController.value.position.pixels ==
+          paginationController.value.position.maxScrollExtent) {
+        if (Get.isRegistered<HistoryFilterController>()) {
+          if (noMoreResults.isFalse) {
+            await loadFilteredTransaction();
+          }
+        } else {
+          if (noMoreResults.isFalse) {
+            await loadMoreTransaction();
+          }
+        }
+      }
+    });
+  }
+
+  RxList<TokenInfo> searchTransactionList = <TokenInfo>[].obs;
+  Future<void> loadSearchResults(String searchName) async {
+    var loadMoreTransaction = await fetchUserTransactionsHistory(
+        lastId: searchTransactionList.last.token!.lastid.toString());
+    searchTransactionList.addAll(_sortTransaction(loadMoreTransaction)
+        .where(
+            (element) => element.name.isCaseInsensitiveContainsAny(searchName))
+        .toList());
+  }
+
+  Future<void> loadFilteredTransaction() async {
+    var historyFilterController = Get.find<HistoryFilterController>();
+    isTransactionLoading.value = true;
+
+    var loadMoreTransaction = filteredTransactionList.isNotEmpty
+        ? await fetchUserTransactionsHistory(
+            lastId: filteredTransactionList.last.token!.lastid.toString())
+        : <TxHistoryModel>[];
+    loadMoreTransaction.isEmpty
+        ? noMoreResults.value = true
+        : noMoreResults.value = false;
+    filteredTransactionList.addAll(historyFilterController.fetchFilteredList(
+        nextHistoryList: _sortTransaction(loadMoreTransaction)));
+    isTransactionLoading.value = false;
+  }
+
+  Future<void> loadMoreTransaction() async {
+    isTransactionLoading.value = true;
+    var loadMoreTransaction = await fetchUserTransactionsHistory(
+        lastId: userTransactionHistory.last.lastid.toString());
+    loadMoreTransaction.isEmpty
+        ? noMoreResults.value = true
+        : noMoreResults.value = false;
+    userTransactionHistory.addAll(loadMoreTransaction);
+    defaultTransactionList.addAll(_sortTransaction(loadMoreTransaction));
+    isTransactionLoading.value = false;
+  }
+
+  RxBool noMoreResults = false.obs;
+
+  List<TokenInfo> _sortTransaction(List<TxHistoryModel> transactionList) {
+    List<TokenInfo> sortedTransactionList = <TokenInfo>[];
+    late TokenInfo tokenInfo;
+    String? isHashSame;
+    for (var tx in transactionList) {
       tokenInfo = TokenInfo(
         isHashSame: isHashSame == null ? false : tx.hash!.contains(isHashSame),
         token: tx,
@@ -78,7 +135,7 @@ class TransactionController extends GetxController {
           if (tx.isNft) {
             tokenInfo = tokenInfo.copyWith(
               isNft: true,
-              nftContractAddress: tx.target!.address!,
+              address: tx.target!.address!,
               nftTokenId: tx.nftTokenId,
             );
           } else {
@@ -113,34 +170,21 @@ class TransactionController extends GetxController {
       }
       // For delegation transaction
       else if (tx.type!.toLowerCase().contains("delegation")) {
-        tokenInfo = tokenInfo.copyWith(isDelegated: true, token: tx);
+        tokenInfo = tokenInfo.copyWith(
+          isDelegated: true,
+          token: tx,
+          name: tx.newDelegate!.alias!,
+          address: tx.newDelegate!.address!,
+        );
       } else {
         tokenInfo = tokenInfo.copyWith(skip: true);
       }
-      tokenTransactionList.addIf(
+      sortedTransactionList.addIf(
           !_tokenTransactionID.contains(tx.lastid.toString()), tokenInfo);
       _tokenTransactionID.add(tx.lastid.toString());
     }
-
-    // Lazy Loading
-    paginationController.value.addListener(() async {
-      if (paginationController.value.position.pixels ==
-          paginationController.value.position.maxScrollExtent) {
-        if (Get.isRegistered<HistoryFilterController>()) {
-          historyFilterController = Get.find<HistoryFilterController>();
-          userTransactionHistory.addAll(await historyFilterController!
-              .fetchFilteredList(
-                  nextHistoryList: await fetchUserTransactionsHistory(
-                      lastId: userTransactionHistory.last.lastid.toString())));
-        } else {
-          userTransactionHistory.addAll(await fetchUserTransactionsHistory(
-              lastId: userTransactionHistory.last.lastid.toString()));
-        }
-      }
-    });
+    return sortedTransactionList;
   }
-
-  // ! Transaction History Related Functions
 
   /// Fetches user account transaction history
   Future<List<TxHistoryModel>> fetchUserTransactionsHistory(
@@ -150,10 +194,18 @@ class TransactionController extends GetxController {
           lastId: lastId,
           limit: limit);
 
-  List<TokenInfo?> searchTransactionHistory(String searchKey) =>
-      tokenTransactionList
+  Future<void> searchTransactionHistory(String searchKey) async {
+    searchTransactionList.value = defaultTransactionList
+        .where((p0) => p0.name.isCaseInsensitiveContainsAny(searchKey))
+        .toList();
+    while (searchTransactionList.length < 10 && noMoreResults.isFalse) {
+      await loadMoreTransaction();
+      searchTransactionList.value = defaultTransactionList
           .where((p0) => p0.name.isCaseInsensitiveContainsAny(searchKey))
           .toList();
+    }
+    noMoreResults.value = false;
+  }
 
   RxList<ContactModel> contacts = <ContactModel>[].obs;
   Rx<ContactModel?>? contact;
@@ -176,77 +228,6 @@ class TransactionController extends GetxController {
         imagePath: ServiceConfig.allAssetsProfileImages[Random().nextInt(
           ServiceConfig.allAssetsProfileImages.length - 1,
         )]));
-  }
-}
-
-class TokenInfo {
-  final String name;
-  final String imageUrl;
-  final bool isNft;
-  final bool skip;
-  final double tokenAmount;
-  final double dollarAmount;
-  final String tokenSymbol;
-  final String lastId;
-  final bool isSent;
-  final TxHistoryModel? token;
-  final bool isDelegated;
-  final String? nftContractAddress;
-  final String? nftTokenId;
-  final bool? isHashSame;
-  final DateTime? timeStamp;
-
-  TokenInfo({
-    this.name = "Tezos",
-    this.imageUrl = "${PathConst.ASSETS}tezos_logo.png",
-    this.isNft = false,
-    this.skip = false,
-    this.dollarAmount = 0,
-    this.tokenSymbol = "tez",
-    this.tokenAmount = 0,
-    this.lastId = "",
-    this.token,
-    this.isDelegated = false,
-    this.nftContractAddress,
-    this.nftTokenId,
-    this.isSent = false,
-    this.isHashSame = false,
-    this.timeStamp,
-  });
-
-  TokenInfo copyWith({
-    String? name,
-    String? imageUrl,
-    bool? isNft,
-    bool? skip,
-    double? tokenAmount,
-    double? dollarAmount,
-    String? tokenSymbol,
-    String? lastId,
-    bool? isReceived,
-    TxHistoryModel? token,
-    bool? isDelegated,
-    String? nftContractAddress,
-    String? nftTokenId,
-    bool? isHashSame = false,
-    DateTime? timeStamp,
-  }) {
-    return TokenInfo(
-        name: name ?? this.name,
-        imageUrl: imageUrl ?? this.imageUrl,
-        isNft: isNft ?? this.isNft,
-        skip: skip ?? this.skip,
-        tokenAmount: tokenAmount ?? this.tokenAmount,
-        dollarAmount: dollarAmount ?? this.dollarAmount,
-        tokenSymbol: tokenSymbol ?? this.tokenSymbol,
-        lastId: lastId ?? this.lastId,
-        isSent: isReceived ?? isSent,
-        token: token ?? this.token,
-        isDelegated: isDelegated ?? this.isDelegated,
-        nftContractAddress: nftContractAddress ?? this.nftContractAddress,
-        nftTokenId: nftTokenId ?? this.nftTokenId,
-        isHashSame: isHashSame ?? this.isHashSame,
-        timeStamp: timeStamp ?? this.timeStamp);
   }
 }
 

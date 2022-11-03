@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 
-import '../../../data/services/service_models/tx_history_model.dart';
+import '../models/token_info.dart';
 
 class HistoryFilterController extends GetxController {
   final accountController = Get.find<TransactionController>();
 
-  Rx<AssetType> assetType = AssetType.token.obs;
-  Rx<TransactionType> transactionType = TransactionType.delegation.obs;
+  Rx<AssetType> assetType = AssetType.all.obs;
+  Rx<TransactionType> transactionType = TransactionType.all.obs;
   Rx<DateType> dateType = DateType.none.obs;
 
   Rx<DateTime> fromDate =
@@ -40,24 +40,20 @@ class HistoryFilterController extends GetxController {
   }
 
   Future<void> clear() async {
-    accountController.filteredTokenList.clear();
+    accountController.filteredTransactionList.clear();
     assetType.value = AssetType.all;
     transactionType.value = TransactionType.all;
     dateType.value = DateType.none;
-    accountController.userTransactionHistory.value =
-        await accountController.fetchUserTransactionsHistory();
-    accountController.userTransactionHistory.refresh();
+    accountController.noMoreResults.value = false;
     accountController.isFilterApplied.value = false;
     Get.back();
   }
 
-  void apply() async {
-    accountController.isFilterApplied.value = true;
+  List<TokenInfo> _applyFilter(List<TokenInfo> transactions) {
     DateTime time = DateTime.now();
-    List<TokenInfo> filteredList = accountController.tokenTransactionList;
     switch (dateType.value) {
       case DateType.today:
-        filteredList = filteredList
+        transactions = transactions
             .where((e) =>
                 (DateTime(
                     e.timeStamp!.year, e.timeStamp!.month, e.timeStamp!.day)) ==
@@ -65,7 +61,7 @@ class HistoryFilterController extends GetxController {
             .toList();
         break;
       case DateType.currentMonth:
-        filteredList = filteredList
+        transactions = transactions
             .where((e) =>
                 (DateTime.now().month == e.timeStamp!.month) &&
                 (DateTime.now().year == e.timeStamp!.year) &&
@@ -73,7 +69,7 @@ class HistoryFilterController extends GetxController {
             .toList();
         break;
       case DateType.last3Months:
-        filteredList = filteredList
+        transactions = transactions
             .where((e) =>
                 (DateTime.now().month - 3 <= e.timeStamp!.month) &&
                 (DateTime.now().year == e.timeStamp!.year) &&
@@ -81,7 +77,7 @@ class HistoryFilterController extends GetxController {
             .toList();
         break;
       case DateType.customDate:
-        filteredList = filteredList
+        transactions = transactions
             .where((e) =>
                 (e.timeStamp!.isAfter(fromDate.value)) &&
                 (e.timeStamp!.isBefore(toDate.value)))
@@ -92,98 +88,39 @@ class HistoryFilterController extends GetxController {
     }
     switch (transactionType.value) {
       case TransactionType.delegation:
-        filteredList = filteredList.where((e) => e.isDelegated).toList();
+        transactions = transactions.where((e) => e.isDelegated).toList();
         break;
       case TransactionType.receive:
-        filteredList = filteredList.where((e) => !e.isSent).toList();
+        transactions = transactions.where((e) => !e.isSent).toList();
         break;
       case TransactionType.send:
-        filteredList = filteredList.where((e) => e.isSent).toList();
+        transactions = transactions.where((e) => e.isSent).toList();
         break;
       default:
     }
     switch (assetType.value) {
       case AssetType.token:
-        filteredList = filteredList.where((e) => !e.isNft).toList();
+        transactions = transactions.where((e) => !e.isNft).toList();
         break;
       case AssetType.nft:
-        filteredList = filteredList.where((e) => e.isNft).toList();
+        transactions = transactions.where((e) => e.isNft).toList();
         break;
       default:
     }
-    accountController.filteredTokenList.value = filteredList;
-    accountController.filteredTokenList.refresh();
-    // accountController.userTransactionHistory.value =
-    //     await accountController.fetchUserTransactionsHistory(
-    //   limit: 200,
-    // );
+    return transactions;
+  }
 
+  void apply() async {
+    accountController.isFilterApplied.value = true;
+    accountController.filteredTransactionList.value =
+        _applyFilter(accountController.defaultTransactionList);
+    accountController.filteredTransactionList.refresh();
     Get.back();
   }
 
-  Future<List<TxHistoryModel>> fetchFilteredList(
-      {required List<TxHistoryModel> nextHistoryList}) async {
-    if (accountController.isFilterApplied.isTrue) {
-      if (dateType.value == DateType.today) {
-        nextHistoryList = nextHistoryList.where((element) {
-          DateTime elementTime = DateTime.parse(element.timestamp!);
-          return (DateTime(
-                  elementTime.year, elementTime.month, elementTime.day)) ==
-              (DateTime(DateTime.now().year, DateTime.now().month,
-                  DateTime.now().day));
-        }).toList();
-      } else if (dateType.value == DateType.currentMonth) {
-        nextHistoryList = nextHistoryList.where((element) {
-          DateTime elementTime = DateTime.parse(element.timestamp!);
-          return (DateTime.now().month == elementTime.month) &&
-              (DateTime.now().year == elementTime.year) &&
-              (elementTime.day <= 31);
-        }).toList();
-      } else if (dateType.value == DateType.last3Months) {
-        nextHistoryList = nextHistoryList.where((element) {
-          DateTime elementTime = DateTime.parse(element.timestamp!);
-          return (DateTime.now().month - 3 <= elementTime.month) &&
-              (DateTime.now().year == elementTime.year) &&
-              (elementTime.day <= 31);
-        }).toList();
-      } else if (dateType.value == DateType.customDate) {
-        nextHistoryList = nextHistoryList.where((element) {
-          DateTime elementTime = DateTime.parse(element.timestamp!);
-          return (elementTime.day >= fromDate.value.day) &&
-              (elementTime.month >= fromDate.value.month) &&
-              (elementTime.year >= fromDate.value.year) &&
-              (elementTime.day <= toDate.value.day) &&
-              (elementTime.month <= toDate.value.month) &&
-              (elementTime.year <= toDate.value.year);
-        }).toList();
-      }
-      // Filter the transaction list based on the selected transaction type
-      if (transactionType.value == TransactionType.delegation) {
-        nextHistoryList
-            .where((element) => element.type!.contains("Delegation"))
-            .toList();
-      } else if (transactionType.value == TransactionType.receive) {
-        nextHistoryList = nextHistoryList
-            .where((element) => !element.sender!.address!.contains(
-                accountController
-                    .accController.userAccount.value.publicKeyHash!))
-            .toList();
-      } else if (transactionType.value == TransactionType.send) {
-        nextHistoryList = nextHistoryList
-            .where((element) => element.sender!.address!.contains(
-                accountController
-                    .accController.userAccount.value.publicKeyHash!))
-            .toList();
-      }
-
-      // Filter the list depending on the selected asset type
-      if (assetType.value == AssetType.nft) {
-      } else if (assetType.value == AssetType.token) {}
-      return nextHistoryList;
-    } else {
-      return nextHistoryList;
-    }
-  }
+  List<TokenInfo> fetchFilteredList(
+          {required List<TokenInfo> nextHistoryList}) =>
+      _applyFilter(nextHistoryList);
 }
 
 enum AssetType { token, nft, all }

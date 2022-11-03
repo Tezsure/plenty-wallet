@@ -10,6 +10,7 @@ import '../../../../../utils/styles/styles.dart';
 import '../../../../data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
 import '../../../../data/services/service_models/nft_token_model.dart';
 import '../../controllers/transaction_controller.dart';
+import '../../models/token_info.dart';
 import '../bottomsheets/history_filter_sheet.dart';
 import '../bottomsheets/search_sheet.dart';
 import '../bottomsheets/transaction_details.dart';
@@ -99,42 +100,88 @@ class HistoryPage extends GetView<TransactionController> {
           controller.userTransactionHistory.isEmpty
               ? _emptyState
               : controller.isFilterApplied.value &&
-                      controller.filteredTokenList.isEmpty
+                      controller.filteredTransactionList.isEmpty
                   ? _emptyState
                   : SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
                           if (controller.isFilterApplied.isTrue) {
-                            return _loadTokenTransaction(
-                                controller.filteredTokenList[index],
-                                index,
-                                controller.filteredTokenList[index].timeStamp!
-                                    .isSameMonth(controller
-                                        .filteredTokenList[
-                                            index == 0 ? 0 : index - 1]
-                                        .timeStamp!));
+                            if (index ==
+                                controller.filteredTransactionList.length) {
+                              return controller.noMoreResults.isTrue
+                                  ? SizedBox(
+                                      height: 40.aR,
+                                      child: Center(
+                                        child: Text(
+                                          'No more results',
+                                          style: labelLarge.copyWith(
+                                              fontSize: 14.aR,
+                                              fontWeight: FontWeight.w400,
+                                              color: ColorConst
+                                                  .NeutralVariant.shade70),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox();
+                            } else {
+                              return _loadTokenTransaction(
+                                  controller.filteredTransactionList[index],
+                                  index,
+                                  controller
+                                      .filteredTransactionList[index].timeStamp!
+                                      .isSameMonth(controller
+                                          .filteredTransactionList[
+                                              index == 0 ? 0 : index - 1]
+                                          .timeStamp!));
+                            }
                           } else {
-                            return controller.tokenTransactionList[index].isNft
-                                ? _loadNFTTransaction(index)
-                                : controller.tokenTransactionList[index].skip ||
-                                        controller.tokenTransactionList[index]
-                                                .isHashSame ==
-                                            true
-                                    ? const SizedBox()
-                                    : _loadTokenTransaction(
-                                        controller.tokenTransactionList[index],
-                                        index,
-                                        controller.tokenTransactionList[index]
-                                            .timeStamp!
-                                            .isSameMonth(controller
-                                                .tokenTransactionList[
-                                                    index == 0 ? 0 : index - 1]
-                                                .timeStamp!));
+                            if (index ==
+                                controller.defaultTransactionList.length) {
+                              return controller.noMoreResults.isTrue
+                                  ? SizedBox(
+                                      height: 40.aR,
+                                      child: Center(
+                                        child: Text(
+                                          'No more results',
+                                          style: labelLarge.copyWith(
+                                              fontSize: 14.aR,
+                                              fontWeight: FontWeight.w400,
+                                              color: ColorConst
+                                                  .NeutralVariant.shade70),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox();
+                            } else {
+                              return controller
+                                      .defaultTransactionList[index].isNft
+                                  ? _loadNFTTransaction(index)
+                                  : controller.defaultTransactionList[index]
+                                              .skip ||
+                                          controller
+                                                  .defaultTransactionList[index]
+                                                  .isHashSame ==
+                                              true
+                                      ? const SizedBox()
+                                      : _loadTokenTransaction(
+                                          controller
+                                              .defaultTransactionList[index],
+                                          index,
+                                          controller
+                                              .defaultTransactionList[index]
+                                              .timeStamp!
+                                              .isSameMonth(controller
+                                                  .defaultTransactionList[
+                                                      index == 0
+                                                          ? 0
+                                                          : index - 1]
+                                                  .timeStamp!));
+                            }
                           }
                         },
                         childCount: controller.isFilterApplied.value
-                            ? controller.filteredTokenList.length
-                            : controller.tokenTransactionList.length,
+                            ? controller.filteredTransactionList.length + 1
+                            : controller.defaultTransactionList.length + 1,
                       ),
                     ),
         ],
@@ -215,16 +262,16 @@ class HistoryPage extends GetView<TransactionController> {
   Widget _loadNFTTransaction(int index) {
     return FutureBuilder(
         future: ObjktNftApiService().getTransactionNFT(
-            controller.tokenTransactionList[index].nftContractAddress!,
-            controller.tokenTransactionList[index].nftTokenId!),
+            controller.defaultTransactionList[index].nftContractAddress!,
+            controller.defaultTransactionList[index].nftTokenId!),
         builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
           if (!snapshot.hasData) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           } else {
-            controller.tokenTransactionList[index] =
-                controller.tokenTransactionList[index].copyWith(
+            controller.defaultTransactionList[index] =
+                controller.defaultTransactionList[index].copyWith(
                     isNft: true,
                     tokenSymbol: snapshot.data!.fa!.name!,
                     dollarAmount: (snapshot.data!.lowestAsk / 1e6) *
@@ -240,9 +287,9 @@ class HistoryPage extends GetView<TransactionController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DateTime.parse(controller
-                            .tokenTransactionList[index].token!.timestamp!)
+                            .defaultTransactionList[index].token!.timestamp!)
                         .isSameMonth(DateTime.parse(controller
-                            .tokenTransactionList[index == 0 ? 0 : index - 1]
+                            .defaultTransactionList[index == 0 ? 0 : index - 1]
                             .token!
                             .timestamp!))
                     ? const SizedBox()
@@ -253,21 +300,21 @@ class HistoryPage extends GetView<TransactionController> {
                           DateFormat.MMMM()
                               // displaying formatted date
                               .format(DateTime.parse(controller
-                                  .tokenTransactionList[index]
+                                  .defaultTransactionList[index]
                                   .token!
                                   .timestamp!)),
                           style: labelLarge,
                         ),
                       ),
                 HistoryTile(
-                  tokenInfo: controller.tokenTransactionList[index],
+                  tokenInfo: controller.defaultTransactionList[index],
                   xtzPrice: controller.accController.xtzPrice.value,
                   onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
-                    tokenInfo: controller.tokenTransactionList[index],
+                    tokenInfo: controller.defaultTransactionList[index],
                     userAccountAddress: controller
                         .accController.userAccount.value.publicKeyHash!,
                     transactionModel:
-                        controller.tokenTransactionList[index].token!,
+                        controller.defaultTransactionList[index].token!,
                   )),
                 ),
               ],
