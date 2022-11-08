@@ -31,7 +31,10 @@ dependencies:
   hex: ^0.2.0
   shimmer: ^2.0.0
   flutter_inappwebview: ^5.7.1
-  beacon_flutter: ^1.0.6
+  beacon_flutter:
+    git:
+      url: https://github.com/TalaoDAO/beacon.git
+      ref: 14d39d8ef1e038560316c15179278010fda92673
 
 dev_dependencies:
   flutter_test:

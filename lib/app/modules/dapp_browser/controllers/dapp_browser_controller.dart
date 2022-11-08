@@ -1,13 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:beacon_flutter/beacon_flutter.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
 
 class DappBrowserController extends GetxController {
   InAppWebViewController? webViewController;
+  WebStorageManager webStorageManager = WebStorageManager.instance();
   RxString url = ''.obs;
   var canGoBack = false.obs;
   var canGoForward = false.obs;

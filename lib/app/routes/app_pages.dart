@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/backup_wallet_page/bindings/backup_wallet_binding.dart';
 import '../modules/backup_wallet_page/views/backup_wallet_view.dart';
+import '../modules/beacon_bottom_sheet/biometric/bindings/biometric_binding.dart';
+import '../modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
 import '../modules/beacon_bottom_sheet/opreation_request/bindings/opreation_request_binding.dart';
 import '../modules/beacon_bottom_sheet/opreation_request/views/opreation_request_view.dart';
 import '../modules/beacon_bottom_sheet/pair_request/bindings/pair_request_binding.dart';
@@ -157,6 +159,11 @@ class AppPages {
       name: _Paths.OPREATION_REQUEST,
       page: () => const OpreationRequestView(),
       binding: OpreationRequestBinding(),
+    ),
+    GetPage(
+      name: _Paths.BIOMETRIC,
+      page: () => const BiometricView(),
+      binding: BiometricBinding(),
     ),
   ];
 }

@@ -27,6 +27,7 @@ abstract class Routes {
   static const PAIR_REQUEST = _Paths.PAIR_REQUEST;
   static const PAYLOAD_REQUEST = _Paths.PAYLOAD_REQUEST;
   static const OPREATION_REQUEST = _Paths.OPREATION_REQUEST;
+  static const BIOMETRIC = _Paths.BEACON_BOTTOM_SHEET + _Paths.BIOMETRIC;
 }
 
 abstract class _Paths {
@@ -52,4 +53,5 @@ abstract class _Paths {
   static const PAYLOAD_REQUEST = '/payload-request';
   static const OPREATION_REQUEST = '/opreation-request';
   static const BEACON_BOTTOM_SHEET = '/beacon-bottom-sheet';
+  static const BIOMETRIC = '/biometric';
 }

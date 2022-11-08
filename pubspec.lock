@@ -32,9 +32,11 @@ packages:
   beacon_flutter:
     dependency: "direct main"
     description:
-      name: beacon_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: "14d39d8ef1e038560316c15179278010fda92673"
+      resolved-ref: "14d39d8ef1e038560316c15179278010fda92673"
+      url: "https://github.com/TalaoDAO/beacon.git"
+    source: git
     version: "1.0.6"
   bip39:
     dependency: transitive

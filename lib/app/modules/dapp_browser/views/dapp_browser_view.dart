@@ -17,6 +17,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
   const DappBrowserView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.put(DappBrowserController());
     final GlobalKey webViewKey = GlobalKey();
     InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
         crossPlatform: InAppWebViewOptions(
@@ -44,7 +45,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
         }
       },
     );
-    Get.put(DappBrowserController());
+
     return Container(
       height: 0.95.height,
       width: 1.width,

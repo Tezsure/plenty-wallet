@@ -4,6 +4,7 @@ import 'package:beacon_flutter/models/beacon_request.dart';
 import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/operation_service/operation_service.dart';
@@ -11,6 +12,8 @@ import 'package:naan_wallet/app/data/services/service_config/service_config.dart
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/operation_batch_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
+import 'package:naan_wallet/app/modules/biometric_page/views/biometric_page_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'dart:math';
@@ -99,6 +102,32 @@ class OpreationRequestController extends GetxController {
 
   confirm() async {
     try {
+      AuthService authService = AuthService();
+      bool isBioEnabled = await authService.getBiometricAuth();
+
+      if (isBioEnabled) {
+        final bioResult = await Get.bottomSheet(const BiometricView(),
+            barrierColor: Colors.white.withOpacity(0.09),
+            isScrollControlled: true,
+            settings: RouteSettings(arguments: isBioEnabled));
+        if (bioResult == null) {
+          return;
+        }
+        if (!bioResult) {
+          return;
+        }
+      } else {
+        var isValid = await Get.toNamed('/passcode-page', arguments: [
+          true,
+        ]);
+        if (isValid == null) {
+          return;
+        }
+        if (!isValid) {
+          return;
+        }
+      }
+
       final txHash = await OperationService()
           .injectOperation(operation, ServiceConfig.currentSelectedNode);
 

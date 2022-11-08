@@ -209,15 +209,30 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                         child: Obx(
                                           () => (Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                vertical: 4, horizontal: 14),
+                                                vertical: 4, horizontal: 20),
                                             child: controller.operation.isEmpty
                                                 ? const CircularProgressIndicator(
                                                     color: Colors.white,
                                                   )
-                                                : Text(
-                                                    'Confirm',
-                                                    style: bodyMedium.copyWith(
-                                                        color: Colors.white),
+                                                : Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      const Icon(
+                                                        Icons
+                                                            .fingerprint_rounded,
+                                                        color: Colors.white,
+                                                        size: 24,
+                                                      ),
+                                                      Text(
+                                                        'Confirm',
+                                                        style:
+                                                            bodyMedium.copyWith(
+                                                                color: Colors
+                                                                    .white),
+                                                      ),
+                                                    ],
                                                   ),
                                           )),
                                         ),
