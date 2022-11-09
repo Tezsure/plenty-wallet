@@ -49,6 +49,9 @@ class DappBrowserView extends GetView<DappBrowserController> {
     return Container(
       height: 0.95.height,
       width: 1.width,
+      padding: EdgeInsets.only(
+        bottom: Platform.isIOS ? 0.03.height : 0.02.height,
+      ),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
           color: ColorConst.darkGrey),

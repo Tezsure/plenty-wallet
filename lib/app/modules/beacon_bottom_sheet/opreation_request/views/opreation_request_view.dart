@@ -16,8 +16,11 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
   Widget build(BuildContext context) {
     Get.put(OpreationRequestController());
     return Container(
-        height: 0.65.height,
+        height: 0.7.height,
         width: 1.width,
+        padding: EdgeInsets.only(
+          bottom: Platform.isIOS ? 0.05.height : 0.02.height,
+        ),
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             color: Colors.black),

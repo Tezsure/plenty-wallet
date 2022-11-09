@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -13,6 +15,9 @@ class BiometricView extends GetView<BiometricController> {
   Widget build(BuildContext context) {
     Get.put(BiometricController());
     return Container(
+        padding: EdgeInsets.only(
+          bottom: Platform.isIOS ? 0.05.height : 0.02.height,
+        ),
         height: 0.4.height,
         width: 1.width,
         decoration: const BoxDecoration(
