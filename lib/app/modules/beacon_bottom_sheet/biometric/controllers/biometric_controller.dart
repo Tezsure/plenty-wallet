@@ -10,6 +10,7 @@ class BiometricController extends GetxController {
     isBiometric.value = Get.arguments;
     if (isBiometric.value) {
       var isValid = await authService.verifyBiometric();
+
       if (isValid) {
         Get.back(result: true);
       }

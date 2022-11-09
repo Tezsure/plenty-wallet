@@ -30,14 +30,15 @@ class DataHandlerRenderService {
   }
 
   /// read from store and update xtzPrice
-  Future<void> _updateXtzPrice([double? xtzPrice]) async{
-    if(xtzPrice != null){
+  Future<void> _updateXtzPrice([double? xtzPrice]) async {
+    if (xtzPrice != null) {
       xtzPriceUpdater.value = xtzPrice;
       return;
     }
 
-    xtzPriceUpdater.value = double.parse(await ServiceConfig.localStorage.read(key: ServiceConfig.xtzPriceStorage) ?? "0.0");
-
+    xtzPriceUpdater.value = double.parse(await ServiceConfig.localStorage
+            .read(key: ServiceConfig.xtzPriceStorage) ??
+        "0.0");
   }
 
   /// read from store and update account xtz value
@@ -79,6 +80,18 @@ class DataHandlerRenderService {
           .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
           .toList()
           .where((e) => contractAddress!.contains(e.tokenAddress.toString()))
+          .toList();
+    }
+    return [];
+  }
+
+  Future<List<TokenPriceModel>> getTokenPriceModels() async {
+    var tokensPrice = await ServiceConfig.localStorage
+        .read(key: ServiceConfig.tokenPricesStorage);
+    if (tokensPrice != null) {
+      return jsonDecode(tokensPrice)
+          .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
+          .toList()
           .toList();
     }
     return [];

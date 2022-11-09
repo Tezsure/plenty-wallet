@@ -57,7 +57,61 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                 'Confirm Transaction',
                 style: titleMedium.copyWith(fontSize: 18),
               ),
-              0.02.vspace,
+              Expanded(
+                child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Obx(() => (Text(
+                            "\$ ${controller.dollarPrice.value.toStringAsFixed(2)}",
+                            style: titleLarge.copyWith(fontSize: 32),
+                          ))),
+                      0.005.vspace,
+                      Obx(() => Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: controller.transfers
+                              .map((element) => Row(
+                                    children: [
+                                      element.symbol == "TEZ"
+                                          ? Image.asset(
+                                              'assets/tezos_logo.png',
+                                              height: 25,
+                                              width: 25,
+                                            )
+                                          : Image.network(
+                                              element.thumbnailUri!,
+                                              height: 25,
+                                              width: 25,
+                                            ),
+                                      0.02.hspace,
+                                      Text(
+                                        "${element.amount.toString()} ${element.symbol}",
+                                        style: bodyMedium.copyWith(
+                                            color: ColorConst.grey,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      controller.transfers.last.symbol !=
+                                              element.symbol
+                                          ? Row(
+                                              children: [
+                                                0.03.hspace,
+                                                Container(
+                                                  height: 25,
+                                                  width: 1,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: ColorConst.grey,
+                                                  ),
+                                                ),
+                                                0.03.hspace,
+                                              ],
+                                            )
+                                          : Container(),
+                                    ],
+                                  ))
+                              .toList())),
+                    ]),
+              ),
               Text(
                 'Account',
                 style: bodySmall.copyWith(color: ColorConst.grey),
@@ -110,34 +164,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                   ),
                 ),
               ),
-              0.02.vspace,
-              Expanded(
-                child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Obx(() => (Text(
-                            "\$ ${(double.parse(controller.amount.value) * controller.dollarPrice.value).toStringAsFixed(2)}",
-                            style: titleLarge.copyWith(fontSize: 32),
-                          ))),
-                      0.005.vspace,
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/tezos_logo.png',
-                              height: 22,
-                              width: 22,
-                            ),
-                            0.01.hspace,
-                            Obx(() => Text(
-                                  controller.amount.value.toString(),
-                                  style: titleSmall.copyWith(
-                                      color: ColorConst.grey),
-                                )),
-                          ])
-                    ]),
-              ),
+              0.03.vspace,
               Expanded(
                   child: Obx(() => Column(
                         mainAxisSize: MainAxisSize.max,
@@ -148,7 +175,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 12, horizontal: 24),
                                   child: Text(
-                                    'Transaction is likely to fail: ${controller.error.value.length > 50 ? controller.error.value.replaceRange(50, controller.error.value.length, '...') : controller.error.value}',
+                                    'Transaction is likely to fail: ${controller.error.value.length > 100 ? controller.error.value.replaceRange(100, controller.error.value.length, '...') : controller.error.value}',
                                     style: bodyMedium.copyWith(
                                         color: ColorConst.NaanRed),
                                     textAlign: TextAlign.center,
