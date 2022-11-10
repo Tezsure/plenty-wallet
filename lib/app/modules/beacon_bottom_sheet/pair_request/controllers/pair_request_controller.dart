@@ -49,8 +49,8 @@ class PairRequestController extends GetxController {
 
       if (success) {
         Get.back();
-        Get.snackbar('Connected', 'Connected to ${beaconRequest.peer?.name}',
-            backgroundColor: ColorConst.Secondary, colorText: Colors.white);
+/*         Get.snackbar('Connected', 'Connected to ${beaconRequest.peer?.name}',
+            backgroundColor: ColorConst.Secondary, colorText: Colors.white); */
       } else {
         Get.back();
         Get.snackbar('Error', 'Error while accepting permission',

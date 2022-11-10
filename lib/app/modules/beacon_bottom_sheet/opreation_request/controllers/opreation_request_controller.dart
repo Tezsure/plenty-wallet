@@ -171,8 +171,8 @@ class OpreationRequestController extends GetxController {
 
       if (success) {
         Get.back();
-        Get.snackbar('Opreation submitted', 'Opreation submitted successfully',
-            backgroundColor: ColorConst.Secondary, colorText: Colors.white);
+/*         Get.snackbar('Opreation submitted', 'Opreation submitted successfully',
+            backgroundColor: ColorConst.Secondary, colorText: Colors.white); */
       } else {
         throw "Operation response failed";
       }
