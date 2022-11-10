@@ -5,6 +5,7 @@ import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart
 class DappBrowserController extends GetxController {
   InAppWebViewController? webViewController;
   WebStorageManager webStorageManager = WebStorageManager.instance();
+  String initUrl = Get.arguments;
   RxString url = ''.obs;
   var canGoBack = false.obs;
   var canGoForward = false.obs;

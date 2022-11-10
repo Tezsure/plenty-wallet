@@ -21,8 +21,8 @@ dependencies:
   qr_flutter: ^4.0.0
   dartez:
     git:
-      url: https://github.com/Tezsure/Dartez.git
-      ref: 20842102e41d66e8d96da7b33a636ab57b06770f
+      url: https://github.com/AniketSindhu/Dartez.git
+      ref: e62af61fc71d4b4e2b49f83a3ef5a4405759137f
   local_auth: ^2.1.2
   image_picker: ^0.8.5+3
   path_provider: ^2.0.11
@@ -75,6 +75,7 @@ flutter:
     - assets/contact_page/svg/
     #profile images
     - assets/profile_images/
+    - assets/dapps/
 
   uses-material-design: true
 

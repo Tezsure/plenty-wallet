@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/dapps_page/views/dapps_page_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -100,7 +101,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
               key: webViewKey,
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
-                AppConstant.defaultUrl,
+                controller.initUrl,
               )),
               initialOptions: options,
               pullToRefreshController: pullToRefreshController,
@@ -234,9 +235,10 @@ class DappBrowserView extends GetView<DappBrowserController> {
                           icon: const Icon(Icons.home),
                           color: Colors.white,
                           onPressed: () {
-                            controller.webViewController?.loadUrl(
-                                urlRequest: URLRequest(
-                                    url: Uri.parse(AppConstant.defaultUrl)));
+                            Get.back();
+                            Get.bottomSheet(const DappsPageView(),
+                                barrierColor: Colors.white.withOpacity(0.09),
+                                isScrollControlled: true);
                           },
                         ),
                       ],
