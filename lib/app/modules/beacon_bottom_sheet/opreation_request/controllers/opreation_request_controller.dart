@@ -66,10 +66,10 @@ class OpreationRequestController extends GetxController {
         tokenPriceModels =
             await DataHandlerService().renderService.getTokenPriceModels();
 
-        tokenPriceModels.forEach((element) {
+/*         tokenPriceModels.forEach((element) {
           print(
               "tokenPriceModels ${element.symbol} ${element.currentPrice} ${element.address} ${element.tokenId}");
-        });
+        }); */
 
         for (var e in beaconRequest.operationDetails!) {
           if (e.entrypoint == "transfer") {
@@ -235,8 +235,8 @@ class OpreationRequestController extends GetxController {
         amount = y[1]["int"];
       }
       if (from != null && to != null && amount != null) {
-        print(
-            "Selected FA1 from: $from, to: $to, amount: $amount, tokenAddress: $destination");
+/*         print(
+            "Selected FA1 from: $from, to: $to, amount: $amount, tokenAddress: $destination"); */
 
         TokenPriceModel tokenPriceModel = tokenPriceModels.firstWhere(
             (element) =>
@@ -264,8 +264,8 @@ class OpreationRequestController extends GetxController {
                 (tokenPriceModel.currentPrice ?? 0));
         return;
       }
-      print(
-          "not selected FA1 from: $from, to: $to, amount: $amount, tokenAddress: $destination");
+/*       print(
+          "not selected FA1 from: $from, to: $to, amount: $amount, tokenAddress: $destination"); */
     } catch (e) {
       throw Exception(e);
     }
@@ -319,12 +319,12 @@ class OpreationRequestController extends GetxController {
                         pow(10, int.parse(tokenPriceModel.decimals.toString())))
                     .toStringAsFixed(2)) *
                 (tokenPriceModel.currentPrice ?? 0));
-        print(
-            "Selected fa2 from: $from, to: $to, amount: $amount, tokenId: $tokenId, tokenAddress: $destination");
+        /*        print(
+            "Selected fa2 from: $from, to: $to, amount: $amount, tokenId: $tokenId, tokenAddress: $destination"); */
         return;
       }
-      print(
-          "not selected fa2 from: $from, to: $to, amount: $amount, tokenAddress: $destination");
+/*       print(
+          "not selected fa2 from: $from, to: $to, amount: $amount, tokenAddress: $destination"); */
     } catch (e) {
       throw Exception(e);
     }

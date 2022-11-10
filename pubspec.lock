@@ -140,9 +140,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "20842102e41d66e8d96da7b33a636ab57b06770f"
-      resolved-ref: "20842102e41d66e8d96da7b33a636ab57b06770f"
-      url: "https://github.com/Tezsure/Dartez.git"
+      ref: e62af61fc71d4b4e2b49f83a3ef5a4405759137f
+      resolved-ref: e62af61fc71d4b4e2b49f83a3ef5a4405759137f
+      url: "https://github.com/AniketSindhu/Dartez.git"
     source: git
     version: "1.0.0"
   device_frame:
