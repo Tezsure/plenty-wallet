@@ -1,14 +1,23 @@
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 
 import '../modules/backup_wallet_page/bindings/backup_wallet_binding.dart';
 import '../modules/backup_wallet_page/views/backup_wallet_view.dart';
+import '../modules/beacon_bottom_sheet/biometric/bindings/biometric_binding.dart';
+import '../modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
+import '../modules/beacon_bottom_sheet/opreation_request/bindings/opreation_request_binding.dart';
+import '../modules/beacon_bottom_sheet/opreation_request/views/opreation_request_view.dart';
+import '../modules/beacon_bottom_sheet/pair_request/bindings/pair_request_binding.dart';
+import '../modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
+import '../modules/beacon_bottom_sheet/payload_request/bindings/payload_request_binding.dart';
+import '../modules/beacon_bottom_sheet/payload_request/views/payload_request_view.dart';
 import '../modules/biometric_page/bindings/biometric_page_binding.dart';
 import '../modules/biometric_page/views/biometric_page_view.dart';
 import '../modules/create_profile_page/bindings/create_profile_page_binding.dart';
 import '../modules/create_profile_page/views/create_profile_page_view.dart';
 import '../modules/create_wallet_page/bindings/create_wallet_page_binding.dart';
 import '../modules/create_wallet_page/views/create_wallet_page_view.dart';
+import '../modules/dapp_browser/bindings/dapp_browser_binding.dart';
+import '../modules/dapp_browser/views/dapp_browser_view.dart';
 import '../modules/home_page/bindings/home_page_binding.dart';
 import '../modules/home_page/views/home_page_view.dart';
 import '../modules/home_page/widgets/accounts_widget/bindings/accounts_widget_binding.dart';
@@ -24,6 +33,7 @@ import '../modules/passcode_page/views/passcode_page_view.dart';
 import '../modules/receive_page/bindings/receive_page_binding.dart';
 import '../modules/receive_page/views/receive_page_view.dart';
 import '../modules/send_page/bindings/send_token_page_binding.dart';
+import '../modules/send_page/views/send_page.dart';
 import '../modules/settings_page/bindings/settings_page_binding.dart';
 import '../modules/settings_page/views/settings_page_view.dart';
 import '../modules/splash_page/bindings/splash_page_binding.dart';
@@ -116,6 +126,30 @@ class AppPages {
       page: () => const LoadingPageView(),
       binding: LoadingPageBinding(),
     ),
-   
+    GetPage(
+      name: _Paths.DAPP_BROWSER,
+      page: () => const DappBrowserView(),
+      binding: DappBrowserBinding(),
+    ),
+    GetPage(
+      name: _Paths.PAIR_REQUEST,
+      page: () => const PairRequestView(),
+      binding: PairRequestBinding(),
+    ),
+    GetPage(
+      name: _Paths.PAYLOAD_REQUEST,
+      page: () => const PayloadRequestView(),
+      binding: PayloadRequestBinding(),
+    ),
+    GetPage(
+      name: _Paths.OPREATION_REQUEST,
+      page: () => const OpreationRequestView(),
+      binding: OpreationRequestBinding(),
+    ),
+    GetPage(
+      name: _Paths.BIOMETRIC,
+      page: () => const BiometricView(),
+      binding: BiometricBinding(),
+    ),
   ];
 }

@@ -22,6 +22,22 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  base_codecs:
+    dependency: transitive
+    description:
+      name: base_codecs
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
+  beacon_flutter:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: eaa40bdc5b1fead835feb09ac46375db66a46da4
+      resolved-ref: eaa40bdc5b1fead835feb09ac46375db66a46da4
+      url: "https://github.com/Tezsure/beacon_flutter_naan.git"
+    source: git
+    version: "1.0.7"
   bip39:
     dependency: transitive
     description:
@@ -124,8 +140,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "feat/tz2_support"
-      resolved-ref: "9b12f0a327d40409061c395feb066215aa448608"
+      ref: "20842102e41d66e8d96da7b33a636ab57b06770f"
+      resolved-ref: "20842102e41d66e8d96da7b33a636ab57b06770f"
       url: "https://github.com/Tezsure/Dartez.git"
     source: git
     version: "1.0.0"
@@ -197,6 +213,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
+  flutter_inappwebview:
+    dependency: "direct main"
+    description:
+      name: flutter_inappwebview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.7.1"
   flutter_lints:
     dependency: "direct main"
     description:

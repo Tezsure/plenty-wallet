@@ -22,7 +22,7 @@ dependencies:
   dartez:
     git:
       url: https://github.com/Tezsure/Dartez.git
-      ref: feat/tz2_support
+      ref: 20842102e41d66e8d96da7b33a636ab57b06770f
   local_auth: ^2.1.2
   image_picker: ^0.8.5+3
   path_provider: ^2.0.11
@@ -32,11 +32,15 @@ dependencies:
   simple_gql: ^1.2.0
   hex: ^0.2.0
   shimmer: ^2.0.0
+  flutter_inappwebview: ^5.7.1
+  beacon_flutter:
+    git:
+      url: https://github.com/Tezsure/beacon_flutter_naan.git
+      ref: eaa40bdc5b1fead835feb09ac46375db66a46da4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
 
 flutter:
   assets:
