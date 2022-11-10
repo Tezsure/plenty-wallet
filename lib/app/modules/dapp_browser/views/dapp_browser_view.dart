@@ -51,7 +51,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
       height: 0.95.height,
       width: 1.width,
       padding: EdgeInsets.only(
-        bottom: Platform.isIOS ? 0.03.height : 0.02.height,
+        bottom: Platform.isIOS ? 0.03.height : 0.01.height,
       ),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
@@ -72,10 +72,10 @@ class DappBrowserView extends GetView<DappBrowserController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    const Icon(
-                      Icons.lock_rounded,
-                      color: Colors.white,
-                      size: 16,
+                    Image.asset(
+                      "assets/dapp_browser/lock.png",
+                      height: 12,
+                      width: 12,
                     ),
                     0.01.hspace,
                     Text(
@@ -194,10 +194,17 @@ class DappBrowserView extends GetView<DappBrowserController> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.arrow_back_ios),
-                          color: controller.canGoBack.value
-                              ? Colors.white
-                              : Colors.grey[700],
+                          icon: controller.canGoBack.value
+                              ? Image.asset(
+                                  "assets/dapp_browser/back_light.png",
+                                  height: 20,
+                                  width: 20,
+                                )
+                              : Image.asset(
+                                  "assets/dapp_browser/back_dark.png",
+                                  height: 20,
+                                  width: 20,
+                                ),
                           onPressed: () {
                             if (controller.canGoBack.value) {
                               controller.webViewController?.goBack();
@@ -205,10 +212,17 @@ class DappBrowserView extends GetView<DappBrowserController> {
                           },
                         ),
                         IconButton(
-                          icon: const Icon(Icons.arrow_forward_ios),
-                          color: controller.canGoForward.value
-                              ? Colors.white
-                              : Colors.grey[700],
+                          icon: controller.canGoForward.value
+                              ? Image.asset(
+                                  "assets/dapp_browser/forward_light.png",
+                                  height: 20,
+                                  width: 20,
+                                )
+                              : Image.asset(
+                                  "assets/dapp_browser/forward_dark.png",
+                                  height: 20,
+                                  width: 20,
+                                ),
                           onPressed: () {
                             if (controller.canGoForward.value) {
                               controller.webViewController?.goForward();
@@ -225,14 +239,22 @@ class DappBrowserView extends GetView<DappBrowserController> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.refresh),
+                          icon: Image.asset(
+                            "assets/dapp_browser/reload.png",
+                            height: 20,
+                            width: 20,
+                          ),
                           color: Colors.white,
                           onPressed: () {
                             controller.webViewController?.reload();
                           },
                         ),
                         IconButton(
-                          icon: const Icon(Icons.home),
+                          icon: Image.asset(
+                            "assets/dapp_browser/home.png",
+                            height: 20,
+                            width: 20,
+                          ),
                           color: Colors.white,
                           onPressed: () {
                             Get.back();

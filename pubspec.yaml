@@ -70,7 +70,9 @@ flutter:
     - assets/contact_page/svg/
     #profile images
     - assets/profile_images/
+    #dapp
     - assets/dapps/
+    - assets/dapp_browser/
 
   uses-material-design: true
 

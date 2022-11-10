@@ -70,12 +70,12 @@ class PayloadRequestController extends GetxController {
             Get.back();
           }
 
-          Get.snackbar(
+/*           Get.snackbar(
             'Success',
             'Successfully signed payload',
             backgroundColor: ColorConst.Secondary,
             colorText: Colors.white,
-          );
+          ); */
         } else {
           throw Exception('Error while Signing payload');
         }
