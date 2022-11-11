@@ -39,7 +39,7 @@ class AppConstant {
     Dapp(
       name: "Sirius",
       description: "Sirius description here",
-      url: "https://www.sirius.finance/",
+      url: "https://tzkt.io/KT1TxqZ8QtKvLu3V3JH7Gx58n7Co8pgtpQU5/dex/",
       image: "assets/dapps/sirius.png",
     ),
     Dapp(

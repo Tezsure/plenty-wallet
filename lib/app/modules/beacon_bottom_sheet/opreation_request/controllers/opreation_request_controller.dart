@@ -29,7 +29,8 @@ class OpreationRequestController extends GetxController {
   final error = "".obs;
 
   final dollarPrice = 0.0.obs;
-
+  bool getXtz = false;
+  double xtzPrice = 0.0;
   RxMap<String, dynamic> operation = <String, dynamic>{}.obs;
 
   final fees = "calculating...".obs;
@@ -51,17 +52,22 @@ class OpreationRequestController extends GetxController {
             .renderService
             .xtzPriceUpdater
             .registerCallback((value) {
-          var amount = (beaconRequest.operationDetails!
-                      .map((e) => e.amount == null ? 0 : int.parse(e.amount!))
-                      .reduce((int value, int element) => value + element) /
-                  pow(10, 6))
-              .toString();
-          dollarPrice.value =
-              dollarPrice.value + (double.parse(amount) * value);
-          transfers.add(TransferModel(
-              amount: amount,
-              dollarAmount: (double.parse(amount) * value).toStringAsFixed(2),
-              symbol: "TEZ"));
+          if (!getXtz) {
+            xtzPrice = value;
+            var amount = (beaconRequest.operationDetails!
+                        .map((e) => e.amount == null ? 0 : int.parse(e.amount!))
+                        .reduce((int value, int element) => value + element) /
+                    pow(10, 6))
+                .toString();
+            dollarPrice.value =
+                dollarPrice.value + (double.parse(amount) * value);
+
+            transfers.add(TransferModel(
+                amount: amount,
+                dollarAmount: (double.parse(amount) * value).toStringAsFixed(2),
+                symbol: "TEZ"));
+          }
+          getXtz = true;
         });
 
         tokenPriceModels =
@@ -113,9 +119,8 @@ class OpreationRequestController extends GetxController {
               publicKeyHash: accountModels!.value.publicKeyHash!,
             ));
         operation.value = op['opPair'];
-        fees.value =
-            ((int.parse(op['gasEstimation']) / pow(10, 6)) * dollarPrice.value)
-                .toStringAsFixed(4);
+        fees.value = ((int.parse(op['gasEstimation']) / pow(10, 6)) * xtzPrice)
+            .toStringAsFixed(4);
         print("operation ${operation.toString()}");
       } else {
         error.value = "Operation details is null";
