@@ -9,10 +9,11 @@ class SplashPageController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
 
-    await DataHandlerService().initDataServices();
-
     // un-comment below line to test on borading flow multiple time
     // await ServiceConfig().clearStorage();
+
+    await DataHandlerService().initDataServices();
+
     var walletAccountsLength =
         (await UserStorageService().getAllAccount()).length;
     var watchAccountsLength =
