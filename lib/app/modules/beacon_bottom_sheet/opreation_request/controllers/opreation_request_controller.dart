@@ -41,6 +41,7 @@ class OpreationRequestController extends GetxController {
     try {
       accountModels = Get.find<HomePageController>()
           .userAccounts
+          .value
           .firstWhere((element) =>
               element.publicKeyHash == beaconRequest.request!.sourceAddress)
           .obs;
