@@ -122,8 +122,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     Expanded(
                         child: Divider(
                       thickness: 1,
-                      color: ColorConst.NeutralVariant.shade60
-                          .withOpacity(0.4),
+                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
                     )),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -138,8 +137,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     Expanded(
                         child: Divider(
                       thickness: 1,
-                      color: ColorConst.NeutralVariant.shade60
-                          .withOpacity(0.4),
+                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
                     )),
                   ],
                 ),
@@ -151,25 +149,23 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SocialLoginButton(
-                        onTap: controller.login(
-                            socialAppName: Provider.apple),
+                        onTap: controller.login(socialAppName: Provider.apple),
                         socialIconPath: "apple.svg"),
                     SocialLoginButton(
-                        onTap: controller.login(
-                            socialAppName: Provider.google),
+                        onTap: controller.login(socialAppName: Provider.google),
                         socialIconPath: "google.svg"),
                     SocialLoginButton(
-                        onTap: controller.login(
-                            socialAppName: Provider.facebook),
+                        onTap:
+                            controller.login(socialAppName: Provider.facebook),
                         socialIconPath: "facebook.svg"),
                     SocialLoginButton(
-                        onTap: controller.login(
-                            socialAppName: Provider.twitter),
+                        onTap:
+                            controller.login(socialAppName: Provider.twitter),
                         socialIconPath: "twitter.svg"),
                   ],
                 ),
               ),
-              0.02.vspace,
+              0.018.vspace,
               GestureDetector(
                 onTap: () => Get.offAndToNamed(Routes.HOME_PAGE),
                 child: Container(
@@ -184,7 +180,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                   ),
                 ),
               ),
-              0.025.vspace,
+              0.023.vspace,
             ],
           ),
         ),

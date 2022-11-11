@@ -85,7 +85,7 @@ class Web3Auth {
     LoginParams loginParams = LoginParams(
       loginProvider: socialApp,
       curve: web3auth.Curve.secp256k1,
-      mfaLevel: web3auth.MFALevel.MANDATORY,
+      mfaLevel: web3auth.MFALevel.NONE,
       extraLoginOptions: ExtraLoginOptions(
         display: web3auth.Display.wap,
       ),
