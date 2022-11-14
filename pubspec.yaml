@@ -33,10 +33,7 @@ dependencies:
   hex: ^0.2.0
   shimmer: ^2.0.0
   flutter_inappwebview: ^5.7.1
-  beacon_flutter:
-    git:
-      url: https://github.com/Tezsure/beacon_flutter_naan.git
-      ref: eaa40bdc5b1fead835feb09ac46375db66a46da4
+  beacon_flutter: ^1.0.8
 
 dev_dependencies:
   flutter_test:

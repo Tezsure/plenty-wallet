@@ -32,12 +32,10 @@ packages:
   beacon_flutter:
     dependency: "direct main"
     description:
-      path: "."
-      ref: eaa40bdc5b1fead835feb09ac46375db66a46da4
-      resolved-ref: eaa40bdc5b1fead835feb09ac46375db66a46da4
-      url: "https://github.com/Tezsure/beacon_flutter_naan.git"
-    source: git
-    version: "1.0.7"
+      name: beacon_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.8"
   bip39:
     dependency: transitive
     description:
