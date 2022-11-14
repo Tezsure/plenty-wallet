@@ -1,0 +1,103 @@
+import 'dart:convert';
+
+import 'package:beacon_flutter/enums/enums.dart';
+import 'package:beacon_flutter/models/beacon_request.dart';
+import 'package:dartez/dartez.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
+import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
+
+import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
+
+class PayloadRequestController extends GetxController {
+  final BeaconRequest beaconRequest = Get.arguments;
+
+  final beaconPlugin = Get.find<BeaconService>().beaconPlugin;
+
+  Rx<AccountModel>? accountModel;
+
+  @override
+  void onInit() async {
+    accountModel = Get.find<HomePageController>()
+        .userAccounts
+        .firstWhere((element) =>
+            element.publicKeyHash == beaconRequest.request!.sourceAddress)
+        .obs;
+    if (accountModel == null) {
+      beaconPlugin.signPayloadResponse(
+        id: beaconRequest.request!.id!,
+        signature: null,
+      );
+      Get.back();
+      Get.snackbar('Error', 'Connect wallet not found',
+          backgroundColor: ColorConst.Error, colorText: Colors.white);
+    }
+    super.onInit();
+  }
+
+  confirm() async {
+    try {
+      if (beaconRequest.request?.payload != null) {
+        final Map response = await beaconPlugin.signPayloadResponse(
+            id: beaconRequest.request!.id!,
+            signature: Dartez.signPayload(
+                signer: Dartez.createSigner(
+                    Dartez.writeKeyWithHint(
+                        (await UserStorageService().readAccountSecrets(
+                                accountModel!.value.publicKeyHash!))!
+                            .secretKey,
+                        accountModel!.value.publicKeyHash!.startsWith("tz2")
+                            ? 'spsk'
+                            : 'edsk'),
+                    signerCurve:
+                        accountModel!.value.publicKeyHash!.startsWith("tz2")
+                            ? SignerCurve.SECP256K1
+                            : SignerCurve.ED25519),
+                payload: beaconRequest.request!.payload!),
+            type: SigningType.micheline);
+
+        final bool success =
+            json.decode(response['success'].toString()) as bool;
+
+        if (success) {
+          if (Get.isSnackbarOpen == true) {
+            Get.close(1);
+          } else {
+            Get.back();
+          }
+
+/*           Get.snackbar(
+            'Success',
+            'Successfully signed payload',
+            backgroundColor: ColorConst.Secondary,
+            colorText: Colors.white,
+          ); */
+        } else {
+          throw Exception('Error while Signing payload');
+        }
+      } else {
+        throw Exception('Error while Signing payload');
+      }
+    } catch (e) {
+      if (Get.isSnackbarOpen == true) {
+        Get.close(1);
+      } else {
+        Get.back();
+      }
+      Get.snackbar('Error', '$e',
+          backgroundColor: ColorConst.Error, colorText: Colors.white);
+    }
+  }
+
+  reject() {
+    beaconPlugin.signPayloadResponse(
+      id: beaconRequest.request!.id!,
+      signature: null,
+    );
+    Get.back();
+  }
+}

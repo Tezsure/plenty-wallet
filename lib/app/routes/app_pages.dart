@@ -4,20 +4,28 @@ import '../modules/account_summary/bindings/account_summary_binding.dart';
 import '../modules/account_summary/views/account_summary_view.dart';
 import '../modules/backup_wallet_page/bindings/backup_wallet_binding.dart';
 import '../modules/backup_wallet_page/views/backup_wallet_view.dart';
+import '../modules/beacon_bottom_sheet/biometric/bindings/biometric_binding.dart';
+import '../modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
+import '../modules/beacon_bottom_sheet/opreation_request/bindings/opreation_request_binding.dart';
+import '../modules/beacon_bottom_sheet/opreation_request/views/opreation_request_view.dart';
+import '../modules/beacon_bottom_sheet/pair_request/bindings/pair_request_binding.dart';
+import '../modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
+import '../modules/beacon_bottom_sheet/payload_request/bindings/payload_request_binding.dart';
+import '../modules/beacon_bottom_sheet/payload_request/views/payload_request_view.dart';
 import '../modules/biometric_page/bindings/biometric_page_binding.dart';
 import '../modules/biometric_page/views/biometric_page_view.dart';
 import '../modules/create_profile_page/bindings/create_profile_page_binding.dart';
 import '../modules/create_profile_page/views/create_profile_page_view.dart';
 import '../modules/create_wallet_page/bindings/create_wallet_page_binding.dart';
 import '../modules/create_wallet_page/views/create_wallet_page_view.dart';
+import '../modules/dapp_browser/bindings/dapp_browser_binding.dart';
+import '../modules/dapp_browser/views/dapp_browser_view.dart';
+import '../modules/dapps_page/bindings/dapps_page_binding.dart';
+import '../modules/dapps_page/views/dapps_page_view.dart';
 import '../modules/home_page/bindings/home_page_binding.dart';
 import '../modules/home_page/views/home_page_view.dart';
 import '../modules/home_page/widgets/accounts_widget/bindings/accounts_widget_binding.dart';
 import '../modules/home_page/widgets/accounts_widget/views/accounts_widget_view.dart';
-import '../modules/home_page/widgets/delegate_widget/bindings/delegate_widget_binding.dart';
-import '../modules/home_page/widgets/delegate_widget/views/delegate_widget_view.dart';
-import '../modules/home_page/widgets/info_stories/models/story_page/bindings/story_page_binding.dart';
-import '../modules/home_page/widgets/info_stories/models/story_page/views/story_page_view.dart';
 import '../modules/import_wallet_page/bindings/import_wallet_page_binding.dart';
 import '../modules/import_wallet_page/views/import_wallet_page_view.dart';
 import '../modules/loading_page/bindings/loading_page_binding.dart';
@@ -93,19 +101,9 @@ class AppPages {
       binding: ImportWalletPageBinding(),
     ),
     GetPage(
-      name: _Paths.STORY_PAGE,
-      page: () => const StoryPageView(profileImagePath: [], storyTitle: []),
-      binding: StoryPageBinding(),
-    ),
-    GetPage(
       name: _Paths.ACCOUNTS_WIDGET,
       page: () => AccountsWidget(),
       binding: AccountsWidgetBinding(),
-    ),
-    GetPage(
-      name: _Paths.DELEGATE_WIDGET,
-      page: () => const DelegateWidget(),
-      binding: DelegateWidgetBinding(),
     ),
     GetPage(
       name: _Paths.SETTINGS_PAGE,
@@ -136,6 +134,36 @@ class AppPages {
       name: _Paths.ACCOUNT_SUMMARY,
       page: () => const AccountSummaryView(),
       binding: AccountSummaryBinding(),
+    ),
+    GetPage(
+      name: _Paths.DAPP_BROWSER,
+      page: () => const DappBrowserView(),
+      binding: DappBrowserBinding(),
+    ),
+    GetPage(
+      name: _Paths.PAIR_REQUEST,
+      page: () => const PairRequestView(),
+      binding: PairRequestBinding(),
+    ),
+    GetPage(
+      name: _Paths.PAYLOAD_REQUEST,
+      page: () => const PayloadRequestView(),
+      binding: PayloadRequestBinding(),
+    ),
+    GetPage(
+      name: _Paths.OPREATION_REQUEST,
+      page: () => const OpreationRequestView(),
+      binding: OpreationRequestBinding(),
+    ),
+    GetPage(
+      name: _Paths.BIOMETRIC,
+      page: () => const BiometricView(),
+      binding: BiometricBinding(),
+    ),
+    GetPage(
+      name: _Paths.DAPPS_PAGE,
+      page: () => const DappsPageView(),
+      binding: DappsPageBinding(),
     ),
   ];
 }

@@ -181,13 +181,18 @@ class AccountDataHandler {
         value
             .map(
               (e) {
-                TokenPriceModel token = tokenPrices
+                var tokenList = tokenPrices
                     .where((element) =>
                         e.contractAddress == element.tokenAddress &&
                         (element.type == "fa2"
                             ? e.tokenId == element.tokenId
                             : true))
-                    .toList()[0];
+                    .toList();
+
+                if (tokenList.isEmpty) {
+                  return e..name = null;
+                }
+                var token = tokenList.first;
                 e.name = token.name;
                 e.iconUrl = token.thumbnailUri;
                 e.symbol = token.symbol;

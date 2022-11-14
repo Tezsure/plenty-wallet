@@ -1,5 +1,36 @@
 PODS:
+  - Base58Swift (2.1.10):
+    - BigInt (~> 5.0.0)
+  - beacon_flutter (1.0.7):
+    - BeaconBlockchainSubstrate (= 3.2.2)
+    - BeaconBlockchainTezos (= 3.2.2)
+    - BeaconClientDApp (= 3.2.2)
+    - BeaconClientWallet (= 3.2.2)
+    - BeaconCore (= 3.2.2)
+    - BeaconTransportP2PMatrix (= 3.2.2)
+    - Flutter
+  - BeaconBlockchainSubstrate (3.2.2):
+    - BeaconCore (~> 3.2.2)
+  - BeaconBlockchainTezos (3.2.2):
+    - BeaconCore (~> 3.2.2)
+  - BeaconClientDApp (3.2.2):
+    - BeaconCore (~> 3.2.2)
+  - BeaconClientWallet (3.2.2):
+    - BeaconCore (~> 3.2.2)
+  - BeaconCore (3.2.2):
+    - Base58Swift (~> 2.1.0)
+    - Sodium (~> 0.9.1)
+  - BeaconTransportP2PMatrix (3.2.2):
+    - BeaconCore (~> 3.2.2)
+  - BigInt (5.0.0)
   - Flutter (1.0.0)
+  - flutter_inappwebview (0.0.1):
+    - Flutter
+    - flutter_inappwebview/Core (= 0.0.1)
+    - OrderedSet (~> 5.0)
+  - flutter_inappwebview/Core (0.0.1):
+    - Flutter
+    - OrderedSet (~> 5.0)
   - flutter_secure_storage (3.3.1):
     - Flutter
   - flutter_sodium (0.0.1):
@@ -11,12 +42,14 @@ PODS:
     - Flutter
   - local_auth_ios (0.0.1):
     - Flutter
+  - OrderedSet (5.0.0)
   - path_provider_ios (0.0.1):
     - Flutter
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_ios (0.0.1):
     - Flutter
+  - Sodium (0.9.1)
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
@@ -24,13 +57,15 @@ PODS:
     - Flutter
   - video_player_avfoundation (0.0.1):
     - Flutter
-  - Web3Auth (3.5.0)
+  - Web3Auth (3.5.1)
   - web3auth_flutter (0.1.1):
     - Flutter
     - Web3Auth (~> 3.5.0)
 
 DEPENDENCIES:
+  - beacon_flutter (from `.symlinks/plugins/beacon_flutter/ios`)
   - Flutter (from `Flutter`)
+  - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_sodium (from `.symlinks/plugins/flutter_sodium/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -41,17 +76,30 @@ DEPENDENCIES:
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
-  - Web3Auth
   - web3auth_flutter (from `.symlinks/plugins/web3auth_flutter/ios`)
 
 SPEC REPOS:
   trunk:
+    - Base58Swift
+    - BeaconBlockchainSubstrate
+    - BeaconBlockchainTezos
+    - BeaconClientDApp
+    - BeaconClientWallet
+    - BeaconCore
+    - BeaconTransportP2PMatrix
+    - BigInt
     - FMDB
+    - OrderedSet
+    - Sodium
     - Web3Auth
 
 EXTERNAL SOURCES:
+  beacon_flutter:
+    :path: ".symlinks/plugins/beacon_flutter/ios"
   Flutter:
     :path: Flutter
+  flutter_inappwebview:
+    :path: ".symlinks/plugins/flutter_inappwebview/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   flutter_sodium:
@@ -76,21 +124,37 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/web3auth_flutter/ios"
 
 SPEC CHECKSUMS:
+  Base58Swift: 53d551f0b33d9478fa63b3445e453a772d6b31a7
+  beacon_flutter: 998892791669012462d8707f1fd4e75e1bde5aec
+  BeaconBlockchainSubstrate: 21d332b26ad519df492901de789565c8d4b2a711
+  BeaconBlockchainTezos: 499b2a1203b4ce2631571c692ee3d8e9196ff2e8
+  BeaconClientDApp: 863c29f13fc3dc12db23f9f187cc49e77b446bf3
+  BeaconClientWallet: 5b9eb04e97d87afdbbf89311a178e9b4d0b5a07b
+  BeaconCore: 90436dfd5ae58d264633c3ea6e5437ee33f41800
+  BeaconTransportP2PMatrix: c449f410083916f1c7389c83faa7e0d5eeb74dec
+  BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_sodium: c84426b4de738514b5b66cfdeb8a06634e72fe0b
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   local_auth_ios: 0d333dde7780f669e66f19d2ff6005f3ea84008d
+  OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
+  Sodium: 23d11554ecd556196d313cf6130d406dfe7ac6da
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
-  Web3Auth: 75c2b7d480f23dffa0eda9a589e2bc3cba1cd961
+  Web3Auth: 28e08d968ef08236b4c94000845ef40c2413b757
   web3auth_flutter: d79313b6942fd627cd279e9c1d13232a4345f7f7
 
+<<<<<<< HEAD
 PODFILE CHECKSUM: 7c0599aeb2222da10591b330557759a476d2e6c2
+=======
+PODFILE CHECKSUM: 775997f741c536251164e3eacf6e34abf2eb7a17
+>>>>>>> feat/dapp_browser_latest_dummy
 
 COCOAPODS: 1.11.3

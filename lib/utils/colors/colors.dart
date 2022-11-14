@@ -68,7 +68,7 @@ class GradConst {
 
   static const LinearGradient GradientBackground = LinearGradient(
     begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
+    end: Alignment(0, 2), // Alignment.bottomCenter [Previously]
     colors: [
       Color(0xff07030C),
       Color(0xff2D004F),
@@ -90,7 +90,7 @@ class ColorConst {
   static const Color grey = Color(0xffA4A3A9);
   static const Color blue = Color(0xff3F9AF7);
   static const Color green = Color(0xff7EFF3F);
-  static const Color naanCustomColor = Color(0xff5AE200);
+  static const Color darkGrey = Color(0xff1E1C1F);
 
   static const NaaNShadesColor Primary = NaaNShadesColor(
     _Primary,

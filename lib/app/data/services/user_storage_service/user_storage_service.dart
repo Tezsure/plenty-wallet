@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/data/services/service_config/service_config.dart
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 
@@ -188,4 +189,21 @@ class UserStorageService {
 
     return transactionHistoryList;
   }
+
+  /// create new gallery model and save it in storage
+  /// @param galleryModel GalleryModel
+  /// @return Future<void>
+  Future<void> writeNewGallery(NftGalleryModel galleryModel) async =>
+      await ServiceConfig.localStorage.write(
+          key: ServiceConfig.galleryStorage,
+          value: jsonEncode((await getAllGallery())..add(galleryModel)));
+
+  /// get all saved gallery
+  /// @return Future<List<NftGalleryModel>>
+  Future<List<NftGalleryModel>> getAllGallery() async =>
+      jsonDecode(await ServiceConfig.localStorage
+                  .read(key: ServiceConfig.galleryStorage) ??
+              "[]")
+          .map<NftGalleryModel>((e) => NftGalleryModel.fromJson(e))
+          .toList();
 }

@@ -305,3 +305,22 @@ class FaHolder {
     return data;
   }
 }
+
+class FaHolder {
+  String? alias;
+  String? address;
+
+  FaHolder({this.alias, this.address});
+
+  FaHolder.fromJson(Map<String, dynamic> json) {
+    alias = json['alias'];
+    address = json['address'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['alias'] = alias;
+    data['address'] = address;
+    return data;
+  }
+}

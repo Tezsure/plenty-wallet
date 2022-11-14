@@ -15,6 +15,7 @@ class NaanTextfield extends StatelessWidget {
   final Function(String)? onSubmitted;
   final FocusNode? focusNode;
   final double? height;
+  TextStyle? textStyle;
 
   const NaanTextfield(
       {Key? key,
@@ -26,7 +27,8 @@ class NaanTextfield extends StatelessWidget {
       this.hintTextSyle,
       this.onSubmitted,
       this.focusNode,
-      this.height})
+      this.height,
+      this.textStyle})
       : super(key: key);
 
   @override

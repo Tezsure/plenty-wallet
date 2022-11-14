@@ -14,6 +14,8 @@ class CreateProfilePageController extends GetxController {
 
   RxString selectedImagePath = "".obs;
 
+
+
   @override
   void onInit() {
     super.onInit();

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../utils/colors/colors.dart';
@@ -27,6 +28,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   @override
   void onInit() {
     super.onInit();
+    Get.put(NftGalleryWidgetController());
     DataHandlerService()
         .renderService
         .accountUpdater

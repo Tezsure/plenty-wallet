@@ -42,6 +42,8 @@ class ServiceConfig {
   static const String watchAccountsStorage =
       "${storageName}_gallery_accounts_storage";
 
+  static const String galleryStorage = "${storageName}_nft_gallery_storage";
+
   // auth
   static const String passCodeStorage = "${storageName}_password";
   static const String biometricAuthStorage = "${storageName}_biometricAuth";

@@ -9,10 +9,12 @@ class SplashPageController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
 
+    // un-comment below line to test onboarding flow multiple time
+
+    // await ServiceConfig().clearStorage();
+
     await DataHandlerService().initDataServices();
 
-    // un-comment below line to test onboarding flow multiple time
-    // await ServiceConfig().clearStorage();
     var walletAccountsLength =
         (await UserStorageService().getAllAccount()).length;
     var watchAccountsLength =

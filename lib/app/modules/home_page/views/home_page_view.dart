@@ -11,9 +11,7 @@ import '../widgets/register_widgets.dart';
 
 class HomePageView extends GetView<HomePageController>
     with WidgetsBindingObserver {
-  const HomePageView({
-    Key? key,
-  }) : super(key: key);
+  const HomePageView({super.key});
 
   @override
   Widget build(BuildContext context) {

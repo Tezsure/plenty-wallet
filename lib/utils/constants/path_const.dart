@@ -10,6 +10,8 @@ class PathConst {
 
   static const HOME_PAGE = "assets/home_page/";
   static const SETTINGS_PAGE = "assets/settings_page/";
+  static const NFT_PAGE = "assets/nft_page/";
+
   static const SEND_PAGE = "assets/send_page/";
   static const CONTACTS_PAGE = "assets/contact_page/";
   static const ACCOUNT_SUMMARY = "assets/account_summary/";

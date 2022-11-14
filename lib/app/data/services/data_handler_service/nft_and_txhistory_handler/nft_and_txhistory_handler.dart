@@ -14,28 +14,32 @@ class NftAndTxHistoryHandler {
   NftAndTxHistoryHandler(this.dataHandlerRenderService);
 
   static Future<void> _isolateProcess(List<dynamic> args) async {
-    List<String> accountAddress = args[1].toList();
-
-    // Get all account nft tokens
+    List<String> accountAddress = args[1][0].toList();
+    List<String> watchAccountAddress = args[1][1].toList();
     List<List<NftTokenModel>> accountsNft = await Future.wait(
-      accountAddress.map<Future<List<NftTokenModel>>>(
-        (e) => ObjktNftApiService().getNfts(e),
+      [...accountAddress, ...watchAccountAddress]
+          .map<Future<List<NftTokenModel>>>(
+        (e) => _ObjktNftApiService(e).getNfts(),
       ),
     );
 
-    // Get all account tx history
-    List<List<TxHistoryModel>> accountsTxHistory = await Future.wait(
-      accountAddress.map<Future<List<TxHistoryModel>>>(
-        (e) => TzktTxHistoryApiService(e).getTxHistory(),
-      ),
-    );
+    List<List<TxHistoryModel>> accountsTxHistory =
+        await Future.wait(accountAddress.map<Future<List<TxHistoryModel>>>(
+      (e) => TzktTxHistoryApiService(e).getTxHistory(),
+    ));
 
     // send data back
     args[0].send([
       // account nfts as Map<String(address),List<NftTokenModel>>
       <String, List<NftTokenModel>>{
-        for (int i = 0; i < accountAddress.length; i++)
-          accountAddress[i]: accountsNft[i]
+        ...{
+          for (int i = 0; i < accountAddress.length; i++)
+            accountAddress[i]: accountsNft[i]
+        },
+        ...{
+          for (int i = 0; i < watchAccountAddress.length; i++)
+            watchAccountAddress[i]: accountsNft[i + accountAddress.length]
+        }
       },
       // account tx history as Map<String(address),List<TxHistoryModel>>
       <String, List<TxHistoryModel>>{
@@ -52,9 +56,16 @@ class NftAndTxHistoryHandler {
       _isolateProcess,
       <dynamic>[
         receivePort.sendPort,
-        (await UserStorageService().getAllAccount())
-            .map<String>((e) => e.publicKeyHash!)
-            .toList(),
+        [
+          (await UserStorageService().getAllAccount())
+              .map<String>((e) => e.publicKeyHash!)
+              .toList(),
+          (await UserStorageService().getAllAccount(
+            watchAccountsList: true,
+          ))
+              .map<String>((e) => e.publicKeyHash!)
+              .toList()
+        ],
       ],
       debugName: "nft & tx-history",
     );
@@ -81,11 +92,15 @@ class NftAndTxHistoryHandler {
   }
 }
 
-class ObjktNftApiService {
-  Future<List<NftTokenModel>> getNfts(String pkH) async {
+class _ObjktNftApiService {
+  String pkH;
+
+  _ObjktNftApiService(this.pkH);
+
+  Future<List<NftTokenModel>> getNfts() async {
     try {
       final response = await GQLClient(
-        'https://data.objkt.com/v2/graphql',
+        'https://data.objkt.com/v3/graphql',
       ).query(
         query: ServiceConfig.gQuery,
         variables: {'address': pkH},

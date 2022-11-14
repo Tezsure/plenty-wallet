@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
+import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/account_data_handler/account_data_handler.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/helpers/on_going_tx_helper.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
@@ -28,8 +30,10 @@ class DataHandlerService {
 
   /// init all data services which runs in isolate and store user specific data in to local storage
   Future<void> initDataServices() async {
-    // first time if data exists in storage read and render
+    Get.put(BeaconService(), permanent: true);
+    // first time if data exists in storage readand render
     await renderService.updateUi();
+
     // update the values&store using isolates
     await updateAllTheValues();
     // init timer

@@ -1,3 +1,7 @@
+// ignore_for_file: library_private_types_in_public_api
+
+library custom_check_box;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -20,32 +24,28 @@ class CustomCheckBox extends StatefulWidget {
   final Color? splashColor;
   final String? tooltip;
   final MouseCursor? mouseCursors;
-  final EdgeInsets? checkBoxPadding;
-  final EdgeInsets? margins;
 
-  const CustomCheckBox(
-      {Key? key,
-      required this.value,
-      required this.onChanged,
-      this.checkedIconColor = Colors.white,
-      this.checkedFillColor = Colors.teal,
-      this.checkedIcon,
-      this.checkBoxIconSize,
-      this.uncheckedIconColor = Colors.white,
-      this.uncheckedFillColor = Colors.white,
-      this.uncheckedIcon = Icons.close,
-      this.borderWidth,
-      this.checkBoxSize,
-      this.shouldShowBorder = false,
-      this.borderColor,
-      this.borderRadius,
-      this.splashRadius,
-      this.splashColor,
-      this.tooltip,
-      this.mouseCursors,
-      this.checkBoxPadding,
-      this.margins})
-      : super(key: key);
+  const CustomCheckBox({
+    Key? key,
+    required this.value,
+    required this.onChanged,
+    this.checkedIconColor = Colors.white,
+    this.checkedFillColor = Colors.teal,
+    this.checkedIcon,
+    this.checkBoxIconSize,
+    this.uncheckedIconColor = Colors.white,
+    this.uncheckedFillColor = Colors.white,
+    this.uncheckedIcon = Icons.close,
+    this.borderWidth,
+    this.checkBoxSize,
+    this.shouldShowBorder = false,
+    this.borderColor,
+    this.borderRadius,
+    this.splashRadius,
+    this.splashColor,
+    this.tooltip,
+    this.mouseCursors,
+  }) : super(key: key);
 
   @override
   _CustomCheckBoxState createState() => _CustomCheckBoxState();
@@ -98,8 +98,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
       width: widget.checkBoxSize,
       height: widget.checkBoxSize,
       duration: const Duration(milliseconds: 250),
-      margin: widget.margins,
-      padding: widget.checkBoxPadding ?? const EdgeInsets.all(0),
+      padding: EdgeInsets.all(widget.checkBoxIconSize ?? 0),
       decoration: BoxDecoration(
         color: fillColor,
         borderRadius:
@@ -115,6 +114,8 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
               : widget.borderWidth ?? 2.0,
         ),
       ),
+
+      // ignore: unnecessary_type_check
       child: SizedBox(
         width: widget.checkBoxIconSize ?? 18,
         height: widget.checkBoxIconSize ?? 18,
