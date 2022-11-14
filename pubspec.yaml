@@ -27,7 +27,6 @@ dependencies:
   image_picker: ^0.8.5+3
   path_provider: ^2.0.11
   http: ^0.13.5
-  url_launcher: ^6.1.5
   flutter_staggered_grid_view: ^0.6.2
   simple_gql: ^1.2.0
   url_launcher: ^6.1.6
@@ -74,10 +73,10 @@ flutter:
     - assets/contact_page/svg/
     #profile images
     - assets/profile_images/
-    
+
     #node selector
     - rpc_node/rpc_node.json
-    
+
     #empty states images
     - assets/empty_states/
     #dapp

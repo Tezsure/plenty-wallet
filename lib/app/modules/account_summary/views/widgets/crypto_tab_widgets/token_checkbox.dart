@@ -111,7 +111,6 @@ class TokenCheckbox extends StatelessWidget {
   }
 
   Widget _checkBox() => CustomCheckBox(
-      margins: EdgeInsets.only(right: 10.aR),
       borderRadius: 12.aR,
       checkedIcon: Icons.done,
       borderWidth: 2,

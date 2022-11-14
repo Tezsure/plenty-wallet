@@ -19,7 +19,7 @@ class NftAndTxHistoryHandler {
     List<List<NftTokenModel>> accountsNft = await Future.wait(
       [...accountAddress, ...watchAccountAddress]
           .map<Future<List<NftTokenModel>>>(
-        (e) => _ObjktNftApiService(e).getNfts(),
+        (e) => ObjktNftApiService().getNfts(e),
       ),
     );
 
@@ -92,12 +92,8 @@ class NftAndTxHistoryHandler {
   }
 }
 
-class _ObjktNftApiService {
-  String pkH;
-
-  _ObjktNftApiService(this.pkH);
-
-  Future<List<NftTokenModel>> getNfts() async {
+class ObjktNftApiService {
+  Future<List<NftTokenModel>> getNfts(String pkH) async {
     try {
       final response = await GQLClient(
         'https://data.objkt.com/v3/graphql',

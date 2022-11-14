@@ -15,7 +15,7 @@ class NaanTextfield extends StatelessWidget {
   final Function(String)? onSubmitted;
   final FocusNode? focusNode;
   final double? height;
-  TextStyle? textStyle;
+  final TextStyle? textStyle;
 
   const NaanTextfield(
       {Key? key,
