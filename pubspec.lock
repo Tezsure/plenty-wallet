@@ -360,7 +360,7 @@ packages:
     source: hosted
     version: "2.6.2"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       url: "https://pub.dartlang.org"
@@ -827,7 +827,7 @@ packages:
     source: hosted
     version: "0.2.0"
   url_launcher:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: url_launcher
       url: "https://pub.dartlang.org"

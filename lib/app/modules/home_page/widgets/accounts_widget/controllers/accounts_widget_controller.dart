@@ -1,4 +1,3 @@
-
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
@@ -21,7 +20,8 @@ class AccountsWidgetController extends GetxController {
 
   /// add account functions
   TextEditingController accountNameController = TextEditingController();
-  var currentSelectedType = AccountProfileImageType.assets;
+  AccountProfileImageType currentSelectedType = AccountProfileImageType.assets;
+  RxString phrase = "".obs;
 
   RxString selectedImagePath = "".obs;
 
@@ -30,18 +30,15 @@ class AccountsWidgetController extends GetxController {
 
   RxBool isCreatingNewAccount = false.obs;
 
-
-  
-
-  initAddAccount() {
+  void initAddAccount() {
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
   }
 
-  closeAddAccount() {
+  void closeAddAccount() {
     accountNameController.clear();
   }
 
-  resetCreateNewWallet() {
+  void resetCreateNewWallet() {
     accountNameController = TextEditingController();
     currentSelectedType = AccountProfileImageType.assets;
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
@@ -49,7 +46,7 @@ class AccountsWidgetController extends GetxController {
   }
 
   /// if no account exist then create otherwise import using same account mnemonic and +1derivationPath
-  createNewWallet() async {
+  void createNewWallet() async {
     await WalletService().createNewAccount(
       accountNameController.text,
       currentSelectedType,

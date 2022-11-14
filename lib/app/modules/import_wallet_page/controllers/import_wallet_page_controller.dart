@@ -8,6 +8,8 @@ import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 
+import '../../create_profile_page/views/create_profile_page_view.dart';
+
 class ImportWalletPageController extends GetxController
     with GetSingleTickerProviderStateMixin {
   //? VARIABLES
@@ -72,11 +74,17 @@ class ImportWalletPageController extends GetxController
                   ? ImportWalletDataType.mnemonic
                   : ImportWalletDataType.none;
 
-  Future<void> redirectBasedOnImportWalletType() async {
+  Future<void> redirectBasedOnImportWalletType([String? pageRoute]) async {
     if (importWalletDataType == ImportWalletDataType.privateKey ||
         importWalletDataType == ImportWalletDataType.watchAddress) {
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
-      var previousRoute = Get.previousRoute;
+      var previousRoute = pageRoute ?? Get.previousRoute;
+
+      if (pageRoute == Routes.ACCOUNT_SUMMARY) {
+        return Get.bottomSheet(const CreateProfilePageView(isBottomSheet: true),
+            isScrollControlled: true,
+            settings: RouteSettings(arguments: [pageRoute]));
+      }
 
       Get.toNamed(
         isPassCodeSet ? Routes.CREATE_PROFILE_PAGE : Routes.PASSCODE_PAGE,
@@ -102,6 +110,12 @@ class ImportWalletPageController extends GetxController
       Get.back();
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
       var previousRoute = Get.previousRoute;
+
+      if (pageRoute == Routes.ACCOUNT_SUMMARY) {
+        return Get.bottomSheet(const CreateProfilePageView(isBottomSheet: true),
+            isScrollControlled: true,
+            settings: RouteSettings(arguments: [pageRoute]));
+      }
       Get.toNamed(
         isPassCodeSet ? Routes.CREATE_PROFILE_PAGE : Routes.PASSCODE_PAGE,
         arguments: isPassCodeSet

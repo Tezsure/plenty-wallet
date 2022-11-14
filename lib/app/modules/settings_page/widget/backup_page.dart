@@ -1,6 +1,6 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
@@ -13,18 +13,22 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
+import '../../../data/services/enums/enums.dart';
+import '../../home_page/controllers/home_page_controller.dart';
+
 class BackupPage extends StatelessWidget {
-  BackupPage({Key? key}) : super(key: key);
+  BackupPage({super.key});
 
   final controller = Get.put(BackupPageController());
+  static final _homePageController = Get.find<HomePageController>();
 
   @override
   Widget build(BuildContext context) {
     return Container(
         height: 1.height,
         width: 1.width,
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(gradient: GradConst.GradientBackground),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
         child: SafeArea(
           child: Column(
             children: [
@@ -50,9 +54,9 @@ class BackupPage extends StatelessWidget {
                   child: Obx(
                 () => ListView.builder(
                   itemBuilder: (context, index) => accountMethod(
-                    controller.accounts[index],
+                    _homePageController.userAccounts[index],
                   ),
-                  itemCount: controller.accounts.length,
+                  itemCount: _homePageController.userAccounts.length,
                 ),
               ))
             ],
@@ -71,6 +75,21 @@ class BackupPage extends StatelessWidget {
               radius: 22,
               backgroundColor:
                   ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              child: Container(
+                alignment: Alignment.bottomRight,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image:
+                        accountModel.imageType == AccountProfileImageType.assets
+                            ? AssetImage(accountModel.profileImage!)
+                            : FileImage(
+                                File(accountModel.profileImage!),
+                              ) as ImageProvider,
+                  ),
+                ),
+              ),
             ),
             0.04.hspace,
             Column(
@@ -82,13 +101,14 @@ class BackupPage extends StatelessWidget {
                   style: bodySmall,
                 ),
                 Text(
-                  tz1Shortner(accountModel.accountSecretModel!.publicKey!),
+                  tz1Shortner(accountModel.accountSecretModel?.publicKey ??
+                      'nxkjfbhedvzbv'),
                   style: labelSmall.apply(
                       color: ColorConst.NeutralVariant.shade60),
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             GestureDetector(
                 onTap: () {
                   Get.bottomSheet(
@@ -134,9 +154,10 @@ class BackupPage extends StatelessWidget {
                     style: labelMedium,
                   ),
                   onTap: () {
-                    Get.to(SecretPhrasePage(
-                      accountModel: accountModel,
-                    ));
+                    controller.timer;
+                    Get.to(() => SecretPhrasePage(
+                          pkHash: accountModel.publicKeyHash!,
+                        ))?.whenComplete(() => controller.timer.cancel());
                   }),
               const Divider(
                 color: Color(0xff4a454e),
@@ -149,7 +170,10 @@ class BackupPage extends StatelessWidget {
                     style: labelMedium,
                   ),
                   onTap: () {
-                    Get.to(PrivateKeyPage());
+                    controller.timer;
+                    Get.to(() => PrivateKeyPage(
+                          pkh: accountModel.publicKeyHash!,
+                        ))?.whenComplete(() => controller.timer.cancel());
                   }),
               const Divider(
                 color: Color(0xff4a454e),
@@ -161,9 +185,7 @@ class BackupPage extends StatelessWidget {
                     "Cancel",
                     style: labelMedium,
                   ),
-                  onTap: () {
-                    Get.back();
-                  }),
+                  onTap: Get.back),
             ],
           ),
         ),

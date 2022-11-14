@@ -23,6 +23,7 @@ abstract class Routes {
   static const RECEIVE_PAGE = _Paths.RECEIVE_PAGE;
   static const SPLASH_PAGE = _Paths.SPLASH_PAGE;
   static const LOADING_PAGE = _Paths.LOADING_PAGE;
+  static const ACCOUNT_SUMMARY = _Paths.ACCOUNT_SUMMARY;
 }
 
 abstract class _Paths {
@@ -43,4 +44,5 @@ abstract class _Paths {
   static const RECEIVE_PAGE = '/receive-page';
   static const SPLASH_PAGE = '/splash-page';
   static const LOADING_PAGE = '/loading-page';
+  static const ACCOUNT_SUMMARY = '/account-summary';
 }

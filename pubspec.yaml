@@ -28,6 +28,8 @@ dependencies:
   path_provider: ^2.0.11
   http: ^0.13.5
   simple_gql: ^1.2.0
+  url_launcher: ^6.1.6
+  intl: ^0.17.0
   hex: ^0.2.0
   shimmer: ^2.0.0
 
@@ -66,6 +68,12 @@ flutter:
     - assets/contact_page/svg/
     #profile images
     - assets/profile_images/
+    
+    #node selector
+    - rpc_node/rpc_node.json
+    
+    #empty states images
+    - assets/empty_states/
 
   uses-material-design: true
 

@@ -1,4 +1,3 @@
-import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/models/tokens_model.dart';
 
 class MockData {

@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:naan_wallet/app/data/services/service_models/nft_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 class CollectibleWidget extends GetView<SendPageController> {
   CollectibleWidget({
@@ -113,8 +113,8 @@ class CollectibleWidget extends GetView<SendPageController> {
             width: 2,
           ),
           AnimatedRotation(
-            duration: Duration(milliseconds: 300),
-            turns: isExpanded ? 1/4 : 0,
+            duration: const Duration(milliseconds: 300),
+            turns: isExpanded ? 1 / 4 : 0,
             child: Icon(
               Icons.arrow_forward_ios,
               color: ColorConst.NeutralVariant.shade60,
@@ -129,9 +129,9 @@ class CollectibleWidget extends GetView<SendPageController> {
 
 class NFTwidget extends StatelessWidget {
   final NftTokenModel nfTmodel;
-  final onTap;
+  final Function(NftTokenModel) onTap;
   String? nftArtifactUrl;
-  NFTwidget({super.key, required this.nfTmodel, this.onTap}) {
+  NFTwidget({super.key, required this.nfTmodel, required this.onTap}) {
     nftArtifactUrl =
         "https://assets.objkt.media/file/assets-003/${nfTmodel.faContract}/${nfTmodel.tokenId.toString()}/thumb400";
   }
@@ -142,41 +142,50 @@ class NFTwidget extends StatelessWidget {
       onTap: () => onTap(nfTmodel),
       child: Container(
         width: 0.44.width,
-        padding: const EdgeInsets.all(10),
+        height: 0.32.height,
+        padding: EdgeInsets.all(10.aR),
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(8)),
+            borderRadius: BorderRadius.circular(8.aR)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 0.42.width,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    nftArtifactUrl!,
+            Flexible(
+              child: Container(
+                height: 180.aR,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                      nftArtifactUrl!,
+                    ),
                   ),
+                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(8.aR),
                 ),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(8),
               ),
             ),
-            const SizedBox(
-              height: 12,
+            SizedBox(
+              height: 10.aR,
             ),
             Text(
               nfTmodel.name!,
-              style: labelMedium,
+              style: labelMedium.copyWith(fontSize: 12.aR),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
-            const SizedBox(
-              height: 4,
+            SizedBox(
+              height: 4.aR,
             ),
             Text(
-              nfTmodel.description ?? "",
+              nfTmodel.creators?.first.holder?.alias ??
+                  nfTmodel.creators!.first.holder!.address!.tz1Short(),
               maxLines: 1,
-              style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+              style: labelMedium.copyWith(
+                  fontSize: 12.aR,
+                  color: ColorConst.NeutralVariant.shade60,
+                  fontWeight: FontWeight.w400),
               overflow: TextOverflow.ellipsis,
             ),
           ],

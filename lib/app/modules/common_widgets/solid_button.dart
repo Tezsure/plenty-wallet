@@ -21,7 +21,7 @@ class SolidButton extends StatelessWidget {
   final Color borderColor;
   final double borderWidth;
   final Widget? inActiveChild;
-  final TextStyle? fontStyle;
+  final double? borderRadius;
   RxBool? isLoading = false.obs;
   final TextStyle? titleStyle;
   SolidButton(
@@ -42,13 +42,15 @@ class SolidButton extends StatelessWidget {
       this.borderColor = Colors.transparent,
       this.borderWidth = 0,
       this.isLoading,
-      this.titleStyle, this.fontStyle})
+      this.titleStyle,
+      this.borderRadius})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     isLoading ??= false.obs;
     return MaterialButton(
+      height: height,
       elevation: elevation,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       padding: EdgeInsets.zero,
@@ -57,7 +59,8 @@ class SolidButton extends StatelessWidget {
       disabledColor: disabledButtonColor ?? const Color(0xFF1E1C1F),
       color: primaryColor ?? ColorConst.Primary,
       splashColor: ColorConst.Primary.shade60,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius ?? 8.aR)),
       child: Container(
         height: height ?? 50,
         width: width ?? double.infinity,
@@ -79,16 +82,19 @@ class SolidButton extends StatelessWidget {
                     color: Colors.white,
                   ),
                 )
-              : child != null
-                  ? (active ? child! : inActiveChild!)
-                  : Text(
-                      title,
-                      style: titleStyle ??
-                          titleSmall.apply(
-                              color: active
-                                  ? textColor ?? ColorConst.Neutral.shade100
-                                  : ColorConst.NeutralVariant.shade60),
-                    ),
+              : rowWidget == null
+                  ? child != null
+                      ? (active ? child! : inActiveChild!)
+                      : Text(
+                          title,
+                          style: titleStyle ??
+                              titleSmall.copyWith(
+                                  fontSize: 14.aR,
+                                  color: active
+                                      ? textColor ?? ColorConst.Neutral.shade100
+                                      : ColorConst.NeutralVariant.shade60),
+                        )
+                  : rowWidget!,
         ),
       ),
     );

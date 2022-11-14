@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup_page.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/connected_dapps_sheet.dart';
@@ -12,22 +13,26 @@ import 'package:naan_wallet/app/modules/settings_page/widget/reset_wallet_sheet.
 import 'package:naan_wallet/app/modules/settings_page/widget/select_network_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/select_node_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:share_plus/share_plus.dart';
 
+import '../../home_page/controllers/home_page_controller.dart';
 import '../controllers/settings_page_controller.dart';
+import '../widget/change_passcode.dart';
 
 class SettingsPageView extends GetView<SettingsPageController> {
-  const SettingsPageView({Key? key}) : super(key: key);
+  const SettingsPageView({super.key});
+  static final _homePageController = Get.find<HomePageController>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       bottom: false,
       child: Material(
         child: Container(
-          decoration:
-              const BoxDecoration(gradient: GradConst.GradientBackground),
+          decoration: const BoxDecoration(color: Colors.black),
           width: 1.width,
           height: 1.height,
           padding: EdgeInsets.symmetric(horizontal: 0.05.width),
@@ -58,53 +63,63 @@ class SettingsPageView extends GetView<SettingsPageController> {
                       parent: AlwaysScrollableScrollPhysics()),
                   child: Column(
                     children: [
-                      accountOption(),
+                      Obx(() => _homePageController.userAccounts.isEmpty
+                          ? const SizedBox()
+                          : _accountOption()),
                       SizedBox(height: 0.05.width),
-                      connectedAppsOption(),
+                      _connectedAppsOption(),
                       SizedBox(height: 0.05.width),
-                      settingsSeparator(
+                      _settingsSeparator(
                         title: "Security",
                         settings: [
-                          settingOption(
+                          _settingOption(
                             onTap: () {
                               Get.to(
-                                BackupPage(),
+                                () => BackupPage(),
                               );
                             },
                             title: "Backup",
                             svgPath: "${PathConst.SETTINGS_PAGE.SVG}backup.svg",
                           ),
-                          settingOption(
-                            onTap: () {},
+                          _settingOption(
+                            onTap: () => Get.to(() => const ChangePasscode()),
                             title: "Change passcode",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
                           ),
-                          fingerPrintOption()
+                          _fingerPrintOption()
                         ],
                       ),
                       SizedBox(height: 0.05.width),
-                      backupOption(),
+                      _backupOption(),
                       SizedBox(height: 0.05.width),
-                      settingsSeparator(
+                      _settingsSeparator(
                         title: "Social",
                         settings: [
-                          settingOption(
+                          _settingOption(
+                            onTap: () => Share.share(
+                                "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. https://naanwallet.com"),
                             title: "Share Naan",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
                           ),
-                          settingOption(
+                          _settingOption(
+                            onTap: (() => CommonFunctions.launchURL(
+                                "https://twitter.com/Naanwallet")),
                             title: "Follow us on Twitter",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
                           ),
-                          settingOption(
+                          _settingOption(
+                            onTap: () => CommonFunctions.launchURL(
+                                "https://discord.gg/wpcNRsBbxy"),
                             title: "Join our Discord",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
                           ),
-                          settingOption(
+                          _settingOption(
+                            onTap: () => CommonFunctions.launchURL(
+                                "mailto:naan-support@tezsure.com"),
                             title: "Feedback & Support",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
@@ -112,25 +127,29 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         ],
                       ),
                       SizedBox(height: 0.05.width),
-                      settingsSeparator(
+                      _settingsSeparator(
                         title: "About",
                         settings: [
-                          settingOption(
+                          _settingOption(
+                            onTap: () => CommonFunctions.launchURL(
+                                "https://www.naanwallet.com/privacy-policy.html"),
                             title: "Privacy Policy",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}privacy.svg",
                           ),
-                          settingOption(
+                          _settingOption(
+                            onTap: () => CommonFunctions.launchURL(
+                                "https://www.naanwallet.com/terms.html"),
                             title: "Terms & Condition",
                             svgPath: "${PathConst.SETTINGS_PAGE.SVG}terms.svg",
                           ),
                         ],
                       ),
                       SizedBox(height: 0.05.width),
-                      settingsSeparator(
+                      _settingsSeparator(
                         title: "Others",
                         settings: [
-                          settingOption(
+                          _settingOption(
                             title: "Change Network",
                             svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
                             onTap: () {
@@ -142,8 +161,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                   () => Text(
                                     controller.networkType.value ==
                                             NetworkType.mainNet
-                                        ? "mainnet"
-                                        : "testnet",
+                                        ? "Mainnet"
+                                        : "Testnet",
                                     style: labelSmall.apply(
                                         color:
                                             ColorConst.NeutralVariant.shade60),
@@ -157,7 +176,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                               ],
                             ),
                           ),
-                          settingOption(
+                          _settingOption(
                               title: "Node Selector",
                               svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
                               onTap: () {
@@ -169,14 +188,13 @@ class SettingsPageView extends GetView<SettingsPageController> {
                               },
                               trailing: Row(
                                 children: [
-                                  Obx(
-                                    () => Text(
-                                      controller.selectedNode.value.title,
-                                      style: labelSmall.apply(
-                                          color: ColorConst
-                                              .NeutralVariant.shade60),
-                                    ),
-                                  ),
+                                  Obx(() => Text(
+                                        controller.selectedNode.value.name ??
+                                            "Default",
+                                        style: labelSmall.apply(
+                                            color: ColorConst
+                                                .NeutralVariant.shade60),
+                                      )),
                                   Icon(
                                     Icons.chevron_right_rounded,
                                     size: 14,
@@ -186,13 +204,9 @@ class SettingsPageView extends GetView<SettingsPageController> {
                               )),
                         ],
                       ),
-                      SizedBox(
-                        height: 0.05.width,
-                      ),
-                      resetOption(),
-                      SizedBox(
-                        height: 0.065.width,
-                      ),
+                      SizedBox(height: 0.05.width),
+                      _resetOption(),
+                      SizedBox(height: 0.065.width),
                     ],
                   ),
                 ),
@@ -204,7 +218,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  Widget settingsSeparator({required List<Widget> settings, required title}) {
+  Widget _settingsSeparator({required List<Widget> settings, required title}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -238,7 +252,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  GestureDetector settingOption({
+  GestureDetector _settingOption({
     required String title,
     required String svgPath,
     GestureTapCallback? onTap,
@@ -268,7 +282,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  Widget fingerPrintOption() {
+  Widget _fingerPrintOption() {
     return SizedBox(
       height: 54,
       child: Row(
@@ -290,7 +304,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
             () => FlutterSwitch(
               value: controller.fingerprint.value,
               onToggle: (value) {
-                controller.switchFingerprint(value);
+                controller.changeBiometricAuth(value);
               },
               height: 18,
               width: 32,
@@ -307,7 +321,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  Widget accountOption() {
+  Widget _accountOption() {
     return GestureDetector(
       onTap: () {
         Get.bottomSheet(
@@ -328,11 +342,13 @@ class SettingsPageView extends GetView<SettingsPageController> {
             SizedBox(
               width: 0.165.width,
               child: Align(
-                alignment: Alignment.centerLeft,
-                child: CircleAvatar(
-                    radius: 23,
-                    backgroundColor: ColorConst.NeutralVariant.shade40),
-              ),
+                  alignment: Alignment.centerLeft,
+                  child: CustomImageWidget(
+                    imageType: _homePageController.userAccounts[0].imageType!,
+                    imagePath:
+                        _homePageController.userAccounts[0].profileImage!,
+                    imageRadius: 23,
+                  )),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -351,7 +367,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
                   height: 27,
                   child: Center(
                     child: Text(
-                      "Account Name",
+                      _homePageController.userAccounts[0].name ??
+                          'Account Name',
                       style: labelMedium,
                     ),
                   ),
@@ -364,7 +381,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  Widget connectedAppsOption() {
+  Widget _connectedAppsOption() {
     return GestureDetector(
       onTap: () {
         Get.bottomSheet(ConnectedDappBottomSheet());
@@ -394,7 +411,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  Widget resetOption() {
+  Widget _resetOption() {
     return GestureDetector(
       onTap: () {
         Get.bottomSheet(const ResetWalletBottomSheet());
@@ -419,7 +436,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  Widget backupOption() {
+  Widget _backupOption() {
     return Obx(
       () => Container(
         decoration: BoxDecoration(

@@ -37,23 +37,17 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                   return LinearGradient(
                     colors: [
                       const Color(0xffD9D9D9).withOpacity(0),
-                      const Color(0xffD9D9D9).withOpacity(0.08),
-                      const Color(0xffD9D9D9).withOpacity(0.4),
-                      const Color(0xffD9D9D9).withOpacity(0.9),
+                      const Color(0xffD9D9D9),
                     ],
                     begin: Alignment.bottomCenter,
-                    end: const Alignment(0, 0.2),
+                    end: Alignment.topCenter,
                   ).createShader(bounds);
                 },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.sp),
-                  child: Container(
-                    margin: EdgeInsets.only(top: 25.sp),
-                    child: SvgPicture.asset(
-                      "${PathConst.SVG}create_wallet_background.svg",
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                child: SvgPicture.asset(
+                  "${PathConst.SVG}create_wallet_background.svg",
+                  fit: BoxFit.contain,
+                  height: 400.sp,
+                  width: 340.sp,
                 ),
               ),
               Padding(
@@ -61,19 +55,10 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Text(
-                    //   "Welcome to Naan Wallet",
-                    //   style: titleLarge,
-                    // ),
-                    // 0.01.vspace,
-                    // Text(
-                    //   "Naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.",
-                    //   style: bodySmall.apply(
-                    //     color: ColorConst.NeutralVariant.shade60,
-                    //   ),
-                    // ),
                     0.046.vspace,
                     SolidButton(
+                      height: 50.sp,
+                      width: 326.sp,
                       title: "Create a new account",
                       titleStyle: titleSmall.copyWith(
                         fontWeight: FontWeight.w600,
@@ -89,16 +74,16 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         );
                       },
                     ),
-
                     0.0125.vspace,
                     GestureDetector(
                       onTap: () {
                         Get.toNamed(Routes.IMPORT_WALLET_PAGE);
                       },
                       child: Container(
-                        height: 48,
+                        height: 48.sp,
+                        width: 326.sp,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8.sp),
                           border: Border.all(
                             color: ColorConst.Neutral.shade80,
                             width: 1.50,
@@ -122,8 +107,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     Expanded(
                         child: Divider(
                       thickness: 1,
-                      color: ColorConst.NeutralVariant.shade60
-                          .withOpacity(0.4),
+                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
                     )),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -138,33 +122,30 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     Expanded(
                         child: Divider(
                       thickness: 1,
-                      color: ColorConst.NeutralVariant.shade60
-                          .withOpacity(0.4),
+                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
                     )),
                   ],
                 ),
               ),
-              0.035.vspace,
+              0.03.vspace,
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+                padding: EdgeInsets.symmetric(horizontal: 36.sp),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SocialLoginButton(
-                        onTap: controller.login(
-                            socialAppName: Provider.apple),
+                        onTap: controller.login(socialAppName: Provider.apple),
                         socialIconPath: "apple.svg"),
                     SocialLoginButton(
-                        onTap: controller.login(
-                            socialAppName: Provider.google),
+                        onTap: controller.login(socialAppName: Provider.google),
                         socialIconPath: "google.svg"),
                     SocialLoginButton(
-                        onTap: controller.login(
-                            socialAppName: Provider.facebook),
+                        onTap:
+                            controller.login(socialAppName: Provider.facebook),
                         socialIconPath: "facebook.svg"),
                     SocialLoginButton(
-                        onTap: controller.login(
-                            socialAppName: Provider.twitter),
+                        onTap:
+                            controller.login(socialAppName: Provider.twitter),
                         socialIconPath: "twitter.svg"),
                   ],
                 ),
@@ -173,7 +154,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
               GestureDetector(
                 onTap: () => Get.offAndToNamed(Routes.HOME_PAGE),
                 child: Container(
-                  height: 48,
+                  height: 48.sp,
                   width: double.infinity,
                   alignment: Alignment.center,
                   child: Text(
@@ -209,7 +190,12 @@ class SocialLoginButton extends StatelessWidget {
       child: CircleAvatar(
         radius: 0.07.width,
         backgroundColor: Colors.transparent,
-        child: SvgPicture.asset("${PathConst.SVG}$socialIconPath"),
+        child: SvgPicture.asset(
+          "${PathConst.SVG}$socialIconPath",
+          fit: BoxFit.contain,
+          height: 48.sp,
+          width: 48.sp,
+        ),
       ),
     );
   }

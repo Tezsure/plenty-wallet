@@ -79,10 +79,9 @@ class LoadingPageController extends GetxController {
         // mnemonic accounts
         await Future.wait([
           UserStorageService().writeNewAccount(
-            // ignore: invalid_use_of_protected_member
             [
-              ...importWalletPageController.selectedAccountsTz1.value,
-              ...importWalletPageController.selectedAccountsTz2.value
+              ...importWalletPageController.selectedAccountsTz1,
+              ...importWalletPageController.selectedAccountsTz2
             ],
             false,
             true,
@@ -121,9 +120,10 @@ class LoadingPageController extends GetxController {
       );
     } else if (nextRoute == null && fromRoute == Routes.IMPORT_WALLET_PAGE) {
       // close loading, create profile, import wallet
-      Get.back();
-      Get.back();
-      Get.back();
+      Get
+        ..back()
+        ..back()
+        ..back();
     } else {
       Get.toNamed(nextRoute!);
     }

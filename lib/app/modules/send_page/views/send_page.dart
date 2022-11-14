@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
 import 'package:naan_wallet/app/modules/send_page/views/pages/contact_page_view.dart';
@@ -38,9 +37,8 @@ class SendPage extends GetView<SendPageController> {
         height: 0.95.height,
         width: 1.width,
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-          gradient: GradConst.GradientBackground,
-        ),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+            color: Colors.black),
         child: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Column(
@@ -169,8 +167,8 @@ class SendPage extends GetView<SendPageController> {
                                   contactModel:
                                       controller.suggestedContacts.first,
                                 )
-                              : SizedBox())
-                      : SizedBox(),
+                              : const SizedBox())
+                      : const SizedBox(),
                 )
               ],
             ),

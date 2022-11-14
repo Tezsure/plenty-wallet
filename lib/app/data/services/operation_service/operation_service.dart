@@ -6,7 +6,7 @@ import 'package:naan_wallet/app/data/services/service_models/operation_model.dar
 class OperationService {
   Future<dynamic> sendXtzTx(
       OperationModel operationModel, String rpcNode) async {
-    var transactionSigner =  Dartez.createSigner(
+    var transactionSigner = Dartez.createSigner(
         Dartez.writeKeyWithHint(
             operationModel.keyStoreModel!.secretKey,
             operationModel.keyStoreModel!.publicKeyHash.startsWith("tz2")

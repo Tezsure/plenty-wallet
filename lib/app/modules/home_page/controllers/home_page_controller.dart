@@ -31,11 +31,11 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         .renderService
         .accountUpdater
         .registerVariable(userAccounts);
+
     // DataHandlerService().renderService.accountNft.registerCallback((data) {
     //   print("Nft data");
     //   print(jsonEncode(data));
     // });
-
   }
 
   @override
@@ -61,9 +61,15 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
       NaanBottomSheet(
         gradientStartingOpacity: 1,
         blurRadius: 5,
+        height: 290.sp,
         isScrollControlled: true,
-        title: 'Backup Your Wallet',
         bottomSheetWidgets: [
+          0.03.vspace,
+          Text(
+            'Backup Your Wallet',
+            style: titleLarge,
+          ),
+          0.012.vspace,
           Text(
             'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.',
             textAlign: TextAlign.start,
@@ -71,6 +77,8 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
           ),
           .03.vspace,
           SolidButton(
+              height: 40.sp,
+              width: 1.width,
               textColor: Colors.white,
               title: "Backup Wallet ( ~1 min )",
               onPressed: () => Get.toNamed(
@@ -85,7 +93,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
             padding: EdgeInsets.zero,
             onPressed: () => Get.back(),
             child: Container(
-              height: 48,
+              height: 40.sp,
               width: 1.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),

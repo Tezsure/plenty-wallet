@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:flutter/material.dart';
 
 LinearGradient background = const LinearGradient(
@@ -92,6 +90,7 @@ class ColorConst {
   static const Color grey = Color(0xffA4A3A9);
   static const Color blue = Color(0xff3F9AF7);
   static const Color green = Color(0xff7EFF3F);
+  static const Color naanCustomColor = Color(0xff5AE200);
 
   static const NaaNShadesColor Primary = NaaNShadesColor(
     _Primary,
@@ -108,7 +107,7 @@ class ColorConst {
       90: Color(0xFFFFD9DE),
       95: Color(0xFFFFECEE),
       99: Color(0xFFFFFBFF),
-      100: Color(0xFFFFFFFF),
+      100: Color(0xFFFFFFFF)
     },
   );
 
@@ -130,6 +129,7 @@ class ColorConst {
       100: Color(0xFFFFFFFF),
     },
   );
+
   static const NaaNShadesColor Tertiary = NaaNShadesColor(
     _Tertiary,
     <int, Color>{

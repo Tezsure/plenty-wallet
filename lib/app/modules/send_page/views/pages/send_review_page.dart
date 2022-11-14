@@ -12,17 +12,17 @@ import '../widgets/token_view.dart';
 
 class SendReviewPage extends StatelessWidget {
   final SendPageController controller;
-  SendReviewPage({
-    Key? key,
+  const SendReviewPage({
+    super.key,
     required this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 0.8.height,
       width: 1.width,
-      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+      decoration: const BoxDecoration(color: Colors.black),
       child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
