@@ -33,6 +33,7 @@ class NftGalleryModel {
           userAddress: publicKeyHashs![publicKeyHashs!.length == 1
               ? 0
               : Random().nextInt(publicKeyHashs!.length - 1)]);
+      print(nfts.length);
       nftTokenModel = nfts[Random().nextInt(nfts.length - 1)];
     }
 

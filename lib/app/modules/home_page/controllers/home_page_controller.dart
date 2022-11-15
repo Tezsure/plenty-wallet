@@ -23,6 +23,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
       const Duration(milliseconds: 100); // Toggle LB Button Animation Duration
   RxDouble sliderValue = 0.0.obs;
 
+  RxDouble xtzPrice = 0.0.obs;
   RxList<AccountModel> userAccounts = <AccountModel>[].obs;
 
   @override
@@ -33,6 +34,14 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         .renderService
         .accountUpdater
         .registerVariable(userAccounts);
+
+    DataHandlerService()
+        .renderService
+        .xtzPriceUpdater
+        .registerCallback((value) {
+      xtzPrice.value = value;
+      print("xtzPrice: $value");
+    });
 
     // DataHandlerService().renderService.accountNft.registerCallback((data) {
     //   print("Nft data");

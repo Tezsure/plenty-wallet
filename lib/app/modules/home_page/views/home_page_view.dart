@@ -25,62 +25,21 @@ class HomePageView extends GetView<HomePageController>
           child: Scaffold(
               body: Container(
                   width: 1.width,
-                  color: ColorConst.Primary,
+                  color: Colors.black,
                   child: SafeArea(
                     bottom: false,
-                    child: Stack(
+                    child: Column(
                       children: [
-                        Column(
-                          children: [
-                            const HomepageAppBar(),
-                            AccountValueWidget(),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 83),
-                          child: SizedBox(
-                            height: 1.height,
-                            width: 1.width,
-                            child: DraggableScrollableSheet(
-                              initialChildSize: 0.6,
-                              maxChildSize: 1,
-                              minChildSize: 0.6,
-                              snap: true,
-                              builder: (_, scrollController) => Container(
-                                decoration: const BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(12))),
-                                child: Column(
-                                  children: [
-                                    0.01.vspace,
-                                    Container(
-                                      height: 5,
-                                      width: 36,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: ColorConst.NeutralVariant.shade60
-                                            .withOpacity(0.3),
-                                      ),
-                                    ),
-                                    0.02.vspace,
-                                    Expanded(
-                                      child: SingleChildScrollView(
-                                        controller: scrollController,
-                                        child: Wrap(
-                                          alignment: WrapAlignment.center,
-                                          crossAxisAlignment:
-                                              WrapCrossAlignment.center,
-                                          runAlignment: WrapAlignment.center,
-                                          runSpacing: 28,
-                                          spacing: 10,
-                                          children: registeredWidgets,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                        const HomepageAppBar(),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Wrap(
+                              alignment: WrapAlignment.center,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              runAlignment: WrapAlignment.center,
+                              runSpacing: 28,
+                              spacing: 22,
+                              children: registeredWidgets,
                             ),
                           ),
                         ),

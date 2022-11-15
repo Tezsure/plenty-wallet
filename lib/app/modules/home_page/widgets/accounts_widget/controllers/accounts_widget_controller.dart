@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 
 class AccountsWidgetController extends GetxController {
   final List<String> imagePath = [
@@ -15,7 +16,9 @@ class AccountsWidgetController extends GetxController {
 
   /// Change the current index to the new index of visible account container
   void onPageChanged(int index) {
+    print("onPageChanged: $index");
     selectedAccountIndex.value = index;
+    update();
   }
 
   /// add account functions
