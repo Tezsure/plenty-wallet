@@ -20,7 +20,6 @@ class AddNewAccountBottomSheet extends StatelessWidget {
   AddNewAccountBottomSheet({Key? key}) : super(key: key);
 
   final controller = Get.find<AccountsWidgetController>();
-
   @override
   Widget build(BuildContext context) {
     controller.initAddAccount();

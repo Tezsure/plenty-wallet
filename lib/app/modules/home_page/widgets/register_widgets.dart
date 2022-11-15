@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/accessblity_widget/accessblity_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/buy_tez_widget/buy_tez_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/coming_soon_widget/coming_soon_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/earn_tez_widget/earn_tez_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/new_headlines_widget/new_headlines_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/view/nft_gallery_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/objkt_nft_widget.dart';
 
 // import 'package:naan_wallet/app/data/mock/mock_data.dart';
 import 'accounts_widget/views/accounts_widget_view.dart';
@@ -18,11 +24,21 @@ final List<Widget> registeredWidgets = [
   //   storyTitle: MockData.naanInfoStory.keys.toList(),
   // ),
   AccountsWidget(),
+  const Accessiblity(),
+
+  const BuyTezWidget(),
+  const EarnTezWidget(),
+  //const TezosPriceWidget(),
+  //const MyNFTwidget(),
+
+  const NftGalleryWidget(),
+  const ObjktNftWidget(),
   const TezosPriceWidget(),
-  const MyNFTwidget(),
-  const PublicNFTgalleryWidget(),
-  const CommunityProductsWidget(),
-  LiquidityBakingWidget(),
-  const DelegateWidget(),
-  const NewsHeadlineWidget()
+  const ComingSoonWidget()
+
+  // const PublicNFTgalleryWidget(),
+  //const CommunityProductsWidget(),
+  // LiquidityBakingWidget(),
+  // const DelegateWidget(),
+  //const NewsHeadlineWidget()
 ];

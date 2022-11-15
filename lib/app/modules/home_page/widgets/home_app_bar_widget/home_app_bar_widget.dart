@@ -13,68 +13,27 @@ class HomepageAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 24, top: 26, bottom: 16, left: 24),
+      padding: const EdgeInsets.only(right: 24, top: 26, bottom: 24, left: 24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
             onTap: () => Get.toNamed(Routes.SETTINGS_PAGE),
-            child: const Icon(
-              Icons.menu,
-              color: Colors.white,
+            child: Image.asset(
+              "${PathConst.HOME_PAGE}menu.png",
+              width: 24,
+              height: 24,
             ),
           ),
-          Container(
-            width: 124,
-            height: 40,
-            decoration: BoxDecoration(
-              color: ColorConst.Primary.shade60,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              children: [
-                actionItems(
-                    onTap: () {},
-                    svgPath: "${PathConst.HOME_PAGE.SVG}gallery.svg"),
-                const VerticalDivider(
-                  width: 2,
-                  thickness: 2,
-                  color: ColorConst.Primary,
-                ),
-                actionItems(
-                    onTap: () {
-                      Get.bottomSheet(const DappsPageView(),
-                          barrierColor: Colors.white.withOpacity(0.09),
-                          isScrollControlled: true);
-                    },
-                    svgPath: "${PathConst.HOME_PAGE.SVG}browser.svg"),
-                const VerticalDivider(
-                  width: 2,
-                  thickness: 2,
-                  color: ColorConst.Primary,
-                ),
-                actionItems(
-                    onTap: () {},
-                    svgPath: "${PathConst.HOME_PAGE.SVG}qrcode.svg"),
-              ],
+          GestureDetector(
+            onTap: () => {},
+            child: Image.asset(
+              "${PathConst.HOME_PAGE}scan.png",
+              width: 42,
+              height: 42,
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  GestureDetector actionItems(
-      {required GestureTapCallback onTap, required String svgPath}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: SizedBox(
-        height: 40,
-        width: 40,
-        child: SvgPicture.asset(
-          svgPath,
-          fit: BoxFit.scaleDown,
-        ),
       ),
     );
   }

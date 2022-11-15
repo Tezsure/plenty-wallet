@@ -17,16 +17,13 @@ class AddAccountWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 0.09.width, top: 0.09.height),
       height: 0.26.height,
       width: 0.92.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: ColorConst.Primary,
-      ),
+          borderRadius: BorderRadius.circular(22), gradient: accountBg),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           GestureDetector(
             onTap: () {
@@ -36,18 +33,21 @@ class AddAccountWidget extends StatelessWidget {
               );
             },
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 20,
-                  width: 20,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: ColorConst.Primary.shade60,
-                  ),
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 18.sp,
+                Center(
+                  child: Container(
+                    height: 20,
+                    width: 20,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: ColorConst.Secondary.shade70,
+                    ),
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 18.sp,
+                    ),
                   ),
                 ),
                 0.02.hspace,
@@ -60,7 +60,7 @@ class AddAccountWidget extends StatelessWidget {
           ),
           0.010.vspace,
           Text(
-            'Create new account and add to\nthe stack ',
+            'Create new account and add to the stack ',
             style: labelSmall,
           )
         ],
