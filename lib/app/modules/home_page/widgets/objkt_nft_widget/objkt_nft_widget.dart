@@ -13,7 +13,7 @@ class ObjktNftWidget extends StatelessWidget {
     return Container(
       height: 0.405.width,
       width: 0.405.width,
-      margin: EdgeInsets.only(left: 0.04.width),
+      margin: EdgeInsets.only(left: 24.sp),
       decoration: BoxDecoration(
         gradient: purpleGradient,
         borderRadius: BorderRadius.circular(22.sp),

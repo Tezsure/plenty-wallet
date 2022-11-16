@@ -30,7 +30,7 @@ class AccountsWidget extends GetView<AccountsWidgetController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: EdgeInsets.symmetric(horizontal: 24.sp),
       child: SizedBox(
         width: 1.width,
         height: 0.45.width,

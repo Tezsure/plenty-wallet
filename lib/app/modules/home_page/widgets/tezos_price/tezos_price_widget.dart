@@ -16,7 +16,7 @@ class TezosPriceWidget extends StatelessWidget {
       height: 0.405.width,
       width: 0.405.width,
       padding: EdgeInsets.all(0.035.width),
-      margin: EdgeInsets.only(right: 0.04.width),
+      margin: EdgeInsets.only(right: 24.sp),
       decoration: BoxDecoration(
         color: ColorConst.NeutralVariant.shade10,
         borderRadius: BorderRadius.circular(22.sp),

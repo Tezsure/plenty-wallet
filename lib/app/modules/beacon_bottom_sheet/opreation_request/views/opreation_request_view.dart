@@ -241,8 +241,13 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 4, horizontal: 20),
                                             child: controller.operation.isEmpty
-                                                ? const CircularProgressIndicator(
-                                                    color: Colors.white,
+                                                ? const SizedBox(
+                                                    height: 20,
+                                                    width: 20,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      color: Colors.white,
+                                                    ),
                                                   )
                                                 : Row(
                                                     mainAxisAlignment:

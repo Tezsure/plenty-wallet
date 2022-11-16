@@ -12,7 +12,7 @@ class Accessiblity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: EdgeInsets.symmetric(horizontal: 24.sp),
       child: Container(
         height: 0.45.width,
         width: 1.width,

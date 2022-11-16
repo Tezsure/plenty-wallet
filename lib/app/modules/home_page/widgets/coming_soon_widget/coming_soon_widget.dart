@@ -10,7 +10,10 @@ class ComingSoonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 1.width,
-      child: SvgPicture.asset("${PathConst.HOME_PAGE.SVG}coming_soon.svg"),
+      child: SvgPicture.asset(
+        "${PathConst.HOME_PAGE.SVG}coming_soon.svg",
+        width: 1.width,
+      ),
     );
   }
 }

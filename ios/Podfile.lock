@@ -1,27 +1,27 @@
 PODS:
   - Base58Swift (2.1.10):
     - BigInt (~> 5.0.0)
-  - beacon_flutter (1.0.7):
-    - BeaconBlockchainSubstrate (= 3.2.2)
-    - BeaconBlockchainTezos (= 3.2.2)
-    - BeaconClientDApp (= 3.2.2)
-    - BeaconClientWallet (= 3.2.2)
-    - BeaconCore (= 3.2.2)
-    - BeaconTransportP2PMatrix (= 3.2.2)
+  - beacon_flutter (1.0.8):
+    - BeaconBlockchainSubstrate (= 3.2.3)
+    - BeaconBlockchainTezos (= 3.2.3)
+    - BeaconClientDApp (= 3.2.3)
+    - BeaconClientWallet (= 3.2.3)
+    - BeaconCore (= 3.2.3)
+    - BeaconTransportP2PMatrix (= 3.2.3)
     - Flutter
-  - BeaconBlockchainSubstrate (3.2.2):
-    - BeaconCore (~> 3.2.2)
-  - BeaconBlockchainTezos (3.2.2):
-    - BeaconCore (~> 3.2.2)
-  - BeaconClientDApp (3.2.2):
-    - BeaconCore (~> 3.2.2)
-  - BeaconClientWallet (3.2.2):
-    - BeaconCore (~> 3.2.2)
-  - BeaconCore (3.2.2):
+  - BeaconBlockchainSubstrate (3.2.3):
+    - BeaconCore (~> 3.2.3)
+  - BeaconBlockchainTezos (3.2.3):
+    - BeaconCore (~> 3.2.3)
+  - BeaconClientDApp (3.2.3):
+    - BeaconCore (~> 3.2.3)
+  - BeaconClientWallet (3.2.3):
+    - BeaconCore (~> 3.2.3)
+  - BeaconCore (3.2.3):
     - Base58Swift (~> 2.1.0)
     - Sodium (~> 0.9.1)
-  - BeaconTransportP2PMatrix (3.2.2):
-    - BeaconCore (~> 3.2.2)
+  - BeaconTransportP2PMatrix (3.2.3):
+    - BeaconCore (~> 3.2.3)
   - BigInt (5.0.0)
   - Flutter (1.0.0)
   - flutter_inappwebview (0.0.1):
@@ -125,13 +125,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Base58Swift: 53d551f0b33d9478fa63b3445e453a772d6b31a7
-  beacon_flutter: 998892791669012462d8707f1fd4e75e1bde5aec
-  BeaconBlockchainSubstrate: 21d332b26ad519df492901de789565c8d4b2a711
-  BeaconBlockchainTezos: 499b2a1203b4ce2631571c692ee3d8e9196ff2e8
-  BeaconClientDApp: 863c29f13fc3dc12db23f9f187cc49e77b446bf3
-  BeaconClientWallet: 5b9eb04e97d87afdbbf89311a178e9b4d0b5a07b
-  BeaconCore: 90436dfd5ae58d264633c3ea6e5437ee33f41800
-  BeaconTransportP2PMatrix: c449f410083916f1c7389c83faa7e0d5eeb74dec
+  beacon_flutter: 5d8748f51ff25724266676afc02088d3fade29b1
+  BeaconBlockchainSubstrate: 76d202c65a939fb6ccbe57ef1016f93212400bac
+  BeaconBlockchainTezos: ca57ca89d804f54e9c66f99375c911b715629353
+  BeaconClientDApp: ef976c485eb3c8f9238442d29f1d1ad9cd3aa6fc
+  BeaconClientWallet: fa3e528d11909cf9500933c742ef6a60cef7d4b8
+  BeaconCore: e4eb30dd44595984322ea3c3149ae19d8d78c821
+  BeaconTransportP2PMatrix: eb1be2bf6b91964970961980f46298d867b0bdf7
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
@@ -151,10 +151,6 @@ SPEC CHECKSUMS:
   Web3Auth: 28e08d968ef08236b4c94000845ef40c2413b757
   web3auth_flutter: d79313b6942fd627cd279e9c1d13232a4345f7f7
 
-<<<<<<< HEAD
-PODFILE CHECKSUM: 7c0599aeb2222da10591b330557759a476d2e6c2
-=======
 PODFILE CHECKSUM: 775997f741c536251164e3eacf6e34abf2eb7a17
->>>>>>> feat/dapp_browser_latest_dummy
 
 COCOAPODS: 1.11.3
