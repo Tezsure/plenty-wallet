@@ -30,7 +30,7 @@ final List<Widget> registeredWidgets = [
 
   const NftGalleryWidget(),
   const ObjktNftWidget(),
-  const TezosPriceWidget(),
+  TezosPriceWidget(),
   const ComingSoonWidget()
 
   // const PublicNFTgalleryWidget(),

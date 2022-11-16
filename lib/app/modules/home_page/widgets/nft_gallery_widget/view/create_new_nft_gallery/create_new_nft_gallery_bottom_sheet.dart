@@ -100,20 +100,22 @@ class CreateNewNftGalleryBottomSheet
           SizedBox(
             height: 24.spH,
           ),
-          Expanded(
-            flex: 1,
-            child: NaanListView(
-              listViewEdgeInsets: EdgeInsets.only(
-                left: 16.sp,
-                right: 16.sp,
-              ),
-              itemBuilder: (context, index) =>
-                  accountItemWidget(index, controller.accounts![index]),
-              itemCount: controller.accounts!.length,
-              topSpacing: 18.spH,
-              bottomSpacing: 18.spH,
-            ),
-          ),
+          controller.accounts != null
+              ? Expanded(
+                  flex: 1,
+                  child: NaanListView(
+                    listViewEdgeInsets: EdgeInsets.only(
+                      left: 16.sp,
+                      right: 16.sp,
+                    ),
+                    itemBuilder: (context, index) =>
+                        accountItemWidget(index, controller.accounts![index]),
+                    itemCount: controller.accounts!.length,
+                    topSpacing: 18.spH,
+                    bottomSpacing: 18.spH,
+                  ),
+                )
+              : Container(),
           Container(
             margin: EdgeInsets.only(
               left: 16.sp + 16.arP,
@@ -375,32 +377,31 @@ class CreateNewNftGalleryBottomSheet
                   controller.accountName.value = value,
             ),
           ),
-          Expanded(child: Container()),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              margin: EdgeInsets.only(
-                left: 16.sp + 16.arP,
-                right: 16.sp + 16.arP,
-                bottom: 40.arP,
-                top: 30.spH,
-              ),
-              child: SolidButton(
-                title: "Done",
-                height: 50.arP,
-                active: controller.accountName.isNotEmpty &&
-                    controller.accountName.value.length > 2,
-                borderRadius: 8.arP,
-                titleStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.arP,
-                  fontWeight: FontWeight.w600,
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                margin: EdgeInsets.only(
+                  left: 16.sp + 16.arP,
+                  right: 16.sp + 16.arP,
+                  bottom: 40.arP,
+                  top: 30.spH,
                 ),
-                onPressed: () async {
-                  await controller.addNewNftGallery();
-                },
+                child: SolidButton(
+                  title: "Done",
+                  height: 50.arP,
+                  active: controller.accountName.isNotEmpty &&
+                      controller.accountName.value.length > 2,
+                  borderRadius: 8.arP,
+                  titleStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.arP,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  onPressed: () async {
+                    await controller.addNewNftGallery();
+                  },
+                ),
               ),
             ),
           ),

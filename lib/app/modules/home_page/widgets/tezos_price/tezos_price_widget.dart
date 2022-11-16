@@ -8,8 +8,8 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class TezosPriceWidget extends StatelessWidget {
-  const TezosPriceWidget({Key? key}) : super(key: key);
-
+  TezosPriceWidget({Key? key}) : super(key: key);
+  HomePageController homePageController = Get.find<HomePageController>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,10 +42,10 @@ class TezosPriceWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "\$${Get.find<HomePageController>().xtzPrice.value.toStringAsFixed(2)}",
-                  style: headlineSmall,
-                ),
+                Obx((() => Text(
+                      "\$${homePageController.xtzPrice.value.toStringAsFixed(2)}",
+                      style: headlineSmall,
+                    ))),
                 0.02.hspace,
                 Padding(
                   padding: EdgeInsets.only(bottom: 0.006.height),
