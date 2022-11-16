@@ -12,12 +12,12 @@ class AccountsWidgetController extends GetxController {
     'assets/svg/accounts/account_3.svg'
   ]; // Background Images for Accounts container
 
-  final RxInt selectedAccountIndex = 0.obs; // Current Visible Account Container
+  final RxInt currIndex = 0.obs; // Current Visible Account Container
 
   /// Change the current index to the new index of visible account container
   void onPageChanged(int index) {
     print("onPageChanged: $index");
-    selectedAccountIndex.value = index;
+    currIndex.value = index;
     update();
   }
 

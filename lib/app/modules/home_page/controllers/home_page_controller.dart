@@ -41,6 +41,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         .registerCallback((value) {
       xtzPrice.value = value;
       print("xtzPrice: $value");
+      //update();
     });
 
     // DataHandlerService().renderService.accountNft.registerCallback((data) {
