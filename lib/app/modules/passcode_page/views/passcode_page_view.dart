@@ -26,10 +26,8 @@ class PasscodePageView extends GetView<PasscodePageController> {
 
     return Scaffold(
       body: Container(
-        height: 1.height,
-        width: 1.width,
         color: Colors.black,
-        padding: EdgeInsets.symmetric(horizontal: 21.sp),
+        padding: const EdgeInsets.symmetric(horizontal: 21),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,12 +38,11 @@ class PasscodePageView extends GetView<PasscodePageController> {
                 child: GestureDetector(
                   onTap: () => Get.back(),
                   child: CircleAvatar(
-                    radius: 12.sp,
+                    radius: 0.045.width,
                     backgroundColor: Colors.transparent,
                     child: SvgPicture.asset(
                       "${PathConst.SVG}arrow_back.svg",
-                      fit: BoxFit.cover,
-                      height: 20.sp,
+                      fit: BoxFit.scaleDown,
                     ),
                   ),
                 ),
@@ -53,11 +50,11 @@ class PasscodePageView extends GetView<PasscodePageController> {
               0.05.vspace,
               Center(
                 child: SizedBox(
-                  height: 107.sp,
-                  width: 107.sp,
+                  height: 0.27.width,
+                  width: 0.27.width,
                   child: SvgPicture.asset(
                     "${PathConst.SVG}naan_logo.svg",
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fitHeight,
                   ),
                 ),
               ),
@@ -89,7 +86,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
                       bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
                 ),
               ),
-              0.045.vspace,
+              0.05.vspace,
               PassCodeWidget(onChanged: (value) {
                 // debugPrint(
                 //     "confirm passcode : ${controller.confirmPasscode.value}");
@@ -161,8 +158,8 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
               children: List.generate(
                 6,
                 (index) => Container(
-                  height: 18.sp,
-                  width: 18.sp,
+                  height: 22,
+                  width: 22,
                   decoration: BoxDecoration(
                     color: controller.confirmPasscode.value.length == 6 ||
                             controller.isToVerifyPassCode.value
@@ -172,12 +169,12 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
                         : (controller.confirmPasscode.value.length - 1 < index
                             ? Colors.transparent
                             : Colors.white),
-                    borderRadius: BorderRadius.circular(12.sp),
+                    borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                         color: controller.isPassCodeWrong.value
                             ? ColorConst.Error.shade60
                             : Colors.white,
-                        width: 2.sp),
+                        width: 2),
                   ),
                 ),
               ),
@@ -192,7 +189,6 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
 
   Widget getKeyBoardWidget() => Container(
         width: 0.7.width,
-        height: 200.sp,
         alignment: Alignment.center,
         child: Wrap(
           alignment: WrapAlignment.center,
@@ -275,8 +271,8 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
                     }
                   },
             child: Container(
-              width: 52.sp,
-              height: 52.sp,
+              width: 0.13.width,
+              height: 0.13.width,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
                     Radius.circular(0.065.width),
