@@ -65,7 +65,11 @@ class SelectNodeBottomSheet extends StatelessWidget {
         0.015.vspace,
         GestureDetector(
           onTap: () {
-            Get.bottomSheet(AddRPCbottomSheet());
+            Get.bottomSheet(
+              AddRPCbottomSheet(),
+              enterBottomSheetDuration: const Duration(milliseconds: 180),
+              exitBottomSheetDuration: const Duration(milliseconds: 150),
+            );
           },
           child: Container(
             height: 52,

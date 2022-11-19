@@ -328,6 +328,10 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                                 .allAssetsProfileImages.length -
                                             1,
                                       )])),
+                              enterBottomSheetDuration:
+                                  const Duration(milliseconds: 180),
+                              exitBottomSheetDuration:
+                                  const Duration(milliseconds: 150),
                               isScrollControlled: true,
                               barrierColor: Colors.transparent,
                             ).whenComplete(() => controller.contact?.value =
@@ -359,6 +363,10 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                                 .allAssetsProfileImages.length -
                                             1,
                                       )])),
+                              enterBottomSheetDuration:
+                                  const Duration(milliseconds: 180),
+                              exitBottomSheetDuration:
+                                  const Duration(milliseconds: 150),
                               isScrollControlled: true,
                               barrierColor: Colors.transparent,
                             ).whenComplete(() => controller.contact?.value =
@@ -382,6 +390,10 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                           onTap: () {
                             Get.bottomSheet(
                               RemoveContactBottomSheet(contactModel: contact),
+                              enterBottomSheetDuration:
+                                  const Duration(milliseconds: 180),
+                              exitBottomSheetDuration:
+                                  const Duration(milliseconds: 150),
                               barrierColor: Colors.transparent,
                             );
                           },

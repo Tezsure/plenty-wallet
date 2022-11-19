@@ -78,6 +78,10 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                                 onBackTap: Get.back,
                                 nftModel: widget.nftList[index],
                               ),
+                              enterBottomSheetDuration:
+                                  const Duration(milliseconds: 180),
+                              exitBottomSheetDuration:
+                                  const Duration(milliseconds: 150),
                               isScrollControlled: true,
                             );
                           },

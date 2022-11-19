@@ -151,6 +151,10 @@ class ConfirmTransactionSheet extends StatelessWidget {
                                   AccountSelectorSheet(
                                     selectedAccount: controller.userAccounts[0],
                                   ),
+                                  enterBottomSheetDuration:
+                                      const Duration(milliseconds: 180),
+                                  exitBottomSheetDuration:
+                                      const Duration(milliseconds: 150),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,

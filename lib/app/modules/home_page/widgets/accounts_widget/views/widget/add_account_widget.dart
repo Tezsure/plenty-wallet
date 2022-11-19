@@ -15,8 +15,6 @@ class AddAccountWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 0.26.height,
-      width: 0.92.width,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22), gradient: accountBg),
       child: Column(
@@ -27,6 +25,8 @@ class AddAccountWidget extends StatelessWidget {
             onTap: () {
               Get.bottomSheet(
                 addAccountSheet(),
+                enterBottomSheetDuration: const Duration(milliseconds: 180),
+                exitBottomSheetDuration: const Duration(milliseconds: 150),
                 barrierColor: Colors.transparent,
               );
             },
@@ -98,6 +98,10 @@ class AddAccountWidget extends StatelessWidget {
                   onTap: () {
                     Get.back();
                     Get.bottomSheet(AddNewAccountBottomSheet(),
+                            enterBottomSheetDuration:
+                                const Duration(milliseconds: 180),
+                            exitBottomSheetDuration:
+                                const Duration(milliseconds: 150),
                             barrierColor: Colors.transparent,
                             isScrollControlled: true)
                         .whenComplete(() {
@@ -159,6 +163,10 @@ class AddAccountWidget extends StatelessWidget {
                   onTap: () {
                     Get.back();
                     Get.bottomSheet(AddNewAccountBottomSheet(),
+                            enterBottomSheetDuration:
+                                const Duration(milliseconds: 180),
+                            exitBottomSheetDuration:
+                                const Duration(milliseconds: 150),
                             barrierColor: Colors.transparent,
                             isScrollControlled: true)
                         .whenComplete(() {

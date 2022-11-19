@@ -42,6 +42,7 @@ class SendPage extends GetView<SendPageController> {
         child: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               searchBar(),
               Obx(() => IndexedStack(
@@ -96,6 +97,7 @@ class SendPage extends GetView<SendPageController> {
                 0.02.hspace,
                 Obx(() => Flexible(
                       child: TextField(
+                        autofocus: true,
                         controller: controller.searchTextController.value,
                         onChanged: (value) {
                           if (controller.searchDebounceTimer != null) {

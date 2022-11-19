@@ -68,6 +68,10 @@ class AccountValueWidget extends StatelessWidget {
             children: [
               actionMethod("Send", "${PathConst.HOME_PAGE.SVG}send.svg",
                   onTap: () => Get.bottomSheet(const SendPage(),
+                      enterBottomSheetDuration:
+                          const Duration(milliseconds: 180),
+                      exitBottomSheetDuration:
+                          const Duration(milliseconds: 150),
                       isScrollControlled: true,
                       settings: RouteSettings(
                           arguments: homePageController.userAccounts[0]),
@@ -75,6 +79,10 @@ class AccountValueWidget extends StatelessWidget {
               0.09.hspace,
               actionMethod("Receive", "${PathConst.HOME_PAGE.SVG}receive.svg",
                   onTap: () => Get.bottomSheet(const ReceivePageView(),
+                      enterBottomSheetDuration:
+                          const Duration(milliseconds: 180),
+                      exitBottomSheetDuration:
+                          const Duration(milliseconds: 150),
                       isScrollControlled: true,
                       settings: RouteSettings(
                           arguments: homePageController.userAccounts[0]),

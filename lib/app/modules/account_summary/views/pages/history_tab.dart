@@ -45,6 +45,10 @@ class HistoryPage extends GetView<TransactionController> {
                         onTap: (() => Get.bottomSheet(
                               const SearchBottomSheet(),
                               isScrollControlled: true,
+                              enterBottomSheetDuration:
+                                  const Duration(milliseconds: 180),
+                              exitBottomSheetDuration:
+                                  const Duration(milliseconds: 150),
                             )),
                         child: Container(
                           height: 0.06.height,
@@ -79,6 +83,10 @@ class HistoryPage extends GetView<TransactionController> {
                       GestureDetector(
                         onTap: () {
                           Get.bottomSheet(HistoryFilterSheet(),
+                              enterBottomSheetDuration:
+                                  const Duration(milliseconds: 180),
+                              exitBottomSheetDuration:
+                                  const Duration(milliseconds: 150),
                               isScrollControlled: true);
                         },
                         child: SvgPicture.asset(
@@ -249,12 +257,16 @@ class HistoryPage extends GetView<TransactionController> {
           HistoryTile(
             tokenInfo: token,
             xtzPrice: controller.accController.xtzPrice.value,
-            onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
-              tokenInfo: token,
-              userAccountAddress:
-                  controller.accController.userAccount.value.publicKeyHash!,
-              transactionModel: token.token!,
-            )),
+            onTap: () => Get.bottomSheet(
+              TransactionDetailsBottomSheet(
+                tokenInfo: token,
+                userAccountAddress:
+                    controller.accController.userAccount.value.publicKeyHash!,
+                transactionModel: token.token!,
+              ),
+              enterBottomSheetDuration: const Duration(milliseconds: 180),
+              exitBottomSheetDuration: const Duration(milliseconds: 150),
+            ),
           ),
         ],
       );
@@ -309,13 +321,17 @@ class HistoryPage extends GetView<TransactionController> {
                 HistoryTile(
                   tokenInfo: controller.defaultTransactionList[index],
                   xtzPrice: controller.accController.xtzPrice.value,
-                  onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
-                    tokenInfo: controller.defaultTransactionList[index],
-                    userAccountAddress: controller
-                        .accController.userAccount.value.publicKeyHash!,
-                    transactionModel:
-                        controller.defaultTransactionList[index].token!,
-                  )),
+                  onTap: () => Get.bottomSheet(
+                    TransactionDetailsBottomSheet(
+                      tokenInfo: controller.defaultTransactionList[index],
+                      userAccountAddress: controller
+                          .accController.userAccount.value.publicKeyHash!,
+                      transactionModel:
+                          controller.defaultTransactionList[index].token!,
+                    ),
+                    enterBottomSheetDuration: const Duration(milliseconds: 180),
+                    exitBottomSheetDuration: const Duration(milliseconds: 150),
+                  ),
                 ),
               ],
             );

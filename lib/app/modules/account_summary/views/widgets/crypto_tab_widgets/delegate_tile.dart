@@ -71,6 +71,10 @@ class DelegateTile extends GetView<AccountSummaryController> {
                               ? GestureDetector(
                                   onTap: () => Get.bottomSheet(
                                       const ReDelegateBottomSheet(),
+                                      enterBottomSheetDuration:
+                                          const Duration(milliseconds: 180),
+                                      exitBottomSheetDuration:
+                                          const Duration(milliseconds: 150),
                                       isScrollControlled: true,
                                       enableDrag: true),
                                   child: Row(
@@ -175,53 +179,67 @@ class DelegateTile extends GetView<AccountSummaryController> {
                 onTap: isDelegated
                     ? () => Get.bottomSheet(
                         const DelegateSelectBaker(isScrollable: true),
+                        enterBottomSheetDuration:
+                            const Duration(milliseconds: 180),
+                        exitBottomSheetDuration:
+                            const Duration(milliseconds: 150),
                         isScrollControlled: true,
                         enableDrag: true)
-                    : () => Get.bottomSheet(NaanBottomSheet(
-                          height: 0.4.height,
-                          bottomSheetWidgets: [
-                            Center(
-                              child: SvgPicture.asset(
-                                '${PathConst.SVG}delegate_summary.svg',
-                                height: 82,
-                                width: 80,
+                    : () => Get.bottomSheet(
+                          NaanBottomSheet(
+                            height: 0.4.height,
+                            bottomSheetWidgets: [
+                              Center(
+                                child: SvgPicture.asset(
+                                  '${PathConst.SVG}delegate_summary.svg',
+                                  height: 82,
+                                  width: 80,
+                                ),
                               ),
-                            ),
-                            0.02.vspace,
-                            RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                text: 'Get 5% APR on your Tez\n',
-                                style: headlineSmall,
-                                children: [
-                                  WidgetSpan(child: 0.04.vspace),
-                                  TextSpan(
-                                    text:
-                                        'Your funds are neither locked nor frozen and do not move anywhere. You can spend them at\nany time and without any delay',
-                                    style: bodySmall.copyWith(
-                                        color:
-                                            ColorConst.NeutralVariant.shade60),
-                                  ),
-                                ],
+                              0.02.vspace,
+                              RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  text: 'Get 5% APR on your Tez\n',
+                                  style: headlineSmall,
+                                  children: [
+                                    WidgetSpan(child: 0.04.vspace),
+                                    TextSpan(
+                                      text:
+                                          'Your funds are neither locked nor frozen and do not move anywhere. You can spend them at\nany time and without any delay',
+                                      style: bodySmall.copyWith(
+                                          color: ColorConst
+                                              .NeutralVariant.shade60),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            0.03.vspace,
-                            SolidButton(
-                              title: 'Delegate',
-                              onPressed: () => Get.bottomSheet(
-                                      const DelegateSelectBaker(
-                                        isScrollable: true,
-                                      ),
-                                      isScrollControlled: true)
-                                  .whenComplete(
-                                    () => Get.back(),
-                                  )
-                                  .whenComplete(() =>
-                                      controller.isAccountDelegated.value =
-                                          !controller.isAccountDelegated.value),
-                            ),
-                          ],
-                        )),
+                              0.03.vspace,
+                              SolidButton(
+                                title: 'Delegate',
+                                onPressed: () => Get.bottomSheet(
+                                        const DelegateSelectBaker(
+                                          isScrollable: true,
+                                        ),
+                                        enterBottomSheetDuration:
+                                            const Duration(milliseconds: 180),
+                                        exitBottomSheetDuration:
+                                            const Duration(milliseconds: 150),
+                                        isScrollControlled: true)
+                                    .whenComplete(
+                                      () => Get.back(),
+                                    )
+                                    .whenComplete(() => controller
+                                            .isAccountDelegated.value =
+                                        !controller.isAccountDelegated.value),
+                              ),
+                            ],
+                          ),
+                          enterBottomSheetDuration:
+                              const Duration(milliseconds: 180),
+                          exitBottomSheetDuration:
+                              const Duration(milliseconds: 150),
+                        ),
                 child: Container(
                   height: 0.032.height,
                   width: 0.25.width,

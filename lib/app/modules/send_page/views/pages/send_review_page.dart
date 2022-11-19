@@ -87,6 +87,10 @@ class SendReviewPage extends StatelessWidget {
                                     TransactionBottomSheet(
                                       controller: controller,
                                     ),
+                                    enterBottomSheetDuration:
+                                        const Duration(milliseconds: 180),
+                                    exitBottomSheetDuration:
+                                        const Duration(milliseconds: 150),
                                   )
                                 : null,
                         primaryColor: controller.isNFTPage.value

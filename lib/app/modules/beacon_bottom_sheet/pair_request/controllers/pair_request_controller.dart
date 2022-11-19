@@ -26,6 +26,8 @@ class PairRequestController extends GetxController {
         accountModels: accountModels,
         index: selectedAccount.value,
       ),
+      enterBottomSheetDuration: const Duration(milliseconds: 180),
+      exitBottomSheetDuration: const Duration(milliseconds: 150),
       barrierColor: Colors.white.withOpacity(0.09),
       isScrollControlled: true,
     );
@@ -36,6 +38,7 @@ class PairRequestController extends GetxController {
 
   accept() async {
     try {
+      print("accept ${beaconRequest.request.toString()}");
       final Map response = await beaconPlugin.permissionResponse(
         id: beaconRequest.request!.id!,
         publicKey: (await UserStorageService().readAccountSecrets(

@@ -29,6 +29,8 @@ class BeaconService extends GetxService {
             case RequestType.permission:
               print("Permission requested");
               Get.bottomSheet(const PairRequestView(),
+                  enterBottomSheetDuration: const Duration(milliseconds: 180),
+                  exitBottomSheetDuration: const Duration(milliseconds: 150),
                   barrierColor: Colors.white.withOpacity(0.09),
                   isScrollControlled: true,
                   settings: RouteSettings(arguments: beaconRequest));
@@ -36,6 +38,8 @@ class BeaconService extends GetxService {
             case RequestType.signPayload:
               print("payload request $beaconRequest");
               Get.bottomSheet(const PayloadRequestView(),
+                  enterBottomSheetDuration: const Duration(milliseconds: 180),
+                  exitBottomSheetDuration: const Duration(milliseconds: 150),
                   barrierColor: Colors.white.withOpacity(0.09),
                   isScrollControlled: true,
                   settings: RouteSettings(arguments: beaconRequest));
@@ -43,6 +47,8 @@ class BeaconService extends GetxService {
             case RequestType.operation:
               print("operation request $beaconRequest");
               Get.bottomSheet(const OpreationRequestView(),
+                  enterBottomSheetDuration: const Duration(milliseconds: 180),
+                  exitBottomSheetDuration: const Duration(milliseconds: 150),
                   barrierColor: Colors.white.withOpacity(0.09),
                   isScrollControlled: true,
                   settings: RouteSettings(arguments: beaconRequest));

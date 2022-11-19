@@ -257,12 +257,17 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
           HistoryTile(
             tokenInfo: controller.searchTransactionList[index],
             xtzPrice: controller.accController.xtzPrice.value,
-            onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
-              tokenInfo: controller.searchTransactionList[index],
-              userAccountAddress:
-                  controller.accController.userAccount.value.publicKeyHash!,
-              transactionModel: controller.searchTransactionList[index].token!,
-            )),
+            onTap: () => Get.bottomSheet(
+              TransactionDetailsBottomSheet(
+                tokenInfo: controller.searchTransactionList[index],
+                userAccountAddress:
+                    controller.accController.userAccount.value.publicKeyHash!,
+                transactionModel:
+                    controller.searchTransactionList[index].token!,
+              ),
+              enterBottomSheetDuration: const Duration(milliseconds: 180),
+              exitBottomSheetDuration: const Duration(milliseconds: 150),
+            ),
           ),
         ],
       );

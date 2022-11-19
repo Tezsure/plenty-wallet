@@ -125,6 +125,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
     return InkWell(
         onTap: () => Get.bottomSheet(
               const AccountSummaryView(),
+              enterBottomSheetDuration: const Duration(milliseconds: 180),
+              exitBottomSheetDuration: const Duration(milliseconds: 150),
               settings: RouteSettings(arguments: model),
               isScrollControlled: true,
             ),
@@ -234,6 +236,10 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                   enableFeedback: true,
                                   onPressed: () => Get.bottomSheet(
                                       const SendPage(),
+                                      enterBottomSheetDuration:
+                                          const Duration(milliseconds: 180),
+                                      exitBottomSheetDuration:
+                                          const Duration(milliseconds: 150),
                                       isScrollControlled: true,
                                       settings: RouteSettings(
                                         arguments: model,
@@ -245,8 +251,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                       const CircleBorder(side: BorderSide.none),
                                   child: Image.asset(
                                     "${PathConst.HOME_PAGE}send.png",
-                                    width: 24.sp,
-                                    height: 24.sp,
+                                    width: 22.sp,
+                                    height: 22.sp,
                                   ),
                                 ),
                                 0.036.hspace,
@@ -260,6 +266,10 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                   elevation: 1,
                                   onPressed: () => Get.bottomSheet(
                                       const ReceivePageView(),
+                                      enterBottomSheetDuration:
+                                          const Duration(milliseconds: 180),
+                                      exitBottomSheetDuration:
+                                          const Duration(milliseconds: 150),
                                       isScrollControlled: true,
                                       settings: RouteSettings(
                                         arguments: model,
@@ -271,8 +281,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                       const CircleBorder(side: BorderSide.none),
                                   child: Image.asset(
                                     "${PathConst.HOME_PAGE}qr.png",
-                                    width: 24.sp,
-                                    height: 24.sp,
+                                    width: 22.sp,
+                                    height: 22.sp,
                                   ),
                                 ),
                               ],

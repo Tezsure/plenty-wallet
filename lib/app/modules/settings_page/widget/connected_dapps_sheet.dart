@@ -77,6 +77,8 @@ class ConnectedDappBottomSheet extends StatelessWidget {
           IconButton(
             onPressed: () {
               Get.bottomSheet(disconnectDappBottomSheet(index),
+                  enterBottomSheetDuration: const Duration(milliseconds: 180),
+                  exitBottomSheetDuration: const Duration(milliseconds: 150),
                   barrierColor: Colors.transparent);
             },
             icon: Icon(Icons.delete_outline_sharp),

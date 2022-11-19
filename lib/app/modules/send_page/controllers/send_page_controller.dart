@@ -19,7 +19,6 @@ class SendPageController extends GetxController {
       <AccountTokenModel>[].obs; // List of tokens
   RxMap<String, List<NftTokenModel>> userNfts =
       <String, List<NftTokenModel>>{}.obs; // List of tokens
-  
 
   Rx<TextfieldType> selectedTextfieldType = TextfieldType.token.obs;
   @override
@@ -80,6 +79,7 @@ class SendPageController extends GetxController {
   Rx<ContactModel?> selectedReceiver = Rx<ContactModel?>(null);
 
   void onContactSelect({required ContactModel contactModel}) {
+    setSelectedPageIndex(index: 1);
     selectedReceiver.value = contactModel;
     searchBarFocusNode.unfocus();
     searchText.value = contactModel.name == "Account"
@@ -88,7 +88,6 @@ class SendPageController extends GetxController {
     searchTextController.value.text = contactModel.name == "Account"
         ? contactModel.address
         : contactModel.name;
-    setSelectedPageIndex(index: 1);
   }
 
   RxList<ContactModel> recentsContacts = <ContactModel>[].obs;
@@ -209,14 +208,14 @@ class SendPageController extends GetxController {
           ? amountTileFocus.value = true
           : amountTileFocus.value = false;
     });
-    searchBarFocusNode.addListener(() {
+/*     searchBarFocusNode.addListener(() {
       if (searchBarFocusNode.hasFocus) {
         saveSelectedPageIndex.value = selectedPageIndex.value;
-        setSelectedPageIndex(index: 0);
+        //setSelectedPageIndex(index: 0);
       } else {
         setSelectedPageIndex(index: saveSelectedPageIndex.value);
       }
-    });
+    }); */
     super.onReady();
   }
 

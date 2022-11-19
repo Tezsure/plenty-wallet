@@ -113,6 +113,8 @@ class BackupPage extends StatelessWidget {
                 onTap: () {
                   Get.bottomSheet(
                     barrierColor: Colors.transparent,
+                    enterBottomSheetDuration: const Duration(milliseconds: 180),
+                    exitBottomSheetDuration: const Duration(milliseconds: 150),
                     revealBottomSheet(accountModel),
                   );
                 },

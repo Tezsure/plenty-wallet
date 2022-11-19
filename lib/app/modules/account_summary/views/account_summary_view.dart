@@ -73,6 +73,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                       selectedAccount:
                                           controller.userAccount.value,
                                     ),
+                                    enterBottomSheetDuration:
+                                        const Duration(milliseconds: 180),
+                                    exitBottomSheetDuration:
+                                        const Duration(milliseconds: 150),
                                     isScrollControlled: true);
                               },
                               child: Row(
@@ -197,6 +201,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                             imagePath: '${PathConst.SVG}arrow_up.svg',
                             label: 'Send',
                             onTap: (() => Get.bottomSheet(const SendPage(),
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
                                 settings: RouteSettings(
                                     arguments: controller.userAccount.value),
                                 isScrollControlled: true,
@@ -208,6 +216,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                             label: 'Receive',
                             onTap: (() => Get.bottomSheet(
                                 const ReceivePageView(),
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
                                 settings: RouteSettings(
                                     arguments: controller.userAccount.value),
                                 isScrollControlled: true,

@@ -104,8 +104,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
 
   Widget _getHoverFilterWidget() => AnimatedContainer(
         duration: const Duration(milliseconds: 350),
-        width: 132.arP,
-        height: 40.arP,
+        width: 145.arP,
+        height: 50.arP,
         margin: EdgeInsets.only(
           bottom: 32.arP,
         ),
@@ -156,7 +156,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
           controller.selectedGalleryFilter.value = filter;
         },
         child: SvgPicture.asset(asset,
-            width: 15.arP,
+            width: 18.arP,
             fit: BoxFit.fill,
             color: controller.selectedGalleryFilter.value == filter
                 ? Colors.white

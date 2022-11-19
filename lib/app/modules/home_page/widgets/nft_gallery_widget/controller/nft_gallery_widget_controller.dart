@@ -11,7 +11,7 @@ import 'package:naan_wallet/app/modules/nft_gallery/view/nft_gallery_view.dart';
 
 class NftGalleryWidgetController extends GetxController {
   List<AccountModel>? accounts;
-
+  RxInt index = 0.obs;
   RxMap<String, bool> selectedAccountIndex = <String, bool>{}.obs;
 
   RxInt formIndex = 0.obs;
@@ -47,9 +47,8 @@ class NftGalleryWidgetController extends GetxController {
       const CreateNewNftGalleryBottomSheet(),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      enterBottomSheetDuration: const Duration(
-        milliseconds: 200,
-      ),
+      enterBottomSheetDuration: const Duration(milliseconds: 180),
+      exitBottomSheetDuration: const Duration(milliseconds: 150),
     ).then(
       (_) async {
         selectedAccountIndex = <String, bool>{}.obs;
@@ -84,11 +83,10 @@ class NftGalleryWidgetController extends GetxController {
     ));
     Get.bottomSheet(
       const NftGalleryView(),
+      enterBottomSheetDuration: const Duration(milliseconds: 180),
+      exitBottomSheetDuration: const Duration(milliseconds: 150),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      enterBottomSheetDuration: const Duration(
-        milliseconds: 200,
-      ),
     ).then((_) {
       Get.delete<NftGalleryController>();
     });
@@ -98,11 +96,10 @@ class NftGalleryWidgetController extends GetxController {
     Get.put(NftGalleryController(index, nftGalleryList));
     Get.bottomSheet(
       const NftGalleryView(),
+      enterBottomSheetDuration: const Duration(milliseconds: 180),
+      exitBottomSheetDuration: const Duration(milliseconds: 150),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      enterBottomSheetDuration: const Duration(
-        milliseconds: 200,
-      ),
     ).then((_) {
       Get.delete<NftGalleryController>();
     });

@@ -118,6 +118,12 @@ class DappsPageView extends GetView<DappsPageController> {
                                           Get.back();
                                           Get.bottomSheet(
                                               const DappBrowserView(),
+                                              enterBottomSheetDuration:
+                                                  const Duration(
+                                                      milliseconds: 180),
+                                              exitBottomSheetDuration:
+                                                  const Duration(
+                                                      milliseconds: 150),
                                               barrierColor: Colors.white
                                                   .withOpacity(0.09),
                                               settings: RouteSettings(
