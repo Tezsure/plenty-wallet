@@ -18,6 +18,7 @@ class NaanBottomSheet extends StatelessWidget {
   final TextStyle? titleStyle;
   final double? bottomSheetHorizontalPadding;
   final CrossAxisAlignment? crossAxisAlignment;
+  final MainAxisAlignment? mainAxisAlignment;
   final bool isScrollControlled;
 
   final Widget Function(BuildContext context, int index)? draggableListBuilder;
@@ -29,23 +30,24 @@ class NaanBottomSheet extends StatelessWidget {
   /// Use [title] property for the heading of the bottom sheet
   ///
   /// The [height] & [width] property only applies to non-draggable bottom sheet
-  const NaanBottomSheet(
-      {super.key,
-      this.height,
-      this.width,
-      this.bottomSheetWidgets,
-      this.title,
-      this.blurRadius,
-      this.gradientStartingOpacity,
-      this.isDraggableBottomSheet = false,
-      this.draggableListBuilder,
-      this.scrollThumbVisibility = true,
-      this.titleAlignment,
-      this.titleStyle,
-      this.bottomSheetHorizontalPadding,
-      this.isScrollControlled = false,
-      this.crossAxisAlignment})
-      : assert(
+  const NaanBottomSheet({
+    super.key,
+    this.height,
+    this.width,
+    this.bottomSheetWidgets,
+    this.title,
+    this.blurRadius,
+    this.gradientStartingOpacity,
+    this.isDraggableBottomSheet = false,
+    this.draggableListBuilder,
+    this.scrollThumbVisibility = true,
+    this.titleAlignment,
+    this.titleStyle,
+    this.bottomSheetHorizontalPadding,
+    this.isScrollControlled = false,
+    this.crossAxisAlignment,
+    this.mainAxisAlignment,
+  }) : assert(
           isDraggableBottomSheet == false
               ? bottomSheetWidgets != null
               : draggableListBuilder != null,
@@ -135,7 +137,7 @@ class NaanBottomSheet extends StatelessWidget {
 
   Column isScrollControlledUI() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
       crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
       children: <Widget>[
             0.01.vspace,
@@ -151,13 +153,13 @@ class NaanBottomSheet extends StatelessWidget {
               ),
             ),
             if (title != null) ...[
-              0.01.vspace,
+              0.02.vspace,
               Align(
-                alignment: titleAlignment ?? Alignment.centerLeft,
+                alignment: titleAlignment ?? Alignment.center,
                 child: Text(
                   title!,
                   textAlign: TextAlign.start,
-                  style: titleStyle ?? titleLarge,
+                  style: titleStyle ?? titleMedium,
                 ),
               ),
             ],

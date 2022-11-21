@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -38,16 +40,29 @@ class BiometricView extends GetView<BiometricController> {
             ),
             0.04.vspace,
             Text(
-              'Biometric Authentication',
+              'Confirm Using Your ${Platform.isAndroid ? "Fingerprint" : "Face ID"}',
               style: titleMedium,
             ),
             0.02.vspace,
             Text(
-              'Touch the fingerprint sensor',
+              Platform.isAndroid
+                  ? 'Touch the fingerprint sensor'
+                  : "Come to front camera",
               style: bodySmall,
             ),
-            0.06.vspace,
-            Icon(Icons.fingerprint, size: 0.08.height, color: ColorConst.grey),
+            0.03.vspace,
+            Platform.isAndroid
+                ? SvgPicture.asset(
+                    "${PathConst.SVG}fingerprint.svg",
+                    color: ColorConst.Neutral.shade100,
+                    width: 75.sp,
+                  )
+                : SvgPicture.asset(
+                    "${PathConst.SVG}faceid.svg",
+                    color: ColorConst.Neutral.shade100,
+                    width: 75.sp,
+                  ),
+            // Icon(Icons.fingerprint, size: 0.08.height, color: ColorConst.grey),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomLeft,
@@ -56,7 +71,7 @@ class BiometricView extends GetView<BiometricController> {
                   child: InkWell(
                     onTap: controller.usePasscode,
                     child: Text(
-                      'Use Passcode',
+                      'Use passcode',
                       style: bodySmall.copyWith(color: ColorConst.grey),
                     ),
                   ),

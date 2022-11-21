@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_info_sheet.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -60,113 +61,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                         ),
                       ),
                     ),
-                    Obx(
-                      () => Padding(
-                        padding: EdgeInsets.only(
-                            left: 16.aR, right: 16.aR, top: 14.aR),
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.bottomSheet(
-                                    AccountSelectorSheet(
-                                      selectedAccount:
-                                          controller.userAccount.value,
-                                    ),
-                                    isScrollControlled: true);
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  0.01.hspace,
-                                  CustomImageWidget(
-                                    imageType:
-                                        controller.userAccount.value.imageType!,
-                                    imagePath: controller
-                                        .userAccount.value.profileImage!,
-                                    imageRadius: 18.aR,
-                                  ),
-                                  0.03.hspace,
-                                  RichText(
-                                    text: TextSpan(
-                                        text:
-                                            controller.userAccount.value.name!,
-                                        style: labelMedium.copyWith(
-                                            fontSize: 12.aR,
-                                            fontWeight: FontWeight.w600),
-                                        children: [
-                                          WidgetSpan(
-                                              child: SizedBox(
-                                            width: 2.sp,
-                                          )),
-                                          WidgetSpan(
-                                            alignment:
-                                                PlaceholderAlignment.bottom,
-                                            child: Icon(
-                                              Icons.keyboard_arrow_down_rounded,
-                                              size: 20.aR,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text:
-                                                "\n${(controller.userAccount.value.publicKeyHash!).tz1Short()}",
-                                            style: labelMedium.copyWith(
-                                                fontSize: 12.aR,
-                                                height: 0,
-                                                fontWeight: FontWeight.w400,
-                                                color: ColorConst
-                                                    .NeutralVariant.shade60),
-                                          )
-                                        ]),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Spacer(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Clipboard.setData(ClipboardData(
-                                        text: controller
-                                            .userAccount.value.publicKeyHash));
-                                    Get.rawSnackbar(
-                                      message: "Copied to clipboard",
-                                      shouldIconPulse: true,
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      maxWidth: 0.9.width,
-                                      margin: EdgeInsets.only(
-                                        bottom: 20.aR,
-                                      ),
-                                      duration:
-                                          const Duration(milliseconds: 700),
-                                    );
-                                  },
-                                  child: SvgPicture.asset(
-                                    '${PathConst.SVG}copy.svg',
-                                    color: Colors.white,
-                                    fit: BoxFit.contain,
-                                    height: 24.aR,
-                                  ),
-                                ),
-                                0.04.hspace,
-                                InkWell(
-                                  child: SvgPicture.asset(
-                                    '${PathConst.SVG}scanVector.svg',
-                                    fit: BoxFit.contain,
-                                    height: 24.aR,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    _buildAppBar(),
                     0.036.vspace,
                     Obx(() => Center(
                           child: Text(
@@ -190,6 +85,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                               label: 'Buy'),
                           0.04.hspace,
                           _actionButton(
+                              onTap: () {
+                                Get.bottomSheet(const DelegateInfoSheet(),
+                                    enableDrag: true, isScrollControlled: true);
+                              },
                               imagePath: '${PathConst.SVG}dollar_sign.svg',
                               label: 'Earn'),
                           0.04.hspace,
@@ -295,6 +194,106 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                 ),
               ),
             )),
+      ),
+    );
+  }
+
+  Obx _buildAppBar() {
+    return Obx(
+      () => Padding(
+        padding: EdgeInsets.only(left: 16.aR, right: 16.aR, top: 14.aR),
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.bottomSheet(
+                    AccountSelectorSheet(
+                      selectedAccount: controller.userAccount.value,
+                    ),
+                    isScrollControlled: true);
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  0.01.hspace,
+                  CustomImageWidget(
+                    imageType: controller.userAccount.value.imageType!,
+                    imagePath: controller.userAccount.value.profileImage!,
+                    imageRadius: 18.aR,
+                  ),
+                  0.03.hspace,
+                  RichText(
+                    text: TextSpan(
+                        text: controller.userAccount.value.name!,
+                        style: labelMedium.copyWith(
+                            fontSize: 12.aR, fontWeight: FontWeight.w600),
+                        children: [
+                          WidgetSpan(
+                              child: SizedBox(
+                            width: 2.sp,
+                          )),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.bottom,
+                            child: Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              size: 20.aR,
+                              color: Colors.white,
+                            ),
+                          ),
+                          TextSpan(
+                            text:
+                                "\n${(controller.userAccount.value.publicKeyHash!).tz1Short()}",
+                            style: labelMedium.copyWith(
+                                fontSize: 12.aR,
+                                height: 0,
+                                fontWeight: FontWeight.w400,
+                                color: ColorConst.NeutralVariant.shade60),
+                          )
+                        ]),
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Clipboard.setData(ClipboardData(
+                        text: controller.userAccount.value.publicKeyHash));
+                    Get.rawSnackbar(
+                      message: "Copied to clipboard",
+                      shouldIconPulse: true,
+                      snackPosition: SnackPosition.BOTTOM,
+                      maxWidth: 0.9.width,
+                      margin: EdgeInsets.only(
+                        bottom: 20.aR,
+                      ),
+                      duration: const Duration(milliseconds: 700),
+                    );
+                  },
+                  child: SvgPicture.asset(
+                    '${PathConst.SVG}copy.svg',
+                    color: Colors.white,
+                    fit: BoxFit.contain,
+                    height: 24.aR,
+                  ),
+                ),
+                0.04.hspace,
+                InkWell(
+                  child: SvgPicture.asset(
+                    '${PathConst.SVG}scanVector.svg',
+                    fit: BoxFit.contain,
+                    height: 24.aR,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
