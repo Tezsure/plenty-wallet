@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widget
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:share_plus/share_plus.dart';
 
 class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
   const DelegateBakerSuccessSheet({super.key});
@@ -29,13 +30,12 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 0.015.vspace,
-              
                 Icon(
                   Icons.check_circle_outline,
                   color: ColorConst.Primary,
-                  size: 75.sp,
+                  size: 80.sp,
                 ),
-                0.015.vspace,
+                0.0175.vspace,
                 Text(
                   "Delegation successful",
                   style: titleLarge,
@@ -58,7 +58,10 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
                 0.018.vspace,
                 SolidButton(
                   active: true,
-                  onPressed: () {},
+                  onPressed: () {
+                    Share.share(
+                        "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. https://naanwallet.com");
+                  },
                   title: "Share Naan",
                 ),
                 0.018.vspace

@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class DelegateBakerTile extends StatelessWidget {
+  final DelegateBakerModel baker;
   const DelegateBakerTile({
+    required this.baker,
     Key? key,
   }) : super(key: key);
 
@@ -33,21 +39,29 @@ class DelegateBakerTile extends StatelessWidget {
                 CircleAvatar(
                   backgroundColor: Colors.transparent,
                   radius: 20,
-                  child: Image.asset(
-                    'assets/temp/delegate_baker.png',
-                    fit: BoxFit.fill,
-                    width: 40,
-                    height: 40,
+                  child: ClipOval(
+                    child: Image.network(
+                      baker.logo ?? "",
+                      fit: BoxFit.fill,
+                      width: 40,
+                      height: 40,
+                    ),
                   ),
                 ),
                 0.02.hspace,
                 Text(
-                  'MyTezosBaking',
+                  baker.name ?? "",
                   style: labelMedium,
                 ),
                 0.015.hspace,
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Get.bottomSheet(const DappBrowserView(),
+                        barrierColor: Colors.white.withOpacity(0.09),
+                        settings: RouteSettings(
+                            arguments: 'https://tzkt.io/${baker.address}'),
+                        isScrollControlled: true);
+                  },
                   child: const Icon(
                     Icons.launch,
                     color: ColorConst.textGrey1,
@@ -63,9 +77,14 @@ class DelegateBakerTile extends StatelessWidget {
                   textAlign: TextAlign.start,
                   text: TextSpan(
                     text: 'Baker fee:\n',
-                    style: labelSmall.copyWith(
+                    style: labelMedium.copyWith(
                         color: ColorConst.NeutralVariant.shade70),
-                    children: [TextSpan(text: '14%', style: labelLarge)],
+                    children: [
+                      TextSpan(
+                          text:
+                              '${((baker.fee ?? 0) * 100).toStringAsFixed(1)}%',
+                          style: labelLarge)
+                    ],
                   ),
                 ),
                 0.06.hspace,
@@ -73,9 +92,12 @@ class DelegateBakerTile extends StatelessWidget {
                   textAlign: TextAlign.start,
                   text: TextSpan(
                     text: 'Staking:\n',
-                    style: labelSmall.copyWith(
+                    style: labelMedium.copyWith(
                         color: ColorConst.NeutralVariant.shade70),
-                    children: [TextSpan(text: '116K', style: labelLarge)],
+                    children: [
+                      TextSpan(
+                          text: baker.freespaceMin ?? "", style: labelLarge)
+                    ],
                   ),
                 ),
                 0.06.hspace,
@@ -83,9 +105,13 @@ class DelegateBakerTile extends StatelessWidget {
                   textAlign: TextAlign.start,
                   text: TextSpan(
                     text: 'Yield:\n',
-                    style: labelSmall.copyWith(
+                    style: labelMedium.copyWith(
                         color: ColorConst.NeutralVariant.shade70),
-                    children: [TextSpan(text: '4.85%', style: labelLarge)],
+                    children: [
+                      TextSpan(
+                          text: '${baker.delegateBakersListResponseYield}%',
+                          style: labelLarge)
+                    ],
                   ),
                 ),
               ],

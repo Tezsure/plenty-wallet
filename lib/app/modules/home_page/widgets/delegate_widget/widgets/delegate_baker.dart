@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker_tile.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/review_delegate_baker.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
@@ -15,60 +16,67 @@ import 'baker_filter.dart';
 
 class DelegateSelectBaker extends GetView<DelegateWidgetController> {
   final bool isScrollable;
-  const DelegateSelectBaker({super.key, this.isScrollable = false});
+  DelegateSelectBaker({super.key, this.isScrollable = false}) {
+    Get.lazyPut(() => DelegateWidgetController());
+    controller.toggleLoaderOverlay(controller.getBakerList);
+    // controller.getBakerList();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => DelegateWidgetController());
     return NaanBottomSheet(
+        title: "Delegate",
         mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 0,
-        height: isScrollable ? 0.85.height : 1.height,
+        height: (isScrollable ? 0.9.height : 1.height),
         bottomSheetWidgets: [
           Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  right: 0.05.width,
-                  left: 0.05.width,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: isScrollable
-                      ? CrossAxisAlignment.center
-                      : CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(),
-                    _buildSearch(),
-                    0.01.vspace,
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 0.025.width),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Recommended bakers",
-                            style: labelSmall.copyWith(color: Colors.white)),
+              SizedBox(
+                height: isScrollable ? 0.8.height : 1.height,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    right: 0.05.width,
+                    left: 0.05.width,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: isScrollable
+                        ? CrossAxisAlignment.center
+                        : CrossAxisAlignment.start,
+                    children: [
+                      _buildHeader(),
+                      _buildSearch(),
+                      0.01.vspace,
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 0.012.height),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text("Recommended bakers",
+                              style: labelLarge.copyWith(color: Colors.white)),
+                        ),
                       ),
-                    ),
-                    _buildBakerList(),
-                  ],
+                      _buildBakerList(),
+                    ],
+                  ),
                 ),
               ),
-              _buildSortByWidget()
+              _buildSortByWidget(context)
             ],
           ),
         ]);
   }
 
-  Container _buildBakerList() {
-    return Container(
-      height: 0.6.height,
-      width: 1.width,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-      ),
+  Widget _buildBakerList() {
+    return Expanded(
+      // height: 0.6.height,
+      // width: 1.width,
+      // decoration: const BoxDecoration(
+      //   color: Colors.transparent,
+      //   borderRadius: BorderRadius.only(
+      //       topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+      // ),
       child: ShaderMask(
         shaderCallback: (Rect rect) {
           return LinearGradient(colors: [
@@ -78,28 +86,36 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               .createShader(rect);
         },
         blendMode: BlendMode.dstOut,
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 6,
-            cacheExtent: 4,
-            controller: controller.scrollController,
-            padding: EdgeInsets.zero,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (_, index) => _buildBakerItem()),
+        child: Obx(() {
+          return ListView.builder(
+              shrinkWrap: true,
+              itemCount: controller.searchedDelegateBakerList.length,
+              cacheExtent: 4,
+              controller: controller.scrollController,
+              padding: EdgeInsets.zero,
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (_, index) =>
+                  _buildBakerItem(controller.searchedDelegateBakerList[index]));
+        }),
       ),
     );
   }
 
-  Widget _buildBakerItem() {
+  Widget _buildBakerItem(DelegateBakerModel baker) {
     return GestureDetector(
-      onTap: () => Get.bottomSheet(const ReviewDelegateSelectBaker()),
-      child: const DelegateBakerTile(),
+      onTap: () => Get.bottomSheet(ReviewDelegateSelectBaker(
+        baker: baker,
+      )),
+      child: DelegateBakerTile(baker: baker),
     );
   }
 
-  Widget _buildSortByWidget() {
+  Widget _buildSortByWidget(BuildContext context) {
     return Obx(() => AnimatedCrossFade(
-          duration: const Duration(milliseconds: 100),
+          sizeCurve: Curves.easeIn,
+          secondCurve: Curves.easeIn,
+          firstCurve: Curves.easeIn,
+          duration: const Duration(milliseconds: 150),
           firstChild: Container(),
           crossFadeState: controller.showFilter.value
               ? CrossFadeState.showSecond
@@ -115,154 +131,37 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               width: 100,
               height: 40,
               alignment: Alignment.center,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  const Icon(
-                    Icons.filter_list_rounded,
-                    color: Colors.white,
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.filter_list_rounded,
+                        color: Colors.white,
+                      ),
+                      0.01.hspace,
+                      Text(
+                        "Sort",
+                        style: labelSmall.copyWith(color: Colors.white),
+                      )
+                    ],
                   ),
-                  0.01.hspace,
-                  Text(
-                    "Sort",
-                    style: labelSmall.copyWith(color: Colors.white),
-                  )
+                  // if (controller.bakerListBy?.value != null)
+                  //   const Align(
+                  //     alignment: Alignment.topRight,
+                  //     child: Icon(
+                  //       Icons.circle,
+                  //       color: ColorConst.Primary,
+                  //       size: 15,
+                  //     ),
+                  //   ),
                 ],
               ),
             )),
           ),
         ));
-    if (!controller.showFilter.value) return const SizedBox.shrink();
-    return GestureDetector(
-      onTap: () => Get.bottomSheet(const BakerFilterBottomSheet()),
-      child: SafeArea(
-          child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.white, width: .3),
-            color: const Color(0xff1E1C1F),
-            borderRadius: BorderRadius.circular(20)),
-        width: 100,
-        height: 40,
-        alignment: Alignment.center,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(
-              Icons.filter_list_rounded,
-              color: Colors.white,
-            ),
-            0.01.hspace,
-            Text(
-              "Sort",
-              style: labelSmall.copyWith(color: Colors.white),
-            )
-          ],
-        ),
-      )),
-    );
-    return Align(
-      alignment: Alignment.centerRight,
-      child: RichText(
-        text: TextSpan(
-            text: 'Sort by',
-            style:
-                labelSmall.copyWith(color: ColorConst.NeutralVariant.shade60),
-            children: [
-              TextSpan(
-                  text: ' Rank',
-                  style: labelSmall.copyWith(color: Colors.white)),
-              WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
-                child: IconButton(
-                  splashRadius: 10,
-                  enableFeedback: true,
-                  constraints: const BoxConstraints(),
-                  iconSize: 20.sp,
-                  onPressed: () => Get.bottomSheet(NaanBottomSheet(
-                    height: 0.3.height,
-                    title: 'Set baker by:',
-                    titleAlignment: Alignment.center,
-                    titleStyle: labelLarge,
-                    bottomSheetWidgets: [
-                      Column(
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: ColorConst.NeutralVariant.shade60
-                                  .withOpacity(0.2),
-                            ),
-                            child: Column(
-                              children: [
-                                Material(
-                                  color: Colors.transparent,
-                                  type: MaterialType.transparency,
-                                  elevation: 0,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(0)),
-                                  child: InkWell(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(0)),
-                                    onTap: () {},
-                                    splashColor: Colors.transparent,
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 51,
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Rank",
-                                        style: labelMedium,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const Divider(
-                                  color: Color(0xff4a454e),
-                                  height: 1,
-                                  thickness: 1,
-                                ),
-                                Material(
-                                  color: Colors.transparent,
-                                  type: MaterialType.transparency,
-                                  elevation: 0,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(0)),
-                                  child: InkWell(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(0)),
-                                    onTap: () {},
-                                    splashColor: Colors.transparent,
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 51,
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Fees",
-                                        style: labelMedium,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )),
-                  icon: const Icon(
-                    Icons.keyboard_arrow_down,
-                    color: ColorConst.Primary,
-                  ),
-                ),
-              ),
-            ]),
-      ),
-    );
   }
 
   SizedBox _buildSearch() {
@@ -270,6 +169,10 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
       height: 0.06.height,
       width: 1.width,
       child: TextFormField(
+        onChanged: (value) {
+          controller.updateBakerList();
+        },
+        controller: controller.textEditingController,
         textAlignVertical: TextAlignVertical.top,
         textAlign: TextAlign.start,
         decoration: InputDecoration(
@@ -302,16 +205,16 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
   Column _buildHeader() {
     return Column(
       children: [
-        Text(
-          'Delegate',
-          style: labelLarge,
-        ),
-        0.012.vspace,
+        // Text(
+        //   'Delegate',
+        //   style: titleLarge,
+        // ),
+        // 0.012.vspace,
         RichText(
           textAlign: isScrollable ? TextAlign.center : TextAlign.start,
           text: TextSpan(
-              style:
-                  labelSmall.copyWith(color: ColorConst.NeutralVariant.shade60),
+              style: labelMedium.copyWith(
+                  color: ColorConst.NeutralVariant.shade60),
               text:
                   'Select a Baker you want to delegate funds to.\nThis list is powered by ',
               children: [
@@ -325,7 +228,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                       })
               ]),
         ),
-        0.012.vspace,
+        0.019.vspace,
       ],
     );
   }

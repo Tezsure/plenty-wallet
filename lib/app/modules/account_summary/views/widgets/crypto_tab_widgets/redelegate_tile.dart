@@ -73,7 +73,7 @@ class ReDelegateTile extends StatelessWidget {
                 width: 0.24.width,
                 child: Text('Redelegate', style: labelSmall),
                 onPressed: () => Get.bottomSheet(
-                        const DelegateSelectBaker(
+                        DelegateSelectBaker(
                           isScrollable: true,
                         ),
                         enableDrag: true,

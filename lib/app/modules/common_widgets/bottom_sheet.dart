@@ -159,11 +159,11 @@ class NaanBottomSheet extends StatelessWidget {
                 child: Text(
                   title!,
                   textAlign: TextAlign.start,
-                  style: titleStyle ?? titleMedium,
+                  style: titleStyle ?? titleLarge,
                 ),
               ),
             ],
-            0.020.vspace,
+            0.012.vspace,
           ] +
           (bottomSheetWidgets ?? const []),
     );

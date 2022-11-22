@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -16,7 +17,8 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
-  const ReviewDelegateSelectBaker({super.key});
+  final DelegateBakerModel baker;
+  const ReviewDelegateSelectBaker({super.key, required this.baker});
   static final _homePageController = Get.find<HomePageController>();
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
         title: "Review",
         mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 16.sp,
-        height: 0.5.height,
+        height: 0.52.height,
         blurRadius: 5,
         width: double.infinity,
         bottomSheetWidgets: [
@@ -33,6 +35,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                0.023.vspace,
                 _accountOption(),
                 0.015.vspace,
                 Padding(
@@ -48,13 +51,15 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 12.sp),
-                  child: const DelegateBakerTile(),
+                  child: DelegateBakerTile(
+                    baker: baker,
+                  ),
                 ),
                 0.02.vspace,
                 SolidButton(
                   active: true,
                   onPressed: () {
-                    controller.confirmBioMetric();
+                    controller.confirmBioMetric(baker);
                   },
                   title: "Hold to Delegate",
                   child: Row(
@@ -120,7 +125,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                 children: [
                   Text(
                     _homePageController.userAccounts[0].name ?? 'Account Name',
-                    style: labelMedium,
+                    style: labelLarge,
                   ),
                   0.02.hspace,
                   InkWell(

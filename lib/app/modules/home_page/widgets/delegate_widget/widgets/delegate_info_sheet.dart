@@ -55,7 +55,7 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                     Get.back();
                     // }
                     Get.bottomSheet(
-                        const DelegateSelectBaker(
+                        DelegateSelectBaker(
                           isScrollable: true,
                         ),
                         enableDrag: true,

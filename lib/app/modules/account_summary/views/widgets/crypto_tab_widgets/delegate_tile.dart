@@ -174,7 +174,7 @@ class DelegateTile extends GetView<AccountSummaryController> {
               GestureDetector(
                 onTap: isDelegated
                     ? () => Get.bottomSheet(
-                        const DelegateSelectBaker(isScrollable: true),
+                         DelegateSelectBaker(isScrollable: true),
                         isScrollControlled: true,
                         enableDrag: true)
                     : () => Get.bottomSheet(NaanBottomSheet(
@@ -209,7 +209,7 @@ class DelegateTile extends GetView<AccountSummaryController> {
                             SolidButton(
                               title: 'Delegate',
                               onPressed: () => Get.bottomSheet(
-                                      const DelegateSelectBaker(
+                                       DelegateSelectBaker(
                                         isScrollable: true,
                                       ),
                                       isScrollControlled: true)
