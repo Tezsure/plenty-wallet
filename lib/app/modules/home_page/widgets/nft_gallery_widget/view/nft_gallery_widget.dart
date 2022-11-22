@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
-import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 class NftGalleryWidget extends StatefulWidget {
@@ -189,7 +188,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
     );
   }
 }
-  
+
 
 /* class NftGalleryWidget extends GetView<NftGalleryWidgetController> {
   const NftGalleryWidget({super.key});
@@ -287,25 +286,38 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                   ),
                   onPageChanged: (index) {
                     controller.index.value = index;
+                    print("hh");
                   },
                   physics: const BouncingScrollPhysics(),
                   itemCount: controller.nftGalleryList.length + 1,
                   itemBuilder: (context, index) {
-                    var scale = controller.index.value == index ? 1.0 : 0.8;
-
                     if (controller.nftGalleryList.length == index) {
-                      return TweenAnimationBuilder(
-                          tween: Tween<double>(begin: scale, end: scale),
-                          curve: Curves.easeIn,
-                          builder: (context, value, child) => Transform.scale(
-                                scale: value,
-                                child: child,
-                              ),
-                          duration: const Duration(milliseconds: 350),
-                          child: _getNoGalleryStateWidget());
+                      return Obx(
+                        () {
+                          print("aa");
+                          return TweenAnimationBuilder(
+                              tween: Tween<double>(
+                                  begin: controller.index.value == index
+                                      ? 1.0
+                                      : 0.8,
+                                  end: controller.index.value == index
+                                      ? 1.0
+                                      : 0.8),
+                              curve: Curves.easeIn,
+                              builder: (context, value, child) =>
+                                  Transform.scale(
+                                    scale: value,
+                                    child: child,
+                                  ),
+                              duration: const Duration(milliseconds: 350),
+                              child: _getNoGalleryStateWidget());
+                        },
+                      );
                     }
                     return TweenAnimationBuilder(
-                        tween: Tween<double>(begin: scale, end: scale),
+                        tween: Tween<double>(
+                            begin: controller.index.value == index ? 1.0 : 0.8,
+                            end: controller.index.value == index ? 1.0 : 0.8),
                         curve: Curves.easeIn,
                         builder: (context, value, child) => Transform.scale(
                               scale: value,

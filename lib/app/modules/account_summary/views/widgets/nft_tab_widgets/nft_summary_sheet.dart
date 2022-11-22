@@ -498,7 +498,8 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                                   Colors.transparent,
                                               child: SvgPicture.asset(
                                                 widget.nftModel!.events![index]
-                                                        .eventType!
+                                                        .eventType
+                                                        .toString()
                                                         .contains("transfer")
                                                     ? '${PathConst.SVG}bi_arrow.svg'
                                                     : '${PathConst.SVG}cart.svg',
@@ -507,7 +508,8 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                             ),
                                             title: Text(
                                               widget.nftModel!.events![index]
-                                                      .eventType!
+                                                      .eventType
+                                                      .toString()
                                                       .contains("transfer")
                                                   ? "Transfer"
                                                   : "Sale",

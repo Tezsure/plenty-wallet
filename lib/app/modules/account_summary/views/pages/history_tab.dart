@@ -101,6 +101,7 @@ class HistoryPage extends GetView<TransactionController> {
                       0.01.hspace,
                     ],
                   ),
+                  0.02.vspace,
                 ],
               ),
             ),
@@ -281,19 +282,23 @@ class HistoryPage extends GetView<TransactionController> {
             return const Center(
               child: CircularProgressIndicator(),
             );
+          } else if (snapshot.data!.name == null) {
+            return Container();
           } else {
             controller.defaultTransactionList[index] =
                 controller.defaultTransactionList[index].copyWith(
                     isNft: true,
-                    tokenSymbol: snapshot.data!.fa!.name!,
-                    dollarAmount: (snapshot.data!.lowestAsk / 1e6) *
+                    tokenSymbol: snapshot.data!.fa!.name.toString(),
+                    dollarAmount: (snapshot.data!.lowestAsk == null
+                            ? 0
+                            : (snapshot.data!.lowestAsk / 1e6)) *
                         controller.accController.xtzPrice.value,
                     tokenAmount: snapshot.data!.lowestAsk != null &&
                             snapshot.data!.lowestAsk != 0
                         ? snapshot.data!.lowestAsk / 1e6
                         : 0,
-                    name: snapshot.data!.name!,
-                    imageUrl: snapshot.data!.displayUri!);
+                    name: snapshot.data!.name.toString(),
+                    imageUrl: snapshot.data!.displayUri);
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,

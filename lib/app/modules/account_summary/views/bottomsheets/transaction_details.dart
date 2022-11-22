@@ -40,7 +40,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
     return NaanBottomSheet(
       blurRadius: 50,
       width: 1.width,
-      height: 409.arP,
+      height: 420.arP,
       titleAlignment: Alignment.center,
       titleStyle: titleMedium,
       bottomSheetHorizontalPadding: 16.sp,
@@ -141,21 +141,26 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
             child: Center(
               child: ListTile(
                   visualDensity: VisualDensity.compact,
-                  leading: Text(
-                      tokenInfo.isNft
-                          ? tokenInfo.name
-                          : transactionModel.sender!.address!
-                                  .contains(userAccountAddress)
-                              ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}'
-                              : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',
-                      style: titleMedium.copyWith(
-                          fontSize: 16.aR,
-                          letterSpacing: 0.5.aR,
-                          fontWeight: FontWeight.w400,
-                          color: transactionModel.sender!.address!
-                                  .contains(userAccountAddress)
-                              ? Colors.white
-                              : ColorConst.naanCustomColor)),
+                  leading: SizedBox(
+                    width: 0.6.width,
+                    child: Text(
+                        tokenInfo.isNft
+                            ? tokenInfo.name
+                            : transactionModel.sender!.address!
+                                    .contains(userAccountAddress)
+                                ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}'
+                                : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: titleMedium.copyWith(
+                            fontSize: 16.aR,
+                            letterSpacing: 0.5.aR,
+                            fontWeight: FontWeight.w400,
+                            color: transactionModel.sender!.address!
+                                    .contains(userAccountAddress)
+                                ? Colors.white
+                                : ColorConst.naanCustomColor)),
+                  ),
                   trailing: Text(
                     "\$${tokenInfo.dollarAmount.toStringAsFixed(6)}",
                     style: labelLarge.copyWith(
@@ -179,6 +184,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                 (element) => element.address == getSenderAddress()));
           }
         }),
+        const Spacer(),
         Center(
           child: GestureDetector(
             onTap: () {

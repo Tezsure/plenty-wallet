@@ -108,9 +108,38 @@ class HistoryTile extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const Spacer(),
-                  RichText(
+                  Expanded(
+                      child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                            tokenInfo.isNft
+                                ? tokenInfo.tokenSymbol
+                                : "${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}",
+                            textAlign: TextAlign.end,
+                            overflow: TextOverflow.ellipsis,
+                            style: labelSmall.copyWith(
+                                color: ColorConst.NeutralVariant.shade60)),
+                        Text(
+                          tokenInfo.isSent
+                              ? '- \$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'
+                              : '\$${(tokenInfo.dollarAmount).toStringAsFixed(2)}',
+                          style: labelLarge.copyWith(
+                              fontWeight: FontWeight.w400,
+                              color: tokenInfo.isSent
+                                  ? Colors.white
+                                  : ColorConst.naanCustomColor),
+                          textAlign: TextAlign.end,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      ],
+                    ),
+                  )),
+/*                   RichText(
                     textAlign: TextAlign.end,
+                    overflow: TextOverflow.ellipsis,
                     text: TextSpan(
                         text: tokenInfo.isNft
                             ? "${tokenInfo.tokenSymbol}\n"
@@ -130,7 +159,7 @@ class HistoryTile extends StatelessWidget {
                                     : ColorConst.naanCustomColor),
                           )
                         ]),
-                  ),
+                  ), */
                 ],
               ),
             ),
