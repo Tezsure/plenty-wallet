@@ -15,11 +15,12 @@ import '../controllers/delegate_widget_controller.dart';
 import 'baker_filter.dart';
 
 class DelegateSelectBaker extends GetView<DelegateWidgetController> {
+  final DelegateBakerModel? delegatedBaker;
   final bool isScrollable;
-  DelegateSelectBaker({super.key, this.isScrollable = false}) {
+  DelegateSelectBaker(
+      {super.key, this.isScrollable = false, this.delegatedBaker}) {
     Get.lazyPut(() => DelegateWidgetController());
     controller.toggleLoaderOverlay(controller.getBakerList);
-    // controller.getBakerList();
   }
 
   @override
@@ -53,8 +54,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                         padding: EdgeInsets.symmetric(vertical: 0.012.height),
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text("Recommended bakers",
-                              style: labelLarge.copyWith(color: Colors.white)),
+                          child: Text("Recommended bakers", style: labelLarge),
                         ),
                       ),
                       _buildBakerList(),
@@ -94,8 +94,14 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               controller: controller.scrollController,
               padding: EdgeInsets.zero,
               physics: const BouncingScrollPhysics(),
-              itemBuilder: (_, index) =>
-                  _buildBakerItem(controller.searchedDelegateBakerList[index]));
+              itemBuilder: (_, index) {
+                if (delegatedBaker?.address ==
+                    controller.searchedDelegateBakerList[index].address) {
+                  return Container();
+                }
+                return _buildBakerItem(
+                    controller.searchedDelegateBakerList[index]);
+              });
         }),
       ),
     );

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,10 +9,13 @@ import 'package:naan_wallet/app/data/services/data_handler_service/delegate/dele
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/delegate_reward_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_info_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_success_sheet.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/redelegate_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -25,6 +30,7 @@ class DelegateWidgetController extends GetxController {
   Rx<BakerListBy> bakerListBy = BakerListBy.Rank.obs;
   late DelegateHandler _delegateHandler;
 
+  RxList<DelegateRewardModel> delegateRewardList = <DelegateRewardModel>[].obs;
   RxList<DelegateBakerModel> delegateBakerList = <DelegateBakerModel>[].obs;
   RxList<DelegateBakerModel> searchedDelegateBakerList =
       <DelegateBakerModel>[].obs;
@@ -181,7 +187,61 @@ class DelegateWidgetController extends GetxController {
     }
   }
 
-  void toggleLoaderOverlay(Function() asyncFunction) async {
+  Future<void> getDelegateRewardList(String bakerAddress) async {
+    try {
+      await _delegateHandler
+          .getDelegateReward(accountModel!.value.publicKeyHash!, bakerAddress)
+          .then((value) {
+        return delegateRewardList.value = value;
+      });
+    } catch (e) {
+      Get.closeAllSnackbars();
+      log(e.toString());
+      Get.rawSnackbar(
+        onTap: (_) {
+          getBakerList();
+        },
+        message: "Failed to load, tap to try gain",
+        shouldIconPulse: true,
+        backgroundColor: ColorConst.NaanRed,
+        snackPosition: SnackPosition.BOTTOM,
+        maxWidth: 0.9.width,
+        margin: EdgeInsets.only(
+          bottom: 20.aR,
+        ),
+        duration: const Duration(milliseconds: 700),
+      );
+      delegateRewardList.value = <DelegateRewardModel>[];
+    }
+  }
+
+  Future<void> checkBaker() async {
+    String? bakerAddress;
+    await toggleLoaderOverlay(() async {
+      bakerAddress =
+          await _delegateHandler.checkBaker(accountModel!.value.publicKeyHash!);
+    });
+
+    if (bakerAddress == null) {
+      Get.bottomSheet(const DelegateInfoSheet(),
+          enableDrag: true, isScrollControlled: true);
+    } else {
+      DelegateBakerModel delegatedBaker;
+      if (delegateBakerList.isEmpty) {
+        await getBakerList();
+      }
+      delegatedBaker = delegateBakerList
+          .firstWhere((element) => element.address == bakerAddress);
+      Get.bottomSheet(
+          ReDelegateBottomSheet(
+            baker: delegatedBaker,
+          ),
+          enableDrag: true,
+          isScrollControlled: true);
+    }
+  }
+
+  Future<void> toggleLoaderOverlay(Function() asyncFunction) async {
     await Get.showOverlay(
         asyncFunction: () async => await asyncFunction(),
         loadingWidget: const SizedBox(

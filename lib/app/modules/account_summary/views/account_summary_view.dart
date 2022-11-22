@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_info_sheet.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -25,11 +26,11 @@ import 'pages/nft_tab.dart';
 
 class AccountSummaryView extends GetView<AccountSummaryController> {
   const AccountSummaryView({super.key});
-
   @override
   Widget build(BuildContext context) {
     Get.put((AccountSummaryController()));
     Get.put(TransactionController());
+
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 20.sp, sigmaY: 20.sp),
       child: DraggableScrollableSheet(
@@ -86,8 +87,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           0.04.hspace,
                           _actionButton(
                               onTap: () {
-                                Get.bottomSheet(const DelegateInfoSheet(),
-                                    enableDrag: true, isScrollControlled: true);
+                                Get.put(DelegateWidgetController())
+                                    .checkBaker();
+                                // Get.bottomSheet(const DelegateInfoSheet(),
+                                //     enableDrag: true, isScrollControlled: true);
                               },
                               imagePath: '${PathConst.SVG}dollar_sign.svg',
                               label: 'Earn'),

@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
+
+import 'delegate_baker.dart';
+import 'delegate_info_sheet.dart';
 
 class DelegateBakerTile extends StatelessWidget {
   final DelegateBakerModel baker;
+  final bool redelegate;
   const DelegateBakerTile({
     required this.baker,
+    this.redelegate = false,
     Key? key,
   }) : super(key: key);
 
@@ -68,6 +75,26 @@ class DelegateBakerTile extends StatelessWidget {
                     size: 13,
                   ),
                 ),
+                Spacer(),
+                if (redelegate)
+                  SolidButton(
+                    title: "Redelegate",
+                    onPressed: () {
+                      Get.back();
+                      Get.bottomSheet(
+                          DelegateSelectBaker(
+                            delegatedBaker: baker,
+                            isScrollable: true,
+                          ),
+                          enableDrag: true,
+                          isScrollControlled: true);
+                    },
+                    borderRadius: 24,
+                    height: 25,
+                    titleStyle:
+                        labelSmall.copyWith(fontWeight: FontWeight.bold),
+                    width: 100,
+                  )
               ],
             ),
             0.013.vspace,

@@ -8,8 +8,7 @@ List<DelegateBakerModel> delegateBakersListResponseFromJson(String str) =>
     List<DelegateBakerModel>.from(
         json.decode(str).map((x) => DelegateBakerModel.fromJson(x)));
 
-String delegateBakersListResponseToJson(List<DelegateBakerModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 
 class DelegateBakerModel {
   DelegateBakerModel({
@@ -102,21 +101,4 @@ class DelegateBakerModel {
         proStatus: json["pro_status"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "rank": rank,
-        "logo": logo,
-        "logo_min": logoMin,
-        "name": name,
-        "address": address,
-        "fee": fee,
-        "lifetime": lifetime,
-        "yield": delegateBakersListResponseYield,
-        "efficiency": efficiency,
-        "efficiency_last10cycle": efficiencyLast10Cycle,
-        "freespace": freespace,
-        "total_points": totalPoints,
-        "deletation_status": deletationStatus,
-        "freespace_min": freespaceMin,
-        "pro_status": proStatus,
-      };
 }
