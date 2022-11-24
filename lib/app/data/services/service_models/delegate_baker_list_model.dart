@@ -17,7 +17,7 @@ class DelegateBakerModel {
     this.logoMin,
     this.name,
     this.address,
-    this.fee,
+    this.fee=0,
     this.lifetime,
     this.delegateBakersListResponseYield,
     this.efficiency,
@@ -34,7 +34,7 @@ class DelegateBakerModel {
   String? logoMin;
   String? name;
   String? address;
-  double? fee;
+  double fee;
   int? lifetime;
   double? delegateBakersListResponseYield;
   double? efficiency;

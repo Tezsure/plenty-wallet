@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_reward_model.dart';
@@ -77,7 +79,7 @@ class DelegateRewardsTile extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '504',
+                    reward.cycle.toString(),
                     style: labelSmall,
                   ),
                   const Icon(
@@ -105,7 +107,9 @@ class DelegateRewardsTile extends StatelessWidget {
                           color: ColorConst.NeutralVariant.shade70),
                       children: [
                         TextSpan(
-                            text: '${reward.balance} tez', style: labelLarge)
+                            text:
+                                '${(reward.balance / pow(10, 6)).toStringAsFixed(4)} tez',
+                            style: labelLarge)
                       ],
                     ),
                   ),
@@ -116,7 +120,11 @@ class DelegateRewardsTile extends StatelessWidget {
                       text: 'Rewards:\n',
                       style: labelSmall.copyWith(
                           color: ColorConst.NeutralVariant.shade70),
-                      children: [TextSpan(text: '2 tez', style: labelLarge)],
+                      children: [
+                        TextSpan(
+                            text: '${rewards.toStringAsFixed(2)} tez',
+                            style: labelLarge)
+                      ],
                     ),
                   ),
                   0.12.hspace,
@@ -129,7 +137,7 @@ class DelegateRewardsTile extends StatelessWidget {
                       children: [
                         TextSpan(
                             text:
-                                '${((delegatedBaker.fee ?? 0) * 100).toStringAsFixed(2)}%',
+                                '${((delegatedBaker.fee) * 100).toStringAsFixed(2)}%',
                             style: labelLarge)
                       ],
                     ),
@@ -146,7 +154,11 @@ class DelegateRewardsTile extends StatelessWidget {
                       text: 'Expected Payout:\n',
                       style: labelSmall.copyWith(
                           color: ColorConst.NeutralVariant.shade70),
-                      children: [TextSpan(text: '10 tez', style: labelLarge)],
+                      children: [
+                        TextSpan(
+                            text: '${netExpectedPayout.toStringAsFixed(5)} tez',
+                            style: labelLarge)
+                      ],
                     ),
                   ),
                   0.03.hspace,
@@ -158,9 +170,7 @@ class DelegateRewardsTile extends StatelessWidget {
                           color: ColorConst.NeutralVariant.shade70),
                       children: [
                         TextSpan(
-                            text:
-                                reward.activeStake! > 0 ? "Active" : 'Pending',
-                            style: labelLarge)
+                            text: reward.status ?? ". . .", style: labelLarge)
                       ],
                     ),
                   ),
@@ -172,4 +182,16 @@ class DelegateRewardsTile extends StatelessWidget {
       ),
     );
   }
+
+  double get rewards {
+    if (reward.status == "Completed") {
+      return ((reward.blockRewards + reward.endorsementRewards) / pow(10, 6));
+    }
+    return ((reward.futureBlockRewards + reward.futureEndorsementRewards) /
+        pow(10, 6));
+  }
+
+  double get expectedPayout => (reward.balance / reward.activeStake) * rewards;
+
+  double get netExpectedPayout => (1 - delegatedBaker.fee) * expectedPayout;
 }

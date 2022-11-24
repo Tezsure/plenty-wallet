@@ -108,8 +108,7 @@ class DelegateBakerTile extends StatelessWidget {
                         color: ColorConst.NeutralVariant.shade70),
                     children: [
                       TextSpan(
-                          text:
-                              '${((baker.fee ?? 0) * 100).toStringAsFixed(1)}%',
+                          text: '${((baker.fee) * 100).toStringAsFixed(1)}%',
                           style: labelLarge)
                     ],
                   ),

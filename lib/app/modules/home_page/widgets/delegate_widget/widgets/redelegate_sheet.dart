@@ -46,7 +46,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
                             labelMedium.copyWith(color: ColorConst.textGrey1),
                       ),
                       Text(
-                        "\$100",
+                        "\$${controller.totalRewards.toStringAsFixed(2)}",
                         style: headlineLarge,
                       ),
                     ],
@@ -65,7 +65,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
                   child: controller.delegateRewardList.isEmpty
                       ? Center(
                           child: Text(
-                            "No Rewards",
+                            "Delegation is pending . . .",
                             style: bodyLarge.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: ColorConst.textGrey1),

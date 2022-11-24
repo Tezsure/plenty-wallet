@@ -15,6 +15,7 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
   final DelegateBakerModel baker;
@@ -113,7 +114,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
             SizedBox(
               height: 14,
               child: Text(
-                "Account",
+                _homePageController.userAccounts[0].name ?? 'Account Name',
                 style: labelSmall.apply(
                   color: ColorConst.NeutralVariant.shade60,
                 ),
@@ -124,7 +125,9 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
               child: Row(
                 children: [
                   Text(
-                    _homePageController.userAccounts[0].name ?? 'Account Name',
+                    tz1Shortner(
+                        _homePageController.userAccounts[0].publicKeyHash ??
+                            ""),
                     style: labelLarge,
                   ),
                   0.02.hspace,

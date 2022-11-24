@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:naan_wallet/app/data/services/data_handler_service/delegate/dele
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/delegate_cycle_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_reward_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
@@ -24,6 +26,7 @@ class DelegateWidgetController extends GetxController {
   final RxString bakerAddress = ''.obs;
 
   final RxBool showFilter = true.obs;
+  final RxDouble totalRewards = 0.0.obs;
 
   final ScrollController scrollController = ScrollController();
   Rx<AccountModel>? accountModel;
@@ -79,7 +82,7 @@ class DelegateWidgetController extends GetxController {
     searchedDelegateBakerList.sort((p0, p1) {
       switch (bakerListBy.value) {
         case BakerListBy.Fees:
-          return (((p0.fee ?? 0) - (p1.fee ?? 0)) * 10000000).toInt();
+          return (((p0.fee) - (p1.fee)) * 10000000).toInt();
 
         case BakerListBy.Rank:
           return (p0.rank ?? 0) - (p1.rank ?? 0);
@@ -196,7 +199,7 @@ class DelegateWidgetController extends GetxController {
       });
     } catch (e) {
       Get.closeAllSnackbars();
-      log(e.toString());
+
       Get.rawSnackbar(
         onTap: (_) {
           getBakerList();
@@ -213,6 +216,42 @@ class DelegateWidgetController extends GetxController {
       );
       delegateRewardList.value = <DelegateRewardModel>[];
     }
+    getTotalRewards();
+    getCycleStatus();
+  }
+
+  Future<void> getCycleStatus() async {
+    try {
+      for (var i = 0; i < delegateRewardList.length; i++) {
+        final status = (await _delegateHandler
+            .getCycleStatus(delegateRewardList[i].cycle ?? 0));
+        if (status == null) {
+          continue;
+        }
+        if (DateTime.now().isAfter(status.endTime!)) {
+          delegateRewardList[i].status = "Completed";
+        } else if (DateTime.now().isAfter(status.startTime!)) {
+          delegateRewardList[i].status = "In Progess";
+        } else {
+          delegateRewardList[i].status = "Pending";
+        }
+        //  delegateRewardList[i].status
+        delegateRewardList.value = List.from([...delegateRewardList]);
+      }
+    } catch (e) {
+      printError(info: e.toString());
+    }
+  }
+
+  void getTotalRewards() {
+    totalRewards.value = 0;
+    delegateRewardList.forEach((element) {
+      totalRewards.value = totalRewards.value +
+          ((element.balance / element.activeStake) *
+              (element.blockRewards + element.endorsementRewards));
+    });
+    totalRewards.value = (totalRewards / pow(10, 6)) *
+        Get.find<HomePageController>().xtzPrice.value;
   }
 
   Future<void> checkBaker() async {
