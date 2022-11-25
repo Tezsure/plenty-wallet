@@ -32,11 +32,31 @@ class NftGalleryWidgetController extends GetxController {
   }
 
   Future<void> fetchNftGallerys() async {
-    var tempNftGallerys = (await UserStorageService().getAllGallery());
+    List<NftGalleryModel> tempNftGallerys =
+        (await UserStorageService().getAllGallery());
     for (int i = 0; i < tempNftGallerys.length; i++) {
-      await tempNftGallerys[i].randomNft();
+      bool noNfts = await checkIfEmpty(tempNftGallerys[i].publicKeyHashs!);
+      if (noNfts) {
+        await tempNftGallerys[i].randomNft();
+      } else {
+        tempNftGallerys.removeAt(i);
+      }
     }
     nftGalleryList.value = tempNftGallerys;
+  }
+
+  //return false if empty
+  Future<bool> checkIfEmpty(List<String> publicKeyHashs) async {
+    bool noNfts = false;
+    for (int j = 0; j < publicKeyHashs.length; j++) {
+      if ((await UserStorageService()
+              .getUserNfts(userAddress: publicKeyHashs[j]))
+          .isNotEmpty) {
+        noNfts = true;
+        break;
+      }
+    }
+    return noNfts;
   }
 
   void showCreateNewNftGalleryBottomSheet() async {
@@ -66,6 +86,12 @@ class NftGalleryWidgetController extends GetxController {
     final List<String> publicKeyHashs = selectedAccountIndex.keys
         .where((String key) => selectedAccountIndex[key] == true)
         .toList();
+
+    if (!(await checkIfEmpty(publicKeyHashs))) {
+      Get.snackbar('Cant create gallery', 'No NFTs found in selected accounts',
+          backgroundColor: Colors.red, colorText: Colors.white);
+      return;
+    }
 
     await UserStorageService().writeNewGallery(NftGalleryModel(
       name: accountName.value,

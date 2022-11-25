@@ -14,55 +14,52 @@ class NftGalleryWidget extends StatefulWidget {
 class _NftGalleryWidgetState extends State<NftGalleryWidget> {
   int currIndex = 0;
   NftGalleryWidgetController controller = Get.put(NftGalleryWidgetController());
-  Widget _getNoGalleryStateWidget() => GestureDetector(
+  Widget _getNoGalleryStateWidget() => InkWell(
         onTap: () => controller.showCreateNewNftGalleryBottomSheet(),
-        child: Stack(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Align(
+            Container(
+              margin: EdgeInsets.only(
+                top: 22.sp,
+                right: 18.3.sp,
+              ),
               alignment: Alignment.topRight,
-              child: Container(
-                margin: EdgeInsets.only(
-                  top: 22.sp,
-                  right: 18.3.sp,
-                ),
-                alignment: Alignment.topRight,
-                child: SvgPicture.asset(
-                  "assets/nft_page/svg/add_icon.svg",
-                  height: 38.33.sp,
-                ),
+              child: SvgPicture.asset(
+                "assets/nft_page/svg/add_icon.svg",
+                height: 38.33.sp,
               ),
             ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                margin: EdgeInsets.all(
-                  22.sp,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Create new gallery",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 22.sp,
-                      ),
+            Container(
+              margin: EdgeInsets.all(
+                22.sp,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Create new gallery",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 22.sp,
                     ),
-                    SizedBox(
-                      height: 4.sp,
-                    ),
-                    Text(
-                      "Use a gallery to display NFTs from\nmultiple accounts",
-                      style: TextStyle(
-                          color: const Color(0xFF958E99),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12.sp,
-                          letterSpacing: .5),
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 4.sp,
+                  ),
+                  Text(
+                    "Use a gallery to display NFTs from\nmultiple accounts",
+                    style: TextStyle(
+                        color: const Color(0xFF958E99),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12.sp,
+                        letterSpacing: .5),
+                  ),
+                ],
               ),
             )
           ],
