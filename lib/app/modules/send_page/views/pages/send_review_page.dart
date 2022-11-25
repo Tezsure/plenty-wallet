@@ -81,8 +81,10 @@ class SendReviewPage extends StatelessWidget {
                         height: 48,
                         width: 0.8.width,
                         onPressed: () =>
-                            controller.amountText.value.isNotEmpty ||
-                                    controller.isNFTPage.value
+                            (controller.amountText.value.isNotEmpty ||
+                                        controller.isNFTPage.value) &&
+                                    !(controller.amountTileError.value ||
+                                        controller.amountUsdTileError.value)
                                 ? Get.bottomSheet(
                                     TransactionBottomSheet(
                                       controller: controller,
@@ -104,9 +106,14 @@ class SendReviewPage extends StatelessWidget {
                             : isEnterAmountEnable
                                 ? Colors.white
                                 : ColorConst.NeutralVariant.shade60,
-                        title:
-                            !controller.isNFTPage.value && !isEnterAmountEnable
-                                ? 'Enter an amount'
+                        title: !controller.isNFTPage.value &&
+                                !isEnterAmountEnable &&
+                                !(controller.amountTileError.value ||
+                                    controller.amountUsdTileError.value)
+                            ? 'Enter an amount'
+                            : controller.amountTileError.value ||
+                                    controller.amountUsdTileError.value
+                                ? "Insufficient balance"
                                 : 'Review',
                       );
                     },
@@ -123,7 +130,7 @@ class SendReviewPage extends StatelessWidget {
                           style: labelSmall.copyWith(
                               color: ColorConst.NeutralVariant.shade60),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 4,
                         ),
                         Text('\$0.00181', style: labelMedium),
