@@ -7,7 +7,7 @@ packages:
       name: archive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.1"
+    version: "3.3.2"
   async:
     dependency: transitive
     description:
@@ -22,6 +22,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  base_codecs:
+    dependency: transitive
+    description:
+      name: base_codecs
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
+  beacon_flutter:
+    dependency: "direct main"
+    description:
+      name: beacon_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.8"
   bip39:
     dependency: transitive
     description:
@@ -124,8 +138,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "feat/tz2_support"
-      resolved-ref: "9b12f0a327d40409061c395feb066215aa448608"
+      ref: "0ad220b8216a1d4f881453336c1dd85a814a2f36"
+      resolved-ref: "0ad220b8216a1d4f881453336c1dd85a814a2f36"
       url: "https://github.com/Tezsure/Dartez.git"
     source: git
     version: "1.0.0"
@@ -197,6 +211,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
+  flutter_inappwebview:
+    dependency: "direct main"
+    description:
+      name: flutter_inappwebview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.7.1"
   flutter_lints:
     dependency: "direct main"
     description:
@@ -265,6 +286,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
+  flutter_staggered_grid_view:
+    dependency: "direct main"
+    description:
+      name: flutter_staggered_grid_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.2"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -288,7 +316,7 @@ packages:
       name: freezed_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   get:
     dependency: "direct main"
     description:
@@ -323,7 +351,7 @@ packages:
       name: http_parser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.1"
+    version: "4.0.2"
   image_picker:
     dependency: "direct main"
     description:
@@ -360,7 +388,7 @@ packages:
     source: hosted
     version: "2.6.2"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       url: "https://pub.dartlang.org"
@@ -625,6 +653,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.27.5"
+  sec:
+    dependency: transitive
+    description:
+      name: sec
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   secp256k1:
     dependency: transitive
     description:
@@ -687,7 +722,7 @@ packages:
       name: shared_preferences_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.13"
+    version: "2.0.14"
   shared_preferences_ios:
     dependency: transitive
     description:
@@ -827,7 +862,7 @@ packages:
     source: hosted
     version: "0.2.0"
   url_launcher:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: url_launcher
       url: "https://pub.dartlang.org"
@@ -937,7 +972,7 @@ packages:
       name: web3auth_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.3"
   win32:
     dependency: transitive
     description:

@@ -4,17 +4,18 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
-import '../../../utils/colors/colors.dart';
-
 Widget backButton() {
   return GestureDetector(
-    onTap: () => Get.back(),
+    onTap: Get.back,
     child: CircleAvatar(
-      radius: 0.045.width,
+      // radius: 0.04.width,
       backgroundColor: Colors.transparent,
       child: SvgPicture.asset(
         "${PathConst.SVG}arrow_back.svg",
-        fit: BoxFit.scaleDown,
+        fit: BoxFit.cover,
+        height: 18.sp,
+        color: Colors.white,
+        alignment: Alignment.centerLeft,
       ),
     ),
   );

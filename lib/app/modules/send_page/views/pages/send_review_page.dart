@@ -12,17 +12,17 @@ import '../widgets/token_view.dart';
 
 class SendReviewPage extends StatelessWidget {
   final SendPageController controller;
-  SendReviewPage({
-    Key? key,
+  const SendReviewPage({
+    super.key,
     required this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 0.8.height,
       width: 1.width,
-      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+      decoration: const BoxDecoration(color: Colors.black),
       child: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -81,12 +81,18 @@ class SendReviewPage extends StatelessWidget {
                         height: 48,
                         width: 0.8.width,
                         onPressed: () =>
-                            controller.amountText.value.isNotEmpty ||
-                                    controller.isNFTPage.value
+                            (controller.amountText.value.isNotEmpty ||
+                                        controller.isNFTPage.value) &&
+                                    !(controller.amountTileError.value ||
+                                        controller.amountUsdTileError.value)
                                 ? Get.bottomSheet(
                                     TransactionBottomSheet(
                                       controller: controller,
                                     ),
+                                    enterBottomSheetDuration:
+                                        const Duration(milliseconds: 180),
+                                    exitBottomSheetDuration:
+                                        const Duration(milliseconds: 150),
                                   )
                                 : null,
                         primaryColor: controller.isNFTPage.value
@@ -100,9 +106,14 @@ class SendReviewPage extends StatelessWidget {
                             : isEnterAmountEnable
                                 ? Colors.white
                                 : ColorConst.NeutralVariant.shade60,
-                        title:
-                            !controller.isNFTPage.value && !isEnterAmountEnable
-                                ? 'Enter an amount'
+                        title: !controller.isNFTPage.value &&
+                                !isEnterAmountEnable &&
+                                !(controller.amountTileError.value ||
+                                    controller.amountUsdTileError.value)
+                            ? 'Enter an amount'
+                            : controller.amountTileError.value ||
+                                    controller.amountUsdTileError.value
+                                ? "Insufficient balance"
                                 : 'Review',
                       );
                     },
@@ -119,7 +130,7 @@ class SendReviewPage extends StatelessWidget {
                           style: labelSmall.copyWith(
                               color: ColorConst.NeutralVariant.shade60),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 4,
                         ),
                         Text('\$0.00181', style: labelMedium),

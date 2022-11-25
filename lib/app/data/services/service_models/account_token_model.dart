@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 
 class AccountTokenModel {
@@ -12,6 +11,9 @@ class AccountTokenModel {
   int decimals;
   double? currentPrice;
   TokenStandardType? tokenStandardType;
+  bool isPinned;
+  bool isHidden;
+  bool isSelected;
   AccountTokenModel({
     this.name,
     this.symbol,
@@ -23,6 +25,9 @@ class AccountTokenModel {
     required this.decimals,
     this.tokenStandardType,
     this.currentPrice,
+    this.isPinned = false,
+    this.isHidden = false,
+    this.isSelected = false,
   });
 
   AccountTokenModel copyWith({
@@ -36,6 +41,9 @@ class AccountTokenModel {
     int? decimals,
     TokenStandardType? tokenStandardType,
     double? currentPrice,
+    bool? isPinned,
+    bool? isHidden,
+    bool? isSelected,
   }) {
     return AccountTokenModel(
       name: name ?? this.name,
@@ -48,6 +56,9 @@ class AccountTokenModel {
       decimals: decimals ?? this.decimals,
       tokenStandardType: tokenStandardType ?? this.tokenStandardType,
       currentPrice: currentPrice ?? this.currentPrice,
+      isPinned: isPinned ?? this.isPinned,
+      isHidden: isHidden ?? this.isHidden,
+      isSelected: isSelected ?? this.isSelected,
     );
   }
 
@@ -63,6 +74,9 @@ class AccountTokenModel {
       'decimals': decimals,
       'tokenStandardType': tokenStandardType?.name,
       'currentPrice': currentPrice,
+      'isPinned': isPinned,
+      'isHidden': isHidden,
+      'isSelected': isSelected,
     };
   }
 
@@ -84,6 +98,9 @@ class AccountTokenModel {
           : null,
       currentPrice:
           map['currentPrice'] != null ? map['currentPrice'] as double : null,
+      isPinned: map['isPinned'] as bool,
+      isHidden: map['isHidden'] as bool,
+      isSelected: map['isSelected'] as bool,
     );
   }
 
@@ -94,7 +111,7 @@ class AccountTokenModel {
 
   @override
   String toString() {
-    return 'AccountTokenModel(name: $name, symbol: $symbol, iconUrl: $iconUrl, balance: $balance, valueInXtz: $valueInXtz, contractAddress: $contractAddress, tokenId: $tokenId, decimals: $decimals, tokenStandardType: $tokenStandardType)';
+    return 'AccountTokenModel(name: $name, symbol: $symbol, iconUrl: $iconUrl, balance: $balance, valueInXtz: $valueInXtz, contractAddress: $contractAddress, tokenId: $tokenId, decimals: $decimals, tokenStandardType: $tokenStandardType, currentPrice: $currentPrice, isPinned: $isPinned, isHidden: $isHidden, isSelected: $isSelected)';
   }
 
   @override
@@ -110,7 +127,10 @@ class AccountTokenModel {
         other.tokenId == tokenId &&
         other.decimals == decimals &&
         other.tokenStandardType == tokenStandardType &&
-        other.currentPrice == currentPrice;
+        other.currentPrice == currentPrice &&
+        other.isPinned == isPinned &&
+        other.isHidden == isHidden &&
+        other.isSelected == isSelected;
   }
 
   @override
@@ -124,6 +144,9 @@ class AccountTokenModel {
         tokenId.hashCode ^
         decimals.hashCode ^
         tokenStandardType.hashCode ^
-        currentPrice.hashCode;
+        currentPrice.hashCode ^
+        isPinned.hashCode ^
+        isHidden.hashCode ^
+        isSelected.hashCode;
   }
 }

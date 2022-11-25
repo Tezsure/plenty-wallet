@@ -18,7 +18,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
     return Container(
       height: 0.8.height,
       width: 1.width,
-      decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+      decoration: const BoxDecoration(color: Colors.black),
       padding: EdgeInsets.symmetric(horizontal: 0.035.width),
       child: Column(
         children: [
@@ -156,8 +156,8 @@ class TokenAndNftPageView extends GetView<SendPageController> {
             ),
             AnimatedRotation(
               turns: controller.isCollectibleExpanded.value ? -0 / 25 : 0,
-              duration: Duration(milliseconds: 300),
-              child: Icon(
+              duration: const Duration(milliseconds: 300),
+              child: const Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.white,
                 size: 10,

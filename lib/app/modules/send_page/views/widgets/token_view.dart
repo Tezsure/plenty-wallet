@@ -23,7 +23,7 @@ class TokenView extends GetView<SendPageController> {
           padding: const EdgeInsets.symmetric(horizontal: 14.0),
           child: Material(
             borderRadius: BorderRadius.circular(8),
-            color: ColorConst.Neutral.shade10.withOpacity(0.6),
+            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
             child: Obx(
               () => ListTile(
                 shape: RoundedRectangleBorder(
@@ -48,30 +48,34 @@ class TokenView extends GetView<SendPageController> {
                     controller: controller.amountController,
                     isError: controller.amountTileError,
                     onChanged: (val) {
-                      controller.amountText.value = val;
-                      if (!controller.amountFocusNode.value.hasFocus) {
-                        return;
-                      }
-                      String formatedAmount = formatEnterAmount(val);
-                      if (val.contains(".")) {
-                        if (formatedAmount != val) {
-                          controller.amountController.text = formatedAmount;
-                          controller.amountController.selection =
-                              TextSelection.fromPosition(
-                                  TextPosition(offset: formatedAmount.length));
+                      try {
+                        controller.amountText.value = val;
+                        if (!controller.amountFocusNode.value.hasFocus) {
+                          return;
                         }
-                      }
-                      if (formatedAmount.isNotEmpty &&
-                          double.parse(formatedAmount) >
-                              controller.selectedTokenModel!.balance) {
-                        controller.amountTileError.value = true;
-                      } else {
-                        controller.amountTileError.value = false;
-                      }
-                      if (formatedAmount.isNotEmpty) {
-                        calculateValuesAndUpdate(formatedAmount);
-                      } else {
-                        controller.amountUsdController.text = "";
+                        String formatedAmount = formatEnterAmount(val);
+                        if (val.contains(".")) {
+                          if (formatedAmount != val) {
+                            controller.amountController.text = formatedAmount;
+                            controller.amountController.selection =
+                                TextSelection.fromPosition(TextPosition(
+                                    offset: formatedAmount.length));
+                          }
+                        }
+                        if (formatedAmount.isNotEmpty &&
+                            double.parse(formatedAmount) >
+                                controller.selectedTokenModel!.balance) {
+                          controller.amountTileError.value = true;
+                        } else {
+                          controller.amountTileError.value = false;
+                        }
+                        if (formatedAmount.isNotEmpty) {
+                          calculateValuesAndUpdate(formatedAmount);
+                        } else {
+                          controller.amountUsdController.text = "";
+                        }
+                      } catch (e) {
+                        controller.amountText.value = "";
                       }
                     },
                   ),

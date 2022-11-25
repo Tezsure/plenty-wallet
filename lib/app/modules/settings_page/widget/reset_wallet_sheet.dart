@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+
+import '../../../data/services/service_config/service_config.dart';
 
 class ResetWalletBottomSheet extends StatelessWidget {
   const ResetWalletBottomSheet({Key? key}) : super(key: key);
@@ -13,8 +14,8 @@ class ResetWalletBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      blurRadius: 5,
-      height: 247,
+      blurRadius: 5.sp,
+      height: 250.sp,
       bottomSheetWidgets: [
         Center(
           child: Text(

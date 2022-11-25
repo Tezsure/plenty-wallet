@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/settings_page/controllers/manage_account_controller.dart';
+import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/edit_account_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-class ManageAccountsBottomSheet extends StatelessWidget {
-  ManageAccountsBottomSheet({Key? key}) : super(key: key);
+class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
+  ManageAccountsBottomSheet({super.key});
 
-  final controller = Get.put(ManageAccountPageController());
+  final _homePageController = Get.find<HomePageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,7 @@ class ManageAccountsBottomSheet extends StatelessWidget {
                       style: titleMedium,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Center(
@@ -62,27 +66,23 @@ class ManageAccountsBottomSheet extends StatelessWidget {
                         },
                         child: controller.isRearranging.value
                             ? ReorderableListView.builder(
-                                physics: BouncingScrollPhysics(),
+                                physics: const BouncingScrollPhysics(),
                                 scrollController:
                                     controller.scrollcontroller.value,
                                 itemBuilder: (context, index) => accountWIdget(
-                                    index + 1, controller.accounts[index + 1]),
-                                itemCount: controller.accounts.length - 1,
-                                onReorder: (oldIndex, newIndex) {
-                                  if (oldIndex < newIndex) {
-                                    newIndex -= 1;
-                                  }
-                                  final item = controller.accounts
-                                      .removeAt(oldIndex + 1);
-                                  controller.accounts
-                                      .insert(newIndex + 1, item);
-                                })
+                                    index,
+                                    _homePageController.userAccounts[index]),
+                                itemCount:
+                                    _homePageController.userAccounts.length,
+                                onReorder: controller.reorderUserAccountsList)
                             : ListView.builder(
-                                physics: BouncingScrollPhysics(),
+                                physics: const BouncingScrollPhysics(),
                                 controller: controller.scrollcontroller.value,
                                 itemBuilder: (context, index) => accountWIdget(
-                                    index, controller.accounts[index]),
-                                itemCount: controller.accounts.length,
+                                    index,
+                                    _homePageController.userAccounts[index]),
+                                itemCount:
+                                    _homePageController.userAccounts.length,
                               ),
                       ),
                     ),
@@ -101,15 +101,14 @@ class ManageAccountsBottomSheet extends StatelessWidget {
       selectedColor: Colors.transparent,
       selectedTileColor: Colors.transparent,
       focusColor: Colors.transparent,
-      contentPadding: EdgeInsets.symmetric(
+      contentPadding: const EdgeInsets.symmetric(
         vertical: 6,
         horizontal: 14,
       ),
       key: Key(index.toString()),
-      leading: CircleAvatar(
-        radius: 30,
-        backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-      ),
+      leading: CustomImageWidget(
+          imageType: accountModel.imageType!,
+          imagePath: accountModel.profileImage!),
       title: SizedBox(
         height: 57,
         child: Row(
@@ -119,7 +118,7 @@ class ManageAccountsBottomSheet extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  "Address index : ${accountModel.name}",
+                  "Address index : $index",
                   style: labelSmall.apply(
                       color: ColorConst.NeutralVariant.shade60),
                 ),
@@ -127,19 +126,32 @@ class ManageAccountsBottomSheet extends StatelessWidget {
                   accountModel.name!,
                   style: labelLarge,
                 ),
-                Text(
-                  "243.34",
-                  style: labelSmall.apply(
-                      color: ColorConst.NeutralVariant.shade60),
+                RichText(
+                  text: TextSpan(
+                      text: "${accountModel.accountDataModel?.xtzBalance}",
+                      style: labelSmall.apply(
+                          color: ColorConst.NeutralVariant.shade60),
+                      children: [
+                        WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 4.sp),
+                              child: SvgPicture.asset(
+                                '${PathConst.HOME_PAGE}svg/xtz.svg',
+                                height: 12.sp,
+                                color: ColorConst.NeutralVariant.shade60,
+                              ),
+                            ))
+                      ]),
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 controller.isRearranging.value
-                    ? Icon(
+                    ? const Icon(
                         Icons.drag_handle,
                         size: 24,
                         color: Colors.white,
@@ -174,10 +186,15 @@ class ManageAccountsBottomSheet extends StatelessWidget {
                             onTap: () {
                               Get.back();
                               Get.bottomSheet(
-                                
                                   EditAccountBottomSheet(
-                                      accountIndex: index),
-                                  barrierColor: Colors.transparent,isScrollControlled: true);
+                                    accountIndex: index,
+                                  ),
+                                  enterBottomSheetDuration:
+                                      const Duration(milliseconds: 180),
+                                  exitBottomSheetDuration:
+                                      const Duration(milliseconds: 150),
+                                  barrierColor: Colors.transparent,
+                                  isScrollControlled: true);
                             },
                             child: Text(
                               "Edit profile",
@@ -196,6 +213,10 @@ class ManageAccountsBottomSheet extends StatelessWidget {
                             onTap: () {
                               Get.bottomSheet(
                                 removeAccountBottomSheet(index),
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
                                 barrierColor: Colors.transparent,
                               );
                             },
@@ -212,10 +233,12 @@ class ManageAccountsBottomSheet extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
-                if (index == 0 && !controller.isRearranging.value)
+                if (index == 0 &&
+                    !controller.isRearranging.value &&
+                    _homePageController.userAccounts[index].isAccountPrimary!)
                   Container(
                     height: 18,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: ColorConst.NeutralVariant.shade20,
@@ -248,12 +271,12 @@ class ManageAccountsBottomSheet extends StatelessWidget {
         decoration: BoxDecoration(
             color: ColorConst.Primary, borderRadius: BorderRadius.circular(16)),
         child: controller.isRearranging.value
-            ? Icon(
+            ? const Icon(
                 Icons.check,
                 size: 24,
                 color: Colors.white,
               )
-            : Icon(
+            : const Icon(
                 Icons.mode_edit_outline_outlined,
                 size: 18,
                 color: Colors.white,

@@ -11,7 +11,7 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 // ignore: must_be_immutable
 class AccountValueWidget extends StatelessWidget {
-  AccountValueWidget({Key? key}) : super(key: key);
+  AccountValueWidget({super.key});
 
   HomePageController homePageController = Get.find<HomePageController>();
 
@@ -68,23 +68,30 @@ class AccountValueWidget extends StatelessWidget {
             children: [
               actionMethod("Send", "${PathConst.HOME_PAGE.SVG}send.svg",
                   onTap: () => Get.bottomSheet(const SendPage(),
+                      enterBottomSheetDuration:
+                          const Duration(milliseconds: 180),
+                      exitBottomSheetDuration:
+                          const Duration(milliseconds: 150),
                       isScrollControlled: true,
                       settings: RouteSettings(
                           arguments: homePageController.userAccounts[0]),
                       barrierColor: Colors.white.withOpacity(0.09))),
               0.09.hspace,
               actionMethod("Receive", "${PathConst.HOME_PAGE.SVG}receive.svg",
-                  onTap: () => Get.bottomSheet(
-                      ReceivePageView(
-                          publicKeyHash: homePageController
-                                  .userAccounts[0].publicKeyHash ??
-                              "",
-                          accountName:
-                              homePageController.userAccounts[0].name ?? ""),
+                  onTap: () => Get.bottomSheet(const ReceivePageView(),
+                      enterBottomSheetDuration:
+                          const Duration(milliseconds: 180),
+                      exitBottomSheetDuration:
+                          const Duration(milliseconds: 150),
                       isScrollControlled: true,
+                      settings: RouteSettings(
+                          arguments: homePageController.userAccounts[0]),
                       barrierColor: Colors.white.withOpacity(0.09))),
               0.09.hspace,
-              actionMethod("Add", "${PathConst.HOME_PAGE.SVG}plus.svg"),
+              actionMethod(
+                "Add",
+                "${PathConst.HOME_PAGE.SVG}plus.svg",
+              ),
             ],
           ),
           0.06.vspace,
@@ -105,7 +112,11 @@ class AccountValueWidget extends StatelessWidget {
           child: CircleAvatar(
             radius: 0.07.width,
             backgroundColor: ColorConst.Primary.shade60,
-            child: SvgPicture.asset(svgPath),
+            child: SvgPicture.asset(
+              svgPath,
+              height: 16.sp,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
         0.01.vspace,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class MaterialIndicator extends Decoration {
   /// Height of the indicator. Defaults to 4
@@ -32,7 +31,7 @@ class MaterialIndicator extends Decoration {
   /// StrokeWidth, used for [PaintingStyle.stroke], default set to 2
   final double strokeWidth;
 
-  MaterialIndicator({
+  const MaterialIndicator({
     this.height = 4,
     this.tabPosition = TabPosition.bottom,
     this.topRightRadius = 5,
@@ -46,7 +45,7 @@ class MaterialIndicator extends Decoration {
   });
   @override
   _CustomPainter createBoxPainter([VoidCallback? onChanged]) {
-    return new _CustomPainter(
+    return _CustomPainter(
       this,
       onChanged,
       bottomLeftRadius: bottomLeftRadius,

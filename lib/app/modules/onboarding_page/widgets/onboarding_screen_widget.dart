@@ -27,9 +27,9 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor:
-      //     widget.controller.colorList[widget.controller.pageIndex()],
       body: AnimatedContainer(
+        height: 1.height,
+        width: 1.width,
         duration: const Duration(milliseconds: 500),
         color: widget.controller.colorList[widget.controller.pageIndex()],
         child: PageView.builder(
@@ -52,21 +52,28 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                 ),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 500),
-                  height: 1.height,
-                  width: 1.width,
+                  // height: 517.sp,
+                  // width: 390.sp,
                   color: widget
                       .controller.colorList[widget.controller.pageIndex()],
                   child: Stack(
                     fit: StackFit.loose,
                     children: [
-                      Lottie.asset(
-                        widget.controller.onboardingMessages.keys
-                            .elementAt(index),
-                        animate: true,
-                        frameRate: FrameRate(60),
-                        fit: BoxFit.contain,
-                        alignment: Alignment.center,
-                        repeat: true,
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: SizedBox(
+                          height: 390.sp,
+                          width: 1.width,
+                          child: Lottie.asset(
+                            widget.controller.onboardingMessages.keys
+                                .elementAt(index),
+                            animate: true,
+                            frameRate: FrameRate(60),
+                            fit: BoxFit.cover,
+                            alignment: Alignment.topCenter,
+                            repeat: true,
+                          ),
+                        ),
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,
@@ -90,7 +97,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                               ],
                               begin: const Alignment(0, 0),
                               end: const Alignment(0, -0.8),
-                              tileMode: TileMode.decal,
+                              tileMode: TileMode.clamp,
                             ),
                           ),
                         ),
@@ -101,10 +108,10 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                           widget.controller.onboardingMessages.values
                               .elementAt(index),
                           textAlign: TextAlign.start,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: 'Space Grotesk',
                             color: Colors.white,
-                            fontSize: 40,
+                            fontSize: 40.sp,
                             fontWeight: FontWeight.w400,
                           ),
                         ),

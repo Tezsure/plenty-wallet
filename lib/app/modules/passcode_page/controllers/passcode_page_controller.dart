@@ -23,6 +23,9 @@ class PasscodePageController extends GetxController {
     if (isToVerifyPassCode.value) {
       /// verify the passcode here
       var checkPassCode = await AuthService().verifyPassCode(passCode);
+      if (nextPageRoute == null && checkPassCode) {
+        Get.back(result: true);
+      }
       if (checkPassCode) {
         Get.offAllNamed(nextPageRoute!);
       } else {
@@ -85,6 +88,22 @@ class PasscodePageController extends GetxController {
       /// if it's not to verify a passcode and not being redirected from create wallet page or import page<br>
       /// overwrite the new passcode and pop with value true
 
+      if (Get.previousRoute == Routes.SPLASH_PAGE) {
+        await authService.setNewPassCode(passCode);
+        var isBioSupported =
+            await authService.checkIfDeviceSupportBiometricAuth();
+
+        /// arguments here defines that whether it's from create new wallet or import new wallet
+        Get.toNamed(
+          isBioSupported ? Routes.BIOMETRIC_PAGE : Routes.HOME_PAGE,
+          arguments: isBioSupported
+              ? [
+                  previousRoute,
+                  Routes.HOME_PAGE,
+                ]
+              : [previousRoute],
+        );
+      }
     }
   }
 

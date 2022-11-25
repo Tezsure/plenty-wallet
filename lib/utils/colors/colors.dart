@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:flutter/material.dart';
 
 LinearGradient background = const LinearGradient(
@@ -17,6 +15,15 @@ LinearGradient appleBlue = const LinearGradient(
   colors: [
     Color(0xff5267B7),
     Color(0xff3851AD),
+  ],
+);
+
+LinearGradient accountBg = LinearGradient(
+  begin: Alignment.center,
+  end: Alignment.bottomLeft,
+  colors: [
+    const Color(0xff8637EB),
+    const Color(0xff460499).withOpacity(0.82),
   ],
 );
 
@@ -65,12 +72,30 @@ LinearGradient appleBlack = const LinearGradient(
   ],
 );
 
+LinearGradient blueGradient = const LinearGradient(
+  begin: Alignment.topRight,
+  end: Alignment.bottomLeft,
+  colors: [
+    Color(0xff034EC0),
+    Color(0xff001768),
+  ],
+);
+
+LinearGradient purpleGradient = const LinearGradient(
+  begin: Alignment.topRight,
+  end: Alignment.bottomLeft,
+  colors: [
+    Color(0xffFF006E),
+    Color(0xff8637EB),
+  ],
+);
+
 class GradConst {
   GradConst._();
 
   static const LinearGradient GradientBackground = LinearGradient(
     begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
+    end: Alignment(0, 2), // Alignment.bottomCenter [Previously]
     colors: [
       Color(0xff07030C),
       Color(0xff2D004F),
@@ -88,10 +113,13 @@ class ColorConst {
   static const int _NeutralVariant = 0xFF07030C;
   static const int _Orange = 0xFFFB5507;
   static const int _NaanRed = 0xFFFF3334;
+
   static const Color textGrey1 = Color(0xff8D8D8D);
   static const Color grey = Color(0xffA4A3A9);
   static const Color blue = Color(0xff3F9AF7);
   static const Color green = Color(0xff7EFF3F);
+  static const Color darkGrey = Color(0xff1E1C1F);
+  static const Color naanCustomColor = Color(0xff5AE200);
 
   static const NaaNShadesColor Primary = NaaNShadesColor(
     _Primary,
@@ -108,7 +136,7 @@ class ColorConst {
       90: Color(0xFFFFD9DE),
       95: Color(0xFFFFECEE),
       99: Color(0xFFFFFBFF),
-      100: Color(0xFFFFFFFF),
+      100: Color(0xFFFFFFFF)
     },
   );
 
@@ -130,6 +158,7 @@ class ColorConst {
       100: Color(0xFFFFFFFF),
     },
   );
+
   static const NaaNShadesColor Tertiary = NaaNShadesColor(
     _Tertiary,
     <int, Color>{

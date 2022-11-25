@@ -7,12 +7,14 @@ class CreateProfilePageController extends GetxController {
   String? previousRoute;
   FocusNode accountNameFocus = FocusNode();
   TextEditingController accountNameController =
-      TextEditingController(text: 'Account1');
+      TextEditingController(text: 'Account 1');
   var currentSelectedType = AccountProfileImageType.assets;
 
   RxBool isContiuneButtonEnable = false.obs;
 
   RxString selectedImagePath = "".obs;
+
+
 
   @override
   void onInit() {

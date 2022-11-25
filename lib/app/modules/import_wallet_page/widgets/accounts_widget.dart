@@ -6,7 +6,6 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:naan_wallet/app/data/services/extension_service/extension_service.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../../../utils/styles/styles.dart';
 
 class AccountWidget extends StatelessWidget {
@@ -84,35 +83,44 @@ class AccountWidget extends StatelessWidget {
     );
   }
 
-  Widget showMoreAccountButton(int index) {
-    return GestureDetector(
-      onTap: () {
-        controller.genAndLoadMoreAccounts(index, 3);
+  Column showMoreAccountButton(int index) {
+    return Column(
+      children: [
+        const Divider(
+          color: Color(0xff4a454e),
+          height: 1,
+          thickness: 1,
+        ),
+        GestureDetector(
+          onTap: () {
+            controller.genAndLoadMoreAccounts(index, 3);
 
-        // controller.showMoreAccounts();
-        controller.isExpanded.value = true;
-      },
-      child: SizedBox(
-        height: 50,
-        child: Center(
-          child: Text(
-            "Show more accounts",
-            style: labelMedium,
+            // controller.showMoreAccounts();
+            controller.isExpanded.value = true;
+          },
+          child: SizedBox(
+            height: 50,
+            child: Center(
+              child: Text(
+                "Show more accounts",
+                style: labelMedium,
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 
   Widget accountWidget(AccountModel accountModel, index) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-      height: 48,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      height: 84,
       child: Row(
         children: [
           Container(
-            height: 48,
-            width: 48,
+            height: 0.13.width,
+            width: 0.13.width,
             alignment: Alignment.bottomRight,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -124,7 +132,7 @@ class AccountWidget extends StatelessWidget {
           ),
           0.05.hspace,
           Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -134,8 +142,7 @@ class AccountWidget extends StatelessWidget {
               accountBalances.containsKey(accountModel.publicKeyHash)
                   ? Text(
                       "${accountBalances[accountModel.publicKeyHash]} tez",
-                      style: labelSmall.apply(
-                          color: ColorConst.NeutralVariant.shade60),
+                      style: bodyLarge,
                     )
                   : FutureBuilder<double>(
                       future: accountModel.getUserBalanceInTezos(),
@@ -164,12 +171,12 @@ class AccountWidget extends StatelessWidget {
               onChanged: (value) {
                 if (value!) {
                   controller.isTz1Selected.value
-                  ? controller.selectedAccountsTz1.add(accountModel)
-                  : controller.selectedAccountsTz2.add(accountModel);
+                      ? controller.selectedAccountsTz1.add(accountModel)
+                      : controller.selectedAccountsTz2.add(accountModel);
                 } else {
                   controller.isTz1Selected.value
-                  ? controller.selectedAccountsTz1.remove(accountModel)
-                  : controller.selectedAccountsTz2.remove(accountModel);
+                      ? controller.selectedAccountsTz1.remove(accountModel)
+                      : controller.selectedAccountsTz2.remove(accountModel);
                 }
               },
               checkColor: Colors.white,
@@ -182,7 +189,6 @@ class AccountWidget extends StatelessWidget {
       ),
     );
   }
-
   // Widget accountLoadingShimmer() {
   //   return Row(
   //     children: [

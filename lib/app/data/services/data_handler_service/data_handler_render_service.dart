@@ -30,14 +30,15 @@ class DataHandlerRenderService {
   }
 
   /// read from store and update xtzPrice
-  Future<void> _updateXtzPrice([double? xtzPrice]) async{
-    if(xtzPrice != null){
+  Future<void> _updateXtzPrice([double? xtzPrice]) async {
+    if (xtzPrice != null) {
       xtzPriceUpdater.value = xtzPrice;
       return;
     }
 
-    xtzPriceUpdater.value = double.parse(await ServiceConfig.localStorage.read(key: ServiceConfig.xtzPriceStorage) ?? "0.0");
-
+    xtzPriceUpdater.value = double.parse(await ServiceConfig.localStorage
+            .read(key: ServiceConfig.xtzPriceStorage) ??
+        "0.0");
   }
 
   /// read from store and update account xtz value
@@ -72,13 +73,30 @@ class DataHandlerRenderService {
 
   Future<List<TokenPriceModel>> getTokenPriceModel(
       [List<String>? contractAddress]) async {
+    String? tokensPrice = await ServiceConfig.localStorage
+        .read(key: ServiceConfig.tokenPricesStorage);
+    if (tokensPrice != null && contractAddress != null) {
+      return jsonDecode(tokensPrice)
+          .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
+          .toList()
+          .where((e) => contractAddress.contains(e.tokenAddress.toString()))
+          .toList();
+    } else if (tokensPrice != null) {
+      return jsonDecode(tokensPrice)
+          .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
+          .toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<TokenPriceModel>> getTokenPriceModels() async {
     var tokensPrice = await ServiceConfig.localStorage
         .read(key: ServiceConfig.tokenPricesStorage);
     if (tokensPrice != null) {
       return jsonDecode(tokensPrice)
           .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
           .toList()
-          .where((e) => contractAddress!.contains(e.tokenAddress.toString()))
           .toList();
     }
     return [];
@@ -97,10 +115,10 @@ class DataVariable<T> {
 
   set value(T? value) {
     if (value.toString().hashCode != _value) {
-      for (var i = 0; i < callbacks.length; i++) {
+      for (int i = 0; i < callbacks.length; i++) {
         callbacks[i](value);
       }
-      for (var i = 0; i < registerVariabls.length; i++) {
+      for (int i = 0; i < registerVariabls.length; i++) {
         registerVariabls[i].value = value;
       }
       _value = value.toString().hashCode;
@@ -113,7 +131,7 @@ class DataVariable<T> {
     extraParams == null ? updateProcess() : updateProcess(extraParams);
   }
 
-  void registerVariable(rxVar) {
+  void registerVariable(List<AccountModel> rxVar) {
     registerVariabls.add(rxVar);
     _value = 0;
     updateProcess();

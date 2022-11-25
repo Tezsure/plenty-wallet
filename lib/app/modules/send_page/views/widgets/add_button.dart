@@ -19,7 +19,8 @@ class AddContactButton extends StatelessWidget {
       onTap: () {
         Get.bottomSheet(
           AddContactBottomSheet(contactModel: contactModel),
-  
+          enterBottomSheetDuration: const Duration(milliseconds: 180),
+          exitBottomSheetDuration: const Duration(milliseconds: 150),
           barrierColor: Colors.black.withOpacity(0.2),
         );
       },

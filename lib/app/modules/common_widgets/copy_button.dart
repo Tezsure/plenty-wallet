@@ -6,15 +6,14 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 class CopyButton extends StatelessWidget {
   final bool isCopied;
   final Function()? onPressed;
-  const CopyButton({Key? key, this.isCopied = false, this.onPressed})
-      : super(key: key);
+  const CopyButton({super.key, this.isCopied = false, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 20),
       child: Container(
-        width: .6.width,
+        width: 0.6.width,
         height: 0.06.height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

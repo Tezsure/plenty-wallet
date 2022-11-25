@@ -183,90 +183,96 @@ class TransactionBottomSheet extends StatelessWidget {
               }
 
               Get.back();
-              Get.bottomSheet(NaanBottomSheet(
-                height: 380.sp,
-                bottomSheetWidgets: [
-                  0.04.vspace,
-                  Align(
-                    alignment: Alignment.center,
-                    child: LottieBuilder.asset(
-                      '${PathConst.SEND_PAGE}lottie/send_success.json',
-                      height: 68,
-                      width: 68,
-                      repeat: false,
+              Get.bottomSheet(
+                NaanBottomSheet(
+                  height: 380.sp,
+                  bottomSheetWidgets: [
+                    0.04.vspace,
+                    Align(
+                      alignment: Alignment.center,
+                      child: LottieBuilder.asset(
+                        '${PathConst.SEND_PAGE}lottie/send_success.json',
+                        height: 68,
+                        width: 68,
+                        repeat: false,
+                      ),
                     ),
-                  ),
-                  0.02.vspace,
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Transaction is submitted',
-                      style: titleLarge,
-                      textAlign: TextAlign.center,
+                    0.02.vspace,
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Transaction is submitted',
+                        style: titleLarge,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                  0.02.vspace,
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Your transaction should be confirmed in\nnext 30 seconds',
-                      textAlign: TextAlign.center,
-                      style: labelSmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade70),
+                    0.02.vspace,
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Your transaction should be confirmed in\nnext 30 seconds',
+                        textAlign: TextAlign.center,
+                        style: labelSmall.copyWith(
+                            color: ColorConst.NeutralVariant.shade70),
+                      ),
                     ),
-                  ),
-                  0.02.vspace,
-                  SolidButton(
-                      elevation: 0,
-                      borderWidth: 1,
-                      primaryColor: Colors.transparent,
-                      borderColor: ColorConst.Neutral.shade80,
-                      textColor: ColorConst.Primary.shade80,
-                      title: 'Got it',
-                      onPressed: () {
-                        Get
-                          ..back()
-                          ..back();
+                    0.02.vspace,
+                    SolidButton(
+                        elevation: 0,
+                        borderWidth: 1,
+                        primaryColor: Colors.transparent,
+                        borderColor: ColorConst.Neutral.shade80,
+                        textColor: ColorConst.Primary.shade80,
+                        title: 'Got it',
+                        onPressed: () {
+                          Get
+                            ..back()
+                            ..back();
 
-                        DataHandlerService().onGoingTxStatusHelpers.add(
-                            OnGoingTxStatusHelper(
-                                opHash: opHash,
-                                status: TransactionStatus.pending,
-                                transactionAmount: operationModel.amount == 0.0
-                                    ? "1 ${operationModel.model.name}"
-                                    : operationModel.amount!
-                                            .toStringAsFixed(6)
-                                            .removeTrailing0 +
-                                        " " +
-                                        (operationModel.model
-                                                as AccountTokenModel)
-                                            .symbol!,
-                                tezAddress:
-                                    operationModel.receiveAddress!.tz1Short()));
-                        transactionStatusSnackbar(
-                          status: TransactionStatus.pending,
-                          tezAddress: operationModel.receiveAddress!.tz1Short(),
-                          transactionAmount: operationModel.amount == 0.0
-                              ? "1 ${operationModel.model.name}"
-                              : operationModel.amount!
-                                      .toStringAsFixed(6)
-                                      .removeTrailing0 +
-                                  " " +
-                                  (operationModel.model as AccountTokenModel)
-                                      .symbol!,
-                        );
-                      }),
-                  0.02.vspace,
-                  SolidButton(
-                    title: 'Share Naan',
-                    textColor: Colors.white,
-                    onPressed: () {
-                      Share.share(
-                          "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. https://naanwallet.com");
-                    },
-                  ),
-                ],
-              ));
+                          DataHandlerService().onGoingTxStatusHelpers.add(
+                              OnGoingTxStatusHelper(
+                                  opHash: opHash,
+                                  status: TransactionStatus.pending,
+                                  transactionAmount:
+                                      operationModel.amount == 0.0
+                                          ? "1 ${operationModel.model.name}"
+                                          : operationModel.amount!
+                                                  .toStringAsFixed(6)
+                                                  .removeTrailing0 +
+                                              " " +
+                                              (operationModel.model
+                                                      as AccountTokenModel)
+                                                  .symbol!,
+                                  tezAddress: operationModel.receiveAddress!
+                                      .tz1Short()));
+                          transactionStatusSnackbar(
+                            status: TransactionStatus.pending,
+                            tezAddress:
+                                operationModel.receiveAddress!.tz1Short(),
+                            transactionAmount: operationModel.amount == 0.0
+                                ? "1 ${operationModel.model.name}"
+                                : operationModel.amount!
+                                        .toStringAsFixed(6)
+                                        .removeTrailing0 +
+                                    " " +
+                                    (operationModel.model as AccountTokenModel)
+                                        .symbol!,
+                          );
+                        }),
+                    0.02.vspace,
+                    SolidButton(
+                      title: 'Share Naan',
+                      textColor: Colors.white,
+                      onPressed: () {
+                        Share.share(
+                            "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. https://naanwallet.com");
+                      },
+                    ),
+                  ],
+                ),
+                enterBottomSheetDuration: const Duration(milliseconds: 180),
+                exitBottomSheetDuration: const Duration(milliseconds: 150),
+              );
             },
           ),
         )

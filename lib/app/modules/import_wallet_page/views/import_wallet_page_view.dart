@@ -45,6 +45,10 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                   onTap: () {
                     Get.bottomSheet(
                       infoBottomSheet(),
+                      enterBottomSheetDuration:
+                          const Duration(milliseconds: 180),
+                      exitBottomSheetDuration:
+                          const Duration(milliseconds: 150),
                       isScrollControlled: true,
                       barrierColor: Colors.white.withOpacity(0.2),
                     );
@@ -195,6 +199,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               controller.genAndLoadMoreAccounts(0, 3);
               Get.bottomSheet(
                 AccountBottomSheet(controller: controller),
+                enterBottomSheetDuration: const Duration(milliseconds: 180),
+                exitBottomSheetDuration: const Duration(milliseconds: 150),
                 isScrollControlled: true,
                 barrierColor: Colors.white.withOpacity(0.2),
               );
@@ -209,15 +215,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
           ),
           child: Text(
-            controller.importWalletDataType == ImportWalletDataType.privateKey
-                ? "Import using private key"
-                : controller.importWalletDataType ==
-                        ImportWalletDataType.mnemonic
-                    ? "Next"
-                    : controller.importWalletDataType ==
-                            ImportWalletDataType.watchAddress
-                        ? "Import watch address"
-                        : "Import",
+            "Import",
             style: titleSmall.apply(color: ColorConst.Neutral.shade95),
           )),
     );

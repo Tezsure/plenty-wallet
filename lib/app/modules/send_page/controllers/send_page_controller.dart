@@ -79,6 +79,7 @@ class SendPageController extends GetxController {
   Rx<ContactModel?> selectedReceiver = Rx<ContactModel?>(null);
 
   void onContactSelect({required ContactModel contactModel}) {
+    setSelectedPageIndex(index: 1);
     selectedReceiver.value = contactModel;
     searchBarFocusNode.unfocus();
     searchText.value = contactModel.name == "Account"
@@ -87,7 +88,6 @@ class SendPageController extends GetxController {
     searchTextController.value.text = contactModel.name == "Account"
         ? contactModel.address
         : contactModel.name;
-    setSelectedPageIndex(index: 1);
   }
 
   RxList<ContactModel> recentsContacts = <ContactModel>[].obs;
@@ -122,8 +122,10 @@ class SendPageController extends GetxController {
 
   Future<void> fetchAllTokens() async {
     userTokens.clear();
-    userTokens.add(
-      AccountTokenModel(
+    userTokens.addAll(await UserStorageService()
+        .getUserTokens(userAddress: senderAccountModel!.publicKeyHash!));
+    if (userTokens.isEmpty) {
+      userTokens.add(AccountTokenModel(
         name: "Tezos",
         balance: senderAccountModel!.accountDataModel!.xtzBalance!,
         contractAddress: "xtz",
@@ -132,10 +134,30 @@ class SendPageController extends GetxController {
         tokenId: "0",
         decimals: 6,
         iconUrl: "assets/tezos_logo.png",
-      ),
-    );
-    userTokens.addAll(await UserStorageService()
-        .getUserTokens(userAddress: senderAccountModel!.publicKeyHash!));
+      ));
+    } else {
+      if (userTokens.any((element) => element.name!.contains("Tezos"))) {
+        userTokens.map((element) => element.name!.contains("Tezos")
+            ? element.copyWith(
+                balance: senderAccountModel!.accountDataModel!.xtzBalance!,
+                currentPrice: xtzPrice.value,
+              )
+            : null);
+      } else {
+        userTokens.insert(
+            0,
+            AccountTokenModel(
+              name: "Tezos",
+              balance: senderAccountModel!.accountDataModel!.xtzBalance!,
+              contractAddress: "xtz",
+              symbol: "Tezos",
+              currentPrice: xtzPrice.value,
+              tokenId: "0",
+              decimals: 6,
+              iconUrl: "assets/tezos_logo.png",
+            ));
+      }
+    }
   }
 
   Future<void> fetchAllNfts() async {
@@ -186,18 +208,16 @@ class SendPageController extends GetxController {
           ? amountTileFocus.value = true
           : amountTileFocus.value = false;
     });
-    searchBarFocusNode.addListener(() {
+/*     searchBarFocusNode.addListener(() {
       if (searchBarFocusNode.hasFocus) {
         saveSelectedPageIndex.value = selectedPageIndex.value;
-        setSelectedPageIndex(index: 0);
+        //setSelectedPageIndex(index: 0);
       } else {
         setSelectedPageIndex(index: saveSelectedPageIndex.value);
       }
-    });
+    }); */
     super.onReady();
   }
-
-  
 
   @override
   void onClose() {

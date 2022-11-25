@@ -66,7 +66,7 @@ class AccountDataHandler {
   }
 
   Future<void> _storeData(
-      data, List<AccountModel> accountList, var postProcess) async {
+      List data, List<AccountModel> accountList, var postProcess) async {
     List<TokenPriceModel> tokenPrices = await dataHandlerRenderService
         .getTokenPriceModel((data[1] as Map<String, List<AccountTokenModel>>)
             .values
@@ -112,10 +112,56 @@ class AccountDataHandler {
         )
         .toList();
 
-    // update account list before write data into localStorage
-    await postProcess(accountList);
+    // fetches the stored token list if any and updates the respective token values
+    (data[1] as Map<String, List<AccountTokenModel>>)
+        .forEach((key, value) async {
+      await UserStorageService()
+          .getUserTokens(userAddress: key)
+          .then((tokenList) {
+        if (tokenList.isNotEmpty) {
+          List<String> updateTokenAddresses = value
+              .map<String>((e) => e.contractAddress)
+              .toList(); // get all the token addresses which are updated
+          (data[1] as Map<String, List<AccountTokenModel>>).update(
+            key,
+            (tokens) => tokenList.map<AccountTokenModel>((e) {
+              AccountTokenModel updatedToken;
+              tokens
+                      .where(
+                        (element) =>
+                            element.contractAddress == e.contractAddress,
+                      )
+                      .isNotEmpty
+                  ? updatedToken = tokens.firstWhere(
+                      (element) => element.contractAddress == e.contractAddress,
+                    )
+                  : updatedToken = e;
+              return updateTokenAddresses.contains(e.contractAddress)
+                  ? e.copyWith(
+                      balance: updatedToken.balance,
+                      currentPrice: updatedToken.currentPrice,
+                      decimals: updatedToken.decimals,
+                      iconUrl: updatedToken.iconUrl,
+                      name: updatedToken.name,
+                      symbol: updatedToken.symbol,
+                      valueInXtz: updatedToken.valueInXtz,
+                      tokenId: updatedToken.tokenId,
+                      tokenStandardType: updatedToken.tokenStandardType,
+                    )
+                  : e;
+            }).toList(),
+          );
+        }
+      });
+    });
 
-    // save accoutns data
+    // update account list before write data into localStorage
+    if (accountList.isNotEmpty) {
+      accountList.first.isAccountPrimary = true;
+      await postProcess(accountList);
+    }
+
+    // save accounts data
     await ServiceConfig.localStorage.write(
         key: ServiceConfig.accountsStorage, value: jsonEncode(accountList));
 
@@ -135,13 +181,18 @@ class AccountDataHandler {
         value
             .map(
               (e) {
-                var token = tokenPrices
+                var tokenList = tokenPrices
                     .where((element) =>
                         e.contractAddress == element.tokenAddress &&
                         (element.type == "fa2"
                             ? e.tokenId == element.tokenId
                             : true))
-                    .toList()[0];
+                    .toList();
+
+                if (tokenList.isEmpty) {
+                  return e..name = null;
+                }
+                var token = tokenList.first;
                 e.name = token.name;
                 e.iconUrl = token.thumbnailUri;
                 e.symbol = token.symbol;

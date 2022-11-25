@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../utils/colors/colors.dart';
@@ -22,20 +23,31 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
       const Duration(milliseconds: 100); // Toggle LB Button Animation Duration
   RxDouble sliderValue = 0.0.obs;
 
+  RxDouble xtzPrice = 0.0.obs;
   RxList<AccountModel> userAccounts = <AccountModel>[].obs;
 
   @override
   void onInit() {
     super.onInit();
+    Get.put(NftGalleryWidgetController());
     DataHandlerService()
         .renderService
         .accountUpdater
         .registerVariable(userAccounts);
+
+    DataHandlerService()
+        .renderService
+        .xtzPriceUpdater
+        .registerCallback((value) {
+      xtzPrice.value = value;
+      print("xtzPrice: $value");
+      //update();
+    });
+
     // DataHandlerService().renderService.accountNft.registerCallback((data) {
     //   print("Nft data");
     //   print(jsonEncode(data));
     // });
-
   }
 
   @override
@@ -61,9 +73,15 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
       NaanBottomSheet(
         gradientStartingOpacity: 1,
         blurRadius: 5,
+        height: 290.sp,
         isScrollControlled: true,
-        title: 'Backup Your Wallet',
         bottomSheetWidgets: [
+          0.03.vspace,
+          Text(
+            'Backup Your Wallet',
+            style: titleLarge,
+          ),
+          0.012.vspace,
           Text(
             'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.',
             textAlign: TextAlign.start,
@@ -71,6 +89,8 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
           ),
           .03.vspace,
           SolidButton(
+              height: 40.sp,
+              width: 1.width,
               textColor: Colors.white,
               title: "Backup Wallet ( ~1 min )",
               onPressed: () => Get.toNamed(
@@ -85,7 +105,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
             padding: EdgeInsets.zero,
             onPressed: () => Get.back(),
             child: Container(
-              height: 48,
+              height: 40.sp,
               width: 1.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
@@ -102,6 +122,8 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
           .03.vspace,
         ],
       ),
+      enterBottomSheetDuration: const Duration(milliseconds: 180),
+      exitBottomSheetDuration: const Duration(milliseconds: 150),
       enableDrag: true,
       isDismissible: true,
       ignoreSafeArea: false,

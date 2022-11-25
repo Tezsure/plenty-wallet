@@ -13,68 +13,70 @@ import 'package:share_plus/share_plus.dart';
 import '../controllers/receive_page_controller.dart';
 
 class ReceivePageView extends GetView<ReceivePageController> {
-  final String publicKeyHash;
-  const ReceivePageView(
-      {super.key, required this.publicKeyHash, required this.accountName});
-
-  final String accountName;
+  const ReceivePageView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(ReceivePageController());
+    final ReceivePageController controller = Get.put(ReceivePageController());
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(
-        height: 0.92.height,
+        height: 0.9.height,
         width: 1.width,
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10.aR)),
             color: Colors.black),
         child: Column(
           children: [
             0.005.vspace,
             Container(
-              height: 5,
-              width: 36,
+              height: 5.aR,
+              width: 36.aR,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
               ),
             ),
-            0.017.vspace,
+            0.036.vspace,
             Text(
               'Receive',
-              style: titleLarge,
+              style: titleLarge.copyWith(
+                  fontSize: 22.aR, height: 24 / 22, letterSpacing: 0.15.aR),
             ),
             0.01.vspace,
             Text(
               'You can receive tez or any other Tezos\nbased assets on this address by\nsharing this QR code.',
               textAlign: TextAlign.center,
-              style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+              style: bodySmall.copyWith(
+                  fontSize: 12.aR, color: ColorConst.NeutralVariant.shade60),
             ),
             0.05.vspace,
             qrCode(),
             0.047.vspace,
             GestureDetector(
               onTap: () {
-                controller.copyAddress(publicKeyHash);
+                controller.copyAddress(controller.userAccount!.publicKeyHash!);
               },
               child: Column(
                 children: [
                   Text(
-                    accountName,
-                    style: titleLarge.copyWith(fontWeight: FontWeight.w600),
+                    controller.userAccount!.name!,
+                    style: titleLarge.copyWith(fontSize: 22.aR),
                   ),
-                  0.01.vspace,
-                  Text(
-                    tz1Shortner(publicKeyHash),
-                    style: bodySmall.apply(
-                        color: ColorConst.NeutralVariant.shade60),
+                  Padding(
+                    padding: EdgeInsets.only(top: 8.sp),
+                    child: Text(
+                      tz1Shortner(
+                        controller.userAccount!.publicKeyHash!,
+                      ),
+                      style: bodySmall.apply(
+                          color: ColorConst.NeutralVariant.shade60),
+                    ),
                   ),
                 ],
               ),
             ),
-            0.047.vspace,
+            0.04.vspace,
             shareButton(),
             0.06.vspace,
           ],
@@ -88,11 +90,11 @@ class ReceivePageView extends GetView<ReceivePageController> {
       height: 0.3.height,
       width: 0.3.height,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: Colors.white),
+          borderRadius: BorderRadius.circular(20.sp), color: Colors.white),
       alignment: Alignment.center,
       child: QrImage(
-        data: publicKeyHash,
-        padding: const EdgeInsets.all(20),
+        data: controller.userAccount!.publicKeyHash!,
+        padding: EdgeInsets.all(20.sp),
         gapless: false,
         eyeStyle:
             const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
@@ -107,28 +109,29 @@ class ReceivePageView extends GetView<ReceivePageController> {
   Widget shareButton() {
     return GestureDetector(
       onTap: () {
-        Share.share(publicKeyHash);
+        Share.share(controller.userAccount!.publicKeyHash!);
       },
       child: Container(
-        height: 0.06.height,
-        width: 0.35.width,
+        height: 50.aR,
+        width: 130.aR,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.aR),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20.aR),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.share_sharp,
-              size: 20,
+              size: 16.aR,
               color: Colors.white,
             ),
             0.04.hspace,
             Text(
               'Share',
-              style: titleSmall.copyWith(fontWeight: FontWeight.w500),
+              style: titleSmall.copyWith(
+                  fontWeight: FontWeight.w500, fontSize: 14.aR),
             )
           ],
         ),

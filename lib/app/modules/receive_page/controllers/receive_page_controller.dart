@@ -6,8 +6,18 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
+import '../../../data/services/service_models/account_model.dart';
+
 class ReceivePageController extends GetxController {
   RxBool isCopied = false.obs; // is copied to clipboard
+
+  late AccountModel? userAccount;
+
+  @override
+  void onInit() {
+    userAccount = Get.arguments as AccountModel?;
+    super.onInit();
+  }
 
   /// Copy address to clipboard and show snackbar message
   void copyAddress(String address) {

@@ -79,17 +79,19 @@ class PasscodePageView extends GetView<PasscodePageController> {
                 () => Text(
                   controller.isPassCodeWrong.value
                       ? "Passcode doesn’t match"
-                      : "Protect your naan by creating a passcode ",
+                      : controller.isToVerifyPassCode.value
+                          ? "Confirm your passcode"
+                          : "Protect your naan by creating a passcode ",
                   style:
                       bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
                 ),
               ),
               0.05.vspace,
               PassCodeWidget(onChanged: (value) {
-                debugPrint(
-                    "confirm passcode : ${controller.confirmPasscode.value}");
-                debugPrint(
-                    "set passcode : ${controller.enteredPassCode.value}");
+                // debugPrint(
+                //     "confirm passcode : ${controller.confirmPasscode.value}");
+                // debugPrint(
+                //     "set passcode : ${controller.enteredPassCode.value}");
 
                 if (controller.isToVerifyPassCode.value) {
                   if (value.length == 6) {

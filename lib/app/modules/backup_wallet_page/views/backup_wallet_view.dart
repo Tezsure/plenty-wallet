@@ -27,7 +27,7 @@ class BackupWalletView extends GetView<BackupWalletController> {
           height: 1.height,
           width: 1.width,
           padding: const EdgeInsets.only(top: 30),
-        color: Colors.black,
+          color: Colors.black,
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(
@@ -43,6 +43,10 @@ class BackupWalletView extends GetView<BackupWalletController> {
                       InfoButton(
                         onPressed: () => Get.bottomSheet(
                           infoBottomSheet(),
+                          enterBottomSheetDuration:
+                              const Duration(milliseconds: 180),
+                          exitBottomSheetDuration:
+                              const Duration(milliseconds: 150),
                           enableDrag: true,
                           isDismissible: true,
                           isScrollControlled: true,
@@ -94,7 +98,8 @@ class BackupWalletView extends GetView<BackupWalletController> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 0, top: 0.04.height),
                   child: SolidButton(
-                    onPressed: () => Get.toNamed(Routes.VERIFY_PHRASE_PAGE,arguments: controller.seedPhrase.join(" ")),
+                    onPressed: () => Get.toNamed(Routes.VERIFY_PHRASE_PAGE,
+                        arguments: controller.seedPhrase.join(" ")),
                     width: 0.7.width,
                     rowWidget: Icon(
                       Icons.check_circle_outline,
