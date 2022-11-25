@@ -138,9 +138,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: e62af61fc71d4b4e2b49f83a3ef5a4405759137f
-      resolved-ref: e62af61fc71d4b4e2b49f83a3ef5a4405759137f
-      url: "https://github.com/AniketSindhu/Dartez.git"
+      ref: "0ad220b8216a1d4f881453336c1dd85a814a2f36"
+      resolved-ref: "0ad220b8216a1d4f881453336c1dd85a814a2f36"
+      url: "https://github.com/Tezsure/Dartez.git"
     source: git
     version: "1.0.0"
   device_frame:
@@ -653,6 +653,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.27.5"
+  sec:
+    dependency: transitive
+    description:
+      name: sec
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   secp256k1:
     dependency: transitive
     description:
