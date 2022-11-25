@@ -62,7 +62,117 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                         ),
                       ),
                     ),
-                    _buildAppBar(),
+                    Obx(
+                      () => Padding(
+                        padding: EdgeInsets.only(
+                            left: 16.aR, right: 16.aR, top: 14.aR),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.bottomSheet(
+                                    AccountSelectorSheet(
+                                      selectedAccount:
+                                          controller.userAccount.value,
+                                    ),
+                                    enterBottomSheetDuration:
+                                        const Duration(milliseconds: 180),
+                                    exitBottomSheetDuration:
+                                        const Duration(milliseconds: 150),
+                                    isScrollControlled: true);
+                              },
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  0.01.hspace,
+                                  CustomImageWidget(
+                                    imageType:
+                                        controller.userAccount.value.imageType!,
+                                    imagePath: controller
+                                        .userAccount.value.profileImage!,
+                                    imageRadius: 18.aR,
+                                  ),
+                                  0.03.hspace,
+                                  RichText(
+                                    text: TextSpan(
+                                        text:
+                                            controller.userAccount.value.name!,
+                                        style: labelMedium.copyWith(
+                                            fontSize: 12.aR,
+                                            fontWeight: FontWeight.w600),
+                                        children: [
+                                          WidgetSpan(
+                                              child: SizedBox(
+                                            width: 2.sp,
+                                          )),
+                                          WidgetSpan(
+                                            alignment:
+                                                PlaceholderAlignment.bottom,
+                                            child: Icon(
+                                              Icons.keyboard_arrow_down_rounded,
+                                              size: 20.aR,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                "\n${(controller.userAccount.value.publicKeyHash!).tz1Short()}",
+                                            style: labelMedium.copyWith(
+                                                fontSize: 12.aR,
+                                                height: 0,
+                                                fontWeight: FontWeight.w400,
+                                                color: ColorConst
+                                                    .NeutralVariant.shade60),
+                                          )
+                                        ]),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Spacer(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Clipboard.setData(ClipboardData(
+                                        text: controller
+                                            .userAccount.value.publicKeyHash));
+                                    Get.rawSnackbar(
+                                      message: "Copied to clipboard",
+                                      shouldIconPulse: true,
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      maxWidth: 0.9.width,
+                                      margin: EdgeInsets.only(
+                                        bottom: 20.aR,
+                                      ),
+                                      duration:
+                                          const Duration(milliseconds: 700),
+                                    );
+                                  },
+                                  child: SvgPicture.asset(
+                                    '${PathConst.SVG}copy.svg',
+                                    color: Colors.white,
+                                    fit: BoxFit.contain,
+                                    height: 24.aR,
+                                  ),
+                                ),
+                                0.04.hspace,
+                                InkWell(
+                                  child: SvgPicture.asset(
+                                    '${PathConst.SVG}scanVector.svg',
+                                    fit: BoxFit.contain,
+                                    height: 24.aR,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     0.036.vspace,
                     Obx(() => Center(
                           child: Text(
@@ -99,6 +209,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                             imagePath: '${PathConst.SVG}arrow_up.svg',
                             label: 'Send',
                             onTap: (() => Get.bottomSheet(const SendPage(),
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
                                 settings: RouteSettings(
                                     arguments: controller.userAccount.value),
                                 isScrollControlled: true,
@@ -110,6 +224,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                             label: 'Receive',
                             onTap: (() => Get.bottomSheet(
                                 const ReceivePageView(),
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
                                 settings: RouteSettings(
                                     arguments: controller.userAccount.value),
                                 isScrollControlled: true,

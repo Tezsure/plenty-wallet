@@ -36,6 +36,10 @@ class Accessiblity extends StatelessWidget {
                         onTap: () {
                           Get.bottomSheet(
                             const DappsPageView(),
+                            enterBottomSheetDuration:
+                                const Duration(milliseconds: 180),
+                            exitBottomSheetDuration:
+                                const Duration(milliseconds: 150),
                             barrierColor: Colors.white.withOpacity(0.09),
                             isScrollControlled: true,
                           );

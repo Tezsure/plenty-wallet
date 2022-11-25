@@ -338,6 +338,8 @@ class CreateNewNftGalleryBottomSheet
                 onTap: () {
                   Get.bottomSheet(
                     changePhotoBottomSheet(),
+                    enterBottomSheetDuration: const Duration(milliseconds: 180),
+                    exitBottomSheetDuration: const Duration(milliseconds: 150),
                     barrierColor: Colors.white.withOpacity(0.01),
                     isScrollControlled: true,
                   );

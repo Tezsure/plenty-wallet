@@ -153,7 +153,13 @@ class SettingsPageView extends GetView<SettingsPageController> {
                             title: "Change Network",
                             svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
                             onTap: () {
-                              Get.bottomSheet(SelectNetworkBottomSheet());
+                              Get.bottomSheet(
+                                SelectNetworkBottomSheet(),
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
+                              );
                             },
                             trailing: Row(
                               children: [
@@ -182,6 +188,10 @@ class SettingsPageView extends GetView<SettingsPageController> {
                               onTap: () {
                                 Get.bottomSheet(
                                   SelectNodeBottomSheet(),
+                                  enterBottomSheetDuration:
+                                      const Duration(milliseconds: 180),
+                                  exitBottomSheetDuration:
+                                      const Duration(milliseconds: 150),
                                   barrierColor: Colors.transparent,
                                   isScrollControlled: true,
                                 );
@@ -326,6 +336,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
       onTap: () {
         Get.bottomSheet(
           ManageAccountsBottomSheet(),
+          enterBottomSheetDuration: const Duration(milliseconds: 180),
+          exitBottomSheetDuration: const Duration(milliseconds: 150),
           isScrollControlled: true,
           barrierColor: ColorConst.Primary.withOpacity(0.2),
           enableDrag: true,
@@ -384,7 +396,11 @@ class SettingsPageView extends GetView<SettingsPageController> {
   Widget _connectedAppsOption() {
     return GestureDetector(
       onTap: () {
-        Get.bottomSheet(ConnectedDappBottomSheet());
+        Get.bottomSheet(
+          ConnectedDappBottomSheet(),
+          enterBottomSheetDuration: const Duration(milliseconds: 180),
+          exitBottomSheetDuration: const Duration(milliseconds: 150),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -414,7 +430,11 @@ class SettingsPageView extends GetView<SettingsPageController> {
   Widget _resetOption() {
     return GestureDetector(
       onTap: () {
-        Get.bottomSheet(const ResetWalletBottomSheet());
+        Get.bottomSheet(
+          const ResetWalletBottomSheet(),
+          enterBottomSheetDuration: const Duration(milliseconds: 180),
+          exitBottomSheetDuration: const Duration(milliseconds: 150),
+        );
       },
       child: Container(
         decoration: BoxDecoration(

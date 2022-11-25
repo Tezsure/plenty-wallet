@@ -19,52 +19,83 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> infos = [
+      'You are earning interest on your Tez through a process called Delegation. It is super safe on Tezos.',
+      'Your funds are neither locked nor frozen and do not move anywhere. You can spend them at any time.',
+      'Through delegation, you are delegating your staking/baking rights to another person(baker). Baker passes on the rewards he gets, to you as a delegator.'
+    ];
     Get.lazyPut(() => DelegateWidgetController());
     return NaanBottomSheet(
         mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 16.sp,
-        height: 0.45.height,
+        height: 0.64.height,
         blurRadius: 5,
         width: double.infinity,
         bottomSheetWidgets: [
           SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                0.015.vspace,
-                SvgPicture.asset(
-                  "${PathConst.HOME_PAGE.SVG}tezos_price.svg",
-                  width: 0.2.width,
-                ),
-                0.02.vspace,
-                Text(
-                  "Earn 5% APR on your tez",
-                  style: titleLarge,
-                ),
-                0.006.vspace,
-                Text(
-                  "Your funds are neither locked nor frozen and do\n not move anywhere. You can spend them at\n any time and without any delay.",
-                  textAlign: TextAlign.center,
-                  style: labelMedium.copyWith(color: ColorConst.textGrey1),
-                ),
-                0.075.vspace,
-                SolidButton(
-                  active: true,
-                  onPressed: () {
-                    // if (Get.isBottomSheetOpen ?? false) {
-                    Get.back();
-                    // }
-                    Get.bottomSheet(
-                        DelegateSelectBaker(
-                          isScrollable: true,
-                        ),
-                        enableDrag: true,
-                        isScrollControlled: true);
-                  },
-                  title: "Delegate",
-                ),
-                0.018.vspace
-              ],
+            child: SizedBox(
+              height: 0.57.height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  0.015.vspace,
+                  SvgPicture.asset(
+                    "${PathConst.HOME_PAGE.SVG}tezos_price.svg",
+                    width: 0.2.width,
+                  ),
+                  0.02.vspace,
+                  Text(
+                    "Earn 5% APR on your tez",
+                    style: titleLarge,
+                  ),
+
+                  0.03.vspace,
+                  ...List.generate(
+                      infos.length,
+                      (index) => Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.sp),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 10.sp,
+                                  backgroundColor: ColorConst.Primary,
+                                  child: Text(
+                                    (index + 1).toString(),
+                                    style: labelSmall,
+                                  ),
+                                ),
+                                0.02.hspace,
+                                Expanded(
+                                  child: Text(
+                                    infos[index],
+                                    style: labelMedium.copyWith(
+                                        color: ColorConst.textGrey1,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                  Spacer(),
+                  // 0.075.vspace,
+                  SolidButton(
+                    active: true,
+                    onPressed: () {
+                      // if (Get.isBottomSheetOpen ?? false) {
+                      Get.back();
+                      // }
+                      Get.bottomSheet(
+                          DelegateSelectBaker(
+                            isScrollable: true,
+                          ),
+                          enableDrag: true,
+                          isScrollControlled: true);
+                    },
+                    title: "Delegate",
+                  ),
+                  0.018.vspace
+                ],
+              ),
             ),
           ),
         ]);

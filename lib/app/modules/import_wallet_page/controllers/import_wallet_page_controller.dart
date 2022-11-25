@@ -82,6 +82,8 @@ class ImportWalletPageController extends GetxController
 
       if (pageRoute == Routes.ACCOUNT_SUMMARY) {
         return Get.bottomSheet(const CreateProfilePageView(isBottomSheet: true),
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
             isScrollControlled: true,
             settings: RouteSettings(arguments: [pageRoute]));
       }
@@ -113,6 +115,8 @@ class ImportWalletPageController extends GetxController
 
       if (pageRoute == Routes.ACCOUNT_SUMMARY) {
         return Get.bottomSheet(const CreateProfilePageView(isBottomSheet: true),
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
             isScrollControlled: true,
             settings: RouteSettings(arguments: [pageRoute]));
       }

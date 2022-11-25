@@ -46,28 +46,32 @@ class TezosPriceWidget extends StatelessWidget {
                       "\$${homePageController.xtzPrice.value.toStringAsFixed(2)}",
                       style: headlineSmall,
                     ))),
-                0.02.hspace,
-                Padding(
-                  padding: EdgeInsets.only(bottom: 0.006.height),
-                  child: RichText(
-                    text: TextSpan(children: [
-                      const WidgetSpan(
-                        child: Icon(
-                          true
-                              ? Icons.arrow_upward_outlined
-                              : Icons.arrow_downward_outlined,
-                          size: 14,
-                          color: ColorConst.green,
-                        ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 0.006.height),
+                      child: RichText(
+                        text: TextSpan(children: [
+                          const WidgetSpan(
+                            child: Icon(
+                              true
+                                  ? Icons.arrow_upward_outlined
+                                  : Icons.arrow_downward_outlined,
+                              size: 14,
+                              color: ColorConst.green,
+                            ),
+                          ),
+                          WidgetSpan(child: 0.005.hspace),
+                          TextSpan(
+                            text: "${0.03}%",
+                            style: labelMedium.apply(
+                              color: ColorConst.green,
+                            ),
+                          )
+                        ]),
                       ),
-                      WidgetSpan(child: 0.005.hspace),
-                      TextSpan(
-                        text: "${0.03}%",
-                        style: labelMedium.apply(
-                          color: ColorConst.green,
-                        ),
-                      )
-                    ]),
+                    ),
                   ),
                 ),
               ],

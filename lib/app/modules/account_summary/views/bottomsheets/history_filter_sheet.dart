@@ -309,6 +309,8 @@ class HistoryFilterSheet extends StatelessWidget {
         onTap: () {
           Get.bottomSheet(
             DateSelectionSheet(),
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
             barrierColor: Colors.transparent,
           );
         },

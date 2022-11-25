@@ -117,6 +117,10 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                                     onTap: () {
                                       Get.bottomSheet(
                                         changePhotoBottomSheet(),
+                                        enterBottomSheetDuration:
+                                            const Duration(milliseconds: 180),
+                                        exitBottomSheetDuration:
+                                            const Duration(milliseconds: 150),
                                         barrierColor:
                                             Colors.white.withOpacity(0.01),
                                         isScrollControlled: true,
@@ -251,7 +255,12 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      Get.bottomSheet(avatarPicker(), isScrollControlled: true);
+                      Get.bottomSheet(avatarPicker(),
+                          enterBottomSheetDuration:
+                              const Duration(milliseconds: 180),
+                          exitBottomSheetDuration:
+                              const Duration(milliseconds: 150),
+                          isScrollControlled: true);
                     },
                     child: Container(
                       width: double.infinity,

@@ -48,6 +48,10 @@ class PrivateKeyPage extends StatelessWidget {
                             InfoButton(
                               onPressed: () => Get.bottomSheet(
                                 infoBottomSheet(),
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
                                 enableDrag: true,
                                 isDismissible: true,
                                 isScrollControlled: true,

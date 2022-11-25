@@ -195,6 +195,12 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                     EditAccountBottomSheet(
                                                       accountIndex: index,
                                                     ),
+                                                    enterBottomSheetDuration:
+                                                        const Duration(
+                                                            milliseconds: 180),
+                                                    exitBottomSheetDuration:
+                                                        const Duration(
+                                                            milliseconds: 150),
                                                     isScrollControlled: true,
                                                     barrierColor:
                                                         Colors.transparent,
@@ -234,6 +240,12 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                                 index);
                                                       },
                                                     ),
+                                                    enterBottomSheetDuration:
+                                                        const Duration(
+                                                            milliseconds: 180),
+                                                    exitBottomSheetDuration:
+                                                        const Duration(
+                                                            milliseconds: 150),
                                                     barrierColor:
                                                         Colors.transparent,
                                                   );
@@ -305,6 +317,10 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                         onTap: (() {
                           if (_controller.isAccountEditable.isFalse) {
                             Get.bottomSheet(AddNewAccountBottomSheet(),
+                                    enterBottomSheetDuration:
+                                        const Duration(milliseconds: 180),
+                                    exitBottomSheetDuration:
+                                        const Duration(milliseconds: 150),
                                     barrierColor: Colors.transparent,
                                     isScrollControlled: true)
                                 .whenComplete(() {

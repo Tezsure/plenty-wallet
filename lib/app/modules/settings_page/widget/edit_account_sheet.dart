@@ -63,6 +63,10 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               child: GestureDetector(
                 onTap: () {
                   Get.bottomSheet(changePhotoBottomSheet(),
+                          enterBottomSheetDuration:
+                              const Duration(milliseconds: 180),
+                          exitBottomSheetDuration:
+                              const Duration(milliseconds: 150),
                           barrierColor: Colors.transparent)
                       .whenComplete(() {
                     setState(() {});

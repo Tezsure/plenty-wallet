@@ -73,6 +73,10 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
               child: GestureDetector(
                 onTap: () {
                   Get.bottomSheet(changePhotoBottomSheet(),
+                      enterBottomSheetDuration:
+                          const Duration(milliseconds: 180),
+                      exitBottomSheetDuration:
+                          const Duration(milliseconds: 150),
                       barrierColor: Colors.transparent);
                 },
                 child: CircleAvatar(
@@ -240,7 +244,12 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      Get.bottomSheet(avatarPicker(), isScrollControlled: true);
+                      Get.bottomSheet(avatarPicker(),
+                          enterBottomSheetDuration:
+                              const Duration(milliseconds: 180),
+                          exitBottomSheetDuration:
+                              const Duration(milliseconds: 150),
+                          isScrollControlled: true);
                     },
                     child: Container(
                       width: double.infinity,

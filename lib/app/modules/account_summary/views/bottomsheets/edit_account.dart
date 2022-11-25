@@ -104,9 +104,14 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                     ),
                     child: GestureDetector(
                       onTap: () {
-                        Get.bottomSheet(changePhotoBottomSheet(),
-                                barrierColor: Colors.transparent)
-                            .whenComplete(() {
+                        Get.bottomSheet(
+                          changePhotoBottomSheet(),
+                          barrierColor: Colors.transparent,
+                          enterBottomSheetDuration:
+                              const Duration(milliseconds: 180),
+                          exitBottomSheetDuration:
+                              const Duration(milliseconds: 150),
+                        ).whenComplete(() {
                           setState(() {});
                         });
                       },
@@ -214,9 +219,12 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             ),
             child: GestureDetector(
               onTap: () {
-                Get.bottomSheet(changePhotoBottomSheet(),
-                        barrierColor: Colors.transparent)
-                    .whenComplete(() {
+                Get.bottomSheet(
+                  changePhotoBottomSheet(),
+                  barrierColor: Colors.transparent,
+                  enterBottomSheetDuration: const Duration(milliseconds: 180),
+                  exitBottomSheetDuration: const Duration(milliseconds: 150),
+                ).whenComplete(() {
                   setState(() {});
                 });
               },
@@ -358,7 +366,14 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      Get.bottomSheet(avatarPicker(), isScrollControlled: true);
+                      Get.bottomSheet(
+                        avatarPicker(),
+                        isScrollControlled: true,
+                        enterBottomSheetDuration:
+                            const Duration(milliseconds: 180),
+                        exitBottomSheetDuration:
+                            const Duration(milliseconds: 150),
+                      );
                     },
                     child: Container(
                       width: double.infinity,

@@ -45,6 +45,10 @@ class HistoryPage extends GetView<TransactionController> {
                         onTap: (() => Get.bottomSheet(
                               const SearchBottomSheet(),
                               isScrollControlled: true,
+                              enterBottomSheetDuration:
+                                  const Duration(milliseconds: 180),
+                              exitBottomSheetDuration:
+                                  const Duration(milliseconds: 150),
                             )),
                         child: Container(
                           height: 0.06.height,
@@ -79,6 +83,10 @@ class HistoryPage extends GetView<TransactionController> {
                       GestureDetector(
                         onTap: () {
                           Get.bottomSheet(HistoryFilterSheet(),
+                              enterBottomSheetDuration:
+                                  const Duration(milliseconds: 180),
+                              exitBottomSheetDuration:
+                                  const Duration(milliseconds: 150),
                               isScrollControlled: true);
                         },
                         child: SvgPicture.asset(
@@ -93,6 +101,7 @@ class HistoryPage extends GetView<TransactionController> {
                       0.01.hspace,
                     ],
                   ),
+                  0.02.vspace,
                 ],
               ),
             ),
@@ -249,12 +258,16 @@ class HistoryPage extends GetView<TransactionController> {
           HistoryTile(
             tokenInfo: token,
             xtzPrice: controller.accController.xtzPrice.value,
-            onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
-              tokenInfo: token,
-              userAccountAddress:
-                  controller.accController.userAccount.value.publicKeyHash!,
-              transactionModel: token.token!,
-            )),
+            onTap: () => Get.bottomSheet(
+              TransactionDetailsBottomSheet(
+                tokenInfo: token,
+                userAccountAddress:
+                    controller.accController.userAccount.value.publicKeyHash!,
+                transactionModel: token.token!,
+              ),
+              enterBottomSheetDuration: const Duration(milliseconds: 180),
+              exitBottomSheetDuration: const Duration(milliseconds: 150),
+            ),
           ),
         ],
       );
@@ -269,19 +282,23 @@ class HistoryPage extends GetView<TransactionController> {
             return const Center(
               child: CircularProgressIndicator(),
             );
+          } else if (snapshot.data!.name == null) {
+            return Container();
           } else {
             controller.defaultTransactionList[index] =
                 controller.defaultTransactionList[index].copyWith(
                     isNft: true,
-                    tokenSymbol: snapshot.data!.fa!.name!,
-                    dollarAmount: (snapshot.data!.lowestAsk / 1e6) *
+                    tokenSymbol: snapshot.data!.fa!.name.toString(),
+                    dollarAmount: (snapshot.data!.lowestAsk == null
+                            ? 0
+                            : (snapshot.data!.lowestAsk / 1e6)) *
                         controller.accController.xtzPrice.value,
                     tokenAmount: snapshot.data!.lowestAsk != null &&
                             snapshot.data!.lowestAsk != 0
                         ? snapshot.data!.lowestAsk / 1e6
                         : 0,
-                    name: snapshot.data!.name!,
-                    imageUrl: snapshot.data!.displayUri!);
+                    name: snapshot.data!.name.toString(),
+                    imageUrl: snapshot.data!.displayUri);
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -309,13 +326,17 @@ class HistoryPage extends GetView<TransactionController> {
                 HistoryTile(
                   tokenInfo: controller.defaultTransactionList[index],
                   xtzPrice: controller.accController.xtzPrice.value,
-                  onTap: () => Get.bottomSheet(TransactionDetailsBottomSheet(
-                    tokenInfo: controller.defaultTransactionList[index],
-                    userAccountAddress: controller
-                        .accController.userAccount.value.publicKeyHash!,
-                    transactionModel:
-                        controller.defaultTransactionList[index].token!,
-                  )),
+                  onTap: () => Get.bottomSheet(
+                    TransactionDetailsBottomSheet(
+                      tokenInfo: controller.defaultTransactionList[index],
+                      userAccountAddress: controller
+                          .accController.userAccount.value.publicKeyHash!,
+                      transactionModel:
+                          controller.defaultTransactionList[index].token!,
+                    ),
+                    enterBottomSheetDuration: const Duration(milliseconds: 180),
+                    exitBottomSheetDuration: const Duration(milliseconds: 150),
+                  ),
                 ),
               ],
             );

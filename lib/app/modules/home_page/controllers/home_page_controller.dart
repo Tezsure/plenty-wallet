@@ -122,6 +122,8 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
           .03.vspace,
         ],
       ),
+      enterBottomSheetDuration: const Duration(milliseconds: 180),
+      exitBottomSheetDuration: const Duration(milliseconds: 150),
       enableDrag: true,
       isDismissible: true,
       ignoreSafeArea: false,

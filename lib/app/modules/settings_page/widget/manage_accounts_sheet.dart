@@ -189,6 +189,10 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
                                   EditAccountBottomSheet(
                                     accountIndex: index,
                                   ),
+                                  enterBottomSheetDuration:
+                                      const Duration(milliseconds: 180),
+                                  exitBottomSheetDuration:
+                                      const Duration(milliseconds: 150),
                                   barrierColor: Colors.transparent,
                                   isScrollControlled: true);
                             },
@@ -209,6 +213,10 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
                             onTap: () {
                               Get.bottomSheet(
                                 removeAccountBottomSheet(index),
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
                                 barrierColor: Colors.transparent,
                               );
                             },

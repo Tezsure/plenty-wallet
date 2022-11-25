@@ -40,13 +40,14 @@ class OpreationRequestController extends GetxController {
   @override
   void onInit() async {
     try {
+      print(" req: ${beaconRequest.request}");
+
       accountModels = Get.find<HomePageController>()
           .userAccounts
-          .value
           .firstWhere((element) =>
               element.publicKeyHash == beaconRequest.request!.sourceAddress)
           .obs;
-
+      print("account ${accountModels!.value.publicKeyHash}");
       if (beaconRequest.operationDetails != null && accountModels != null) {
         DataHandlerService()
             .renderService
@@ -142,6 +143,8 @@ class OpreationRequestController extends GetxController {
 
       if (isBioEnabled) {
         final bioResult = await Get.bottomSheet(const BiometricView(),
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
             barrierColor: Colors.white.withOpacity(0.09),
             isScrollControlled: true,
             settings: RouteSettings(arguments: isBioEnabled));

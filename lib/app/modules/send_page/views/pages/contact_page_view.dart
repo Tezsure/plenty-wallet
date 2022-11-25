@@ -122,8 +122,13 @@ class ContactsListView extends GetView<SendPageController> {
                             padding: const EdgeInsets.symmetric(horizontal: 11),
                             onTap: () {
                               Get.back();
-                              Get.bottomSheet(EditContactBottomSheet(
-                                  contactModel: contact));
+                              Get.bottomSheet(
+                                EditContactBottomSheet(contactModel: contact),
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
+                              );
                             },
                             child: Text(
                               "Edit contact",
@@ -141,8 +146,13 @@ class ContactsListView extends GetView<SendPageController> {
                             height: 53,
                             onTap: () {
                               Get.back();
-                              Get.bottomSheet(DeleteContactBottomSheet(
-                                  contactModel: contact));
+                              Get.bottomSheet(
+                                DeleteContactBottomSheet(contactModel: contact),
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
+                              );
                             },
                             child: Text(
                               "Delete contact",
