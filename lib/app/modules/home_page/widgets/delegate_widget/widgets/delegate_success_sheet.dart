@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -8,6 +9,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker_tile.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:share_plus/share_plus.dart';
@@ -30,11 +32,17 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 0.015.vspace,
-                Icon(
-                  Icons.check_circle_outline,
-                  color: ColorConst.Primary,
-                  size: 80.sp,
+                LottieBuilder.asset(
+                  '${PathConst.SEND_PAGE}lottie/success_primary.json',
+                  height: 80.sp,
+                  width: 80.sp,
+                  repeat: false,
                 ),
+                // Icon(
+                //   Icons.check_circle_outline,
+                //   color: ColorConst.Primary,
+                //   size: 80.sp,
+                // ),
                 0.0175.vspace,
                 Text(
                   "Delegation successful",
@@ -52,7 +60,9 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
                   active: true,
                   textColor: ColorConst.Primary,
                   primaryColor: Colors.transparent,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.back();
+                  },
                   title: "Done",
                 ),
                 0.018.vspace,

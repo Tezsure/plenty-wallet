@@ -1,8 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_reward_model.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
@@ -35,62 +39,7 @@ class DelegateRewardsTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: 20,
-                child: ClipOval(
-                  child: Image.network(
-                    delegatedBaker.logo ?? "",
-                    fit: BoxFit.fill,
-                    width: 40,
-                    height: 40,
-                  ),
-                ),
-              ),
-              0.02.hspace,
-              RichText(
-                  text: TextSpan(
-                      text: '${delegatedBaker.name}\n',
-                      style: labelMedium,
-                      children: [
-                    TextSpan(
-                      text: tz1Shortner(delegatedBaker.address!),
-                      style: labelSmall.copyWith(color: ColorConst.Primary),
-                    ),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.copy,
-                          color: ColorConst.Primary,
-                          size: 10,
-                        ),
-                        iconSize: 10,
-                        constraints: const BoxConstraints(),
-                      ),
-                    ),
-                  ])),
-              const Spacer(),
-              Row(
-                children: [
-                  Text(
-                    reward.cycle.toString(),
-                    style: labelSmall,
-                  ),
-                  const Icon(
-                    Icons.hourglass_empty,
-                    color: ColorConst.Primary,
-                    size: 20,
-                  ),
-                ],
-              ),
-            ],
-          ),
+          _buildHeader(),
           0.013.vspace,
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -99,87 +48,121 @@ class DelegateRewardsTile extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      text: 'Delegated:\n',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade70),
-                      children: [
-                        TextSpan(
-                            text:
-                                '${(reward.balance / pow(10, 6)).toStringAsFixed(4)} tez',
-                            style: labelLarge)
-                      ],
-                    ),
-                  ),
-                  0.12.hspace,
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      text: 'Rewards:\n',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade70),
-                      children: [
-                        TextSpan(
-                            text: '${rewards.toStringAsFixed(2)} tez',
-                            style: labelLarge)
-                      ],
-                    ),
-                  ),
-                  0.12.hspace,
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      text: 'Baker fee:\n',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade70),
-                      children: [
-                        TextSpan(
-                            text:
-                                '${((delegatedBaker.fee) * 100).toStringAsFixed(2)}%',
-                            style: labelLarge)
-                      ],
-                    ),
-                  ),
+                  _buildInfo('Delegated',
+                      '${(reward.balance / pow(10, 6)).toStringAsFixed(4)} tez'),
+                  0.03.hspace,
+                  _buildInfo('Rewards', '${rewards.toStringAsFixed(2)} tez'),
+                  0.03.hspace,
+                  _buildInfo('Baker fee',
+                      '${((delegatedBaker.fee) * 100).toStringAsFixed(2)}%'),
                 ],
               ),
               0.013.vspace,
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      text: 'Expected Payout:\n',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade70),
-                      children: [
-                        TextSpan(
-                            text: '${netExpectedPayout.toStringAsFixed(5)} tez',
-                            style: labelLarge)
-                      ],
-                    ),
-                  ),
+                  _buildInfo('Expected Payout',
+                      '${netExpectedPayout.toStringAsFixed(5)} tez'),
                   0.03.hspace,
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      text: 'Status\n',
-                      style: labelSmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade70),
-                      children: [
-                        TextSpan(
-                            text: reward.status ?? ". . .", style: labelLarge)
-                      ],
-                    ),
-                  ),
+                  _buildInfo('Status', reward.status ?? ". . ."),
+                  0.03.hspace,
+                  const Spacer()
                 ],
               ),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildInfo(String title, String value) {
+    return Expanded(
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: RichText(
+          textAlign: TextAlign.start,
+          text: TextSpan(
+            text: '$title:\n',
+            style:
+                labelSmall.copyWith(color: ColorConst.NeutralVariant.shade70),
+            children: [TextSpan(text: value, style: labelLarge)],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Row _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 20,
+          child: ClipOval(
+            child: Image.network(
+              delegatedBaker.logo ?? "",
+              fit: BoxFit.fill,
+              width: 40,
+              height: 40,
+            ),
+          ),
+        ),
+        0.02.hspace,
+        RichText(
+            text: TextSpan(
+                text: '${delegatedBaker.name}\n',
+                style: labelMedium,
+                children: [
+              TextSpan(
+                text: tz1Shortner(delegatedBaker.address!),
+                style: labelSmall.copyWith(color: ColorConst.Primary),
+              ),
+              WidgetSpan(
+                alignment: PlaceholderAlignment.middle,
+                child: IconButton(
+                  onPressed: () {
+                    Clipboard.setData(
+                        ClipboardData(text: delegatedBaker.address!));
+                    Get.rawSnackbar(
+                      message: "Copied to clipboard",
+                      shouldIconPulse: true,
+                      snackPosition: SnackPosition.BOTTOM,
+                      maxWidth: 0.9.width,
+                      margin: const EdgeInsets.only(
+                        bottom: 20,
+                      ),
+                      duration: const Duration(milliseconds: 750),
+                    );
+                  },
+                  icon: SvgPicture.asset(
+                    '${PathConst.SVG}copy.svg',
+                    color: ColorConst.Primary,
+                    fit: BoxFit.contain,
+                    height: 12.aR,
+                  ),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
+              ),
+            ])),
+        const Spacer(),
+        Row(
+          children: [
+            Text(
+              reward.cycle.toString(),
+              style: labelSmall,
+            ),
+            const Icon(
+              Icons.hourglass_empty,
+              color: ColorConst.Primary,
+              size: 20,
+            ),
+          ],
+        ),
+      ],
     );
   }
 

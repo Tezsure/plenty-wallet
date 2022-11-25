@@ -191,6 +191,8 @@ class DelegateWidgetController extends GetxController {
   }
 
   Future<void> getDelegateRewardList(String bakerAddress) async {
+    delegateRewardList.value = [];
+    totalRewards.value = 0;
     try {
       await _delegateHandler
           .getDelegateReward(accountModel!.value.publicKeyHash!, bakerAddress)
@@ -267,7 +269,7 @@ class DelegateWidgetController extends GetxController {
     } else {
       DelegateBakerModel delegatedBaker;
       if (delegateBakerList.isEmpty) {
-        await getBakerList();
+        await toggleLoaderOverlay(getBakerList);
       }
       if (delegateBakerList.any((element) => element.address == bakerAddress)) {
         delegatedBaker = delegateBakerList.firstWhere(

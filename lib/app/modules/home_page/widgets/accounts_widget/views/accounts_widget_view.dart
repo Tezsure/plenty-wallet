@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
@@ -177,26 +178,26 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                             ),
                             0.02.hspace,
                             InkWell(
-                              onTap: () {
-                                Clipboard.setData(
-                                    ClipboardData(text: model.publicKeyHash));
-                                Get.rawSnackbar(
-                                  message: "Copied to clipboard",
-                                  shouldIconPulse: true,
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  maxWidth: 0.9.width,
-                                  margin: const EdgeInsets.only(
-                                    bottom: 20,
-                                  ),
-                                  duration: const Duration(milliseconds: 750),
-                                );
-                              },
-                              child: Icon(
-                                Icons.copy_outlined,
-                                size: 14,
-                                color: Colors.white.withOpacity(0.8),
-                              ),
-                            ),
+                                onTap: () {
+                                  Clipboard.setData(
+                                      ClipboardData(text: model.publicKeyHash));
+                                  Get.rawSnackbar(
+                                    message: "Copied to clipboard",
+                                    shouldIconPulse: true,
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    maxWidth: 0.9.width,
+                                    margin: const EdgeInsets.only(
+                                      bottom: 20,
+                                    ),
+                                    duration: const Duration(milliseconds: 750),
+                                  );
+                                },
+                                child: SvgPicture.asset(
+                                  '${PathConst.SVG}copy.svg',
+                                  color: Colors.white.withOpacity(0.8),
+                                  fit: BoxFit.contain,
+                                  height: 14.aR,
+                                )),
                           ],
                         ),
                       )

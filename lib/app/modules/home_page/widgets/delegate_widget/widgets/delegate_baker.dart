@@ -126,46 +126,50 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
           crossFadeState: controller.showFilter.value
               ? CrossFadeState.showSecond
               : CrossFadeState.showFirst,
-          secondChild: GestureDetector(
-            onTap: () => Get.bottomSheet(const BakerFilterBottomSheet()),
-            child: SafeArea(
+          secondChild: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 48.sp),
+              child: GestureDetector(
+                onTap: () => Get.bottomSheet(const BakerFilterBottomSheet()),
                 child: Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: .3),
-                  color: const Color(0xff1E1C1F),
-                  borderRadius: BorderRadius.circular(20)),
-              width: 100,
-              height: 40,
-              alignment: Alignment.center,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white, width: .3),
+                      color: const Color(0xff1E1C1F),
+                      borderRadius: BorderRadius.circular(20)),
+                  width: 100,
+                  height: 40,
+                  alignment: Alignment.center,
+                  child: Stack(
+                    alignment: Alignment.center,
                     children: [
-                      const Icon(
-                        Icons.filter_list_rounded,
-                        color: Colors.white,
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.filter_list_rounded,
+                            color: Colors.white,
+                          ),
+                          0.01.hspace,
+                          Text(
+                            "Sort",
+                            style: labelSmall.copyWith(color: Colors.white),
+                          )
+                        ],
                       ),
-                      0.01.hspace,
-                      Text(
-                        "Sort",
-                        style: labelSmall.copyWith(color: Colors.white),
-                      )
+                      // if (controller.bakerListBy?.value != null)
+                      //   const Align(
+                      //     alignment: Alignment.topRight,
+                      //     child: Icon(
+                      //       Icons.circle,
+                      //       color: ColorConst.Primary,
+                      //       size: 15,
+                      //     ),
+                      //   ),
                     ],
                   ),
-                  // if (controller.bakerListBy?.value != null)
-                  //   const Align(
-                  //     alignment: Alignment.topRight,
-                  //     child: Icon(
-                  //       Icons.circle,
-                  //       color: ColorConst.Primary,
-                  //       size: 15,
-                  //     ),
-                  //   ),
-                ],
+                ),
               ),
-            )),
+            ),
           ),
         ));
   }

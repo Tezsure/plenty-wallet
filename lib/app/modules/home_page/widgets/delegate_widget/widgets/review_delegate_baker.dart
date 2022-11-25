@@ -147,10 +147,11 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                         duration: const Duration(milliseconds: 750),
                       );
                     },
-                    child: Icon(
-                      Icons.copy_outlined,
-                      size: 14,
-                      color: Colors.white.withOpacity(0.8),
+                    child: SvgPicture.asset(
+                      '${PathConst.SVG}copy.svg',
+                      color: Colors.white,
+                      fit: BoxFit.contain,
+                      height: 15.aR,
                     ),
                   )
                 ],

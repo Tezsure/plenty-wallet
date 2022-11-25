@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -61,21 +63,24 @@ class DelegateBakerTile extends StatelessWidget {
                   style: labelMedium,
                 ),
                 0.015.hspace,
-                GestureDetector(
-                  onTap: () {
-                    Get.bottomSheet(const DappBrowserView(),
-                        barrierColor: Colors.white.withOpacity(0.09),
-                        settings: RouteSettings(
-                            arguments: 'https://tzkt.io/${baker.address}'),
-                        isScrollControlled: true);
-                  },
-                  child: const Icon(
-                    Icons.launch,
-                    color: ColorConst.textGrey1,
-                    size: 13,
-                  ),
-                ),
-                Spacer(),
+                IconButton(
+                    alignment: Alignment.centerLeft,
+                    iconSize: 16.aR,
+                    padding: EdgeInsets.zero,
+                    onPressed: () {
+                      Get.bottomSheet(const DappBrowserView(),
+                          barrierColor: Colors.white.withOpacity(0.09),
+                          settings: RouteSettings(
+                              arguments: 'https://tzkt.io/${baker.address}'),
+                          isScrollControlled: true);
+                    },
+                    icon: SvgPicture.asset(
+                      '${PathConst.SETTINGS_PAGE}svg/external-link.svg',
+                      color: ColorConst.textGrey1,
+                      fit: BoxFit.fill,
+                      height: 16.aR,
+                    )),
+                const Spacer(),
                 if (redelegate)
                   SolidButton(
                     title: "Redelegate",
