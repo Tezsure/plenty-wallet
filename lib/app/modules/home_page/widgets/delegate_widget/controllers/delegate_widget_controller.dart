@@ -269,14 +269,17 @@ class DelegateWidgetController extends GetxController {
       if (delegateBakerList.isEmpty) {
         await getBakerList();
       }
-      delegatedBaker = delegateBakerList
-          .firstWhere((element) => element.address == bakerAddress);
-      Get.bottomSheet(
-          ReDelegateBottomSheet(
-            baker: delegatedBaker,
-          ),
-          enableDrag: true,
-          isScrollControlled: true);
+      if (delegateBakerList.any((element) => element.address == bakerAddress)) {
+        delegatedBaker = delegateBakerList.firstWhere(
+          (element) => element.address == bakerAddress,
+        );
+        Get.bottomSheet(
+            ReDelegateBottomSheet(
+              baker: delegatedBaker,
+            ),
+            enableDrag: true,
+            isScrollControlled: true);
+      }
     }
   }
 
