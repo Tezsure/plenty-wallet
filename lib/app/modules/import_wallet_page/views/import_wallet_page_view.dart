@@ -45,10 +45,6 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                   onTap: () {
                     Get.bottomSheet(
                       infoBottomSheet(),
-                      enterBottomSheetDuration:
-                          const Duration(milliseconds: 180),
-                      exitBottomSheetDuration:
-                          const Duration(milliseconds: 150),
                       isScrollControlled: true,
                       barrierColor: Colors.white.withOpacity(0.2),
                     );
@@ -199,8 +195,6 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               controller.genAndLoadMoreAccounts(0, 3);
               Get.bottomSheet(
                 AccountBottomSheet(controller: controller),
-                enterBottomSheetDuration: const Duration(milliseconds: 180),
-                exitBottomSheetDuration: const Duration(milliseconds: 150),
                 isScrollControlled: true,
                 barrierColor: Colors.white.withOpacity(0.2),
               );

@@ -32,14 +32,34 @@ class NftGalleryWidgetController extends GetxController {
   }
 
   Future<void> fetchNftGallerys() async {
-    var tempNftGallerys = (await UserStorageService().getAllGallery());
+    List<NftGalleryModel> tempNftGallerys =
+        (await UserStorageService().getAllGallery());
     for (int i = 0; i < tempNftGallerys.length; i++) {
-      await tempNftGallerys[i].randomNft();
+      bool noNfts = await checkIfEmpty(tempNftGallerys[i].publicKeyHashs!);
+      if (noNfts) {
+        await tempNftGallerys[i].randomNft();
+      } else {
+        tempNftGallerys.removeAt(i);
+      }
     }
     nftGalleryList.value = tempNftGallerys;
   }
 
-  void showCreateNewNftGalleryBottomSheet() async {
+  //return false if empty
+  Future<bool> checkIfEmpty(List<String> publicKeyHashs) async {
+    bool noNfts = false;
+    for (int j = 0; j < publicKeyHashs.length; j++) {
+      if ((await UserStorageService()
+              .getUserNfts(userAddress: publicKeyHashs[j]))
+          .isNotEmpty) {
+        noNfts = true;
+        break;
+      }
+    }
+    return noNfts;
+  }
+
+  Future<void> showCreateNewNftGalleryBottomSheet() async {
     accounts = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
     accountNameFocus = FocusNode();
@@ -62,10 +82,78 @@ class NftGalleryWidgetController extends GetxController {
     );
   }
 
+  Future<void> showEditNewNftGalleryBottomSheet(
+      NftGalleryModel nftGallery, int galleryIndex) async {
+    accounts = await UserStorageService().getAllAccount() +
+        (await UserStorageService().getAllAccount(watchAccountsList: true));
+
+    accounts!.forEach((element) {
+      if (nftGallery.publicKeyHashs!.contains(element.publicKeyHash)) {
+        selectedAccountIndex[element.publicKeyHash!] = true;
+      }
+    });
+    accountNameController.text = nftGallery.name!;
+    selectedImagePath.value = nftGallery.profileImage!;
+    accountName.value = accountNameController.text;
+
+    accountNameFocus = FocusNode();
+    await Get.bottomSheet(
+      CreateNewNftGalleryBottomSheet(
+        nftGalleryModel: nftGallery,
+        galleryIndex: galleryIndex,
+      ),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enterBottomSheetDuration: const Duration(milliseconds: 180),
+      exitBottomSheetDuration: const Duration(milliseconds: 150),
+    ).then(
+      (_) async {
+        selectedAccountIndex = <String, bool>{}.obs;
+        accounts = null;
+        formIndex.value = 0;
+        accountNameFocus.hasFocus ? accountNameFocus.unfocus() : null;
+        accountNameController.text = 'Gallery 1';
+        selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
+        accountName.value = accountNameController.text;
+      },
+    );
+  }
+
+  Future<void> editNftGallery(int galleryIndex) async {
+    final List<String> publicKeyHashs = selectedAccountIndex.keys
+        .where((String key) => selectedAccountIndex[key] == true)
+        .toList();
+
+    if (!(await checkIfEmpty(publicKeyHashs))) {
+      Get.snackbar('Cant create gallery', 'No NFTs found in selected accounts',
+          backgroundColor: Colors.red, colorText: Colors.white);
+      return;
+    }
+
+    await UserStorageService().editGallery(
+        NftGalleryModel(
+          name: accountName.value,
+          publicKeyHashs: publicKeyHashs,
+          profileImage: selectedImagePath.value,
+          imageType: currentSelectedType,
+        ),
+        galleryIndex);
+
+    await fetchNftGallerys();
+
+    Get.back();
+  }
+
   Future<void> addNewNftGallery() async {
     final List<String> publicKeyHashs = selectedAccountIndex.keys
         .where((String key) => selectedAccountIndex[key] == true)
         .toList();
+
+    if (!(await checkIfEmpty(publicKeyHashs))) {
+      Get.snackbar('Cant create gallery', 'No NFTs found in selected accounts',
+          backgroundColor: Colors.red, colorText: Colors.white);
+      return;
+    }
 
     await UserStorageService().writeNewGallery(NftGalleryModel(
       name: accountName.value,
@@ -77,31 +165,28 @@ class NftGalleryWidgetController extends GetxController {
     await fetchNftGallerys();
 
     Get.back();
-    Get.put(NftGalleryController(
-      nftGalleryList.length - 1,
-      nftGalleryList,
-    ));
+
     Get.bottomSheet(
       const NftGalleryView(),
       enterBottomSheetDuration: const Duration(milliseconds: 180),
       exitBottomSheetDuration: const Duration(milliseconds: 150),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      settings:
+          RouteSettings(arguments: [nftGalleryList.length - 1, nftGalleryList]),
     ).then((_) {
       Get.delete<NftGalleryController>();
     });
   }
 
   void openGallery(int index) {
-    Get.put(NftGalleryController(index, nftGalleryList));
     Get.bottomSheet(
       const NftGalleryView(),
       enterBottomSheetDuration: const Duration(milliseconds: 180),
       exitBottomSheetDuration: const Duration(milliseconds: 150),
       isScrollControlled: true,
+      settings: RouteSettings(arguments: [index, nftGalleryList]),
       backgroundColor: Colors.transparent,
-    ).then((_) {
-      Get.delete<NftGalleryController>();
-    });
+    );
   }
 }

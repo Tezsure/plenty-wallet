@@ -10,8 +10,13 @@ import 'package:get/get.dart';
 
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
+import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 class NftGalleryView extends GetView<NftGalleryController> {
@@ -19,86 +24,192 @@ class NftGalleryView extends GetView<NftGalleryController> {
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-      child: Container(
-        constraints: BoxConstraints(
-          minHeight: 0.6.height,
-          maxHeight: 0.95.height,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(
-              10.sp,
-            ),
-            topRight: Radius.circular(
-              10.sp,
-            ),
-          ),
-        ),
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 40.sp,
-                  height: 5.spH,
-                  margin: EdgeInsets.only(
-                    top: 5.sp,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEBEBF5).withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(
-                      100.sp,
+    Get.put(NftGalleryController());
+    return Obx(
+      () => !controller.isSearch.value
+          ? BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                constraints: BoxConstraints(
+                  minHeight: 0.6.height,
+                  maxHeight: 0.95.height,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(
+                      10.sp,
+                    ),
+                    topRight: Radius.circular(
+                      10.sp,
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 12.arP,
+                child: Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 40.sp,
+                          height: 5.spH,
+                          margin: EdgeInsets.only(
+                            top: 5.sp,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFEBEBF5).withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(
+                              100.sp,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 12.arP,
+                        ),
+                        _appBarWidget(),
+/*                         SizedBox(
+                          height: 24.arP,
+                        ),
+                        _getNftTypesChips(), */
+                        SizedBox(
+                          height: 24.arP,
+                        ),
+                        NotificationListener<UserScrollNotification>(
+                          onNotification: (notification) {
+                            final ScrollDirection direction =
+                                notification.direction;
+                            if (direction == ScrollDirection.forward) {
+                              controller.isScrollingUp.value = false;
+                            } else if (direction == ScrollDirection.reverse) {
+                              controller.isScrollingUp.value = true;
+                            }
+                            return true;
+                          },
+                          child: Obx(
+                            () => controller.selectedGalleryFilter.value ==
+                                    NftGalleryFilter.collection
+                                ? _getCollectionGridViewWidget(
+                                    controller.galleryNfts)
+                                : controller.selectedGalleryFilter.value ==
+                                        NftGalleryFilter.list
+                                    ? _getNftListViewWidget(
+                                        2.1, controller.galleryNfts)
+                                    : _getNftListViewWidget(
+                                        1.1, controller.galleryNfts),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Obx(
+                      () => Align(
+                        alignment: Alignment.bottomCenter,
+                        child: _getHoverFilterWidget(),
+                      ),
+                    ),
+                  ],
                 ),
-                _appBarWidget(),
-                SizedBox(
-                  height: 24.arP,
+              ),
+            )
+          : BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                constraints: BoxConstraints(
+                  minHeight: 0.6.height,
+                  maxHeight: 0.95.height,
                 ),
-                _getNftTypesChips(),
-                SizedBox(
-                  height: 20.arP,
-                ),
-                NotificationListener<UserScrollNotification>(
-                  onNotification: (notification) {
-                    final ScrollDirection direction = notification.direction;
-                    if (direction == ScrollDirection.forward) {
-                      controller.isScrollingUp.value = false;
-                    } else if (direction == ScrollDirection.reverse) {
-                      controller.isScrollingUp.value = true;
-                    }
-                    return true;
-                  },
-                  child: Obx(
-                    () => controller.selectedGalleryFilter.value ==
-                            NftGalleryFilter.collection
-                        ? _getCollectionGridViewWidget()
-                        : controller.selectedGalleryFilter.value ==
-                                NftGalleryFilter.list
-                            ? _getNftListViewWidget()
-                            : _getNftListViewWidget(1.1),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(
+                      10.sp,
+                    ),
+                    topRight: Radius.circular(
+                      10.sp,
+                    ),
                   ),
                 ),
-              ],
-            ),
-            Obx(
-              () => Align(
-                alignment: Alignment.bottomCenter,
-                child: _getHoverFilterWidget(),
+                child: Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 40.sp,
+                          height: 5.spH,
+                          margin: EdgeInsets.only(
+                            top: 5.sp,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFEBEBF5).withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(
+                              100.sp,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16.arP,
+                        ),
+                        _searchAppBarWidget(),
+                        SizedBox(
+                          height: 25.arP,
+                        ),
+                        controller.searchText.value.isEmpty
+                            ? Container(
+                                margin: EdgeInsets.only(top: 0.03.height),
+                                child: Text(
+                                  "Try searching for an artist, \ncollection name or NFT name",
+                                  textAlign: TextAlign.center,
+                                  style: bodyMedium.copyWith(
+                                      color: ColorConst.grey),
+                                ),
+                              )
+                            : controller.searchNfts.isEmpty
+                                ? Container(
+                                    margin: EdgeInsets.only(top: 0.03.height),
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          "assets/nft_page/svg/no_results.svg",
+                                          width: 0.5.width,
+                                        ),
+                                        SizedBox(
+                                          height: 0.02.height,
+                                        ),
+                                        Text(
+                                          "Probably Nothing",
+                                          textAlign: TextAlign.center,
+                                          style: titleLarge,
+                                        ),
+                                        SizedBox(
+                                          height: 0.01.height,
+                                        ),
+                                        Text(
+                                          "We didn’t find any results. Did you \nmisspell your query?",
+                                          textAlign: TextAlign.center,
+                                          style: bodySmall.copyWith(
+                                              color: ColorConst.grey),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : controller.searchNfts.length == 1 &&
+                                        controller.searchNfts.entries.first
+                                                .value.length ==
+                                            1
+                                    ? _getNftListViewWidget(
+                                        1.1, controller.searchNfts)
+                                    : _getCollectionGridViewWidget(
+                                        controller.searchNfts),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -163,7 +274,10 @@ class NftGalleryView extends GetView<NftGalleryController> {
                 : const Color(0xFF958E99)),
       );
 
-  Widget _getNftListViewWidget([double crossAxisCount = 2.1]) => Expanded(
+  Widget _getNftListViewWidget(
+          [double crossAxisCount = 2.1,
+          Map<String, List<NftTokenModel>> nfts = const {}]) =>
+      Expanded(
         child: Container(
           margin: EdgeInsets.symmetric(
             horizontal: 16.arP,
@@ -176,8 +290,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                       height: index == 0 ? 0 : 10.arP,
                     ),
                     _getCollectionDetailsRow(
-                      controller.galleryNfts.values.toList()[index][0],
-                      controller.galleryNfts.values.toList()[index].length,
+                      nfts.values.toList()[index][0],
+                      nfts.values.toList()[index].length,
                     ),
                     SizedBox(
                       height: 15.arP,
@@ -190,10 +304,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                     ? 2
                                     : 3
                                 : crossAxisCount == 2.1 &&
-                                        controller.galleryNfts.values
-                                                .toList()[index]
-                                                .length ==
-                                            1
+                                        nfts.values.toList()[index].length == 1
                                     ? 1
                                     : crossAxisCount == 1.1
                                         ? 1
@@ -201,12 +312,9 @@ class NftGalleryView extends GetView<NftGalleryController> {
                             .toInt(),
                         mainAxisSpacing: 12.arP,
                         crossAxisSpacing: 12.arP,
-                        itemCount: controller.galleryNfts.values
-                            .toList()[index]
-                            .length,
+                        itemCount: nfts.values.toList()[index].length,
                         itemBuilder: ((context, i) {
-                          var _nftTokenModel =
-                              controller.galleryNfts.values.toList()[index][i];
+                          var _nftTokenModel = nfts.values.toList()[index][i];
                           return Container(
                             width: double.infinity,
                             // constraints: const BoxConstraints(minHeight: 1),
@@ -284,7 +392,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                     ),
                   ],
                 )),
-            itemCount: controller.galleryNfts.length,
+            itemCount: nfts.length,
           ),
         ),
       );
@@ -338,7 +446,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
     );
   }
 
-  Widget _getCollectionGridViewWidget() => Obx(
+  Widget _getCollectionGridViewWidget(Map<String, List<NftTokenModel>> nfts) =>
+      Obx(
         () => Expanded(
           child: Container(
             margin: EdgeInsets.symmetric(
@@ -349,7 +458,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
               crossAxisCount: Get.width > 768 ? 3 : 2,
               mainAxisSpacing: 12.arP,
               crossAxisSpacing: 12.arP,
-              itemCount: controller.galleryNfts.length,
+              itemCount: nfts.length,
               itemBuilder: (context, index) => Container(
                 width: double.infinity,
                 constraints: const BoxConstraints(minHeight: 1),
@@ -359,11 +468,10 @@ class NftGalleryView extends GetView<NftGalleryController> {
                     12.arP,
                   ),
                 ),
-                child: controller.galleryNfts.values.toList()[index].isEmpty
+                child: nfts.isEmpty
                     ? Container()
                     : NftCollectionItemWidget(
-                        nftTokens:
-                            controller.galleryNfts.values.toList()[index],
+                        nftTokens: nfts.values.toList()[index],
                       ),
               ),
             ),
@@ -417,41 +525,483 @@ class NftGalleryView extends GetView<NftGalleryController> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 16.arP,
-              child: controller.selectedNftGallery.value.imageType ==
-                      AccountProfileImageType.assets
-                  ? Image.asset(
-                      controller.selectedNftGallery.value.profileImage!)
-                  : Image.file(
-                      File(controller.selectedNftGallery.value.profileImage!)),
-            ),
-            SizedBox(
-              width: 12.arP,
-            ),
-            Text(
-              controller.selectedNftGallery.value.name!,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12.arP,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.5.arP,
+            GestureDetector(
+              onTap: () async {
+                await Get.bottomSheet(
+                  _selectGallery(controller.selectedGalleryIndex.value),
+                  enterBottomSheetDuration: const Duration(milliseconds: 180),
+                  exitBottomSheetDuration: const Duration(milliseconds: 150),
+                );
+                controller.isEditing.value = false;
+              },
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 16.arP,
+                    child: controller.selectedNftGallery.value.imageType ==
+                            AccountProfileImageType.assets
+                        ? Image.asset(
+                            controller.selectedNftGallery.value.profileImage!)
+                        : Image.file(File(
+                            controller.selectedNftGallery.value.profileImage!)),
+                  ),
+                  SizedBox(
+                    width: 12.arP,
+                  ),
+                  Text(
+                    controller.selectedNftGallery.value.name!,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.arP,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5.arP,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 4.arP,
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: Colors.white,
+                    size: 18.arP,
+                  ),
+                ],
               ),
             ),
-            SizedBox(
-              width: 4.arP,
-            ),
-            Icon(
-              Icons.keyboard_arrow_down_rounded,
-              color: Colors.white,
-              size: 18.arP,
-            ),
             Expanded(child: Container()),
-            Icon(
-              Icons.search_rounded,
-              color: const Color(0xFF958E99),
-              size: 18.arP,
+            GestureDetector(
+              onTap: () {
+                controller.isSearch.value = true;
+              },
+              child: Icon(
+                Icons.search_rounded,
+                color: const Color(0xFF958E99),
+                size: 18.arP,
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget _searchAppBarWidget() => Row(
+        children: [
+          SizedBox(
+              width: 1.width,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xff958E99).withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(10.arP),
+                          ),
+                          child: Center(
+                            child: TextField(
+                              onChanged: ((value) => controller
+                                  .searchNftGallery(value.toLowerCase())),
+                              autofocus: true,
+                              textAlignVertical: TextAlignVertical.center,
+                              style: bodyMedium.copyWith(
+                                color: Colors.white,
+                              ),
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.search_rounded,
+                                  color: const Color(0xFFB0A9B3),
+                                  size: 18.sp,
+                                ),
+                                hintText: "Search",
+                                hintStyle: bodyMedium.copyWith(
+                                  color: const Color(0xFFB0A9B3),
+                                ),
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          controller.isSearch.value = false;
+                          controller.searchText.value = "";
+                          controller.searchNfts.clear();
+                        },
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(left: 12.0, right: 7.0),
+                          child: Text(
+                            "Cancel",
+                            style:
+                                bodyMedium.copyWith(color: ColorConst.Primary),
+                          ),
+                        ),
+                      )
+                    ]),
+              )),
+        ],
+      );
+
+  Widget _selectGallery(int galleryIndex) => Obx(
+        () => Container(
+          width: 1.width,
+          height: 0.5.height,
+          padding: EdgeInsets.only(
+            bottom: Platform.isIOS ? 0.05.height : 0.02.height,
+          ),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+              color: Colors.black),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 10 + 0.045.height,
+                right: 20,
+                child: GestureDetector(
+                  onTap: () {
+                    controller.isEditing.value = !controller.isEditing.value;
+                  },
+                  child: Text(controller.isEditing.value ? "Cancel" : "Edit",
+                      style: bodySmall.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: ColorConst.Primary)),
+                ),
+              ),
+              Column(
+                children: [
+                  0.005.vspace,
+                  Container(
+                    height: 5,
+                    width: 36,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+                    ),
+                  ),
+                  0.04.vspace,
+                  Text("Galleries", style: titleLarge),
+                  0.04.vspace,
+                  Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return index == controller.nftGalleryList.length
+                            ? GestureDetector(
+                                onTap: () async {
+                                  Get.back(closeOverlays: true);
+                                  Get.back(closeOverlays: true);
+
+                                  Get.find<NftGalleryWidgetController>()
+                                      .showCreateNewNftGalleryBottomSheet();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 20),
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        "${PathConst.EMPTY_STATES}plus.png",
+                                        height: 16.aR,
+                                        fit: BoxFit.contain,
+                                        scale: 1,
+                                      ),
+                                      0.02.hspace,
+                                      Text(
+                                        "Create a new Gallery",
+                                        style: labelLarge.copyWith(
+                                            fontSize: 14.aR,
+                                            color: ColorConst.Primary,
+                                            fontWeight: FontWeight.w600),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () async {
+                                  if (!controller.isEditing.value) {
+                                    controller.changeSelectedNftGallery(index);
+                                    Get.back(result: index);
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 20),
+                                        child: Container(
+                                          height: 32.sp,
+                                          width: 32.sp,
+                                          alignment: Alignment.bottomRight,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: controller
+                                                          .nftGalleryList[index]
+                                                          .imageType ==
+                                                      AccountProfileImageType
+                                                          .assets
+                                                  ? AssetImage(controller
+                                                      .nftGalleryList[index]
+                                                      .profileImage
+                                                      .toString())
+                                                  : FileImage(
+                                                      File(
+                                                        controller
+                                                            .nftGalleryList[
+                                                                index]
+                                                            .profileImage
+                                                            .toString(),
+                                                      ),
+                                                    ) as ImageProvider,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                          controller.nftGalleryList[index].name
+                                              .toString(),
+                                          style: bodySmall.copyWith(
+                                              fontWeight: FontWeight.w600)),
+                                      controller.isEditing.value
+                                          ? Expanded(
+                                              child: Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: PopupMenuButton(
+                                                    position:
+                                                        PopupMenuPosition.under,
+                                                    enableFeedback: true,
+                                                    onCanceled: () => controller
+                                                        .isTransactionPopUpOpened
+                                                        .value = false,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8)),
+                                                    color:
+                                                        const Color(0xff421121),
+                                                    padding: EdgeInsets.zero,
+                                                    itemBuilder: (_) {
+                                                      controller
+                                                          .isTransactionPopUpOpened
+                                                          .value = true;
+
+                                                      return <PopupMenuEntry>[
+                                                        CustomPopupMenuItem(
+                                                          height: 30.sp,
+                                                          width: 120.sp,
+                                                          onTap: () {
+                                                            controller
+                                                                .editGallery(
+                                                                    index);
+                                                          },
+                                                          padding:
+                                                              EdgeInsets.zero,
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .only(
+                                                                  left: 10.sp,
+                                                                ),
+                                                                child: Text(
+                                                                  "Edit",
+                                                                  style:
+                                                                      labelMedium,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 10.sp,
+                                                              ),
+                                                              const Divider(
+                                                                  height: 0,
+                                                                  color: Color(
+                                                                      0xff802040)),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        CustomPopupMenuItem(
+                                                          height: 30.sp,
+                                                          width: 120.sp,
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          onTap: () {
+                                                            Get.back();
+                                                            Get.back();
+                                                            Get.bottomSheet(
+                                                              _removeGallery(
+                                                                  index),
+                                                              enterBottomSheetDuration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          180),
+                                                              exitBottomSheetDuration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          150),
+                                                            );
+                                                          },
+                                                          child: Text(
+                                                            "Remove",
+                                                            style: labelMedium
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .red),
+                                                          ),
+                                                        ),
+                                                      ];
+                                                    },
+                                                    child: Icon(
+                                                      Icons.more_horiz,
+                                                      size: 24.aR,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )),
+                                            )
+                                          : galleryIndex == index
+                                              ? Expanded(
+                                                  child: Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Container(
+                                                    height: 16.sp,
+                                                    width: 16.sp,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white,
+                                                    ),
+                                                    child: SvgPicture.asset(
+                                                      "assets/svg/check2.svg",
+                                                      height: 16.sp,
+                                                      width: 16.sp,
+                                                    ),
+                                                  ),
+                                                ))
+                                              : const Spacer()
+                                    ],
+                                  ),
+                                ),
+                              );
+                      },
+                      itemCount: controller.nftGalleryList.length + 1,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget _removeGallery(int galleryIndex) => Container(
+        width: 1.width,
+        height: 0.38.height,
+        padding: EdgeInsets.only(
+          bottom: Platform.isIOS ? 0.05.height : 0.02.height,
+        ),
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+            color: Colors.black),
+        child: Column(
+          children: [
+            0.005.vspace,
+            Container(
+              height: 5,
+              width: 36,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: ColorConst.NeutralVariant.shade60,
+              ),
+            ),
+            0.015.vspace,
+            Text("Remove Gallery", style: titleLarge),
+            0.02.vspace,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 0.175.width),
+              child: Text(
+                "Do you want to remove ${controller.nftGalleryList[galleryIndex].name} from your gallery list?",
+                style: bodySmall.copyWith(
+                  color: ColorConst.NeutralVariant.shade60,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32.sp),
+                    child: TextButton(
+                        onPressed: () {
+                          controller.removeGallery(galleryIndex);
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: ColorConst.darkGrey,
+                            ),
+                            child: Center(
+                                child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 13.sp),
+                              child: Text(
+                                "Remove",
+                                style: titleSmall.copyWith(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            )))),
+                  ),
+                  SizedBox(
+                    height: 4.sp,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32.sp),
+                    child: TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: ColorConst.darkGrey,
+                            ),
+                            child: Center(
+                                child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 13.sp),
+                              child: Text(
+                                "Cancel",
+                                style: titleSmall.copyWith(
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            )))),
+                  ),
+                  0.01.vspace,
+                ],
+              ),
             ),
           ],
         ),
