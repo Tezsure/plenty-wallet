@@ -936,7 +936,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                 color: ColorConst.NeutralVariant.shade60,
               ),
             ),
-            0.04.vspace,
+            0.015.vspace,
             Text("Remove Gallery", style: titleLarge),
             0.02.vspace,
             Padding(
@@ -966,7 +966,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                             ),
                             child: Center(
                                 child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 15.sp),
+                              padding: EdgeInsets.symmetric(vertical: 13.sp),
                               child: Text(
                                 "Remove",
                                 style: titleSmall.copyWith(
@@ -991,7 +991,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                             ),
                             child: Center(
                                 child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 15.sp),
+                              padding: EdgeInsets.symmetric(vertical: 13.sp),
                               child: Text(
                                 "Cancel",
                                 style: titleSmall.copyWith(
