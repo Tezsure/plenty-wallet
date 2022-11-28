@@ -8,8 +8,6 @@ List<DelegateBakerModel> delegateBakersListResponseFromJson(String str) =>
     List<DelegateBakerModel>.from(
         json.decode(str).map((x) => DelegateBakerModel.fromJson(x)));
 
-
-
 class DelegateBakerModel {
   DelegateBakerModel({
     this.rank,
@@ -17,7 +15,7 @@ class DelegateBakerModel {
     this.logoMin,
     this.name,
     this.address,
-    this.fee=0,
+    this.fee = 0,
     this.lifetime,
     this.delegateBakersListResponseYield,
     this.efficiency,
@@ -89,7 +87,7 @@ class DelegateBakerModel {
         logoMin: json["logo_min"],
         name: json["name"],
         address: json["address"],
-        fee: json["fee"].toDouble(),
+        fee: json["fee"] == 1 ? 0 : json["fee"].toDouble(),
         lifetime: json["lifetime"],
         delegateBakersListResponseYield: json["yield"].toDouble(),
         efficiency: json["efficiency"].toDouble(),
@@ -100,5 +98,4 @@ class DelegateBakerModel {
         freespaceMin: json["freespace_min"],
         proStatus: json["pro_status"],
       );
-
 }

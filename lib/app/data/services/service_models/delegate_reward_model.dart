@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+
 List<DelegateRewardModel> delegateRewardListResponseFromJson(String str) =>
     List<DelegateRewardModel>.from(
         json.decode(str).map((x) => DelegateRewardModel.fromJson(x)));
@@ -23,7 +25,7 @@ class DelegateRewardModel {
       this.futureBlocks,
       this.futureBlockRewards = 0,
       this.blocks,
-      this.blockRewards=0,
+      this.blockRewards = 0,
       this.missedBlocks,
       this.missedBlockRewards,
       this.futureEndorsements,
@@ -70,6 +72,7 @@ class DelegateRewardModel {
       this.doubleEndorsingLostFees,
       this.revelationLostRewards,
       this.revelationLostFees,
+      this.bakerDetail,
       this.status});
 
   int? cycle;
@@ -131,6 +134,7 @@ class DelegateRewardModel {
   double? revelationLostRewards;
   double? revelationLostFees;
   String? status;
+  DelegateBakerModel? bakerDetail;
 
   factory DelegateRewardModel.fromJson(Map<String, dynamic> json) =>
       DelegateRewardModel(

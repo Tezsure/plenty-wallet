@@ -179,6 +179,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
       height: 0.06.height,
       width: 1.width,
       child: TextFormField(
+        style: const TextStyle(color: Colors.white),
         onChanged: (value) {
           controller.updateBakerList();
         },
@@ -205,8 +206,8 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
           hintStyle:
               bodySmall.copyWith(color: ColorConst.NeutralVariant.shade70),
           labelStyle: labelSmall,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          // contentPadding:
+          //     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         ),
       ),
     );

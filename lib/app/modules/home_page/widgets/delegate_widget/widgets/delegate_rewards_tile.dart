@@ -15,9 +15,11 @@ import '../../../../../../utils/styles/styles.dart';
 
 class DelegateRewardsTile extends StatelessWidget {
   final DelegateRewardModel reward;
-  final DelegateBakerModel delegatedBaker;
-  const DelegateRewardsTile(
-      {super.key, required this.reward, required this.delegatedBaker});
+
+  const DelegateRewardsTile({
+    super.key,
+    required this.reward,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +53,10 @@ class DelegateRewardsTile extends StatelessWidget {
                   _buildInfo('Delegated',
                       '${(reward.balance / pow(10, 6)).toStringAsFixed(4)} tez'),
                   0.03.hspace,
-                  _buildInfo('Rewards', '${rewards.toStringAsFixed(2)} tez'),
+                  _buildInfo('Rewards', '${totalRewards.toStringAsFixed(2)} tez'),
                   0.03.hspace,
                   _buildInfo('Baker fee',
-                      '${((delegatedBaker.fee) * 100).toStringAsFixed(2)}%'),
+                      '${((reward.bakerDetail?.fee ?? 0) * 100).toStringAsFixed(2)}%'),
                 ],
               ),
               0.013.vspace,
@@ -103,7 +105,7 @@ class DelegateRewardsTile extends StatelessWidget {
           radius: 20,
           child: ClipOval(
             child: Image.network(
-              delegatedBaker.logo ?? "",
+              reward.bakerDetail?.logo ?? "",
               fit: BoxFit.fill,
               width: 40,
               height: 40,
@@ -113,11 +115,11 @@ class DelegateRewardsTile extends StatelessWidget {
         0.02.hspace,
         RichText(
             text: TextSpan(
-                text: '${delegatedBaker.name}\n',
+                text: '${reward.bakerDetail?.name}\n',
                 style: labelMedium,
                 children: [
               TextSpan(
-                text: tz1Shortner(delegatedBaker.address!),
+                text: tz1Shortner(reward.bakerDetail?.address ?? ""),
                 style: labelSmall.copyWith(color: ColorConst.Primary),
               ),
               WidgetSpan(
@@ -125,7 +127,7 @@ class DelegateRewardsTile extends StatelessWidget {
                 child: IconButton(
                   onPressed: () {
                     Clipboard.setData(
-                        ClipboardData(text: delegatedBaker.address!));
+                        ClipboardData(text: reward.bakerDetail?.address ?? ""));
                     Get.rawSnackbar(
                       message: "Copied to clipboard",
                       shouldIconPulse: true,
@@ -166,7 +168,7 @@ class DelegateRewardsTile extends StatelessWidget {
     );
   }
 
-  double get rewards {
+  double get totalRewards {
     if (reward.status == "Completed") {
       return ((reward.blockRewards + reward.endorsementRewards) / pow(10, 6));
     }
@@ -174,7 +176,8 @@ class DelegateRewardsTile extends StatelessWidget {
         pow(10, 6));
   }
 
-  double get expectedPayout => (reward.balance / reward.activeStake) * rewards;
+  double get expectedPayout => (reward.balance / reward.activeStake) * totalRewards;
 
-  double get netExpectedPayout => (1 - delegatedBaker.fee) * expectedPayout;
+  double get netExpectedPayout =>
+      (1 - (reward.bakerDetail?.fee ?? 0)) * expectedPayout;
 }

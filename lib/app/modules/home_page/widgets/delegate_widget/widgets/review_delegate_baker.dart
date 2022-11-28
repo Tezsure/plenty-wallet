@@ -59,7 +59,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                 0.02.vspace,
                 SolidButton(
                   active: true,
-                  onPressed: () {
+                  onLongPressed: () {
                     controller.confirmBioMetric(baker);
                   },
                   title: "Hold to Delegate",

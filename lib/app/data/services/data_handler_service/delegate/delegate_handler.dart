@@ -27,11 +27,12 @@ class DelegateHandler {
   }
 
   Future<List<DelegateRewardModel>> getDelegateReward(
-      String pKH, String baker) async {
-    // pKH = 'tz1USmQMoNCUUyk4BfeEGUyZRK2Bcc9zoK8C';
+    String pKH,
+  ) async {
+    // pKH = 'tz1epDdf6ixVEJaApZSckJqxo5qr7CxdDhbE';
     // baker = 'tz1gg5bjopPcr9agjamyu9BbXKLibNc2rbAq';
     var response = await HttpService.performGetRequest(
-        "https://api.tzkt.io/v1/rewards/delegators/$pKH?baker=$baker&limit=10000");
+        "https://api.tzkt.io/v1/rewards/delegators/$pKH?limit=10000");
 
     if (response.isNotEmpty && jsonDecode(response).length != 0) {
       return delegateRewardListResponseFromJson(response);

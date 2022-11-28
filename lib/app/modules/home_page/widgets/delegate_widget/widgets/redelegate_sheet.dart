@@ -15,8 +15,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
   final DelegateBakerModel baker;
   ReDelegateBottomSheet({super.key, required this.baker}) {
     Get.lazyPut(() => DelegateWidgetController());
-    controller.toggleLoaderOverlay(
-        () => controller.getDelegateRewardList(baker.address!));
+    controller.toggleLoaderOverlay(() => controller.getDelegateRewardList());
   }
 
   @override
@@ -46,7 +45,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
                             labelMedium.copyWith(color: ColorConst.textGrey1),
                       ),
                       Text(
-                        "\$${controller.totalRewards.toStringAsFixed(2)}",
+                        "\$${controller.totalRewards.toStringAsFixed(4)}",
                         style: headlineLarge,
                       ),
                     ],
@@ -75,7 +74,6 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
                           padding: EdgeInsets.zero,
                           itemCount: controller.delegateRewardList.length,
                           itemBuilder: (_, index) => DelegateRewardsTile(
-                              delegatedBaker: baker,
                               reward: controller.delegateRewardList[index]),
                         ),
                 ),

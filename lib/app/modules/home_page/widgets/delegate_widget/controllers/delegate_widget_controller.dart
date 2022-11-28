@@ -65,7 +65,7 @@ class DelegateWidgetController extends GetxController {
     bakerAddress.value = value;
   }
 
-  selectFilter(BakerListBy type) {
+  void selectFilter(BakerListBy type) {
     bakerListBy.value = type;
 
     updateBakerList();
@@ -164,6 +164,10 @@ class DelegateWidgetController extends GetxController {
   Future<void> getBakerList() async {
     bakerListBy.value = BakerListBy.Rank;
     searchedDelegateBakerList = <DelegateBakerModel>[].obs;
+    if (delegateBakerList.isNotEmpty) {
+      searchedDelegateBakerList.value = delegateBakerList;
+      return;
+    }
     try {
       await _delegateHandler.getBakerList().then((value) {
         searchedDelegateBakerList.value = value;
@@ -190,12 +194,14 @@ class DelegateWidgetController extends GetxController {
     }
   }
 
-  Future<void> getDelegateRewardList(String bakerAddress) async {
+  Future<void> getDelegateRewardList() async {
     delegateRewardList.value = [];
     totalRewards.value = 0;
     try {
       await _delegateHandler
-          .getDelegateReward(accountModel!.value.publicKeyHash!, bakerAddress)
+          .getDelegateReward(
+        accountModel!.value.publicKeyHash!,
+      )
           .then((value) {
         return delegateRewardList.value = value;
       });
@@ -225,6 +231,12 @@ class DelegateWidgetController extends GetxController {
   Future<void> getCycleStatus() async {
     try {
       for (var i = 0; i < delegateRewardList.length; i++) {
+        final baker = delegateBakerList.firstWhere(
+            (element) =>
+                element.address == delegateRewardList[i].baker?.address,
+            orElse: () => DelegateBakerModel());
+        delegateRewardList[i].bakerDetail = baker;
+        delegateRewardList.value = List.from([...delegateRewardList]);
         final status = (await _delegateHandler
             .getCycleStatus(delegateRewardList[i].cycle ?? 0));
         if (status == null) {
