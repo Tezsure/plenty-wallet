@@ -198,6 +198,24 @@ class UserStorageService {
           key: ServiceConfig.galleryStorage,
           value: jsonEncode((await getAllGallery())..add(galleryModel)));
 
+  /// remove  gallery model from storage
+  /// @param gallery index
+  /// @return Future<void>
+  Future<void> removeGallery(int galleryIndex) async =>
+      await ServiceConfig.localStorage.write(
+          key: ServiceConfig.galleryStorage,
+          value: jsonEncode((await getAllGallery())..removeAt(galleryIndex)));
+
+  Future<void> editGallery(
+      NftGalleryModel galleryModel, int galleryIndex) async {
+    List<NftGalleryModel> galleryList = await getAllGallery();
+    galleryList.removeAt(galleryIndex);
+    galleryList.insert(galleryIndex, galleryModel);
+
+    await ServiceConfig.localStorage.write(
+        key: ServiceConfig.galleryStorage, value: jsonEncode(galleryList));
+  }
+
   /// get all saved gallery
   /// @return Future<List<NftGalleryModel>>
   Future<List<NftGalleryModel>> getAllGallery() async =>

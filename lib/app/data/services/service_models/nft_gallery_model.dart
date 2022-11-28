@@ -22,23 +22,35 @@ class NftGalleryModel {
   });
 
   Future<void> randomNft() async {
+    var addresses = await getValidPublicKeyHashes(publicKeyHashs!);
     var nfts = await UserStorageService().getUserNfts(
-        userAddress: publicKeyHashs![publicKeyHashs!.length == 1
+        userAddress: addresses[addresses.length == 1
             ? 0
-            : Random().nextInt(publicKeyHashs!.length - 1)]);
+            : Random().nextInt(addresses.length - 1)]);
     if (nfts.isNotEmpty) {
       nftTokenModel = nfts[Random().nextInt(nfts.length - 1)];
     } else {
-      var nfts = await UserStorageService().getUserNfts(
-          userAddress: publicKeyHashs![publicKeyHashs!.length == 1
-              ? 0
-              : Random().nextInt(publicKeyHashs!.length - 1)]);
-      print(nfts.length);
-      nftTokenModel = nfts[Random().nextInt(nfts.length - 1)];
+      nftTokenModel = NftTokenModel(
+        name: 'No NFTs',
+        description: 'No NFTs',
+      );
     }
 
     // nftTokenModel = nfts[Random().nextInt(nfts.length - 1)];
     nfts.clear();
+  }
+
+  Future<List<String>> getValidPublicKeyHashes(
+      List<String> publicKeyHashs) async {
+    List<String> addresses = publicKeyHashs;
+    for (int j = 0; j < publicKeyHashs.length; j++) {
+      if ((await UserStorageService()
+              .getUserNfts(userAddress: publicKeyHashs[j]))
+          .isEmpty) {
+        addresses.removeAt(j);
+      }
+    }
+    return addresses;
   }
 
   Future<List<NftTokenModel>> fetchAllNft() async {

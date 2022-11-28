@@ -26,7 +26,7 @@ class PasscodePageController extends GetxController {
       if (nextPageRoute == null && checkPassCode) {
         Get.back(result: true);
       }
-      if (checkPassCode) {
+      if (checkPassCode && nextPageRoute != null) {
         Get.offAllNamed(nextPageRoute!);
       } else {
         enteredPassCode.value = "";

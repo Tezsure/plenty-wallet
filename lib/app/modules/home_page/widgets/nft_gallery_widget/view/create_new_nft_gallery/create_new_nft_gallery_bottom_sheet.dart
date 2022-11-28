@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/data/services/create_profile_service/create_prof
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_listview.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -22,7 +23,10 @@ import 'package:get/get.dart';
 
 class CreateNewNftGalleryBottomSheet
     extends GetView<NftGalleryWidgetController> {
-  const CreateNewNftGalleryBottomSheet({super.key});
+  final NftGalleryModel? nftGalleryModel;
+  final int? galleryIndex;
+  const CreateNewNftGalleryBottomSheet(
+      {super.key, this.nftGalleryModel, this.galleryIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -300,7 +304,9 @@ class CreateNewNftGalleryBottomSheet
                 Expanded(
                   flex: 7,
                   child: Text(
-                    "Name your gallery",
+                    nftGalleryModel != null
+                        ? "Edit your gallery"
+                        : "Name your gallery",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22.arP,
@@ -401,7 +407,11 @@ class CreateNewNftGalleryBottomSheet
                     fontWeight: FontWeight.w600,
                   ),
                   onPressed: () async {
-                    await controller.addNewNftGallery();
+                    if (nftGalleryModel == null) {
+                      await controller.addNewNftGallery();
+                    } else {
+                      await controller.editNftGallery(galleryIndex!);
+                    }
                   },
                 ),
               ),
@@ -472,7 +482,12 @@ class CreateNewNftGalleryBottomSheet
                     ),
                     GestureDetector(
                       onTap: () async {
-                        Get.to(const AvatarPickerView());
+                        final result = await Get.to(const AvatarPickerView());
+
+                        if (result != null) {
+                          controller.currentSelectedType = result[1];
+                          controller.selectedImagePath.value = result[0];
+                        }
                       },
                       child: Container(
                         width: double.infinity,
