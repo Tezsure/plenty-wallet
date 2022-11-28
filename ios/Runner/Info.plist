@@ -53,5 +53,7 @@
 		<string>Naan requires acess to microphone.</string>		
 		<key>NSCameraUsageDescription</key>
 		<string>Naan requires acess to camera.</string>
+		<key>NSFaceIDUsageDescription</key>
+		<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
 	</dict>
 </plist>

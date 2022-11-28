@@ -24,7 +24,7 @@ class SelectNodeBottomSheet extends StatelessWidget {
       bottomSheetWidgets: [
         Center(
           child: Text(
-            'Select Network',
+            'Select Node',
             style: labelMedium,
             textAlign: TextAlign.center,
           ),
@@ -40,6 +40,7 @@ class SelectNodeBottomSheet extends StatelessWidget {
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           ),
           child: ListView.separated(
+            padding: EdgeInsets.zero,
             shrinkWrap: true,
             itemCount: controller.networkType.value == NetworkType.mainNet
                 ? controller.nodeModel.value.mainnet!.name?.length ?? 0
@@ -113,7 +114,7 @@ class SelectNodeBottomSheet extends StatelessWidget {
       highlightColor: Colors.transparent,
       child: SizedBox(
         width: double.infinity,
-        height: 57,
+        height: 58.sp,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Row(
