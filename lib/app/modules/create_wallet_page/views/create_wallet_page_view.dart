@@ -46,8 +46,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                 child: SvgPicture.asset(
                   "${PathConst.SVG}create_wallet_background.svg",
                   fit: BoxFit.contain,
-                  height: 400.sp,
-                  width: 340.sp,
+                  height: 0.4.height,
                 ),
               ),
               Padding(

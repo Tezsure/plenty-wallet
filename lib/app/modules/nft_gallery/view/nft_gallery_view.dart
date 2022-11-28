@@ -10,8 +10,11 @@ import 'package:get/get.dart';
 
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
+import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -21,6 +24,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(NftGalleryController());
     return Obx(
       () => !controller.isSearch.value
           ? BackdropFilter(
@@ -153,7 +157,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         SizedBox(
                           height: 25.arP,
                         ),
-                        controller.searchController.text.isEmpty
+                        controller.searchText.value.isEmpty
                             ? Container(
                                 margin: EdgeInsets.only(top: 0.03.height),
                                 child: Text(
@@ -521,35 +525,49 @@ class NftGalleryView extends GetView<NftGalleryController> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 16.arP,
-              child: controller.selectedNftGallery.value.imageType ==
-                      AccountProfileImageType.assets
-                  ? Image.asset(
-                      controller.selectedNftGallery.value.profileImage!)
-                  : Image.file(
-                      File(controller.selectedNftGallery.value.profileImage!)),
-            ),
-            SizedBox(
-              width: 12.arP,
-            ),
-            Text(
-              controller.selectedNftGallery.value.name!,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12.arP,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.5.arP,
+            GestureDetector(
+              onTap: () async {
+                await Get.bottomSheet(
+                  _selectGallery(controller.selectedGalleryIndex.value),
+                  enterBottomSheetDuration: const Duration(milliseconds: 180),
+                  exitBottomSheetDuration: const Duration(milliseconds: 150),
+                );
+                controller.isEditing.value = false;
+              },
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 16.arP,
+                    child: controller.selectedNftGallery.value.imageType ==
+                            AccountProfileImageType.assets
+                        ? Image.asset(
+                            controller.selectedNftGallery.value.profileImage!)
+                        : Image.file(File(
+                            controller.selectedNftGallery.value.profileImage!)),
+                  ),
+                  SizedBox(
+                    width: 12.arP,
+                  ),
+                  Text(
+                    controller.selectedNftGallery.value.name!,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.arP,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5.arP,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 4.arP,
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: Colors.white,
+                    size: 18.arP,
+                  ),
+                ],
               ),
-            ),
-            SizedBox(
-              width: 4.arP,
-            ),
-            Icon(
-              Icons.keyboard_arrow_down_rounded,
-              color: Colors.white,
-              size: 18.arP,
             ),
             Expanded(child: Container()),
             GestureDetector(
@@ -585,7 +603,6 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           ),
                           child: Center(
                             child: TextField(
-                              controller: controller.searchController,
                               onChanged: ((value) => controller
                                   .searchNftGallery(value.toLowerCase())),
                               autofocus: true,
@@ -616,7 +633,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                       GestureDetector(
                         onTap: () {
                           controller.isSearch.value = false;
-                          controller.searchController.clear();
+                          controller.searchText.value = "";
                           controller.searchNfts.clear();
                         },
                         child: Padding(
@@ -632,6 +649,362 @@ class NftGalleryView extends GetView<NftGalleryController> {
                     ]),
               )),
         ],
+      );
+
+  Widget _selectGallery(int galleryIndex) => Obx(
+        () => Container(
+          width: 1.width,
+          height: 0.5.height,
+          padding: EdgeInsets.only(
+            bottom: Platform.isIOS ? 0.05.height : 0.02.height,
+          ),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+              color: Colors.black),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 10 + 0.045.height,
+                right: 20,
+                child: GestureDetector(
+                  onTap: () {
+                    controller.isEditing.value = !controller.isEditing.value;
+                  },
+                  child: Text(controller.isEditing.value ? "Cancel" : "Edit",
+                      style: bodySmall.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: ColorConst.Primary)),
+                ),
+              ),
+              Column(
+                children: [
+                  0.005.vspace,
+                  Container(
+                    height: 5,
+                    width: 36,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+                    ),
+                  ),
+                  0.04.vspace,
+                  Text("Galleries", style: titleLarge),
+                  0.04.vspace,
+                  Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return index == controller.nftGalleryList.length
+                            ? GestureDetector(
+                                onTap: () async {
+                                  Get.back(closeOverlays: true);
+                                  Get.back(closeOverlays: true);
+
+                                  Get.find<NftGalleryWidgetController>()
+                                      .showCreateNewNftGalleryBottomSheet();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 20),
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        "${PathConst.EMPTY_STATES}plus.png",
+                                        height: 16.aR,
+                                        fit: BoxFit.contain,
+                                        scale: 1,
+                                      ),
+                                      0.02.hspace,
+                                      Text(
+                                        "Create a new Gallery",
+                                        style: labelLarge.copyWith(
+                                            fontSize: 14.aR,
+                                            color: ColorConst.Primary,
+                                            fontWeight: FontWeight.w600),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () async {
+                                  if (!controller.isEditing.value) {
+                                    controller.changeSelectedNftGallery(index);
+                                    Get.back(result: index);
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 20),
+                                        child: Container(
+                                          height: 32.sp,
+                                          width: 32.sp,
+                                          alignment: Alignment.bottomRight,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: controller
+                                                          .nftGalleryList[index]
+                                                          .imageType ==
+                                                      AccountProfileImageType
+                                                          .assets
+                                                  ? AssetImage(controller
+                                                      .nftGalleryList[index]
+                                                      .profileImage
+                                                      .toString())
+                                                  : FileImage(
+                                                      File(
+                                                        controller
+                                                            .nftGalleryList[
+                                                                index]
+                                                            .profileImage
+                                                            .toString(),
+                                                      ),
+                                                    ) as ImageProvider,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                          controller.nftGalleryList[index].name
+                                              .toString(),
+                                          style: bodySmall.copyWith(
+                                              fontWeight: FontWeight.w600)),
+                                      controller.isEditing.value
+                                          ? Expanded(
+                                              child: Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: PopupMenuButton(
+                                                    position:
+                                                        PopupMenuPosition.under,
+                                                    enableFeedback: true,
+                                                    onCanceled: () => controller
+                                                        .isTransactionPopUpOpened
+                                                        .value = false,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8)),
+                                                    color:
+                                                        const Color(0xff421121),
+                                                    padding: EdgeInsets.zero,
+                                                    itemBuilder: (_) {
+                                                      controller
+                                                          .isTransactionPopUpOpened
+                                                          .value = true;
+
+                                                      return <PopupMenuEntry>[
+                                                        CustomPopupMenuItem(
+                                                          height: 30.sp,
+                                                          width: 120.sp,
+                                                          onTap: () {
+                                                            controller
+                                                                .editGallery(
+                                                                    index);
+                                                          },
+                                                          padding:
+                                                              EdgeInsets.zero,
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .only(
+                                                                  left: 10.sp,
+                                                                ),
+                                                                child: Text(
+                                                                  "Edit",
+                                                                  style:
+                                                                      labelMedium,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 10.sp,
+                                                              ),
+                                                              const Divider(
+                                                                  height: 0,
+                                                                  color: Color(
+                                                                      0xff802040)),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        CustomPopupMenuItem(
+                                                          height: 30.sp,
+                                                          width: 120.sp,
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10.sp),
+                                                          onTap: () {
+                                                            Get.back();
+                                                            Get.back();
+                                                            Get.bottomSheet(
+                                                              _removeGallery(
+                                                                  index),
+                                                              enterBottomSheetDuration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          180),
+                                                              exitBottomSheetDuration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          150),
+                                                            );
+                                                          },
+                                                          child: Text(
+                                                            "Remove",
+                                                            style: labelMedium
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .red),
+                                                          ),
+                                                        ),
+                                                      ];
+                                                    },
+                                                    child: Icon(
+                                                      Icons.more_horiz,
+                                                      size: 24.aR,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )),
+                                            )
+                                          : galleryIndex == index
+                                              ? Expanded(
+                                                  child: Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Container(
+                                                    height: 16.sp,
+                                                    width: 16.sp,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white,
+                                                    ),
+                                                    child: SvgPicture.asset(
+                                                      "assets/svg/check2.svg",
+                                                      height: 16.sp,
+                                                      width: 16.sp,
+                                                    ),
+                                                  ),
+                                                ))
+                                              : const Spacer()
+                                    ],
+                                  ),
+                                ),
+                              );
+                      },
+                      itemCount: controller.nftGalleryList.length + 1,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget _removeGallery(int galleryIndex) => Container(
+        width: 1.width,
+        height: 0.38.height,
+        padding: EdgeInsets.only(
+          bottom: Platform.isIOS ? 0.05.height : 0.02.height,
+        ),
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+            color: Colors.black),
+        child: Column(
+          children: [
+            0.005.vspace,
+            Container(
+              height: 5,
+              width: 36,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: ColorConst.NeutralVariant.shade60,
+              ),
+            ),
+            0.04.vspace,
+            Text("Remove Gallery", style: titleLarge),
+            0.02.vspace,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 0.175.width),
+              child: Text(
+                "Do you want to remove ${controller.nftGalleryList[galleryIndex].name} from your gallery list?",
+                style: bodySmall.copyWith(
+                  color: ColorConst.NeutralVariant.shade60,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32.sp),
+                    child: TextButton(
+                        onPressed: () {
+                          controller.removeGallery(galleryIndex);
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: ColorConst.darkGrey,
+                            ),
+                            child: Center(
+                                child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 15.sp),
+                              child: Text(
+                                "Remove",
+                                style: titleSmall.copyWith(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            )))),
+                  ),
+                  SizedBox(
+                    height: 4.sp,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32.sp),
+                    child: TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: ColorConst.darkGrey,
+                            ),
+                            child: Center(
+                                child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 15.sp),
+                              child: Text(
+                                "Cancel",
+                                style: titleSmall.copyWith(
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            )))),
+                  ),
+                  0.01.vspace,
+                ],
+              ),
+            ),
+          ],
+        ),
       );
 }
 

@@ -18,6 +18,7 @@ class AvatarPickerView extends GetView<CreateProfilePageController> {
   const AvatarPickerView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.put(CreateProfilePageController());
     return Container(
       color: Colors.black,
       width: 1.width,
@@ -94,7 +95,10 @@ class AvatarPickerView extends GetView<CreateProfilePageController> {
             padding: EdgeInsets.symmetric(horizontal: 0.05.width),
             child: SolidButton(
               onPressed: () {
-                Get.back();
+                Get.back(result: [
+                  controller.selectedImagePath.value,
+                  controller.currentSelectedType
+                ]);
                 Get.back();
               },
               child: Text(
