@@ -28,7 +28,8 @@ class NftGalleryModel {
             ? 0
             : Random().nextInt(addresses.length - 1)]);
     if (nfts.isNotEmpty) {
-      nftTokenModel = nfts[Random().nextInt(nfts.length - 1)];
+      int random = nfts.length == 1 ? 0 : Random().nextInt(nfts.length - 1);
+      nftTokenModel = nfts[random];
     } else {
       nftTokenModel = NftTokenModel(
         name: 'No NFTs',
