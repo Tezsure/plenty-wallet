@@ -23,9 +23,11 @@ class PasscodePageController extends GetxController {
     if (isToVerifyPassCode.value) {
       /// verify the passcode here
       var checkPassCode = await AuthService().verifyPassCode(passCode);
-
-      if (checkPassCode) {
+      if (nextPageRoute == null && checkPassCode) {
         Get.back(result: true);
+      }
+      if (checkPassCode && nextPageRoute != null) {
+        Get.offAllNamed(nextPageRoute!);
       } else {
         enteredPassCode.value = "";
         isPassCodeWrong.value = true;
