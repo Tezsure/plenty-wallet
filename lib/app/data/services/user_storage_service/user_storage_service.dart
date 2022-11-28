@@ -193,10 +193,21 @@ class UserStorageService {
   /// create new gallery model and save it in storage
   /// @param galleryModel GalleryModel
   /// @return Future<void>
-  Future<void> writeNewGallery(NftGalleryModel galleryModel) async =>
+  Future<void> writeNewGallery(NftGalleryModel galleryModel) async {
+    List<NftGalleryModel> galleryList = await getAllGallery();
+
+    bool exist = galleryList.any((element) =>
+        element.name!.toLowerCase() == galleryModel.name!.toLowerCase());
+
+    if (exist) {
+      throw Exception("Gallery with same name already exist");
+    } else {
+      galleryList.add(galleryModel);
+
       await ServiceConfig.localStorage.write(
-          key: ServiceConfig.galleryStorage,
-          value: jsonEncode((await getAllGallery())..add(galleryModel)));
+          key: ServiceConfig.galleryStorage, value: jsonEncode(galleryList));
+    }
+  }
 
   /// remove  gallery model from storage
   /// @param gallery index

@@ -155,12 +155,19 @@ class NftGalleryWidgetController extends GetxController {
       return;
     }
 
-    await UserStorageService().writeNewGallery(NftGalleryModel(
-      name: accountName.value,
-      publicKeyHashs: publicKeyHashs,
-      profileImage: selectedImagePath.value,
-      imageType: currentSelectedType,
-    ));
+    try {
+      await UserStorageService().writeNewGallery(NftGalleryModel(
+        name: accountName.value,
+        publicKeyHashs: publicKeyHashs,
+        profileImage: selectedImagePath.value,
+        imageType: currentSelectedType,
+      ));
+    } catch (e) {
+      Get.snackbar(
+          'Cant create gallery', 'Gallery with same name already exists',
+          backgroundColor: Colors.red, colorText: Colors.white);
+      return;
+    }
 
     await fetchNftGallerys();
 
