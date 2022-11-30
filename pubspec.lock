@@ -138,8 +138,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "0ad220b8216a1d4f881453336c1dd85a814a2f36"
-      resolved-ref: "0ad220b8216a1d4f881453336c1dd85a814a2f36"
+      ref: "88731d4ec589d578daa69ba120938aacbf2c60c7"
+      resolved-ref: "88731d4ec589d578daa69ba120938aacbf2c60c7"
       url: "https://github.com/Tezsure/Dartez.git"
     source: git
     version: "1.0.0"

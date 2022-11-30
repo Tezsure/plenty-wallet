@@ -114,6 +114,6 @@ class OperationService {
 
   Future<String> injectOperation(
       Map<String, dynamic> preAppliedResult, String rpcNode) async {
-    return await Dartez.injectOperation(rpcNode, preAppliedResult);
+    return await Dartez.injectOperation(rpcNode, preAppliedResult['opPair']);
   }
 }
