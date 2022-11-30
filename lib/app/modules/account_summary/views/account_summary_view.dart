@@ -32,18 +32,18 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
     Get.put(TransactionController());
 
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 20.sp, sigmaY: 20.sp),
+      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: DraggableScrollableSheet(
-        maxChildSize: 0.95,
-        initialChildSize: 0.95,
+        maxChildSize: 0.9,
+        initialChildSize: 0.9,
         minChildSize: 0.9,
         builder: ((context, scrollController) => Container(
-              height: 1.height,
+              height: 0.9.height,
               width: 1.width,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                color: Colors.black,
-              ),
+              decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(10.aR)),
+                  color: Colors.black),
               child: DefaultTabController(
                 length: 3,
                 child: Column(

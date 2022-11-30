@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:hex/hex.dart';
 import 'package:naan_wallet/app/data/services/web3auth_services/web3AuthController.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:web3auth_flutter/enums.dart' as web3auth;
 import 'package:web3auth_flutter/input.dart';
 import 'package:web3auth_flutter/output.dart';
@@ -34,7 +36,7 @@ class Web3Auth {
           ? Uri.parse(redirectUriIos)
           : Uri.parse(redirectUriAndroid),
       whiteLabel: WhiteLabelData(
-          dark: true, name: "Web3Auth Social Login", theme: themeMap),
+          dark: true, name: "Naan Wallet Social Login", theme: themeMap),
     );
     await Web3AuthFlutter.init(web3authOptions);
   }
@@ -56,6 +58,18 @@ class Web3Auth {
               Routes.BIOMETRIC_PAGE,
             ],
           );
+          Get.rawSnackbar(
+            message:
+                "Successfully logged-in using ${response.userInfo?.typeOfLogin}",
+            shouldIconPulse: true,
+            backgroundColor: ColorConst.Primary,
+            snackPosition: SnackPosition.BOTTOM,
+            maxWidth: 0.9.width,
+            margin: EdgeInsets.only(
+              bottom: 20.aR,
+            ),
+            duration: const Duration(milliseconds: 700),
+          );
         });
       } on UserCancelledException {
         debugPrint("User cancelled.");
@@ -66,17 +80,14 @@ class Web3Auth {
   }
 
   /// Logout the user & redirect to the onboarding page
-  static VoidCallback signOut() {
-    return () async {
-      try {
-        await Web3AuthFlutter.logout()
-            .whenComplete(() => Get.offAllNamed(Routes.ONBOARDING_PAGE));
-      } on UserCancelledException {
-        debugPrint("User cancelled.");
-      } on UnKnownException {
-        debugPrint("Unknown exception occurred");
-      }
-    };
+  static Future<void> signOut() async {
+    try {
+      await Web3AuthFlutter.logout();
+    } on UserCancelledException {
+      debugPrint("User cancelled.");
+    } on UnKnownException {
+      debugPrint("Unknown exception occurred");
+    }
   }
 
   /// Authenticate the user with the social app which can be passed as parameter
@@ -85,7 +96,7 @@ class Web3Auth {
     LoginParams loginParams = LoginParams(
       loginProvider: socialApp,
       curve: web3auth.Curve.secp256k1,
-      mfaLevel: web3auth.MFALevel.NONE,
+      mfaLevel: web3auth.MFALevel.MANDATORY,
       extraLoginOptions: ExtraLoginOptions(
         display: web3auth.Display.wap,
       ),

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
@@ -285,17 +286,10 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                         child: index ==
                                                 _controller
                                                     .selectedAccountIndex.value
-                                            ? Container(
-                                                height: 14.aR,
-                                                width: 14.aR,
-                                                decoration: const BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: ColorConst.Primary),
-                                                child: Icon(
-                                                  Icons.check,
-                                                  color: Colors.white,
-                                                  size: 10.aR,
-                                                ),
+                                            ? SvgPicture.asset(
+                                                "assets/svg/check_3.svg",
+                                                height: 14.sp,
+                                                width: 14.sp,
                                               )
                                             : const SizedBox(),
                                       ))

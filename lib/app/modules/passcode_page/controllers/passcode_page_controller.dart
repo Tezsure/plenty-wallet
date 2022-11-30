@@ -31,7 +31,7 @@ class PasscodePageController extends GetxController {
       } else {
         enteredPassCode.value = "";
         isPassCodeWrong.value = true;
-        HapticFeedback.heavyImpact();
+        HapticFeedback.vibrate();
       }
     } else if (nextPageRoute != null &&
         nextPageRoute == Routes.BIOMETRIC_PAGE &&

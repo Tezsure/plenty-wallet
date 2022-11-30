@@ -151,7 +151,9 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                         children: [
                           SvgPicture.asset(
                             "${PathConst.SVG}check.svg",
-                            color: Colors.white,
+                            color: !controller.isContiuneButtonEnable.value
+                                ? ColorConst.textGrey1
+                                : Colors.white,
                             height: 16.6.sp,
                             fit: BoxFit.contain,
                           ),
@@ -159,6 +161,9 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                           Text(
                             "Start using Naan",
                             style: titleSmall.copyWith(
+                                color: !controller.isContiuneButtonEnable.value
+                                    ? ColorConst.textGrey1
+                                    : Colors.white,
                                 fontWeight: FontWeight.w600),
                           ),
                         ],
@@ -169,12 +174,17 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                           SvgPicture.asset(
                             "${PathConst.SVG}check.svg",
                             height: 16.6.sp,
-                            color: Colors.white,
+                            color: !controller.isContiuneButtonEnable.value
+                                ? ColorConst.textGrey1
+                                : Colors.white,
                           ),
                           0.02.hspace,
                           Text(
                             "Start using Naan",
                             style: titleSmall.copyWith(
+                                color: !controller.isContiuneButtonEnable.value
+                                    ? ColorConst.textGrey1
+                                    : Colors.white,
                                 fontWeight: FontWeight.w600),
                           ),
                         ],
@@ -241,7 +251,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                         height: 51,
                         alignment: Alignment.center,
                         child: Text(
-                          "Choose from Library",
+                          "Choose from library",
                           style: labelMedium,
                         ),
                       ),

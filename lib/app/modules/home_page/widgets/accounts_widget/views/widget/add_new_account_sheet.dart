@@ -177,6 +177,9 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                                         "Start using Naan",
                                         style: titleSmall.copyWith(
                                             fontSize: 14.aR,
+                                            color: controller.phrase.isEmpty
+                                                ? ColorConst.textGrey1
+                                                : Colors.white,
                                             fontWeight: FontWeight.w600),
                                       ),
                                     ],
@@ -243,7 +246,7 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                       height: 51,
                       alignment: Alignment.center,
                       child: Text(
-                        "Choose from Library",
+                        "Choose from library",
                         style: labelMedium,
                       ),
                     ),
@@ -405,10 +408,11 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                   ..back()
                   ..back();
               },
-              child: Text(
-                "Confirm",
-                style: titleSmall.apply(color: ColorConst.Primary.shade95),
-              ),
+              title: "Confirm",
+              // child: Text(
+              //   "Confirm",
+              //   style: titleSmall.apply(color: ColorConst.Primary.shade95),
+              // ),
             ),
           ),
           0.05.vspace

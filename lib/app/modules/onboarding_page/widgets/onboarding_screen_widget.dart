@@ -68,7 +68,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                             widget.controller.onboardingMessages.keys
                                 .elementAt(index),
                             animate: true,
-                            frameRate: FrameRate(60),
+                            frameRate: FrameRate.max,
                             fit: BoxFit.cover,
                             alignment: Alignment.topCenter,
                             repeat: true,
@@ -99,20 +99,6 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                               end: const Alignment(0, -0.8),
                               tileMode: TileMode.clamp,
                             ),
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: const Alignment(-0.1, 0.6),
-                        child: Text(
-                          widget.controller.onboardingMessages.values
-                              .elementAt(index),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: 'Space Grotesk',
-                            color: Colors.white,
-                            fontSize: 40.sp,
-                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),

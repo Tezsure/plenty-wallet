@@ -13,6 +13,8 @@ import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list
 import 'package:naan_wallet/app/data/services/service_models/delegate_cycle_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_reward_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_info_sheet.dart';
@@ -45,12 +47,17 @@ class DelegateWidgetController extends GetxController {
           ScrollDirection.forward;
     });
     _delegateHandler = DelegateHandler();
-
-    accountModel = Get.find<HomePageController>().userAccounts[0].obs;
+    // Get.put(AccountSummaryController());
+    Get.put(AccountSummaryController());
+    accountModel = Get.find<AccountSummaryController>().userAccount;
     if (accountModel == null) {
-      Get.back();
-      Get.snackbar('Error', 'Connect wallet not found',
-          backgroundColor: ColorConst.Error, colorText: Colors.white);
+      Get.bottomSheet(
+        AccountSelectorSheet(
+          selectedAccount: Get.find<HomePageController>().userAccounts[0],
+        ),
+        enterBottomSheetDuration: const Duration(milliseconds: 180),
+        exitBottomSheetDuration: const Duration(milliseconds: 150),
+      );
     }
   }
 
@@ -86,6 +93,16 @@ class DelegateWidgetController extends GetxController {
 
         case BakerListBy.Rank:
           return (p0.rank ?? 0) - (p1.rank ?? 0);
+        case BakerListBy.Yield:
+          return ((p0.delegateBakersListResponseYield ?? 0) -
+                  (p1.delegateBakersListResponseYield ?? 0))
+              .toInt();
+
+        case BakerListBy.Space:
+          return (p0.freespace ?? 0) - (p1.freespace ?? 0);
+
+        case BakerListBy.Staking:
+          return (p0.freespace ?? 0) - (p1.freespace ?? 0);
       }
     });
   }
@@ -270,6 +287,7 @@ class DelegateWidgetController extends GetxController {
 
   Future<void> checkBaker() async {
     String? bakerAddress;
+    accountModel = Get.find<AccountSummaryController>().userAccount;
     await toggleLoaderOverlay(() async {
       bakerAddress =
           await _delegateHandler.checkBaker(accountModel!.value.publicKeyHash!);
@@ -314,4 +332,4 @@ class DelegateWidgetController extends GetxController {
   }
 }
 
-enum BakerListBy { Rank, Fees }
+enum BakerListBy { Rank, Yield, Space, Staking, Fees }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/web3auth_services/web3auth.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -15,51 +16,42 @@ class ResetWalletBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       blurRadius: 5.sp,
-      height: 250.sp,
+      height: 275.sp,
+      title: "Disconnect app",
       bottomSheetWidgets: [
         Center(
           child: Text(
-            'You can lose your funds forever if you\ndidn’t make a backup. Are you sure you\nwant to reset?',
-            style: labelMedium,
+            'You can reconnect to this app later',
+            style: labelMedium.copyWith(color: ColorConst.textGrey1),
             textAlign: TextAlign.center,
           ),
         ),
-        0.03.vspace,
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-          ),
-          child: Column(
-            children: [
-              optionMethod(
-                  child: Text(
-                    "Reset Wallet",
-                    style: labelMedium.apply(color: ColorConst.Error.shade60),
-                  ),
-                  onTap: () async {
-                    await ServiceConfig().clearStorage();
-                    Get.offAllNamed(Routes.SPLASH_PAGE);
-                  }),
-              const Divider(
-                color: Color(0xff4a454e),
-                height: 1,
-                thickness: 1,
-              ),
-              optionMethod(
-                  child: Text(
-                    "Cancel",
-                    style: labelMedium,
-                  ),
-                  onTap: () {
-                    Get.back();
-                  }),
-            ],
-          ),
+        const Spacer(),
+        0.016.vspace,
+        Column(
+          children: [
+            optionMethod(
+                child: Text(
+                  "Disconnect",
+                  style: labelMedium.apply(color: ColorConst.Error.shade60),
+                ),
+                onTap: () async {
+                  await ServiceConfig().clearStorage();
+                  await Web3Auth.signOut();
+                  Get.offAllNamed(Routes.ONBOARDING_PAGE);
+                }),
+            0.016.vspace,
+            optionMethod(
+                child: Text(
+                  "Cancel",
+                  style: labelMedium,
+                ),
+                onTap: () {
+                  Get.back();
+                }),
+            0.016.vspace,
+            const SafeArea(child: SizedBox.shrink())
+          ],
         ),
       ],
     );
@@ -70,9 +62,13 @@ class ResetWalletBottomSheet extends StatelessWidget {
       onTap: onTap,
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
-      child: SizedBox(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+        ),
         width: double.infinity,
-        height: 54,
+        height: 50,
         child: Center(
           child: child,
         ),

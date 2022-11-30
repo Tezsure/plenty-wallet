@@ -354,7 +354,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                       height: 51.aR,
                       alignment: Alignment.center,
                       child: Text(
-                        "Choose from Library",
+                        "Choose from library",
                         style: labelMedium.copyWith(fontSize: 12.aR),
                       ),
                     ),
@@ -527,10 +527,11 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                 Get.back();
                 Get.back();
               },
-              child: Text(
-                "Confirm",
-                style: titleSmall.apply(color: ColorConst.Primary.shade95),
-              ),
+              title: "Confirm",
+              // child: Text(
+              //   "Confirm",
+              //   style: titleSmall.apply(color: ColorConst.Primary.shade95),
+              // ),
             ),
           ),
           0.05.vspace
