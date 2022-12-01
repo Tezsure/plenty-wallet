@@ -68,7 +68,7 @@ class Web3Auth {
             margin: EdgeInsets.only(
               bottom: 20.aR,
             ),
-            duration: const Duration(milliseconds: 700),
+            duration: const Duration(milliseconds: 1000),
           );
         });
       } on UserCancelledException {

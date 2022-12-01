@@ -73,10 +73,11 @@ class BakerFilterBottomSheet extends GetView<DelegateWidgetController> {
                                           child: Icon(
                                             Icons.check_circle,
                                             color:
-                                                controller.bakerListBy.value ==
-                                                        status[index]
-                                                    ? ColorConst.Primary
-                                                    : Colors.transparent,
+                                                // controller.bakerListBy.value ==
+                                                //         status[index]
+                                                //     ? ColorConst.Primary
+                                                //     : 
+                                                    Colors.transparent,
                                           )))
                                 ],
                               ),

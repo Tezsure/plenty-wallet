@@ -22,9 +22,11 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(ImportWalletPageController());
     return Container(
       decoration: const BoxDecoration(color: Colors.black),
       width: 1.width,
+      height: 0.95.height - MediaQuery.of(context).viewInsets.bottom,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
       child: SafeArea(
         child: Column(
@@ -153,9 +155,9 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                   : importButton(),
             ),
             0.05.vspace,
-            SizedBox(
-              height: MediaQuery.of(context).viewInsets.bottom,
-            )
+            // SizedBox(
+            //   height: MediaQuery.of(context).viewInsets.bottom,
+            // )
           ],
         ),
       ),

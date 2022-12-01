@@ -306,11 +306,14 @@ class SettingsPageView extends GetView<SettingsPageController> {
               child: Platform.isAndroid
                   ? SvgPicture.asset(
                       "${PathConst.SETTINGS_PAGE.SVG}fingerprint.svg")
-                  : SvgPicture.asset("${PathConst.SVG}faceid.svg"),
+                  : SvgPicture.asset(
+                      "${PathConst.SVG}faceid.svg",
+                      width: 25,
+                    ),
             ),
           ),
           Text(
-            "Sign in with Fingerprint",
+            "Sign in with ${Platform.isAndroid ? "Fingerprint" : "Face id"}",
             style: labelMedium,
           ),
           const Spacer(),

@@ -7,6 +7,8 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/account_summ
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
+import 'package:naan_wallet/app/modules/import_wallet_page/views/import_wallet_page_view.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
@@ -78,28 +80,40 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
             ),
             0.01.vspace,
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                0.05.aR.hspace,
-                Text(
-                  'Accounts',
-                  style: titleLarge.copyWith(
-                      fontSize: 22.aR, letterSpacing: 0.5.aR, height: 24 / 22),
-                ),
-                Obx(() => TextButton(
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.transparent,
-                          ),
-                          overlayColor: MaterialStateProperty.all<Color>(
-                              Colors.transparent)),
-                      onPressed: _controller.editAccount,
-                      child: Text(
-                        _controller.isAccountEditable.value ? "Done" : "Edit",
-                        style: labelMedium.copyWith(
-                            color: ColorConst.Primary, fontSize: 12.aR),
+                Spacer(),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      'Accounts',
+                      style: titleLarge.copyWith(
+                        fontSize: 22.aR,
+                        letterSpacing: 0.5.aR,
                       ),
-                    )),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Obx(() => Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.transparent,
+                              ),
+                              overlayColor: MaterialStateProperty.all<Color>(
+                                  Colors.transparent)),
+                          onPressed: _controller.editAccount,
+                          child: Text(
+                            _controller.isAccountEditable.value
+                                ? "Done"
+                                : "Edit",
+                            style: labelMedium.copyWith(
+                                color: ColorConst.Primary, fontSize: 12.aR),
+                          ),
+                        ),
+                      )),
+                ),
               ],
             ),
             0.01.vspace,
@@ -213,52 +227,60 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                       fontSize: 12.aR),
                                                 ),
                                               ),
-                                              CustomPopupMenuDivider(
-                                                height: 1,
-                                                color:
-                                                    ColorConst.Neutral.shade50,
-                                                thickness: 1,
-                                              ),
-                                              CustomPopupMenuItem(
-                                                padding: EdgeInsets.only(
-                                                    left: 12.sp, top: 5.sp),
-                                                width: 140.aR,
-                                                height: 30.aR,
-                                                onTap: () {
-                                                  Get.bottomSheet(
-                                                    removeAccountBottomSheet(
-                                                      index,
-                                                      accountName: _controller
-                                                          .homePageController
-                                                          .userAccounts[index]
-                                                          .name!,
-                                                      onPressed: () {
-                                                        _controller
-                                                            .removeAccount(
-                                                                index);
-                                                        _settingsController
-                                                            .removeAccount(
-                                                                index);
-                                                      },
-                                                    ),
-                                                    enterBottomSheetDuration:
-                                                        const Duration(
-                                                            milliseconds: 180),
-                                                    exitBottomSheetDuration:
-                                                        const Duration(
-                                                            milliseconds: 150),
-                                                    barrierColor:
-                                                        Colors.transparent,
-                                                  );
-                                                },
-                                                child: Text(
-                                                  "Remove",
-                                                  style: labelMedium.copyWith(
-                                                      fontSize: 12.aR,
-                                                      color: ColorConst
-                                                          .Error.shade60),
+                                              if (_controller.homePageController
+                                                      .userAccounts.length !=
+                                                  1)
+                                                CustomPopupMenuDivider(
+                                                  height: 1,
+                                                  color: ColorConst
+                                                      .Neutral.shade50,
+                                                  thickness: 1,
                                                 ),
-                                              ),
+                                              if (_controller.homePageController
+                                                      .userAccounts.length !=
+                                                  1)
+                                                CustomPopupMenuItem(
+                                                  padding: EdgeInsets.only(
+                                                      left: 12.sp, top: 5.sp),
+                                                  width: 140.aR,
+                                                  height: 30.aR,
+                                                  onTap: () {
+                                                    Get.bottomSheet(
+                                                      removeAccountBottomSheet(
+                                                        index,
+                                                        accountName: _controller
+                                                            .homePageController
+                                                            .userAccounts[index]
+                                                            .name!,
+                                                        onPressed: () {
+                                                          _controller
+                                                              .removeAccount(
+                                                                  index);
+                                                          _settingsController
+                                                              .removeAccount(
+                                                                  index);
+                                                        },
+                                                      ),
+                                                      enterBottomSheetDuration:
+                                                          const Duration(
+                                                              milliseconds:
+                                                                  180),
+                                                      exitBottomSheetDuration:
+                                                          const Duration(
+                                                              milliseconds:
+                                                                  150),
+                                                      barrierColor:
+                                                          Colors.transparent,
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    "Remove",
+                                                    style: labelMedium.copyWith(
+                                                        fontSize: 12.aR,
+                                                        color: ColorConst
+                                                            .Error.shade60),
+                                                  ),
+                                                ),
                                             ];
                                           },
                                           child: Container(
@@ -350,12 +372,11 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                   Obx(() => InkWell(
                         onTap: () {
                           if (_controller.isAccountEditable.isFalse) {
-                            // Get.bottomSheet(
-                            //     const ImportWalletPageView(isBottomSheet: true),
-                            //     isScrollControlled: true,
-                            //     useRootNavigator: true,
-                            //     settings: const RouteSettings(
-                            //         arguments: Routes.ACCOUNT_SUMMARY));
+                            Get.bottomSheet(const ImportWalletPageView(),
+                                isScrollControlled: true,
+                                useRootNavigator: true,
+                                settings: const RouteSettings(
+                                    arguments: Routes.ACCOUNT_SUMMARY));
                           }
                         },
                         child: Row(
@@ -394,21 +415,12 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
 Widget removeAccountBottomSheet(int index,
     {required String accountName, required Function() onPressed}) {
   return NaanBottomSheet(
+    title: 'Remove Account',
     bottomSheetHorizontalPadding: 32.sp,
     blurRadius: 5,
     titleAlignment: Alignment.center,
     height: 300.aR,
     bottomSheetWidgets: [
-      0.015.vspace,
-      Center(
-        child: Text(
-          'Remove Account',
-          style:
-              titleLarge.copyWith(fontWeight: FontWeight.w700, fontSize: 16.aR),
-          textAlign: TextAlign.center,
-        ),
-      ),
-      0.02.vspace,
       Center(
         child: Text(
           'Do you want to remove “$accountName”\nfrom your account list?',
@@ -421,7 +433,7 @@ Widget removeAccountBottomSheet(int index,
       Column(
         children: [
           SolidButton(
-            width: 326.sp,
+            // width: 326.sp,
             height: 50.aR,
             primaryColor: const Color(0xff1E1C1F).withOpacity(0.8),
             onPressed: onPressed,
@@ -432,7 +444,7 @@ Widget removeAccountBottomSheet(int index,
           ),
           0.012.vspace,
           SolidButton(
-            width: 326.sp,
+            // width: 326.sp,
             height: 50.aR,
             primaryColor: const Color(0xff1E1C1F).withOpacity(0.8),
             onPressed: () {
