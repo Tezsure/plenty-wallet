@@ -34,8 +34,9 @@ class SendPage extends GetView<SendPageController> {
         return controller.selectedPageIndex.value == 0.0 ? true : false;
       },
       child: Container(
-        height: 0.95.height,
+        height: double.infinity,
         width: 1.width,
+        margin: EdgeInsets.only(top: 27.arP),
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             color: Colors.black),

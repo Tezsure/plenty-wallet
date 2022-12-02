@@ -99,7 +99,9 @@ class ContactsListView extends GetView<SendPageController> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    contact.name,
+                    contact.name.length >= 38
+                        ? '${contact.name.substring(0, 38)}...'
+                        : contact.name,
                     style: bodySmall,
                   ),
                   Text(

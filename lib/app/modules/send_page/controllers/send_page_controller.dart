@@ -1,15 +1,18 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/token_view.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 class SendPageController extends GetxController {
   AccountModel? senderAccountModel;
@@ -61,6 +64,14 @@ class SendPageController extends GetxController {
     if (cdata != null) {
       searchTextController.value.text = cdata.text!;
       searchText.value = cdata.text!;
+      if (cdata.text!.isValidWalletAddress) {
+        suggestedContacts.value.add(ContactModel(
+            name: "Account",
+            address: cdata.text!,
+            imagePath: ServiceConfig.allAssetsProfileImages[Random().nextInt(
+              ServiceConfig.allAssetsProfileImages.length - 1,
+            )]));
+      }
     }
   }
 
