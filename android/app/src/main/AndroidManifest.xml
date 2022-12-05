@@ -16,7 +16,7 @@
 	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 	<uses-permission android:name="android.permission.VIDEO_CAPTURE" />
 	<uses-permission android:name="android.permission.AUDIO_CAPTURE" />
-	<application tools:replace="android:label,android:roundIcon" android:name="${applicationName}" android:requestLegacyExternalStorage="true" android:label="Naan" android:icon="@mipmap/ic_launcher" android:largeHeap="true" android:roundIcon="@mipmap/ic_launcher_round" android:usesCleartextTraffic="true">
+	<application tools:replace="android:label" android:name="${applicationName}" android:requestLegacyExternalStorage="true" android:label="Naan" android:icon="@mipmap/ic_launcher"   android:usesCleartextTraffic="true">
 		<activity android:name=".MainActivity" android:exported="true" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
 			<!--
 			Specifies an Android theme to apply to this Activity as soon as
