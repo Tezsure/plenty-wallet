@@ -9,7 +9,6 @@ import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
-import 'package:naan_wallet/utils/utils.dart';
 
 import 'delegate_baker.dart';
 import 'delegate_info_sheet.dart';
@@ -28,7 +27,7 @@ class DelegateBakerTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 0.01.height),
       // width: 338,
-      height: 0.126.height,
+      height: 120.arP,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: const Color(0xff958e99).withOpacity(0.2),

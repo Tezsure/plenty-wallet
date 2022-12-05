@@ -26,7 +26,7 @@ class DelegateRewardsTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
       width: 0.9.width,
-      height: 0.2.height,
+      height: 192.arP,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: const Color(0xff958e99).withOpacity(0.2),
@@ -53,7 +53,8 @@ class DelegateRewardsTile extends StatelessWidget {
                   _buildInfo('Delegated',
                       '${(reward.balance / pow(10, 6)).toStringAsFixed(4)} tez'),
                   0.03.hspace,
-                  _buildInfo('Rewards', '${totalRewards.toStringAsFixed(2)} tez'),
+                  _buildInfo(
+                      'Rewards', '${totalRewards.toStringAsFixed(2)} tez'),
                   0.03.hspace,
                   _buildInfo('Baker fee',
                       '${((reward.bakerDetail?.fee ?? 0) * 100).toStringAsFixed(2)}%'),
@@ -176,7 +177,8 @@ class DelegateRewardsTile extends StatelessWidget {
         pow(10, 6));
   }
 
-  double get expectedPayout => (reward.balance / reward.activeStake) * totalRewards;
+  double get expectedPayout =>
+      (reward.balance / reward.activeStake) * totalRewards;
 
   double get netExpectedPayout =>
       (1 - (reward.bakerDetail?.fee ?? 0)) * expectedPayout;
