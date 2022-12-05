@@ -90,7 +90,6 @@ class SendPageController extends GetxController {
   Rx<ContactModel?> selectedReceiver = Rx<ContactModel?>(null);
 
   void onContactSelect({required ContactModel contactModel}) {
-    setSelectedPageIndex(index: 1);
     selectedReceiver.value = contactModel;
     searchBarFocusNode.unfocus();
     searchText.value = contactModel.name == "Account"
@@ -99,6 +98,7 @@ class SendPageController extends GetxController {
     searchTextController.value.text = contactModel.name == "Account"
         ? contactModel.address
         : contactModel.name;
+    setSelectedPageIndex(index: 1);
   }
 
   RxList<ContactModel> recentsContacts = <ContactModel>[].obs;
@@ -223,9 +223,10 @@ class SendPageController extends GetxController {
       if (searchBarFocusNode.hasFocus) {
         saveSelectedPageIndex.value = selectedPageIndex.value;
         setSelectedPageIndex(index: 0);
-      } else {
-        setSelectedPageIndex(index: saveSelectedPageIndex.value);
-      }
+      } 
+      // else {
+      //   setSelectedPageIndex(index: saveSelectedPageIndex.value);
+      // }
     });
     super.onReady();
   }

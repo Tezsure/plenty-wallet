@@ -62,10 +62,11 @@ class TokenSelector extends StatelessWidget {
               width: 24,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  color: ColorConst.Neutral.shade80.withOpacity(0.2)),
+                  color: const Color(0xFF332F37)),
+              // ignore: prefer_const_constructors
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: ColorConst.Primary.shade60,
+                color: const Color(0xFF625C66),
                 size: 12,
               ),
             ),

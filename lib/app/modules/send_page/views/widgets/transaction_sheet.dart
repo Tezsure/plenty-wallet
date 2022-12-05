@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/helpers/on_going_tx_helper.dart';
 import 'package:naan_wallet/app/data/services/operation_service/operation_service.dart';
@@ -117,6 +118,14 @@ class TransactionBottomSheet extends StatelessWidget {
               if (isLoading.value) {
                 return;
               }
+              var isPasscodeOrBioValid =
+                  await AuthService().verifyBiometricOrPassCode();
+
+              if (!isPasscodeOrBioValid) {
+                isLoading.value = false;
+                return;
+              }
+
               isLoading.value = true;
 
               AccountSecretModel? accountSecretModel =

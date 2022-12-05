@@ -165,25 +165,30 @@ class SendPage extends GetView<SendPageController> {
                     )),
                 0.02.hspace,
                 Obx(
-                  () => (controller.suggestedContacts.isEmpty
+                  () => controller.suggestedContacts.isEmpty &&
+                          controller.selectedReceiver.value == null
                       ? PasteButton(
                           onTap: controller.paste,
                         )
                       : controller.contacts
-                              .where((p0) =>
-                                  p0.address ==
-                                      controller
-                                          .searchTextController.value.text ||
-                                  (controller.suggestedContacts.isNotEmpty
-                                      ? controller
-                                              .suggestedContacts[0].address ==
-                                          p0.address
-                                      : false))
-                              .isEmpty
+                                  .where((p0) =>
+                                      p0.address ==
+                                          controller.searchTextController.value
+                                              .text ||
+                                      (controller.suggestedContacts.isNotEmpty
+                                          ? controller.suggestedContacts[0]
+                                                  .address ==
+                                              p0.address
+                                          : false))
+                                  .isEmpty &&
+                              controller.contacts
+                                  .where((e) =>
+                                      e == controller.selectedReceiver.value)
+                                  .isEmpty
                           ? AddContactButton(
                               contactModel: controller.suggestedContacts.first,
                             )
-                          : const SizedBox()),
+                          : const SizedBox(),
                 )
               ],
             ),

@@ -27,12 +27,6 @@ class TokenView extends GetView<SendPageController> {
             child: Obx(
               () => ListTile(
                 shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: controller.amountTileError.value
-                            ? ColorConst.NaanRed
-                            : controller.amountTileFocus.value
-                                ? ColorConst.Neutral.shade70
-                                : Colors.transparent),
                     borderRadius: BorderRadius.circular(8)),
                 dense: true,
                 leading: SizedBox(
@@ -116,22 +110,21 @@ class TokenView extends GetView<SendPageController> {
                                   width: 48,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25),
-                                      color: ColorConst.Neutral.shade80
-                                          .withOpacity(0.2)),
+                                      color: const Color(0xFF332F37)),
                                   child: Center(
                                     child: Text('Max',
                                         style: labelSmall.copyWith(
-                                            color: ColorConst.Primary.shade60)),
+                                            color: const Color(0xFF625C66))),
                                   ),
                                 ),
                               )
-                            : SizedBox(),
+                            : const SizedBox(),
                         0.02.hspace,
                         controller.selectedTokenModel != null
                             ? Text(
                                 controller.selectedTokenModel!.symbol!,
                                 style: labelLarge.copyWith(
-                                    color: ColorConst.Neutral.shade70),
+                                    color: const Color(0xFF625C66)),
                               )
                             : Container(),
                       ],
@@ -150,12 +143,6 @@ class TokenView extends GetView<SendPageController> {
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
             child: Obx(() => ListTile(
                   shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: controller.amountUsdTileError.value
-                              ? ColorConst.NaanRed
-                              : !controller.amountTileFocus.value
-                                  ? ColorConst.NeutralVariant.shade60
-                                  : Colors.transparent),
                       borderRadius: BorderRadius.circular(8)),
                   dense: true,
                   leading: SizedBox(
@@ -216,7 +203,7 @@ class TokenView extends GetView<SendPageController> {
                                                 .selectedTokenModel!.balance
                                                 .toString()
                                             : "0";
-                                    print(controller.amountController.text);
+                                    // print(controller.amountController.text);
                                     controller.amountController.selection =
                                         TextSelection.fromPosition(
                                       TextPosition(

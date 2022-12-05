@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -202,7 +203,8 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: NetworkImage(tokenModel.iconUrl!
+                                  image: CachedNetworkImageProvider(tokenModel
+                                          .iconUrl!
                                           .startsWith("ipfs")
                                       ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
                                       : tokenModel.iconUrl!)),
