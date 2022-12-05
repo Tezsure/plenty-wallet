@@ -54,7 +54,11 @@ class AccountSummaryController extends GetxController {
   // ! Global Functions
   @override
   void onInit() async {
-    userAccount.value = Get.arguments as AccountModel;
+    if (Get.arguments == null) {
+      userAccount.value = Get.find<HomePageController>().userAccounts[0];
+    } else {
+      userAccount.value = Get.arguments as AccountModel;
+    }
     DataHandlerService()
         .renderService
         .xtzPriceUpdater

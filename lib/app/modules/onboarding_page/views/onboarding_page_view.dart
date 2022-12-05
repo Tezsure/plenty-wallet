@@ -12,49 +12,79 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
   const OnboardingPageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        OnboardingWidget(
-          controller: controller,
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Obx(() => AnimatedSmoothIndicator(
-                    activeIndex: controller.pageIndex(),
-                    count: 4,
-                    effect: const ExpandingDotsEffect(
-                      dotHeight: 8,
-                      dotWidth: 8,
-                      activeDotColor: Colors.white,
-                      dotColor: Colors.white,
-                    ),
-                  )),
-              0.025.vspace,
-              MaterialButton(
-                onPressed: () {
-                  Get.toNamed(Routes.CREATE_WALLET_PAGE);
-                },
-                minWidth: 0.8.width,
-                height: 0.06.height,
-                color: Colors.black,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-                child: Text(
-                  'Get Started',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-              0.02.vspace,
-            ],
+    return Scaffold(
+      body: Stack(
+        children: [
+          OnboardingWidget(
+            controller: controller,
           ),
-        ),
-      ],
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Obx(() {
+                  return SafeArea(
+                    child: AnimatedContainer(
+                      margin: EdgeInsets.symmetric(horizontal: 32.sp),
+
+                      duration: const Duration(milliseconds: 1000),
+                      alignment: Alignment.bottomLeft,
+                      // alignment: const Alignment(-0.1, 0.6),
+                      child: Text(
+                        controller.onboardingMessages.values
+                            .elementAt(controller.pageIndex()),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontFamily: 'Space Grotesk',
+                          color: Colors.white,
+                          fontSize: 40.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+                Obx(() => AnimatedSmoothIndicator(
+                      activeIndex: controller.pageIndex(),
+                      count: 4,
+                      effect: const ExpandingDotsEffect(
+                        dotHeight: 8,
+                        dotWidth: 8,
+                        activeDotColor: Colors.white,
+                        dotColor: Colors.white,
+                      ),
+                    )),
+                0.0.vspace,
+                SafeArea(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32.sp),
+                    child: MaterialButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        Get.toNamed(Routes.CREATE_WALLET_PAGE);
+                      },
+                      minWidth: double.infinity,
+                      height: 0.06.height,
+                      color: Colors.black,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Text(
+                        'Get Started',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+                0.02.vspace,
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

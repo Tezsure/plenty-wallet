@@ -35,7 +35,7 @@ class CreateNewNftGalleryBottomSheet
       child: Container(
         constraints: BoxConstraints(
           minHeight: 0.6.height,
-          maxHeight: 0.95.height,
+          maxHeight: 0.9.height,
         ),
         decoration: BoxDecoration(
           color: Colors.black,
@@ -60,7 +60,7 @@ class CreateNewNftGalleryBottomSheet
   /// Select account widget for creating new gallery
   Widget selectAccountWidget() => Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
@@ -470,7 +470,7 @@ class CreateNewNftGalleryBottomSheet
                         height: 51,
                         alignment: Alignment.center,
                         child: Text(
-                          "Choose from Library",
+                          "Choose from library",
                           style: labelMedium,
                         ),
                       ),

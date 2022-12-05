@@ -51,7 +51,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
                     ],
                   ),
                 ),
-                Text("Delegate to", style: labelLarge),
+                Text("Delegated to", style: labelLarge),
                 0.015.vspace,
                 DelegateBakerTile(
                   baker: baker,

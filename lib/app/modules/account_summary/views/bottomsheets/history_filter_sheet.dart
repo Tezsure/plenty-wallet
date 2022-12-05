@@ -118,51 +118,57 @@ class HistoryFilterSheet extends StatelessWidget {
     required String svg,
   }) {
     return Obx(
-      () => Flexible(
-        child: Padding(
-          padding: EdgeInsets.only(right: 12.aR),
-          child: MaterialButton(
-            height: 79.aR,
-            onPressed: () {
-              controller.assetType.value = assetType;
-            },
-            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            minWidth: (1.width - 45) / 2,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.aR),
-                side: BorderSide(
-                    color: controller.assetType.value == assetType ||
-                            controller.assetType.value == AssetType.all
-                        ? ColorConst.Primary
+      () {
+        final isSelected =
+            controller.assetType.value.any((e) => e == assetType);
+        return Flexible(
+          child: Padding(
+            padding: EdgeInsets.only(right: 12.aR),
+            child: MaterialButton(
+              height: 79.aR,
+              onPressed: () {
+                if (isSelected) {
+                  controller.assetType.remove(assetType);
+                } else {
+                  controller.assetType.add(assetType);
+                }
+              },
+              color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              minWidth: (1.width - 45) / 2,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.aR),
+                  side: BorderSide(
+                      color: isSelected
+                          ? ColorConst.Primary
+                          : ColorConst.NeutralVariant.shade60,
+                      width: 1.5)),
+              child: Column(
+                children: [
+                  SvgPicture.asset(
+                    svg,
+                    height: 26.aR,
+                    color: isSelected
+                        ? Colors.white
                         : ColorConst.NeutralVariant.shade60,
-                    width: 1.5)),
-            child: Column(
-              children: [
-                SvgPicture.asset(
-                  svg,
-                  height: 26.aR,
-                  color: controller.assetType.value == assetType ||
-                          controller.assetType.value == AssetType.all
-                      ? Colors.white
-                      : ColorConst.NeutralVariant.shade60,
-                  fit: BoxFit.contain,
-                ),
-                SizedBox(
-                  height: 4.aR,
-                ),
-                Text(
-                  title,
-                  style: labelMedium.copyWith(
-                      fontSize: 12.aR,
-                      color: controller.assetType.value == assetType
-                          ? Colors.white
-                          : ColorConst.NeutralVariant.shade60),
-                )
-              ],
+                    fit: BoxFit.contain,
+                  ),
+                  SizedBox(
+                    height: 4.aR,
+                  ),
+                  Text(
+                    title,
+                    style: labelMedium.copyWith(
+                        fontSize: 12.aR,
+                        color: isSelected
+                            ? Colors.white
+                            : ColorConst.NeutralVariant.shade60),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -172,56 +178,56 @@ class HistoryFilterSheet extends StatelessWidget {
     required String svg,
   }) {
     return Obx(
-      () => Flexible(
-        child: Padding(
-          padding: EdgeInsets.only(right: 12.sp),
-          child: MaterialButton(
-            height: 79.aR,
-            onPressed: () {
-              controller.transactionType.value = transactionType;
-            },
-            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            minWidth: (1.width / 3) - 16,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.aR),
-                side: BorderSide(
-                    color:
-                        controller.transactionType.value == transactionType ||
-                                controller.transactionType.value ==
-                                    TransactionType.all
-                            ? ColorConst.Primary
-                            : ColorConst.NeutralVariant.shade60,
-                    width: 1.5)),
-            child: Column(
-              children: [
-                SvgPicture.asset(svg,
-                    height: 26.aR,
-                    fit: BoxFit.contain,
-                    color:
-                        controller.transactionType.value == transactionType ||
-                                controller.transactionType.value ==
-                                    TransactionType.all
+      () {
+        final isSelected =
+            controller.transactionType.any((e) => e == transactionType);
+        return Flexible(
+          child: Padding(
+            padding: EdgeInsets.only(right: 12.sp),
+            child: MaterialButton(
+              height: 79.aR,
+              onPressed: () {
+                if (isSelected) {
+                  controller.transactionType.remove(transactionType);
+                } else {
+                  controller.transactionType.add(transactionType);
+                }
+                // controller.transactionType.value = transactionType;
+              },
+              color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              minWidth: (1.width / 3) - 16,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.aR),
+                  side: BorderSide(
+                      color: isSelected
+                          ? ColorConst.Primary
+                          : ColorConst.NeutralVariant.shade60,
+                      width: 1.5)),
+              child: Column(
+                children: [
+                  SvgPicture.asset(svg,
+                      height: 26.aR,
+                      fit: BoxFit.contain,
+                      color: isSelected
+                          ? Colors.white
+                          : ColorConst.NeutralVariant.shade60),
+                  SizedBox(
+                    height: 4.aR,
+                  ),
+                  Text(
+                    title,
+                    style: labelMedium.copyWith(
+                        fontSize: 12.aR,
+                        color: isSelected
                             ? Colors.white
                             : ColorConst.NeutralVariant.shade60),
-                SizedBox(
-                  height: 4.aR,
-                ),
-                Text(
-                  title,
-                  style: labelMedium.copyWith(
-                      fontSize: 12.aR,
-                      color:
-                          controller.transactionType.value == transactionType ||
-                                  controller.transactionType.value ==
-                                      TransactionType.all
-                              ? Colors.white
-                              : ColorConst.NeutralVariant.shade60),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

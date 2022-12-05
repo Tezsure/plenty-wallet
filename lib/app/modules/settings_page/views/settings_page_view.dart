@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -67,8 +69,6 @@ class SettingsPageView extends GetView<SettingsPageController> {
                           ? const SizedBox()
                           : _accountOption()),
                       SizedBox(height: 0.05.width),
-                      _connectedAppsOption(),
-                      SizedBox(height: 0.05.width),
                       _settingsSeparator(
                         title: "Security",
                         settings: [
@@ -91,60 +91,9 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         ],
                       ),
                       SizedBox(height: 0.05.width),
-                      _backupOption(),
-                      SizedBox(height: 0.05.width),
-                      _settingsSeparator(
-                        title: "Social",
-                        settings: [
-                          _settingOption(
-                            onTap: () => Share.share(
-                                "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. https://naanwallet.com"),
-                            title: "Share Naan",
-                            svgPath:
-                                "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
-                          ),
-                          _settingOption(
-                            onTap: (() => CommonFunctions.launchURL(
-                                "https://twitter.com/Naanwallet")),
-                            title: "Follow us on Twitter",
-                            svgPath:
-                                "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
-                          ),
-                          _settingOption(
-                            onTap: () => CommonFunctions.launchURL(
-                                "https://discord.gg/wpcNRsBbxy"),
-                            title: "Join our Discord",
-                            svgPath:
-                                "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
-                          ),
-                          _settingOption(
-                            onTap: () => CommonFunctions.launchURL(
-                                "mailto:naan-support@tezsure.com"),
-                            title: "Feedback & Support",
-                            svgPath:
-                                "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 0.05.width),
-                      _settingsSeparator(
-                        title: "About",
-                        settings: [
-                          _settingOption(
-                            onTap: () => CommonFunctions.launchURL(
-                                "https://www.naanwallet.com/privacy-policy.html"),
-                            title: "Privacy Policy",
-                            svgPath:
-                                "${PathConst.SETTINGS_PAGE.SVG}privacy.svg",
-                          ),
-                          _settingOption(
-                            onTap: () => CommonFunctions.launchURL(
-                                "https://www.naanwallet.com/terms.html"),
-                            title: "Terms & Condition",
-                            svgPath: "${PathConst.SETTINGS_PAGE.SVG}terms.svg",
-                          ),
-                        ],
-                      ),
+                      _connectedAppsOption(),
+                      // SizedBox(height: 0.05.width),
+                      // _backupOption(),
                       SizedBox(height: 0.05.width),
                       _settingsSeparator(
                         title: "Others",
@@ -215,6 +164,59 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         ],
                       ),
                       SizedBox(height: 0.05.width),
+                      _settingsSeparator(
+                        title: "About",
+                        settings: [
+                          _settingOption(
+                            onTap: () => CommonFunctions.launchURL(
+                                "https://www.naanwallet.com/privacy-policy.html"),
+                            title: "Privacy Policy",
+                            svgPath:
+                                "${PathConst.SETTINGS_PAGE.SVG}privacy.svg",
+                          ),
+                          _settingOption(
+                            onTap: () => CommonFunctions.launchURL(
+                                "https://www.naanwallet.com/terms.html"),
+                            title: "Terms & Condition",
+                            svgPath: "${PathConst.SETTINGS_PAGE.SVG}terms.svg",
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 0.05.width),
+                      _settingsSeparator(
+                        title: "Social",
+                        settings: [
+                          _settingOption(
+                            onTap: () => Share.share(
+                                "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. https://naanwallet.com"),
+                            title: "Share Naan",
+                            svgPath:
+                                "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
+                          ),
+                          _settingOption(
+                            onTap: (() => CommonFunctions.launchURL(
+                                "https://twitter.com/Naanwallet")),
+                            title: "Follow us on Twitter",
+                            svgPath:
+                                "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
+                          ),
+                          _settingOption(
+                            onTap: () => CommonFunctions.launchURL(
+                                "https://discord.gg/wpcNRsBbxy"),
+                            title: "Join our Discord",
+                            svgPath:
+                                "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
+                          ),
+                          _settingOption(
+                            onTap: () => CommonFunctions.launchURL(
+                                "mailto:naan-support@tezsure.com"),
+                            title: "Feedback & Support",
+                            svgPath:
+                                "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 0.05.width),
                       _resetOption(),
                       SizedBox(height: 0.065.width),
                     ],
@@ -232,16 +234,16 @@ class SettingsPageView extends GetView<SettingsPageController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Text(
-            title,
-            style: labelLarge,
-          ),
-        ),
-        const SizedBox(
-          height: 14,
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 8),
+        //   child: Text(
+        //     title,
+        //     style: labelLarge,
+        //   ),
+        // ),
+        // const SizedBox(
+        //   height: 14,
+        // ),
         Container(
           decoration: BoxDecoration(
               color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
@@ -301,12 +303,17 @@ class SettingsPageView extends GetView<SettingsPageController> {
             width: 0.165.width,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: SvgPicture.asset(
-                  "${PathConst.SETTINGS_PAGE.SVG}fingerprint.svg"),
+              child: Platform.isAndroid
+                  ? SvgPicture.asset(
+                      "${PathConst.SETTINGS_PAGE.SVG}fingerprint.svg")
+                  : SvgPicture.asset(
+                      "${PathConst.SVG}faceid.svg",
+                      width: 25,
+                    ),
             ),
           ),
           Text(
-            "Sign in with Fingerprint",
+            "Sign in with ${Platform.isAndroid ? "Fingerprint" : "Face id"}",
             style: labelMedium,
           ),
           const Spacer(),
@@ -445,7 +452,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         child: Row(
           children: [
             Text(
-              "Reset Wallet",
+              "Reset Naan",
               style: labelMedium.apply(color: ColorConst.Error.shade60),
             ),
             const Spacer(),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
@@ -88,14 +89,14 @@ class AccountSelector extends StatelessWidget {
                           ],
                         ),
                         this.index == index
-                            ? const Expanded(
+                            ? Expanded(
                                 child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.check_circle_outlined,
-                                  color: ColorConst.Primary,
-                                ),
-                              ))
+                                    alignment: Alignment.centerRight,
+                                    child: SvgPicture.asset(
+                                      "assets/svg/check_3.svg",
+                                      height: 14.sp,
+                                      width: 14.sp,
+                                    )))
                             : Container()
                       ],
                     ),

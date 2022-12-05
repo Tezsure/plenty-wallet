@@ -28,7 +28,7 @@ class DelegateBakerTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 0.01.height),
       // width: 338,
-      height: 0.12.height,
+      height: 0.126.height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: const Color(0xff958e99).withOpacity(0.2),
@@ -38,13 +38,13 @@ class DelegateBakerTile extends StatelessWidget {
         ),
       ),
       padding: EdgeInsets.symmetric(
-        horizontal: 0.04.width,
+        horizontal: 0.03.width,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          0.005.vspace,
+          0.0075.vspace,
           Row(
             children: [
               CircleAvatar(
@@ -147,7 +147,7 @@ class DelegateBakerTile extends StatelessWidget {
               ),
             ],
           ),
-          0.005.vspace
+          0.018.vspace,
         ],
       ),
     );

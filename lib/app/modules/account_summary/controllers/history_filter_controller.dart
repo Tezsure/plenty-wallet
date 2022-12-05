@@ -6,8 +6,8 @@ import '../models/token_info.dart';
 class HistoryFilterController extends GetxController {
   final accountController = Get.find<TransactionController>();
 
-  Rx<AssetType> assetType = AssetType.all.obs;
-  Rx<TransactionType> transactionType = TransactionType.all.obs;
+  RxList<AssetType> assetType = AssetType.values.obs;
+  RxList<TransactionType> transactionType = TransactionType.values.obs;
   Rx<DateType> dateType = DateType.none.obs;
 
   Rx<DateTime> fromDate =
@@ -41,8 +41,8 @@ class HistoryFilterController extends GetxController {
 
   Future<void> clear() async {
     accountController.filteredTransactionList.clear();
-    assetType.value = AssetType.all;
-    transactionType.value = TransactionType.all;
+    assetType.value = AssetType.values;
+    transactionType.value = TransactionType.values;
     dateType.value = DateType.none;
     accountController.noMoreResults.value = false;
     accountController.isFilterApplied.value = false;
@@ -86,27 +86,46 @@ class HistoryFilterController extends GetxController {
       default:
         break;
     }
-    switch (transactionType.value) {
-      case TransactionType.delegation:
-        transactions = transactions.where((e) => e.isDelegated).toList();
-        break;
-      case TransactionType.receive:
-        transactions = transactions.where((e) => !e.isSent).toList();
-        break;
-      case TransactionType.send:
-        transactions = transactions.where((e) => e.isSent).toList();
-        break;
-      default:
+    List<TokenInfo> tempTransactions = [];
+    if (transactionType
+        .any((element) => element == TransactionType.delegation)) {
+      tempTransactions = [...transactions.where((e) => e.isDelegated).toList()];
     }
-    switch (assetType.value) {
-      case AssetType.token:
-        transactions = transactions.where((e) => !e.isNft).toList();
-        break;
-      case AssetType.nft:
-        transactions = transactions.where((e) => e.isNft).toList();
-        break;
-      default:
+    if (transactionType.any((element) => element == TransactionType.receive)) {
+      tempTransactions = [...transactions.where((e) => !e.isSent).toList()];
     }
+    if (transactionType.any((element) => element == TransactionType.send)) {
+      tempTransactions = [...transactions.where((e) => e.isSent).toList()];
+    }
+    // switch (transactionType.value) {
+    //   case TransactionType.delegation:
+    //     transactions = transactions.where((e) => e.isDelegated).toList();
+    //     break;
+    //   case TransactionType.receive:
+    //     transactions = transactions.where((e) => !e.isSent).toList();
+    //     break;
+    //   case TransactionType.send:
+    //     transactions = transactions.where((e) => e.isSent).toList();
+    //     break;
+    //   default:
+    // }
+
+    if (assetType.any((element) => element == AssetType.token)) {
+      tempTransactions = [...tempTransactions.where((e) => !e.isNft).toList()];
+    }
+    if (assetType.any((element) => element == AssetType.nft)) {
+      tempTransactions = [...tempTransactions.where((e) => e.isNft).toList()];
+    }
+    transactions = tempTransactions.toSet().toList();
+    // switch (assetType.value) {
+    //   case AssetType.token:
+    //     transactions = transactions.where((e) => !e.isNft).toList();
+    //     break;
+    //   case AssetType.nft:
+    //     transactions = transactions.where((e) => e.isNft).toList();
+    //     break;
+    //   default:
+    // }
     return transactions;
   }
 
@@ -123,8 +142,15 @@ class HistoryFilterController extends GetxController {
       _applyFilter(nextHistoryList);
 }
 
-enum AssetType { token, nft, all }
+enum AssetType {
+  token,
+  nft,
+}
 
-enum TransactionType { delegation, send, receive, all }
+enum TransactionType {
+  delegation,
+  send,
+  receive,
+}
 
 enum DateType { today, currentMonth, last3Months, customDate, none }

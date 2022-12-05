@@ -130,28 +130,33 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                             controller.previousRoute,
                             Routes.HOME_PAGE,
                           ]);
-                        } else if (controller.previousRoute ==
-                            Routes.HOME_PAGE) {
-                          Get.toNamed(Routes.LOADING_PAGE, arguments: [
-                            'assets/create_wallet/lottie/wallet_success.json',
-                            Routes.IMPORT_WALLET_PAGE,
-                            null,
-                          ]);
-                        } else if (controller.previousRoute ==
-                            Routes.ACCOUNT_SUMMARY) {
+                        } else
+                        // if (controller.previousRoute ==
+                        //     Routes.HOME_PAGE)
+                        {
                           Get.toNamed(Routes.LOADING_PAGE, arguments: [
                             'assets/create_wallet/lottie/wallet_success.json',
                             Routes.IMPORT_WALLET_PAGE,
                             null,
                           ]);
                         }
+                        // } else if (controller.previousRoute ==
+                        //     Routes.ACCOUNT_SUMMARY) {
+                        //   Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                        //     'assets/create_wallet/lottie/wallet_success.json',
+                        //     Routes.IMPORT_WALLET_PAGE,
+                        //     null,
+                        //   ]);
+                        // }
                       },
                       inActiveChild: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
                             "${PathConst.SVG}check.svg",
-                            color: Colors.white,
+                            color: !controller.isContiuneButtonEnable.value
+                                ? ColorConst.textGrey1
+                                : Colors.white,
                             height: 16.6.sp,
                             fit: BoxFit.contain,
                           ),
@@ -159,6 +164,9 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                           Text(
                             "Start using Naan",
                             style: titleSmall.copyWith(
+                                color: !controller.isContiuneButtonEnable.value
+                                    ? ColorConst.textGrey1
+                                    : Colors.white,
                                 fontWeight: FontWeight.w600),
                           ),
                         ],
@@ -169,12 +177,17 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                           SvgPicture.asset(
                             "${PathConst.SVG}check.svg",
                             height: 16.6.sp,
-                            color: Colors.white,
+                            color: !controller.isContiuneButtonEnable.value
+                                ? ColorConst.textGrey1
+                                : Colors.white,
                           ),
                           0.02.hspace,
                           Text(
                             "Start using Naan",
                             style: titleSmall.copyWith(
+                                color: !controller.isContiuneButtonEnable.value
+                                    ? ColorConst.textGrey1
+                                    : Colors.white,
                                 fontWeight: FontWeight.w600),
                           ),
                         ],
@@ -241,7 +254,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                         height: 51,
                         alignment: Alignment.center,
                         child: Text(
-                          "Choose from Library",
+                          "Choose from library",
                           style: labelMedium,
                         ),
                       ),

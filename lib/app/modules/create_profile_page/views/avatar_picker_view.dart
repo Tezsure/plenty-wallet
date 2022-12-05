@@ -101,10 +101,11 @@ class AvatarPickerView extends GetView<CreateProfilePageController> {
                 ]);
                 Get.back();
               },
-              child: Text(
-                "Confirm",
-                style: titleSmall.apply(color: ColorConst.Primary.shade95),
-              ),
+              title: "Confirm",
+              // child: Text(
+              //   "Confirm",
+              //   style: titleSmall.apply(color: ColorConst.Primary.shade95),
+              // ),
             ),
           ),
           0.05.vspace

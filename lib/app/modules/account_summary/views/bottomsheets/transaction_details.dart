@@ -38,32 +38,22 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      title: "Transaction details",
       blurRadius: 50,
       width: 1.width,
-      height: 420.arP,
+      height: 450.arP,
       titleAlignment: Alignment.center,
       titleStyle: titleMedium,
       bottomSheetHorizontalPadding: 16.sp,
       bottomSheetWidgets: [
         Center(
-          child: RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-                text: 'Transaction Details\n',
-                style: titleLarge.copyWith(
-                    fontSize: 22.aR, letterSpacing: 0.15.aR, height: 24 / 22),
-                children: [
-                  WidgetSpan(child: 0.02.vspace),
-                  TextSpan(
-                      text: DateFormat('MM/dd/yyyy HH:mm')
-                          // displaying formatted date
-                          .format(DateTime.parse(transactionModel.timestamp!)
-                              .toLocal()),
-                      style: labelMedium.copyWith(
-                          fontSize: 12.aR,
-                          color: ColorConst.NeutralVariant.shade60)),
-                ]),
-          ),
+          child: Text(
+              DateFormat('MM/dd/yyyy HH:mm')
+                  // displaying formatted date
+                  .format(
+                      DateTime.parse(transactionModel.timestamp!).toLocal()),
+              style: labelMedium.copyWith(
+                  fontSize: 12.aR, color: ColorConst.NeutralVariant.shade60)),
         ),
         0.02.vspace,
         Row(
@@ -124,8 +114,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                   child: Text(
                     tokenInfo.isNft ? tokenInfo.tokenSymbol : tokenInfo.name,
                     style: labelLarge.copyWith(
-                      fontSize: 14.aR,
-                    ),
+                        fontSize: 14.aR, fontWeight: FontWeight.normal),
                   ),
                 ),
               ],

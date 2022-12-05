@@ -16,7 +16,7 @@ class LoadingPageController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
+ 
     super.onInit();
     var args = Get.arguments as List<dynamic>;
     fromRoute = args[1] as String;
