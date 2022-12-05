@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
@@ -38,28 +39,36 @@ class AddContactBottomSheet extends StatefulWidget {
 
 class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
   TextEditingController nameController = TextEditingController();
+  @override
+  void initState() {
+    nameController.text = widget.contactModel.name;
+    nameController.selection = TextSelection.fromPosition(
+        TextPosition(offset: nameController.text.length));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (nameController.text.isEmpty) {
-      nameController.text = widget.contactModel.name;
-      nameController.selection = TextSelection.fromPosition(
-          TextPosition(offset: nameController.text.length));
-    }
+    Get.put(AccountSummaryController());
+    Get.put(TransactionController());
     return NaanBottomSheet(
-      height: widget.isTransactionContact ? 520.arP : 1.height,
+      title: widget.isEditContact ? "Edit Contact" : 'Add Contact',
+      isScrollControlled: true,
+      height: (widget.isTransactionContact
+          ? 520.arP
+          : (widget.isEditContact ? 0.48.height : 0.3.height)),
       bottomSheetHorizontalPadding: 32.aR,
       blurRadius: 5,
       bottomSheetWidgets: [
         if (widget.isTransactionContact || widget.isEditContact) ...[
-          0.03.vspace,
-          Center(
-            child: Text(
-              widget.isEditContact ? "Edit Contact" : 'Add Contact',
-              style: titleMedium.copyWith(fontSize: 16.aR),
-            ),
-          ),
-          0.03.vspace,
+          // 0.03.vspace,
+          // Center(
+          //   child: Text(
+          //     widget.isEditContact ? "Edit Contact" : 'Add Contact',
+          //     style: titleMedium.copyWith(fontSize: 16.aR),
+          //   ),
+          // ),
+          // 0.03.vspace,
           Center(
             child: Container(
               height: 0.3.width,
@@ -100,11 +109,11 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
               style: labelMedium.copyWith(fontSize: 12.aR),
             ),
           ),
-        ] else
-          Text(
-            'Add Contact',
-            style: titleMedium,
-          ),
+        ],
+        //   Text(
+        //     'Add Contact',
+        //     style: titleMedium,
+        //   ),
         0.02.vspace,
         NaanTextfield(
           height: 52.aR,
@@ -139,10 +148,11 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
               accountController.onAddContact(
                   widget.contactModel.address, nameController.text);
               await accountController.updateSavedContacts();
+              // await Get.find<SendPageController>().updateSavedContacts();
               Get
                 ..back()
                 ..back();
-            } else if (widget.isTransactionContact && widget.isEditContact) {
+            } else if (widget.isEditContact) {
               var accountController = Get.find<TransactionController>();
               accountController.contacts.value = accountController.contacts
                   .map((item) =>
@@ -169,7 +179,9 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
             height: 50.aR,
             child: Center(
                 child: Text(
-              widget.isTransactionContact ? "Add to contacts" : 'Add contact',
+              widget.isTransactionContact
+                  ? "Add to contacts"
+                  : (widget.isEditContact ? "Save Changes" : 'Add contact'),
               style: titleSmall.copyWith(
                   fontSize: 14.aR,
                   fontWeight: FontWeight.w600,
