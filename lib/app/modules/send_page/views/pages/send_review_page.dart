@@ -30,28 +30,25 @@ class SendReviewPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(8),
-                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                    child: TokenSelector(
-                      onTap: () {
-                        controller.selectedPageIndex.value = 1;
-                        controller.amountFocusNode.value.unfocus();
-                      },
-                      controller: controller,
-                    ),
+                Material(
+                  borderRadius: BorderRadius.circular(8),
+                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                  child: TokenSelector(
+                    onTap: () {
+                      controller.selectedPageIndex.value = 1;
+                      controller.amountFocusNode.value.unfocus();
+                    },
+                    controller: controller,
                   ),
                 ),
                 controller.isNFTPage.value ? 0.02.vspace : 0.05.vspace,
                 if (!controller.isNFTPage.value) ...[
                   const TokenView(),
                 ] else ...[
-                  0.07.vspace,
+                  // 0.07.vspace,
                   Center(
                     child: Container(
-                      margin: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.symmetric(vertical: 10),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.network(
@@ -62,9 +59,9 @@ class SendReviewPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  0.03.vspace,
+                  // 0.03.vspace,
                 ],
-                0.04.vspace,
+                0.02.vspace,
                 Align(
                   alignment: Alignment.center,
                   child: Obx(
@@ -79,7 +76,6 @@ class SendReviewPage extends StatelessWidget {
                               !controller.amountUsdTileError.value;
                       return SolidButton(
                         height: 48,
-                        width: 0.8.width,
                         onPressed: () =>
                             (controller.amountText.value.isNotEmpty ||
                                         controller.isNFTPage.value) &&

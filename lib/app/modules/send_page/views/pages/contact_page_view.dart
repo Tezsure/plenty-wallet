@@ -16,9 +16,7 @@ class ContactsListView extends GetView<SendPageController> {
   Widget build(BuildContext context) {
     return Container(
       height: 0.8.height,
-      width: 1.width,
       decoration: const BoxDecoration(color: Colors.black),
-      padding: EdgeInsets.symmetric(horizontal: 0.035.width),
       child: Column(
         children: [
           Obx(
@@ -54,7 +52,7 @@ class ContactsListView extends GetView<SendPageController> {
                         .toList() +
                     (controller.contacts.isNotEmpty
                         ? <Widget>[
-                            0.033.vspace,
+                            0.02.vspace,
                             Text(
                               'Contacts',
                               style: labelSmall.apply(

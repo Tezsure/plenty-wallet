@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -39,80 +41,147 @@ class TransactionBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       blurRadius: controller.isNFTPage.value ? 50 : 5,
-      width: 1.width,
-      height: 355.sp,
-      title: 'Sending',
+      height: 450.sp,
+      title: 'Review',
       titleAlignment: Alignment.center,
       titleStyle: titleMedium,
-      bottomSheetHorizontalPadding: 10,
+      bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
         ListTile(
-          title: Text(
-            controller.isNFTPage.value
-                ? controller.selectedNftModel!.name!
-                : '\$${controller.amountUsdController.text}',
-            style: headlineSmall,
+          contentPadding: EdgeInsets.zero,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.arrow_upward_rounded,
+                color: ColorConst.textGrey1,
+                size: 15,
+              ),
+              Text(
+                'Sending',
+                style: bodySmall.copyWith(
+                    color: ColorConst.textGrey1, fontWeight: FontWeight.w600),
+              ),
+            ],
           ),
           subtitle: Text(
             controller.isNFTPage.value
                 ? controller.selectedNftModel!.fa!.name!
-                : '${controller.amountController.text} ${controller.selectedTokenModel!.symbol}',
-            style: bodyMedium.copyWith(color: ColorConst.Primary.shade70),
+                : '${controller.selectedTokenModel!.symbol}',
+            style: bodyMedium,
           ),
-          trailing: controller.isNFTPage.value
+          leading: controller.isNFTPage.value
               ? getNftImage(controller.selectedNftModel)
               : getTokenImage(controller.selectedTokenModel),
         ),
-        ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-            leading: Container(
-              height: 24,
-              width: 36,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.2)),
-              child: Center(
-                child: Text(
-                  'to',
-                  style: labelSmall.copyWith(
-                      color: ColorConst.NeutralVariant.shade60),
-                ),
+        Container(
+          padding: EdgeInsets.symmetric(
+            vertical: 16.arP,
+            horizontal: 8.arP,
+          ),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: ColorConst.darkGrey),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                controller.isNFTPage.value
+                    ? controller.selectedNftModel!.name!
+                    : '${controller.amountController.text} ${controller.selectedTokenModel!.symbol}',
+                style: bodyLarge.copyWith(color: ColorConst.textGrey1),
               ),
-            ),
-            trailing: SvgPicture.asset('assets/svg/chevron_down.svg')),
+              Text(
+                controller.isNFTPage.value
+                    ? '\$ 0.00'
+                    : '\$${controller.amountUsdController.text}',
+                style: bodyLarge,
+              )
+            ],
+          ),
+        ),
         ListTile(
+            contentPadding: EdgeInsets.zero,
             title: Text(
-              controller.selectedReceiver.value!.name,
-              style: headlineSmall,
+              "To",
+              style: bodySmall.copyWith(color: ColorConst.textGrey1),
             ),
             subtitle: SizedBox(
               width: 0.3.width,
               child: Row(
                 children: [
                   Text(
-                    controller.selectedReceiver.value!.address.tz1Short(),
-                    style:
-                        bodyMedium.copyWith(color: ColorConst.Primary.shade70),
+                    controller.selectedReceiver.value!.name,
+                    style: bodyMedium,
                   ),
                   0.02.hspace,
-                  Icon(
-                    Icons.copy,
-                    color: ColorConst.Primary.shade60,
-                    size: 10,
-                  ),
+                  SvgPicture.asset(
+                    '${PathConst.SVG}copy.svg',
+                    color: Colors.white,
+                    fit: BoxFit.contain,
+                    height: 17.arP,
+                  )
                 ],
               ),
             ),
-            trailing: Image.asset(
+            leading: Image.asset(
               controller.selectedReceiver.value!.imagePath,
               width: 44,
             )),
+
+        const Divider(
+          color: ColorConst.darkGrey,
+        ),
+        // ListTile(
+        //     contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+        //     leading: Container(
+        //       height: 24,
+        //       width: 36,
+        //       decoration: BoxDecoration(
+        //           borderRadius: BorderRadius.circular(12),
+        //           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2)),
+        //       child: Center(
+        //         child: Text(
+        //           'to',
+        //           style: labelSmall.copyWith(
+        //               color: ColorConst.NeutralVariant.shade60),
+        //         ),
+        //       ),
+        //     ),
+        //     trailing: SvgPicture.asset('assets/svg/chevron_down.svg')),
+        ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(
+              "From",
+              style: bodySmall.copyWith(color: ColorConst.textGrey1),
+            ),
+            subtitle: SizedBox(
+              width: 0.3.width,
+              child: Row(
+                children: [
+                  Text(
+                    controller.senderAccountModel!.name!,
+                    style: bodyMedium,
+                  ),
+                  0.02.hspace,
+                  SvgPicture.asset(
+                    '${PathConst.SVG}copy.svg',
+                    color: Colors.white,
+                    fit: BoxFit.contain,
+                    height: 17.arP,
+                  )
+                ],
+              ),
+            ),
+            leading: Image.asset(
+              controller.senderAccountModel!.profileImage!,
+              width: 44,
+            )),
         0.02.vspace,
-        Align(
-          alignment: Alignment.center,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: SolidButton(
             title: 'Hold to Send',
-            width: 0.85.width,
             isLoading: isLoading,
             onLongPressed: () async {
               if (isLoading.value) {
@@ -200,7 +269,7 @@ class TransactionBottomSheet extends StatelessWidget {
                     Align(
                       alignment: Alignment.center,
                       child: LottieBuilder.asset(
-                        '${PathConst.SEND_PAGE}lottie/send_success.json',
+                        '${PathConst.SEND_PAGE}lottie/success_primary.json',
                         height: 68,
                         width: 68,
                         repeat: false,
@@ -215,7 +284,7 @@ class TransactionBottomSheet extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    0.02.vspace,
+                    0.01.vspace,
                     Align(
                       alignment: Alignment.center,
                       child: Text(
@@ -283,6 +352,28 @@ class TransactionBottomSheet extends StatelessWidget {
                 exitBottomSheetDuration: const Duration(milliseconds: 150),
               );
             },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Platform.isAndroid
+                    ? SvgPicture.asset(
+                        "${PathConst.SVG}fingerprint.svg",
+                        color: ColorConst.Neutral.shade100,
+                        width: 15.sp,
+                      )
+                    : SvgPicture.asset(
+                        "${PathConst.SVG}faceid.svg",
+                        color: ColorConst.Neutral.shade100,
+                        width: 20.sp,
+                      ),
+                0.02.hspace,
+                Text(
+                  "Hold to Send",
+                  style: titleSmall.copyWith(
+                      fontSize: 14.aR, color: ColorConst.Neutral.shade100),
+                )
+              ],
+            ),
           ),
         )
       ],
