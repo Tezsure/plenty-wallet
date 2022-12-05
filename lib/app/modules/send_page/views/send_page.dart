@@ -78,7 +78,11 @@ class SendPage extends GetView<SendPageController> {
           AppBar(
             title: Text(
               'Send',
-              style: titleMedium,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22.arP,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.15.arP),
             ),
             backgroundColor: Colors.transparent,
             centerTitle: true,
@@ -140,38 +144,46 @@ class SendPage extends GetView<SendPageController> {
                         },
                         focusNode: controller.searchBarFocusNode,
                         cursorColor: ColorConst.Primary,
-                        style: bodyMedium.apply(color: ColorConst.Primary),
+                        style: TextStyle(
+                          color: controller.selectedPageIndex.value == 0
+                              ? Colors.white
+                              : ColorConst.Primary,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.arP,
+                          letterSpacing: 0.25.arP,
+                        ),
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Tez domain or address',
-                            hintStyle: bodyMedium.apply(
-                                color: ColorConst.NeutralVariant.shade40)),
+                            hintStyle: TextStyle(
+                              color: const Color(0xFF625C66),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.arP,
+                              letterSpacing: 0.25.arP,
+                            )),
                       ),
                     )),
                 0.02.hspace,
                 Obx(
-                  () => controller.selectedPageIndex.value == 0
-                      ? (controller.suggestedContacts.isEmpty
-                          ? PasteButton(
-                              onTap: controller.paste,
+                  () => (controller.suggestedContacts.isEmpty
+                      ? PasteButton(
+                          onTap: controller.paste,
+                        )
+                      : controller.contacts
+                              .where((p0) =>
+                                  p0.address ==
+                                      controller
+                                          .searchTextController.value.text ||
+                                  (controller.suggestedContacts.isNotEmpty
+                                      ? controller
+                                              .suggestedContacts[0].address ==
+                                          p0.address
+                                      : false))
+                              .isEmpty
+                          ? AddContactButton(
+                              contactModel: controller.suggestedContacts.first,
                             )
-                          : controller.contacts
-                                  .where((p0) =>
-                                      p0.address ==
-                                          controller.searchTextController.value
-                                              .text ||
-                                      (controller.suggestedContacts.isNotEmpty
-                                          ? controller.suggestedContacts[0]
-                                                  .address ==
-                                              p0.address
-                                          : false))
-                                  .isEmpty
-                              ? AddContactButton(
-                                  contactModel:
-                                      controller.suggestedContacts.first,
-                                )
-                              : const SizedBox())
-                      : const SizedBox(),
+                          : const SizedBox()),
                 )
               ],
             ),

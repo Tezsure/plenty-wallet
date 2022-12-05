@@ -3,11 +3,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
+import 'package:naan_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -45,11 +47,11 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
           TextPosition(offset: nameController.text.length));
     }
     return NaanBottomSheet(
-      height: widget.isTransactionContact ? 500.sp : 262.sp,
+      height: widget.isTransactionContact ? 520.arP : 1.height,
       bottomSheetHorizontalPadding: 32.aR,
       blurRadius: 5,
       bottomSheetWidgets: [
-        if (widget.isTransactionContact) ...[
+        if (widget.isTransactionContact || widget.isEditContact) ...[
           0.03.vspace,
           Center(
             child: Text(
@@ -103,7 +105,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
             'Add Contact',
             style: titleMedium,
           ),
-        0.03.vspace,
+        0.02.vspace,
         NaanTextfield(
           height: 52.aR,
           hint: 'Enter contact name',
@@ -114,7 +116,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
           },
           controller: nameController,
         ),
-        0.025.vspace,
+        0.02.vspace,
         widget.isTransactionContact
             ? const SizedBox()
             : Text(
@@ -122,7 +124,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                 style: labelSmall.copyWith(
                     color: ColorConst.NeutralVariant.shade60),
               ),
-        0.04.vspace,
+        0.03.vspace,
         MaterialButton(
           color: nameController.text.isEmpty
               ? const Color(0xff1E1C1F)
@@ -156,6 +158,8 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                 ..back()
                 ..back();
             } else {
+              await UserStorageService().writeNewContact(widget.contactModel
+                  .copyWith(name: nameController.text.trim()));
               await Get.find<SendPageController>().updateSavedContacts();
               Get.back();
             }
@@ -309,6 +313,11 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
   }
 
   Widget avatarPicker() {
+    var create_profile_page_controller = Get.put(CreateProfilePageController());
+    create_profile_page_controller.currentSelectedType =
+        AccountProfileImageType.assets;
+    create_profile_page_controller.selectedImagePath.value =
+        widget.contactModel.imagePath;
     return Container(
       color: Colors.black,
       width: 1.width,
@@ -341,7 +350,8 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(widget.contactModel.imagePath),
+                  image: AssetImage(
+                      create_profile_page_controller.selectedImagePath.value),
                 ),
               ),
             ),

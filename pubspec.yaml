@@ -19,7 +19,10 @@ dependencies:
   flutter_secure_storage: ^6.0.0
   share_plus: ^4.0.10+1
   qr_flutter: ^4.0.0
-  dartez: 1.1.0
+  dartez:
+    git:
+      url: https://github.com/Tezsure/Dartez.git
+      ref: main
   local_auth: ^2.1.2
   image_picker: ^0.8.5+3
   path_provider: ^2.0.11

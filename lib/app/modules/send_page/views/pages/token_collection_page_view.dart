@@ -58,11 +58,13 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                       const SizedBox(
                         height: 16,
                       ),
-                      Text(
-                        'Collectibles',
-                        style: labelSmall.apply(
-                            color: ColorConst.NeutralVariant.shade60),
-                      ),
+                      controller.userNfts.isNotEmpty
+                          ? Text(
+                              'Collectibles',
+                              style: labelSmall.apply(
+                                  color: ColorConst.NeutralVariant.shade60),
+                            )
+                          : Container(),
                       0.008.vspace
                     ] +
                     List.generate(

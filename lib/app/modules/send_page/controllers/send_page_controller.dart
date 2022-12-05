@@ -219,14 +219,14 @@ class SendPageController extends GetxController {
           ? amountTileFocus.value = true
           : amountTileFocus.value = false;
     });
-/*     searchBarFocusNode.addListener(() {
+    searchBarFocusNode.addListener(() {
       if (searchBarFocusNode.hasFocus) {
         saveSelectedPageIndex.value = selectedPageIndex.value;
-        //setSelectedPageIndex(index: 0);
+        setSelectedPageIndex(index: 0);
       } else {
         setSelectedPageIndex(index: saveSelectedPageIndex.value);
       }
-    }); */
+    });
     super.onReady();
   }
 

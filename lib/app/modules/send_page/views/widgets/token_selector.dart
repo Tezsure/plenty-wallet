@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 /// Displays the token selection page. This page is used to select the token/nft to send.
 ///
@@ -38,14 +39,24 @@ class TokenSelector extends StatelessWidget {
               controller!.isNFTPage.value
                   ? controller!.selectedNftModel!.name!
                   : controller!.selectedTokenModel!.symbol!,
-              style: bodySmall.copyWith(color: ColorConst.Primary.shade60),
+              style: TextStyle(
+                color: const Color(0xFF7B757F),
+                fontSize: 13.arP,
+                letterSpacing: 0.4.arP,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             subtitle: Text(
-                controller!.isNFTPage.value
-                    ? controller!.selectedNftModel!.fa!.name!
-                    : '${controller!.selectedTokenModel!.balance.toStringAsFixed(6)} available',
-                style: labelSmall.copyWith(
-                    color: ColorConst.NeutralVariant.shade60)),
+              controller!.isNFTPage.value
+                  ? controller!.selectedNftModel!.fa!.name!
+                  : '${controller!.selectedTokenModel!.balance.toStringAsFixed(6)} available',
+              style: TextStyle(
+                color: const Color(0xFF958E99),
+                fontSize: 12.arP,
+                letterSpacing: 0.5.arP,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
             trailing: Container(
               height: 24,
               width: 24,

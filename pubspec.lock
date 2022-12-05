@@ -137,9 +137,11 @@ packages:
   dartez:
     dependency: "direct main"
     description:
-      name: dartez
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: main
+      resolved-ref: "6da85ef92c7e76b3c804ec3ec5636e43b7dc0c1d"
+      url: "https://github.com/Tezsure/Dartez.git"
+    source: git
     version: "1.1.0"
   device_frame:
     dependency: transitive
