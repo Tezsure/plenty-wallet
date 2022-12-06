@@ -38,7 +38,9 @@ class TokenView extends GetView<SendPageController> {
                   focusNode: controller.amountFocusNode.value,
                   hintText: '0.00',
                   controller: controller.amountController,
-                  isError: controller.amountTileError,
+                  isError: (controller.amountTileError.value ||
+                          controller.amountUsdTileError.value)
+                      .obs,
                   onChanged: (val) {
                     try {
                       controller.amountText.value = val;

@@ -39,11 +39,14 @@ class AddContactBottomSheet extends StatefulWidget {
 
 class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
   TextEditingController nameController = TextEditingController();
+
   @override
   void initState() {
     nameController.text = widget.contactModel.name;
+    // image = widget.contactModel.imagePath;
     nameController.selection = TextSelection.fromPosition(
         TextPosition(offset: nameController.text.length));
+
     super.initState();
   }
 
@@ -157,7 +160,10 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
               accountController.contacts.value = accountController.contacts
                   .map((item) =>
                       item.address.contains(widget.contactModel.address)
-                          ? item.copyWith(name: nameController.text.trim())
+                          ? item.copyWith(
+                              name: nameController.text.trim(),
+                              imagePath: widget.contactModel.imagePath,
+                            )
                           : item)
                   .toList();
               accountController.contacts.refresh();
@@ -324,12 +330,15 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
     );
   }
 
+  var createProfilePageController = Get.put(CreateProfilePageController());
+
   Widget avatarPicker() {
-    var createProfilePageController = Get.put(CreateProfilePageController());
     createProfilePageController.currentSelectedType =
         AccountProfileImageType.assets;
-    createProfilePageController.selectedImagePath.value =
-        widget.contactModel.imagePath;
+
+    // createProfilePageController.selectedImagePath.value =
+    //     widget.contactModel.imagePath;
+
     return Container(
       color: Colors.black,
       width: 1.width,
@@ -380,6 +389,9 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                 ServiceConfig.allAssetsProfileImages.length,
                 (index) => GestureDetector(
                   onTap: () {
+                    createProfilePageController.selectedImagePath.value =
+                        ServiceConfig.allAssetsProfileImages[index];
+
                     // _controller.editUserProfilePhoto(
                     //     imageType: AccountProfileImageType.assets,
                     //     imagePath: ServiceConfig.allAssetsProfileImages[index],
@@ -408,6 +420,10 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
             child: SolidButton(
               height: 40.sp,
               onPressed: () {
+                widget.contactModel.imagePath =
+                    createProfilePageController.selectedImagePath.value;
+
+                setState(() {});
                 Get.back();
                 Get.back();
               },

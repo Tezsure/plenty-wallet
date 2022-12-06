@@ -88,10 +88,13 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                     0.03.vspace,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Flexible(
                           child: Padding(
-                            padding: EdgeInsets.only(left: 16.sp),
+                            padding: EdgeInsets.only(
+                              left: 16.arP,
+                            ),
                             child: SizedBox(
                               height: 50.sp,
                               child: TextFormField(
@@ -144,9 +147,9 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 0.06.height,
-                          width: 0.18.width,
+                        Center(
+                          // height: 0.06.height,
+                          // width: 0.18.width,
                           child: TextButton(
                             style: ButtonStyle(
                                 overlayColor: MaterialStateProperty.all(
@@ -172,6 +175,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                         ),
                       ],
                     ),
+                    0.03.vspace,
                     searchController.text.isEmpty ||
                             controller.searchTransactionList.isEmpty
                         ? Center(
