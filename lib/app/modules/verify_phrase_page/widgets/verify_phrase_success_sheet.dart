@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:share_plus/share_plus.dart';
 
-class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
-  const DelegateBakerSuccessSheet({super.key});
+class VerifyPhraseSuccessSheet extends StatelessWidget {
+  const VerifyPhraseSuccessSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => DelegateWidgetController());
     HapticFeedback.heavyImpact();
+    AuthService().setWalletBackup(true);
     return NaanBottomSheet(
         mainAxisAlignment: MainAxisAlignment.end,
-        bottomSheetHorizontalPadding: 16.sp,
-        height: 0.45.height,
+        bottomSheetHorizontalPadding: 32.sp,
+        height: 0.4.height,
         blurRadius: 5,
         width: double.infinity,
         bottomSheetWidgets: [
@@ -37,42 +37,26 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
                   width: 80.sp,
                   repeat: false,
                 ),
-                // Icon(
-                //   Icons.check_circle_outline,
-                //   color: ColorConst.Primary,
-                //   size: 80.sp,
-                // ),
                 0.0175.vspace,
                 Text(
-                  "Delegation successful",
+                  "Backup successful",
                   style: titleLarge,
                 ),
                 0.006.vspace,
                 Text(
-                  "Your delegation request should be \nconfirmed in next 30 seconds",
+                  "Hope you have written the secret \nphrase safely",
                   textAlign: TextAlign.center,
                   style: labelMedium.copyWith(color: ColorConst.textGrey1),
                 ),
                 0.03.vspace,
                 SolidButton(
-                  borderColor: ColorConst.Primary,
                   active: true,
-                  textColor: ColorConst.Primary,
-                  primaryColor: Colors.transparent,
                   onPressed: () {
                     Get.back();
                   },
                   title: "Done",
                 ),
                 0.018.vspace,
-                SolidButton(
-                  active: true,
-                  onPressed: () {
-                    Share.share(
-                        "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}");
-                  },
-                  title: "Share Naan",
-                ),
                 0.018.vspace
               ],
             ),

@@ -85,16 +85,16 @@ class AppPages {
       page: () => const OnboardingPageView(),
       binding: OnboardingPageBinding(),
     ),
-    GetPage(
-      name: _Paths.BACKUP_WALLET,
-      page: () => const BackupWalletView(),
-      binding: BackupWalletBinding(),
-    ),
-    GetPage(
-      name: _Paths.VERIFY_PHRASE_PAGE,
-      page: () => const VerifyPhrasePageView(),
-      binding: VerifyPhrasePageBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.BACKUP_WALLET,
+    //   page: () => const BackupWalletView(),
+    //   binding: BackupWalletBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.VERIFY_PHRASE_PAGE,
+    //   page: () => const VerifyPhrasePageView(),
+    //   binding: VerifyPhrasePageBinding(),
+    // ),
     GetPage(
       name: _Paths.IMPORT_WALLET_PAGE,
       page: () => const ImportWalletPageView(),

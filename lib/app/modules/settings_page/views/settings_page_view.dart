@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
-import 'package:naan_wallet/app/modules/settings_page/widget/backup_page.dart';
+import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/connected_dapps_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/flutter_switch.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/modules/settings_page/widget/select_network_shee
 import 'package:naan_wallet/app/modules/settings_page/widget/select_node_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -68,15 +69,17 @@ class SettingsPageView extends GetView<SettingsPageController> {
                       Obx(() => _homePageController.userAccounts.isEmpty
                           ? const SizedBox()
                           : _accountOption()),
+
+                      _backupOption(),
                       SizedBox(height: 0.05.width),
+
                       _settingsSeparator(
                         title: "Security",
                         settings: [
                           _settingOption(
                             onTap: () {
-                              Get.to(
-                                () => BackupPage(),
-                              );
+                              Get.bottomSheet(BackupPage(),
+                                  isScrollControlled: true);
                             },
                             title: "Backup",
                             svgPath: "${PathConst.SETTINGS_PAGE.SVG}backup.svg",
@@ -93,7 +96,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                       SizedBox(height: 0.05.width),
                       _connectedAppsOption(),
                       // SizedBox(height: 0.05.width),
-                      // _backupOption(),
+
                       SizedBox(height: 0.05.width),
                       _settingsSeparator(
                         title: "Others",
@@ -188,7 +191,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         settings: [
                           _settingOption(
                             onTap: () => Share.share(
-                                "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. https://naanwallet.com"),
+                                "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}"),
                             title: "Share Naan",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
@@ -465,62 +468,65 @@ class SettingsPageView extends GetView<SettingsPageController> {
 
   Widget _backupOption() {
     return Obx(
-      () => Container(
-        decoration: BoxDecoration(
-            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(8)),
-        padding:
-            EdgeInsets.symmetric(horizontal: 0.05.width, vertical: 0.04.width),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                SvgPicture.asset(
-                  PathConst.SETTINGS_PAGE.SVG +
-                      (controller.backup.value
-                          ? "backup_success.svg"
-                          : "backup_warning.svg"),
+      () {
+        final isBackedUp = controller.isWalletBackup.value;
+        if (isBackedUp) return Container();
+        return Container(
+          decoration: BoxDecoration(
+              color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8)),
+          padding: EdgeInsets.symmetric(
+              horizontal: 0.05.width, vertical: 0.04.width),
+          margin: EdgeInsets.only(
+            top: 0.05.width,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    PathConst.SETTINGS_PAGE.SVG +
+                        (isBackedUp
+                            ? "backup_success.svg"
+                            : "backup_warning.svg"),
+                  ),
+                  0.02.hspace,
+                  Text(
+                    isBackedUp
+                        ? "Wallet successfully backed up"
+                        : "Action required: not backed up",
+                    style: labelMedium.apply(
+                        color: isBackedUp
+                            ? const Color(0xff44CD41)
+                            : ColorConst.Tertiary),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Text(
+                "If your device gets lost or stolen, or if there’s an unexpected hardware error, you will lose your funds",
+                style: labelSmall.apply(
+                  color: ColorConst.NeutralVariant.shade70,
                 ),
-                0.02.hspace,
-                Text(
-                  controller.backup.value
-                      ? "Wallet successfully backed up"
-                      : "Action required: not backed up",
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              GestureDetector(
+                onTap: () => controller.checkWalletBackup(),
+                child: Text(
+                  isBackedUp ? "View my recovery phrase" : "Backup now",
                   style: labelMedium.apply(
-                      color: controller.backup.value
-                          ? const Color(0xff44CD41)
-                          : ColorConst.Tertiary),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(
-              "If your device gets lost or stolen, or if there’s an unexpected hardware error, you will lose your funds",
-              style: labelSmall.apply(
-                color: ColorConst.NeutralVariant.shade70,
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            GestureDetector(
-              onTap: () => controller.switchbackup(),
-              child: Text(
-                controller.backup.value
-                    ? "View my recovery phrase"
-                    : "Backup now",
-                style: labelMedium.apply(
-                    color: controller.backup.value
-                        ? Colors.white
-                        : ColorConst.Tertiary),
-              ),
-            )
-          ],
-        ),
-      ),
+                      color: isBackedUp ? Colors.white : ColorConst.Tertiary),
+                ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }

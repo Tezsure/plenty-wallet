@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -53,6 +54,8 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   @override
   void onReady() {
     super.onReady();
+    // showBackUpWalletBottomSheet(
+    //     'cross boat human mammal rain twin inner garment lizard quick never lamp');
     if (Get.arguments != null &&
         Get.arguments.length == 2 &&
         Get.arguments[1].toString().isNotEmpty) {
@@ -70,58 +73,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
 
   void showBackUpWalletBottomSheet(String seedPhrase) {
     Get.bottomSheet(
-      NaanBottomSheet(
-        gradientStartingOpacity: 1,
-        blurRadius: 5,
-        height: 290.sp,
-        isScrollControlled: true,
-        bottomSheetWidgets: [
-          0.03.vspace,
-          Text(
-            'Backup Your Wallet',
-            style: titleLarge,
-          ),
-          0.012.vspace,
-          Text(
-            'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.',
-            textAlign: TextAlign.start,
-            style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
-          ),
-          .03.vspace,
-          SolidButton(
-              height: 40.sp,
-              width: 1.width,
-              textColor: Colors.white,
-              title: "Backup Wallet ( ~1 min )",
-              onPressed: () => Get.toNamed(
-                    Routes.BACKUP_WALLET,
-                    arguments: seedPhrase,
-                  )),
-          0.012.vspace,
-          MaterialButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            padding: EdgeInsets.zero,
-            onPressed: () => Get.back(),
-            child: Container(
-              height: 40.sp,
-              width: 1.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: ColorConst.Neutral.shade80,
-                  width: 1.50,
-                ),
-              ),
-              alignment: Alignment.center,
-              child: Text("I will risk it",
-                  style: titleSmall.apply(color: ColorConst.Primary.shade80)),
-            ),
-          ),
-          .03.vspace,
-        ],
-      ),
+      BackupWalletBottomSheet(seedPhrase: seedPhrase),
       enterBottomSheetDuration: const Duration(milliseconds: 180),
       exitBottomSheetDuration: const Duration(milliseconds: 150),
       enableDrag: true,
@@ -131,4 +83,67 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   }
 
   void onIndicatorTapped(int index) => selectedIndex.value = index;
+}
+
+class BackupWalletBottomSheet extends StatelessWidget {
+  final String seedPhrase;
+  const BackupWalletBottomSheet({
+    Key? key,
+    required this.seedPhrase,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return NaanBottomSheet(
+      gradientStartingOpacity: 1,
+      blurRadius: 5,
+      height: 350.arP,
+      bottomSheetWidgets: [
+        0.03.vspace,
+        Text(
+          'Backup your account',
+          style: titleLarge,
+        ),
+        0.012.vspace,
+        Text(
+          'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.',
+          textAlign: TextAlign.start,
+          style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
+        ),
+        .03.vspace,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.arP),
+          child: SolidButton(
+              width: 1.width,
+              textColor: Colors.white,
+              title: "Backup wallet ( ~1 min )",
+              onPressed: () {
+                Get.back();
+                Get.bottomSheet(
+                    BackupWalletView(
+                      seedPhrase: seedPhrase,
+                    ),
+                    barrierColor: Colors.transparent,
+                    enterBottomSheetDuration: const Duration(milliseconds: 180),
+                    exitBottomSheetDuration: const Duration(milliseconds: 150),
+                    isScrollControlled: true);
+              }),
+        ),
+        0.012.vspace,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.arP),
+          child: SolidButton(
+              borderWidth: 1,
+              borderColor: ColorConst.Primary.shade80,
+              primaryColor: Colors.transparent,
+              width: 1.width,
+              textColor: ColorConst.Primary.shade80,
+              title: "I will risk it",
+              onPressed: () => Get.back()),
+        ),
+        .01.vspace,
+        const SafeArea(child: SizedBox.shrink())
+      ],
+    );
+  }
 }

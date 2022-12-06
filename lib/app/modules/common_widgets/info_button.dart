@@ -14,16 +14,17 @@ class InfoButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Text(
+            'info',
+            style: bodySmall.copyWith(
+                color: ColorConst.NeutralVariant.shade60,
+                fontWeight: FontWeight.bold),
+          ),
+          0.010.hspace,
           Icon(
             Icons.info_outline,
             size: 16,
             color: ColorConst.NeutralVariant.shade60,
-          ),
-          0.010.hspace,
-          Text(
-            'Info',
-            style:
-                titleMedium.copyWith(color: ColorConst.NeutralVariant.shade60),
           ),
         ],
       ),

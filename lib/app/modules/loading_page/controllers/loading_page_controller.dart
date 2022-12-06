@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
@@ -16,7 +17,6 @@ class LoadingPageController extends GetxController {
 
   @override
   void onInit() {
- 
     super.onInit();
     var args = Get.arguments as List<dynamic>;
     fromRoute = args[1] as String;
@@ -59,6 +59,7 @@ class LoadingPageController extends GetxController {
     } else if (fromRoute == Routes.IMPORT_WALLET_PAGE) {
       ImportWalletPageController importWalletPageController =
           Get.find<ImportWalletPageController>();
+      AuthService().setWalletBackup(true);
 
       if (importWalletPageController.importWalletDataType ==
           ImportWalletDataType.privateKey) {

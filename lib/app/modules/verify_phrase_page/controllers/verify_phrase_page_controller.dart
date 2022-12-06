@@ -1,4 +1,6 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/verify_phrase_page/widgets/verify_phrase_success_sheet.dart';
 
 class VerifyPhrasePageController extends GetxController {
   List<String> phrase1 = <String>[];
@@ -24,11 +26,14 @@ class VerifyPhrasePageController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    listSeeds = Get.arguments.toString().split(" ");
-    phrase1 = listSeeds.sublist(0, 4).toList();
-    phrase2 = listSeeds.sublist(4, 8).toList();
-    phrase3 = listSeeds.sublist(8).toList();
-    phraseList = [phrase1, phrase2, phrase3];
+    // listSeeds = Get.arguments.toString().split(" ");
+  }
+
+  @override
+  void onReady() {
+    // TODO: implement onReady
+  
+    super.onReady();
   }
 
   void selectSecretPhrase({required int index}) {
@@ -57,10 +62,12 @@ class VerifyPhrasePageController extends GetxController {
         ..back() // close current
         ..back() // close seeds
         ..back(); // close bottom sheet
+      Get.bottomSheet(VerifyPhraseSuccessSheet());
     } else {
       selectedPhrase.value = '';
       isPhraseSelected.value = false;
       showError.value = true;
+      HapticFeedback.vibrate();
     }
     return;
     if (secondPhrase.value == false) {

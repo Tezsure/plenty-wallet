@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
+import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
+import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
 
 import '../../../data/services/enums/enums.dart';
 import '../../../data/services/service_config/service_config.dart';
@@ -34,11 +36,12 @@ class SettingsPageController extends GetxController {
       AccountProfileImageType.assets; // Profile Image type
 
   RxString selectedImagePath = "".obs; // Selected image path
-  RxBool backup = true.obs; // Wallet Backup status
+
   RxBool isScrolling = false.obs; // Scroll status
   RxBool isRearranging = false.obs; // For Reordering accounts list
   RxBool copyToClipboard = false.obs; // Copy to clipboard status
   RxBool fingerprint = false.obs; // Is Biometric enabled
+  RxBool isWalletBackup = false.obs; // Is Biometric enabled
   RxString enteredPassCode = "".obs; // Entered passcode
   RxBool verifyPassCode = false.obs; // Verify passcode status
 
@@ -76,6 +79,7 @@ class SettingsPageController extends GetxController {
     changeNodeSelector();
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
     fingerprint.value = await AuthService().getBiometricAuth();
+    isWalletBackup.value = await AuthService().getIsWalletBackup();
     super.onInit();
   }
 
@@ -185,7 +189,28 @@ class SettingsPageController extends GetxController {
   }
 
   void switchFingerprint(bool value) => fingerprint.value = value;
-  void switchbackup() => backup.value = !backup.value;
+  void checkWalletBackup() async {
+    if (isWalletBackup.value) {
+      Get.bottomSheet(BackupPage(), isScrollControlled: true);
+    } else {
+      final seedPhrase = await UserStorageService()
+          .readAccountSecrets(
+              Get.find<HomePageController>().userAccounts[0].publicKeyHash!)
+          .then((value) {
+        return value?.seedPhrase ?? "";
+      });
+      Get.bottomSheet(
+              BackupWalletView(
+                seedPhrase: seedPhrase,
+              ),
+              barrierColor: Colors.transparent,
+              enterBottomSheetDuration: const Duration(milliseconds: 180),
+              exitBottomSheetDuration: const Duration(milliseconds: 150),
+              isScrollControlled: true)
+          .whenComplete(() async =>
+              isWalletBackup.value = await AuthService().getIsWalletBackup());
+    }
+  }
 
   /// Paste the copied address to the clipboard
   Future<void> paste(String? value) async {

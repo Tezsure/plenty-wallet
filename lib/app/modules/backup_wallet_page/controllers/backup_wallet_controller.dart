@@ -11,7 +11,7 @@ class BackupWalletController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    seedPhrase = (Get.arguments as String).split(" ");
+    // seedPhrase = (Get.arguments as String).split(" ");
     super.onInit();
   }
 
