@@ -1,16 +1,34 @@
 {
-    "mainnet" :  
-       {  "name" : ["Madfish Solutions", "Giganode.io", "Smartpy", "Tzbeta", "Tezos Mainnet" ],
-   "urls" : 
-        ["https://mainnet-node.madfish.solutions", "https://mainnet-tezos.giganode.io", "https://mainnet.smartpy.io", "https://rpc.tzbeta.net", "https://mainnet.api.tez.ie"] },
-
-    "testnet" : 
-        { "name" : [
-            "Ghostnet",
-            "Jakartanet"
-        ],
-         "urls" : ["https://rpc.tzkt.io/ghostnet" ,"https://rpc.tzkt.io/jakartanet"]}
-    
+    "mainnet": [
+        {
+            "name": "Madfish Solutions",
+            "url": "https://mainnet-node.madfish.solutions"
+        },
+        {
+            "name": "Giganode.io",
+            "url": "https://mainnet-tezos.giganode.io"
+        },
+        {
+            "name": "Smartpy",
+            "url": "https://mainnet.smartpy.io"
+        },
+        {
+            "name": "Tzbeta",
+            "url": "https://rpc.tzbeta.net"
+        },
+        {
+            "name": "Tezos Mainnet",
+            "url": "https://mainnet.api.tez.ie"
+        }
+    ],
+    "testnet": [
+        {
+            "name": "Ghostnet",
+            "url": "https://rpc.tzkt.io/ghostnet"
+        },
+        {
+            "name": "Jakartanet",
+            "url": "https://rpc.tzkt.io/jakartanet"
+        }
+    ]
 }
-
-

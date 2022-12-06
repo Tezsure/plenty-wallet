@@ -313,7 +313,7 @@ class TransactionBottomSheet extends StatelessWidget {
                                   status: TransactionStatus.pending,
                                   transactionAmount:
                                       operationModel.amount == 0.0
-                                          ? "1 ${operationModel.model.name}"
+                                          ? "1 ${operationModel.model.nodes}"
                                           : operationModel.amount!
                                                   .toStringAsFixed(6)
                                                   .removeTrailing0 +
@@ -328,7 +328,7 @@ class TransactionBottomSheet extends StatelessWidget {
                             tezAddress:
                                 operationModel.receiveAddress!.tz1Short(),
                             transactionAmount: operationModel.amount == 0.0
-                                ? "1 ${operationModel.model.name}"
+                                ? "1 ${operationModel.model.nodes}"
                                 : operationModel.amount!
                                         .toStringAsFixed(6)
                                         .removeTrailing0 +

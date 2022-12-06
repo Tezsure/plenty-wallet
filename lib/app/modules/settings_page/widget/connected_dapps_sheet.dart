@@ -65,7 +65,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
               Text(
                 // ignore: prefer_interpolation_to_compose_strings
                 "Network: " +
-                    (dappModel.networkType == NetworkType.mainNet
+                    (dappModel.networkType == NetworkType.mainnet
                         ? "Mainnet"
                         : "Testnet"),
                 style:

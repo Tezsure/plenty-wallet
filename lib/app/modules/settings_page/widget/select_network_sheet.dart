@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -15,44 +18,38 @@ class SelectNetworkBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      title: "Select Network",
       blurRadius: 5,
-      height: 217,
+      height: 360.arP,
+      bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
-        Center(
-          child: Text(
-            'Select Network',
-            style: labelMedium,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        0.03.vspace,
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-          ),
-          child: Obx(
-            () => Column(
-              children: [
-                optionMethod(
-                  value: NetworkType.mainNet,
-                  title: "Main Net",
-                ),
-                const Divider(
-                  color: Color(0xff4a454e),
-                  height: 1,
-                  thickness: 1,
-                ),
-                optionMethod(
-                  value: NetworkType.testNet,
-                  title: "Test Net",
-                ),
-              ],
-            ),
+        Obx(
+          () => Column(
+            children: [
+              SizedBox(
+                height: 30.aR,
+              ),
+              optionMethod(
+                value: NetworkType.mainnet,
+                title: "Main net",
+              ),
+              const Divider(
+                color: Colors.black,
+                height: 1,
+                thickness: 1,
+              ),
+              optionMethod(
+                value: NetworkType.testnet,
+                title: "Test net",
+              ),
+              SizedBox(
+                height: 30.aR,
+              ),
+              SolidButton(
+                onPressed: Get.back,
+                title: "Apply",
+              )
+            ],
           ),
         ),
       ],
@@ -65,7 +62,10 @@ class SelectNetworkBottomSheet extends StatelessWidget {
     required NetworkType value,
   }) {
     return InkWell(
-      onTap: onTap,
+      onTap: onTap ??
+          () {
+            controller.changeNetwork(value);
+          },
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
       child: SizedBox(
@@ -78,17 +78,13 @@ class SelectNetworkBottomSheet extends StatelessWidget {
               style: labelMedium,
             ),
             const Spacer(),
-            Radio(
-                activeColor: Colors.white,
-                fillColor: MaterialStateColor.resolveWith((state) =>
-                    state.contains(MaterialState.selected)
-                        ? ColorConst.Primary
-                        : Colors.white),
-                value: value,
-                groupValue: controller.networkType.value,
-                onChanged: (NetworkType? type) {
-                  controller.networkType.value = type!;
-                })
+            if (controller.networkType.value.index == value.index)
+              SvgPicture.asset(
+                "${PathConst.SVG}check2.svg",
+                color: ColorConst.Primary,
+                height: 16.6.sp,
+                fit: BoxFit.contain,
+              ),
           ],
         ),
       ),

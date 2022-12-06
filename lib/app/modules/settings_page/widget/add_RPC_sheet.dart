@@ -14,29 +14,25 @@ class AddRPCbottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      title: 'Add Custom RPC',
       blurRadius: 5,
       bottomSheetHorizontalPadding: 32,
-      height: 287,
+      height: .37.height,
       bottomSheetWidgets: [
-        Center(
-          child: Text(
-            'Add RPC',
-            style: titleMedium,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        0.03.vspace,
+        0.02.vspace,
         NaanTextfield(
+          height: 52,
           hint: "My custom network",
-          hintTextSyle:
-              labelMedium.apply(color: ColorConst.NeutralVariant.shade70),
+          hintTextSyle: labelLarge.copyWith(
+              color: ColorConst.lightGrey, fontWeight: FontWeight.w400),
           backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
         0.015.vspace,
         NaanTextfield(
+          height: 52,
           hint: "http://localhost:4444",
-          hintTextSyle:
-              labelMedium.apply(color: ColorConst.NeutralVariant.shade70),
+          hintTextSyle: labelLarge.copyWith(
+              color: ColorConst.lightGrey, fontWeight: FontWeight.w400),
           backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
         0.03.vspace,
@@ -55,7 +51,6 @@ class AddRPCbottomSheet extends StatelessWidget {
             ),
           ),
         ),
-       
       ],
     );
   }

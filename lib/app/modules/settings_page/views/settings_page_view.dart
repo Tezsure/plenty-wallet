@@ -118,7 +118,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                 Obx(
                                   () => Text(
                                     controller.networkType.value ==
-                                            NetworkType.mainNet
+                                            NetworkType.mainnet
                                         ? "Mainnet"
                                         : "Testnet",
                                     style: labelSmall.apply(

@@ -44,6 +44,10 @@ class ServiceConfig {
 
   static const String galleryStorage = "${storageName}_nft_gallery_storage";
 
+  //Network
+  static const String networkStorage = "${storageName}_network_type";
+  static const String nodeStorage = "${storageName}_node_network";
+
   // auth
   static const String passCodeStorage = "${storageName}_password";
   static const String biometricAuthStorage = "${storageName}_biometricAuth";

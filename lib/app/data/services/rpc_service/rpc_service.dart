@@ -4,8 +4,39 @@ import 'package:dartez/dartez.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/rpc_node_model.dart';
+import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 
 class RpcService {
+  static Future<NetworkType> getCurrentNetworkType() async {
+    final String? networkString = await ServiceConfig.localStorage
+        .read(key: ServiceConfig.networkStorage);
+    switch (networkString) {
+      case "mainnet":
+        return NetworkType.mainnet;
+      case "testnet":
+        return NetworkType.testnet;
+      default:
+        return NetworkType.mainnet;
+    }
+  }
+
+  static Future<void> setNetworkType(NetworkType networkType) async {
+    await ServiceConfig.localStorage
+        .write(key: ServiceConfig.networkStorage, value: networkType.name);
+  }
+
+  static Future<String> getCurrentNode() async {
+    return (await ServiceConfig.localStorage
+            .read(key: ServiceConfig.nodeStorage)) ??
+        ServiceConfig.currentSelectedNode;
+  }
+
+  static Future<void> setNode(String url) async {
+    await ServiceConfig.localStorage
+        .write(key: ServiceConfig.nodeStorage, value: url);
+  }
+
   Future<double> getUserBalanceInTezos(String address, [String? rpc]) async {
     try {
       var balance = await Dartez.getBalance(

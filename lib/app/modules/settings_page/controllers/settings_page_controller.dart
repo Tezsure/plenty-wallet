@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
+import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
+import 'package:web3auth_flutter/enums.dart';
 
 import '../../../data/services/enums/enums.dart';
 import '../../../data/services/service_config/service_config.dart';
@@ -23,11 +25,11 @@ class SettingsPageController extends GetxController {
   late Rx<NodeSelectorModel> nodeModel =
       NodeSelectorModel().obs; // Node selector model
   Rx<NodeModel> selectedNode = NodeModel().obs; // Node Model
-  Rx<NetworkType> networkType = NetworkType.mainNet.obs; // Network type
+  Rx<NetworkType> networkType = NetworkType.mainnet.obs; // Network type
   RxList<DappModel> dapps = List.generate(
       4,
       (index) => DappModel(
-          imgUrl: "", name: "dapp", networkType: NetworkType.mainNet)).obs;
+          imgUrl: "", name: "dapp", networkType: NetworkType.mainnet)).obs;
 
   Rx<ScrollController> scrollcontroller = ScrollController().obs;
   TextEditingController accountNameController =
@@ -71,16 +73,46 @@ class SettingsPageController extends GetxController {
         await rootBundle.loadString(ServiceConfig.nodeSelector);
     // await HttpService.performGetRequest(ServiceConfig.nodeSelector); // Uncomment to parse remote json url
     Map<String, dynamic> json = jsonDecode(nodeSelector);
+
     nodeModel.value = NodeSelectorModel.fromJson(json);
   }
 
   @override
   void onInit() async {
-    changeNodeSelector();
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
     fingerprint.value = await AuthService().getBiometricAuth();
     isWalletBackup.value = await AuthService().getIsWalletBackup();
+    networkType.value = await RpcService.getCurrentNetworkType();
+    await changeNodeSelector();
+    await RpcService.getCurrentNode().then((value) {
+      if (value == null) {
+        selectedNode.value =
+            nodeModel.value.mainnet?.nodes?.first ?? NodeModel();
+      } else {
+        final List<NodeModel> nodes =
+            networkType.value.index == Network.mainnet.index
+                ? (nodeModel.value.mainnet!.nodes!)
+                : (nodeModel.value.testnet!.nodes!);
+        if (nodes.any((element) => element.url == value)) {
+          selectedNode.value =
+              nodes.firstWhere((element) => element.url == value);
+        }
+      }
+    });
     super.onInit();
+  }
+
+  /// Change Network
+  Future<void> changeNetwork(NetworkType value) async {
+    await RpcService.setNetworkType(value);
+    networkType.value = value;
+  }
+
+  /// Change Node
+  Future<void> changeNode(NodeModel value) async {
+    selectedNode.value = value;
+    ServiceConfig.currentSelectedNode = value.url!;
+    await RpcService.setNode(value.url ?? "");
   }
 
   /// Change the biometric authentication
