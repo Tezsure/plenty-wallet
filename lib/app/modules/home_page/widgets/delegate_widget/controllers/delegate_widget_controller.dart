@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math';
 
 import 'package:dartez/dartez.dart';
@@ -10,7 +9,6 @@ import 'package:naan_wallet/app/data/services/data_handler_service/delegate/dele
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/delegate_cycle_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_reward_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
@@ -156,7 +154,7 @@ class DelegateWidgetController extends GetxController {
             .secretKey,
         publicKeyHash: accountModel!.value.publicKeyHash!,
       );
-      final signer = await Dartez.createSigner(Dartez.writeKeyWithHint(
+      final signer = Dartez.createSigner(Dartez.writeKeyWithHint(
           keyStore.secretKey,
           keyStore.publicKeyHash.startsWith("tz2") ? 'spsk' : 'edsk'));
       final result = await Dartez.sendDelegationOperation(
@@ -276,11 +274,11 @@ class DelegateWidgetController extends GetxController {
 
   void getTotalRewards() {
     totalRewards.value = 0;
-    delegateRewardList.forEach((element) {
+    for (var element in delegateRewardList) {
       totalRewards.value = totalRewards.value +
           ((element.balance / element.activeStake) *
               (element.blockRewards + element.endorsementRewards));
-    });
+    }
     totalRewards.value = (totalRewards / pow(10, 6)) *
         Get.find<HomePageController>().xtzPrice.value;
   }

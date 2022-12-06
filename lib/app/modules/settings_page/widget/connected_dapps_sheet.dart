@@ -73,7 +73,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
               )
             ],
           ),
-          Spacer(),
+          const Spacer(),
           IconButton(
             onPressed: () {
               Get.bottomSheet(disconnectDappBottomSheet(index),
@@ -81,7 +81,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
                   exitBottomSheetDuration: const Duration(milliseconds: 150),
                   barrierColor: Colors.transparent);
             },
-            icon: Icon(Icons.delete_outline_sharp),
+            icon: const Icon(Icons.delete_outline_sharp),
             color: ColorConst.Primary,
           )
         ],
@@ -99,7 +99,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
           style: labelMedium,
           textAlign: TextAlign.center,
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Text(

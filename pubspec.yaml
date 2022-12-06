@@ -22,7 +22,7 @@ dependencies:
   dartez:
     git:
       url: https://github.com/Tezsure/Dartez.git
-      ref: 0ad220b8216a1d4f881453336c1dd85a814a2f36
+      ref: main
   local_auth: ^2.1.2
   image_picker: ^0.8.5+3
   path_provider: ^2.0.11
@@ -39,6 +39,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  very_good_analysis: ^3.1.0
 
 flutter:
   assets:

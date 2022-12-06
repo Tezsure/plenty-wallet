@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 /// Displays the token selection page. This page is used to select the token/nft to send.
 ///
@@ -38,23 +38,34 @@ class TokenSelector extends StatelessWidget {
               controller!.isNFTPage.value
                   ? controller!.selectedNftModel!.name!
                   : controller!.selectedTokenModel!.symbol!,
-              style: bodySmall.copyWith(color: ColorConst.Primary.shade60),
+              style: TextStyle(
+                color: const Color(0xFF7B757F),
+                fontSize: 13.arP,
+                letterSpacing: 0.4.arP,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             subtitle: Text(
-                controller!.isNFTPage.value
-                    ? controller!.selectedNftModel!.fa!.name!
-                    : '${controller!.selectedTokenModel!.balance.toStringAsFixed(6)} available',
-                style: labelSmall.copyWith(
-                    color: ColorConst.NeutralVariant.shade60)),
+              controller!.isNFTPage.value
+                  ? controller!.selectedNftModel!.fa!.name!
+                  : '${controller!.selectedTokenModel!.balance.toStringAsFixed(6)} ${controller!.selectedTokenModel!.symbol!.toUpperCase()} available',
+              style: TextStyle(
+                color: const Color(0xFF958E99),
+                fontSize: 12.arP,
+                letterSpacing: 0.5.arP,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
             trailing: Container(
               height: 24,
               width: 24,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  color: ColorConst.Neutral.shade80.withOpacity(0.2)),
+                  color: const Color(0xFF332F37)),
+              // ignore: prefer_const_constructors
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: ColorConst.Primary.shade60,
+                color: const Color(0xFF625C66),
                 size: 12,
               ),
             ),

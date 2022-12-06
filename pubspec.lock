@@ -70,7 +70,7 @@ packages:
       name: cached_network_image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.2"
+    version: "3.2.3"
   cached_network_image_platform_interface:
     dependency: transitive
     description:
@@ -138,11 +138,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "0ad220b8216a1d4f881453336c1dd85a814a2f36"
-      resolved-ref: "0ad220b8216a1d4f881453336c1dd85a814a2f36"
+      ref: main
+      resolved-ref: "6da85ef92c7e76b3c804ec3ec5636e43b7dc0c1d"
       url: "https://github.com/Tezsure/Dartez.git"
     source: git
-    version: "1.0.0"
+    version: "1.1.0"
   device_frame:
     dependency: transitive
     description:
@@ -931,6 +931,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  very_good_analysis:
+    dependency: "direct dev"
+    description:
+      name: very_good_analysis
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
   video_player:
     dependency: "direct main"
     description:

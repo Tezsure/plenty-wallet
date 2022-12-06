@@ -312,7 +312,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         crossAxisSpacing: 12.arP,
                         itemCount: nfts.values.toList()[index].length,
                         itemBuilder: ((context, i) {
-                          var _nftTokenModel = nfts.values.toList()[index][i];
+                          var nftTokenModel = nfts.values.toList()[index][i];
                           return Container(
                             width: double.infinity,
                             // constraints: const BoxConstraints(minHeight: 1),
@@ -334,7 +334,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                       8.arP,
                                     ),
                                     child: Image.network(
-                                      "https://assets.objkt.media/file/assets-003/${_nftTokenModel.faContract}/${_nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
+                                      "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
                                       fit: BoxFit.fitWidth,
                                     ),
                                   ),
@@ -345,7 +345,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    _nftTokenModel.fa!.name!,
+                                    nftTokenModel.fa!.name!,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -363,11 +363,11 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    _nftTokenModel.creators!.isEmpty
+                                    nftTokenModel.creators!.isEmpty
                                         ? "N/A"
-                                        : _nftTokenModel
+                                        : nftTokenModel
                                                 .creators![0].holder!.alias ??
-                                            _nftTokenModel
+                                            nftTokenModel
                                                 .creators![0].holder!.address!
                                                 .tz1Short(),
                                     style: TextStyle(

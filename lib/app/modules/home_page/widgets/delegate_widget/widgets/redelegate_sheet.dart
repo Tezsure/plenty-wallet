@@ -9,7 +9,6 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-import 'redelegate_tile.dart';
 
 class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
   final DelegateBakerModel baker;

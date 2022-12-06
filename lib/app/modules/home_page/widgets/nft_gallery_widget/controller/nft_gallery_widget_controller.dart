@@ -87,11 +87,11 @@ class NftGalleryWidgetController extends GetxController {
     accounts = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
 
-    accounts!.forEach((element) {
+    for (var element in accounts!) {
       if (nftGallery.publicKeyHashs!.contains(element.publicKeyHash)) {
         selectedAccountIndex[element.publicKeyHash!] = true;
       }
-    });
+    }
     accountNameController.text = nftGallery.name!;
     selectedImagePath.value = nftGallery.profileImage!;
     accountName.value = accountNameController.text;

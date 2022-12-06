@@ -81,7 +81,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
             0.01.vspace,
             Row(
               children: [
-                Spacer(),
+                const Spacer(),
                 Expanded(
                   child: Center(
                     child: Text(

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -16,81 +17,83 @@ class TokenAndNftPageView extends GetView<SendPageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 0.8.height,
-      width: 1.width,
+      // height: 0.8.height,
       decoration: const BoxDecoration(color: Colors.black),
-      padding: EdgeInsets.symmetric(horizontal: 0.035.width),
       child: Column(
         children: [
-          Expanded(
-            child: Obx(
-              () => ListView(
-                children: <Widget>[
-                      Text(
-                        'Tokens',
-                        style: labelSmall.apply(
-                            color: ColorConst.NeutralVariant.shade60),
+          Obx(
+            () => ListView(
+              padding: EdgeInsets.zero,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              children: <Widget>[
+                    0.008.vspace,
+                    Text(
+                      'Tokens',
+                      style: labelSmall.apply(
+                          color: ColorConst.NeutralVariant.shade60),
+                    ),
+                    0.008.vspace
+                  ] +
+                  List.generate(
+                    controller.userTokens.length < 3
+                        ? controller.userTokens.length
+                        : (controller.isTokensExpanded.value
+                            ? controller.userTokens.length
+                            : 3),
+                    (index) => tokenWidget(controller.userTokens[index], () {
+                      controller
+                        ..onTokenClick(controller.userTokens[index])
+                        ..setSelectedPageIndex(
+                            index: 2, isKeyboardRequested: true);
+                    }),
+                  ) +
+                  [
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    if (controller.userTokens.length > 3)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: tokenExpandButton(),
                       ),
-                      0.008.vspace
-                    ] +
-                    List.generate(
-                      controller.userTokens.length < 3
-                          ? controller.userTokens.length
-                          : (controller.isTokensExpanded.value
-                              ? controller.userTokens.length
-                              : 3),
-                      (index) => tokenWidget(controller.userTokens[index], () {
-                        controller
-                          ..onTokenClick(controller.userTokens[index])
-                          ..setSelectedPageIndex(
-                              index: 2, isKeyboardRequested: true);
-                      }),
-                    ) +
-                    [
-                      const SizedBox(
-                        height: 16,
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    controller.userNfts.isNotEmpty
+                        ? Text(
+                            'Collectibles',
+                            style: labelSmall.apply(
+                                color: ColorConst.NeutralVariant.shade60),
+                          )
+                        : Container(),
+                    0.008.vspace
+                  ] +
+                  List.generate(
+                    controller.userNfts.length < 3
+                        ? controller.userNfts.length
+                        : (controller.isCollectibleExpanded.value
+                            ? controller.userNfts.length
+                            : 3),
+                    (index) => CollectibleWidget(
+                      widgetIndex: index,
+                      collectionNfts: controller
+                          .userNfts[controller.userNfts.keys.toList()[index]]!,
+                    ),
+                  ) +
+                  [
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    if (controller.userNfts.length > 3)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: collectibleExpandButton(),
                       ),
-                      if (controller.userTokens.length > 3)
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: tokenExpandButton(),
-                        ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Text(
-                        'Collectibles',
-                        style: labelSmall.apply(
-                            color: ColorConst.NeutralVariant.shade60),
-                      ),
-                      0.008.vspace
-                    ] +
-                    List.generate(
-                      controller.userNfts.length < 3
-                          ? controller.userNfts.length
-                          : (controller.isCollectibleExpanded.value
-                              ? controller.userNfts.length
-                              : 3),
-                      (index) => CollectibleWidget(
-                        widgetIndex: index,
-                        collectionNfts: controller.userNfts[
-                            controller.userNfts.keys.toList()[index]]!,
-                      ),
-                    ) +
-                    [
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      if (controller.userNfts.length > 3)
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: collectibleExpandButton(),
-                        ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                    ],
-              ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                  ],
             ),
           )
         ],
@@ -200,7 +203,8 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: NetworkImage(tokenModel.iconUrl!
+                                  image: CachedNetworkImageProvider(tokenModel
+                                          .iconUrl!
                                           .startsWith("ipfs")
                                       ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
                                       : tokenModel.iconUrl!)),

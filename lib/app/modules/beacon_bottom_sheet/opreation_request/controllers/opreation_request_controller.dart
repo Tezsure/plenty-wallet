@@ -203,7 +203,7 @@ class OpreationRequestController extends GetxController {
 
   formatParameters(String data) {
     var baseData = jsonDecode(data);
-    if (!(baseData is Map)) return data;
+    if (baseData is! Map) return data;
     if (!baseData.containsKey("args") && baseData.containsKey("bytes")) {
       if (baseData['bytes'].toString().startsWith("0x")) {
         baseData['bytes'] = baseData['bytes'].toString().substring(2);
@@ -211,8 +211,8 @@ class OpreationRequestController extends GetxController {
       }
     }
     if (!baseData.containsKey("args") ||
-        !(baseData['args'] is List) ||
-        !(baseData['args'][0] is Map)) {
+        baseData['args'] is! List ||
+        baseData['args'][0] is! Map) {
       return data;
     }
     for (var key in baseData['args'][0].keys) {

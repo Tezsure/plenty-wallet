@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/pages/contact_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/pages/token_collection_page_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -33,147 +34,134 @@ class SendPage extends GetView<SendPageController> {
         }
         return controller.selectedPageIndex.value == 0.0 ? true : false;
       },
-      child: Container(
-        height: 0.95.height,
-        width: 1.width,
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-            color: Colors.black),
-        child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              searchBar(),
-              Obx(() => IndexedStack(
-                    index: controller.selectedPageIndex.value,
-                    sizing: StackFit.loose,
-                    children: [
-                      const ContactsListView(),
-                      const TokenAndNftPageView(),
-                      SendReviewPage(
-                        controller: controller,
-                      ),
-                    ],
-                  )),
-            ],
-          ),
-        ),
+      child: NaanBottomSheet(
+        title: 'Send',
+        isScrollControlled: true,
+        height: 0.9.height - MediaQuery.of(context).viewInsets.bottom,
+        bottomSheetHorizontalPadding: 16.arP,
+        // margin: EdgeInsets.only(top: 27.arP),
+        // decoration: const BoxDecoration(
+        //     borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+        //     color: Colors.black),
+        bottomSheetWidgets: [
+          searchBar(),
+          Obx(() => IndexedStack(
+                index: controller.selectedPageIndex.value,
+                sizing: StackFit.loose,
+                children: [
+                  const ContactsListView(),
+                  const TokenAndNftPageView(),
+                  SendReviewPage(
+                    controller: controller,
+                  ),
+                ],
+              )),
+        ],
       ),
     );
   }
 
   Widget searchBar() => Column(
         children: [
-          0.005.vspace,
-          Container(
-            height: 5,
-            width: 36,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
-            ),
-          ),
-          AppBar(
-            title: Text(
-              'Send',
-              style: titleMedium,
-            ),
-            backgroundColor: Colors.transparent,
-            centerTitle: true,
-            toolbarHeight: 60,
-            automaticallyImplyLeading: false,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.035.width),
-            child: Row(
-              children: [
-                Text(
-                  'To',
-                  style: bodyMedium.apply(
-                    color: ColorConst.NeutralVariant.shade60,
-                  ),
+          Row(
+            children: [
+              Text(
+                'To',
+                style: bodyMedium.apply(
+                  color: ColorConst.NeutralVariant.shade60,
                 ),
-                0.02.hspace,
-                Obx(() => Flexible(
-                      child: TextField(
-                        autofocus: true,
-                        controller: controller.searchTextController.value,
-                        onChanged: (value) {
-                          if (controller.searchDebounceTimer != null) {
-                            controller.searchDebounceTimer!.cancel();
-                          }
-                          controller.searchDebounceTimer =
-                              Timer(const Duration(milliseconds: 300), () {
-                            TezosDomainService()
-                                .searchUsingText(value)
-                                .then((data) {
-                              /// add if not exits
-                              data = data
-                                  .map<ContactModel>((e) => controller.contacts
-                                          .contains(e)
-                                      ? controller.contacts[
-                                          controller.contacts.indexOf(e)]
-                                      : controller.suggestedContacts.contains(e)
-                                          ? controller.suggestedContacts[
-                                              controller.suggestedContacts
-                                                  .indexOf(e)]
-                                          : e)
-                                  .toList();
-                              if (value.isValidWalletAddress && data.isEmpty) {
-                                data.add(ContactModel(
-                                    name: "Account",
-                                    address: value,
-                                    imagePath:
-                                        ServiceConfig.allAssetsProfileImages[
-                                            Random().nextInt(
-                                      ServiceConfig
-                                              .allAssetsProfileImages.length -
-                                          1,
-                                    )]));
-                              }
-                              controller.suggestedContacts.value = data;
-                            });
+              ),
+              0.02.hspace,
+              Obx(() => Flexible(
+                    child: TextField(
+                      autofocus: true,
+                      controller: controller.searchTextController.value,
+                      onChanged: (value) {
+                        if (controller.searchDebounceTimer != null) {
+                          controller.searchDebounceTimer!.cancel();
+                        }
+                        controller.searchDebounceTimer =
+                            Timer(const Duration(milliseconds: 300), () {
+                          TezosDomainService()
+                              .searchUsingText(value)
+                              .then((data) {
+                            /// add if not exits
+                            data = data
+                                .map<ContactModel>((e) => controller.contacts
+                                        .contains(e)
+                                    ? controller.contacts[
+                                        controller.contacts.indexOf(e)]
+                                    : controller.suggestedContacts.contains(e)
+                                        ? controller.suggestedContacts[
+                                            controller.suggestedContacts
+                                                .indexOf(e)]
+                                        : e)
+                                .toList();
+                            if (value.isValidWalletAddress && data.isEmpty) {
+                              data.add(ContactModel(
+                                  name: "Account",
+                                  address: value,
+                                  imagePath: ServiceConfig
+                                      .allAssetsProfileImages[Random().nextInt(
+                                    ServiceConfig
+                                            .allAssetsProfileImages.length -
+                                        1,
+                                  )]));
+                            }
+                            controller.suggestedContacts.value = data;
                           });
-                          controller.searchText.value = value;
-                        },
-                        focusNode: controller.searchBarFocusNode,
-                        cursorColor: ColorConst.Primary,
-                        style: bodyMedium.apply(color: ColorConst.Primary),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Tez domain or address',
-                            hintStyle: bodyMedium.apply(
-                                color: ColorConst.NeutralVariant.shade40)),
+                        });
+                        controller.searchText.value = value;
+                      },
+                      focusNode: controller.searchBarFocusNode,
+                      cursorColor: ColorConst.Primary,
+                      style: TextStyle(
+                        color: controller.selectedPageIndex.value == 0
+                            ? Colors.white
+                            : ColorConst.Primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.arP,
+                        letterSpacing: 0.25.arP,
                       ),
-                    )),
-                0.02.hspace,
-                Obx(
-                  () => controller.selectedPageIndex.value == 0
-                      ? (controller.suggestedContacts.isEmpty
-                          ? PasteButton(
-                              onTap: controller.paste,
-                            )
-                          : controller.contacts
-                                  .where((p0) =>
-                                      p0.address ==
-                                          controller.searchTextController.value
-                                              .text ||
-                                      (controller.suggestedContacts.isNotEmpty
-                                          ? controller.suggestedContacts[0]
-                                                  .address ==
-                                              p0.address
-                                          : false))
-                                  .isEmpty
-                              ? AddContactButton(
-                                  contactModel:
-                                      controller.suggestedContacts.first,
-                                )
-                              : const SizedBox())
-                      : const SizedBox(),
-                )
-              ],
-            ),
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Tez domain or address',
+                          hintStyle: TextStyle(
+                            color: const Color(0xFF625C66),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.arP,
+                            letterSpacing: 0.25.arP,
+                          )),
+                    ),
+                  )),
+              0.02.hspace,
+              Obx(
+                () => controller.suggestedContacts.isEmpty &&
+                        controller.selectedReceiver.value == null
+                    ? PasteButton(
+                        onTap: controller.paste,
+                      )
+                    : controller.contacts
+                                .where((p0) =>
+                                    p0.address ==
+                                        controller
+                                            .searchTextController.value.text ||
+                                    (controller.suggestedContacts.isNotEmpty
+                                        ? controller
+                                                .suggestedContacts[0].address ==
+                                            p0.address
+                                        : false))
+                                .isEmpty &&
+                            controller.contacts
+                                .where((e) =>
+                                    e == controller.selectedReceiver.value)
+                                .isEmpty
+                        ? AddContactButton(
+                            contactModel: controller.suggestedContacts.first,
+                          )
+                        : const SizedBox(),
+              )
+            ],
           ),
         ],
       );
