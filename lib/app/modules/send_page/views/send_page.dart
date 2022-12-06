@@ -29,14 +29,15 @@ class SendPage extends GetView<SendPageController> {
     Get.put(SendPageController());
     return WillPopScope(
       onWillPop: () async {
-        if (controller.selectedPageIndex.value != 0) {
-          controller.selectedPageIndex.value.toInt() - 1;
+        if (controller.selectedPageIndex.value == 0) {
+          return Future.value(true);
         }
-        return controller.selectedPageIndex.value == 0.0 ? true : false;
+        controller.selectedPageIndex.value -= 1;
+        return Future.value(false);
       },
       child: NaanBottomSheet(
         title: 'Send',
-        isScrollControlled: true,
+        // isScrollControlled: true,
         height: 0.9.height - MediaQuery.of(context).viewInsets.bottom,
         bottomSheetHorizontalPadding: 16.arP,
         // margin: EdgeInsets.only(top: 27.arP),
@@ -45,17 +46,20 @@ class SendPage extends GetView<SendPageController> {
         //     color: Colors.black),
         bottomSheetWidgets: [
           searchBar(),
-          Obx(() => IndexedStack(
-                index: controller.selectedPageIndex.value,
-                sizing: StackFit.loose,
-                children: [
-                  const ContactsListView(),
-                  const TokenAndNftPageView(),
-                  SendReviewPage(
-                    controller: controller,
-                  ),
-                ],
-              )),
+          SizedBox(
+            height: 0.765.height - MediaQuery.of(context).viewInsets.bottom,
+            child: Obx(() => IndexedStack(
+                  index: controller.selectedPageIndex.value,
+                  sizing: StackFit.loose,
+                  children: [
+                    const ContactsListView(),
+                    const TokenAndNftPageView(),
+                    SendReviewPage(
+                      controller: controller,
+                    ),
+                  ],
+                )),
+          ),
         ],
       ),
     );
