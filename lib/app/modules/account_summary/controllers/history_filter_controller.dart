@@ -41,8 +41,8 @@ class HistoryFilterController extends GetxController {
 
   Future<void> clear() async {
     accountController.filteredTransactionList.clear();
-    assetType.value = AssetType.values;
-    transactionType.value = TransactionType.values;
+    assetType.value = [...AssetType.values];
+    transactionType.value = [...TransactionType.values];
     dateType.value = DateType.none;
     accountController.noMoreResults.value = false;
     accountController.isFilterApplied.value = false;
