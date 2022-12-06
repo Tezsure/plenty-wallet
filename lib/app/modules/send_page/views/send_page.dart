@@ -29,10 +29,11 @@ class SendPage extends GetView<SendPageController> {
     Get.put(SendPageController());
     return WillPopScope(
       onWillPop: () async {
-        if (controller.selectedPageIndex.value != 0) {
-          controller.selectedPageIndex.value.toInt() - 1;
+        if (controller.selectedPageIndex.value == 0) {
+          return Future.value(true);
         }
-        return controller.selectedPageIndex.value == 0.0 ? true : false;
+        controller.selectedPageIndex.value -= 1;
+        return Future.value(false);
       },
       child: NaanBottomSheet(
         title: 'Send',
