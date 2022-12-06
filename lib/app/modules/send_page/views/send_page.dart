@@ -37,7 +37,7 @@ class SendPage extends GetView<SendPageController> {
       },
       child: NaanBottomSheet(
         title: 'Send',
-        isScrollControlled: true,
+        // isScrollControlled: true,
         height: 0.9.height - MediaQuery.of(context).viewInsets.bottom,
         bottomSheetHorizontalPadding: 16.arP,
         // margin: EdgeInsets.only(top: 27.arP),
@@ -46,17 +46,20 @@ class SendPage extends GetView<SendPageController> {
         //     color: Colors.black),
         bottomSheetWidgets: [
           searchBar(),
-          Obx(() => IndexedStack(
-                index: controller.selectedPageIndex.value,
-                sizing: StackFit.loose,
-                children: [
-                  const ContactsListView(),
-                  const TokenAndNftPageView(),
-                  SendReviewPage(
-                    controller: controller,
-                  ),
-                ],
-              )),
+          SizedBox(
+            height: 0.765.height - MediaQuery.of(context).viewInsets.bottom,
+            child: Obx(() => IndexedStack(
+                  index: controller.selectedPageIndex.value,
+                  sizing: StackFit.loose,
+                  children: [
+                    const ContactsListView(),
+                    const TokenAndNftPageView(),
+                    SendReviewPage(
+                      controller: controller,
+                    ),
+                  ],
+                )),
+          ),
         ],
       ),
     );
