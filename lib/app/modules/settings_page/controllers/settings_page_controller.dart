@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
@@ -43,9 +44,13 @@ class SettingsPageController extends GetxController {
   RxBool isRearranging = false.obs; // For Reordering accounts list
   RxBool copyToClipboard = false.obs; // Copy to clipboard status
   RxBool fingerprint = false.obs; // Is Biometric enabled
-  RxBool isWalletBackup = false.obs; // Is Biometric enabled
+  RxBool isWalletBackup = false.obs; // Is wallet backed-up
   RxString enteredPassCode = "".obs; // Entered passcode
   RxBool verifyPassCode = false.obs; // Verify passcode status
+  RxBool inAppReviewAvailable =
+      true.obs; // Check if in app purchase is available
+
+  final InAppReview inAppReview = InAppReview.instance;
 
   /// To change the app passcode and verify the passcode if fails, redirects to verify passcode screen otherwise changes the passcode
   void changeAppPasscode(String passCode) async {
@@ -99,6 +104,8 @@ class SettingsPageController extends GetxController {
         }
       }
     });
+    inAppReviewAvailable.value = await inAppReview.isAvailable();
+
     super.onInit();
   }
 

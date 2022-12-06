@@ -196,6 +196,14 @@ class SettingsPageView extends GetView<SettingsPageController> {
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
                           ),
+                          if(controller.inAppReviewAvailable.value)
+                          _settingOption(
+                            onTap: () {
+                              controller.inAppReview.requestReview();
+                            },
+                            title: "Rate Naan",
+                            svgPath: "${PathConst.SETTINGS_PAGE.SVG}star.svg",
+                          ),
                           _settingOption(
                             onTap: (() => CommonFunctions.launchURL(
                                 "https://twitter.com/Naanwallet")),
