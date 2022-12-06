@@ -17,7 +17,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 0.8.height,
+      height: 0.8.height.arP,
       // decoration: const BoxDecoration(color: Colors.black),
       child: Column(
         children: [
