@@ -102,7 +102,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ACCOUNTS_WIDGET,
-      page: () => AccountsWidget(),
+      page: () => const AccountsWidget(),
       binding: AccountsWidgetBinding(),
     ),
     GetPage(
@@ -132,7 +132,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ACCOUNT_SUMMARY,
-      page: () => AccountSummaryView(),
+      page: () => const AccountSummaryView(),
       binding: AccountSummaryBinding(),
     ),
     GetPage(

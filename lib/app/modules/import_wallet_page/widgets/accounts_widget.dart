@@ -6,7 +6,6 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:naan_wallet/app/data/services/extension_service/extension_service.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../../../utils/styles/styles.dart';
 
 class AccountWidget extends StatelessWidget {

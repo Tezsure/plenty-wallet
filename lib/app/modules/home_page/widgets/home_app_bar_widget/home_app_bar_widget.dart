@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
-import 'package:naan_wallet/app/modules/dapps_page/views/dapps_page_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
 class HomepageAppBar extends StatelessWidget {

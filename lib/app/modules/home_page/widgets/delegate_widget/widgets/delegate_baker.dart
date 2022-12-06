@@ -10,7 +10,6 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import '../../../../../../utils/colors/colors.dart';
 import '../../../../../../utils/styles/styles.dart';
 import '../../../../common_widgets/bottom_sheet.dart';
-import '../../../../common_widgets/solid_button.dart';
 import '../controllers/delegate_widget_controller.dart';
 import 'baker_filter.dart';
 

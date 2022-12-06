@@ -81,7 +81,7 @@ class OperationService {
         codeFormat: TezosParameterFormat.Micheline,
       );
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 

@@ -67,7 +67,7 @@ class BakerFilterBottomSheet extends GetView<DelegateWidgetController> {
                                     status[index].name,
                                     style: labelMedium,
                                   ),
-                                  Expanded(
+                                  const Expanded(
                                       child: Align(
                                           alignment: Alignment.centerRight,
                                           child: Icon(

@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'dart:io';
 
-import 'package:dartez/dartez.dart';
 import 'package:dartez/helper/generateKeys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

@@ -325,10 +325,10 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
   }
 
   Widget avatarPicker() {
-    var create_profile_page_controller = Get.put(CreateProfilePageController());
-    create_profile_page_controller.currentSelectedType =
+    var createProfilePageController = Get.put(CreateProfilePageController());
+    createProfilePageController.currentSelectedType =
         AccountProfileImageType.assets;
-    create_profile_page_controller.selectedImagePath.value =
+    createProfilePageController.selectedImagePath.value =
         widget.contactModel.imagePath;
     return Container(
       color: Colors.black,
@@ -363,7 +363,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage(
-                      create_profile_page_controller.selectedImagePath.value),
+                      createProfilePageController.selectedImagePath.value),
                 ),
               ),
             ),

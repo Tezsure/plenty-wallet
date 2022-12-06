@@ -5,13 +5,11 @@ import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import 'delegate_baker.dart';
-import 'delegate_info_sheet.dart';
 
 class DelegateBakerTile extends StatelessWidget {
   final DelegateBakerModel baker;

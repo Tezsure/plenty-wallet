@@ -5,7 +5,6 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../controllers/home_page_controller.dart';
-import '../widgets/account_value_widget/account_value_widget.dart';
 import '../widgets/home_app_bar_widget/home_app_bar_widget.dart';
 import '../widgets/register_widgets.dart';
 

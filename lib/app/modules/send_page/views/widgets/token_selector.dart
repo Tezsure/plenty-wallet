@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 /// Displays the token selection page. This page is used to select the token/nft to send.

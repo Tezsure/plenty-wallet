@@ -341,7 +341,7 @@ class AccountBottomSheet extends StatelessWidget {
                     indicatorSize: TabBarIndicatorSize.label,
                     indicatorWeight: 4,
                     indicatorPadding: EdgeInsets.zero,
-                    indicator: MaterialIndicator(
+                    indicator: const MaterialIndicator(
                       color: ColorConst.Primary,
                       height: 4,
                       topLeftRadius: 4,
