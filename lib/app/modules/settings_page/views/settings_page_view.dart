@@ -172,14 +172,14 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         settings: [
                           _settingOption(
                             onTap: () => CommonFunctions.launchURL(
-                                "https://www.naanwallet.com/privacy-policy.html"),
+                                "https://www.naan.app/privacy-policy"),
                             title: "Privacy Policy",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}privacy.svg",
                           ),
                           _settingOption(
                             onTap: () => CommonFunctions.launchURL(
-                                "https://www.naanwallet.com/terms.html"),
+                                "https://www.naan.app/terms"),
                             title: "Terms & Condition",
                             svgPath: "${PathConst.SETTINGS_PAGE.SVG}terms.svg",
                           ),
@@ -196,14 +196,14 @@ class SettingsPageView extends GetView<SettingsPageController> {
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
                           ),
-                          if(controller.inAppReviewAvailable.value)
-                          _settingOption(
-                            onTap: () {
-                              controller.inAppReview.requestReview();
-                            },
-                            title: "Rate Naan",
-                            svgPath: "${PathConst.SETTINGS_PAGE.SVG}star.svg",
-                          ),
+                          if (controller.inAppReviewAvailable.value)
+                            _settingOption(
+                              onTap: () {
+                                controller.inAppReview.requestReview();
+                              },
+                              title: "Rate Naan",
+                              svgPath: "${PathConst.SETTINGS_PAGE.SVG}star.svg",
+                            ),
                           _settingOption(
                             onTap: (() => CommonFunctions.launchURL(
                                 "https://twitter.com/Naanwallet")),
@@ -220,7 +220,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                           ),
                           _settingOption(
                             onTap: () => CommonFunctions.launchURL(
-                                "mailto:naan-support@tezsure.com"),
+                                "https://tally.so/r/w4a75r"),
                             title: "Feedback & Support",
                             svgPath:
                                 "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",

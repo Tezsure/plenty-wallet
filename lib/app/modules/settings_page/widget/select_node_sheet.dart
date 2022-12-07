@@ -28,13 +28,14 @@ class SelectNodeBottomSheet extends StatelessWidget {
       bottomSheetWidgets: [
         0.02.vspace,
         ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           shrinkWrap: true,
           itemCount: controller.networkType.value == NetworkType.mainnet
               ? controller.nodeModel.value.mainnet!.nodes?.length ?? 0
               : controller.nodeModel.value.testnet?.nodes?.length ?? 0,
           itemBuilder: (context, index) => optionMethod(
-            isSelected: true,
+            // isSelected: true,
             model: controller.networkType.value == NetworkType.mainnet
                 ? controller.nodeModel.value.mainnet!.nodes![index]
                 : controller.nodeModel.value.testnet!.nodes![index],
@@ -45,6 +46,7 @@ class SelectNodeBottomSheet extends StatelessWidget {
             thickness: 1,
           ),
         ),
+        _buildCustomNodes(),
         0.02.vspace,
         SolidButton(
           borderColor: ColorConst.Primary,
@@ -71,9 +73,73 @@ class SelectNodeBottomSheet extends StatelessWidget {
     );
   }
 
+  Widget _buildCustomNodes() {
+    if (controller.customNodes.isEmpty) return Container();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(
+          color: ColorConst.darkGrey,
+          height: 1,
+          thickness: 1,
+        ),
+        SizedBox(
+          height: 8.arP,
+        ),
+        Text(
+          "Custom Nodes :",
+          style: labelMedium.copyWith(color: ColorConst.Primary),
+        ),
+        ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          itemCount: controller.customNodes.length,
+          itemBuilder: (context, index) => Dismissible(
+            background: Container(
+              height: 58,
+              width: double.infinity,
+              color: ColorConst.Error,
+              padding: EdgeInsets.symmetric(horizontal: 16.arP),
+              child: Row(
+                children: [
+                  Text(
+                    "DELETE",
+                    style: labelMedium,
+                  ),
+                  Spacer(),
+                  Text(
+                    "DELETE",
+                    style: labelMedium,
+                  ),
+                ],
+              ),
+            ),
+            confirmDismiss: (_) async {
+              return await Get.bottomSheet(
+                      deleteNodeBottomSheet(controller.customNodes[index]))
+                  .then((value) => value != null);
+            },
+            onDismissed: (_) {
+              controller.deleteCustomNode(controller.customNodes[index]);
+            },
+            key: Key(controller.customNodes[index].url ?? ""),
+            child: optionMethod(
+              model: controller.customNodes[index],
+            ),
+          ),
+          separatorBuilder: (context, index) => const Divider(
+            color: Colors.black,
+            height: 1,
+            thickness: 1,
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget optionMethod({
     required NodeModel model,
-    required bool isSelected,
   }) {
     return InkWell(
       onTap: () {
@@ -119,6 +185,70 @@ class SelectNodeBottomSheet extends StatelessWidget {
               }),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget deleteNodeBottomSheet(NodeModel node) {
+    return NaanBottomSheet(
+      title: "Delete node",
+      blurRadius: 5,
+      height: 275,
+      bottomSheetWidgets: [
+        Center(
+          child: Text(
+            "You can add the node again later",
+            style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+          ),
+        ),
+        0.03.vspace,
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+          ),
+          child: Column(
+            children: [
+              optionDelete(
+                  child: Text(
+                    "Delete",
+                    style: labelMedium.apply(color: ColorConst.Error.shade60),
+                  ),
+                  onTap: () {
+                    controller.deleteCustomNode(node);
+                  }),
+              SizedBox(
+                height: 16.arP,
+              ),
+              optionDelete(
+                  child: Text(
+                    "Cancel",
+                    style: labelMedium,
+                  ),
+                  onTap: () {
+                    Get.back();
+                  }),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget optionDelete({Widget? child, GestureTapCallback? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      splashFactory: NoSplash.splashFactory,
+      highlightColor: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+        ),
+        width: double.infinity,
+        height: 54,
+        child: Center(
+          child: child,
         ),
       ),
     );

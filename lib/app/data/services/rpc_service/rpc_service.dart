@@ -37,6 +37,26 @@ class RpcService {
         .write(key: ServiceConfig.nodeStorage, value: url);
   }
 
+  static Future<List<NodeModel>> getCustomNode() async {
+    final json = (await ServiceConfig.localStorage
+        .read(key: ServiceConfig.customRpcStorage));
+    if (json == null) return [];
+    final customNodes = List<NodeModel>.from(jsonDecode(json)
+        .entries
+        .map((k) => NodeModel(name: k.key, url: k.value))
+        .toList());
+    return customNodes;
+  }
+
+  static Future<void> setCustomNode(List<NodeModel> node) async {
+    Map<String, String> map = {};
+    node.forEach((e) {
+      map.addAll(e.toJson());
+    });
+    await ServiceConfig.localStorage
+        .write(key: ServiceConfig.customRpcStorage, value: jsonEncode(map));
+  }
+
   Future<double> getUserBalanceInTezos(String address, [String? rpc]) async {
     try {
       var balance = await Dartez.getBalance(

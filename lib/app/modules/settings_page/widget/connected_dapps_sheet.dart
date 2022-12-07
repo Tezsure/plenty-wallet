@@ -22,23 +22,17 @@ class ConnectedDappBottomSheet extends StatelessWidget {
     return NaanBottomSheet(
       blurRadius: 5,
       height: 0.87.height,
+      isScrollControlled: true,
+      title: "Connected apps",
       bottomSheetHorizontalPadding: 13,
       bottomSheetWidgets: [
-        Center(
-          child: Text(
-            'Connected Applications',
-            style: titleMedium,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        0.03.vspace,
         Obx(
           () {
             if (controller.dapps.isEmpty) {
               return Center(
                 child: Text(
                   "No Dapp connected",
-                  style: labelLarge.copyWith(
+                  style: bodySmall.copyWith(
                     color: ColorConst.textGrey1,
                   ),
                 ),

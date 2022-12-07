@@ -16,7 +16,7 @@ class ServiceConfig {
       "https://api.coingecko.com/api/v3/simple/price?ids=tezos&vs_currencies=usd";
 
   /// Rpc Node Selector
-  static String nodeSelector = "rpc_node/rpc_node.json";
+  static String nodeSelector = "https://cdn.naan.app/rpc-list";
 
   static String tzktApiForToken(String pkh) =>
       "https://api.tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true";
@@ -47,6 +47,7 @@ class ServiceConfig {
   //Network
   static const String networkStorage = "${storageName}_network_type";
   static const String nodeStorage = "${storageName}_node_network";
+  static const String customRpcStorage = "${storageName}_custom_network";
 
   // auth
   static const String passCodeStorage = "${storageName}_password";

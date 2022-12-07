@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
+import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
@@ -89,12 +90,40 @@ class SettingsPageController extends GetxController {
 
   /// Changes the node selector and parse that node to the node selector model
   Future<void> changeNodeSelector() async {
-    String nodeSelector =
-        await rootBundle.loadString(ServiceConfig.nodeSelector);
+    final nodeSelector =
+        await HttpService.performGetRequest(ServiceConfig.nodeSelector);
     // await HttpService.performGetRequest(ServiceConfig.nodeSelector); // Uncomment to parse remote json url
     Map<String, dynamic> json = jsonDecode(nodeSelector);
 
     nodeModel.value = NodeSelectorModel.fromJson(json);
+    await getCustomNodes();
+  }
+
+  RxList<NodeModel> customNodes = <NodeModel>[].obs;
+  Future<void> getCustomNodes() async {
+    customNodes.value = await RpcService.getCustomNode();
+  }
+
+  Future<void> addCustomNode(NodeModel newNode) async {
+    await RpcService.setCustomNode([...customNodes, newNode]);
+    getCustomNodes();
+    Get
+      ..back()
+      ..back();
+  }
+
+  Future<void> deleteCustomNode(NodeModel node) async {
+    customNodes.remove(node);
+    if (node.url == selectedNode.value.url) {
+      selectedNode.value = networkType.value.index == NetworkType.mainnet.index
+          ? nodeModel.value.mainnet!.nodes!.first
+          : nodeModel.value.testnet!.nodes!.first;
+    }
+    await RpcService.setCustomNode([...customNodes]);
+    getCustomNodes();
+    Get
+      ..back(result: true)
+      ..back();
   }
 
   @override
