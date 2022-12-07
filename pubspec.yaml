@@ -34,7 +34,14 @@ dependencies:
   flutter_inappwebview: ^5.7.1
   beacon_flutter: ^1.0.8
   in_app_review: ^2.0.6
+  firebase_core: ^2.3.0
+  firebase_crashlytics: ^3.0.6
+  firebase_analytics: ^10.0.6
 
+  # Firebase
+  
+dependency_overrides:
+  firebase_crashlytics_platform_interface: 
 dev_dependencies:
   flutter_test:
     sdk: flutter
