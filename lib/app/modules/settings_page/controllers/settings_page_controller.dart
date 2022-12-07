@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:beacon_flutter/models/connected_peers.dart';
+import 'package:beacon_flutter/models/p2p_peer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
+import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
@@ -23,14 +26,13 @@ import '../../home_page/controllers/home_page_controller.dart';
 class SettingsPageController extends GetxController {
   final homePageController = Get.find<
       HomePageController>(); // Home Page controller for accessing user accounts list
+  final beaconPlugin = Get.find<BeaconService>()
+      .beaconPlugin; // Getting beacon plugin to get connected apps
   late Rx<NodeSelectorModel> nodeModel =
       NodeSelectorModel().obs; // Node selector model
   Rx<NodeModel> selectedNode = NodeModel().obs; // Node Model
   Rx<NetworkType> networkType = NetworkType.mainnet.obs; // Network type
-  RxList<DappModel> dapps = List.generate(
-      4,
-      (index) => DappModel(
-          imgUrl: "", name: "dapp", networkType: NetworkType.mainnet)).obs;
+  RxList<P2PPeer> dapps = <P2PPeer>[].obs;
 
   Rx<ScrollController> scrollcontroller = ScrollController().obs;
   TextEditingController accountNameController =
@@ -72,6 +74,19 @@ class SettingsPageController extends GetxController {
     }
   }
 
+  Future<void> getAllConnectedApps() async {
+    final peers = await beaconPlugin.getPeers();
+    final Map<String, dynamic> requestJson =
+        jsonDecode(jsonEncode(peers)) as Map<String, dynamic>;
+    dapps.value = ConnectedPeers.fromJson(requestJson).peer ?? <P2PPeer>[];
+  }
+
+  Future<void> disconnectDApp(int index) async {
+    beaconPlugin.removePeerUsingPublicKey(
+        publicKey: dapps.value[index].publicKey);
+    dapps.removeAt(index);
+  }
+
   /// Changes the node selector and parse that node to the node selector model
   Future<void> changeNodeSelector() async {
     String nodeSelector =
@@ -105,7 +120,7 @@ class SettingsPageController extends GetxController {
       }
     });
     inAppReviewAvailable.value = await inAppReview.isAvailable();
-
+    getAllConnectedApps();
     super.onInit();
   }
 

@@ -1,10 +1,14 @@
+import 'package:beacon_flutter/models/p2p_peer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -29,19 +33,31 @@ class ConnectedDappBottomSheet extends StatelessWidget {
         ),
         0.03.vspace,
         Obx(
-          () => Column(
-            children: List.generate(
-                controller.dapps.length,
-                (index) => dappWidgetMethod(
-                    dappModel: controller.dapps[index], index: index)),
-          ),
+          () {
+            if (controller.dapps.isEmpty) {
+              return Center(
+                child: Text(
+                  "No Dapp connected",
+                  style: labelLarge.copyWith(
+                    color: ColorConst.textGrey1,
+                  ),
+                ),
+              );
+            }
+            return Column(
+              children: List.generate(
+                  controller.dapps.length,
+                  (index) => dappWidgetMethod(
+                      dappModel: controller.dapps[index], index: index)),
+            );
+          },
         ),
       ],
     );
   }
 
   Widget dappWidgetMethod({
-    required DappModel dappModel,
+    required P2PPeer dappModel,
     required int index,
   }) {
     return SizedBox(
@@ -50,28 +66,14 @@ class ConnectedDappBottomSheet extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
+            backgroundImage: CachedNetworkImageProvider(dappModel.icon ?? ""),
             radius: 22,
             backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           ),
           0.045.hspace,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                dappModel.name!,
-                style: labelLarge,
-              ),
-              Text(
-                // ignore: prefer_interpolation_to_compose_strings
-                "Network: " +
-                    (dappModel.networkType == NetworkType.mainnet
-                        ? "Mainnet"
-                        : "Testnet"),
-                style:
-                    labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
-              )
-            ],
+          Text(
+            dappModel.name,
+            style: labelLarge,
           ),
           const Spacer(),
           IconButton(
@@ -81,7 +83,11 @@ class ConnectedDappBottomSheet extends StatelessWidget {
                   exitBottomSheetDuration: const Duration(milliseconds: 150),
                   barrierColor: Colors.transparent);
             },
-            icon: const Icon(Icons.delete_outline_sharp),
+            icon: SvgPicture.asset(
+              "${PathConst.SVG}trash.svg",
+              // color: ColorConst.Neutral.shade100,
+              width: 20.sp,
+            ),
             color: ColorConst.Primary,
           )
         ],
@@ -91,30 +97,20 @@ class ConnectedDappBottomSheet extends StatelessWidget {
 
   Widget disconnectDappBottomSheet(int index) {
     return NaanBottomSheet(
+      title: "Disconnect app",
       blurRadius: 5,
-      height: 247,
+      height: 275,
       bottomSheetWidgets: [
-        Text(
-          'Disconnect DApp',
-          style: labelMedium,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Text(
-          "You can reconnect to this DApp later",
-          style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+        Center(
+          child: Text(
+            "You can reconnect to this app later",
+            style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+          ),
         ),
         0.03.vspace,
         Container(
-          width: double.infinity,
           padding: const EdgeInsets.symmetric(
             horizontal: 12,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           ),
           child: Column(
             children: [
@@ -124,13 +120,11 @@ class ConnectedDappBottomSheet extends StatelessWidget {
                     style: labelMedium.apply(color: ColorConst.Error.shade60),
                   ),
                   onTap: () {
-                    controller.dapps.removeAt(index);
+                    controller.disconnectDApp(index);
                     Get.back();
                   }),
-              const Divider(
-                color: Color(0xff4a454e),
-                height: 1,
-                thickness: 1,
+              SizedBox(
+                height: 16.arP,
               ),
               optionMethod(
                   child: Text(
@@ -147,12 +141,16 @@ class ConnectedDappBottomSheet extends StatelessWidget {
     );
   }
 
-  InkWell optionMethod({Widget? child, GestureTapCallback? onTap}) {
+  Widget optionMethod({Widget? child, GestureTapCallback? onTap}) {
     return InkWell(
       onTap: onTap,
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
-      child: SizedBox(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+        ),
         width: double.infinity,
         height: 54,
         child: Center(
