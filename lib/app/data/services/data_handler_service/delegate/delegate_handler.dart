@@ -40,13 +40,13 @@ class DelegateHandler {
     return [];
   }
 
-  Future<DelegateCycleStatusModel?> getCycleStatus(int cycle) async {
+  Future<List<DelegateCycleStatusModel>> getCycleStatus(int limit) async {
     var response = await HttpService.performGetRequest(
-        "https://api.tzkt.io/v1/cycles/$cycle");
+        "https://api.tzkt.io/v1/cycles?limit=$limit");
 
     if (response.isNotEmpty && jsonDecode(response).length != 0) {
-      return delegateCycleStatusModelFromJson(response);
+      return delegateCycleListResponseFromJson(response);
     }
-    return null;
+    return [];
   }
 }

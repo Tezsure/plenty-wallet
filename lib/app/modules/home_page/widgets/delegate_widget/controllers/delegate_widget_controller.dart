@@ -245,6 +245,10 @@ class DelegateWidgetController extends GetxController {
 
   Future<void> getCycleStatus() async {
     try {
+      int limit =
+          (delegateRewardList.first.cycle! - delegateRewardList.last.cycle!) +
+              1;
+      final cycleStatusList = await _delegateHandler.getCycleStatus(limit);
       for (var i = 0; i < delegateRewardList.length; i++) {
         final baker = delegateBakerList.firstWhere(
             (element) =>
@@ -252,8 +256,8 @@ class DelegateWidgetController extends GetxController {
             orElse: () => DelegateBakerModel());
         delegateRewardList[i].bakerDetail = baker;
         delegateRewardList.value = List.from([...delegateRewardList]);
-        final status = (await _delegateHandler
-            .getCycleStatus(delegateRewardList[i].cycle ?? 0));
+        final status = cycleStatusList.firstWhere(
+            (element) => element.index == delegateRewardList[i].cycle);
         if (status == null) {
           continue;
         }

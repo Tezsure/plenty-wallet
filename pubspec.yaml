@@ -80,8 +80,7 @@ flutter:
     #profile images
     - assets/profile_images/
 
-    #node selector
-    - rpc_node/rpc_node.json
+   
 
     #empty states images
     - assets/empty_states/
