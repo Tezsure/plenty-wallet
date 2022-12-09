@@ -38,27 +38,27 @@ class PairRequestController extends GetxController {
 
   accept() async {
     try {
-      print("accept ${beaconRequest.request.toString()}");
-      final Map response = await beaconPlugin.permissionResponse(
-        id: beaconRequest.request!.id!,
-        publicKey: (await UserStorageService().readAccountSecrets(
-                accountModels[selectedAccount.value].publicKeyHash!))!
-            .publicKey, // publicKey of crypto account
-        address: accountModels[selectedAccount.value]
-            .publicKeyHash, // walletAddress of crypto account
-      );
+    print("accept ${beaconRequest.request.toString()}");
+    final Map response = await beaconPlugin.permissionResponse(
+      id: beaconRequest.request!.id!,
+      publicKey: (await UserStorageService().readAccountSecrets(
+              accountModels[selectedAccount.value].publicKeyHash!))!
+          .publicKey, // publicKey of crypto account
+      address: accountModels[selectedAccount.value]
+          .publicKeyHash, // walletAddress of crypto account
+    );
 
-      final bool success = json.decode(response['success'].toString()) as bool;
+    final bool success = json.decode(response['success'].toString()) as bool;
 
-      if (success) {
-        Get.back();
+    if (success) {
+      Get.back();
 /*         Get.snackbar('Connected', 'Connected to ${beaconRequest.peer?.name}',
             backgroundColor: ColorConst.Secondary, colorText: Colors.white); */
-      } else {
-        Get.back();
-        Get.snackbar('Error', 'Error while accepting permission',
-            backgroundColor: ColorConst.Error, colorText: Colors.white);
-      }
+    } else {
+      Get.back();
+      Get.snackbar('Error', 'Error while accepting permission',
+          backgroundColor: ColorConst.Error, colorText: Colors.white);
+    }
     } catch (e) {
       Get.back();
       Get.snackbar('Error', 'Error while accepting permission, $e',

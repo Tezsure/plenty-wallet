@@ -110,8 +110,7 @@ class ServiceConfig {
     }
   }
   ''';
-
-  static const String nftQuery = r'''
+static const String nftQuery = r'''
     query getNFT($address: String!, $token_id: String!) {
       token(where: {token_id: {_eq: $token_id}, fa_contract: {_eq: $address}}) {
  artifact_uri
@@ -144,7 +143,7 @@ class ServiceConfig {
       quantity
       holder_address
     }
-    events(where: {recipient: {address: {_eq: $address}}, event_type: {}}) {
+    events {
       id
       fa_contract
       price
@@ -204,7 +203,7 @@ class ServiceConfig {
       quantity
       holder_address
     }
-    events(where: {recipient: {address: {_eq: $address}}, event_type: {}}) {
+    events {
       id
       fa_contract
       price

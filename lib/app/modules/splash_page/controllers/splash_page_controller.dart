@@ -1,9 +1,12 @@
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
+import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 
 class SplashPageController extends GetxController {
@@ -14,8 +17,11 @@ class SplashPageController extends GetxController {
     // un-comment below line to test onboarding flow multiple time
 
     // await ServiceConfig().clearStorage();
-    
+
     ServiceConfig.currentSelectedNode = await RpcService.getCurrentNode();
+    Get.lazyPut(() => BeaconService());
+    Get.lazyPut(() => HomePageController());
+    Get.put(SettingsPageController());
     await DataHandlerService().initDataServices();
 
     var walletAccountsLength =

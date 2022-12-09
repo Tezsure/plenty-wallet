@@ -51,6 +51,7 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                       (index) => Padding(
                             padding: EdgeInsets.symmetric(vertical: 10.sp),
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CircleAvatar(
                                   radius: 10.sp,
@@ -62,11 +63,14 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                                 ),
                                 0.02.hspace,
                                 Expanded(
-                                  child: Text(
-                                    infos[index],
-                                    style: labelMedium.copyWith(
-                                        color: ColorConst.textGrey1,
-                                        fontWeight: FontWeight.normal),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 3.arP),
+                                    child: Text(
+                                      infos[index],
+                                      style: labelMedium.copyWith(
+                                          color: ColorConst.textGrey1,
+                                          fontWeight: FontWeight.normal),
+                                    ),
                                   ),
                                 ),
                               ],

@@ -12,13 +12,14 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
+import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_view.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
-
+///https://objkt.com/asset/hicetnunc/706649
 class NftGalleryView extends GetView<NftGalleryController> {
   const NftGalleryView({super.key});
 
@@ -1016,55 +1017,59 @@ class NftCollectionItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(
-        12.arP,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Wrap(
-            runSpacing: 12.arP,
-            spacing: 8.arP,
-            children: _getImagesWidget(),
-          ),
-          SizedBox(
-            height: 12.arP,
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              nftTokens[0].fa!.name!,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12.arP,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.5.arP,
+    return GestureDetector(
+      onTap: () => Get.bottomSheet(NFtDetailView(nft: nftTokens[0]),
+          isScrollControlled: true),
+      child: Container(
+        padding: EdgeInsets.all(
+          12.arP,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Wrap(
+              runSpacing: 12.arP,
+              spacing: 8.arP,
+              children: _getImagesWidget(),
+            ),
+            SizedBox(
+              height: 12.arP,
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                nftTokens[0].fa!.name!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12.arP,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.5.arP,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 4.arP,
-          ),
-          // created by text
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              nftTokens[0].creators!.isEmpty
-                  ? "N/A"
-                  : nftTokens[0].creators![0].holder!.alias ??
-                      nftTokens[0].creators![0].holder!.address!.tz1Short(),
-              style: TextStyle(
-                color: const Color(0xFF958E99),
-                fontSize: 10.arP,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.5.arP,
+            SizedBox(
+              height: 4.arP,
+            ),
+            // created by text
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                nftTokens[0].creators!.isEmpty
+                    ? "N/A"
+                    : nftTokens[0].creators![0].holder!.alias ??
+                        nftTokens[0].creators![0].holder!.address!.tz1Short(),
+                style: TextStyle(
+                  color: const Color(0xFF958E99),
+                  fontSize: 10.arP,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.5.arP,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

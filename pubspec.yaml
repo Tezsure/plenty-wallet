@@ -37,6 +37,7 @@ dependencies:
   firebase_core: ^2.3.0
   firebase_crashlytics: ^3.0.6
   firebase_analytics: ^10.0.6
+  qr_code_scanner: ^1.0.1
 
   # Firebase
   

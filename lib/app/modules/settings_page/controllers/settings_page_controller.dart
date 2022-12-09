@@ -157,6 +157,10 @@ class SettingsPageController extends GetxController {
   Future<void> changeNetwork(NetworkType value) async {
     await RpcService.setNetworkType(value);
     networkType.value = value;
+    final node = networkType.value.index == NetworkType.mainnet.index
+        ? nodeModel.value.mainnet!.nodes!.first
+        : nodeModel.value.testnet!.nodes!.first;
+    changeNode(node);
   }
 
   /// Change Node

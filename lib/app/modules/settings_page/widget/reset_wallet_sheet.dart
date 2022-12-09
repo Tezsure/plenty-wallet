@@ -37,7 +37,7 @@ class ResetWalletBottomSheet extends StatelessWidget {
                 ),
                 onTap: () async {
                   await ServiceConfig().clearStorage();
-                  await Web3Auth.signOut();
+
                   Get.offAllNamed(Routes.ONBOARDING_PAGE);
                 }),
             0.016.vspace,

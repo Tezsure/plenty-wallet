@@ -75,12 +75,12 @@
 //                               WidgetSpan(
 //                                   style: const TextStyle(),
 //                                   alignment: PlaceholderAlignment.middle,
-//                                   child: SvgPicture.asset(
-//                                     'assets/svg/path.svg',
-//                                     color: Colors.white,
-//                                     height: 20,
-//                                     width: 15,
-//                                   )),
+                                  // child: SvgPicture.asset(
+                                  //   'assets/svg/path.svg',
+                                  //   color: Colors.white,
+                                  //   height: 20,
+                                  //   width: 15,
+                                  // )),
 //                               TextSpan(
 //                                   text: '\nand earn',
 //                                   style: TextStyle(

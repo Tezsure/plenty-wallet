@@ -41,37 +41,7 @@ class TokenView extends GetView<SendPageController> {
                   isError: (controller.amountTileError.value ||
                           controller.amountUsdTileError.value)
                       .obs,
-                  onChanged: (val) {
-                    try {
-                      controller.amountText.value = val;
-                      if (!controller.amountFocusNode.value.hasFocus) {
-                        return;
-                      }
-                      String formatedAmount = formatEnterAmount(val);
-                      if (val.contains(".")) {
-                        if (formatedAmount != val) {
-                          controller.amountController.text = formatedAmount;
-                          controller.amountController.selection =
-                              TextSelection.fromPosition(
-                                  TextPosition(offset: formatedAmount.length));
-                        }
-                      }
-                      if (formatedAmount.isNotEmpty &&
-                          double.parse(formatedAmount) >
-                              controller.selectedTokenModel!.balance) {
-                        controller.amountTileError.value = true;
-                      } else {
-                        controller.amountTileError.value = false;
-                      }
-                      if (formatedAmount.isNotEmpty) {
-                        calculateValuesAndUpdate(formatedAmount);
-                      } else {
-                        controller.amountUsdController.text = "";
-                      }
-                    } catch (e) {
-                      controller.amountText.value = "";
-                    }
-                  },
+                  onChanged: _onChange,
                 ),
               ),
               trailing: SizedBox(
@@ -100,10 +70,7 @@ class TokenView extends GetView<SendPageController> {
                                         controller.amountController.text.length,
                                   ),
                                 );
-                                controller.amountText.value =
-                                    controller.amountController.text;
-                                calculateValuesAndUpdate(
-                                    controller.amountController.text);
+                                _onChange(controller.amountController.text);
                               },
                               child: Container(
                                 height: 24,
@@ -242,6 +209,37 @@ class TokenView extends GetView<SendPageController> {
         ),
       ],
     );
+  }
+
+  _onChange(val) {
+    try {
+      controller.amountText.value = val;
+      if (!controller.amountFocusNode.value.hasFocus) {
+        return;
+      }
+      String formatedAmount = formatEnterAmount(val);
+      if (val.contains(".")) {
+        if (formatedAmount != val) {
+          controller.amountController.text = formatedAmount;
+          controller.amountController.selection = TextSelection.fromPosition(
+              TextPosition(offset: formatedAmount.length));
+        }
+      }
+      if (formatedAmount.isNotEmpty &&
+          double.parse(formatedAmount) >
+              controller.selectedTokenModel!.balance) {
+        controller.amountTileError.value = true;
+      } else {
+        controller.amountTileError.value = false;
+      }
+      if (formatedAmount.isNotEmpty) {
+        calculateValuesAndUpdate(formatedAmount);
+      } else {
+        controller.amountUsdController.text = "";
+      }
+    } catch (e) {
+      controller.amountText.value = "";
+    }
   }
 
   void calculateValuesAndUpdate(String value, [bool isUsd = false]) {

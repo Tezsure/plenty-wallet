@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
@@ -31,214 +32,221 @@ class SettingsPageView extends GetView<SettingsPageController> {
   static final _homePageController = Get.find<HomePageController>();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false,
-      child: Material(
-        child: Container(
-          decoration: const BoxDecoration(color: Colors.black),
-          width: 1.width,
-          height: 1.height,
-          padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              0.045.vspace,
-              Stack(
-                children: [
-                  Container(
-                    height: 0.09.width,
-                    width: 1.width,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Settings",
-                      maxLines: 1,
-                      style: titleMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  backButton(),
-                ],
-              ),
-              0.065.vspace,
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  child: Column(
-                    children: [
-                      Obx(() => _homePageController.userAccounts.isEmpty
-                          ? const SizedBox()
-                          : _accountOption()),
-
-                      _backupOption(),
-                      SizedBox(height: 0.05.width),
-
-                      _settingsSeparator(
-                        title: "Security",
-                        settings: [
-                          _settingOption(
-                            onTap: () {
-                              Get.bottomSheet(BackupPage(),
-                                  isScrollControlled: true);
-                            },
-                            title: "Backup",
-                            svgPath: "${PathConst.SETTINGS_PAGE.SVG}backup.svg",
-                          ),
-                          _settingOption(
-                            onTap: () => Get.to(() => const ChangePasscode()),
-                            title: "Change passcode",
-                            svgPath:
-                                "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
-                          ),
-                          _fingerPrintOption()
-                        ],
+    Get.put(SettingsPageController());
+    return NaanBottomSheet(
+        height: .9.height,
+        bottomSheetHorizontalPadding: 16.arP,
+        bottomSheetWidgets: [
+          Container(
+            height: 0.87.height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: backButton())),
+                    Expanded(
+                      child: Container(
+                        // height: 0.09.width,
+                        // width: 1.width,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Settings",
+                          maxLines: 1,
+                          style: titleMedium,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      SizedBox(height: 0.05.width),
-                      _connectedAppsOption(),
-                      // SizedBox(height: 0.05.width),
+                    ),
+                    Spacer()
+                  ],
+                ),
+                0.03.vspace,
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    child: Column(
+                      children: [
+                        Obx(() => _homePageController.userAccounts.isEmpty
+                            ? const SizedBox()
+                            : _accountOption()),
 
-                      SizedBox(height: 0.05.width),
-                      _settingsSeparator(
-                        title: "Others",
-                        settings: [
-                          _settingOption(
-                            title: "Change Network",
-                            svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
-                            onTap: () {
-                              Get.bottomSheet(
-                                SelectNetworkBottomSheet(),
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                              );
-                            },
-                            trailing: Row(
-                              children: [
-                                Obx(
-                                  () => Text(
-                                    controller.networkType.value ==
-                                            NetworkType.mainnet
-                                        ? "Mainnet"
-                                        : "Testnet",
-                                    style: labelSmall.apply(
-                                        color:
-                                            ColorConst.NeutralVariant.shade60),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.chevron_right_rounded,
-                                  size: 14,
-                                  color: ColorConst.NeutralVariant.shade60,
-                                )
-                              ],
+                        _backupOption(),
+                        SizedBox(height: 0.05.width),
+
+                        _settingsSeparator(
+                          title: "Security",
+                          settings: [
+                            _settingOption(
+                              onTap: () {
+                                Get.bottomSheet(BackupPage(),
+                                    isScrollControlled: true);
+                              },
+                              title: "Backup",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}backup.svg",
                             ),
-                          ),
-                          _settingOption(
-                              title: "Node Selector",
+                            _settingOption(
+                              onTap: () => Get.to(() => const ChangePasscode()),
+                              title: "Change passcode",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
+                            ),
+                            _fingerPrintOption()
+                          ],
+                        ),
+                        SizedBox(height: 0.05.width),
+                        _connectedAppsOption(),
+                        // SizedBox(height: 0.05.width),
+
+                        SizedBox(height: 0.05.width),
+                        _settingsSeparator(
+                          title: "Others",
+                          settings: [
+                            _settingOption(
+                              title: "Change Network",
                               svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
                               onTap: () {
                                 Get.bottomSheet(
-                                  SelectNodeBottomSheet(),
+                                  SelectNetworkBottomSheet(),
                                   enterBottomSheetDuration:
                                       const Duration(milliseconds: 180),
                                   exitBottomSheetDuration:
                                       const Duration(milliseconds: 150),
-                                  barrierColor: Colors.transparent,
-                                  isScrollControlled: true,
                                 );
                               },
                               trailing: Row(
                                 children: [
-                                  Obx(() => Text(
-                                        controller.selectedNode.value.name ??
-                                            "Default",
-                                        style: labelSmall.apply(
-                                            color: ColorConst
-                                                .NeutralVariant.shade60),
-                                      )),
+                                  Obx(
+                                    () => Text(
+                                      controller.networkType.value ==
+                                              NetworkType.mainnet
+                                          ? "Mainnet"
+                                          : "Testnet",
+                                      style: labelSmall.apply(
+                                          color: ColorConst
+                                              .NeutralVariant.shade60),
+                                    ),
+                                  ),
                                   Icon(
                                     Icons.chevron_right_rounded,
                                     size: 14,
                                     color: ColorConst.NeutralVariant.shade60,
                                   )
                                 ],
-                              )),
-                        ],
-                      ),
-                      SizedBox(height: 0.05.width),
-                      _settingsSeparator(
-                        title: "About",
-                        settings: [
-                          _settingOption(
-                            onTap: () => CommonFunctions.launchURL(
-                                "https://www.naan.app/privacy-policy"),
-                            title: "Privacy Policy",
-                            svgPath:
-                                "${PathConst.SETTINGS_PAGE.SVG}privacy.svg",
-                          ),
-                          _settingOption(
-                            onTap: () => CommonFunctions.launchURL(
-                                "https://www.naan.app/terms"),
-                            title: "Terms & Condition",
-                            svgPath: "${PathConst.SETTINGS_PAGE.SVG}terms.svg",
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 0.05.width),
-                      _settingsSeparator(
-                        title: "Social",
-                        settings: [
-                          _settingOption(
-                            onTap: () => Share.share(
-                                "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}"),
-                            title: "Share Naan",
-                            svgPath:
-                                "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
-                          ),
-                          if (controller.inAppReviewAvailable.value)
-                            _settingOption(
-                              onTap: () {
-                                controller.inAppReview.requestReview();
-                              },
-                              title: "Rate Naan",
-                              svgPath: "${PathConst.SETTINGS_PAGE.SVG}star.svg",
+                              ),
                             ),
-                          _settingOption(
-                            onTap: (() => CommonFunctions.launchURL(
-                                "https://twitter.com/Naanwallet")),
-                            title: "Follow us on Twitter",
-                            svgPath:
-                                "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
-                          ),
-                          _settingOption(
-                            onTap: () => CommonFunctions.launchURL(
-                                "https://discord.gg/wpcNRsBbxy"),
-                            title: "Join our Discord",
-                            svgPath:
-                                "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
-                          ),
-                          _settingOption(
-                            onTap: () => CommonFunctions.launchURL(
-                                "https://tally.so/r/w4a75r"),
-                            title: "Feedback & Support",
-                            svgPath:
-                                "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 0.05.width),
-                      _resetOption(),
-                      SizedBox(height: 0.065.width),
-                    ],
+                            _settingOption(
+                                title: "Node Selector",
+                                svgPath:
+                                    "${PathConst.SETTINGS_PAGE.SVG}node.svg",
+                                onTap: () {
+                                  Get.bottomSheet(
+                                    SelectNodeBottomSheet(),
+                                    enterBottomSheetDuration:
+                                        const Duration(milliseconds: 180),
+                                    exitBottomSheetDuration:
+                                        const Duration(milliseconds: 150),
+                                    barrierColor: Colors.transparent,
+                                    isScrollControlled: true,
+                                  );
+                                },
+                                trailing: Row(
+                                  children: [
+                                    Obx(() => Text(
+                                          controller.selectedNode.value.name ??
+                                              "Default",
+                                          style: labelSmall.apply(
+                                              color: ColorConst
+                                                  .NeutralVariant.shade60),
+                                        )),
+                                    Icon(
+                                      Icons.chevron_right_rounded,
+                                      size: 14,
+                                      color: ColorConst.NeutralVariant.shade60,
+                                    )
+                                  ],
+                                )),
+                          ],
+                        ),
+                        SizedBox(height: 0.05.width),
+                        _settingsSeparator(
+                          title: "About",
+                          settings: [
+                            _settingOption(
+                              onTap: () => CommonFunctions.launchURL(
+                                  "https://www.naan.app/privacy-policy"),
+                              title: "Privacy Policy",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}privacy.svg",
+                            ),
+                            _settingOption(
+                              onTap: () => CommonFunctions.launchURL(
+                                  "https://www.naan.app/terms"),
+                              title: "Terms & Condition",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}terms.svg",
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 0.05.width),
+                        _settingsSeparator(
+                          title: "Social",
+                          settings: [
+                            _settingOption(
+                              onTap: () => Share.share(
+                                  "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}"),
+                              title: "Share Naan",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
+                            ),
+                            if (controller.inAppReviewAvailable.value)
+                              _settingOption(
+                                onTap: () {
+                                  controller.inAppReview.requestReview();
+                                },
+                                title: "Rate Naan",
+                                svgPath:
+                                    "${PathConst.SETTINGS_PAGE.SVG}star.svg",
+                              ),
+                            _settingOption(
+                              onTap: (() => CommonFunctions.launchURL(
+                                  "https://twitter.com/Naanwallet")),
+                              title: "Follow us on Twitter",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
+                            ),
+                            _settingOption(
+                              onTap: () => CommonFunctions.launchURL(
+                                  "https://discord.gg/wpcNRsBbxy"),
+                              title: "Join our Discord",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
+                            ),
+                            _settingOption(
+                              onTap: () => CommonFunctions.launchURL(
+                                  "https://tally.so/r/w4a75r"),
+                              title: "Feedback & Support",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 0.05.width),
+                        _resetOption(),
+                        SizedBox(height: 0.065.width),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
-    );
+        ]);
   }
 
   Widget _settingsSeparator({required List<Widget> settings, required title}) {
