@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
@@ -121,6 +122,7 @@ class BackupWalletBottomSheet extends StatelessWidget {
               title: "Backup wallet ( ~1 min )",
               onPressed: () {
                 Get.back();
+                NaanAnalytics.logEvent(NaanAnalyticsEvents.BACKUP_FROM_HOME);
                 Get.bottomSheet(
                     BackupWalletView(
                       seedPhrase: seedPhrase,
@@ -141,7 +143,11 @@ class BackupWalletBottomSheet extends StatelessWidget {
               width: 1.width,
               textColor: ColorConst.Primary.shade80,
               title: "I will risk it",
-              onPressed: () => Get.back()),
+              onPressed: () {
+                NaanAnalytics.logEvent(NaanAnalyticsEvents.BACKUP_SKIP);
+
+                Get.back();
+              }),
         ),
         .01.vspace,
         const SafeArea(child: SizedBox.shrink())

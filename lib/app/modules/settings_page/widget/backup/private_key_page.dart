@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
@@ -22,6 +23,8 @@ class PrivateKeyPage extends StatelessWidget {
   const PrivateKeyPage({super.key, required this.pkh});
   @override
   Widget build(BuildContext context) {
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.VIEW_PRIVATE_KEY,
+        param: {NaanAnalytics.address: pkh});
     return SafeArea(
       bottom: false,
       top: true,

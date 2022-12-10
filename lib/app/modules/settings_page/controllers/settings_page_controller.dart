@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
@@ -106,6 +107,8 @@ class SettingsPageController extends GetxController {
 
   Future<void> addCustomNode(NodeModel newNode) async {
     await RpcService.setCustomNode([...customNodes, newNode]);
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.ADD_CUSTOM_RPC,
+        param: {"name": newNode.name, "url": newNode.url});
     getCustomNodes();
     Get
       ..back()
@@ -155,6 +158,8 @@ class SettingsPageController extends GetxController {
 
   /// Change Network
   Future<void> changeNetwork(NetworkType value) async {
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.CHANGE_NETWORK,
+        param: {"name": value.name});
     await RpcService.setNetworkType(value);
     networkType.value = value;
     final node = networkType.value.index == NetworkType.mainnet.index
@@ -167,12 +172,16 @@ class SettingsPageController extends GetxController {
   Future<void> changeNode(NodeModel value) async {
     selectedNode.value = value;
     ServiceConfig.currentSelectedNode = value.url!;
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.CHANGE_NODE,
+        param: {"name": value.name, "url": value.url});
+
     await RpcService.setNode(value.url ?? "");
   }
 
   /// Change the biometric authentication
   Future<void> changeBiometricAuth(bool value) async {
     await AuthService().setBiometricAuth(value);
+
     fingerprint.value = value;
   }
 
@@ -208,9 +217,14 @@ class SettingsPageController extends GetxController {
   /// Remove the account and change the primary account if the primary account is removed
   void removeAccount(int index) {
     if (homePageController.userAccounts.length > 1) {
+      NaanAnalytics.logEvent(NaanAnalyticsEvents.REMOVE_ACCOUNT, param: {
+        NaanAnalytics.address:
+            homePageController.userAccounts[index].publicKeyHash
+      });
       homePageController
         ..userAccounts.removeAt(index)
         ..userAccounts[0].isAccountPrimary = true;
+
       _updateUserAccountsValue();
     } else {
       return;
@@ -237,6 +251,13 @@ class SettingsPageController extends GetxController {
     homePageController.userAccounts[accountIndex]
       ..imageType = imageType
       ..profileImage = imagePath;
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.EDIT_ACCOUNT, param: {
+      "profileImage":
+          homePageController.userAccounts[accountIndex].profileImage,
+      "name": homePageController.userAccounts[accountIndex].name,
+      NaanAnalytics.address:
+          homePageController.userAccounts[accountIndex].publicKeyHash,
+    });
     _updateUserAccountsValue();
   }
 
@@ -272,6 +293,12 @@ class SettingsPageController extends GetxController {
   /// Updates the user accounts profile name with the latest name changes
   void editAccountName(int index, String name) {
     homePageController.userAccounts[index].name = name;
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.EDIT_ACCOUNT, param: {
+      "profileImage": homePageController.userAccounts[index].profileImage,
+      "name": homePageController.userAccounts[index].name,
+      NaanAnalytics.address:
+          homePageController.userAccounts[index].publicKeyHash,
+    });
     _updateUserAccountsValue();
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -18,6 +19,7 @@ class VerifyPhraseSuccessSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HapticFeedback.heavyImpact();
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.BACKUP_SUCCESSFUL);
     AuthService().setWalletBackup(true);
     return NaanBottomSheet(
         mainAxisAlignment: MainAxisAlignment.end,

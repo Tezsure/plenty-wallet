@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -79,6 +80,8 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         fontWeight: FontWeight.w600,
                       ),
                       onPressed: () {
+                        NaanAnalytics.logEvent(
+                            NaanAnalyticsEvents.CREATE_NEW_ACCOUNT);
                         // arguments true is define for setting a new passcode for wallet
                         Get.toNamed(
                           Routes.PASSCODE_PAGE,
@@ -93,6 +96,8 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     0.0125.vspace,
                     GestureDetector(
                       onTap: () {
+                        NaanAnalytics.logEvent(
+                            NaanAnalyticsEvents.ALREADY_HAVE_ACCOUNT);
                         Get.toNamed(Routes.IMPORT_WALLET_PAGE);
                       },
                       child: Container(
@@ -167,7 +172,12 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
               ),
               0.018.vspace,
               GestureDetector(
-                onTap: () => Get.offAndToNamed(Routes.HOME_PAGE),
+                onTap: () {
+                  NaanAnalytics.logEvent(
+                    NaanAnalyticsEvents.SKIP_LOGIN,
+                  );
+                  Get.offAndToNamed(Routes.HOME_PAGE);
+                },
                 child: Container(
                   height: 48,
                   width: double.infinity,

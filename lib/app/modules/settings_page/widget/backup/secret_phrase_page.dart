@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/widgets/phrase_container.dart';
@@ -27,6 +28,8 @@ class SecretPhrasePage extends StatelessWidget {
   const SecretPhrasePage({super.key, required this.pkHash});
   @override
   Widget build(BuildContext context) {
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.VIEW_SEED_PHRASE,
+        param: {NaanAnalytics.address: pkHash});
     return NaanBottomSheet(
       isScrollControlled: true,
       height: 0.9.height,

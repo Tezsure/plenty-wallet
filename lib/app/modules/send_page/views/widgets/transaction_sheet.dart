@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/helpers/on_going_tx_helper.dart';
@@ -261,6 +262,19 @@ class TransactionBottomSheet extends StatelessWidget {
               }
 
               Get.back();
+
+              NaanAnalytics.logEvent(NaanAnalyticsEvents.SEND_TRANSACTION,
+                  param: {
+                    NaanAnalytics.address:
+                        operationModel.keyStoreModel?.publicKeyHash,
+                    "receiver_address": operationModel.receiveAddress ??
+                        operationModel.receiverContractAddres,
+                    "type": controller.isNFTPage.value
+                        ? "NFT_TRANSFER"
+                        : "TOKEN_TRANSFER",
+                    "name": controller.selectedTokenModel?.name ??
+                        controller.selectedNftModel?.name
+                  });
               Get.bottomSheet(
                 NaanBottomSheet(
                   height: 380.sp,

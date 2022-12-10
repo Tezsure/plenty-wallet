@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
@@ -63,6 +64,9 @@ class NftGalleryWidgetController extends GetxController {
     accounts = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
     accountNameFocus = FocusNode();
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.CREATE_NFT_GALLERY, param: {
+      "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
+    });
     Get.bottomSheet(
       const CreateNewNftGalleryBottomSheet(),
       isScrollControlled: true,
@@ -95,7 +99,9 @@ class NftGalleryWidgetController extends GetxController {
     accountNameController.text = nftGallery.name!;
     selectedImagePath.value = nftGallery.profileImage!;
     accountName.value = accountNameController.text;
-
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.EDIT_NFT_GALLERY, param: {
+      "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
+    });
     accountNameFocus = FocusNode();
     await Get.bottomSheet(
       CreateNewNftGalleryBottomSheet(
@@ -187,6 +193,7 @@ class NftGalleryWidgetController extends GetxController {
   }
 
   void openGallery(int index) {
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.MY_GALLERY_CLICK);
     Get.bottomSheet(
       const NftGalleryView(),
       enterBottomSheetDuration: const Duration(milliseconds: 180),

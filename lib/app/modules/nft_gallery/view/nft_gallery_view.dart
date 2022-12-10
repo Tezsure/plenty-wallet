@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
@@ -19,6 +20,7 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
+
 ///https://objkt.com/asset/hicetnunc/706649
 class NftGalleryView extends GetView<NftGalleryController> {
   const NftGalleryView({super.key});
@@ -849,6 +851,9 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                           onTap: () {
                                                             Get.back();
                                                             Get.back();
+                                                            NaanAnalytics.logEvent(
+                                                                NaanAnalyticsEvents
+                                                                    .REMOVE_NFT_GALLERY);
                                                             Get.bottomSheet(
                                                               _removeGallery(
                                                                   index),

@@ -26,6 +26,7 @@ void main() async {
         .setCrashlyticsCollectionEnabled(kReleaseMode);
     // FirebaseCrashlytics.instance.crash();
     FirebaseAnalytics analytics = NaanAnalytics().getAnalytics();
+    NaanAnalytics().setupAnalytics();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     runApp(
       GetMaterialApp(

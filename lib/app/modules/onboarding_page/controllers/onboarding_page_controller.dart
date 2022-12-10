@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 
 class OnboardingPageController extends GetxController {
   late final _pageController = PageController(
@@ -55,5 +57,12 @@ class OnboardingPageController extends GetxController {
               curve: Curves.fastOutSlowIn)
           .then((_) => animateSlider());
     }).onError((error, stackTrace) => null);
+  }
+
+  void navigateToLogin() {
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.GET_STARTED, param: {
+      "intro_page_name": _onboardingMessages.values.toList()[pageIndex.value]
+    });
+    Get.toNamed(Routes.CREATE_WALLET_PAGE);
   }
 }

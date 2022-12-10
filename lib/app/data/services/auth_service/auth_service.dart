@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
 
@@ -20,10 +21,16 @@ class AuthService {
 
   /// set biometricauth true/false
   Future<void> setBiometricAuth(bool isEnable) async {
+    NaanAnalytics.logEvent(
+      isEnable
+          ? NaanAnalyticsEvents.BIOMETRIC_ENABLE
+          : NaanAnalyticsEvents.BIOMETRIC_SKIP,
+    );
     await ServiceConfig.localStorage.write(
         key: ServiceConfig.biometricAuthStorage, value: isEnable ? "1" : "0");
   }
-    /// set biometricauth true/false
+
+  /// set biometricauth true/false
   Future<void> setWalletBackup(bool isEnable) async {
     await ServiceConfig.localStorage.write(
         key: ServiceConfig.walletBackupStorage, value: isEnable ? "1" : "0");

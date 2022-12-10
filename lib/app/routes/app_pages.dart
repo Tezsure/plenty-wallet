@@ -105,11 +105,11 @@ class AppPages {
       page: () => const AccountsWidget(),
       binding: AccountsWidgetBinding(),
     ),
-    GetPage(
-      name: _Paths.SETTINGS_PAGE,
-      page: () => const SettingsPageView(),
-      binding: SettingsPageBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.SETTINGS_PAGE,
+    //   page: () => const SettingsPageView(),
+    //   binding: SettingsPageBinding(),
+    // ),
     GetPage(
       name: _Paths.SEND_PAGE,
       page: () => const SendPage(),
@@ -140,11 +140,11 @@ class AppPages {
       page: () => const DappBrowserView(),
       binding: DappBrowserBinding(),
     ),
-    GetPage(
-      name: _Paths.PAIR_REQUEST,
-      page: () => const PairRequestView(),
-      binding: PairRequestBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.PAIR_REQUEST,
+    //   page: () => const PairRequestView(),
+    //   binding: PairRequestBinding(),
+    // ),
     GetPage(
       name: _Paths.PAYLOAD_REQUEST,
       page: () => const PayloadRequestView(),

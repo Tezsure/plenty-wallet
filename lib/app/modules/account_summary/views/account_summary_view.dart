@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -196,10 +197,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           0.04.hspace,
                           _actionButton(
                               onTap: () {
+                                NaanAnalytics.logEvent(
+                                    NaanAnalyticsEvents.DELEGATE_FROM_WALLET);
                                 Get.put(DelegateWidgetController())
                                     .checkBaker();
-                                // Get.bottomSheet(const DelegateInfoSheet(),
-                                //     enableDrag: true, isScrollControlled: true);
                               },
                               imagePath: '${PathConst.SVG}dollar_sign.svg',
                               label: 'Earn'),

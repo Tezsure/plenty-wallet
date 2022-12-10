@@ -62,7 +62,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                     child: MaterialButton(
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        Get.toNamed(Routes.CREATE_WALLET_PAGE);
+                        controller.navigateToLogin();
                       },
                       minWidth: double.infinity,
                       height: 0.06.height,

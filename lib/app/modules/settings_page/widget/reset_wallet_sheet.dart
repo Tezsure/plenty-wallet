@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/web3auth_services/web3auth.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
@@ -37,7 +38,7 @@ class ResetWalletBottomSheet extends StatelessWidget {
                 ),
                 onTap: () async {
                   await ServiceConfig().clearStorage();
-
+                  NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
                   Get.offAllNamed(Routes.ONBOARDING_PAGE);
                 }),
             0.016.vspace,

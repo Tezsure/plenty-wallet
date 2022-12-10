@@ -4,6 +4,7 @@ import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/delegate/delegate_handler.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
@@ -167,6 +168,13 @@ class DelegateWidgetController extends GetxController {
       Future.delayed(
         const Duration(milliseconds: 500),
       ).then((value) {
+        NaanAnalytics.logEvent(
+            NaanAnalyticsEvents.DELEGATE_TRANSACTION_SUBMITTED,
+            param: {
+              NaanAnalytics.address: keyStore.publicKeyHash,
+              "baker_name": baker.name,
+              "baker_address": baker.address,
+            });
         Get.bottomSheet(const DelegateBakerSuccessSheet())
             .whenComplete(() => Get.back());
       });
@@ -307,6 +315,7 @@ class DelegateWidgetController extends GetxController {
         delegatedBaker = delegateBakerList.firstWhere(
           (element) => element.address == bakerAddress,
         );
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.REDELEGATE);
         Get.bottomSheet(
             ReDelegateBottomSheet(
               baker: delegatedBaker,
