@@ -12,8 +12,7 @@ class CreateWalletPageController extends GetxController {
   }
 
   VoidCallback login({required Provider socialAppName}) {
-    NaanAnalytics.logEvent(NaanAnalyticsEvents.SOCIAL_LOGIN,
-        param: {"login_type": socialAppName.name});
+
     return Web3Auth.login(socialAppName: socialAppName);
   }
 }
