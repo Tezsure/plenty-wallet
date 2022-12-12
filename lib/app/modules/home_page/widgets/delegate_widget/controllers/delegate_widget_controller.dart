@@ -46,18 +46,7 @@ class DelegateWidgetController extends GetxController {
           ScrollDirection.forward;
     });
     _delegateHandler = DelegateHandler();
-    // Get.put(AccountSummaryController());
-    Get.put(AccountSummaryController());
-    accountModel = Get.find<AccountSummaryController>().userAccount;
-    if (accountModel == null) {
-      Get.bottomSheet(
-        AccountSelectorSheet(
-          selectedAccount: Get.find<HomePageController>().userAccounts[0],
-        ),
-        enterBottomSheetDuration: const Duration(milliseconds: 180),
-        exitBottomSheetDuration: const Duration(milliseconds: 150),
-      );
-    }
+    getBakerList();
   }
 
   @override
@@ -233,7 +222,7 @@ class DelegateWidgetController extends GetxController {
 
       Get.rawSnackbar(
         onTap: (_) {
-          getBakerList();
+          getDelegateRewardList();
         },
         message: "Failed to load, tap to try gain",
         shouldIconPulse: true,
@@ -297,7 +286,23 @@ class DelegateWidgetController extends GetxController {
 
   Future<void> checkBaker() async {
     String? bakerAddress;
+    if (Get.put(HomePageController()).userAccounts.isEmpty) {
+      return Get.bottomSheet(const DelegateInfoSheet(),
+          enableDrag: true, isScrollControlled: true);
+    }
+    Get.put(AccountSummaryController());
     accountModel = Get.find<AccountSummaryController>().userAccount;
+
+    if (accountModel == null) {
+      Get.bottomSheet(
+        AccountSelectorSheet(
+          selectedAccount: Get.find<HomePageController>().userAccounts[0],
+        ),
+        enterBottomSheetDuration: const Duration(milliseconds: 180),
+        exitBottomSheetDuration: const Duration(milliseconds: 150),
+      );
+    }
+    if (accountModel?.value.publicKeyHash == null) {}
     await toggleLoaderOverlay(() async {
       bakerAddress =
           await _delegateHandler.checkBaker(accountModel!.value.publicKeyHash!);

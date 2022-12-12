@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 
@@ -22,6 +23,7 @@ class SplashPageController extends GetxController {
     Get.lazyPut(() => BeaconService());
     Get.lazyPut(() => HomePageController());
     Get.put(SettingsPageController());
+    Get.put(DelegateWidgetController());
     await DataHandlerService().initDataServices();
 
     var walletAccountsLength =

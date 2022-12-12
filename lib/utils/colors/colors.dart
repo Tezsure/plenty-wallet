@@ -40,8 +40,8 @@ LinearGradient appleOrange = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
-    Color(0xfffb392c),
-    Color(0xffFe461f),
+    Color(0xFFFF006E),
+    Color(0xFFFF580C),
   ],
 );
 
@@ -49,8 +49,8 @@ LinearGradient appleYellow = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
-    Color(0xfff4be41),
-    Color(0xfff6c543),
+    Color(0xffFFBE0C),
+    Color(0xffE1A61B),
   ],
 );
 

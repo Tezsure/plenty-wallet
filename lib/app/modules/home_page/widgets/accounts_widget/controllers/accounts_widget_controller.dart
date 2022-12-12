@@ -5,6 +5,10 @@ import 'package:naan_wallet/app/data/services/service_config/service_config.dart
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
 
 class AccountsWidgetController extends GetxController {
+  PageController pageController = PageController(
+    viewportFraction: 1,
+    initialPage: 0,
+  );
   final List<String> imagePath = [
     'assets/svg/accounts/account_1.svg',
     'assets/svg/accounts/account_2.svg',

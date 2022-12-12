@@ -19,7 +19,6 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
   DelegateSelectBaker(
       {super.key, this.isScrollable = false, this.delegatedBaker}) {
     Get.lazyPut(() => DelegateWidgetController());
-    controller.toggleLoaderOverlay(controller.getBakerList);
   }
 
   @override

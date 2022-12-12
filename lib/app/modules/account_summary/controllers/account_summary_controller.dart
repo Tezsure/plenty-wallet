@@ -55,7 +55,9 @@ class AccountSummaryController extends GetxController {
   @override
   void onInit() async {
     if (Get.arguments == null) {
-      userAccount.value = Get.find<HomePageController>().userAccounts[0];
+      if (Get.find<HomePageController>().userAccounts.isNotEmpty) {
+        userAccount.value = Get.find<HomePageController>().userAccounts[0];
+      }
     } else {
       userAccount.value = Get.arguments as AccountModel;
     }

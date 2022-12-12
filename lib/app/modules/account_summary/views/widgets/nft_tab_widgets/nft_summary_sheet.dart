@@ -337,6 +337,13 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                                     ])),
                           );
                         })),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.arP),
+                      child: const Divider(
+                        color: ColorConst.darkGrey,
+                        thickness: 1,
+                      ),
+                    ),
                     ListTile(
                       leading: CircleAvatar(
                         backgroundColor: Colors.white,
@@ -430,18 +437,19 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                   ),
                   title: Text(
                     widget.nftModel!.events![index].eventType
-                            .toString()
-                            .contains("transfer")
-                        ? "Transfer"
-                        : "Sale",
+                            ?.capitalizeFirst ??
+                        "",
                     style: labelMedium.copyWith(fontSize: 12.aR),
                   ),
-                  subtitle: Text(
-                    'to ${tz1Shortner('${widget.nftModel!.events![index].recipientAddress}')}',
-                    style: bodySmall.copyWith(
-                        fontSize: 12.aR,
-                        color: ColorConst.NeutralVariant.shade60),
-                  ),
+                  subtitle:
+                      widget.nftModel!.events![index].recipientAddress == null
+                          ? null
+                          : Text(
+                              'to ${tz1Shortner('${widget.nftModel!.events![index].recipientAddress}')}',
+                              style: bodySmall.copyWith(
+                                  fontSize: 12.aR,
+                                  color: ColorConst.NeutralVariant.shade60),
+                            ),
                   //           ),
                   trailing: widget.nftModel!.events![index].price == null
                       ? Text(
@@ -562,24 +570,22 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                     )
                   ],
                 ),
+                .008.vspace,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Royality", style: bodySmall),
-
-                    /// DUMMY
                     Text(
                       "${royality.toStringAsFixed(1)}%",
                       style: bodySmall.copyWith(color: ColorConst.textGrey1),
                     )
                   ],
                 ),
+                .008.vspace,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Minted", style: bodySmall),
-
-                    /// DUMMY
                     Text(
                       DateFormat("MMM dd,yyyy")
                           .format(DateTime.parse(widget.nftModel!.timestamp!)),
@@ -587,6 +593,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                     )
                   ],
                 ),
+                .008.vspace,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -640,6 +647,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                         ))
                   ],
                 ),
+                .008.vspace,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -669,6 +677,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                         ))
                   ],
                 ),
+                .008.vspace,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

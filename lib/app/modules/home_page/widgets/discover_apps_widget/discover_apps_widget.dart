@@ -35,8 +35,8 @@ class DiscoverAppsWidget extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: SvgPicture.asset(
-                  "${PathConst.HOME_PAGE.SVG}discover_app_2.svg"),
+              child:
+                  Image.asset("${PathConst.HOME_PAGE.SVG}discover_app_2.png"),
             ),
             ClipRRect(
               borderRadius: BorderRadius.only(
@@ -45,8 +45,8 @@ class DiscoverAppsWidget extends StatelessWidget {
               ),
               child: Align(
                 alignment: Alignment.topLeft,
-                child: SvgPicture.asset(
-                    "${PathConst.HOME_PAGE.SVG}discover_app_1.svg"),
+                child:
+                    Image.asset("${PathConst.HOME_PAGE.SVG}discover_app_1.png"),
               ),
             ),
             // Align(

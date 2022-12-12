@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart'
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -47,7 +48,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
       print("xtzPrice: $value");
       //update();
     });
-
+  
     // DataHandlerService().renderService.accountNft.registerCallback((data) {
     //   print("Nft data");
     //   print(jsonEncode(data));

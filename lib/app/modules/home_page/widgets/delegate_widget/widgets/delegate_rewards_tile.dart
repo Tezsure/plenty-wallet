@@ -52,11 +52,12 @@ class DelegateRewardsTile extends StatelessWidget {
                   _buildInfo('Delegated',
                       '${(reward.balance / pow(10, 6)).toStringAsFixed(4)} tez'),
                   0.03.hspace,
-                  _buildInfo(
-                      'Rewards', '${totalRewards.toStringAsFixed(2)} tez'),
-                  0.03.hspace,
+                  // _buildInfo(
+                  //     'Rewards', '${totalRewards.toStringAsFixed(2)} tez'),
+
                   _buildInfo('Baker fee',
                       '${((reward.bakerDetail?.fee ?? 0) * 100).toStringAsFixed(2)}%'),
+                  0.03.hspace, Spacer()
                 ],
               ),
               0.013.vspace,

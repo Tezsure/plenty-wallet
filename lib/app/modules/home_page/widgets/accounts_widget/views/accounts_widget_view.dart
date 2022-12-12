@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/account_summary_view.dart';
+import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
+import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
@@ -34,92 +36,123 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   @override
   Widget build(BuildContext context) {
     AccountsWidgetController controller = Get.put(AccountsWidgetController());
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.sp),
-      child: SizedBox(
-        width: 1.width,
+    return Obx(() {
+      return SizedBox(
         height: 0.45.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            Obx(
-              () => homePageController.userAccounts.isEmpty
-                  ? Padding(
-                      padding: EdgeInsets.only(
-                          right: homePageController.userAccounts.isEmpty
-                              ? 0.04.width
-                              : 0),
-                      child: const AddAccountWidget(),
-                    )
-                  : Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xff958E99).withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(22.sp),
-                      ),
-                      width: 1.width,
-                      height: 0.45.width,
-                      child: Obx(() => PageView.builder(
-                          padEnds: false,
-                          itemCount: homePageController.userAccounts
-                                  .where((e) => e.isAccountHidden == false)
-                                  .toList()
-                                  .length +
-                              1,
-                          controller: PageController(
-                            viewportFraction: 1,
-                            initialPage: 0,
-                          ),
-                          onPageChanged: (index) {
-                            controller.onPageChanged(index);
-                            setState(() {});
-                          },
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (_, index) {
-                            var scale =
-                                controller.currIndex.value == index ? 1.0 : 0.8;
-                            return index ==
-                                    homePageController.userAccounts
-                                        .where(
-                                            (e) => e.isAccountHidden == false)
-                                        .toList()
-                                        .length
-                                ? TweenAnimationBuilder(
-                                    tween:
-                                        Tween<double>(begin: scale, end: scale),
-                                    curve: Curves.easeIn,
-                                    builder: (context, value, child) =>
-                                        Transform.scale(
-                                          scale: value,
-                                          child: child,
-                                        ),
-                                    duration: const Duration(milliseconds: 350),
-                                    child: const AddAccountWidget())
-                                : homePageController
-                                        .userAccounts[index].isAccountHidden!
-                                    ? const SizedBox()
-                                    : TweenAnimationBuilder(
-                                        tween: Tween<double>(
-                                            begin: scale, end: scale),
-                                        curve: Curves.easeIn,
-                                        builder: (context, value, child) =>
-                                            Transform.scale(
-                                              scale: value,
-                                              child: child,
-                                            ),
-                                        duration:
-                                            const Duration(milliseconds: 350),
-                                        child: accountContainer(
-                                          homePageController
-                                              .userAccounts[index],
-                                        ));
-                          }))),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 32.arP, right: 8.arP),
+                child: SizedBox(
+                  width: 1.width,
+                  height: 0.45.width,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(
+                        () => homePageController.userAccounts.isEmpty
+                            ? Container(
+                                width: 1.width,
+                                height: 0.45.width,
+                                padding: EdgeInsets.only(right: 8.arP),
+                                child: const AddAccountWidget(),
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color(0xff958E99).withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(22.sp),
+                                ),
+                                width: 1.width,
+                                height: 0.45.width,
+                                child: Obx(() => PageView.builder(
+                                    padEnds: false,
+                                    itemCount: homePageController.userAccounts
+                                            .where((e) =>
+                                                e.isAccountHidden == false)
+                                            .toList()
+                                            .length +
+                                        1,
+                                    controller: controller.pageController,
+                                    onPageChanged: (index) {
+                                      controller.onPageChanged(index);
+                                      setState(() {});
+                                    },
+                                    physics: const BouncingScrollPhysics(),
+                                    scrollDirection: Axis.vertical,
+                                    itemBuilder: (_, index) {
+                                      var scale =
+                                          controller.currIndex.value == index
+                                              ? 1.0
+                                              : 0.8;
+                                      return index ==
+                                              homePageController.userAccounts
+                                                  .where((e) =>
+                                                      e.isAccountHidden ==
+                                                      false)
+                                                  .toList()
+                                                  .length
+                                          ? TweenAnimationBuilder(
+                                              tween: Tween<double>(
+                                                  begin: scale, end: scale),
+                                              curve: Curves.easeIn,
+                                              builder:
+                                                  (context, value, child) =>
+                                                      Transform.scale(
+                                                        scale: value,
+                                                        child: child,
+                                                      ),
+                                              duration: const Duration(
+                                                  milliseconds: 350),
+                                              child: const AddAccountWidget())
+                                          : homePageController
+                                                  .userAccounts[index]
+                                                  .isAccountHidden!
+                                              ? const SizedBox()
+                                              : TweenAnimationBuilder(
+                                                  tween: Tween<double>(
+                                                      begin: scale, end: scale),
+                                                  curve: Curves.easeIn,
+                                                  builder:
+                                                      (context, value, child) =>
+                                                          Transform.scale(
+                                                            scale: value,
+                                                            child: child,
+                                                          ),
+                                                  duration: const Duration(
+                                                      milliseconds: 350),
+                                                  child: accountContainer(
+                                                    homePageController
+                                                        .userAccounts[index],
+                                                  ));
+                                    }))),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            if (homePageController.userAccounts.isNotEmpty)
+              AnimatedSmoothIndicator(
+                  effect: const ExpandingDotsEffect(
+                    dotHeight: 6,
+                    dotWidth: 6,
+                    expansionFactor: 1.01,
+                    activeDotColor: Colors.white,
+                    dotColor: ColorConst.darkGrey,
+                  ),
+                  axisDirection: Axis.vertical,
+                  activeIndex: controller.currIndex.value,
+                  count: homePageController.userAccounts.length + 1),
+            SizedBox(
+              width: 18.arP,
             )
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget accountContainer(AccountModel model) {
@@ -144,6 +177,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
                         width: 16.sp,

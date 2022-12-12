@@ -25,7 +25,7 @@ class DelegateBakerTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 0.01.height),
       // width: 338,
-      height: 120.arP,
+      height: 125.arP,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: const Color(0xff958e99).withOpacity(0.2),

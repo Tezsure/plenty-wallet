@@ -485,6 +485,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
   Widget _backupOption() {
     return Obx(
       () {
+        if (_homePageController.userAccounts.isEmpty) return const SizedBox();
+
         final isBackedUp = controller.isWalletBackup.value;
         if (isBackedUp) return Container();
         return Container(
