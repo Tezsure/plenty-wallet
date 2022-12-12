@@ -78,9 +78,11 @@ class DappBrowserView extends GetView<DappBrowserController> {
                     ),
                     0.01.hspace,
                     Text(
-                      Uri.parse(controller.url.value)
-                          .host
-                          .replaceAll(RegExp(r".+\/\/|www.|\..+"), ""),
+                      controller.url.value.contains("https://dev")
+                          ? "Buy tez"
+                          : Uri.parse(controller.url.value)
+                              .host
+                              .replaceAll(RegExp(r".+\/\/|www.|\..+"), ""),
                       style: bodyMedium,
                     ),
                   ],
