@@ -91,4 +91,5 @@ class RpcService {
         tokenId: e['token']['tokenId'] ?? '0',
         decimals: int.parse(e['token']['metadata']['decimals']));
   }
+ 
 }

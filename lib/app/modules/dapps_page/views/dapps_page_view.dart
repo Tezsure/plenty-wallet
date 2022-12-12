@@ -1,9 +1,14 @@
 import 'dart:io';
+import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
+import 'package:naan_wallet/app/modules/dapps_page/views/widgets/dapp_bottomsheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -27,139 +32,458 @@ class DappsPageView extends GetView<DappsPageController> {
           color: Colors.black),
       child: Column(
         children: [
-          0.005.vspace,
+          SizedBox(
+            height: 5.arP,
+          ),
           Container(
-            height: 5,
-            width: 36,
+            height: 5.arP,
+            width: 36.arP,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(100),
               color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
             ),
           ),
-          AppBar(
-            backgroundColor: Colors.transparent,
-            leading: IconButton(
-                onPressed: () => Get.back(),
-                iconSize: 20,
-                icon: const Icon(Icons.arrow_back_ios_new)),
-            title: Text(
-              'Dapps',
-              style: titleMedium,
-            ),
-            centerTitle: true,
+          SizedBox(
+            height: 41.arP,
           ),
-          0.01.vspace,
           Expanded(
-            child: ListView.builder(
+            child: Obx(
+              () => ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: controller.dappBanners.length,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 14),
-                          child: Container(
-                            height: 0.13.width,
-                            width: 0.13.width,
-                            alignment: Alignment.bottomRight,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(controller
-                                      .dapps[index].image
-                                      .toString())),
+                  List<DappModel> dapps = controller.dappBanners[index].dapps!
+                      .map<DappModel>((e) => controller.dapps[e]!)
+                      .toList();
+
+                  return GestureDetector(
+                    onTap: () => controller.dappBanners[index].type! == "banner"
+                        ? Get.bottomSheet(
+                            DappBottomSheet(
+                              dappModel: dapps[0],
                             ),
-                          ),
+                            isScrollControlled: true,
+                            enableDrag: true,
+                            enterBottomSheetDuration:
+                                const Duration(milliseconds: 200),
+                            exitBottomSheetDuration:
+                                const Duration(milliseconds: 200),
+                          )
+                        : controller.dappBanners[index].type! == "category"
+                            ? openCategoryBottomSheet(
+                                controller.dappBanners[index], dapps)
+                            : null,
+                    child: Container(
+                      height: 400.arP,
+                      width: double.infinity,
+                      margin: EdgeInsets.only(
+                        bottom: 20.arP,
+                        left: 16.arP,
+                        right: 16.arP,
+                      ),
+                      decoration: BoxDecoration(
+                        color: controller.dappBanners[index].type! == "dappList"
+                            ? const Color(0xFF1E1A22)
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(
+                          22.arP,
                         ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            controller.dapps[index].name
-                                                .toString(),
-                                            style: titleSmall.copyWith(
-                                                fontWeight: FontWeight.bold)),
-                                        Text(
-                                          controller.dapps[index].description,
-                                          style: bodySmall.copyWith(
-                                              color: ColorConst.grey),
-                                        ),
-                                      ],
+                      ),
+                      child: Stack(
+                        children: [
+                          if (controller.dappBanners[index].type! != "dappList")
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                22.arP,
+                              ),
+                              child: controller.dappBanners[index].bannerImage!
+                                      .endsWith(".svg")
+                                  ? SvgPicture.network(
+                                      "${ServiceConfig.naanApis}/images/${controller.dappBanners[index].bannerImage!}",
+                                      fit: BoxFit.fill,
+                                      height: 400.arP,
+                                      width: double.infinity,
+                                    )
+                                  : CachedNetworkImage(
+                                      imageUrl:
+                                          "${ServiceConfig.naanApis}/images/${controller.dappBanners[index].bannerImage!}",
+                                      fit: BoxFit.cover,
+                                      height: 400.arP,
+                                      width: double.infinity,
+                                    ),
+                            ),
+                          if (controller.dappBanners[index].type! == "category")
+                            Container(
+                              height: 200.arP,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.black.withOpacity(0.7),
+                                    Colors.black.withOpacity(0.0),
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  22.arP,
+                                ),
+                              ),
+                            ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 28.arP,
+                              left: 14.arP,
+                              right: 14.arP,
+                              bottom: 28.arP,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // tag only when type is banner
+                                if (controller.dappBanners[index].type! ==
+                                        "banner" ||
+                                    controller.dappBanners[index].type! ==
+                                        "dappList")
+                                  Text(
+                                    controller.dappBanners[index].tag!,
+                                    style: TextStyle(
+                                      fontSize:
+                                          controller.dappBanners[index].type! ==
+                                                  "dappList"
+                                              ? 12.arP
+                                              : 16.arP,
+                                      color:
+                                          controller.dappBanners[index].type! ==
+                                                  "dappList"
+                                              ? const Color(0xFF989898)
+                                              : const Color(0xFFFF006E),
+                                      letterSpacing: 1.arP,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: TextButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  const Color(0xff1E1C1F)),
-                                          shape: MaterialStateProperty.all(
-                                            RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                            ),
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          Get.back();
-                                          Get.bottomSheet(
-                                              const DappBrowserView(),
-                                              enterBottomSheetDuration:
-                                                  const Duration(
-                                                      milliseconds: 180),
-                                              exitBottomSheetDuration:
-                                                  const Duration(
-                                                      milliseconds: 150),
-                                              barrierColor: Colors.white
-                                                  .withOpacity(0.09),
-                                              settings: RouteSettings(
-                                                  arguments: controller
-                                                      .dapps[index].url),
-                                              isScrollControlled: true);
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          child: Text(
-                                            'Launch',
-                                            style: bodyMedium.copyWith(
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(0xff958E99)),
-                                          ),
-                                        ),
-                                      ),
+
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    right: 50.arP,
+                                  ),
+                                  child: Text(
+                                    controller.dappBanners[index].title!,
+                                    style: TextStyle(
+                                      fontSize:
+                                          controller.dappBanners[index].type! ==
+                                                  "dappList"
+                                              ? 20.arP
+                                              : 28.arP,
+                                      color: const Color(0xFFFFFFFF),
+                                      letterSpacing: 0.45.arP,
+                                      fontWeight: FontWeight.w700,
                                     ),
-                                  )
-                                ],
-                              ),
-                              const Divider(
-                                color: Color(0xff1E1C1F),
-                                thickness: 1,
-                                height: 20,
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
+                                  ),
+                                ),
+
+                                Expanded(
+                                    child:
+                                        controller.dappBanners[index].type! !=
+                                                "dappList"
+                                            ? Container()
+                                            : _getDappListWidget(dapps)),
+
+                                // description only when type is banner
+                                if (controller.dappBanners[index].type! ==
+                                    "banner")
+                                  Text(
+                                    controller.dappBanners[index].description!,
+                                    style: TextStyle(
+                                      fontSize: 14.arP,
+                                      color: const Color(0xFFFFFFFF),
+                                      letterSpacing: 0.27.arP,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 },
-                itemCount: controller.dapps.length),
+              ),
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _getDappListWidget(List<DappModel> dapps) {
+    return ListView.builder(
+      itemCount: dapps.length,
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (context, index) => DappListItemWidget(
+        dapp: dapps[index],
+        index: index,
+        length: dapps.length,
+      ),
+    );
+  }
+
+  openCategoryBottomSheet(DappBannerModel dappBanner, List<DappModel> dapps) {
+    Get.bottomSheet(
+      CategoryListBottomSheet(dappBanner: dappBanner, dapps: dapps),
+      isScrollControlled: true,
+      enableDrag: true,
+      enterBottomSheetDuration: const Duration(milliseconds: 200),
+      exitBottomSheetDuration: const Duration(milliseconds: 200),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class DappListItemWidget extends StatelessWidget {
+  int index;
+  int length;
+  DappModel dapp;
+
+  DappListItemWidget(
+      {Key? key, required this.dapp, required this.index, required this.length})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 15.arP),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // logo
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10.arP),
+              child: dapp.logo!.endsWith(".svg")
+                  ? SvgPicture.network(
+                      "${ServiceConfig.naanApis}/images/${dapp.logo!}",
+                      fit: BoxFit.fill,
+                      height: 50.arP,
+                      width: 50.arP,
+                    )
+                  : CachedNetworkImage(
+                      imageUrl:
+                          "${ServiceConfig.naanApis}/images/${dapp.logo!}",
+                      fit: BoxFit.cover,
+                      height: 50.arP,
+                      width: 50.arP,
+                    ),
+            ),
+            SizedBox(width: 12.arP),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // name
+                  Text(
+                    dapp.name!,
+                    style: TextStyle(
+                      fontSize: 14.arP,
+                      color: const Color(0xFFFFFFFF),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+
+                  // description
+                  Text(
+                    dapp.description!,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12.arP,
+                      color: const Color(0xFF958E99),
+                      letterSpacing: 0.27.arP,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 12.arP),
+            InkWell(
+              onTap: () => Get.bottomSheet(
+                DappBottomSheet(
+                  dappModel: dapp,
+                ),
+                isScrollControlled: true,
+                enableDrag: true,
+                enterBottomSheetDuration: const Duration(milliseconds: 200),
+                exitBottomSheetDuration: const Duration(milliseconds: 200),
+              ),
+              child: Container(
+                height: 32.arP,
+                width: 79.arP,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF332F37),
+                  borderRadius: BorderRadius.circular(20.arP),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  "Launch",
+                  style: TextStyle(
+                    fontSize: 14.arP,
+                    color: const Color(0xFF958E99),
+                    letterSpacing: 0.5.arP,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+        index == length - 1
+            ? Container()
+            : Container(
+                height: 1.arP,
+                margin: EdgeInsets.only(
+                  left: 63.arP,
+                  top: 15.arP,
+                ),
+                color: const Color(0xFF332F37),
+              ),
+      ],
+    );
+  }
+}
+
+class CategoryListBottomSheet extends StatelessWidget {
+  DappBannerModel dappBanner;
+  List<DappModel> dapps = [];
+  CategoryListBottomSheet(
+      {Key? key, required this.dappBanner, required this.dapps})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(18.arP),
+          topRight: Radius.circular(18.arP),
+        ),
+        child: Container(
+          height: 0.9.height,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(18.arP),
+              topRight: Radius.circular(18.arP),
+            ),
+          ),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 0.3.height,
+                child: Stack(
+                  children: [
+                    // image
+                    dappBanner.bannerImage!.endsWith('.svg')
+                        ? SvgPicture.network(
+                            "${ServiceConfig.naanApis}/images/${dappBanner.bannerImage!}",
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          )
+                        : Image.network(
+                            "${ServiceConfig.naanApis}/images/${dappBanner.bannerImage!}",
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          ),
+
+                    // gradient
+                    Container(
+                      width: double.infinity,
+                      height: 0.3.height,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.black.withOpacity(0.7),
+                            Colors.black.withOpacity(0.2),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          18.arP,
+                        ),
+                      ),
+                    ),
+
+                    // back
+                    Positioned(
+                      top: 30.arP,
+                      left: 14.arP,
+                      child: GestureDetector(
+                        onTap: () => Get.back(),
+                        child: Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: Colors.white,
+                          size: 18.arP,
+                        ),
+                      ),
+                    ),
+
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        height: 5.arP,
+                        width: 36.arP,
+                        margin: EdgeInsets.only(
+                          top: 5.arP,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: const Color(0xffEBEBF5).withOpacity(0.3),
+                        ),
+                      ),
+                    ),
+
+                    // title
+                    Positioned(
+                      bottom: 30.arP,
+                      left: 14.arP,
+                      right: 14.arP,
+                      child: Text(
+                        dappBanner.title!,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 28.arP,
+                          letterSpacing: 0.45.arP,
+                          color: const Color(0xFFFFFFFF),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20.arP,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.only(
+                    left: 16.arP,
+                    right: 16.arP,
+                  ),
+                  itemCount: dapps.length,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => DappListItemWidget(
+                    dapp: dapps[index],
+                    index: index,
+                    length: dapps.length,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -25,6 +25,8 @@ class ServiceConfig {
           {int limit = 20, String lastId = "", String sort = "Descending"}) =>
       "https://api.tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId&sort=$sort";
 
+  static String naanApis = "https://cdn.naan.app";
+
   // Main storage keys
   static const String oldStorageName = "tezsure-wallet-storage-v1.0.0";
   static const String storageName = "naan_wallet_version_2.0.0";
@@ -66,6 +68,11 @@ class ServiceConfig {
 
   // tx history storage name append with user address
   static const String txHistoryStorage = "${storageName}_tx_history";
+
+  // dapps
+  static const String dappsStorage = "${storageName}_dapps";
+  // dapps banner
+  static const String dappsBannerStorage = "${storageName}_dapps_banner";
 
   // user xtz balances, token balances and nfts
   // static const String accountXtzBalances =

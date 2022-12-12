@@ -19,7 +19,7 @@
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
 		<key>CFBundleShortVersionString</key>
-		<string>0.2.59</string>
+		<string>0.2.61</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
 		<key>CFBundleVersion</key>
@@ -50,7 +50,7 @@
 		<key>NSPhotoLibraryAddUsageDescription</key>
 		<string>This app requires read and write access to the photo library.</string>
 		<key>NSMicrophoneUsageDescription</key>
-		<string>Naan requires acess to microphone.</string>		
+		<string>Naan requires acess to microphone.</string>
 		<key>NSCameraUsageDescription</key>
 		<string>Naan requires acess to camera.</string>
 		<key>NSFaceIDUsageDescription</key>

@@ -257,13 +257,6 @@ class DappBrowserView extends GetView<DappBrowserController> {
                           color: Colors.white,
                           onPressed: () {
                             Get.back();
-                            Get.bottomSheet(const DappsPageView(),
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                                barrierColor: Colors.white.withOpacity(0.09),
-                                isScrollControlled: true);
                           },
                         ),
                       ],

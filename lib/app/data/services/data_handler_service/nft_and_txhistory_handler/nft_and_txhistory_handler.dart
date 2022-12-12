@@ -127,20 +127,6 @@ class ObjktNftApiService {
       return NftTokenModel();
     }
   }
-
-  Future<String> getNftCreator(String creatorAddress) async {
-    try {
-      final response = await GQLClient(
-        'https://data.objkt.com/v3/graphql',
-      ).query(
-        query: ServiceConfig.cQuery,
-        variables: {'address': creatorAddress},
-      );
-      return response.data['holder_by_pk']['alias'];
-    } catch (e) {
-      return '';
-    }
-  }
 }
 
 /// Transaction History Api Service usng tzkt.io
