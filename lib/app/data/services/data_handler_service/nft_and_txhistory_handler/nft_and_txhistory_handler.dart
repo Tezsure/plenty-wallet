@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:isolate';
 
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_render_service.dart';
@@ -101,6 +102,7 @@ class ObjktNftApiService {
         query: ServiceConfig.gQuery,
         variables: {'address': pkH},
       );
+
       return response.data['token']
           .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
           .toList()

@@ -79,6 +79,7 @@ class NftTokenModel {
       json['events'].forEach((v) {
         events!.add(Events.fromJson(v));
       });
+      events!.sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
     }
     fa = json['fa'] != null ? Fa.fromJson(json['fa']) : null;
     metadata = json['metadata'];

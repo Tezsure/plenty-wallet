@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart'
 
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/modules/account_summary/views/widgets/nft_tab_widgets/nft_summary_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_view.dart';
@@ -1023,8 +1024,19 @@ class NftCollectionItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.bottomSheet(NFtDetailView(nft: nftTokens[0]),
-          isScrollControlled: true),
+      onTap: () {
+        Get.bottomSheet(
+          NFTSummaryBottomSheet(
+            onBackTap: Get.back,
+            nftModel: nftTokens[0],
+          ),
+          enterBottomSheetDuration: const Duration(milliseconds: 180),
+          exitBottomSheetDuration: const Duration(milliseconds: 150),
+          isScrollControlled: true,
+        );
+        // Get.bottomSheet(NFtDetailView(nft: nftTokens[0]),
+        //   isScrollControlled: true);
+      },
       child: Container(
         padding: EdgeInsets.all(
           12.arP,
