@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -15,23 +16,23 @@ import 'package:naan_wallet/app/modules/custom_packages/timeago/timeago.dart'
     as timeago;
 import 'package:share_plus/share_plus.dart';
 
-import '../../../../../../utils/constants/path_const.dart';
-import '../../../../../../utils/utils.dart';
+import '../../../../utils/constants/path_const.dart';
+import '../../../../utils/utils.dart';
 
-class NFTSummaryBottomSheet extends StatefulWidget {
+class NFTDetailBottomSheet extends StatefulWidget {
   final GestureTapCallback? onBackTap;
   final NftTokenModel? nftModel;
-  const NFTSummaryBottomSheet({
+  const NFTDetailBottomSheet({
     super.key,
     this.onBackTap,
     this.nftModel,
   });
 
   @override
-  State<NFTSummaryBottomSheet> createState() => _NFTSummaryBottomSheetState();
+  State<NFTDetailBottomSheet> createState() => _NFTDetailBottomSheetState();
 }
 
-class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
+class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   bool isExpanded = false;
   late String imageUrl;
   final _controller = Get.put(AccountSummaryController());
@@ -117,9 +118,13 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                       child: Stack(
                         children: [
                           Positioned.fill(
-                            child: Image.network(
-                              imageUrl,
-                              fit: BoxFit.cover,
+                            child: SizedBox(
+                              height: 0.5.height,
+                              width: 1.width,
+                              child: CachedNetworkImage(
+                                imageUrl: imageUrl,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                           GestureDetector(
@@ -367,7 +372,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                     ),
                     _buildTabs(),
                     SizedBox(
-                      height: isExpanded ? 0.4.height : 0.25.height,
+                      height: 0.4.height,
                       child: TabBarView(children: [
                         _buildDetailsTab(scrollController),
                         // Sliver List Builder
@@ -438,7 +443,7 @@ class _NFTSummaryBottomSheetState extends State<NFTSummaryBottomSheet> {
                   title: Text(
                     widget.nftModel!.events![index].eventType
                             ?.capitalizeFirst ??
-                        "",
+                        "Sale",
                     style: labelMedium.copyWith(fontSize: 12.aR),
                   ),
                   subtitle:

@@ -6,7 +6,7 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../../send_page/views/widgets/collectible_widget.dart';
-import 'nft_summary_sheet.dart';
+import '../../../../nft_gallery/view/nft_detail_sheet.dart';
 
 class NftCollectibles extends StatefulWidget {
   final List<NftTokenModel> nftList;
@@ -74,7 +74,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                           nfTmodel: widget.nftList[index],
                           onTap: (model) {
                             Get.bottomSheet(
-                              NFTSummaryBottomSheet(
+                              NFTDetailBottomSheet(
                                 onBackTap: Get.back,
                                 nftModel: widget.nftList[index],
                               ),

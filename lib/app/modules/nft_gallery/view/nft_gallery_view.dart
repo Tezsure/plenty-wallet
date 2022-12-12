@@ -11,7 +11,7 @@ import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart'
 
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
-import 'package:naan_wallet/app/modules/account_summary/views/widgets/nft_tab_widgets/nft_summary_sheet.dart';
+import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_view.dart';
@@ -21,6 +21,8 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
+
+import 'nft_collection_sheet.dart';
 
 ///https://objkt.com/asset/hicetnunc/706649
 class NftGalleryView extends GetView<NftGalleryController> {
@@ -1025,8 +1027,19 @@ class NftCollectionItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        if (nftTokens.length != 1) {
+          Get.bottomSheet(
+            NFTCollectionSheet(
+              nfts: nftTokens,
+            ),
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
+            isScrollControlled: true,
+          );
+          return;
+        }
         Get.bottomSheet(
-          NFTSummaryBottomSheet(
+          NFTDetailBottomSheet(
             onBackTap: Get.back,
             nftModel: nftTokens[0],
           ),
