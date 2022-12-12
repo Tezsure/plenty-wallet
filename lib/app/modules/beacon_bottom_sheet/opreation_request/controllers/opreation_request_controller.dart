@@ -165,7 +165,7 @@ class OpreationRequestController extends GetxController {
           return;
         }
       }
-
+      print("operation ${operation.toString()}");
       final txHash = await OperationService()
           .injectOperation(operation, ServiceConfig.currentSelectedNode);
 

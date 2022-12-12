@@ -696,6 +696,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                   0.04.vspace,
                   Expanded(
                     child: ListView.builder(
+                      shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return index == controller.nftGalleryList.length
                             ? GestureDetector(

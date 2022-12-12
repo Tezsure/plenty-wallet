@@ -22,36 +22,29 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
     super.onInit();
   }
 
+  @override
+  void dispose() {
+    controller.value.dispose();
+    super.dispose();
+  }
+
   Barcode? result;
 
   void onQRViewCreated(QRViewController c) {
     controller = c.obs;
-
-    controller.value.scannedDataStream.listen((scanData) {
+    controller.value.resumeCamera();
+    controller.value.scannedDataStream.listen((scanData) async {
       if ((scanData.code?.startsWith('tezos://') ?? false) ||
           (scanData.code?.startsWith('naan://') ?? false)) {
         if (result != null) return;
+
         result = scanData;
         String code = scanData.code ?? "";
         code = code.substring(code.indexOf("data=") + 5, code.length);
-        final request = Get.find<BeaconService>()
-            .beaconPlugin
-            .pairingRequestToP2P(pairingRequest: code);
-        BeaconRequest beaconRequest = BeaconRequest(
-            peer: P2PPeer.fromJson(request),
-            type: RequestType.permission,
-            request: Request.fromJson(request));
-        controller.value.pauseCamera();
-        Get.bottomSheet(const PairRequestView(),
-                enterBottomSheetDuration: const Duration(milliseconds: 180),
-                exitBottomSheetDuration: const Duration(milliseconds: 150),
-                barrierColor: Colors.white.withOpacity(0.09),
-                isScrollControlled: true,
-                settings: RouteSettings(arguments: beaconRequest))
-            .whenComplete(() {
-          result = null;
-          controller.value.resumeCamera();
-        });
+        var s = Get.find<BeaconService>();
+
+        await s.beaconPlugin.pair(pairingRequest: code);
+        Get.back();
       }
     });
   }
