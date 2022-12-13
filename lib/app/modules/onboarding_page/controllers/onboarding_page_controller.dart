@@ -63,6 +63,6 @@ class OnboardingPageController extends GetxController {
     NaanAnalytics.logEvent(NaanAnalyticsEvents.GET_STARTED, param: {
       "intro_page_name": _onboardingMessages.values.toList()[pageIndex.value]
     });
-    Get.toNamed(Routes.CREATE_WALLET_PAGE);
+    Get.offAllNamed(Routes.CREATE_WALLET_PAGE);
   }
 }

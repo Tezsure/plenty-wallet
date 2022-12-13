@@ -10,9 +10,10 @@ import 'token_textfield.dart';
 
 enum TextfieldType { token, usd }
 
-class TokenView extends GetView<SendPageController> {
-  const TokenView({
-    super.key,
+class TokenView extends StatelessWidget {
+   SendPageController controller;
+   TokenView({
+    super.key,required this.controller
   });
 
   @override

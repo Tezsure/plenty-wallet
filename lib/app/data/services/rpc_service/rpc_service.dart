@@ -26,10 +26,9 @@ class RpcService {
         .write(key: ServiceConfig.networkStorage, value: networkType.name);
   }
 
-  static Future<String> getCurrentNode() async {
+  static Future<String?> getCurrentNode() async {
     return (await ServiceConfig.localStorage
-            .read(key: ServiceConfig.nodeStorage)) ??
-        ServiceConfig.currentSelectedNode;
+            .read(key: ServiceConfig.nodeStorage)) ;
   }
 
   static Future<void> setNode(String url) async {

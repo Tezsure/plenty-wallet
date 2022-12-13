@@ -23,28 +23,28 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Obx(() {
-                  return SafeArea(
-                    child: AnimatedContainer(
-                      margin: EdgeInsets.symmetric(horizontal: 32.sp),
+                // Obx(() {
+                //   return SafeArea(
+                //     child: AnimatedContainer(
+                //       margin: EdgeInsets.symmetric(horizontal: 32.sp),
 
-                      duration: const Duration(milliseconds: 1000),
-                      alignment: Alignment.bottomLeft,
-                      // alignment: const Alignment(-0.1, 0.6),
-                      child: Text(
-                        controller.onboardingMessages.values
-                            .elementAt(controller.pageIndex()),
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontFamily: 'Space Grotesk',
-                          color: Colors.white,
-                          fontSize: 40.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  );
-                }),
+                //       duration: const Duration(milliseconds: 1000),
+                //       alignment: Alignment.bottomLeft,
+                //       // alignment: const Alignment(-0.1, 0.6),
+                //       child: Text(
+                //         controller.onboardingMessages.values
+                //             .elementAt(controller.pageIndex()),
+                //         textAlign: TextAlign.start,
+                //         style: TextStyle(
+                //           fontFamily: 'Space Grotesk',
+                //           color: Colors.white,
+                //           fontSize: 40.sp,
+                //           fontWeight: FontWeight.w400,
+                //         ),
+                //       ),
+                //     ),
+                //   );
+                // }),
                 Obx(() => AnimatedSmoothIndicator(
                       activeIndex: controller.pageIndex(),
                       count: 4,

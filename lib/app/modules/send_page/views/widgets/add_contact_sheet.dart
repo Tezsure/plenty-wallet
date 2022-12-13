@@ -129,7 +129,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
           controller: nameController,
         ),
         0.02.vspace,
-        widget.isTransactionContact
+        widget.isTransactionContact || widget.isEditContact
             ? const SizedBox()
             : Text(
                 widget.contactModel.address,

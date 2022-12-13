@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -63,7 +64,8 @@ class HistoryTile extends StatelessWidget {
                                       : const Border(),
                                   image: DecorationImage(
                                       fit: BoxFit.cover,
-                                      image: NetworkImage(tokenInfo.imageUrl
+                                      image: CachedNetworkImageProvider(tokenInfo
+                                              .imageUrl
                                               .startsWith("ipfs")
                                           ? "https://ipfs.io/ipfs/${tokenInfo.imageUrl.replaceAll("ipfs://", '')}"
                                           : tokenInfo.imageUrl)),

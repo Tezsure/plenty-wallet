@@ -1,10 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/web3auth_services/web3auth.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -15,14 +22,16 @@ class ResetWalletBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingController = Get.find<SettingsPageController>();
+    bool isWalletBackup = settingController.isWalletBackup.value;
     return NaanBottomSheet(
       blurRadius: 5.sp,
-      height: 275.sp,
-      title: "Disconnect app",
+      height: isWalletBackup ? 325.arP : 400.arP,
+      title: "Reset Naan",
       bottomSheetWidgets: [
         Center(
           child: Text(
-            'You can reconnect to this app later',
+            'You can lose your funds forever if you\ndidn’t make a backup. Are you sure you\nwant to reset Naan?',
             style: labelMedium.copyWith(color: ColorConst.textGrey1),
             textAlign: TextAlign.center,
           ),
@@ -32,15 +41,52 @@ class ResetWalletBottomSheet extends StatelessWidget {
         Column(
           children: [
             optionMethod(
-                child: Text(
-                  "Disconnect",
-                  style: labelMedium.apply(color: ColorConst.Error.shade60),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Platform.isAndroid
+                        ? SvgPicture.asset(
+                            "${PathConst.SVG}fingerprint.svg",
+                            color: ColorConst.Error.shade60,
+                            width: 17.sp,
+                          )
+                        : SvgPicture.asset(
+                            "${PathConst.SVG}faceid.svg",
+                            color: ColorConst.Error.shade60,
+                            width: 20.sp,
+                          ),
+                    0.02.hspace,
+                    Text(
+                      "Hold to reset Naan",
+                      style: labelMedium.apply(color: ColorConst.Error.shade60),
+                    ),
+                  ],
                 ),
-                onTap: () async {
-                  await ServiceConfig().clearStorage();
-                  NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
-                  Get.offAllNamed(Routes.ONBOARDING_PAGE);
+                onLongPress: () async {
+                  if (Get.find<HomePageController>().userAccounts.isEmpty) {
+                    await ServiceConfig().clearStorage();
+                    NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
+                    Get.offAllNamed(Routes.ONBOARDING_PAGE);
+                  }
+                  final isVerified =
+                      await AuthService().verifyBiometricOrPassCode();
+                  if (isVerified) {}
                 }),
+            if (!isWalletBackup)
+              Column(
+                children: [
+                  0.016.vspace,
+                  optionMethod(
+                      child: Text(
+                        "Backup Account",
+                        style: labelMedium,
+                      ),
+                      onTap: () {
+                        settingController.checkWalletBackup();
+                      }),
+                ],
+              ),
             0.016.vspace,
             optionMethod(
                 child: Text(
@@ -58,8 +104,13 @@ class ResetWalletBottomSheet extends StatelessWidget {
     );
   }
 
-  InkWell optionMethod({Widget? child, GestureTapCallback? onTap}) {
+  InkWell optionMethod({
+    Widget? child,
+    GestureTapCallback? onTap,
+    GestureTapCallback? onLongPress,
+  }) {
     return InkWell(
+      onLongPress: onLongPress,
       onTap: onTap,
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,

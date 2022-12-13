@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/copy_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
+import 'package:naan_wallet/app/modules/settings_page/controllers/backup_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -19,10 +20,12 @@ import '../../controllers/settings_page_controller.dart';
 
 class PrivateKeyPage extends StatelessWidget {
   static final _settingsController = Get.find<SettingsPageController>();
+  static final _backupController = Get.put(BackupPageController());
   final String pkh;
   const PrivateKeyPage({super.key, required this.pkh});
   @override
   Widget build(BuildContext context) {
+    _backupController.setup();
     NaanAnalytics.logEvent(NaanAnalyticsEvents.VIEW_PRIVATE_KEY,
         param: {NaanAnalytics.address: pkh});
     return SafeArea(
@@ -96,22 +99,24 @@ class PrivateKeyPage extends StatelessWidget {
                             ),
                           ),
                           Spacer(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'This screen will auto close in ',
-                                textAlign: TextAlign.center,
-                                style: labelSmall.copyWith(
-                                    color: ColorConst.NeutralVariant.shade60),
-                              ),
-                              Text(
-                                '30 seconds',
-                                textAlign: TextAlign.center,
-                                style: labelSmall,
-                              )
-                            ],
-                          ),
+                          Obx(() {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'This screen will auto close in ',
+                                  textAlign: TextAlign.center,
+                                  style: labelSmall.copyWith(
+                                      color: ColorConst.NeutralVariant.shade60),
+                                ),
+                                Text(
+                                  '${_backupController.timeLeft.value} seconds',
+                                  textAlign: TextAlign.center,
+                                  style: labelSmall,
+                                )
+                              ],
+                            );
+                          }),
                           0.075.vspace
                         ],
                       ),

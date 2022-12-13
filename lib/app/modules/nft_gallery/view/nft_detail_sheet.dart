@@ -428,17 +428,20 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: ListTile(
-                  dense: true,
+                  // dense: true,
                   leading: CircleAvatar(
                     backgroundColor: Colors.transparent,
                     child: SvgPicture.asset(
-                      widget.nftModel!.events![index].eventType
-                              .toString()
-                              .contains("transfer")
-                          ? '${PathConst.SVG}bi_arrow.svg'
-                          : '${PathConst.SVG}cart.svg',
-                      fit: BoxFit.contain,
-                    ),
+                        widget.nftModel!.events![index].eventType
+                                .toString()
+                                .contains("transfer")
+                            ? '${PathConst.SVG}bi_arrow.svg'
+                            : !widget.nftModel!.events![index].eventType
+                                    .toString()
+                                    .contains("mint")
+                                ? '${PathConst.SVG}cart.svg'
+                                : "assets/nft_page/svg/mint.svg",
+                        fit: BoxFit.contain),
                   ),
                   title: Text(
                     widget.nftModel!.events![index].eventType

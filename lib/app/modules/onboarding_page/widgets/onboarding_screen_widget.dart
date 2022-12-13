@@ -62,7 +62,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                       Align(
                         alignment: Alignment.topCenter,
                         child: SizedBox(
-                          height: 390.sp,
+                          height: 390.arP,
                           width: 1.width,
                           child: Lottie.asset(
                             widget.controller.onboardingMessages.keys
@@ -79,7 +79,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                         alignment: Alignment.bottomCenter,
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 500),
-                          height: 0.65.height,
+                          height: .65.height,
                           width: 1.width,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -98,6 +98,27 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                               begin: const Alignment(0, 0),
                               end: const Alignment(0, -0.8),
                               tileMode: TileMode.clamp,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SafeArea(
+                        child: AnimatedContainer(
+                          margin: EdgeInsets.symmetric(horizontal: 32.sp),
+                          padding: EdgeInsets.only(bottom: .2.height),
+                          duration: const Duration(milliseconds: 1000),
+                          color: Colors.transparent,
+                          alignment: Alignment.bottomLeft,
+                          // alignment: const Alignment(-0.1, 0.6),
+                          child: Text(
+                            widget.controller.onboardingMessages.values
+                                .elementAt(widget.controller.pageIndex()),
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontFamily: 'Space Grotesk',
+                              color: Colors.white,
+                              fontSize: 40.sp,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                         ),

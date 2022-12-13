@@ -22,7 +22,6 @@ class SelectToRevealKeyBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(BackupPageController());
     return NaanBottomSheet(
       isScrollControlled: true,
       blurRadius: 5,
@@ -86,19 +85,19 @@ class SelectToRevealKeyBottomSheet extends StatelessWidget {
                     if (!(await AuthService().verifyBiometricOrPassCode())) {
                       return;
                     }
-                    controller.timer;
+
+                    // controller.timer;
 
                     Get.bottomSheet(
-                            SecretPhrasePage(
-                              pkHash: accountModel.publicKeyHash!,
-                            ),
-                            barrierColor: Colors.transparent,
-                            enterBottomSheetDuration:
-                                const Duration(milliseconds: 180),
-                            exitBottomSheetDuration:
-                                const Duration(milliseconds: 150),
-                            isScrollControlled: true)
-                        .whenComplete(() => controller.timer.cancel());
+                        SecretPhrasePage(
+                          pkHash: accountModel.publicKeyHash!,
+                        ),
+                        barrierColor: Colors.transparent,
+                        enterBottomSheetDuration:
+                            const Duration(milliseconds: 180),
+                        exitBottomSheetDuration:
+                            const Duration(milliseconds: 150),
+                        isScrollControlled: true);
                   }),
               0.02.vspace,
               revealOptionMethod(
@@ -111,19 +110,19 @@ class SelectToRevealKeyBottomSheet extends StatelessWidget {
                     if (!(await AuthService().verifyBiometricOrPassCode())) {
                       return;
                     }
-                    controller.timer;
+
+                    // controller.timer;
 
                     Get.bottomSheet(
-                            PrivateKeyPage(
-                              pkh: accountModel.publicKeyHash!,
-                            ),
-                            barrierColor: Colors.transparent,
-                            enterBottomSheetDuration:
-                                const Duration(milliseconds: 180),
-                            exitBottomSheetDuration:
-                                const Duration(milliseconds: 150),
-                            isScrollControlled: true)
-                        .whenComplete(() => controller.timer.cancel());
+                        PrivateKeyPage(
+                          pkh: accountModel.publicKeyHash!,
+                        ),
+                        barrierColor: Colors.transparent,
+                        enterBottomSheetDuration:
+                            const Duration(milliseconds: 180),
+                        exitBottomSheetDuration:
+                            const Duration(milliseconds: 150),
+                        isScrollControlled: true);
                   }),
               // revealOptionMethod(
               //     child: Text(

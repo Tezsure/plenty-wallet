@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -102,6 +103,18 @@ class TransactionBottomSheet extends StatelessWidget {
           ),
         ),
         ListTile(
+            onTap: () {
+              Clipboard.setData(
+                ClipboardData(
+                  text: controller.selectedReceiver.value!.address,
+                ),
+              ).whenComplete(() {
+                Get.showSnackbar(const GetSnackBar(
+                  message: "Copied to clipboard",
+                  duration: Duration(seconds: 2),
+                ));
+              });
+            },
             contentPadding: EdgeInsets.zero,
             title: Text(
               "To",
@@ -151,6 +164,18 @@ class TransactionBottomSheet extends StatelessWidget {
         //     ),
         //     trailing: SvgPicture.asset('assets/svg/chevron_down.svg')),
         ListTile(
+            onTap: () {
+              Clipboard.setData(
+                ClipboardData(
+                  text: controller.senderAccountModel!.publicKeyHash,
+                ),
+              ).whenComplete(() {
+                Get.showSnackbar(const GetSnackBar(
+                  message: "Copied to clipboard",
+                  duration: Duration(seconds: 2),
+                ));
+              });
+            },
             contentPadding: EdgeInsets.zero,
             title: Text(
               "From",
@@ -315,7 +340,7 @@ class TransactionBottomSheet extends StatelessWidget {
                         primaryColor: Colors.transparent,
                         borderColor: ColorConst.Neutral.shade80,
                         textColor: ColorConst.Primary.shade80,
-                        title: 'Got it',
+                        title: 'Done',
                         onPressed: () {
                           Get
                             ..back()

@@ -25,7 +25,7 @@ import '../../../common_widgets/info_bottom_sheet.dart';
 class BackupPage extends StatelessWidget {
   BackupPage({super.key});
 
-  final controller = Get.put(BackupPageController());
+  // final controller = Get.put(BackupPageController());
   static final _homePageController = Get.find<HomePageController>();
 
   @override

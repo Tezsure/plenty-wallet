@@ -79,6 +79,7 @@ class ContactsListView extends GetView<SendPageController> {
       child: SizedBox(
         height: 46,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
               onTap: () => controller.onContactSelect(contactModel: contact),

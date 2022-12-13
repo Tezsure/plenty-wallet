@@ -14,54 +14,42 @@ class AddAccountWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(22), gradient: accountBg),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              Get.bottomSheet(
-                addAccountSheet(),
-                enterBottomSheetDuration: const Duration(milliseconds: 180),
-                exitBottomSheetDuration: const Duration(milliseconds: 150),
-                barrierColor: Colors.transparent,
-              );
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Container(
-                    height: 20,
-                    width: 20,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: ColorConst.Secondary.shade70,
-                    ),
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 18.sp,
-                    ),
-                  ),
-                ),
-                0.02.hspace,
-                Text(
-                  'Add Account',
-                  style: labelSmall,
-                ),
-              ],
+    return GestureDetector(
+      onTap: () {
+        Get.bottomSheet(
+          addAccountSheet(),
+          enterBottomSheetDuration: const Duration(milliseconds: 180),
+          exitBottomSheetDuration: const Duration(milliseconds: 150),
+          barrierColor: Colors.transparent,
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.all(20.arP),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(22),
+            color: ColorConst.darkGrey),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: Icon(
+                Icons.add_circle,
+                color: ColorConst.textGrey1,
+                size: 30.arP,
+              ),
             ),
-          ),
-          0.010.vspace,
-          Text(
-            'Create new account and add to the stack ',
-            style: labelSmall,
-          )
-        ],
+            Spacer(),
+            Text(
+              'Add more accounts',
+              style: titleLarge,
+            ),
+            Text(
+              'Use accounts to manage your\nassets separately',
+              style: bodySmall.copyWith(color: ColorConst.textGrey1),
+            ),
+          ],
+        ),
       ),
     );
   }

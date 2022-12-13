@@ -19,11 +19,12 @@ class SplashPageController extends GetxController {
 
     // await ServiceConfig().clearStorage();
 
-    ServiceConfig.currentSelectedNode = await RpcService.getCurrentNode();
     Get.lazyPut(() => BeaconService());
     Get.lazyPut(() => HomePageController());
     Get.put(SettingsPageController());
     Get.put(DelegateWidgetController());
+    ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
+        ServiceConfig.currentSelectedNode;
     await DataHandlerService().initDataServices();
 
     var walletAccountsLength =

@@ -150,6 +150,8 @@ class SettingsPageController extends GetxController {
               nodes.firstWhere((element) => element.url == value);
         }
       }
+      ServiceConfig.currentSelectedNode =
+          selectedNode.value.url ?? ServiceConfig.currentSelectedNode;
     });
     inAppReviewAvailable.value = await inAppReview.isAvailable();
     getAllConnectedApps();

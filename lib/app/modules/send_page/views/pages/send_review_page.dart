@@ -43,7 +43,9 @@ class SendReviewPage extends StatelessWidget {
                 ),
                 controller.isNFTPage.value ? 0.02.vspace : 0.05.vspace,
                 if (!controller.isNFTPage.value) ...[
-                  const TokenView(),
+                  TokenView(
+                    controller: controller,
+                  ),
                 ] else ...[
                   // 0.07.vspace,
                   Center(
