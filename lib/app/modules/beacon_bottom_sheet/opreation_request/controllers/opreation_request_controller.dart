@@ -119,7 +119,7 @@ class OpreationRequestController extends GetxController {
                   .secretKey,
               publicKeyHash: accountModels!.value.publicKeyHash!,
             ));
-        operation.value = op['opPair'];
+        operation.value = op;
         fees.value = ((int.parse(op['gasEstimation']) / pow(10, 6)) * xtzPrice)
             .toStringAsFixed(4);
         print("operation ${operation.toString()}");

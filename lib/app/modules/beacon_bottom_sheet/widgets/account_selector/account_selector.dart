@@ -42,7 +42,7 @@ class AccountSelector extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemBuilder: (context, index) {
-                return GestureDetector(
+                return InkWell(
                   onTap: () {
                     Get.back(result: index);
                   },
