@@ -53,6 +53,7 @@ class AccountsWidgetController extends GetxController {
 
   /// if no account exist then create otherwise import using same account mnemonic and +1derivationPath
   void createNewWallet() async {
+    
     await WalletService().createNewAccount(
       accountNameController.text,
       currentSelectedType,

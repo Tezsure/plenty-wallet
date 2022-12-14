@@ -54,6 +54,7 @@ class TokenCheckbox extends StatelessWidget {
                                 _isHiddenTokenSelector()
                               else
                                 _checkBox(),
+                              0.01.hspace,
                               _imageAvatar(),
                             ],
                           )
@@ -110,20 +111,33 @@ class TokenCheckbox extends StatelessWidget {
     );
   }
 
-  Widget _checkBox() => CustomCheckBox(
-      borderRadius: 12.aR,
-      checkedIcon: Icons.done,
-      borderWidth: 2,
-      checkBoxIconSize: 12.aR,
-      checkBoxSize: 20.aR,
-      borderColor: const Color(0xff1E1C1F),
-      checkedIconColor: Colors.white,
-      uncheckedFillColor: Colors.transparent,
-      uncheckedIconColor: Colors.transparent,
-      checkedFillColor:
-          tokenModel.isSelected ? ColorConst.Primary : const Color(0xff1E1C1F),
-      value: tokenModel.isSelected,
-      onChanged: (v) => onCheckboxTap?.call());
+  Widget _checkBox() {
+    return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      onTap: onCheckboxTap,
+      child: SvgPicture.asset(
+        "assets/svg/check_3.svg",
+        height: 17.sp,
+        width: 17.sp,
+      ),
+    );
+    return CustomCheckBox(
+        borderRadius: 12.aR,
+        checkedIcon: Icons.done,
+        borderWidth: 2,
+        checkBoxIconSize: 12.aR,
+        checkBoxSize: 20.aR,
+        borderColor: const Color(0xff1E1C1F),
+        checkedIconColor: Colors.white,
+        uncheckedFillColor: Colors.transparent,
+        uncheckedIconColor: Colors.transparent,
+        checkedFillColor: tokenModel.isSelected
+            ? ColorConst.Primary
+            : const Color(0xff1E1C1F),
+        value: tokenModel.isSelected,
+        onChanged: (v) => onCheckboxTap?.call());
+  }
 
   Widget _imageAvatar() => CircleAvatar(
         radius: 20.aR,

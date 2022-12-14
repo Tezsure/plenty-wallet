@@ -64,16 +64,16 @@ class SettingsPageView extends GetView<SettingsPageController> {
                     Spacer()
                   ],
                 ),
-                0.03.vspace,
+                // 0.03.vspace,
                 Expanded(
                   child: SingleChildScrollView(
                     physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
                     child: Column(
                       children: [
-                        Obx(() => _homePageController.userAccounts.isEmpty
-                            ? const SizedBox()
-                            : _accountOption()),
+                        // Obx(() => _homePageController.userAccounts.isEmpty
+                        //     ? const SizedBox()
+                        //     : _accountOption()),
 
                         _backupOption(),
                         SizedBox(height: 0.05.width),
@@ -283,13 +283,15 @@ class SettingsPageView extends GetView<SettingsPageController> {
     );
   }
 
-  GestureDetector _settingOption({
+  Widget _settingOption({
     required String title,
     required String svgPath,
     GestureTapCallback? onTap,
     Widget? trailing,
   }) {
-    return GestureDetector(
+    return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       onTap: onTap,
       child: SizedBox(
         height: 54,
@@ -328,6 +330,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                   : SvgPicture.asset(
                       "${PathConst.SVG}faceid.svg",
                       width: 25,
+                      color: Colors.white,
                     ),
             ),
           ),

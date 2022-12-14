@@ -33,22 +33,23 @@ class DiscoverAppsWidget extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
+            
             Align(
               alignment: Alignment.topRight,
               child:
-                  Image.asset("${PathConst.HOME_PAGE.SVG}discover_app_2.png"),
+                  Image.asset("${PathConst.HOME_PAGE}discover_apps.png"),
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(22.sp),
-                topRight: Radius.circular(22.sp),
-              ),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child:
-                    Image.asset("${PathConst.HOME_PAGE.SVG}discover_app_1.png"),
-              ),
-            ),
+            // ClipRRect(
+            //   borderRadius: BorderRadius.only(
+            //     topLeft: Radius.circular(22.sp),
+            //     topRight: Radius.circular(22.sp),
+            //   ),
+            //   child: Align(
+            //     alignment: Alignment.topLeft,
+            //     child:
+            //         Image.asset("${PathConst.HOME_PAGE.SVG}discover_app_1.png"),
+            //   ),
+            // ),
             // Align(
             //   alignment: Alignment.topLeft,
             //   child: Padding(

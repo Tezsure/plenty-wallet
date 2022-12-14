@@ -310,7 +310,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
             color: Colors.black),
         width: 1.width,
-        height: 317.aR,
+        height: 275.aR,
         padding: EdgeInsets.symmetric(horizontal: 16.sp),
         child: Column(
           children: [
@@ -329,10 +329,10 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               padding: EdgeInsets.symmetric(
                 horizontal: 12.aR,
               ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.aR),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              ),
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(8.aR),
+              //   color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              // ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -350,6 +350,11 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                       }
                     },
                     child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.aR),
+                        color:
+                            ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                      ),
                       width: double.infinity,
                       height: 51.aR,
                       alignment: Alignment.center,
@@ -359,11 +364,12 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                       ),
                     ),
                   ),
-                  const Divider(
-                    color: Color(0xff4a454e),
-                    height: 1,
-                    thickness: 1,
-                  ),
+                  // const Divider(
+                  //   color: Color(0xff4a454e),
+                  //   height: 1,
+                  //   thickness: 1,
+                  // ),
+                  0.01.vspace,
                   GestureDetector(
                     onTap: () async {
                       Get.bottomSheet(
@@ -376,6 +382,11 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                       );
                     },
                     child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.aR),
+                        color:
+                            ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                      ),
                       width: double.infinity,
                       height: 51.aR,
                       alignment: Alignment.center,
@@ -385,11 +396,11 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                       ),
                     ),
                   ),
-                  const Divider(
-                    color: Color(0xff4a454e),
-                    height: 1,
-                    thickness: 1,
-                  ),
+                  // const Divider(
+                  //   color: Color(0xff4a454e),
+                  //   height: 1,
+                  //   thickness: 1,
+                  // ),
                   _controller.homePageController
                               .userAccounts[widget.accountIndex].imageType! ==
                           AccountProfileImageType.file
@@ -421,7 +432,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             ),
             0.016.vspace,
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.sp),
+              padding: EdgeInsets.symmetric(horizontal: 32.sp),
               child: GestureDetector(
                 onTap: () => Get.back(),
                 child: Container(

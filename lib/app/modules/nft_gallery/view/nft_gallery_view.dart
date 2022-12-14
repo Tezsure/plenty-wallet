@@ -1069,7 +1069,8 @@ class NftCollectionItemWidget extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                nftTokens[0].fa!.name!,
+                nftTokens[0].fa!.name ??
+                    (nftTokens[0].fa!.contract ?? "").tz1Short(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

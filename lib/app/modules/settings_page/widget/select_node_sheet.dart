@@ -48,25 +48,31 @@ class SelectNodeBottomSheet extends StatelessWidget {
         ),
         _buildCustomNodes(),
         0.02.vspace,
-        SolidButton(
-          borderColor: ColorConst.Primary,
-          textColor: ColorConst.Primary,
-          primaryColor: Colors.transparent,
-          onPressed: () {
-            Get.bottomSheet(
-              AddRPCbottomSheet(),
-              enterBottomSheetDuration: const Duration(milliseconds: 180),
-              exitBottomSheetDuration: const Duration(milliseconds: 150),
-            );
-          },
-          title: "Add custom RPC",
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.arP),
+          child: SolidButton(
+            borderColor: ColorConst.Primary,
+            textColor: ColorConst.Primary,
+            primaryColor: Colors.transparent,
+            onPressed: () {
+              Get.bottomSheet(
+                AddRPCbottomSheet(),
+                enterBottomSheetDuration: const Duration(milliseconds: 180),
+                exitBottomSheetDuration: const Duration(milliseconds: 150),
+              );
+            },
+            title: "Add custom RPC",
+          ),
         ),
         SizedBox(
           height: 16.aR,
         ),
-        SolidButton(
-          onPressed: Get.back,
-          title: "Apply",
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.arP),
+          child: SolidButton(
+            onPressed: Get.back,
+            title: "Apply",
+          ),
         ),
         0.055.vspace,
       ],
@@ -174,7 +180,7 @@ class SelectNodeBottomSheet extends StatelessWidget {
               Obx(() {
                 if (controller.selectedNode.value.url == model.url) {
                   return SvgPicture.asset(
-                    "${PathConst.SVG}check2.svg",
+                    "${PathConst.SVG}check_3.svg",
                     color: ColorConst.Primary,
                     height: 16.6.sp,
                     fit: BoxFit.contain,

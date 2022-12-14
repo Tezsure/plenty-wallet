@@ -14,8 +14,9 @@ class ChangePasscode extends GetView<SettingsPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Container(
-        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+        // decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
         padding: const EdgeInsets.symmetric(horizontal: 21),
         child: SafeArea(
           child: Column(

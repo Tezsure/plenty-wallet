@@ -54,9 +54,10 @@ class ConnectedDappBottomSheet extends StatelessWidget {
     required P2PPeer dappModel,
     required int index,
   }) {
-    return SizedBox(
+    return Container(
+      margin: EdgeInsets.only(bottom: 12.arP),
       width: double.infinity,
-      height: 54,
+      height: 48,
       child: Row(
         children: [
           CircleAvatar(

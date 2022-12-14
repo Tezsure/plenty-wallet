@@ -45,9 +45,12 @@ class SelectNetworkBottomSheet extends StatelessWidget {
               SizedBox(
                 height: 30.aR,
               ),
-              SolidButton(
-                onPressed: Get.back,
-                title: "Apply",
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.arP),
+                child: SolidButton(
+                  onPressed: Get.back,
+                  title: "Apply",
+                ),
               )
             ],
           ),
@@ -80,9 +83,8 @@ class SelectNetworkBottomSheet extends StatelessWidget {
             const Spacer(),
             if (controller.networkType.value.index == value.index)
               SvgPicture.asset(
-                "${PathConst.SVG}check2.svg",
-                color: ColorConst.Primary,
-                height: 16.6.sp,
+                "${PathConst.SVG}check_3.svg",
+                height: 20.arP,
                 fit: BoxFit.contain,
               ),
           ],

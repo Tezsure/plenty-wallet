@@ -46,7 +46,7 @@ class OnboardingPageController extends GetxController {
 
   /// Animates the page transition from current to next page
   void animateSlider() {
-    Future.delayed(const Duration(seconds: 3)).then((_) {
+    Future.delayed(const Duration(seconds: 5)).then((_) {
       int nextPage = _pageController.page!.round() + 1;
       if (nextPage == onboardingMessages.keys.length) {
         nextPage = 0;
