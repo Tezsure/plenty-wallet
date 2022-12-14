@@ -16,10 +16,15 @@ import '../../../common_widgets/info_bottom_sheet.dart';
 import 'private_key_page.dart';
 import 'secret_phrase_page.dart';
 
-class SelectToRevealKeyBottomSheet extends StatelessWidget {
+class SelectToRevealKeyBottomSheet extends StatefulWidget {
   final AccountModel accountModel;
   const SelectToRevealKeyBottomSheet({super.key, required this.accountModel});
 
+  @override
+  State<SelectToRevealKeyBottomSheet> createState() => _SelectToRevealKeyBottomSheetState();
+}
+
+class _SelectToRevealKeyBottomSheetState extends State<SelectToRevealKeyBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
@@ -87,17 +92,18 @@ class SelectToRevealKeyBottomSheet extends StatelessWidget {
                     }
 
                     // controller.timer;
-
+                    final controller = Get.put(BackupPageController());
                     Get.bottomSheet(
-                        SecretPhrasePage(
-                          pkHash: accountModel.publicKeyHash!,
-                        ),
-                        barrierColor: Colors.transparent,
-                        enterBottomSheetDuration:
-                            const Duration(milliseconds: 180),
-                        exitBottomSheetDuration:
-                            const Duration(milliseconds: 150),
-                        isScrollControlled: true);
+                            SecretPhrasePage(
+                              pkHash: widget.accountModel.publicKeyHash!,
+                            ),
+                            barrierColor: Colors.transparent,
+                            enterBottomSheetDuration:
+                                const Duration(milliseconds: 180),
+                            exitBottomSheetDuration:
+                                const Duration(milliseconds: 150),
+                            isScrollControlled: true)
+                        .then((_) => controller.timer.cancel());
                   }),
               0.02.vspace,
               revealOptionMethod(
@@ -112,17 +118,18 @@ class SelectToRevealKeyBottomSheet extends StatelessWidget {
                     }
 
                     // controller.timer;
-
+                    final controller = Get.put(BackupPageController());
                     Get.bottomSheet(
-                        PrivateKeyPage(
-                          pkh: accountModel.publicKeyHash!,
-                        ),
-                        barrierColor: Colors.transparent,
-                        enterBottomSheetDuration:
-                            const Duration(milliseconds: 180),
-                        exitBottomSheetDuration:
-                            const Duration(milliseconds: 150),
-                        isScrollControlled: true);
+                            PrivateKeyPage(
+                              pkh: widget.accountModel.publicKeyHash!,
+                            ),
+                            barrierColor: Colors.transparent,
+                            enterBottomSheetDuration:
+                                const Duration(milliseconds: 180),
+                            exitBottomSheetDuration:
+                                const Duration(milliseconds: 150),
+                            isScrollControlled: true)
+                        .then((_) => controller.timer.cancel());
                   }),
               // revealOptionMethod(
               //     child: Text(

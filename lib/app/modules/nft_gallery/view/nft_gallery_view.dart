@@ -926,7 +926,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
 
   Widget _removeGallery(int galleryIndex) => Container(
         width: 1.width,
-        height: 0.38.height,
+        height: 0.34.height,
         padding: EdgeInsets.only(
           bottom: Platform.isIOS ? 0.05.height : 0.02.height,
         ),
@@ -950,7 +950,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 0.175.width),
               child: Text(
-                "Do you want to remove ${controller.nftGalleryList[galleryIndex].name} from your gallery list?",
+                "Do you want to remove \"${controller.nftGalleryList[galleryIndex].name}\" from your gallery list?",
                 style: bodySmall.copyWith(
                   color: ColorConst.NeutralVariant.shade60,
                 ),

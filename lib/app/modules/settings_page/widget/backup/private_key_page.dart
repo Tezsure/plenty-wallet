@@ -20,7 +20,7 @@ import '../../controllers/settings_page_controller.dart';
 
 class PrivateKeyPage extends StatelessWidget {
   static final _settingsController = Get.find<SettingsPageController>();
-  static final _backupController = Get.put(BackupPageController());
+  static final _backupController = Get.find<BackupPageController>();
   final String pkh;
   const PrivateKeyPage({super.key, required this.pkh});
   @override

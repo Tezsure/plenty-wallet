@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 class NftGalleryWidget extends StatefulWidget {
@@ -111,12 +113,35 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                       onTap: () => controller.openGallery(index),
                       child: Stack(
                         children: [
-                          SizedBox(
+                          Container(
                             width: double.infinity,
                             height: double.infinity,
-                            child: Image.network(
-                              "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb288",
-                              fit: BoxFit.cover,
+                            decoration: BoxDecoration(
+                                gradient: appleGreen,
+                                image: DecorationImage(
+                                  image: CachedNetworkImageProvider(
+                                    "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb288",
+                                  ),
+                                  fit: BoxFit.cover,
+                                )),
+                            // child: Image.network(
+                            //   "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb288",
+                            //   fit: BoxFit.cover,
+                            // ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Container(
+                              height: 0.5.height,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                    Colors.transparent,
+                                    Colors.black.withOpacity(.8),
+                                  ])),
                             ),
                           ),
                           Align(

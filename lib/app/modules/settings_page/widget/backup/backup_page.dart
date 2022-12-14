@@ -113,8 +113,7 @@ class BackupPage extends StatelessWidget {
                   style: bodySmall.copyWith(fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  tz1Shortner(accountModel.accountSecretModel?.publicKey ??
-                      'nxkjfbhedvzbv'),
+                  tz1Shortner(accountModel.publicKeyHash ?? 'nxkjfbhedvzbv'),
                   style: labelSmall.apply(
                       color: ColorConst.NeutralVariant.shade60),
                 ),

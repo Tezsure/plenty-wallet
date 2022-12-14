@@ -26,7 +26,7 @@ import '../../../common_widgets/info_bottom_sheet.dart';
 class SecretPhrasePage extends StatelessWidget {
   final String pkHash;
   static final _settingsController = Get.find<SettingsPageController>();
-  static final _backupController = Get.put(BackupPageController());
+  static final _backupController = Get.find<BackupPageController>();
   const SecretPhrasePage({super.key, required this.pkHash});
   @override
   Widget build(BuildContext context) {
@@ -112,7 +112,7 @@ class SecretPhrasePage extends StatelessWidget {
                       height: 8,
                     ),
                     Text(
-                      '${snapshotData.data?.derivationPathIndex}',
+                      "m/44'/1729'/${snapshotData.data?.derivationPathIndex}/0'",
                       textAlign: TextAlign.center,
                       style: labelMedium,
                     ),
