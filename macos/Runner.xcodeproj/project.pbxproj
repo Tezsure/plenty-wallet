@@ -72,15 +72,8 @@
 		613FD47FC5296A6069E1AF3E /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		A35532C9F1648BC49454FF3A /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
-		B904472F8602040C750B272D /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EE6049563CD7C99ECA295F9D /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
-		EF7664C12226A91968B2D30D /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
-=======
 		D2CB2853F258CB0EC8137D7E /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6A9A1EAA27A8EDAAC1A7F9D /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
->>>>>>> feat/dapp_browser_latest_dummy
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,11 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-<<<<<<< HEAD
-				1C59ABDA6F054849DCF97540 /* Pods_Runner.framework in Frameworks */,
-=======
 				8B4135B0FE88E2976DC82265 /* Pods_Runner.framework in Frameworks */,
->>>>>>> feat/dapp_browser_latest_dummy
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,11 +117,7 @@
 				33CEB47122A05771004F2AC0 /* Flutter */,
 				33CC10EE2044A3C60003C045 /* Products */,
 				D73912EC22F37F3D000D13A0 /* Frameworks */,
-<<<<<<< HEAD
-				D2E31A99FAA28D6659FC4244 /* Pods */,
-=======
 				2BD845BC7B7400E1C2A95CDC /* Pods */,
->>>>>>> feat/dapp_browser_latest_dummy
 			);
 			sourceTree = "<group>";
 		};
@@ -193,11 +178,7 @@
 		D73912EC22F37F3D000D13A0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-				B904472F8602040C750B272D /* Pods_Runner.framework */,
-=======
 				D2CB2853F258CB0EC8137D7E /* Pods_Runner.framework */,
->>>>>>> feat/dapp_browser_latest_dummy
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -209,21 +190,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 33CC10FB2044A3C60003C045 /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
-<<<<<<< HEAD
-				20A04C7B392FEACC8ECE736E /* [CP] Check Pods Manifest.lock */,
-=======
 				0C1EDCA558165F21F6EE500E /* [CP] Check Pods Manifest.lock */,
->>>>>>> feat/dapp_browser_latest_dummy
 				33CC10E92044A3C60003C045 /* Sources */,
 				33CC10EA2044A3C60003C045 /* Frameworks */,
 				33CC10EB2044A3C60003C045 /* Resources */,
 				33CC110E2044A8840003C045 /* Bundle Framework */,
 				3399D490228B24CF009A79C7 /* ShellScript */,
-<<<<<<< HEAD
-				C81C854EFB8A982F1579EEEA /* [CP] Embed Pods Frameworks */,
-=======
 				8842287F64901A04F173578E /* [CP] Embed Pods Frameworks */,
->>>>>>> feat/dapp_browser_latest_dummy
 			);
 			buildRules = (
 			);
@@ -293,11 +266,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-<<<<<<< HEAD
-		20A04C7B392FEACC8ECE736E /* [CP] Check Pods Manifest.lock */ = {
-=======
 		0C1EDCA558165F21F6EE500E /* [CP] Check Pods Manifest.lock */ = {
->>>>>>> feat/dapp_browser_latest_dummy
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -356,11 +325,7 @@
 			shellPath = /bin/sh;
 			shellScript = "\"$FLUTTER_ROOT\"/packages/flutter_tools/bin/macos_assemble.sh && touch Flutter/ephemeral/tripwire";
 		};
-<<<<<<< HEAD
-		C81C854EFB8A982F1579EEEA /* [CP] Embed Pods Frameworks */ = {
-=======
 		8842287F64901A04F173578E /* [CP] Embed Pods Frameworks */ = {
->>>>>>> feat/dapp_browser_latest_dummy
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

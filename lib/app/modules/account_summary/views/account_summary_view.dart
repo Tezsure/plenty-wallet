@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -73,7 +74,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                 Get.bottomSheet(
                                     AccountSelectorSheet(
                                       selectedAccount:
-                                          controller.userAccount.value,
+                                          controller.selectedAccount.value,
                                     ),
                                     enterBottomSheetDuration:
                                         const Duration(milliseconds: 180),
@@ -87,17 +88,17 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                 children: [
                                   0.01.hspace,
                                   CustomImageWidget(
-                                    imageType:
-                                        controller.userAccount.value.imageType!,
+                                    imageType: controller
+                                        .selectedAccount.value.imageType!,
                                     imagePath: controller
-                                        .userAccount.value.profileImage!,
+                                        .selectedAccount.value.profileImage!,
                                     imageRadius: 18.aR,
                                   ),
                                   0.03.hspace,
                                   RichText(
                                     text: TextSpan(
-                                        text:
-                                            controller.userAccount.value.name!,
+                                        text: controller
+                                            .selectedAccount.value.name!,
                                         style: labelMedium.copyWith(
                                             fontSize: 12.aR,
                                             fontWeight: FontWeight.w600),
@@ -117,7 +118,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                           ),
                                           TextSpan(
                                             text:
-                                                "\n${(controller.userAccount.value.publicKeyHash!).tz1Short()}",
+                                                "\n${(controller.selectedAccount.value.publicKeyHash!).tz1Short()}",
                                             style: labelMedium.copyWith(
                                                 fontSize: 12.aR,
                                                 height: 0,
@@ -137,8 +138,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                 InkWell(
                                   onTap: () {
                                     Clipboard.setData(ClipboardData(
-                                        text: controller
-                                            .userAccount.value.publicKeyHash));
+                                        text: controller.selectedAccount.value
+                                            .publicKeyHash));
                                     Get.rawSnackbar(
                                       message: "Copied to clipboard",
                                       shouldIconPulse: true,
@@ -160,6 +161,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                 ),
                                 0.04.hspace,
                                 InkWell(
+                                  onTap: () {
+                                    Get.find<HomePageController>()
+                                        .openScanner();
+                                  },
                                   child: SvgPicture.asset(
                                     '${PathConst.SVG}scanVector.svg',
                                     fit: BoxFit.contain,
@@ -176,7 +181,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                     0.036.vspace,
                     Obx(() => Center(
                           child: Text(
-                            "\$ ${(controller.userAccount.value.accountDataModel!.totalBalance! * controller.xtzPrice.value).toStringAsFixed(6)}",
+                            "\$ ${(controller.selectedAccount.value.accountDataModel!.totalBalance! * controller.xtzPrice.value).toStringAsFixed(6)}",
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 30.aR,
@@ -214,7 +219,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                 exitBottomSheetDuration:
                                     const Duration(milliseconds: 150),
                                 settings: RouteSettings(
-                                    arguments: controller.userAccount.value),
+                                    arguments:
+                                        controller.selectedAccount.value),
                                 isScrollControlled: true,
                                 barrierColor: Colors.white.withOpacity(0.09))),
                           ),
@@ -229,7 +235,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                 exitBottomSheetDuration:
                                     const Duration(milliseconds: 150),
                                 settings: RouteSettings(
-                                    arguments: controller.userAccount.value),
+                                    arguments:
+                                        controller.selectedAccount.value),
                                 isScrollControlled: true,
                                 barrierColor: Colors.white.withOpacity(0.09))),
                           ),
@@ -329,7 +336,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
               onTap: () {
                 Get.bottomSheet(
                     AccountSelectorSheet(
-                      selectedAccount: controller.userAccount.value,
+                      selectedAccount: controller.selectedAccount.value,
                     ),
                     isScrollControlled: true);
               },
@@ -339,14 +346,14 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                 children: [
                   0.01.hspace,
                   CustomImageWidget(
-                    imageType: controller.userAccount.value.imageType!,
-                    imagePath: controller.userAccount.value.profileImage!,
+                    imageType: controller.selectedAccount.value.imageType!,
+                    imagePath: controller.selectedAccount.value.profileImage!,
                     imageRadius: 18.aR,
                   ),
                   0.03.hspace,
                   RichText(
                     text: TextSpan(
-                        text: controller.userAccount.value.name!,
+                        text: controller.selectedAccount.value.name!,
                         style: labelMedium.copyWith(
                             fontSize: 12.aR, fontWeight: FontWeight.w600),
                         children: [
@@ -364,7 +371,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           ),
                           TextSpan(
                             text:
-                                "\n${(controller.userAccount.value.publicKeyHash!).tz1Short()}",
+                                "\n${(controller.selectedAccount.value.publicKeyHash!).tz1Short()}",
                             style: labelMedium.copyWith(
                                 fontSize: 12.aR,
                                 height: 0,
@@ -383,7 +390,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                 InkWell(
                   onTap: () {
                     Clipboard.setData(ClipboardData(
-                        text: controller.userAccount.value.publicKeyHash));
+                        text: controller.selectedAccount.value.publicKeyHash));
                     Get.rawSnackbar(
                       message: "Copied to clipboard",
                       shouldIconPulse: true,

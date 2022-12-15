@@ -262,7 +262,7 @@ class HistoryPage extends GetView<TransactionController> {
               TransactionDetailsBottomSheet(
                 tokenInfo: token,
                 userAccountAddress:
-                    controller.accController.userAccount.value.publicKeyHash!,
+                    controller.accController.selectedAccount.value.publicKeyHash!,
                 transactionModel: token.token!,
               ),
               enterBottomSheetDuration: const Duration(milliseconds: 180),
@@ -330,7 +330,7 @@ class HistoryPage extends GetView<TransactionController> {
                     TransactionDetailsBottomSheet(
                       tokenInfo: controller.defaultTransactionList[index],
                       userAccountAddress: controller
-                          .accController.userAccount.value.publicKeyHash!,
+                          .accController.selectedAccount.value.publicKeyHash!,
                       transactionModel:
                           controller.defaultTransactionList[index].token!,
                     ),

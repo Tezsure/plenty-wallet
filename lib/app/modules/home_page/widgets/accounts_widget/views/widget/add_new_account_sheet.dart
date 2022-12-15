@@ -328,6 +328,33 @@ class AddNewAccountBottomSheet extends StatelessWidget {
   }
 
   Widget avatarPicker() {
+    return AvatarPicker(controller: controller);
+  }
+}
+
+class AvatarPicker extends StatefulWidget {
+  const AvatarPicker({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  final AccountsWidgetController controller;
+
+  @override
+  State<AvatarPicker> createState() => _AvatarPickerState();
+}
+
+class _AvatarPickerState extends State<AvatarPicker> {
+  late String selectedAvatar;
+  @override
+  void initState() {
+    selectedAvatar = widget.controller.selectedImagePath.value;
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
       width: 1.width,
@@ -360,12 +387,12 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: controller.currentSelectedType ==
+                  image: widget.controller.currentSelectedType ==
                           AccountProfileImageType.assets
-                      ? AssetImage(controller.selectedImagePath.value)
+                      ? AssetImage(selectedAvatar)
                       : FileImage(
                           File(
-                            controller.selectedImagePath.value,
+                            selectedAvatar,
                           ),
                         ) as ImageProvider,
                 ),
@@ -384,10 +411,11 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                 ServiceConfig.allAssetsProfileImages.length,
                 (index) => GestureDetector(
                   onTap: () {
-                    controller.currentSelectedType =
+                    widget.controller.currentSelectedType =
                         AccountProfileImageType.assets;
-                    controller.selectedImagePath.value =
+                    selectedAvatar =
                         ServiceConfig.allAssetsProfileImages[index];
+                    setState(() {});
                   },
                   child: CircleAvatar(
                     radius: 0.08.width,
@@ -404,6 +432,9 @@ class AddNewAccountBottomSheet extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 0.05.width),
             child: SolidButton(
               onPressed: () {
+                widget.controller.currentSelectedType =
+                    AccountProfileImageType.assets;
+                widget.controller.selectedImagePath.value = selectedAvatar;
                 Get
                   ..back()
                   ..back();

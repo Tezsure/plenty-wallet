@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/views/settings_page_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -26,8 +27,9 @@ class HomepageAppBar extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () =>
-                {Get.bottomSheet(QRViewExample(), isScrollControlled: true)},
+            onTap: () {
+              Get.find<HomePageController>().openScanner();
+            },
             child: Image.asset(
               "${PathConst.HOME_PAGE}scan.png",
               width: 42,

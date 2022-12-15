@@ -11,10 +11,8 @@ import 'token_textfield.dart';
 enum TextfieldType { token, usd }
 
 class TokenView extends StatelessWidget {
-   SendPageController controller;
-   TokenView({
-    super.key,required this.controller
-  });
+  SendPageController controller;
+  TokenView({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +79,7 @@ class TokenView extends StatelessWidget {
                                     color: const Color(0xFF332F37)),
                                 child: Center(
                                   child: Text('Max',
-                                      style: labelSmall.copyWith(
+                                      style: labelMedium.copyWith(
                                           color: const Color(0xFF625C66))),
                                 ),
                               ),
@@ -189,7 +187,7 @@ class TokenView extends StatelessWidget {
                                           .withOpacity(0.2)),
                                   child: Center(
                                     child: Text('Max',
-                                        style: labelSmall.copyWith(
+                                        style: labelMedium.copyWith(
                                             color: ColorConst
                                                 .NeutralVariant.shade60)),
                                   ),

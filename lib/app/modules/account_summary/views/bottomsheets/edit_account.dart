@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
@@ -155,9 +157,9 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                           if (_accountController.homePageController
                               .userAccounts[widget.accountIndex].publicKeyHash!
                               .contains(_accountController
-                                  .userAccount.value.publicKeyHash!)) {
+                                  .selectedAccount.value.publicKeyHash!)) {
                             if (value.isNotEmpty) {
-                              _accountController.userAccount.update((val) {
+                              _accountController.selectedAccount.update((val) {
                                 val!.name = value;
                               });
                             }
@@ -266,9 +268,9 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                   if (_accountController.homePageController
                       .userAccounts[widget.accountIndex].publicKeyHash!
                       .contains(_accountController
-                          .userAccount.value.publicKeyHash!)) {
+                          .selectedAccount.value.publicKeyHash!)) {
                     if (value.isNotEmpty) {
-                      _accountController.userAccount.update((val) {
+                      _accountController.selectedAccount.update((val) {
                         val!.name = value;
                       });
                     }
@@ -457,31 +459,76 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   }
 
   Widget avatarPicker() {
+    return PickAvatar(
+        controller: _controller,
+        accountIndex: widget.accountIndex,
+        accountController: _accountController);
+  }
+}
+
+class PickAvatar extends StatefulWidget {
+  const PickAvatar({
+    Key? key,
+    required SettingsPageController controller,
+    required this.accountIndex,
+    required AccountSummaryController accountController,
+  })  : _controller = controller,
+        _accountController = accountController,
+        super(key: key);
+
+  final SettingsPageController _controller;
+  final int accountIndex;
+
+  final AccountSummaryController _accountController;
+
+  @override
+  State<PickAvatar> createState() => _PickAvatarState();
+}
+
+class _PickAvatarState extends State<PickAvatar> {
+  late String selectedAvatar;
+  late AccountProfileImageType imageType;
+  @override
+  void initState() {
+    selectedAvatar = Get.find<HomePageController>()
+            .userAccounts[widget.accountIndex]
+            .profileImage ??
+        "";
+    imageType = Get.find<HomePageController>()
+            .userAccounts[widget.accountIndex]
+            .imageType ??
+        AccountProfileImageType.assets;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
       width: 1.width,
       padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          0.04.vspace,
-          Align(
+      child: SafeArea(
+        bottom: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            0.04.vspace,
+            Align(
+                alignment: Alignment.centerLeft,
+                child: GestureDetector(
+                  onTap: Get.back,
+                  child: SvgPicture.asset(
+                    "${PathConst.SVG}arrow_back.svg",
+                    fit: BoxFit.scaleDown,
+                  ),
+                )),
+            0.05.vspace,
+            Align(
               alignment: Alignment.centerLeft,
-              child: GestureDetector(
-                onTap: Get.back,
-                child: SvgPicture.asset(
-                  "${PathConst.SVG}arrow_back.svg",
-                  fit: BoxFit.scaleDown,
-                ),
-              )),
-          0.05.vspace,
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text("Pick an Avatar", style: titleLarge),
-          ),
-          0.05.vspace,
-          Obx(
-            () => Container(
+              child: Text("Pick an Avatar", style: titleLarge),
+            ),
+            0.05.vspace,
+            Container(
               height: 0.3.width,
               width: 0.3.width,
               alignment: Alignment.bottomRight,
@@ -489,64 +536,76 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image:
-                      _controller.showUpdatedProfilePhoto(widget.accountIndex),
+                  image: imageType == AccountProfileImageType.assets
+                      ? AssetImage(selectedAvatar)
+                      : FileImage(
+                          File(selectedAvatar),
+                        ) as ImageProvider,
                 ),
               ),
             ),
-          ),
-          0.05.vspace,
-          Expanded(
-            child: GridView.count(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              crossAxisCount: 4,
-              mainAxisSpacing: 0.06.width,
-              crossAxisSpacing: 0.06.width,
-              children: List.generate(
-                ServiceConfig.allAssetsProfileImages.length,
-                (index) => GestureDetector(
-                  onTap: () {
-                    _controller.editUserProfilePhoto(
-                        imageType: AccountProfileImageType.assets,
-                        imagePath: ServiceConfig.allAssetsProfileImages[index],
-                        accountIndex: widget.accountIndex);
-                    _accountController.userAccount.update((val) {
-                      val?.imageType = AccountProfileImageType.assets;
-                      val?.profileImage =
+            0.05.vspace,
+            Expanded(
+              child: GridView.count(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                crossAxisCount: 4,
+                mainAxisSpacing: 0.06.width,
+                crossAxisSpacing: 0.06.width,
+                children: List.generate(
+                  ServiceConfig.allAssetsProfileImages.length,
+                  (index) => GestureDetector(
+                    onTap: () {
+                      // widget._controller.editUserProfilePhoto(
+                      //     imageType: AccountProfileImageType.assets,
+                      //     imagePath: ServiceConfig.allAssetsProfileImages[index],
+                      //     accountIndex: widget.accountIndex);
+                      // widget._accountController.selectedAccount.update((val) {
+                      imageType = AccountProfileImageType.assets;
+                      selectedAvatar =
                           ServiceConfig.allAssetsProfileImages[index];
-                    });
-                  },
-                  child: CircleAvatar(
-                    radius: 70.sp,
-                    child: Image.asset(
-                      ServiceConfig.allAssetsProfileImages[index],
-                      fit: BoxFit.cover,
-                      height: 72.sp,
+                      setState(() {});
+                      // });
+                    },
+                    child: CircleAvatar(
+                      radius: 70.sp,
+                      child: Image.asset(
+                        ServiceConfig.allAssetsProfileImages[index],
+                        fit: BoxFit.cover,
+                        height: 72.sp,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          0.01.vspace,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.sp),
-            child: SolidButton(
-              height: 40.sp,
-              onPressed: () {
-                Get.back();
-                Get.back();
-              },
-              title: "Confirm",
-              // child: Text(
-              //   "Confirm",
-              //   style: titleSmall.apply(color: ColorConst.Primary.shade95),
-              // ),
+            0.01.vspace,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.sp),
+              child: SolidButton(
+                height: 40.sp,
+                onPressed: () {
+                  widget._controller.editUserProfilePhoto(
+                      imageType: AccountProfileImageType.assets,
+                      imagePath: selectedAvatar,
+                      accountIndex: widget.accountIndex);
+                  widget._accountController.selectedAccount.update((val) {
+                    val?.imageType = AccountProfileImageType.assets;
+                    val?.profileImage = selectedAvatar;
+                  });
+                  Get.back();
+                  Get.back();
+                },
+                title: "Confirm",
+                // child: Text(
+                //   "Confirm",
+                //   style: titleSmall.apply(color: ColorConst.Primary.shade95),
+                // ),
+              ),
             ),
-          ),
-          0.05.vspace
-        ],
+            0.05.vspace
+          ],
+        ),
       ),
     );
   }

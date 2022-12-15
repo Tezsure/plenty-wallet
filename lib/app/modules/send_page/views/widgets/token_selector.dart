@@ -65,7 +65,7 @@ class TokenSelector extends StatelessWidget {
               // ignore: prefer_const_constructors
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: const Color(0xFF625C66),
+                color: ColorConst.textGrey1,
                 size: 12,
               ),
             ),

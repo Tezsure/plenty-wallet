@@ -117,7 +117,7 @@ class TransactionController extends GetxController {
         token: tx,
         timeStamp: DateTime.parse(tx.timestamp!),
         isSent: tx.sender!.address!
-            .contains(accController.userAccount.value.publicKeyHash!),
+            .contains(accController.selectedAccount.value.publicKeyHash!),
       );
       isHashSame = tx.hash!;
       // For tezos transaction
@@ -190,7 +190,7 @@ class TransactionController extends GetxController {
   Future<List<TxHistoryModel>> fetchUserTransactionsHistory(
           {String? lastId, int? limit}) async =>
       await UserStorageService().getAccountTransactionHistory(
-          accountAddress: accController.userAccount.value.publicKeyHash!,
+          accountAddress: accController.selectedAccount.value.publicKeyHash!,
           lastId: lastId,
           limit: limit);
 

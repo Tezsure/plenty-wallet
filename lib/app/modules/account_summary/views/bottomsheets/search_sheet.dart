@@ -165,6 +165,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                                 focusNode.unfocus();
                                 controller.searchTransactionList.clear();
                               });
+                              Get.back();
                             },
                             child: Text(
                               "Cancel",
@@ -264,8 +265,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
             onTap: () => Get.bottomSheet(
               TransactionDetailsBottomSheet(
                 tokenInfo: controller.searchTransactionList[index],
-                userAccountAddress:
-                    controller.accController.userAccount.value.publicKeyHash!,
+                userAccountAddress: controller
+                    .accController.selectedAccount.value.publicKeyHash!,
                 transactionModel:
                     controller.searchTransactionList[index].token!,
               ),

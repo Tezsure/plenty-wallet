@@ -71,7 +71,11 @@ class ResetWalletBottomSheet extends StatelessWidget {
                   }
                   final isVerified =
                       await AuthService().verifyBiometricOrPassCode();
-                  if (isVerified) {}
+                  if (isVerified) {
+                    await ServiceConfig().clearStorage();
+                    NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
+                    Get.offAllNamed(Routes.ONBOARDING_PAGE);
+                  }
                 }),
             if (!isWalletBackup)
               Column(

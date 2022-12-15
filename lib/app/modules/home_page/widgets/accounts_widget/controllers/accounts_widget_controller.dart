@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 
 class AccountsWidgetController extends GetxController {
+  final homeController = Get.find<HomePageController>();
   PageController pageController = PageController(
     viewportFraction: 1,
     initialPage: 0,
@@ -19,7 +21,12 @@ class AccountsWidgetController extends GetxController {
 
   /// Change the current index to the new index of visible account container
   void onPageChanged(int index) {
+    if (pageController.page != index) {
+      pageController.animateToPage(index,
+          duration: const Duration(milliseconds: 100), curve: Curves.easeIn);
+    }
     print("onPageChanged: $index");
+    homeController.selectedIndex.value = index;
     currIndex.value = index;
     update();
   }
@@ -53,7 +60,6 @@ class AccountsWidgetController extends GetxController {
 
   /// if no account exist then create otherwise import using same account mnemonic and +1derivationPath
   void createNewWallet() async {
-    
     await WalletService().createNewAccount(
       accountNameController.text,
       currentSelectedType,

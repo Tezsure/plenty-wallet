@@ -291,7 +291,7 @@ class DelegateWidgetController extends GetxController {
           enableDrag: true, isScrollControlled: true);
     }
     Get.put(AccountSummaryController());
-    accountModel = Get.find<AccountSummaryController>().userAccount;
+    accountModel = Get.find<AccountSummaryController>().selectedAccount;
 
     if (accountModel == null) {
       Get.bottomSheet(

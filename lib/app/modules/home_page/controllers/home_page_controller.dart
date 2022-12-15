@@ -6,8 +6,10 @@ import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart'
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/scan_qr.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -16,6 +18,10 @@ import '../../../../utils/styles/styles.dart';
 import '../../../routes/app_pages.dart';
 import '../../common_widgets/bottom_sheet.dart';
 import '../../common_widgets/solid_button.dart';
+
+import 'package:permission_handler/permission_handler.dart';
+
+import '../widgets/scanQR/permission_sheet.dart';
 
 class HomePageController extends GetxController with WidgetsBindingObserver {
   // RxBool showBottomSheet = false.obs;
@@ -48,7 +54,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
       print("xtzPrice: $value");
       //update();
     });
-  
+
     // DataHandlerService().renderService.accountNft.registerCallback((data) {
     //   print("Nft data");
     //   print(jsonEncode(data));
@@ -71,6 +77,11 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
     isEnabled.value = !isEnabled.value;
   }
 
+  void changeSelectedAccount(int index) {
+    Get.find<AccountsWidgetController>().onPageChanged(index);
+    selectedIndex.value = index;
+  }
+
   void onSliderChange(double value) {
     sliderValue.value = value;
   }
@@ -86,7 +97,20 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
     );
   }
 
-  void onIndicatorTapped(int index) => selectedIndex.value = index;
+  Future<void> openScanner() async {
+    await Permission.camera.request();
+    final status = await Permission.camera.status;
+
+    if (status.isPermanentlyDenied) {
+      Get.bottomSheet(CameraPermissionHandler(), isScrollControlled: true);
+
+      // We didn't ask for permission yet or the permission has been denied before but not permanently.
+    } else {
+      Get.to(
+        ScanQrView(),
+      );
+    }
+  } // void onIndicatorTapped(int index) => selectedIndex.value = index;
 }
 
 class BackupWalletBottomSheet extends StatelessWidget {

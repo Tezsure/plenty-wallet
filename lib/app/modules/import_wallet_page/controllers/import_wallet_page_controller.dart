@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/data/services/service_models/account_model.dart'
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
 
 import '../../create_profile_page/views/create_profile_page_view.dart';
 
@@ -142,9 +143,28 @@ class ImportWalletPageController extends GetxController
 
   Future<void> genAndLoadMoreAccounts(int startIndex, int size) async {
     if (startIndex == 0) generatedAccounts.value = <AccountModel>[];
+    // toggleLoaderOverlay(() async {
     for (var i = startIndex; i < startIndex + size; i++) {
       generatedAccounts.add(await getAccountModelIndexAt(i));
+      generatedAccounts.value = [...generatedAccounts];
     }
+    // });
+  }
+
+  Future<void> toggleLoaderOverlay(Function() asyncFunction) async {
+    await Get.showOverlay(
+        asyncFunction: () async => await asyncFunction(),
+        loadingWidget: const SizedBox(
+          height: 50,
+          width: 50,
+          child: Center(
+              child: CircularProgressIndicator(
+            color: ColorConst.Primary,
+          )),
+        ));
+    // if (Get.isOverlaysOpen) {
+    //   Get.back();
+    // }
   }
 
   /// load acounts

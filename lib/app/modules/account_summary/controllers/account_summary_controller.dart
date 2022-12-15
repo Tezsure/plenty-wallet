@@ -18,13 +18,15 @@ import '../../../data/services/user_storage_service/user_storage_service.dart';
 class AccountSummaryController extends GetxController {
   // ! Global Variables
   final HomePageController homePageController = Get.find<HomePageController>();
+  Rx<AccountModel> get selectedAccount => homePageController
+      .userAccounts[homePageController.selectedIndex.value].obs;
   RxList<TokenPriceModel> tokensList = <TokenPriceModel>[].obs;
 
   // ! Account Related Variables
-  RxInt selectedAccountIndex = 0.obs; // The selected account index
+  // RxInt selectedAccountIndex = 0.obs; // The selected account index
   RxBool isAccountEditable = false.obs; // To edit account selector
-  Rx<AccountModel> userAccount =
-      AccountModel(isNaanAccount: true).obs; // Current selected account
+  // Rx<AccountModel> userAccount =
+  //     AccountModel(isNaanAccount: true).obs; // Current selected account
   RxBool isPopupVisible = false.obs; // To show popup
   RxInt popupIndex = 0.obs; // To show popup
 
@@ -54,13 +56,13 @@ class AccountSummaryController extends GetxController {
   // ! Global Functions
   @override
   void onInit() async {
-    if (Get.arguments == null) {
-      if (Get.find<HomePageController>().userAccounts.isNotEmpty) {
-        userAccount.value = Get.find<HomePageController>().userAccounts[0];
-      }
-    } else {
-      userAccount.value = Get.arguments as AccountModel;
-    }
+    // if (Get.arguments == null) {
+    // if (Get.find<HomePageController>().userAccounts.isNotEmpty) {
+    // userAccount.value = Get.find<HomePageController>().userAccounts[0];
+    // }
+    // } else {
+    //   userAccount.value = Get.arguments as AccountModel;
+    // }
     DataHandlerService()
         .renderService
         .xtzPriceUpdater
@@ -80,7 +82,10 @@ class AccountSummaryController extends GetxController {
     userTokens.clear();
     AccountTokenModel tezos = AccountTokenModel(
       name: "Tezos",
-      balance: userAccount.value.accountDataModel!.xtzBalance!,
+      balance: homePageController
+          .userAccounts[homePageController.selectedIndex.value]
+          .accountDataModel!
+          .xtzBalance!,
       contractAddress: "xtz",
       symbol: "Tezos",
       currentPrice: xtzPrice.value,
@@ -89,18 +94,18 @@ class AccountSummaryController extends GetxController {
       iconUrl: "assets/tezos_logo.png",
     );
     userTokens.addAll(await UserStorageService()
-        .getUserTokens(userAddress: userAccount.value.publicKeyHash!));
+        .getUserTokens(userAddress: selectedAccount.value.publicKeyHash!));
     userTokens.value = userTokens.toSet().toList();
     if (userTokens.isNotEmpty &&
         userTokens.any((element) => element.name!.contains("Tezos"))) {
       userTokens.map((element) => element.name!.contains("Tezos")
           ? element.copyWith(
-              balance: userAccount.value.accountDataModel!.xtzBalance!,
+              balance: selectedAccount.value.accountDataModel!.xtzBalance!,
               currentPrice: xtzPrice.value,
             )
           : null);
     } else {
-      userAccount.value.accountDataModel!.xtzBalance! == 0
+      selectedAccount.value.accountDataModel!.xtzBalance! == 0
           ? null
           : userTokens.insert(0, tezos);
     }
@@ -112,7 +117,7 @@ class AccountSummaryController extends GetxController {
   Future<void> _fetchAllNfts() async {
     userNfts.clear();
     UserStorageService()
-        .getUserNfts(userAddress: userAccount.value.publicKeyHash!)
+        .getUserNfts(userAddress: selectedAccount.value.publicKeyHash!)
         .then((nftList) {
       for (var i = 0; i < nftList.length; i++) {
         userNfts[nftList[i].fa!.contract!] =
@@ -126,8 +131,8 @@ class AccountSummaryController extends GetxController {
   void changeSelectedAccountName(
       {required int accountIndex, required String changedValue}) {
     if (homePageController.userAccounts[accountIndex].publicKeyHash!
-        .contains(userAccount.value.publicKeyHash!)) {
-      userAccount.update((val) {
+        .contains(selectedAccount.value.publicKeyHash!)) {
+      selectedAccount.update((val) {
         val!.name = changedValue;
       });
     }
@@ -143,8 +148,9 @@ class AccountSummaryController extends GetxController {
   /// Changes the current selected account from the account list
   void onAccountTap(int index) {
     if (!_isSelectedAccount(index)) {
-      selectedAccountIndex.value = index;
-      userAccount.value = homePageController.userAccounts[index];
+      homePageController.changeSelectedAccount(index);
+      // selectedAccountIndex.value = index;
+      // selectedAccount.value = homePageController.userAccounts[index];
       _fetchAllTokens();
       _fetchAllNfts();
       loadUserTransaction();
@@ -170,16 +176,16 @@ class AccountSummaryController extends GetxController {
     } else if (index == homePageController.userAccounts.length - 1) {
       // When the last index is selected
       if (_isSelectedAccount(index)) {
-        selectedAccountIndex.value = index - 1;
-        userAccount.value = homePageController.userAccounts[index - 1];
+        homePageController.changeSelectedAccount(index - 1);
+        // selectedAccount.value = homePageController.userAccounts[index - 1];
       }
     } else {
       if (_isSelectedAccount(index)) {
-        selectedAccountIndex.value = index;
-        userAccount.value = homePageController.userAccounts[index + 1];
+        homePageController.changeSelectedAccount(index);
+        // selectedAccount.value = homePageController.userAccounts[index + 1];
       }
     }
-    userAccount.refresh();
+    selectedAccount.refresh();
     _fetchAllTokens();
     _fetchAllNfts();
     Get
@@ -190,7 +196,7 @@ class AccountSummaryController extends GetxController {
 
   bool _isSelectedAccount(int index) =>
       homePageController.userAccounts[index].publicKeyHash!
-          .contains(userAccount.value.publicKeyHash!);
+          .contains(selectedAccount.value.publicKeyHash!);
 
   /// Turns the edit mode on or off
   void editAccount() {
@@ -346,9 +352,9 @@ class AccountSummaryController extends GetxController {
     await UserStorageService()
         .updateUserTokens(
           accountTokenList: userTokens,
-          userAddress: userAccount.value.publicKeyHash!,
+          userAddress: selectedAccount.value.publicKeyHash!,
         )
         .whenComplete(() async => userTokens.value = await UserStorageService()
-            .getUserTokens(userAddress: userAccount.value.publicKeyHash!));
+            .getUserTokens(userAddress: selectedAccount.value.publicKeyHash!));
   }
 }

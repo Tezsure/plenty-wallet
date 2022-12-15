@@ -76,31 +76,35 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         //     : _accountOption()),
 
                         _backupOption(),
-                        SizedBox(height: 0.05.width),
-
-                        _settingsSeparator(
-                          title: "Security",
-                          settings: [
-                            _settingOption(
-                              onTap: () {
-                                Get.bottomSheet(BackupPage(),
-                                    isScrollControlled: true);
-                              },
-                              title: "Backup",
-                              svgPath:
-                                  "${PathConst.SETTINGS_PAGE.SVG}backup.svg",
-                            ),
-                            _settingOption(
-                              onTap: () => Get.to(() => const ChangePasscode()),
-                              title: "Change passcode",
-                              svgPath:
-                                  "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
-                            ),
-                            _fingerPrintOption()
-                          ],
-                        ),
-                        SizedBox(height: 0.05.width),
-                        _connectedAppsOption(),
+                        if (_homePageController.userAccounts.isNotEmpty)
+                          SizedBox(height: 0.05.width),
+                        if (_homePageController.userAccounts.isNotEmpty)
+                          _settingsSeparator(
+                            title: "Security",
+                            settings: [
+                              _settingOption(
+                                onTap: () {
+                                  Get.bottomSheet(BackupPage(),
+                                      isScrollControlled: true);
+                                },
+                                title: "Backup",
+                                svgPath:
+                                    "${PathConst.SETTINGS_PAGE.SVG}backup.svg",
+                              ),
+                              _settingOption(
+                                onTap: () =>
+                                    Get.to(() => const ChangePasscode()),
+                                title: "Change passcode",
+                                svgPath:
+                                    "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
+                              ),
+                              _fingerPrintOption()
+                            ],
+                          ),
+                        if (_homePageController.userAccounts.isNotEmpty)
+                          SizedBox(height: 0.05.width),
+                        if (_homePageController.userAccounts.isNotEmpty)
+                          _connectedAppsOption(),
                         // SizedBox(height: 0.05.width),
 
                         SizedBox(height: 0.05.width),

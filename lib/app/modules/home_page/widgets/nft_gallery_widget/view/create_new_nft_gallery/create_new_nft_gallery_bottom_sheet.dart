@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_listview.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -30,6 +31,16 @@ class CreateNewNftGalleryBottomSheet
 
   @override
   Widget build(BuildContext context) {
+    return NaanBottomSheet(
+      height: 0.9.height,
+      bottomSheetWidgets: [
+        Obx(
+          () => controller.formIndex.value == 0
+              ? selectAccountWidget()
+              : createGalleryProfileWidget(),
+        )
+      ],
+    );
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(
@@ -56,100 +67,136 @@ class CreateNewNftGalleryBottomSheet
       ),
     );
   }
+  // No Accounts
+
+  Widget noAccountWidget() => SizedBox(
+        height: 0.87.height,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                "${PathConst.EMPTY_STATES}no_accounts.svg",
+                height: 175.arP,
+                width: 175.arP,
+              ),
+              0.05.vspace,
+              Text(
+                "No accounts found",
+                textAlign: TextAlign.center,
+                style: titleLarge,
+              ),
+              SizedBox(
+                height: 12.arP,
+              ),
+              Text(
+                "Create or import new account to create\nnew gallery",
+                textAlign: TextAlign.center,
+                style: bodySmall.copyWith(color: ColorConst.textGrey1),
+              ),
+            ],
+          ),
+        ),
+      );
 
   /// Select account widget for creating new gallery
-  Widget selectAccountWidget() => Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 40.sp,
-            height: 5.spH,
-            margin: EdgeInsets.only(
-              top: 5.sp,
-            ),
-            decoration: BoxDecoration(
-              color: const Color(0xFFEBEBF5).withOpacity(0.3),
-              borderRadius: BorderRadius.circular(
-                100.sp,
-              ),
-            ),
+  Widget selectAccountWidget() {
+    if (controller.accounts?.isEmpty ?? true) return noAccountWidget();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 40.sp,
+          height: 5.spH,
+          margin: EdgeInsets.only(
+            top: 5.sp,
           ),
-          SizedBox(
-            height: 27.sp,
-          ),
-          Text(
-            "Select accounts",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 22.arP,
-              fontWeight: FontWeight.w700,
+          decoration: BoxDecoration(
+            color: const Color(0xFFEBEBF5).withOpacity(0.3),
+            borderRadius: BorderRadius.circular(
+              100.sp,
             ),
           ),
-          SizedBox(
-            height: 10.arP,
+        ),
+        SizedBox(
+          height: 27.sp,
+        ),
+        Text(
+          "Select accounts",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22.arP,
+            fontWeight: FontWeight.w700,
           ),
-          Text(
-            "Choose accounts to add to your gallery.\nYou can always edit these later",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: const Color(0xFF958E99),
-              fontSize: 12.arP,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 0.4.arP,
-            ),
+        ),
+        SizedBox(
+          height: 10.arP,
+        ),
+        Text(
+          "Choose accounts to add to your gallery.\nYou can always edit these later",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: const Color(0xFF958E99),
+            fontSize: 12.arP,
+            fontWeight: FontWeight.w400,
+            letterSpacing: 0.4.arP,
           ),
-          SizedBox(
-            height: 24.spH,
-          ),
-          controller.accounts != null
-              ? Expanded(
-                  flex: 1,
-                  child: NaanListView(
-                    listViewEdgeInsets: EdgeInsets.only(
-                      left: 16.sp,
-                      right: 16.sp,
-                    ),
-                    itemBuilder: (context, index) =>
-                        accountItemWidget(index, controller.accounts![index]),
-                    itemCount: controller.accounts!.length,
-                    topSpacing: 18.spH,
-                    bottomSpacing: 18.spH,
+        ),
+        SizedBox(
+          height: 24.spH,
+        ),
+        controller.accounts != null
+            ? Expanded(
+                flex: 1,
+                child: NaanListView(
+                  listViewEdgeInsets: EdgeInsets.only(
+                    left: 16.sp,
+                    right: 16.sp,
                   ),
-                )
-              : Container(),
-          Container(
-            margin: EdgeInsets.only(
-              left: 16.sp + 16.arP,
-              right: 16.sp + 16.arP,
-              bottom: 40.arP,
-              top: 30.spH,
-            ),
-            child: Obx(
-              () => SolidButton(
-                title: "Next",
-                height: 50.arP,
-                active: controller.selectedAccountIndex.isNotEmpty &&
-                        controller.selectedAccountIndex.values.contains(true)
-                    ? true
-                    : false,
-                borderRadius: 8.arP,
-                titleStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.arP,
-                  fontWeight: FontWeight.w600,
+                  itemBuilder: (context, index) =>
+                      accountItemWidget(index, controller.accounts![index]),
+                  itemCount: controller.accounts!.length,
+                  topSpacing: 18.spH,
+                  bottomSpacing: 18.spH,
                 ),
-                onPressed: () {
-                  controller.accountNameFocus.requestFocus();
-                  controller.formIndex.value = 1;
-                },
+              )
+            : Container(),
+        Container(
+          margin: EdgeInsets.only(
+            left: 16.sp + 16.arP,
+            right: 16.sp + 16.arP,
+            bottom: 40.arP,
+            top: 30.spH,
+          ),
+          child: Obx(
+            () => SolidButton(
+              title: "Next",
+              height: 50.arP,
+              active: controller.selectedAccountIndex.isNotEmpty &&
+                      controller.selectedAccountIndex.values.contains(true)
+                  ? true
+                  : false,
+              borderRadius: 8.arP,
+              titleStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 14.arP,
+                fontWeight: FontWeight.w600,
               ),
+              onPressed: () {
+                controller.accountNameFocus.requestFocus();
+                controller.formIndex.value = 1;
+              },
             ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 
   Widget accountItemWidget(int index, AccountModel accountModel) => InkWell(
         onTap: () => controller

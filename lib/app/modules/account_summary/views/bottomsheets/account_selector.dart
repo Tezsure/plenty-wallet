@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/views/import_wallet_page_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
@@ -35,15 +36,16 @@ class AccountSelectorSheet extends StatefulWidget {
 class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
   final AccountSummaryController _controller =
       Get.find<AccountSummaryController>();
+  final HomePageController _homePageController = Get.find<HomePageController>();
   final SettingsPageController _settingsController =
       Get.put(SettingsPageController());
 
   @override
   void initState() {
     _controller.isAccountEditable.value = false;
-    _controller.selectedAccountIndex.value = _controller
+    _homePageController.changeSelectedAccount(_controller
         .homePageController.userAccounts
-        .indexOf(widget.selectedAccount);
+        .indexOf(widget.selectedAccount));
     super.initState();
   }
 
@@ -306,8 +308,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                           ),
                                         ),
                                         child: index ==
-                                                _controller
-                                                    .selectedAccountIndex.value
+                                                _homePageController
+                                                    .selectedIndex.value
                                             ? SvgPicture.asset(
                                                 "assets/svg/check_3.svg",
                                                 height: 14.sp,

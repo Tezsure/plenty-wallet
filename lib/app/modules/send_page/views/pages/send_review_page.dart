@@ -77,7 +77,7 @@ class SendReviewPage extends StatelessWidget {
                               !controller.amountTileError.value &&
                               !controller.amountUsdTileError.value;
                       return SolidButton(
-                        height: 48,
+                        // height: 48,
                         onPressed: () =>
                             (controller.amountText.value.isNotEmpty ||
                                         controller.isNFTPage.value) &&
