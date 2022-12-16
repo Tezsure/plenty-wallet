@@ -10,10 +10,23 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-class SelectNetworkBottomSheet extends StatelessWidget {
+class SelectNetworkBottomSheet extends StatefulWidget {
   SelectNetworkBottomSheet({Key? key}) : super(key: key);
 
+  @override
+  State<SelectNetworkBottomSheet> createState() =>
+      _SelectNetworkBottomSheetState();
+}
+
+class _SelectNetworkBottomSheetState extends State<SelectNetworkBottomSheet> {
   final SettingsPageController controller = Get.find<SettingsPageController>();
+  late NetworkType selectedNetwork;
+  @override
+  void initState() {
+    selectedNetwork = controller.networkType.value;
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +61,11 @@ class SelectNetworkBottomSheet extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.arP),
                 child: SolidButton(
-                  onPressed: Get.back,
+                  active: selectedNetwork != controller.networkType.value,
+                  onPressed: () {
+                    controller.changeNetwork(selectedNetwork);
+                    Get.back();
+                  },
                   title: "Apply",
                 ),
               )
@@ -67,7 +84,9 @@ class SelectNetworkBottomSheet extends StatelessWidget {
     return InkWell(
       onTap: onTap ??
           () {
-            controller.changeNetwork(value);
+            setState(() {
+              selectedNetwork = value;
+            });
           },
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
@@ -81,7 +100,7 @@ class SelectNetworkBottomSheet extends StatelessWidget {
               style: labelMedium,
             ),
             const Spacer(),
-            if (controller.networkType.value.index == value.index)
+            if (selectedNetwork.index == value.index)
               SvgPicture.asset(
                 "${PathConst.SVG}check_3.svg",
                 height: 20.arP,

@@ -96,17 +96,15 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                 ),
               ),
               0.05.vspace,
-              Center(
-                child: NaanTextfield(
-                  height: 52.sp,
-                  backgroundColor: const Color(0xff1E1C1F),
-                  hint: "Account Name",
-                  focusNode: controller.accountNameFocus,
-                  controller: controller.accountNameController,
-                  onTextChange: (String value) => controller
-                      .isContiuneButtonEnable
-                      .value = value.length > 2 && value.length < 20,
-                ),
+              NaanTextfield(
+                // height: 52.sp,
+                backgroundColor: const Color(0xff1E1C1F),
+                hint: "Account Name",
+                focusNode: controller.accountNameFocus,
+                controller: controller.accountNameController,
+                onTextChange: (String value) => controller
+                    .isContiuneButtonEnable
+                    .value = value.length > 2 && value.length < 20,
               ),
               const Spacer(),
               Obx(

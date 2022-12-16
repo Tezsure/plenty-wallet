@@ -70,6 +70,7 @@ class NftGalleryWidgetController extends GetxController {
     Get.bottomSheet(
       const CreateNewNftGalleryBottomSheet(),
       isScrollControlled: true,
+      ignoreSafeArea: false,
       backgroundColor: Colors.transparent,
       enterBottomSheetDuration: const Duration(milliseconds: 180),
       exitBottomSheetDuration: const Duration(milliseconds: 150),
@@ -109,6 +110,7 @@ class NftGalleryWidgetController extends GetxController {
         galleryIndex: galleryIndex,
       ),
       isScrollControlled: true,
+      ignoreSafeArea: false,
       backgroundColor: Colors.transparent,
       enterBottomSheetDuration: const Duration(milliseconds: 180),
       exitBottomSheetDuration: const Duration(milliseconds: 150),

@@ -77,7 +77,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                         1,
                                     controller: controller.pageController,
                                     onPageChanged: (index) {
-                                      controller.onPageChanged(index);
+                                      homePageController
+                                          .changeSelectedAccount(index);
                                       setState(() {});
                                     },
                                     physics: const BouncingScrollPhysics(),

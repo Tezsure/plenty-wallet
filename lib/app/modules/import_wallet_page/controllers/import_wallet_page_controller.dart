@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 
@@ -13,6 +14,7 @@ import '../../create_profile_page/views/create_profile_page_view.dart';
 
 class ImportWalletPageController extends GetxController
     with GetSingleTickerProviderStateMixin {
+
   //? VARIABLES
   Rx<bool> showSuccessAnimation = false.obs; // to show success animation
   Rx<TextEditingController> phraseTextController = TextEditingController().obs;

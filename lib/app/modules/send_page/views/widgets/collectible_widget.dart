@@ -170,7 +170,7 @@ class NFTwidget extends StatelessWidget {
               height: 10.aR,
             ),
             Text(
-              nfTmodel.name!,
+              nfTmodel.name ??  "N/A",
               style: labelMedium.copyWith(fontSize: 12.aR),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,

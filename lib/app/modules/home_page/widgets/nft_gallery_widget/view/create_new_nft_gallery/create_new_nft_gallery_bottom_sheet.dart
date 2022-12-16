@@ -34,10 +34,7 @@ class CreateNewNftGalleryBottomSheet
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(
-        constraints: BoxConstraints(
-          minHeight: 0.6.height,
-          maxHeight: 0.9.height,
-        ),
+        height: 0.9.height - MediaQuery.of(context).viewInsets.bottom,
         decoration: BoxDecoration(
           color: Colors.black,
           borderRadius: BorderRadius.only(
@@ -409,6 +406,7 @@ class CreateNewNftGalleryBottomSheet
               horizontal: 32.arP,
             ),
             child: NaanTextfield(
+              // height: 52,
               hint: "Account Name",
               focusNode: controller.accountNameFocus,
               controller: controller.accountNameController,
@@ -422,35 +420,34 @@ class CreateNewNftGalleryBottomSheet
                   controller.accountName.value = value,
             ),
           ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                margin: EdgeInsets.only(
-                  left: 16.sp + 16.arP,
-                  right: 16.sp + 16.arP,
-                  bottom: 40.arP,
-                  top: 30.spH,
+          Spacer(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: EdgeInsets.only(
+                left: 16.sp + 16.arP,
+                right: 16.sp + 16.arP,
+                bottom: 40.arP,
+                top: 30.spH,
+              ),
+              child: SolidButton(
+                title: "Done",
+                height: 50.arP,
+                active: controller.accountName.isNotEmpty &&
+                    controller.accountName.value.length > 2,
+                borderRadius: 8.arP,
+                titleStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.arP,
+                  fontWeight: FontWeight.w600,
                 ),
-                child: SolidButton(
-                  title: "Done",
-                  height: 50.arP,
-                  active: controller.accountName.isNotEmpty &&
-                      controller.accountName.value.length > 2,
-                  borderRadius: 8.arP,
-                  titleStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.arP,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  onPressed: () async {
-                    if (nftGalleryModel == null) {
-                      await controller.addNewNftGallery();
-                    } else {
-                      await controller.editNftGallery(galleryIndex!);
-                    }
-                  },
-                ),
+                onPressed: () async {
+                  if (nftGalleryModel == null) {
+                    await controller.addNewNftGallery();
+                  } else {
+                    await controller.editNftGallery(galleryIndex!);
+                  }
+                },
               ),
             ),
           ),

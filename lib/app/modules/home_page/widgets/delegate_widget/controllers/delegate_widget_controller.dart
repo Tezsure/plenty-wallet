@@ -71,7 +71,7 @@ class DelegateWidgetController extends GetxController {
     searchedDelegateBakerList.value = delegateBakerList.where((p0) {
       return p0.name!
           .toLowerCase()
-          .contains(textEditingController.text.toLowerCase());
+          .contains(textEditingController.text.toLowerCase().trim());
     }).toList();
 
     searchedDelegateBakerList.sort((p0, p1) {
@@ -284,9 +284,13 @@ class DelegateWidgetController extends GetxController {
         Get.find<HomePageController>().xtzPrice.value;
   }
 
+  Future<String?> getCurrentBakerAddress(String pkh) async {
+    return await _delegateHandler.checkBaker(pkh);
+  }
+
   Future<void> checkBaker() async {
     String? bakerAddress;
-    if (Get.put(HomePageController()).userAccounts.isEmpty) {
+    if (Get.find<HomePageController>().userAccounts.isEmpty) {
       return Get.bottomSheet(const DelegateInfoSheet(),
           enableDrag: true, isScrollControlled: true);
     }
@@ -302,11 +306,11 @@ class DelegateWidgetController extends GetxController {
         exitBottomSheetDuration: const Duration(milliseconds: 150),
       );
     }
-    if (accountModel?.value.publicKeyHash == null) {}
-    await toggleLoaderOverlay(() async {
-      bakerAddress =
-          await _delegateHandler.checkBaker(accountModel!.value.publicKeyHash!);
-    });
+    // if (accountModel?.value.publicKeyHash == null) {}
+    // await toggleLoaderOverlay(() async {
+    bakerAddress = accountModel!.value.delegatedBakerAddress;
+    // ;
+    // });
 
     if (bakerAddress == null) {
       Get.bottomSheet(const DelegateInfoSheet(),

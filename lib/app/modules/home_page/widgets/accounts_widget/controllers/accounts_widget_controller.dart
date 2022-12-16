@@ -26,7 +26,7 @@ class AccountsWidgetController extends GetxController {
           duration: const Duration(milliseconds: 100), curve: Curves.easeIn);
     }
     print("onPageChanged: $index");
-    homeController.selectedIndex.value = index;
+    // homeController.selectedIndex.value = index;
     currIndex.value = index;
     update();
   }

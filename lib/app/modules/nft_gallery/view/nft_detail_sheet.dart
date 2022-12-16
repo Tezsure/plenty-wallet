@@ -607,7 +607,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                   children: [
                     Text("Artifact", style: bodySmall),
                     const Spacer(),
-                    GestureDetector(
+                    InkWell(
                         onTap: () {
                           final String? hash = widget.nftModel?.artifactUri
                               ?.replaceAll("ipfs://", "");
@@ -631,7 +631,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                           ],
                         )),
                     0.05.hspace,
-                    GestureDetector(
+                    InkWell(
                         onTap: () {
                           final String? hash = widget.nftModel?.artifactUri
                               ?.replaceAll("ipfs://", "");
@@ -661,7 +661,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                   children: [
                     Text("MetaData", style: bodySmall),
                     const Spacer(),
-                    GestureDetector(
+                    InkWell(
                         onTap: () {
                           final String? hash = widget.nftModel?.metadata
                               ?.replaceAll("ipfs://", "");
@@ -691,7 +691,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                   children: [
                     Text("Contract address", style: bodySmall),
                     const Spacer(),
-                    GestureDetector(
+                    InkWell(
                         onTap: () {
                           final String? hash = widget.nftModel?.metadata
                               ?.replaceAll("ipfs://", "");

@@ -43,9 +43,9 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
   @override
   void initState() {
     _controller.isAccountEditable.value = false;
-    _homePageController.changeSelectedAccount(_controller
-        .homePageController.userAccounts
-        .indexOf(widget.selectedAccount));
+    // _homePageController.changeSelectedAccount(_controller
+    //     .homePageController.userAccounts
+    //     .indexOf(widget.selectedAccount));
     super.initState();
   }
 

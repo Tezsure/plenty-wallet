@@ -33,36 +33,33 @@ class NaanTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.circular(8.sp),
-      color: backgroundColor ?? Colors.white.withOpacity(0.1),
-      shadowColor: Colors.white.withOpacity(0.2),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.sp),
-        child: SizedBox(
-          width: double.infinity,
-          height: height ?? 40.sp,
-          child: Center(
-            child: TextField(
-              focusNode: focusNode,
-              controller: controller,
-              cursorColor: ColorConst.Primary,
-              style: bodyMedium.copyWith(fontSize: 14.aR),
-              textAlign: TextAlign.start,
-              textAlignVertical: TextAlignVertical.center,
-              onChanged: onTextChange,
-              onSubmitted: onSubmitted,
-              onEditingComplete: onEditingComplete,
-              decoration: InputDecoration(
-                  hintStyle: hintTextSyle ??
-                      bodyMedium.copyWith(
-                          fontSize: 14.aR,
-                          color: Colors.white.withOpacity(0.2)),
-                  hintText: hint,
-                  border: InputBorder.none),
-            ),
-          ),
+    return TextField(
+      focusNode: focusNode,
+      controller: controller,
+      cursorColor: ColorConst.Primary,
+      style: bodyMedium.copyWith(fontSize: 14.aR),
+      textAlign: TextAlign.start,
+      textAlignVertical: TextAlignVertical.center,
+      onChanged: onTextChange,
+      onSubmitted: onSubmitted,
+      onEditingComplete: onEditingComplete,
+      decoration: InputDecoration(
+        fillColor: backgroundColor ?? Colors.white.withOpacity(0.1),
+        filled: true,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
         ),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none),
+        contentPadding:
+            EdgeInsets.symmetric(horizontal: 10.sp, vertical: 20.sp),
+        // contentPadding: EdgeInsets.zero,
+        hintStyle: hintTextSyle ??
+            bodyMedium.copyWith(
+                fontSize: 14.aR, color: Colors.white.withOpacity(0.2)),
+        hintText: hint,
       ),
     );
   }

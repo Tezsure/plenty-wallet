@@ -6,6 +6,7 @@ class AccountModel {
   String? name;
   int? derivationPathIndex;
   String? publicKeyHash;
+  String? delegatedBakerAddress;
   AccountProfileImageType? imageType;
   String? profileImage;
   bool isNaanAccount = false;
@@ -20,6 +21,7 @@ class AccountModel {
     this.name,
     this.derivationPathIndex,
     this.publicKeyHash,
+    this.delegatedBakerAddress,
     this.imageType,
     this.profileImage,
     required this.isNaanAccount,
@@ -36,6 +38,7 @@ class AccountModel {
       {String? name,
       int? derivationPathIndex,
       String? publicKeyHash,
+      String? delegatedBakerAddress,
       AccountProfileImageType? imageType,
       String? profileImage,
       bool? isNaanAccount,
@@ -56,6 +59,8 @@ class AccountModel {
       accountDataModel: accountDataModel ?? this.accountDataModel,
       isAccountPrimary: isAccountPrimary ?? this.isAccountPrimary,
       isAccountHidden: isAccountHidden ?? this.isAccountHidden,
+      delegatedBakerAddress:
+          delegatedBakerAddress ?? this.delegatedBakerAddress,
     );
   }
 
@@ -72,6 +77,7 @@ class AccountModel {
       'accountDataModel': accountDataModel,
       'isAccountPrimary': isAccountPrimary,
       'isAccountHidden': isAccountHidden,
+      'delegatedBakerAddress': delegatedBakerAddress
     };
   }
 
@@ -83,6 +89,8 @@ class AccountModel {
           : null,
       publicKeyHash:
           map['publicKeyHash'] != null ? map['publicKeyHash'] as String : null,
+      delegatedBakerAddress:
+          map['delegatedBakerAddress'] != null ? map['delegatedBakerAddress'] as String : null,
       imageType: map['imageType'] != null
           ? AccountProfileImageType.values
               .where((element) => element.name == map['imageType'])
@@ -110,7 +118,7 @@ class AccountModel {
 
   @override
   String toString() {
-    return 'AccountModel(name: $name, derivationPathIndex: $derivationPathIndex, publicKeyHash: $publicKeyHash, imageType: $imageType, profileImage: $profileImage, isNaanAccount: $isNaanAccount, tezosDomainName: $tezosDomainName, isWatchOnly: $isWatchOnly, accountDataModel: $accountDataModel, isAccountPrimary: $isAccountPrimary, isAccountHidden: $isAccountHidden)';
+    return 'AccountModel(name: $name, derivationPathIndex: $derivationPathIndex, publicKeyHash: $publicKeyHash, imageType: $imageType, profileImage: $profileImage, isNaanAccount: $isNaanAccount, tezosDomainName: $tezosDomainName, isWatchOnly: $isWatchOnly, accountDataModel: $accountDataModel, isAccountPrimary: $isAccountPrimary, isAccountHidden: $isAccountHidden delegatedBakerAddress:$delegatedBakerAddress)';
   }
 
   @override
@@ -127,6 +135,7 @@ class AccountModel {
         other.isWatchOnly == isWatchOnly &&
         other.accountDataModel == accountDataModel &&
         other.isAccountPrimary == isAccountPrimary &&
+        other.delegatedBakerAddress == delegatedBakerAddress &&
         other.isAccountHidden == isAccountHidden;
   }
 
@@ -142,6 +151,7 @@ class AccountModel {
         isWatchOnly.hashCode ^
         accountDataModel.hashCode ^
         isAccountPrimary.hashCode ^
+        delegatedBakerAddress.hashCode ^
         isAccountHidden.hashCode;
   }
 }

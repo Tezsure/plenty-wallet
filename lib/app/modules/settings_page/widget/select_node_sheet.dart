@@ -13,10 +13,22 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-class SelectNodeBottomSheet extends StatelessWidget {
+class SelectNodeBottomSheet extends StatefulWidget {
   SelectNodeBottomSheet({super.key});
 
+  @override
+  State<SelectNodeBottomSheet> createState() => _SelectNodeBottomSheetState();
+}
+
+class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
   final SettingsPageController controller = Get.find<SettingsPageController>();
+  late NodeModel selectedModel;
+  @override
+  void initState() {
+    selectedModel = controller.selectedNode.value;
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +82,11 @@ class SelectNodeBottomSheet extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.arP),
           child: SolidButton(
-            onPressed: Get.back,
+            active: selectedModel != controller.selectedNode.value,
+            onPressed: () {
+              controller.changeNode(selectedModel);
+              Get.back();
+            },
             title: "Apply",
           ),
         ),
@@ -149,7 +165,8 @@ class SelectNodeBottomSheet extends StatelessWidget {
   }) {
     return InkWell(
       onTap: () {
-        controller.changeNode(model);
+        selectedModel = model;
+        setState(() {});
       },
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
@@ -177,18 +194,14 @@ class SelectNodeBottomSheet extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              Obx(() {
-                if (controller.selectedNode.value.url == model.url) {
-                  return SvgPicture.asset(
-                    "${PathConst.SVG}check_3.svg",
-                    color: ColorConst.Primary,
-                    height: 16.6.sp,
-                    fit: BoxFit.contain,
-                  );
-                } else {
-                  return Container();
-                }
-              }),
+              selectedModel.url == model.url
+                  ? SvgPicture.asset(
+                      "${PathConst.SVG}check_3.svg",
+                      // color: ColorConst.Primary,
+                      height: 16.6.sp,
+                      fit: BoxFit.contain,
+                    )
+                  : Container()
             ],
           ),
         ),

@@ -19,10 +19,10 @@ class SplashPageController extends GetxController {
 
     // await ServiceConfig().clearStorage();
 
-    Get.lazyPut(() => BeaconService());
-    Get.lazyPut(() => HomePageController());
-    Get.put(SettingsPageController());
-    Get.put(DelegateWidgetController());
+    // Get.lazyPut(() => BeaconService());
+    // Get.put(HomePageController());
+    // Get.put(SettingsPageController());
+    // Get.put(DelegateWidgetController());
     ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
         ServiceConfig.currentSelectedNode;
     await DataHandlerService().initDataServices();

@@ -37,14 +37,25 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   RxList<AccountModel> userAccounts = <AccountModel>[].obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     Get.put(NftGalleryWidgetController());
 
     DataHandlerService()
         .renderService
         .accountUpdater
-        .registerVariable(userAccounts);
+        .registerCallback((accounts) async {
+      print("accountUpdater".toUpperCase());
+      print("${userAccounts.value.hashCode == accounts.hashCode}");
+      userAccounts.value = accounts ?? [];
+      if (userAccounts.isNotEmpty) {
+        userAccounts[0].delegatedBakerAddress =
+            await Get.put(DelegateWidgetController())
+                .getCurrentBakerAddress(userAccounts[0].publicKeyHash!);
+        print("baker address :${userAccounts[0].delegatedBakerAddress}");
+      }
+    });
+    // .registerVariable(userAccounts);
 
     DataHandlerService()
         .renderService
@@ -62,10 +73,9 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   }
 
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
-    // showBackUpWalletBottomSheet(
-    //     'cross boat human mammal rain twin inner garment lizard quick never lamp');
+
     if (Get.arguments != null &&
         Get.arguments.length == 2 &&
         Get.arguments[1].toString().isNotEmpty) {
@@ -77,9 +87,13 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
     isEnabled.value = !isEnabled.value;
   }
 
-  void changeSelectedAccount(int index) {
+  void changeSelectedAccount(int index) async {
     Get.find<AccountsWidgetController>().onPageChanged(index);
     selectedIndex.value = index;
+    userAccounts[index].delegatedBakerAddress =
+        await Get.put(DelegateWidgetController())
+            .getCurrentBakerAddress(userAccounts[index].publicKeyHash!);
+    print("baker address :${userAccounts[index].delegatedBakerAddress}");
   }
 
   void onSliderChange(double value) {
@@ -102,12 +116,13 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
     final status = await Permission.camera.status;
 
     if (status.isPermanentlyDenied) {
-      Get.bottomSheet(CameraPermissionHandler(), isScrollControlled: true);
+      Get.bottomSheet(const CameraPermissionHandler(),
+          isScrollControlled: true);
 
       // We didn't ask for permission yet or the permission has been denied before but not permanently.
     } else {
       Get.to(
-        ScanQrView(),
+        const ScanQrView(),
       );
     }
   } // void onIndicatorTapped(int index) => selectedIndex.value = index;

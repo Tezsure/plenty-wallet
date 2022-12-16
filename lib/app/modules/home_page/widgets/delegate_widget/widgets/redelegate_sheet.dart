@@ -9,12 +9,11 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-
 class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
   final DelegateBakerModel baker;
   ReDelegateBottomSheet({super.key, required this.baker}) {
     Get.lazyPut(() => DelegateWidgetController());
-    controller.toggleLoaderOverlay(() => controller.getDelegateRewardList());
+    controller.getDelegateRewardList();
   }
 
   @override

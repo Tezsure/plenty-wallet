@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -104,12 +107,16 @@ class AccountWidget extends StatelessWidget {
     );
   }
 
+  final homeController = Get.put(HomePageController());
   Widget accountWidget(AccountModel accountModel, index) {
     final bool isSelected = controller.isTz1Selected.value
         ? controller.selectedAccountsTz1
             .any((e) => e.publicKeyHash == accountModel.publicKeyHash)
         : controller.selectedAccountsTz2
             .any((e) => e.publicKeyHash == accountModel.publicKeyHash);
+    final bool isImported = homeController.userAccounts
+        .any((element) => element.publicKeyHash == accountModel.publicKeyHash);
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: Row(
@@ -158,28 +165,33 @@ class AccountWidget extends StatelessWidget {
           ),
           const Spacer(),
           // if (isSelected)
-          IconButton(
-              onPressed: () {
-                if (!isSelected) {
-                  controller.isTz1Selected.value
-                      ? controller.selectedAccountsTz1.add(accountModel)
-                      : controller.selectedAccountsTz2.add(accountModel);
-                } else {
-                  controller.isTz1Selected.value
-                      ? controller.selectedAccountsTz1.remove(accountModel)
-                      : controller.selectedAccountsTz2.remove(accountModel);
-                }
-              },
-              icon: isSelected
-                  ? SvgPicture.asset(
-                      "assets/svg/check_3.svg",
-                      height: 20.sp,
-                      width: 20.sp,
-                    )
-                  : Icon(
-                      Icons.circle_outlined,
-                      color: ColorConst.NeutralVariant.shade30,
-                    )),
+          isImported
+              ? Text(
+                  "IMPORTED",
+                  style: labelSmall.copyWith(color: ColorConst.Primary),
+                )
+              : IconButton(
+                  onPressed: () {
+                    if (!isSelected) {
+                      controller.isTz1Selected.value
+                          ? controller.selectedAccountsTz1.add(accountModel)
+                          : controller.selectedAccountsTz2.add(accountModel);
+                    } else {
+                      controller.isTz1Selected.value
+                          ? controller.selectedAccountsTz1.remove(accountModel)
+                          : controller.selectedAccountsTz2.remove(accountModel);
+                    }
+                  },
+                  icon: isSelected
+                      ? SvgPicture.asset(
+                          "assets/svg/check_3.svg",
+                          height: 20.sp,
+                          width: 20.sp,
+                        )
+                      : Icon(
+                          Icons.circle_outlined,
+                          color: ColorConst.NeutralVariant.shade30,
+                        )),
         ],
       ),
     );
