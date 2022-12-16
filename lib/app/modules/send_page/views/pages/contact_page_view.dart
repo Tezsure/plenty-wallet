@@ -103,7 +103,7 @@ class ContactsListView extends GetView<SendPageController> {
                         contact.name.length >= 38
                             ? '${contact.name.substring(0, 38)}...'
                             : contact.name,
-                        style: bodySmall,
+                        style: bodySmall.copyWith(fontWeight: FontWeight.w600),
                       ),
                       Text(
                         contact.address.tz1Short(),

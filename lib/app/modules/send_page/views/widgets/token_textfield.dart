@@ -40,7 +40,7 @@ class TokenSendTextfield extends StatelessWidget {
           color: isError != null && isError!.value
               ? ColorConst.NaanRed
               : textfieldType == TextfieldType.token
-                  ? ColorConst.NeutralVariant.shade70
+                  ? ColorConst.NeutralVariant.shade40
                   : ColorConst.NeutralVariant.shade60),
       cursorColor: Colors.white,
       onChanged: onChanged,

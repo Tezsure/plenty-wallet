@@ -137,7 +137,7 @@ class DelegateRewardsTile extends StatelessWidget {
                       margin: const EdgeInsets.only(
                         bottom: 20,
                       ),
-                      duration: const Duration(milliseconds: 750),
+                      duration: const Duration(milliseconds: 2000),
                     );
                   },
                   icon: SvgPicture.asset(

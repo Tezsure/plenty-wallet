@@ -31,16 +31,6 @@ class CreateNewNftGalleryBottomSheet
 
   @override
   Widget build(BuildContext context) {
-    return NaanBottomSheet(
-      height: 0.9.height,
-      bottomSheetWidgets: [
-        Obx(
-          () => controller.formIndex.value == 0
-              ? selectAccountWidget()
-              : createGalleryProfileWidget(),
-        )
-      ],
-    );
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(

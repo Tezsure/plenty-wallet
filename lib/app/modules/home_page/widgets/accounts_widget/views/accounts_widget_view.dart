@@ -223,7 +223,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                     margin: const EdgeInsets.only(
                                       bottom: 20,
                                     ),
-                                    duration: const Duration(milliseconds: 750),
+                                    duration:
+                                        const Duration(milliseconds: 2000),
                                   );
                                 },
                                 child: SvgPicture.asset(

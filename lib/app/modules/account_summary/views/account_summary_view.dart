@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
+import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -149,7 +150,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                         bottom: 20.aR,
                                       ),
                                       duration:
-                                          const Duration(milliseconds: 700),
+                                          const Duration(milliseconds: 2000),
                                     );
                                   },
                                   child: SvgPicture.asset(
@@ -197,6 +198,20 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _actionButton(
+                              onTap: () {
+                                String url =
+                                    "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
+
+                                print(url);
+                                Get.bottomSheet(
+                                  const DappBrowserView(),
+                                  barrierColor: Colors.white.withOpacity(0.09),
+                                  settings: RouteSettings(
+                                    arguments: url,
+                                  ),
+                                  isScrollControlled: true,
+                                );
+                              },
                               imagePath: '${PathConst.SVG}plus.svg',
                               label: 'Buy'),
                           0.04.hspace,
@@ -399,7 +414,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                       margin: EdgeInsets.only(
                         bottom: 20.aR,
                       ),
-                      duration: const Duration(milliseconds: 700),
+                      duration: const Duration(milliseconds: 2000),
                     );
                   },
                   child: SvgPicture.asset(

@@ -117,7 +117,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                             width: double.infinity,
                             height: double.infinity,
                             decoration: BoxDecoration(
-                                gradient: appleGreen,
+                                gradient: applePurple,
                                 image: DecorationImage(
                                   image: CachedNetworkImageProvider(
                                     "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb288",

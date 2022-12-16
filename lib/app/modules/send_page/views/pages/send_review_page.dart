@@ -63,58 +63,61 @@ class SendReviewPage extends StatelessWidget {
                   ),
                   // 0.03.vspace,
                 ],
-                0.02.vspace,
-                Align(
-                  alignment: Alignment.center,
-                  child: Obx(
-                    () {
-                      var isEnterAmountEnable =
-                          controller.amountText.value.isNotEmpty &&
-                              (double.parse(controller.amountText.value != ""
-                                      ? controller.amountText.value
-                                      : "0") >
-                                  0) &&
-                              !controller.amountTileError.value &&
-                              !controller.amountUsdTileError.value;
-                      return SolidButton(
-                        // height: 48,
-                        onPressed: () =>
-                            (controller.amountText.value.isNotEmpty ||
-                                        controller.isNFTPage.value) &&
-                                    !(controller.amountTileError.value ||
-                                        controller.amountUsdTileError.value)
-                                ? Get.bottomSheet(
-                                    TransactionBottomSheet(
-                                      controller: controller,
-                                    ),
-                                    enterBottomSheetDuration:
-                                        const Duration(milliseconds: 180),
-                                    exitBottomSheetDuration:
-                                        const Duration(milliseconds: 150),
-                                  )
-                                : null,
-                        primaryColor: controller.isNFTPage.value
-                            ? ColorConst.Primary
-                            : isEnterAmountEnable
-                                ? ColorConst.Primary
-                                : ColorConst.NeutralVariant.shade60
-                                    .withOpacity(0.2),
-                        textColor: controller.isNFTPage.value
-                            ? Colors.white
-                            : isEnterAmountEnable
-                                ? Colors.white
-                                : ColorConst.NeutralVariant.shade60,
-                        title: !controller.isNFTPage.value &&
-                                !isEnterAmountEnable &&
-                                !(controller.amountTileError.value ||
-                                    controller.amountUsdTileError.value)
-                            ? 'Enter an amount'
-                            : controller.amountTileError.value ||
-                                    controller.amountUsdTileError.value
-                                ? "Insufficient balance"
-                                : 'Review',
-                      );
-                    },
+                0.04.vspace,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Obx(
+                      () {
+                        var isEnterAmountEnable =
+                            controller.amountText.value.isNotEmpty &&
+                                (double.parse(controller.amountText.value != ""
+                                        ? controller.amountText.value
+                                        : "0") >
+                                    0) &&
+                                !controller.amountTileError.value &&
+                                !controller.amountUsdTileError.value;
+                        return SolidButton(
+                          // height: 48,
+                          onPressed: () =>
+                              (controller.amountText.value.isNotEmpty ||
+                                          controller.isNFTPage.value) &&
+                                      !(controller.amountTileError.value ||
+                                          controller.amountUsdTileError.value)
+                                  ? Get.bottomSheet(
+                                      TransactionBottomSheet(
+                                        controller: controller,
+                                      ),
+                                      enterBottomSheetDuration:
+                                          const Duration(milliseconds: 180),
+                                      exitBottomSheetDuration:
+                                          const Duration(milliseconds: 150),
+                                    )
+                                  : null,
+                          primaryColor: controller.isNFTPage.value
+                              ? ColorConst.Primary
+                              : isEnterAmountEnable
+                                  ? ColorConst.Primary
+                                  : ColorConst.NeutralVariant.shade60
+                                      .withOpacity(0.2),
+                          textColor: controller.isNFTPage.value
+                              ? Colors.white
+                              : isEnterAmountEnable
+                                  ? Colors.white
+                                  : ColorConst.NeutralVariant.shade60,
+                          title: !controller.isNFTPage.value &&
+                                  !isEnterAmountEnable &&
+                                  !(controller.amountTileError.value ||
+                                      controller.amountUsdTileError.value)
+                              ? 'Enter an amount'
+                              : controller.amountTileError.value ||
+                                      controller.amountUsdTileError.value
+                                  ? "Insufficient balance"
+                                  : 'Review',
+                        );
+                      },
+                    ),
                   ),
                 ),
                 0.02.vspace,

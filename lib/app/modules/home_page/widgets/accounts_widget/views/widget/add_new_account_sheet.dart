@@ -275,30 +275,6 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Divider(
-                    color: Color(0xff4a454e),
-                    height: 1,
-                    thickness: 1,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      controller.currentSelectedType =
-                          AccountProfileImageType.assets;
-                      controller.selectedImagePath.value =
-                          ServiceConfig.allAssetsProfileImages[0];
-                      Get.back();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 51,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Remove photo",
-                        style:
-                            labelMedium.apply(color: ColorConst.Error.shade60),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),

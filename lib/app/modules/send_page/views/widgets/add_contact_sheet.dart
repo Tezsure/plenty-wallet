@@ -249,13 +249,27 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                       //   Get.back();
                       // }
                     },
-                    child: Container(
-                      width: double.infinity,
-                      height: 40.aR,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Choose from library",
-                        style: labelMedium.copyWith(fontSize: 12.aR),
+                    child: GestureDetector(
+                      onTap: () async {
+                        /*                    var imagePath = await CreateProfileService()
+                          .pickANewImageFromGallery();
+                      if (imagePath.isNotEmpty) {
+                        _controller.editUserProfilePhoto(
+                            accountIndex: widget.accountIndex,
+                            imagePath: imagePath,
+                            imageType: AccountProfileImageType.file);
+
+                        Get.back();
+                      } */
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 50.aR,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Choose from library",
+                          style: labelMedium.copyWith(fontSize: 12.aR),
+                        ),
                       ),
                     ),
                   ),
@@ -275,29 +289,11 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 40.aR,
+                      height: 50.aR,
                       alignment: Alignment.center,
                       child: Text(
                         "Pick an avatar",
                         style: labelMedium.copyWith(fontSize: 12.aR),
-                      ),
-                    ),
-                  ),
-                  const Divider(
-                    color: Color(0xff4a454e),
-                    height: 1,
-                    thickness: 1,
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: double.infinity,
-                      height: 40.aR,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Remove photo",
-                        style: labelMedium.copyWith(
-                            color: ColorConst.Error.shade60, fontSize: 12.aR),
                       ),
                     ),
                   ),
@@ -310,7 +306,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
               child: GestureDetector(
                 onTap: () => Get.back(),
                 child: Container(
-                  height: 40.aR,
+                  height: 50.aR,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.aR),

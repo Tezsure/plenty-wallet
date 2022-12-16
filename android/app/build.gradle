@@ -59,6 +59,7 @@ android {
             useProguard true
             minifyEnabled false
             shrinkResources false
+            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

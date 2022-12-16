@@ -42,9 +42,9 @@ dependencies:
   permission_handler: ^10.2.0
 
   # Firebase
-  
+
 dependency_overrides:
-  firebase_crashlytics_platform_interface: 
+  firebase_crashlytics_platform_interface:
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -82,8 +82,6 @@ flutter:
     - assets/contact_page/svg/
     #profile images
     - assets/profile_images/
-
-   
 
     #empty states images
     - assets/empty_states/

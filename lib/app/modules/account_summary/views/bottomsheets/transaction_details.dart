@@ -275,7 +275,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                       margin: EdgeInsets.only(
                         bottom: 20.sp,
                       ),
-                      duration: const Duration(milliseconds: 700),
+                      duration: const Duration(milliseconds: 2000),
                     );
                   },
                   child: SvgPicture.asset(

@@ -124,7 +124,7 @@ class SendPage extends GetView<SendPageController> {
                         color: controller.selectedPageIndex.value == 0
                             ? Colors.white
                             : ColorConst.Primary,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                         fontSize: 14.arP,
                         letterSpacing: 0.25.arP,
                       ),

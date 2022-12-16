@@ -78,7 +78,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                     ),
                     0.01.hspace,
                     Text(
-                      controller.url.value.contains("https://dev")
+                      controller.url.value.contains("https://wert")
                           ? "Buy tez"
                           : Uri.parse(controller.url.value)
                               .host

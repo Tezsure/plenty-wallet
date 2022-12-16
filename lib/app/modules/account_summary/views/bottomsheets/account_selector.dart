@@ -331,6 +331,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Column(children: [
+                  0.014.vspace,
                   Obx(() => InkWell(
                         onTap: (() {
                           if (_controller.isAccountEditable.isFalse) {

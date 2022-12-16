@@ -19,7 +19,9 @@ class BuyTezWidget extends StatelessWidget {
         HomePageController home = Get.find<HomePageController>();
 
         String url =
-            "https://dev.api.tezsure.com/v1/tezsure/wert/index.html?address=${home.userAccounts[0].publicKeyHash}";
+            "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
+
+        print(url);
         Get.bottomSheet(
           const DappBrowserView(),
           barrierColor: Colors.white.withOpacity(0.09),

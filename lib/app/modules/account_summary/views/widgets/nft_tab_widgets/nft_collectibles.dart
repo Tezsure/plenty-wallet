@@ -49,7 +49,9 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                 setState(() => isExpanded = isExpand),
             trailing: expandButton(isExpanded: isExpanded),
             title: Text(
-              widget.nftList.first.fa!.name!,
+              widget.nftList.first.fa!.name == null
+                  ? widget.nftList.first.name!
+                  : widget.nftList.first.fa!.name!,
               style:
                   labelLarge.copyWith(fontSize: 14.aR, letterSpacing: 0.1.aR),
             ),
