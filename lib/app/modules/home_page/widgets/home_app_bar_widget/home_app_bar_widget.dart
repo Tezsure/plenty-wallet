@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/beacon_bottom_sheet/widgets/test_network_alert_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/views/settings_page_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
@@ -18,8 +19,12 @@ class HomepageAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onTap: () =>
-                Get.bottomSheet(SettingsPageView(), isScrollControlled: true),
+            onTap: () {
+              Get.bottomSheet(
+                TestNetworkBottomSheet(),
+              );
+              // Get.bottomSheet(SettingsPageView(), isScrollControlled: true);
+            },
             child: Image.asset(
               "${PathConst.HOME_PAGE}menu.png",
               width: 24,

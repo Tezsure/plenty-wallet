@@ -20,7 +20,7 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
       'Your funds are neither locked nor frozen and do not move anywhere. You can spend them at any time.',
       'Through delegation, you are delegating your staking/baking rights to another person(baker). Baker passes on the rewards he gets, to you as a delegator.'
     ];
-    Get.lazyPut(() => DelegateWidgetController());
+    // Get.lazyPut(() => DelegateWidgetController());
     return NaanBottomSheet(
         mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 16.sp,

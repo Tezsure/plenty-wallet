@@ -17,7 +17,7 @@ class NftCollectibles extends StatefulWidget {
 }
 
 class _NftCollectiblesState extends State<NftCollectibles> {
-  bool isExpanded = false;
+  bool isExpanded = true;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +26,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
       child: Column(
         children: [
           ExpansionTile(
+            initiallyExpanded: isExpanded,
             tilePadding: EdgeInsets.zero,
             leading: Container(
               height: 40.aR,

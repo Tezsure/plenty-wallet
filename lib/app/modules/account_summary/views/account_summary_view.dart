@@ -72,11 +72,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Get.bottomSheet(
-                                    AccountSelectorSheet(
-                                      selectedAccount:
-                                          controller.selectedAccount.value,
-                                    ),
+                                Get.bottomSheet(const AccountSelectorSheet(),
                                     enterBottomSheetDuration:
                                         const Duration(milliseconds: 180),
                                     exitBottomSheetDuration:
@@ -220,7 +216,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                 NaanAnalytics.logEvent(
                                     NaanAnalyticsEvents.DELEGATE_FROM_WALLET);
                                 Get.put(DelegateWidgetController())
-                                    .checkBaker();
+                                    .openBakerList();
                               },
                               imagePath: '${PathConst.SVG}dollar_sign.svg',
                               label: 'Earn'),
@@ -349,10 +345,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
           children: [
             GestureDetector(
               onTap: () {
-                Get.bottomSheet(
-                    AccountSelectorSheet(
-                      selectedAccount: controller.selectedAccount.value,
-                    ),
+                Get.bottomSheet(AccountSelectorSheet(),
                     isScrollControlled: true);
               },
               child: Row(
@@ -424,15 +417,17 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                     height: 24.aR,
                   ),
                 ),
-                0.04.hspace,
-                InkWell(
-                  child: SvgPicture.asset(
-                    '${PathConst.SVG}scanVector.svg',
-                    fit: BoxFit.contain,
-                    height: 24.aR,
-                    color: Colors.white,
+                if (!(controller.selectedAccount.value.isWatchOnly ?? false))
+                  0.04.hspace,
+                if (!(controller.selectedAccount.value.isWatchOnly ?? false))
+                  InkWell(
+                    child: SvgPicture.asset(
+                      '${PathConst.SVG}scanVector.svg',
+                      fit: BoxFit.contain,
+                      height: 24.aR,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
               ],
             ),
           ],
@@ -443,8 +438,9 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
 
   Widget _actionButton(
       {required String imagePath, required String label, Function()? onTap}) {
+    bool isEnabled = !(controller.selectedAccount.value.isWatchOnly ?? false);
     return InkWell(
-      onTap: onTap,
+      onTap: isEnabled ? onTap : null,
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
@@ -454,13 +450,14 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.sp),
                   child: CircleAvatar(
-                    backgroundColor: ColorConst.Primary,
+                    backgroundColor:
+                        isEnabled ? ColorConst.Primary : ColorConst.darkGrey,
                     radius: 20.aR,
                     child: SvgPicture.asset(
                       imagePath,
                       fit: BoxFit.cover,
                       height: 20.aR,
-                      color: Colors.white,
+                      color: isEnabled ? Colors.white : ColorConst.textGrey1,
                     ),
                   ),
                 )),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -16,19 +18,29 @@ class BuyTezWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        HomePageController home = Get.find<HomePageController>();
-
-        String url =
-            "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
-
-        print(url);
+        Get.put(AccountSummaryController());
         Get.bottomSheet(
-          const DappBrowserView(),
-          barrierColor: Colors.white.withOpacity(0.09),
-          settings: RouteSettings(
-            arguments: url,
+          AccountSelectorSheet(
+            onNext: () {
+              HomePageController home = Get.find<HomePageController>();
+
+              String url =
+                  "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
+
+              print(url);
+              Get.bottomSheet(
+                const DappBrowserView(),
+                barrierColor: Colors.white.withOpacity(0.09),
+                settings: RouteSettings(
+                  arguments: url,
+                ),
+                isScrollControlled: true,
+              );
+            },
           ),
           isScrollControlled: true,
+          enterBottomSheetDuration: const Duration(milliseconds: 180),
+          exitBottomSheetDuration: const Duration(milliseconds: 150),
         );
       },
       child: Container(

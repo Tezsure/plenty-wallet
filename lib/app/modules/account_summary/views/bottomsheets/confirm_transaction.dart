@@ -148,9 +148,7 @@ class ConfirmTransactionSheet extends StatelessWidget {
                               padding: EdgeInsets.only(top: 0.01.height),
                               child: GestureDetector(
                                 onTap: () => Get.bottomSheet(
-                                  AccountSelectorSheet(
-                                    selectedAccount: controller.userAccounts[0],
-                                  ),
+                                  AccountSelectorSheet(),
                                   enterBottomSheetDuration:
                                       const Duration(milliseconds: 180),
                                   exitBottomSheetDuration:

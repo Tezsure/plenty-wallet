@@ -23,10 +23,11 @@ import '../../../settings_page/controllers/settings_page_controller.dart';
 import 'edit_account.dart';
 
 class AccountSelectorSheet extends StatefulWidget {
-  final AccountModel selectedAccount;
+  // final AccountModel selectedAccount;
+  final Function()? onNext;
   const AccountSelectorSheet({
     super.key,
-    required this.selectedAccount,
+    this.onNext,
   });
 
   @override
@@ -407,7 +408,18 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                       ))
                 ]),
               ),
-            )
+            ),
+            if (widget.onNext != null)
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SolidButton(
+                    onPressed: widget.onNext,
+                    title: "Next",
+                  ),
+                ),
+              ),
+            0.01.vspace
           ],
         ),
       ),

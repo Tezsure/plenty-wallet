@@ -17,7 +17,7 @@ class EarnTezWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         NaanAnalytics.logEvent(NaanAnalyticsEvents.DELEGATE_WIDGET_CLICK);
-        Get.put(DelegateWidgetController()).checkBaker();
+        Get.put(DelegateWidgetController()).openBakerList();
       },
       child: Container(
         height: 0.405.width,

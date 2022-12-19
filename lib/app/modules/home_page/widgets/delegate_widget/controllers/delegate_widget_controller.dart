@@ -16,9 +16,11 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/account_summ
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_info_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_success_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/redelegate_sheet.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -294,14 +296,15 @@ class DelegateWidgetController extends GetxController {
       return Get.bottomSheet(const DelegateInfoSheet(),
           enableDrag: true, isScrollControlled: true);
     }
+
     Get.put(AccountSummaryController());
-    accountModel = Get.find<AccountSummaryController>().selectedAccount;
+    accountModel = Get.find<HomePageController>()
+        .userAccounts[Get.find<HomePageController>().selectedIndex.value]
+        .obs;
 
     if (accountModel == null) {
       Get.bottomSheet(
-        AccountSelectorSheet(
-          selectedAccount: Get.find<HomePageController>().userAccounts[0],
-        ),
+        const AccountSelectorSheet(),
         enterBottomSheetDuration: const Duration(milliseconds: 180),
         exitBottomSheetDuration: const Duration(milliseconds: 150),
       );
@@ -332,6 +335,22 @@ class DelegateWidgetController extends GetxController {
             enableDrag: true,
             isScrollControlled: true);
       }
+    }
+  }
+
+  Future<void> openBakerList() async {
+    if (!(Get.isBottomSheetOpen ?? false)) {
+      Get.bottomSheet(
+        AccountSelectorSheet(
+          onNext: () {
+            checkBaker();
+          },
+        ),
+        enterBottomSheetDuration: const Duration(milliseconds: 180),
+        exitBottomSheetDuration: const Duration(milliseconds: 150),
+      );
+    } else {
+      checkBaker();
     }
   }
 
