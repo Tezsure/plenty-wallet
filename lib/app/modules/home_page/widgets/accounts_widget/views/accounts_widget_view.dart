@@ -251,81 +251,84 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                             style: headlineLarge,
                           ),
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(22.sp),
-                            color: Colors.black.withOpacity(0.3),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8.0.sp, vertical: 6.sp),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                RawMaterialButton(
-                                  constraints: BoxConstraints(
-                                      minWidth: 48.sp, minHeight: 48.sp),
-                                  elevation: 1,
-                                  padding: const EdgeInsets.all(8),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  enableFeedback: true,
-                                  onPressed: () => Get.bottomSheet(
-                                      const SendPage(),
-                                      enterBottomSheetDuration:
-                                          const Duration(milliseconds: 180),
-                                      exitBottomSheetDuration:
-                                          const Duration(milliseconds: 150),
-                                      isScrollControlled: true,
-                                      settings: RouteSettings(
-                                        arguments: model,
-                                      ),
-                                      barrierColor:
-                                          Colors.white.withOpacity(0.09)),
-                                  fillColor: ColorConst.Primary.shade0,
-                                  shape:
-                                      const CircleBorder(side: BorderSide.none),
-                                  child: Image.asset(
-                                    "${PathConst.HOME_PAGE}send.png",
-                                    width: 22.sp,
-                                    height: 22.sp,
+                        if (model.isWatchOnly )
+                          Container()
+                        else
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(22.sp),
+                              color: Colors.black.withOpacity(0.3),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8.0.sp, vertical: 6.sp),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  RawMaterialButton(
+                                    constraints: BoxConstraints(
+                                        minWidth: 48.sp, minHeight: 48.sp),
+                                    elevation: 1,
+                                    padding: const EdgeInsets.all(8),
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    enableFeedback: true,
+                                    onPressed: () => Get.bottomSheet(
+                                        const SendPage(),
+                                        enterBottomSheetDuration:
+                                            const Duration(milliseconds: 180),
+                                        exitBottomSheetDuration:
+                                            const Duration(milliseconds: 150),
+                                        isScrollControlled: true,
+                                        settings: RouteSettings(
+                                          arguments: model,
+                                        ),
+                                        barrierColor:
+                                            Colors.white.withOpacity(0.09)),
+                                    fillColor: ColorConst.Primary.shade0,
+                                    shape: const CircleBorder(
+                                        side: BorderSide.none),
+                                    child: Image.asset(
+                                      "${PathConst.HOME_PAGE}send.png",
+                                      width: 22.sp,
+                                      height: 22.sp,
+                                    ),
                                   ),
-                                ),
-                                0.036.hspace,
-                                RawMaterialButton(
-                                  enableFeedback: true,
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  padding: const EdgeInsets.all(8),
-                                  constraints: BoxConstraints(
-                                      minWidth: 48.sp, minHeight: 48.sp),
-                                  elevation: 1,
-                                  onPressed: () => Get.bottomSheet(
-                                      const ReceivePageView(),
-                                      enterBottomSheetDuration:
-                                          const Duration(milliseconds: 180),
-                                      exitBottomSheetDuration:
-                                          const Duration(milliseconds: 150),
-                                      isScrollControlled: true,
-                                      settings: RouteSettings(
-                                        arguments: model,
-                                      ),
-                                      barrierColor:
-                                          Colors.white.withOpacity(0.09)),
-                                  fillColor: ColorConst.Primary.shade0,
-                                  shape:
-                                      const CircleBorder(side: BorderSide.none),
-                                  child: Image.asset(
-                                    "${PathConst.HOME_PAGE}qr.png",
-                                    width: 22.sp,
-                                    height: 22.sp,
+                                  0.036.hspace,
+                                  RawMaterialButton(
+                                    enableFeedback: true,
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    padding: const EdgeInsets.all(8),
+                                    constraints: BoxConstraints(
+                                        minWidth: 48.sp, minHeight: 48.sp),
+                                    elevation: 1,
+                                    onPressed: () => Get.bottomSheet(
+                                        const ReceivePageView(),
+                                        enterBottomSheetDuration:
+                                            const Duration(milliseconds: 180),
+                                        exitBottomSheetDuration:
+                                            const Duration(milliseconds: 150),
+                                        isScrollControlled: true,
+                                        settings: RouteSettings(
+                                          arguments: model,
+                                        ),
+                                        barrierColor:
+                                            Colors.white.withOpacity(0.09)),
+                                    fillColor: ColorConst.Primary.shade0,
+                                    shape: const CircleBorder(
+                                        side: BorderSide.none),
+                                    child: Image.asset(
+                                      "${PathConst.HOME_PAGE}qr.png",
+                                      width: 22.sp,
+                                      height: 22.sp,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
                       ],
                     ),
                   ),

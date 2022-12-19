@@ -156,19 +156,23 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                     height: 24.aR,
                                   ),
                                 ),
-                                0.04.hspace,
-                                InkWell(
-                                  onTap: () {
-                                    Get.find<HomePageController>()
-                                        .openScanner();
-                                  },
-                                  child: SvgPicture.asset(
-                                    '${PathConst.SVG}scanVector.svg',
-                                    fit: BoxFit.contain,
-                                    height: 24.aR,
-                                    color: Colors.white,
+                                if (!controller
+                                    .selectedAccount.value.isWatchOnly)
+                                  0.04.hspace,
+                                if (!controller
+                                    .selectedAccount.value.isWatchOnly)
+                                  InkWell(
+                                    onTap: () {
+                                      Get.find<HomePageController>()
+                                          .openScanner();
+                                    },
+                                    child: SvgPicture.asset(
+                                      '${PathConst.SVG}scanVector.svg',
+                                      fit: BoxFit.contain,
+                                      height: 24.aR,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
                               ],
                             ),
                           ],
@@ -337,108 +341,111 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
     );
   }
 
-  Obx _buildAppBar() {
-    return Obx(
-      () => Padding(
-        padding: EdgeInsets.only(left: 16.aR, right: 16.aR, top: 14.aR),
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                Get.bottomSheet(AccountSelectorSheet(),
-                    isScrollControlled: true);
-              },
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  0.01.hspace,
-                  CustomImageWidget(
-                    imageType: controller.selectedAccount.value.imageType!,
-                    imagePath: controller.selectedAccount.value.profileImage!,
-                    imageRadius: 18.aR,
-                  ),
-                  0.03.hspace,
-                  RichText(
-                    text: TextSpan(
-                        text: controller.selectedAccount.value.name!,
-                        style: labelMedium.copyWith(
-                            fontSize: 12.aR, fontWeight: FontWeight.w600),
-                        children: [
-                          WidgetSpan(
-                              child: SizedBox(
-                            width: 2.sp,
-                          )),
-                          WidgetSpan(
-                            alignment: PlaceholderAlignment.bottom,
-                            child: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              size: 20.aR,
-                              color: Colors.white,
-                            ),
-                          ),
-                          TextSpan(
-                            text:
-                                "\n${(controller.selectedAccount.value.publicKeyHash!).tz1Short()}",
-                            style: labelMedium.copyWith(
-                                fontSize: 12.aR,
-                                height: 0,
-                                fontWeight: FontWeight.w400,
-                                color: ColorConst.NeutralVariant.shade60),
-                          )
-                        ]),
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Clipboard.setData(ClipboardData(
-                        text: controller.selectedAccount.value.publicKeyHash));
-                    Get.rawSnackbar(
-                      message: "Copied to clipboard",
-                      shouldIconPulse: true,
-                      snackPosition: SnackPosition.BOTTOM,
-                      maxWidth: 0.9.width,
-                      margin: EdgeInsets.only(
-                        bottom: 20.aR,
-                      ),
-                      duration: const Duration(milliseconds: 2000),
-                    );
-                  },
-                  child: SvgPicture.asset(
-                    '${PathConst.SVG}copy.svg',
-                    color: Colors.white,
-                    fit: BoxFit.contain,
-                    height: 24.aR,
-                  ),
-                ),
-                if (!(controller.selectedAccount.value.isWatchOnly ?? false))
-                  0.04.hspace,
-                if (!(controller.selectedAccount.value.isWatchOnly ?? false))
-                  InkWell(
-                    child: SvgPicture.asset(
-                      '${PathConst.SVG}scanVector.svg',
-                      fit: BoxFit.contain,
-                      height: 24.aR,
-                      color: Colors.white,
-                    ),
-                  ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Obx _buildAppBar() {
+  //   return Obx(
+  //     () => Padding(
+  //       padding: EdgeInsets.only(left: 16.aR, right: 16.aR, top: 14.aR),
+  //       child: Row(
+  //         children: [
+  //           GestureDetector(
+  //             onTap: () {
+  //               Get.bottomSheet(AccountSelectorSheet(),
+  //                   isScrollControlled: true);
+  //             },
+  //             child: Row(
+  //               crossAxisAlignment: CrossAxisAlignment.center,
+  //               mainAxisAlignment: MainAxisAlignment.start,
+  //               children: [
+  //                 0.01.hspace,
+  //                 CustomImageWidget(
+  //                   imageType: controller.selectedAccount.value.imageType!,
+  //                   imagePath: controller.selectedAccount.value.profileImage!,
+  //                   imageRadius: 18.aR,
+  //                 ),
+  //                 0.03.hspace,
+  //                 RichText(
+  //                   text: TextSpan(
+  //                       text: controller.selectedAccount.value.name!,
+  //                       style: labelMedium.copyWith(
+  //                           fontSize: 12.aR, fontWeight: FontWeight.w600),
+  //                       children: [
+  //                         WidgetSpan(
+  //                             child: SizedBox(
+  //                           width: 2.sp,
+  //                         )),
+  //                         WidgetSpan(
+  //                           alignment: PlaceholderAlignment.bottom,
+  //                           child: Icon(
+  //                             Icons.keyboard_arrow_down_rounded,
+  //                             size: 20.aR,
+  //                             color: Colors.white,
+  //                           ),
+  //                         ),
+  //                         TextSpan(
+  //                           text:
+  //                               "\n${(controller.selectedAccount.value.publicKeyHash!).tz1Short()}",
+  //                           style: labelMedium.copyWith(
+  //                               fontSize: 12.aR,
+  //                               height: 0,
+  //                               fontWeight: FontWeight.w400,
+  //                               color: ColorConst.NeutralVariant.shade60),
+  //                         )
+  //                       ]),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //           const Spacer(),
+  //           Obx(() {
+  //             return Row(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 InkWell(
+  //                   onTap: () {
+  //                     Clipboard.setData(ClipboardData(
+  //                         text:
+  //                             controller.selectedAccount.value.publicKeyHash));
+  //                     Get.rawSnackbar(
+  //                       message: "Copied to clipboard",
+  //                       shouldIconPulse: true,
+  //                       snackPosition: SnackPosition.BOTTOM,
+  //                       maxWidth: 0.9.width,
+  //                       margin: EdgeInsets.only(
+  //                         bottom: 20.aR,
+  //                       ),
+  //                       duration: const Duration(milliseconds: 2000),
+  //                     );
+  //                   },
+  //                   child: SvgPicture.asset(
+  //                     '${PathConst.SVG}copy.svg',
+  //                     color: Colors.white,
+  //                     fit: BoxFit.contain,
+  //                     height: 24.aR,
+  //                   ),
+  //                 ),
+  //                 if (!(controller.selectedAccount.value.isWatchOnly))
+  //                   0.04.hspace,
+  //                 if (!(controller.selectedAccount.value.isWatchOnly))
+  //                   InkWell(
+  //                     child: SvgPicture.asset(
+  //                       '${PathConst.SVG}scanVector.svg',
+  //                       fit: BoxFit.contain,
+  //                       height: 24.aR,
+  //                       color: Colors.white,
+  //                     ),
+  //                   ),
+  //               ],
+  //             );
+  //           }),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _actionButton(
       {required String imagePath, required String label, Function()? onTap}) {
-    bool isEnabled = !(controller.selectedAccount.value.isWatchOnly ?? false);
+    bool isEnabled = !(controller.selectedAccount.value.isWatchOnly);
     return InkWell(
       onTap: isEnabled ? onTap : null,
       child: RichText(

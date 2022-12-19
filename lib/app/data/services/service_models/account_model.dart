@@ -11,7 +11,7 @@ class AccountModel {
   String? profileImage;
   bool isNaanAccount = false;
   String? tezosDomainName = "";
-  bool? isWatchOnly = false;
+  bool isWatchOnly = false;
   AccountDataModel? accountDataModel;
   AccountSecretModel? accountSecretModel;
   bool? isAccountPrimary = false;

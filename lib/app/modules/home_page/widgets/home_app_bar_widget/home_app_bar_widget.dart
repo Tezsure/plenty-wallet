@@ -28,16 +28,23 @@ class HomepageAppBar extends StatelessWidget {
               height: 24,
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              Get.find<HomePageController>().openScanner();
-            },
-            child: Image.asset(
-              "${PathConst.HOME_PAGE}scan.png",
-              width: 42,
-              height: 42,
-            ),
-          ),
+          Obx(() {
+            if (Get.find<HomePageController>()
+                    .userAccounts[
+                        Get.find<HomePageController>().selectedIndex.value]
+                    .isWatchOnly 
+                ) return Container();
+            return GestureDetector(
+              onTap: () {
+                Get.find<HomePageController>().openScanner();
+              },
+              child: Image.asset(
+                "${PathConst.HOME_PAGE}scan.png",
+                width: 42,
+                height: 42,
+              ),
+            );
+          }),
         ],
       ),
     );

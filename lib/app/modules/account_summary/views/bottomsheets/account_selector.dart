@@ -138,9 +138,11 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                           padding: EdgeInsets.only(
                               top: 8.aR, left: 16.aR, right: 16.aR),
                           child: InkWell(
-                            onTap: () => setState(() {
-                              _controller.onAccountTap(index);
-                            }),
+                            onTap: () {
+                              setState(() {
+                                _controller.onAccountTap(index);
+                              });
+                            },
                             child: SizedBox(
                               height: 48.aR,
                               child: Row(
@@ -180,6 +182,22 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                         ]),
                                   ),
                                   const Spacer(),
+                                  if (_controller.homePageController
+                                      .userAccounts[index].isWatchOnly)
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                        right: 14.arP,
+                                      ),
+                                      child: Text(
+                                        "Watching",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12.arP,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 0.5.arP,
+                                        ),
+                                      ),
+                                    ),
                                   Obx(() => Visibility(
                                         visible: _controller
                                             .isAccountEditable.isFalse,
@@ -316,7 +334,10 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                 height: 14.sp,
                                                 width: 14.sp,
                                               )
-                                            : const SizedBox(),
+                                            : SizedBox(
+                                                height: 14.sp,
+                                                width: 14.sp,
+                                              ),
                                       ))
                                 ],
                               ),
@@ -410,15 +431,23 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
               ),
             ),
             if (widget.onNext != null)
-              SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: SolidButton(
-                    onPressed: widget.onNext,
-                    title: "Next",
+              Obx(() {
+                return SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: SolidButton(
+                      onPressed: _controller
+                              .homePageController
+                              .userAccounts[_controller
+                                  .homePageController.selectedIndex.value]
+                              .isWatchOnly
+                          ? null
+                          : widget.onNext,
+                      title: "Next",
+                    ),
                   ),
-                ),
-              ),
+                );
+              }),
             0.01.vspace
           ],
         ),

@@ -242,7 +242,7 @@ class CreateNewNftGalleryBottomSheet
                   ],
                 ),
               ),
-              accountModel.isWatchOnly!
+              accountModel.isWatchOnly
                   ? Container(
                       margin: EdgeInsets.only(
                         right: 14.arP,

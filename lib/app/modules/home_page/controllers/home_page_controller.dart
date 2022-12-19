@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
@@ -89,7 +90,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
 
   void changeSelectedAccount(int index) async {
     Get.find<AccountsWidgetController>().onPageChanged(index);
-    if (userAccounts.length < index) {
+    if (userAccounts.length > index) {
       selectedIndex.value = index;
       userAccounts[index].delegatedBakerAddress =
           await Get.put(DelegateWidgetController())
@@ -114,6 +115,18 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> openScanner() async {
+    if (userAccounts[selectedIndex.value].isWatchOnly) {
+      return Get.bottomSheet(
+        AccountSelectorSheet(
+          onNext: () {
+            Get.back();
+            openScanner();
+          },
+        ),
+        enterBottomSheetDuration: const Duration(milliseconds: 180),
+        exitBottomSheetDuration: const Duration(milliseconds: 150),
+      );
+    }
     await Permission.camera.request();
     final status = await Permission.camera.status;
 
