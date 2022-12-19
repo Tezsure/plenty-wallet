@@ -10,6 +10,7 @@ import 'package:in_app_review/in_app_review.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
@@ -163,6 +164,7 @@ class SettingsPageController extends GetxController {
     NaanAnalytics.logEvent(NaanAnalyticsEvents.CHANGE_NETWORK,
         param: {"name": value.name});
     await RpcService.setNetworkType(value);
+
     networkType.value = value;
     final node = networkType.value.index == NetworkType.mainnet.index
         ? nodeModel.value.mainnet!.nodes!.first
@@ -174,6 +176,7 @@ class SettingsPageController extends GetxController {
   Future<void> changeNode(NodeModel value) async {
     selectedNode.value = value;
     ServiceConfig.currentSelectedNode = value.url!;
+    DataHandlerService().forcedUpdateData();
     NaanAnalytics.logEvent(NaanAnalyticsEvents.CHANGE_NODE,
         param: {"name": value.name, "url": value.url});
 
