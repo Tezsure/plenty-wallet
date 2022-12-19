@@ -305,6 +305,7 @@ class DelegateWidgetController extends GetxController {
     if (accountModel == null) {
       Get.bottomSheet(
         const AccountSelectorSheet(),
+        isScrollControlled: true,
         enterBottomSheetDuration: const Duration(milliseconds: 180),
         exitBottomSheetDuration: const Duration(milliseconds: 150),
       );
@@ -340,12 +341,14 @@ class DelegateWidgetController extends GetxController {
 
   Future<void> openBakerList() async {
     if (!(Get.isBottomSheetOpen ?? false)) {
+      Get.put(AccountSummaryController());
       Get.bottomSheet(
         AccountSelectorSheet(
           onNext: () {
             checkBaker();
           },
         ),
+        isScrollControlled: true,
         enterBottomSheetDuration: const Duration(milliseconds: 180),
         exitBottomSheetDuration: const Duration(milliseconds: 150),
       );

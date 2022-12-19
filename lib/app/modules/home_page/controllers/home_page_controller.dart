@@ -123,6 +123,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
             openScanner();
           },
         ),
+        isScrollControlled: true,
         enterBottomSheetDuration: const Duration(milliseconds: 180),
         exitBottomSheetDuration: const Duration(milliseconds: 150),
       );

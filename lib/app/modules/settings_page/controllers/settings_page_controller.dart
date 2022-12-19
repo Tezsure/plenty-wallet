@@ -49,7 +49,7 @@ class SettingsPageController extends GetxController {
   RxBool isRearranging = false.obs; // For Reordering accounts list
   RxBool copyToClipboard = false.obs; // Copy to clipboard status
   RxBool fingerprint = false.obs; // Is Biometric enabled
-  RxBool isWalletBackup = false.obs; // Is wallet backed-up
+  RxBool isWalletBackup = true.obs; // Is wallet backed-up
   RxString enteredPassCode = "".obs; // Entered passcode
   RxBool verifyPassCode = false.obs; // Verify passcode status
   RxBool inAppReviewAvailable =

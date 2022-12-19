@@ -122,230 +122,255 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
             0.01.vspace,
             Obx(
               () => Expanded(
-                child: ListView.builder(
-                    itemCount:
-                        _controller.homePageController.userAccounts.length,
-                    itemBuilder: (context, index) {
-                      return Material(
-                        color: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
+                child: _controller.homePageController.userAccounts.isEmpty
+                    ? noAccountWidget()
+                    : ListView.builder(
+                        itemCount:
+                            _controller.homePageController.userAccounts.length,
+                        itemBuilder: (context, index) {
+                          return Material(
                             color: Colors.transparent,
-                          ),
-                          borderRadius: BorderRadius.circular(10.aR),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: 8.aR, left: 16.aR, right: 16.aR),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                _controller.onAccountTap(index);
-                              });
-                            },
-                            child: SizedBox(
-                              height: 48.aR,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  0.01.hspace,
-                                  CustomImageWidget(
-                                    imageType: _controller.homePageController
-                                        .userAccounts[index].imageType!,
-                                    imagePath: _controller.homePageController
-                                        .userAccounts[index].profileImage!,
-                                    imageRadius: 18.aR,
-                                  ),
-                                  0.03.hspace,
-                                  RichText(
-                                    text: TextSpan(
-                                        text:
-                                            '${_controller.homePageController.userAccounts[index].name}\n',
-                                        style: labelMedium.copyWith(
-                                            fontSize: 12.aR,
-                                            letterSpacing: 0.4),
-                                        children: [
-                                          WidgetSpan(
-                                              child: SizedBox(
-                                            height: 18.aR,
-                                          )),
-                                          TextSpan(
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                color: Colors.transparent,
+                              ),
+                              borderRadius: BorderRadius.circular(10.aR),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 8.aR, left: 16.aR, right: 16.aR),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _controller.onAccountTap(index);
+                                  });
+                                },
+                                child: SizedBox(
+                                  height: 48.aR,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      0.01.hspace,
+                                      CustomImageWidget(
+                                        imageType: _controller
+                                            .homePageController
+                                            .userAccounts[index]
+                                            .imageType!,
+                                        imagePath: _controller
+                                            .homePageController
+                                            .userAccounts[index]
+                                            .profileImage!,
+                                        imageRadius: 18.aR,
+                                      ),
+                                      0.03.hspace,
+                                      RichText(
+                                        text: TextSpan(
                                             text:
-                                                '${_controller.homePageController.userAccounts[index].accountDataModel?.xtzBalance} tez',
+                                                '${_controller.homePageController.userAccounts[index].name}\n',
                                             style: labelMedium.copyWith(
                                                 fontSize: 12.aR,
-                                                fontWeight: FontWeight.w400,
-                                                color: ColorConst
-                                                    .NeutralVariant.shade60),
-                                          )
-                                        ]),
-                                  ),
-                                  const Spacer(),
-                                  if (_controller.homePageController
-                                      .userAccounts[index].isWatchOnly)
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        right: 14.arP,
+                                                letterSpacing: 0.4),
+                                            children: [
+                                              WidgetSpan(
+                                                  child: SizedBox(
+                                                height: 18.aR,
+                                              )),
+                                              TextSpan(
+                                                text:
+                                                    '${_controller.homePageController.userAccounts[index].accountDataModel?.xtzBalance} tez',
+                                                style: labelMedium.copyWith(
+                                                    fontSize: 12.aR,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: ColorConst
+                                                        .NeutralVariant
+                                                        .shade60),
+                                              )
+                                            ]),
                                       ),
-                                      child: Text(
-                                        "Watching",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12.arP,
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.5.arP,
-                                        ),
-                                      ),
-                                    ),
-                                  Obx(() => Visibility(
-                                        visible: _controller
-                                            .isAccountEditable.isFalse,
-                                        replacement: PopupMenuButton(
-                                          enableFeedback: true,
-                                          onCanceled: () {
-                                            _controller.popupIndex.value = 0;
-                                            _controller.isPopupVisible.value =
-                                                false;
-                                          },
-                                          splashRadius: 1,
-                                          tooltip: "",
-                                          position: PopupMenuPosition.under,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.sp)),
-                                          color: const Color(0xff421121),
-                                          itemBuilder: (_) {
-                                            _controller.popupIndex.value =
-                                                index;
-                                            _controller.isPopupVisible.value =
-                                                true;
-                                            return <PopupMenuEntry>[
-                                              CustomPopupMenuItem(
-                                                width: 140.aR,
-                                                height: 30.aR,
-                                                padding: EdgeInsets.only(
-                                                    left: 12.sp, bottom: 5.sp),
-                                                onTap: () {
-                                                  Get.bottomSheet(
-                                                    EditAccountBottomSheet(
-                                                      accountIndex: index,
-                                                    ),
-                                                    enterBottomSheetDuration:
-                                                        const Duration(
-                                                            milliseconds: 180),
-                                                    exitBottomSheetDuration:
-                                                        const Duration(
-                                                            milliseconds: 150),
-                                                    isScrollControlled: true,
-                                                    barrierColor:
-                                                        Colors.transparent,
-                                                  );
-                                                },
-                                                child: Text(
-                                                  "Edit",
-                                                  style: labelMedium.copyWith(
-                                                      fontSize: 12.aR),
-                                                ),
-                                              ),
-                                              if (_controller.homePageController
-                                                      .userAccounts.length !=
-                                                  1)
-                                                CustomPopupMenuDivider(
-                                                  height: 1,
-                                                  color: ColorConst
-                                                      .Neutral.shade50,
-                                                  thickness: 1,
-                                                ),
-                                              if (_controller.homePageController
-                                                      .userAccounts.length !=
-                                                  1)
-                                                CustomPopupMenuItem(
-                                                  padding: EdgeInsets.only(
-                                                      left: 12.sp, top: 5.sp),
-                                                  width: 140.aR,
-                                                  height: 30.aR,
-                                                  onTap: () {
-                                                    Get.bottomSheet(
-                                                      removeAccountBottomSheet(
-                                                        index,
-                                                        accountName: _controller
-                                                            .homePageController
-                                                            .userAccounts[index]
-                                                            .name!,
-                                                        onPressed: () {
-                                                          _controller
-                                                              .removeAccount(
-                                                                  index);
-                                                          _settingsController
-                                                              .removeAccount(
-                                                                  index);
-                                                        },
-                                                      ),
-                                                      enterBottomSheetDuration:
-                                                          const Duration(
-                                                              milliseconds:
-                                                                  180),
-                                                      exitBottomSheetDuration:
-                                                          const Duration(
-                                                              milliseconds:
-                                                                  150),
-                                                      barrierColor:
-                                                          Colors.transparent,
-                                                    );
-                                                  },
-                                                  child: Text(
-                                                    "Remove",
-                                                    style: labelMedium.copyWith(
-                                                        fontSize: 12.aR,
-                                                        color: ColorConst
-                                                            .Error.shade60),
-                                                  ),
-                                                ),
-                                            ];
-                                          },
-                                          child: Container(
-                                            height: 24.aR,
-                                            width: 24.aR,
-                                            decoration: BoxDecoration(
-                                                color: _controller
-                                                            .isPopupVisible
-                                                            .value &&
-                                                        index ==
-                                                            _controller
-                                                                .popupIndex
-                                                                .value
-                                                    ? const Color(0xff421121)
-                                                    : Colors.transparent,
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                            child: Icon(
-                                              Icons.more_horiz,
-                                              size: 20.aR,
+                                      const Spacer(),
+                                      if (_controller.homePageController
+                                          .userAccounts[index].isWatchOnly)
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                            right: 14.arP,
+                                          ),
+                                          child: Text(
+                                            "Watching",
+                                            style: TextStyle(
                                               color: Colors.white,
+                                              fontSize: 12.arP,
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: 0.5.arP,
                                             ),
                                           ),
                                         ),
-                                        child: index ==
-                                                _homePageController
-                                                    .selectedIndex.value
-                                            ? SvgPicture.asset(
-                                                "assets/svg/check_3.svg",
-                                                height: 14.sp,
-                                                width: 14.sp,
-                                              )
-                                            : SizedBox(
-                                                height: 14.sp,
-                                                width: 14.sp,
+                                      Obx(() => Visibility(
+                                            visible: _controller
+                                                .isAccountEditable.isFalse,
+                                            replacement: PopupMenuButton(
+                                              enableFeedback: true,
+                                              onCanceled: () {
+                                                _controller.popupIndex.value =
+                                                    0;
+                                                _controller.isPopupVisible
+                                                    .value = false;
+                                              },
+                                              splashRadius: 1,
+                                              tooltip: "",
+                                              position: PopupMenuPosition.under,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.sp)),
+                                              color: const Color(0xff421121),
+                                              itemBuilder: (_) {
+                                                _controller.popupIndex.value =
+                                                    index;
+                                                _controller.isPopupVisible
+                                                    .value = true;
+                                                return <PopupMenuEntry>[
+                                                  CustomPopupMenuItem(
+                                                    width: 140.aR,
+                                                    height: 30.aR,
+                                                    padding: EdgeInsets.only(
+                                                        left: 12.sp,
+                                                        bottom: 5.sp),
+                                                    onTap: () {
+                                                      Get.bottomSheet(
+                                                        EditAccountBottomSheet(
+                                                          accountIndex: index,
+                                                        ),
+                                                        enterBottomSheetDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    180),
+                                                        exitBottomSheetDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    150),
+                                                        isScrollControlled:
+                                                            true,
+                                                        barrierColor:
+                                                            Colors.transparent,
+                                                      );
+                                                    },
+                                                    child: Text(
+                                                      "Edit",
+                                                      style:
+                                                          labelMedium.copyWith(
+                                                              fontSize: 12.aR),
+                                                    ),
+                                                  ),
+                                                  if (_controller
+                                                          .homePageController
+                                                          .userAccounts
+                                                          .length !=
+                                                      1)
+                                                    CustomPopupMenuDivider(
+                                                      height: 1,
+                                                      color: ColorConst
+                                                          .Neutral.shade50,
+                                                      thickness: 1,
+                                                    ),
+                                                  if (_controller
+                                                          .homePageController
+                                                          .userAccounts
+                                                          .length !=
+                                                      1)
+                                                    CustomPopupMenuItem(
+                                                      padding: EdgeInsets.only(
+                                                          left: 12.sp,
+                                                          top: 5.sp),
+                                                      width: 140.aR,
+                                                      height: 30.aR,
+                                                      onTap: () {
+                                                        Get.bottomSheet(
+                                                          removeAccountBottomSheet(
+                                                            index,
+                                                            accountName: _controller
+                                                                .homePageController
+                                                                .userAccounts[
+                                                                    index]
+                                                                .name!,
+                                                            onPressed: () {
+                                                              _controller
+                                                                  .removeAccount(
+                                                                      index);
+                                                              _settingsController
+                                                                  .removeAccount(
+                                                                      index);
+                                                            },
+                                                          ),
+                                                          enterBottomSheetDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      180),
+                                                          exitBottomSheetDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      150),
+                                                          barrierColor: Colors
+                                                              .transparent,
+                                                        );
+                                                      },
+                                                      child: Text(
+                                                        "Remove",
+                                                        style: labelMedium
+                                                            .copyWith(
+                                                                fontSize: 12.aR,
+                                                                color: ColorConst
+                                                                    .Error
+                                                                    .shade60),
+                                                      ),
+                                                    ),
+                                                ];
+                                              },
+                                              child: Container(
+                                                height: 24.aR,
+                                                width: 24.aR,
+                                                decoration: BoxDecoration(
+                                                    color: _controller
+                                                                .isPopupVisible
+                                                                .value &&
+                                                            index ==
+                                                                _controller
+                                                                    .popupIndex
+                                                                    .value
+                                                        ? const Color(
+                                                            0xff421121)
+                                                        : Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20)),
+                                                child: Icon(
+                                                  Icons.more_horiz,
+                                                  size: 20.aR,
+                                                  color: Colors.white,
+                                                ),
                                               ),
-                                      ))
-                                ],
+                                            ),
+                                            child: index ==
+                                                    _homePageController
+                                                        .selectedIndex.value
+                                                ? SvgPicture.asset(
+                                                    "assets/svg/check_3.svg",
+                                                    height: 14.sp,
+                                                    width: 14.sp,
+                                                  )
+                                                : SizedBox(
+                                                    height: 14.sp,
+                                                    width: 14.sp,
+                                                  ),
+                                          ))
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      );
-                    }),
+                          );
+                        }),
               ),
             ),
             Padding(
@@ -436,13 +461,18 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: SolidButton(
-                      onPressed: _controller
-                              .homePageController
-                              .userAccounts[_controller
-                                  .homePageController.selectedIndex.value]
-                              .isWatchOnly
-                          ? null
-                          : widget.onNext,
+                      onPressed:
+                          _controller.homePageController.userAccounts.isEmpty
+                              ? null
+                              : _controller
+                                      .homePageController
+                                      .userAccounts[_controller
+                                          .homePageController
+                                          .selectedIndex
+                                          .value]
+                                      .isWatchOnly
+                                  ? null
+                                  : widget.onNext,
                       title: "Next",
                     ),
                   ),
@@ -455,6 +485,38 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
     );
   }
 }
+
+Widget noAccountWidget() => SizedBox(
+      height: 0.87.height,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              "${PathConst.EMPTY_STATES}no_accounts.svg",
+              height: 175.arP,
+              width: 175.arP,
+            ),
+            0.05.vspace,
+            Text(
+              "No accounts found",
+              textAlign: TextAlign.center,
+              style: titleLarge,
+            ),
+            SizedBox(
+              height: 12.arP,
+            ),
+            Text(
+              "Create or import new account to create\nnew gallery",
+              textAlign: TextAlign.center,
+              style: bodySmall.copyWith(color: ColorConst.textGrey1),
+            ),
+          ],
+        ),
+      ),
+    );
 
 Widget removeAccountBottomSheet(int index,
     {required String accountName, required Function() onPressed}) {

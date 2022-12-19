@@ -77,20 +77,21 @@ class ResetWalletBottomSheet extends StatelessWidget {
                     Get.offAllNamed(Routes.ONBOARDING_PAGE);
                   }
                 }),
-            if (!isWalletBackup)
-              Column(
-                children: [
-                  0.016.vspace,
-                  optionMethod(
-                      child: Text(
-                        "Backup Account",
-                        style: labelMedium,
-                      ),
-                      onTap: () {
-                        settingController.checkWalletBackup();
-                      }),
-                ],
-              ),
+            if (Get.find<HomePageController>().userAccounts.isNotEmpty)
+              if (!isWalletBackup)
+                Column(
+                  children: [
+                    0.016.vspace,
+                    optionMethod(
+                        child: Text(
+                          "Backup Account",
+                          style: labelMedium,
+                        ),
+                        onTap: () {
+                          settingController.checkWalletBackup();
+                        }),
+                  ],
+                ),
             0.016.vspace,
             optionMethod(
                 child: Text(

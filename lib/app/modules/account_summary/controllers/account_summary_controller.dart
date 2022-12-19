@@ -18,8 +18,11 @@ import '../../../data/services/user_storage_service/user_storage_service.dart';
 class AccountSummaryController extends GetxController {
   // ! Global Variables
   final HomePageController homePageController = Get.find<HomePageController>();
-  Rx<AccountModel> get selectedAccount => homePageController
-      .userAccounts[homePageController.selectedIndex.value].obs;
+  Rx<AccountModel> get selectedAccount =>
+      homePageController.userAccounts.isEmpty
+          ? AccountModel(isNaanAccount: false).obs
+          : homePageController
+              .userAccounts[homePageController.selectedIndex.value].obs;
   RxList<TokenPriceModel> tokensList = <TokenPriceModel>[].obs;
 
   // ! Account Related Variables
@@ -80,6 +83,7 @@ class AccountSummaryController extends GetxController {
   /// Fetches all the user tokens
   Future<void> _fetchAllTokens() async {
     userTokens.clear();
+    if (homePageController.userAccounts.isEmpty) return;
     AccountTokenModel tezos = AccountTokenModel(
       name: "Tezos",
       balance: homePageController
@@ -116,6 +120,7 @@ class AccountSummaryController extends GetxController {
   /// Fetches the user account NFTs
   Future<void> _fetchAllNfts() async {
     userNfts.clear();
+    if (selectedAccount.value == null) return;
     UserStorageService()
         .getUserNfts(userAddress: selectedAccount.value.publicKeyHash!)
         .then((nftList) {

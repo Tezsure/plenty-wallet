@@ -29,11 +29,15 @@ class HomepageAppBar extends StatelessWidget {
             ),
           ),
           Obx(() {
+            if (Get.find<HomePageController>().userAccounts.isEmpty) {
+              return Container();
+            }
             if (Get.find<HomePageController>()
-                    .userAccounts[
-                        Get.find<HomePageController>().selectedIndex.value]
-                    .isWatchOnly 
-                ) return Container();
+                .userAccounts[
+                    Get.find<HomePageController>().selectedIndex.value]
+                .isWatchOnly) {
+              return Container();
+            }
             return GestureDetector(
               onTap: () {
                 Get.find<HomePageController>().openScanner();

@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_listview.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
@@ -58,33 +59,41 @@ class CreateNewNftGalleryBottomSheet
 
   Widget noAccountWidget() => SizedBox(
         height: 0.87.height,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                "${PathConst.EMPTY_STATES}no_accounts.svg",
-                height: 175.arP,
-                width: 175.arP,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            backButton(),
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "${PathConst.EMPTY_STATES}no_accounts.svg",
+                      height: 175.arP,
+                      width: 175.arP,
+                    ),
+                    0.05.vspace,
+                    Text(
+                      "No accounts found",
+                      textAlign: TextAlign.center,
+                      style: titleLarge,
+                    ),
+                    SizedBox(
+                      height: 12.arP,
+                    ),
+                    Text(
+                      "Create or import new account to create\nnew gallery",
+                      textAlign: TextAlign.center,
+                      style: bodySmall.copyWith(color: ColorConst.textGrey1),
+                    ),
+                  ],
+                ),
               ),
-              0.05.vspace,
-              Text(
-                "No accounts found",
-                textAlign: TextAlign.center,
-                style: titleLarge,
-              ),
-              SizedBox(
-                height: 12.arP,
-              ),
-              Text(
-                "Create or import new account to create\nnew gallery",
-                textAlign: TextAlign.center,
-                style: bodySmall.copyWith(color: ColorConst.textGrey1),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
 

@@ -149,6 +149,7 @@ class ConfirmTransactionSheet extends StatelessWidget {
                               child: GestureDetector(
                                 onTap: () => Get.bottomSheet(
                                   AccountSelectorSheet(),
+                                  isScrollControlled: true,
                                   enterBottomSheetDuration:
                                       const Duration(milliseconds: 180),
                                   exitBottomSheetDuration:
