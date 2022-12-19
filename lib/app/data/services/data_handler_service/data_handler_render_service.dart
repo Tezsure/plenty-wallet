@@ -131,7 +131,7 @@ class DataVariable<T> {
     extraParams == null ? updateProcess() : updateProcess(extraParams);
   }
 
-  void registerVariable(List<AccountModel> rxVar) {
+  void registerVariable(rxVar) {
     registerVariabls.add(rxVar);
     _value = 0;
     updateProcess();

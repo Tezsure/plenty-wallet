@@ -15,8 +15,9 @@ class AccountDataHandler {
   AccountDataHandler(this.dataHandlerRenderService);
 
   static Future<void> _isolateProcess(List<dynamic> args) async {
-    List<String> accountAddress = args[1].toList();
-    String rpc = args[2] as String;
+    List<String> accountAddress = [...args[1].toList(), ...args[2].toList()];
+
+    String rpc = args[3] as String;
 
     // fecth xtz balance
     List<double> tempAccountBalances = await Future.wait(accountAddress
@@ -51,22 +52,28 @@ class AccountDataHandler {
     List<AccountModel> accountModels =
         await UserStorageService().getAllAccount();
 
+    List<AccountModel> watchAccountModels =
+        await UserStorageService().getAllAccount(
+      watchAccountsList: true,
+    );
+
     await Isolate.spawn(
       _isolateProcess,
       <dynamic>[
         receivePort.sendPort,
         accountModels.map<String>((e) => e.publicKeyHash!),
+        watchAccountModels.map<String>((e) => e.publicKeyHash!),
         ServiceConfig.currentSelectedNode,
       ],
       debugName: "accounts xtz, tokens & nfts",
     );
     receivePort.asBroadcastStream().listen((data) async {
-      await _storeData(data, accountModels, postProcess);
+      await _storeData(data, accountModels, watchAccountModels, postProcess);
     });
   }
 
-  Future<void> _storeData(
-      List data, List<AccountModel> accountList, var postProcess) async {
+  Future<void> _storeData(List data, List<AccountModel> accountList,
+      List<AccountModel> watchAccountModels, var postProcess) async {
     List<TokenPriceModel> tokenPrices = await dataHandlerRenderService
         .getTokenPriceModel((data[1] as Map<String, List<AccountTokenModel>>)
             .values
@@ -94,6 +101,25 @@ class AccountDataHandler {
 
     // save account xtz balances
     accountList = accountList
+        .map<AccountModel>(
+          ((e) => e.copyWith(
+                accountDataModel: e.accountDataModel!.copyWith(
+                  xtzBalance: data[0][e.publicKeyHash!],
+                  tokenXtzBalance: data[0][e.publicKeyHash!] +
+                      (data[1].containsKey(e.publicKeyHash)
+                          ? (data[1][e.publicKeyHash]
+                                  as List<AccountTokenModel>)
+                              .fold<double>(
+                                  0.0,
+                                  (previousValue, element) =>
+                                      previousValue + element.valueInXtz!)
+                          : 0.0),
+                ),
+              )),
+        )
+        .toList();
+
+    watchAccountModels = watchAccountModels
         .map<AccountModel>(
           ((e) => e.copyWith(
                 accountDataModel: e.accountDataModel!.copyWith(
@@ -156,14 +182,19 @@ class AccountDataHandler {
     });
 
     // update account list before write data into localStorage
-    if (accountList.isNotEmpty) {
+    if (accountList.isNotEmpty || watchAccountModels.isNotEmpty) {
       accountList.first.isAccountPrimary = true;
-      await postProcess(accountList);
+      await postProcess([...accountList, ...watchAccountModels]);
     }
 
     // save accounts data
     await ServiceConfig.localStorage.write(
         key: ServiceConfig.accountsStorage, value: jsonEncode(accountList));
+
+    // save watch accounts data
+    await ServiceConfig.localStorage.write(
+        key: ServiceConfig.watchAccountsStorage,
+        value: jsonEncode(watchAccountModels));
 
     // save all tokens separate based on publicKeyHash of the account
     for (String key in data[1].keys) {

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/beacon_bottom_sheet/widgets/test_network_alert_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/views/settings_page_view.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
-
-import '../scanQR/scan_qr.dart';
 
 class HomepageAppBar extends StatelessWidget {
   const HomepageAppBar({Key? key}) : super(key: key);
@@ -20,10 +16,11 @@ class HomepageAppBar extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              Get.bottomSheet(
-                TestNetworkBottomSheet(),
-              );
-              // Get.bottomSheet(SettingsPageView(), isScrollControlled: true);
+              // Get.bottomSheet(
+              //   TestNetworkBottomSheet(),
+              // );
+              Get.bottomSheet(const SettingsPageView(),
+                  isScrollControlled: true);
             },
             child: Image.asset(
               "${PathConst.HOME_PAGE}menu.png",
