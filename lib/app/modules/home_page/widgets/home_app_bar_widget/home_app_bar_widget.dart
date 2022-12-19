@@ -20,10 +20,8 @@ class HomepageAppBar extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              Get.bottomSheet(
-                TestNetworkBottomSheet(),
-              );
-              // Get.bottomSheet(SettingsPageView(), isScrollControlled: true);
+          
+              Get.bottomSheet(SettingsPageView(), isScrollControlled: true);
             },
             child: Image.asset(
               "${PathConst.HOME_PAGE}menu.png",

@@ -91,13 +91,14 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                 svgPath:
                                     "${PathConst.SETTINGS_PAGE.SVG}backup.svg",
                               ),
-                              _settingOption(
-                                onTap: () =>
-                                    Get.to(() => const ChangePasscode()),
-                                title: "Change passcode",
-                                svgPath:
-                                    "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
-                              ),
+                              if (controller.supportBiometric.value)
+                                _settingOption(
+                                  onTap: () =>
+                                      Get.to(() => const ChangePasscode()),
+                                  title: "Change passcode",
+                                  svgPath:
+                                      "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
+                                ),
                               _fingerPrintOption()
                             ],
                           ),

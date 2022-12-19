@@ -89,11 +89,13 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
 
   void changeSelectedAccount(int index) async {
     Get.find<AccountsWidgetController>().onPageChanged(index);
-    selectedIndex.value = index;
-    userAccounts[index].delegatedBakerAddress =
-        await Get.put(DelegateWidgetController())
-            .getCurrentBakerAddress(userAccounts[index].publicKeyHash!);
-    print("baker address :${userAccounts[index].delegatedBakerAddress}");
+    if (userAccounts.length < index) {
+      selectedIndex.value = index;
+      userAccounts[index].delegatedBakerAddress =
+          await Get.put(DelegateWidgetController())
+              .getCurrentBakerAddress(userAccounts[index].publicKeyHash!);
+      print("baker address :${userAccounts[index].delegatedBakerAddress}");
+    }
   }
 
   void onSliderChange(double value) {

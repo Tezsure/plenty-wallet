@@ -55,6 +55,7 @@ class SettingsPageController extends GetxController {
       true.obs; // Check if in app purchase is available
 
   final InAppReview inAppReview = InAppReview.instance;
+  RxBool supportBiometric = false.obs;
 
   /// To change the app passcode and verify the passcode if fails, redirects to verify passcode screen otherwise changes the passcode
   void changeAppPasscode(String passCode) async {
@@ -154,6 +155,8 @@ class SettingsPageController extends GetxController {
           selectedNode.value.url ?? ServiceConfig.currentSelectedNode;
     });
     inAppReviewAvailable.value = await inAppReview.isAvailable();
+    supportBiometric.value =
+        await AuthService().checkIfDeviceSupportBiometricAuth();
     getAllConnectedApps();
     super.onInit();
   }
