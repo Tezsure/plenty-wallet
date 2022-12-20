@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/account_summ
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/account_switch_widget/account_switch_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_info_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_success_sheet.dart';
@@ -343,7 +344,10 @@ class DelegateWidgetController extends GetxController {
     if (!(Get.isBottomSheetOpen ?? false)) {
       Get.put(AccountSummaryController());
       Get.bottomSheet(
-        AccountSelectorSheet(
+        AccountSwitch(
+          title: "Delegate",
+          subtitle:
+              "In Tezos, we delegate an account to a baker and\nearn interest on the available Tez in the account.",
           onNext: () {
             checkBaker();
           },
