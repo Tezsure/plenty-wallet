@@ -17,6 +17,7 @@ class NftAndTxHistoryHandler {
   static Future<void> _isolateProcess(List<dynamic> args) async {
     List<String> accountAddress = args[1][0].toList();
     List<String> watchAccountAddress = args[1][1].toList();
+    String rpc = args[1][2];
     List<List<NftTokenModel>> accountsNft = await Future.wait(
       [...accountAddress, ...watchAccountAddress]
           .map<Future<List<NftTokenModel>>>(
@@ -26,7 +27,7 @@ class NftAndTxHistoryHandler {
 
     List<List<TxHistoryModel>> accountsTxHistory =
         await Future.wait(accountAddress.map<Future<List<TxHistoryModel>>>(
-      (e) => TzktTxHistoryApiService(e).getTxHistory(),
+      (e) => TzktTxHistoryApiService(e, rpc).getTxHistory(),
     ));
 
     // send data back
@@ -65,7 +66,8 @@ class NftAndTxHistoryHandler {
             watchAccountsList: true,
           ))
               .map<String>((e) => e.publicKeyHash!)
-              .toList()
+              .toList(),
+          ServiceConfig.currentSelectedNode
         ],
       ],
       debugName: "nft & tx-history",
@@ -132,17 +134,27 @@ class ObjktNftApiService {
 /// Transaction History Api Service usng tzkt.io
 class TzktTxHistoryApiService {
   String pkH;
+  String rpc;
 
-  TzktTxHistoryApiService(this.pkH);
+  TzktTxHistoryApiService(this.pkH, this.rpc);
 
   /// Get transaction history for a given account recent 20 transactions
   Future<List<TxHistoryModel>> getTxHistory(
       {int limit = 20,
       String lastId = "",
       String? sortBy = "Descending"}) async {
+    String network = "";
+    if (Uri.parse(rpc).path.isNotEmpty) {
+      network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
+    }
+
     var response = await HttpService.performGetRequest(
-        ServiceConfig.tzktApiForAccountTxs(pkH,
-            limit: limit, lastId: lastId, sort: sortBy ?? "Descending"));
+      ServiceConfig.tzktApiForAccountTxs(pkH,
+          limit: limit,
+          lastId: lastId,
+          sort: sortBy ?? "Descending",
+          network: network),
+    );
 
     /// if response is empty return empty list of tx history
     /// else return list of tx history model

@@ -173,7 +173,9 @@ class UserStorageService {
         .read(key: "${ServiceConfig.txHistoryStorage}_$accountAddress");
 
     if (transactionHistory == null) {
-      return await TzktTxHistoryApiService(accountAddress).getTxHistory();
+      return await TzktTxHistoryApiService(
+              accountAddress, ServiceConfig.currentSelectedNode)
+          .getTxHistory();
     }
 
     if (lastId == null && limit == null) {
@@ -181,10 +183,12 @@ class UserStorageService {
           .map<TxHistoryModel>((e) => TxHistoryModel.fromJson(e))
           .toList();
     } else if (lastId == null) {
-      transactionHistoryList = await TzktTxHistoryApiService(accountAddress)
+      transactionHistoryList = await TzktTxHistoryApiService(
+              accountAddress, ServiceConfig.currentSelectedNode)
           .getTxHistory(limit: limit ?? 20);
     } else {
-      transactionHistoryList = await TzktTxHistoryApiService(accountAddress)
+      transactionHistoryList = await TzktTxHistoryApiService(
+              accountAddress, ServiceConfig.currentSelectedNode)
           .getTxHistory(lastId: lastId, limit: limit ?? 20);
     }
 

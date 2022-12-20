@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
@@ -7,6 +9,7 @@ class ServiceConfig {
   /// Current selected node
   static String currentSelectedNode =
       "https://tezos-prod.cryptonomic-infra.tech:443";
+ 
 
   /// Teztools api with endpoint for mainnet token prices
   static String tezToolsApi = "https://api.teztools.io/token/prices";
@@ -18,12 +21,16 @@ class ServiceConfig {
   /// Rpc Node Selector
   static String nodeSelector = "https://cdn.naan.app/rpc-list";
 
-  static String tzktApiForToken(String pkh) =>
-      "https://api.tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true";
+  static String tzktApiForToken(String pkh, String network) =>
+      "https://api.${network}tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true";
 
   static String tzktApiForAccountTxs(String pkh,
-          {int limit = 20, String lastId = "", String sort = "Descending"}) =>
-      "https://api.tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId&sort=$sort";
+      {int limit = 20,
+      String lastId = "",
+      String sort = "Descending",
+      String network = ""}) {
+    return "https://api.${network}tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId&sort=$sort";
+  }
 
   static String naanApis = "https://cdn.naan.app";
 
@@ -117,7 +124,7 @@ class ServiceConfig {
     }
   }
   ''';
-static const String nftQuery = r'''
+  static const String nftQuery = r'''
     query getNFT($address: String!, $token_id: String!) {
       token(where: {token_id: {_eq: $token_id}, fa_contract: {_eq: $address}}) {
  artifact_uri

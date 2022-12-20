@@ -64,6 +64,7 @@ class ResetWalletBottomSheet extends StatelessWidget {
                   ],
                 ),
                 onLongPress: () async {
+                  Get.find<HomePageController>().dispose();
                   if (Get.find<HomePageController>().userAccounts.isEmpty) {
                     await ServiceConfig().clearStorage();
                     NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);

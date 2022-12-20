@@ -28,7 +28,7 @@ class RpcService {
 
   static Future<String?> getCurrentNode() async {
     return (await ServiceConfig.localStorage
-            .read(key: ServiceConfig.nodeStorage)) ;
+        .read(key: ServiceConfig.nodeStorage));
   }
 
   static Future<void> setNode(String url) async {
@@ -67,10 +67,15 @@ class RpcService {
     }
   }
 
-  Future<List<AccountTokenModel>> getUserTokenBalances(String address) async {
+  Future<List<AccountTokenModel>> getUserTokenBalances(
+      String address, String rpc) async {
+    String network = "";
+    if (Uri.parse(rpc).path.isNotEmpty) {
+      network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
+    }
     try {
       return jsonDecode(await HttpService.performGetRequest(
-              ServiceConfig.tzktApiForToken(address)))
+              ServiceConfig.tzktApiForToken(address, network)))
           .map<AccountTokenModel>((e) => parseAccountModel(e))
           .toList();
     } catch (e) {
@@ -90,5 +95,4 @@ class RpcService {
         tokenId: e['token']['tokenId'] ?? '0',
         decimals: int.parse(e['token']['metadata']['decimals']));
   }
- 
 }

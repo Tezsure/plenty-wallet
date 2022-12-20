@@ -27,7 +27,7 @@ class AccountDataHandler {
     // fetch token balances
     List<List<AccountTokenModel>> tempAccountTokenModels = await Future.wait(
         accountAddress
-            .map((e) => RpcService().getUserTokenBalances(e))
+            .map((e) => RpcService().getUserTokenBalances(e, rpc))
             .toList());
 
     // send data back
