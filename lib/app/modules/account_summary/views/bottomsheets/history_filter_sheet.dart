@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/history_filter_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/date_Selection_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -102,6 +103,7 @@ class HistoryFilterSheet extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             clearButton(),
+            0.032.hspace,
             applyButton(),
           ],
         ),
@@ -232,45 +234,29 @@ class HistoryFilterSheet extends StatelessWidget {
   }
 
   Widget clearButton() {
-    return Flexible(
-      child: Padding(
-        padding: EdgeInsets.only(right: 12.aR),
-        child: MaterialButton(
-          height: 50.aR,
-          onPressed: () {
-            controller.clear();
-          },
-          color: Colors.black,
-          minWidth: (1.width - 45) / 2,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.aR),
-              side: BorderSide(color: ColorConst.Primary.shade80, width: 1)),
-          child: Text(
-            "Clear",
-            style: titleSmall.copyWith(
-                color: ColorConst.Primary.shade80, fontSize: 14.aR),
-          ),
-        ),
+    return Expanded(
+      child: SolidButton(
+        onPressed: () {
+          controller.clear();
+        },
+        title: "Clear",
+        borderColor: ColorConst.Primary.shade80,
+        textColor: ColorConst.Primary.shade80,
+        primaryColor: Colors.transparent,
       ),
     );
   }
 
   Widget applyButton() {
-    return Flexible(
-      child: MaterialButton(
-        height: 50.aR,
-        onPressed: controller.apply,
-        color: ColorConst.Primary,
-        minWidth: (1.width - 45) / 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          "Apply",
-          style: titleSmall.copyWith(fontSize: 14.aR),
-        ),
+    return Expanded(
+      child: SolidButton(
+        onPressed: () {
+          controller.apply();
+        },
+        title: "Apply",
       ),
     );
+    
   }
 
   Widget dateTypeButton(DateType dateType, String text) {

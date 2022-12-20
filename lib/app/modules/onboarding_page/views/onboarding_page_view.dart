@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'package:naan_wallet/app/modules/onboarding_page/controllers/onboarding_page_controller.dart';
@@ -58,26 +59,14 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                 0.0.vspace,
                 SafeArea(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32.sp),
-                    child: MaterialButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: () {
-                        controller.navigateToLogin();
-                      },
-                      minWidth: double.infinity,
-                      height: 0.06.height,
-                      color: Colors.black,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Text(
-                        'Get Started',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
+                      padding: EdgeInsets.symmetric(horizontal: 32.sp),
+                      child: SolidButton(
+                        title: 'Get Started',
+                        onPressed: () {
+                          controller.navigateToLogin();
+                        },
+                        primaryColor: Colors.black,
+                      )),
                 ),
                 0.02.vspace,
               ],
