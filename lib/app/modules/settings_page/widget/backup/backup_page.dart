@@ -63,9 +63,15 @@ class BackupPage extends StatelessWidget {
                 Expanded(
                   child: Obx(
                     () => ListView.builder(
-                      itemBuilder: (context, index) => accountMethod(
-                        _homePageController.userAccounts[index],
-                      ),
+                      itemBuilder: (context, index) {
+                        if (_homePageController
+                            .userAccounts[index].isWatchOnly) {
+                          return Container();
+                        }
+                        return accountMethod(
+                          _homePageController.userAccounts[index],
+                        );
+                      },
                       itemCount: _homePageController.userAccounts.length,
                     ),
                   ),

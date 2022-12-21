@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/backup_page_controller.dart';
+import 'package:naan_wallet/app/modules/settings_page/controllers/select_reveal_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -21,10 +22,15 @@ class SelectToRevealKeyBottomSheet extends StatefulWidget {
   const SelectToRevealKeyBottomSheet({super.key, required this.accountModel});
 
   @override
-  State<SelectToRevealKeyBottomSheet> createState() => _SelectToRevealKeyBottomSheetState();
+  State<SelectToRevealKeyBottomSheet> createState() =>
+      _SelectToRevealKeyBottomSheetState();
 }
 
-class _SelectToRevealKeyBottomSheetState extends State<SelectToRevealKeyBottomSheet> {
+class _SelectToRevealKeyBottomSheetState
+    extends State<SelectToRevealKeyBottomSheet> {
+  late final _controller =
+      Get.put(SelectRevealController(widget.accountModel.publicKeyHash!));
+
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
@@ -77,73 +83,79 @@ class _SelectToRevealKeyBottomSheetState extends State<SelectToRevealKeyBottomSh
         ),
         0.04.vspace,
         Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              revealOptionMethod(
-                  icon: '${PathConst.SETTINGS_PAGE}svg/secret_phrase.svg',
-                  child: Text(
-                    "View secret phrase",
-                    style: labelMedium,
-                  ),
-                  onTap: () async {
-                    if (!(await AuthService().verifyBiometricOrPassCode())) {
-                      return;
-                    }
+          child: Obx(() {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (_controller.seedPhraseReveal.value)
+                  revealOptionMethod(
+                      icon: '${PathConst.SETTINGS_PAGE}svg/secret_phrase.svg',
+                      child: Text(
+                        "View secret phrase",
+                        style: labelMedium,
+                      ),
+                      onTap: () async {
+                        if (!(await AuthService()
+                            .verifyBiometricOrPassCode())) {
+                          return;
+                        }
 
-                    // controller.timer;
-                    final controller = Get.put(BackupPageController());
-                    Get.bottomSheet(
-                            SecretPhrasePage(
-                              pkHash: widget.accountModel.publicKeyHash!,
-                            ),
-                            barrierColor: Colors.transparent,
-                            enterBottomSheetDuration:
-                                const Duration(milliseconds: 180),
-                            exitBottomSheetDuration:
-                                const Duration(milliseconds: 150),
-                            isScrollControlled: true)
-                        .then((_) => controller.timer.cancel());
-                  }),
-              0.02.vspace,
-              revealOptionMethod(
-                  icon: '${PathConst.SETTINGS_PAGE}svg/key.svg',
-                  child: Text(
-                    "View private key",
-                    style: labelMedium,
-                  ),
-                  onTap: () async {
-                    if (!(await AuthService().verifyBiometricOrPassCode())) {
-                      return;
-                    }
+                        // controller.timer;
+                        final controller = Get.put(BackupPageController());
+                        Get.bottomSheet(
+                                SecretPhrasePage(
+                                  pkHash: widget.accountModel.publicKeyHash!,
+                                ),
+                                barrierColor: Colors.transparent,
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
+                                isScrollControlled: true)
+                            .then((_) => controller.timer.cancel());
+                      }),
+                0.02.vspace,
+                if (_controller.privateKeyReveal.value)
+                  revealOptionMethod(
+                      icon: '${PathConst.SETTINGS_PAGE}svg/key.svg',
+                      child: Text(
+                        "View private key",
+                        style: labelMedium,
+                      ),
+                      onTap: () async {
+                        if (!(await AuthService()
+                            .verifyBiometricOrPassCode())) {
+                          return;
+                        }
 
-                    // controller.timer;
-                    final controller = Get.put(BackupPageController());
-                    Get.bottomSheet(
-                            PrivateKeyPage(
-                              pkh: widget.accountModel.publicKeyHash!,
-                            ),
-                            barrierColor: Colors.transparent,
-                            enterBottomSheetDuration:
-                                const Duration(milliseconds: 180),
-                            exitBottomSheetDuration:
-                                const Duration(milliseconds: 150),
-                            isScrollControlled: true)
-                        .then((_) => controller.timer.cancel());
-                  }),
-              // revealOptionMethod(
-              //     child: Text(
-              //       "Private Key",
-              //       style: labelMedium,
-              //     ),
-              //     onTap: () {
-              //       controller.timer;
-              //       Get.to(() => PrivateKeyPage(
-              //             pkh: accountModel.publicKeyHash!,
-              //           ))?.whenComplete(() => controller.timer.cancel());
-              //     }),
-            ],
-          ),
+                        // controller.timer;
+                        final controller = Get.put(BackupPageController());
+                        Get.bottomSheet(
+                                PrivateKeyPage(
+                                  pkh: widget.accountModel.publicKeyHash!,
+                                ),
+                                barrierColor: Colors.transparent,
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
+                                isScrollControlled: true)
+                            .then((_) => controller.timer.cancel());
+                      }),
+                // revealOptionMethod(
+                //     child: Text(
+                //       "Private Key",
+                //       style: labelMedium,
+                //     ),
+                //     onTap: () {
+                //       controller.timer;
+                //       Get.to(() => PrivateKeyPage(
+                //             pkh: accountModel.publicKeyHash!,
+                //           ))?.whenComplete(() => controller.timer.cancel());
+                //     }),
+              ],
+            );
+          }),
         ),
       ],
     );

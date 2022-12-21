@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hex/hex.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/web3auth_services/web3AuthController.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -48,6 +49,7 @@ class Web3Auth {
         NaanAnalytics.logEvent(NaanAnalyticsEvents.SOCIAL_LOGIN,
             param: {"login_type": socialAppName.name});
         await _socialLogin(socialApp: socialAppName).then((response) async {
+          AuthService().setWalletBackup(true);
           Get.put(Web3AuthController());
           Web3AuthController controller = Get.find<Web3AuthController>();
           controller.privateKey = GenerateKeys.readKeysWithHint(
