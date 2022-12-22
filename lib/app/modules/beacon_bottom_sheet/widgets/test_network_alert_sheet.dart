@@ -1,21 +1,42 @@
+import 'package:beacon_flutter/beacon_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
+import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
-import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/select_network_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../utils/styles/styles.dart';
+import '../opreation_request/views/opreation_request_view.dart';
+import '../payload_request/views/payload_request_view.dart';
 
-class TestNetworkBottomSheet extends StatelessWidget {
-  const TestNetworkBottomSheet({super.key});
+class TestNetworkBottomSheet extends StatefulWidget {
+  BeaconRequest request;
+  TestNetworkBottomSheet({super.key, required this.request});
+
+  @override
+  State<TestNetworkBottomSheet> createState() => _TestNetworkBottomSheetState();
+}
+
+class _TestNetworkBottomSheetState extends State<TestNetworkBottomSheet> {
+  String networkType = "mainnet";
+
+  void getNetworkType() async {
+    networkType = (await RpcService.getCurrentNetworkType()).toString();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getNetworkType();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +62,11 @@ class TestNetworkBottomSheet extends StatelessWidget {
                 ),
                 0.01.vspace,
                 Text(
-                  "You are connecting from an account on test net.\nThis feature supports  only main net connection. ",
-                  style: labelMedium.copyWith(color: ColorConst.textGrey1),
+                  "Your app network is not the same as the network required by the dApp",
+                  style: labelMedium.copyWith(
+                    color: ColorConst.textGrey1,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
                 0.032.vspace,
                 Text(
@@ -51,17 +75,21 @@ class TestNetworkBottomSheet extends StatelessWidget {
                 ),
                 0.008.vspace,
                 InkWell(
-                  onTap: () {
-                    Get.bottomSheet(
+                  onTap: () async {
+                    await Get.bottomSheet(
                       SelectNetworkBottomSheet(),
                       enterBottomSheetDuration:
                           const Duration(milliseconds: 180),
                       exitBottomSheetDuration:
                           const Duration(milliseconds: 150),
                     );
+                    networkType =
+                        (await RpcService.getCurrentNetworkType()).toString();
+                    setState(() {});
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 20),
                     decoration: BoxDecoration(
                         border: Border.all(color: ColorConst.textGrey1),
                         color: ColorConst.darkGrey,
@@ -99,9 +127,56 @@ class TestNetworkBottomSheet extends StatelessWidget {
                     0.016.hspace,
                     Expanded(
                       child: SolidButton(
-                        onPressed: settingController.networkType.value.index ==
-                                NetworkType.mainnet.index
-                            ? () {}
+                        onPressed: networkType.toString() ==
+                                widget.request.request!.network!.type.toString()
+                            ? () {
+                                Get.back();
+                                switch (widget.request.type!) {
+                                  case RequestType.permission:
+                                    //print("Permission requested");
+                                    Get.bottomSheet(const PairRequestView(),
+                                        enterBottomSheetDuration:
+                                            const Duration(milliseconds: 180),
+                                        exitBottomSheetDuration:
+                                            const Duration(milliseconds: 150),
+                                        barrierColor:
+                                            Colors.white.withOpacity(0.09),
+                                        isScrollControlled: true,
+                                        settings: RouteSettings(
+                                            arguments: widget.request));
+                                    break;
+                                  case RequestType.signPayload:
+                                    //print("payload request $widget.request");
+                                    Get.bottomSheet(const PayloadRequestView(),
+                                        enterBottomSheetDuration:
+                                            const Duration(milliseconds: 180),
+                                        exitBottomSheetDuration:
+                                            const Duration(milliseconds: 150),
+                                        barrierColor:
+                                            Colors.white.withOpacity(0.09),
+                                        isScrollControlled: true,
+                                        settings: RouteSettings(
+                                            arguments: widget.request));
+                                    break;
+                                  case RequestType.operation:
+                                    //print("operation request $widget.request");
+                                    Get.bottomSheet(
+                                        const OpreationRequestView(),
+                                        enterBottomSheetDuration:
+                                            const Duration(milliseconds: 180),
+                                        exitBottomSheetDuration:
+                                            const Duration(milliseconds: 150),
+                                        barrierColor:
+                                            Colors.white.withOpacity(0.09),
+                                        isScrollControlled: true,
+                                        settings: RouteSettings(
+                                            arguments: widget.request));
+                                    break;
+                                  case RequestType.broadcast:
+                                    //print("broadcast request $widget.request");
+                                    break;
+                                }
+                              }
                             : null,
                         title: "Proceed",
                       ),
