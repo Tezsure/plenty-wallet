@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/custom_packages/readmore/readmore.dart';
+import 'package:naan_wallet/app/modules/nft_gallery/view/cast_devices.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -100,7 +101,9 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                               size: 16.aR,
                             )),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.bottomSheet(const CastDevicesSheet());
+                            },
                             padding: EdgeInsets.zero,
                             visualDensity: VisualDensity.compact,
                             icon: Icon(

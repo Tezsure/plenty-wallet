@@ -2,6 +2,8 @@
 -keep class it.airgap.beaconsdk.** { *; }  
 -keep class com.sun.jna.** { *; }
 -keep class * implements com.sun.jna.** { *; }
+-keep class com.google.android.play.core.review.** { *; }
+-keep class com.google.android.gms.tasks.** { *; }
 
 # Keep `Companion` object fields of serializable classes.
 # This avoids serializer lookup through `getDeclaredClasses` as done for named companion objects.

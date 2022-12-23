@@ -183,7 +183,9 @@ class AccountDataHandler {
 
     // update account list before write data into localStorage
     if (accountList.isNotEmpty || watchAccountModels.isNotEmpty) {
-      accountList.first.isAccountPrimary = true;
+      if (accountList.isNotEmpty) {
+        accountList.first.isAccountPrimary = true;
+      }
       await postProcess([...accountList, ...watchAccountModels]);
     }
 

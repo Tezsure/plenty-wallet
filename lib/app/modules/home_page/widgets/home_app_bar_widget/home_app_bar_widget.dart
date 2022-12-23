@@ -36,7 +36,10 @@ class HomepageAppBar extends StatelessWidget {
                 .userAccounts[
                     Get.find<HomePageController>().selectedIndex.value]
                 .isWatchOnly) {
-              return Container();
+              return const SizedBox(
+                width: 42,
+                height: 42,
+              );
             }
             return GestureDetector(
               onTap: () {

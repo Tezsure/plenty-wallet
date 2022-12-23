@@ -142,25 +142,25 @@ class AccountWidget extends StatelessWidget {
                 tz1Shortner(accountModel.publicKeyHash!),
                 style: bodySmall,
               ),
-              accountBalances.containsKey(accountModel.publicKeyHash)
-                  ? Text(
-                      "${accountBalances[accountModel.publicKeyHash]} tez",
+              FutureBuilder<double>(
+                future: accountModel.getUserBalanceInTezos(),
+      
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text(
+                      "0.0 tez",
                       style: labelSmall.apply(
                           color: ColorConst.NeutralVariant.shade60),
-                    )
-                  : FutureBuilder<double>(
-                      future: accountModel.getUserBalanceInTezos(),
-                      initialData: 0.0,
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        accountBalances[accountModel.publicKeyHash!] =
-                            snapshot.data;
-                        return Text(
-                          "${snapshot.data} tez",
-                          style: labelSmall.apply(
-                              color: ColorConst.NeutralVariant.shade60),
-                        );
-                      },
-                    ),
+                    );
+                  }
+                  accountBalances[accountModel.publicKeyHash!] = snapshot.data;
+                  return Text(
+                    "${accountBalances[accountModel.publicKeyHash!]} tez",
+                    style: labelSmall.apply(
+                        color: ColorConst.NeutralVariant.shade60),
+                  );
+                },
+              ),
             ],
           ),
           const Spacer(),

@@ -42,13 +42,17 @@ class AccountsWidgetController extends GetxController {
   RxBool isHiddenAccount = false.obs;
 
   RxBool isCreatingNewAccount = false.obs;
-
+  FocusNode accountNameFocus = FocusNode();
   void initAddAccount() {
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
+    accountNameController.text =
+        "Account ${homeController.userAccounts.length}";
+    accountNameFocus.requestFocus();
   }
 
   void closeAddAccount() {
     accountNameController.clear();
+    accountNameFocus.unfocus();
   }
 
   void resetCreateNewWallet() {

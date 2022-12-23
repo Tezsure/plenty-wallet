@@ -142,6 +142,7 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                             ),
                             0.038.vspace,
                             NaanTextfield(
+                              focusNode: controller.accountNameFocus,
                               height: 52.aR,
                               onTextChange: (e) {
                                 controller.phrase.value = e;
@@ -354,24 +355,22 @@ class _AvatarPickerState extends State<AvatarPicker> {
             child: Text("Pick an Avatar", style: titleLarge),
           ),
           0.05.vspace,
-          Obx(
-            () => Container(
-              height: 0.3.width,
-              width: 0.3.width,
-              alignment: Alignment.bottomRight,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: widget.controller.currentSelectedType ==
-                          AccountProfileImageType.assets
-                      ? AssetImage(selectedAvatar)
-                      : FileImage(
-                          File(
-                            selectedAvatar,
-                          ),
-                        ) as ImageProvider,
-                ),
+          Container(
+            height: 0.3.width,
+            width: 0.3.width,
+            alignment: Alignment.bottomRight,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: widget.controller.currentSelectedType ==
+                        AccountProfileImageType.assets
+                    ? AssetImage(selectedAvatar)
+                    : FileImage(
+                        File(
+                          selectedAvatar,
+                        ),
+                      ) as ImageProvider,
               ),
             ),
           ),

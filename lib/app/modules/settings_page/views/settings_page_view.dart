@@ -199,48 +199,60 @@ class SettingsPageView extends GetView<SettingsPageController> {
                           ],
                         ),
                         SizedBox(height: 0.05.width),
-                        _settingsSeparator(
-                          title: "Social",
-                          settings: [
-                            _settingOption(
-                              onTap: () => Share.share(
-                                  "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}"),
-                              title: "Share Naan",
-                              svgPath:
-                                  "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
-                            ),
-                            if (controller.inAppReviewAvailable.value)
+                        Obx(() {
+                          return _settingsSeparator(
+                            title: "Social",
+                            settings: [
                               _settingOption(
-                                onTap: () {
-                                  controller.inAppReview.requestReview();
-                                },
-                                title: "Rate Naan",
+                                onTap: () => Share.share(
+                                    "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}"),
+                                title: "Share Naan",
                                 svgPath:
-                                    "${PathConst.SETTINGS_PAGE.SVG}star.svg",
+                                    "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
                               ),
-                            _settingOption(
-                              onTap: (() => CommonFunctions.launchURL(
-                                  "https://twitter.com/Naanwallet")),
-                              title: "Follow us on Twitter",
-                              svgPath:
-                                  "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
-                            ),
-                            _settingOption(
-                              onTap: () => CommonFunctions.launchURL(
-                                  "https://discord.gg/wpcNRsBbxy"),
-                              title: "Join our Discord",
-                              svgPath:
-                                  "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
-                            ),
-                            _settingOption(
-                              onTap: () => CommonFunctions.launchURL(
-                                  "https://tally.so/r/w4a75r"),
-                              title: "Feedback & Support",
-                              svgPath:
-                                  "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
-                            ),
-                          ],
-                        ),
+                              if (controller.inAppReviewAvailable.value)
+                                _settingOption(
+                                  onTap: () async {
+                                    if (Platform.isAndroid) {
+                                      await controller.inAppReview
+                                          .openStoreListing(
+                                              appStoreId: "1573210354");
+                                    } else {
+                                      await controller.inAppReview
+                                          .requestReview();
+                                    }
+                                    controller.inAppReviewAvailable.value =
+                                        await controller.inAppReview
+                                            .isAvailable();
+                                  },
+                                  title: "Rate Naan",
+                                  svgPath:
+                                      "${PathConst.SETTINGS_PAGE.SVG}star.svg",
+                                ),
+                              _settingOption(
+                                onTap: (() => CommonFunctions.launchURL(
+                                    "https://twitter.com/Naanwallet")),
+                                title: "Follow us on Twitter",
+                                svgPath:
+                                    "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
+                              ),
+                              _settingOption(
+                                onTap: () => CommonFunctions.launchURL(
+                                    "https://discord.gg/wpcNRsBbxy"),
+                                title: "Join our Discord",
+                                svgPath:
+                                    "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
+                              ),
+                              _settingOption(
+                                onTap: () => CommonFunctions.launchURL(
+                                    "https://tally.so/r/w4a75r"),
+                                title: "Feedback & Support",
+                                svgPath:
+                                    "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
+                              ),
+                            ],
+                          );
+                        }),
                         SizedBox(height: 0.05.width),
                         _resetOption(),
                         SizedBox(height: 0.065.width),

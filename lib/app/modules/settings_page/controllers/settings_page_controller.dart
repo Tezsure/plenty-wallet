@@ -53,7 +53,7 @@ class SettingsPageController extends GetxController {
   RxString enteredPassCode = "".obs; // Entered passcode
   RxBool verifyPassCode = false.obs; // Verify passcode status
   RxBool inAppReviewAvailable =
-      true.obs; // Check if in app purchase is available
+      false.obs; // Check if in app purchase is available
 
   final InAppReview inAppReview = InAppReview.instance;
   RxBool supportBiometric = false.obs;

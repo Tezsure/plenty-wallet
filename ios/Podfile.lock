@@ -23,6 +23,8 @@ PODS:
   - BeaconTransportP2PMatrix (3.2.3):
     - BeaconCore (~> 3.2.3)
   - BigInt (5.0.0)
+  - bonsoir (1.0.1):
+    - Flutter
   - Firebase/Analytics (10.2.0):
     - Firebase/Core
   - Firebase/Core (10.2.0):
@@ -176,6 +178,7 @@ PODS:
 
 DEPENDENCIES:
   - beacon_flutter (from `.symlinks/plugins/beacon_flutter/ios`)
+  - bonsoir (from `.symlinks/plugins/bonsoir/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
@@ -226,6 +229,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   beacon_flutter:
     :path: ".symlinks/plugins/beacon_flutter/ios"
+  bonsoir:
+    :path: ".symlinks/plugins/bonsoir/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
@@ -273,6 +278,7 @@ SPEC CHECKSUMS:
   BeaconCore: e4eb30dd44595984322ea3c3149ae19d8d78c821
   BeaconTransportP2PMatrix: eb1be2bf6b91964970961980f46298d867b0bdf7
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
+  bonsoir: c97724f65041a4068af8ab5f3449ae7f58b725b1
   Firebase: a3ea7eba4382afd83808376edb99acdaff078dcf
   firebase_analytics: f58660932fa1d373ced20b098ada23fe0ed1f55b
   firebase_core: db1432de826785171029b7c1a26e5b22ce1dd477

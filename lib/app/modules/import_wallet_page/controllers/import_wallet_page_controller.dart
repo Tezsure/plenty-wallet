@@ -14,7 +14,6 @@ import '../../create_profile_page/views/create_profile_page_view.dart';
 
 class ImportWalletPageController extends GetxController
     with GetSingleTickerProviderStateMixin {
-
   //? VARIABLES
   Rx<bool> showSuccessAnimation = false.obs; // to show success animation
   Rx<TextEditingController> phraseTextController = TextEditingController().obs;
@@ -138,8 +137,8 @@ class ImportWalletPageController extends GetxController
   }
 
   Future<AccountModel> getAccountModelIndexAt(int index) async {
-    var account = await WalletService()
-        .genAccountFromMnemonic(phraseText.value, index, !isTz1Selected.value);
+    var account = await WalletService().genAccountFromMnemonic(
+        phraseText.value.trim(), index, !isTz1Selected.value);
     return account;
   }
 

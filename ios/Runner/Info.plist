@@ -55,5 +55,12 @@
 		<string>Naan requires acess to camera.</string>
 		<key>NSFaceIDUsageDescription</key>
 		<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
+		<key>NSBonjourServices</key>
+		<array>
+  			<string>_googlecast._tcp</string>
+  			<string>com.naan._googlecast._tcp</string>
+		</array>
+		<key>NSLocalNetworkUsageDescription</key>
+		<string>$(PRODUCT_NAME) uses the local network to discover Cast-enabled devices on your WiFi network.</string>
 	</dict>
 </plist>

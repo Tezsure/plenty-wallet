@@ -14,15 +14,11 @@ class SplashPageController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-
+    await Future.delayed(Duration(milliseconds: 1800));
     // un-comment below line to test onboarding flow multiple time
 
     // await ServiceConfig().clearStorage();
 
-    // Get.lazyPut(() => BeaconService());
-    // Get.put(HomePageController());
-    // Get.put(SettingsPageController());
-    // Get.put(DelegateWidgetController());
     ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
         ServiceConfig.currentSelectedNode;
     await DataHandlerService().initDataServices();
@@ -45,12 +41,15 @@ class SplashPageController extends GetxController {
         ],
       );
     } else {
-      Future.delayed(
-        const Duration(seconds: 3),
-        () => Get.offAndToNamed(
-          Routes.ONBOARDING_PAGE,
-        ),
+      Get.offAndToNamed(
+        Routes.ONBOARDING_PAGE,
       );
+      // Future.delayed(
+      //   const Duration(seconds: 1),
+      //   () => Get.offAndToNamed(
+      //     Routes.ONBOARDING_PAGE,
+      //   ),
+      // );
     }
   }
 }
