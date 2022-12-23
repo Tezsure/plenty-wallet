@@ -24,8 +24,8 @@ class DiscoverAppsWidget extends StatelessWidget {
       },
       child: Container(
         height: 0.405.width,
-        width: 0.405.width,
-        margin: EdgeInsets.only(left: 24.sp),
+        width: 1.width,
+        margin: EdgeInsets.only(left: 32.arP, right: 32.arP),
         decoration: BoxDecoration(
           gradient: appleOrange,
           borderRadius: BorderRadius.circular(22.sp),
@@ -33,17 +33,32 @@ class DiscoverAppsWidget extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            
-            Align(
-              alignment: Alignment.topRight,
-              child:
-                  Image.asset("${PathConst.HOME_PAGE}discover_apps.png"),
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(22.sp),
+                topRight: Radius.circular(22.sp),
+              ),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: SvgPicture.asset(
+                    "${PathConst.HOME_PAGE}svg/discover_app_1.svg"),
+              ),
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(22.sp),
+              ),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: SvgPicture.asset(
+                    "${PathConst.HOME_PAGE}svg/discover_app_2.svg"),
+              ),
             ),
             // ClipRRect(
-            //   borderRadius: BorderRadius.only(
-            //     topLeft: Radius.circular(22.sp),
-            //     topRight: Radius.circular(22.sp),
-            //   ),
+            // borderRadius: BorderRadius.only(
+            //   topLeft: Radius.circular(22.sp),
+            //   topRight: Radius.circular(22.sp),
+            // ),
             //   child: Align(
             //     alignment: Alignment.topLeft,
             //     child:

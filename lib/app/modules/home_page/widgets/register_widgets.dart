@@ -27,8 +27,10 @@ final List<Widget> registeredWidgets = [
   //const MyNFTwidget(),
 
   const NftGalleryWidget(),
-  const DiscoverAppsWidget(),
+  const ObjktNftWidget(),
+
   TezosPriceWidget(),
+  const DiscoverAppsWidget(),
   const ComingSoonWidget()
 
   // const PublicNFTgalleryWidget(),
