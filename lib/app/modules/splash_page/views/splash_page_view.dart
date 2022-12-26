@@ -21,6 +21,7 @@ class SplashPageView extends GetView<SplashPageController> {
             animate: true,
             frameRate: FrameRate.max,
             fit: BoxFit.cover,
+            onWarning: (p) => print(p),
             alignment: Alignment.topCenter,
             repeat: true,
           ),

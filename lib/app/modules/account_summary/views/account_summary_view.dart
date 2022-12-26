@@ -191,73 +191,78 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                           ),
                         )),
                     0.03.vspace,
-                    Padding(
-                      padding: EdgeInsets.only(left: 17.sp, right: 16.sp),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _actionButton(
-                              onTap: () {
-                                String url =
-                                    "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
+                    Obx(() {
+                      return Padding(
+                        padding: EdgeInsets.only(left: 17.sp, right: 16.sp),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _actionButton(
+                                onTap: () {
+                                  String url =
+                                      "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
 
-                                print(url);
-                                Get.bottomSheet(
-                                  const DappBrowserView(),
-                                  barrierColor: Colors.white.withOpacity(0.09),
+                                  print(url);
+                                  Get.bottomSheet(
+                                    const DappBrowserView(),
+                                    barrierColor:
+                                        Colors.white.withOpacity(0.09),
+                                    settings: RouteSettings(
+                                      arguments: url,
+                                    ),
+                                    isScrollControlled: true,
+                                  );
+                                },
+                                imagePath: '${PathConst.SVG}plus.svg',
+                                label: 'Buy'),
+                            0.04.hspace,
+                            _actionButton(
+                                onTap: () {
+                                  NaanAnalytics.logEvent(
+                                      NaanAnalyticsEvents.DELEGATE_FROM_WALLET);
+                                  Get.put(DelegateWidgetController())
+                                      .openBakerList();
+                                },
+                                imagePath: '${PathConst.SVG}dollar_sign.svg',
+                                label: 'Earn'),
+                            0.04.hspace,
+                            _actionButton(
+                              imagePath: '${PathConst.SVG}arrow_up.svg',
+                              label: 'Send',
+                              onTap: (() => Get.bottomSheet(const SendPage(),
+                                  enterBottomSheetDuration:
+                                      const Duration(milliseconds: 180),
+                                  exitBottomSheetDuration:
+                                      const Duration(milliseconds: 150),
                                   settings: RouteSettings(
-                                    arguments: url,
-                                  ),
+                                      arguments:
+                                          controller.selectedAccount.value),
                                   isScrollControlled: true,
-                                );
-                              },
-                              imagePath: '${PathConst.SVG}plus.svg',
-                              label: 'Buy'),
-                          0.04.hspace,
-                          _actionButton(
-                              onTap: () {
-                                NaanAnalytics.logEvent(
-                                    NaanAnalyticsEvents.DELEGATE_FROM_WALLET);
-                                Get.put(DelegateWidgetController())
-                                    .openBakerList();
-                              },
-                              imagePath: '${PathConst.SVG}dollar_sign.svg',
-                              label: 'Earn'),
-                          0.04.hspace,
-                          _actionButton(
-                            imagePath: '${PathConst.SVG}arrow_up.svg',
-                            label: 'Send',
-                            onTap: (() => Get.bottomSheet(const SendPage(),
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                                settings: RouteSettings(
-                                    arguments:
-                                        controller.selectedAccount.value),
-                                isScrollControlled: true,
-                                barrierColor: Colors.white.withOpacity(0.09))),
-                          ),
-                          0.04.hspace,
-                          _actionButton(
-                            imagePath: '${PathConst.SVG}arrow_down.svg',
-                            label: 'Receive',
-                            onTap: (() => Get.bottomSheet(
-                                const ReceivePageView(),
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                                settings: RouteSettings(
-                                    arguments:
-                                        controller.selectedAccount.value),
-                                isScrollControlled: true,
-                                barrierColor: Colors.white.withOpacity(0.09))),
-                          ),
-                        ],
-                      ),
-                    ),
+                                  barrierColor:
+                                      Colors.white.withOpacity(0.09))),
+                            ),
+                            0.04.hspace,
+                            _actionButton(
+                              imagePath: '${PathConst.SVG}arrow_down.svg',
+                              label: 'Receive',
+                              onTap: (() => Get.bottomSheet(
+                                  const ReceivePageView(),
+                                  enterBottomSheetDuration:
+                                      const Duration(milliseconds: 180),
+                                  exitBottomSheetDuration:
+                                      const Duration(milliseconds: 150),
+                                  settings: RouteSettings(
+                                      arguments:
+                                          controller.selectedAccount.value),
+                                  isScrollControlled: true,
+                                  barrierColor:
+                                      Colors.white.withOpacity(0.09))),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
                     0.02.vspace,
                     Divider(
                       height: 0.sp,

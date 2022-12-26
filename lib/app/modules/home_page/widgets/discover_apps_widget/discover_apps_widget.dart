@@ -31,49 +31,15 @@ class DiscoverAppsWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(22.sp),
         ),
         child: Stack(
-          fit: StackFit.expand,
+          fit: StackFit.passthrough,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(22.sp),
-                topRight: Radius.circular(22.sp),
-              ),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: SvgPicture.asset(
-                    "${PathConst.HOME_PAGE}svg/discover_app_1.svg"),
+              borderRadius: BorderRadius.circular(22.arP),
+              child: Image.asset(
+                "${PathConst.HOME_PAGE}discover_apps.png",
+                fit: BoxFit.cover,
               ),
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(22.sp),
-              ),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: SvgPicture.asset(
-                    "${PathConst.HOME_PAGE}svg/discover_app_2.svg"),
-              ),
-            ),
-            // ClipRRect(
-            // borderRadius: BorderRadius.only(
-            //   topLeft: Radius.circular(22.sp),
-            //   topRight: Radius.circular(22.sp),
-            // ),
-            //   child: Align(
-            //     alignment: Alignment.topLeft,
-            //     child:
-            //         Image.asset("${PathConst.HOME_PAGE.SVG}discover_app_1.png"),
-            //   ),
-            // ),
-            // Align(
-            //   alignment: Alignment.topLeft,
-            //   child: Padding(
-            //     padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 22.sp),
-            //     child: Text("objkt.com",
-            //         style: bodySmall.copyWith(
-            //             fontWeight: FontWeight.w900, letterSpacing: 0.6.sp)),
-            //   ),
-            // ),
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(

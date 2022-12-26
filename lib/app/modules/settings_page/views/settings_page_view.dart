@@ -34,36 +34,37 @@ class SettingsPageView extends GetView<SettingsPageController> {
   Widget build(BuildContext context) {
     Get.put(SettingsPageController());
     return NaanBottomSheet(
+        title: "Settings",
         height: .9.height,
         bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
           Container(
-            height: 0.87.height,
+            height: 0.82.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: backButton())),
-                    Expanded(
-                      child: Container(
-                        // height: 0.09.width,
-                        // width: 1.width,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Settings",
-                          maxLines: 1,
-                          style: titleMedium,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                    Spacer()
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //         child: Align(
+                //             alignment: Alignment.centerLeft,
+                //             child: backButton())),
+                //     Expanded(
+                //       child: Container(
+                //         // height: 0.09.width,
+                //         // width: 1.width,
+                //         alignment: Alignment.center,
+                //         child: Text(
+                //           "Settings",
+                //           maxLines: 1,
+                //           style: titleMedium,
+                //           textAlign: TextAlign.center,
+                //         ),
+                //       ),
+                //     ),
+                //     Spacer()
+                //   ],
+                // ),
                 // 0.03.vspace,
                 Expanded(
                   child: SingleChildScrollView(
