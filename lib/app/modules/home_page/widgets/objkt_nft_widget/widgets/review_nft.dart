@@ -106,7 +106,7 @@ class ReviewNFTSheet extends StatelessWidget {
                     "\$0.00018",
                     style: labelMedium,
                   ),
-                  0.001.hspace,
+                  0.01.hspace,
                   Icon(
                     Icons.info_outline,
                     size: 16,
