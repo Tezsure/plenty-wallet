@@ -20,10 +20,12 @@ class CreateProfilePageController extends GetxController {
     super.onInit();
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
     accountNameFocus.requestFocus();
-    if (Get.find<HomePageController>().initialized) {
-      accountNameController.text =
-          "Account ${Get.find<HomePageController>().userAccounts.length}";
-    }
+    try {
+      if (Get.find<HomePageController>().initialized) {
+        accountNameController.text =
+            "Account ${Get.find<HomePageController>().userAccounts.length}";
+      }
+    } catch (e) {}
     isContiuneButtonEnable.value = true;
   }
 }
