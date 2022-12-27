@@ -29,6 +29,15 @@ class AccountSwitch extends StatefulWidget {
 
 class _AccountSwitchState extends State<AccountSwitch> {
   final HomePageController controller = Get.find<HomePageController>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (controller.userAccounts[controller.selectedIndex.value].isWatchOnly) {
+      controller.selectedIndex.value = 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(height: 0.45.height, bottomSheetHorizontalPadding: 0,
@@ -82,8 +91,14 @@ class _AccountSwitchState extends State<AccountSwitch> {
                     onTap: () async {
                       final selectedIndex = await Get.bottomSheet(
                         AccountSelector(
-                          accountModels: controller.userAccounts,
-                          index: controller.selectedIndex.value,
+                          accountModels: controller.userAccounts
+                              .where((e) => e.isWatchOnly == false)
+                              .toList(),
+                          index: controller
+                                  .userAccounts[controller.selectedIndex.value]
+                                  .isWatchOnly
+                              ? 0
+                              : controller.selectedIndex.value,
                         ),
                         enterBottomSheetDuration:
                             const Duration(milliseconds: 180),
@@ -122,21 +137,46 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                       fit: BoxFit.cover,
                                       image: controller
                                                   .userAccounts[controller
-                                                      .selectedIndex.value]
+                                                          .userAccounts[
+                                                              controller
+                                                                  .selectedIndex
+                                                                  .value]
+                                                          .isWatchOnly
+                                                      ? 0
+                                                      : controller
+                                                          .selectedIndex.value]
                                                   .imageType ==
                                               AccountProfileImageType.assets
-                                          ? AssetImage(controller
-                                              .userAccounts[controller
-                                                  .selectedIndex.value]
-                                              .profileImage
-                                              .toString())
+                                          ? AssetImage(
+                                              controller
+                                                      .userAccounts[controller
+                                                          .selectedIndex.value]
+                                                      .isWatchOnly
+                                                  ? controller.userAccounts[0]
+                                                      .profileImage
+                                                      .toString()
+                                                  : controller
+                                                      .userAccounts[controller
+                                                          .selectedIndex.value]
+                                                      .profileImage
+                                                      .toString(),
+                                            )
                                           : FileImage(
                                               File(
                                                 controller
-                                                    .userAccounts[controller
-                                                        .selectedIndex.value]
-                                                    .profileImage
-                                                    .toString(),
+                                                        .userAccounts[controller
+                                                            .selectedIndex
+                                                            .value]
+                                                        .isWatchOnly
+                                                    ? controller.userAccounts[0]
+                                                        .profileImage
+                                                        .toString()
+                                                    : controller
+                                                        .userAccounts[controller
+                                                            .selectedIndex
+                                                            .value]
+                                                        .profileImage
+                                                        .toString(),
                                               ),
                                             ) as ImageProvider,
                                     ),
@@ -145,10 +185,16 @@ class _AccountSwitchState extends State<AccountSwitch> {
                               ),
                               Text(
                                   controller
-                                      .userAccounts[
-                                          controller.selectedIndex.value]
-                                      .name
-                                      .toString(),
+                                          .userAccounts[
+                                              controller.selectedIndex.value]
+                                          .isWatchOnly
+                                      ? controller.userAccounts[0].name
+                                          .toString()
+                                      : controller
+                                          .userAccounts[
+                                              controller.selectedIndex.value]
+                                          .name
+                                          .toString(),
                                   style: titleSmall.copyWith(
                                       fontWeight: FontWeight.w500)),
                               const Icon(

@@ -9,6 +9,9 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+import '../../controllers/home_page_controller.dart';
+import '../accounts_widget/views/widget/add_account_widget.dart';
+
 class EarnTezWidget extends StatelessWidget {
   const EarnTezWidget({Key? key}) : super(key: key);
 
@@ -16,6 +19,19 @@ class EarnTezWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        HomePageController home = Get.find<HomePageController>();
+        if (home.userAccounts
+            .where((element) => element.isWatchOnly == false)
+            .toList()
+            .isEmpty) {
+          Get.bottomSheet(
+            addAccountSheet("No accounts found"),
+            isScrollControlled: true,
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
+          );
+          return;
+        }
         NaanAnalytics.logEvent(NaanAnalyticsEvents.DELEGATE_WIDGET_CLICK);
         Get.put(DelegateWidgetController()).openBakerList();
       },

@@ -74,7 +74,6 @@ class DappsPageView extends GetView<DappsPageController> {
                                 controller.dappBanners[index], dapps)
                             : null,
                     child: Container(
-                      height: 400.arP,
                       width: double.infinity,
                       margin: EdgeInsets.only(
                         bottom: 20.arP,
@@ -114,7 +113,6 @@ class DappsPageView extends GetView<DappsPageController> {
                             ),
                           if (controller.dappBanners[index].type! == "category")
                             Container(
-                              height: 200.arP,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
@@ -182,28 +180,38 @@ class DappsPageView extends GetView<DappsPageController> {
                                   ),
                                 ),
 
-                                Expanded(
-                                    child:
-                                        controller.dappBanners[index].type! !=
-                                                "dappList"
-                                            ? Container()
-                                            : _getDappListWidget(dapps)),
+                                controller.dappBanners[index].type! !=
+                                        "dappList"
+                                    ? Container()
+                                    : _getDappListWidget(dapps),
 
                                 // description only when type is banner
-                                if (controller.dappBanners[index].type! ==
-                                    "banner")
-                                  Text(
-                                    controller.dappBanners[index].description!,
-                                    style: TextStyle(
-                                      fontSize: 14.arP,
-                                      color: const Color(0xFFFFFFFF),
-                                      letterSpacing: 0.27.arP,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
                               ],
                             ),
-                          )
+                          ),
+                          if (controller.dappBanners[index].type! == "banner")
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              width: 0.82.width,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  top: 28.arP,
+                                  left: 14.arP,
+                                  right: 14.arP,
+                                  bottom: 28.arP,
+                                ),
+                                child: Text(
+                                  controller.dappBanners[index].description!,
+                                  style: TextStyle(
+                                    fontSize: 14.arP,
+                                    color: const Color(0xFFFFFFFF),
+                                    letterSpacing: 0.27.arP,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ),
@@ -220,6 +228,7 @@ class DappsPageView extends GetView<DappsPageController> {
   Widget _getDappListWidget(List<DappModel> dapps) {
     return ListView.builder(
       itemCount: dapps.length,
+      shrinkWrap: true,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) => DappListItemWidget(
         dapp: dapps[index],

@@ -3,15 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
-import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
-import 'package:naan_wallet/app/modules/beacon_bottom_sheet/widgets/account_selector/account_selector.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
+
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/account_switch_widget/account_switch_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_account_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -51,25 +48,41 @@ class BuyTezWidget extends StatelessWidget {
           enterBottomSheetDuration: const Duration(milliseconds: 180),
           exitBottomSheetDuration: const Duration(milliseconds: 150),
         ); */
-        Get.bottomSheet(
-          AccountSwitch(title: "Buy Tez",subtitle:  'This module will be powered by wert.io and you will be using wert’s interface.',
-            onNext: () {
-              String url =
-                  "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
-              Get.bottomSheet(
-                const DappBrowserView(),
-                barrierColor: Colors.white.withOpacity(0.09),
-                settings: RouteSettings(
-                  arguments: url,
-                ),
-                isScrollControlled: true,
-              );
-            },
-          ),
-          isScrollControlled: true,
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
-        );
+        if (home.userAccounts
+            .where((element) => element.isWatchOnly == false)
+            .toList()
+            .isEmpty) {
+          Get.bottomSheet(
+            addAccountSheet("No accounts found"),
+            isScrollControlled: true,
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
+          );
+          return;
+        } else {
+          Get.bottomSheet(
+            AccountSwitch(
+              title: "Buy Tez",
+              subtitle:
+                  'This module will be powered by wert.io and you will be using wert’s interface.',
+              onNext: () {
+                String url =
+                    "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
+                Get.bottomSheet(
+                  const DappBrowserView(),
+                  barrierColor: Colors.white.withOpacity(0.09),
+                  settings: RouteSettings(
+                    arguments: url,
+                  ),
+                  isScrollControlled: true,
+                );
+              },
+            ),
+            isScrollControlled: true,
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
+          );
+        }
       },
       child: Container(
         height: 0.405.width,

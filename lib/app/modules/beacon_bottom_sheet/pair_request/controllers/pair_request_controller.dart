@@ -14,8 +14,11 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 class PairRequestController extends GetxController {
   final BeaconRequest beaconRequest = Get.arguments;
 
-  final RxList<AccountModel> accountModels =
-      Get.find<HomePageController>().userAccounts;
+  final RxList<AccountModel> accountModels = Get.find<HomePageController>()
+      .userAccounts
+      .where((p0) => p0.isWatchOnly == false)
+      .toList()
+      .obs;
 
   final beaconPlugin = Get.find<BeaconService>().beaconPlugin;
   final selectedAccount = 0.obs;
