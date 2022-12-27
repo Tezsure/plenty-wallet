@@ -8,8 +8,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/info_bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/fees_summary.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -25,56 +28,110 @@ class ReviewNFTSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      isScrollControlled: true,
+      // height: 1.height,
       bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
-        Column(
-          children: [
-            0.02.vspace,
-            SizedBox(
-              height: 0.1.height,
-              width: double.infinity,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12.arP),
-                child: CachedNetworkImage(
-                  imageUrl: controller.selectedNFT.value?.artifactUri ?? "",
-                  fit: BoxFit.cover,
+        SafeArea(
+          child: Column(
+            children: [
+              0.02.vspace,
+              SizedBox(
+                height: 0.12.height,
+                width: double.infinity,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.arP),
+                  child: CachedNetworkImage(
+                    imageUrl: controller.selectedNFT.value?.artifactUri ?? "",
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Text(
-              "Objkt",
-              style: titleMedium.copyWith(color: ColorConst.textGrey1),
-            ),
-            Text(
-              controller.selectedNFT.value?.name ?? "",
-              style: headlineSmall,
-            ),
-            0.02.vspace,
-            Text(
-              "\$${(controller.selectedNFT.value?.lowestAsk * homeController.xtzPrice.value).toStringAsFixed(2)}",
-              style: headlineLarge,
-            ),
-            0.008.vspace,
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _imageAvatar(controller.selectedToken.value?.iconUrl ?? ""),
-                Text(
-                  "  ${controller.selectedNFT.value?.lowestAsk.toStringAsFixed(2)} ${controller.selectedToken.value?.symbol?.toUpperCase() ?? ""}",
-                  style: titleMedium.copyWith(
-                      color: ColorConst.textGrey1, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-            0.02.vspace,
-            _buildAccount(),
-            0.04.vspace,
-            _builButtons(),
-            0.04.vspace,
-          ],
+              Text(
+                "Objkt",
+                style: titleMedium.copyWith(color: ColorConst.textGrey1),
+              ),
+              Text(
+                controller.selectedNFT.value?.name ?? "",
+                style: headlineSmall,
+              ),
+              0.02.vspace,
+              Text(
+                "\$${(controller.selectedNFT.value?.lowestAsk * homeController.xtzPrice.value).toStringAsFixed(2)}",
+                style: headlineLarge,
+              ),
+              0.008.vspace,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _imageAvatar(controller.selectedToken.value?.iconUrl ?? ""),
+                  Text(
+                    "  ${controller.selectedNFT.value?.lowestAsk.toStringAsFixed(2)} ${controller.selectedToken.value?.symbol?.toUpperCase() ?? ""}",
+                    style: titleMedium.copyWith(
+                        color: ColorConst.textGrey1,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+              0.02.vspace,
+              _buildAccount(),
+              0.04.vspace,
+              _builButtons(),
+              0.04.vspace,
+              _buildFees()
+            ],
+          ),
         ),
       ],
-      isScrollControlled: true,
+    );
+  }
+
+  Widget _buildFees() {
+    return GestureDetector(
+      onTap: () {
+        controller.openFeeSummary();
+      },
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Estimate fee",
+                style: bodySmall.copyWith(color: ColorConst.grey),
+              ),
+              Row(
+                children: [
+                  Text(
+                    "\$0.00018",
+                    style: labelMedium,
+                  ),
+                  0.001.hspace,
+                  Icon(
+                    Icons.info_outline,
+                    size: 16,
+                    color: ColorConst.NeutralVariant.shade60,
+                  ),
+                ],
+              )
+            ],
+          ),
+          const Spacer(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Balance",
+                style: bodySmall.copyWith(color: ColorConst.grey),
+              ),
+              Text(
+                "100 TEZ",
+                style: labelMedium,
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -126,7 +183,7 @@ class ReviewNFTSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(right: 24.0.arP),
+                    padding: EdgeInsets.only(right: 16.0.arP),
                     child: Container(
                       height: 0.06.width,
                       width: 0.06.width,
@@ -186,7 +243,9 @@ class ReviewNFTSheet extends StatelessWidget {
         Expanded(
           child: SolidButton(
             title: "Confirm",
-            onPressed: Get.back,
+            onPressed: () {
+              controller.openSuccessSheet();
+            },
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [

@@ -27,36 +27,38 @@ class ChoosePaymentMethod extends StatelessWidget {
       bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
         Obx(() {
-          return Column(
-            children: [
-              ListTile(
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                leading: SvgPicture.asset("assets/svg/credit-card.svg"),
-                title: Text(
-                  "Credit card",
-                  style: labelLarge,
+          return SafeArea(
+            child: Column(
+              children: [
+                ListTile(
+                  dense: true,
+                  contentPadding: EdgeInsets.zero,
+                  leading: SvgPicture.asset("assets/svg/credit-card.svg"),
+                  title: Text(
+                    "Credit card",
+                    style: labelLarge,
+                  ),
+                  subtitle: Text(
+                    "Powered by wert.io",
+                    style: bodySmall.copyWith(color: ColorConst.textGrey1),
+                  ),
                 ),
-                subtitle: Text(
-                  "Powered by wert.io",
-                  style: bodySmall.copyWith(color: ColorConst.textGrey1),
+                const Divider(
+                  color: ColorConst.darkGrey,
+                  thickness: 1,
                 ),
-              ),
-              const Divider(
-                color: ColorConst.darkGrey,
-                thickness: 1,
-              ),
-              controller.userTokens.isEmpty
-                  ? noTokens()
-                  : ListView.builder(
-                      itemCount: controller.userTokens.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => _tokenBox(
-                            controller.userTokens[index],
-                            index,
-                          ))
-            ],
+                controller.userTokens.isEmpty
+                    ? noTokens()
+                    : ListView.builder(
+                        itemCount: controller.userTokens.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => _tokenBox(
+                              controller.userTokens[index],
+                              index,
+                            ))
+              ],
+            ),
           );
         })
       ],
