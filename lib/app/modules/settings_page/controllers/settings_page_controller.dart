@@ -82,7 +82,9 @@ class SettingsPageController extends GetxController {
     final peers = await beaconPlugin.getPeers();
     final Map<String, dynamic> requestJson =
         jsonDecode(jsonEncode(peers)) as Map<String, dynamic>;
+    var seen = Set<String>();
     dapps.value = ConnectedPeers.fromJson(requestJson).peer ?? <P2PPeer>[];
+    dapps.value = dapps.where((x) => seen.add(x.name)).toList();
   }
 
   Future<void> disconnectDApp(int index) async {

@@ -175,40 +175,42 @@ class DappBottomSheet extends StatelessWidget {
                     bottom: 40.arP,
                   ),
                   child: SolidButton(
-                    // title: 'Launch',
-                    width: 326.arP,
-                    height: 50.arP,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/dapps/launch.svg',
-                          height: 20.arP,
-                          width: 20.arP,
-                        ),
-                        SizedBox(
-                          width: 10.arP,
-                        ),
-                        Text(
-                          'Launch App',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.arP,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.1.arP,
+                      // title: 'Launch',
+                      width: 326.arP,
+                      height: 50.arP,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/dapps/launch.svg',
+                            height: 20.arP,
+                            width: 20.arP,
                           ),
-                        ),
-                      ],
-                    ),
-                    onPressed: () => Get.bottomSheet(
-                      const DappBrowserView(),
-                      barrierColor: Colors.white.withOpacity(0.09),
-                      settings: RouteSettings(
-                        arguments: dappModel.url,
+                          SizedBox(
+                            width: 10.arP,
+                          ),
+                          Text(
+                            'Launch App',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.arP,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.1.arP,
+                            ),
+                          ),
+                        ],
                       ),
-                      isScrollControlled: true,
-                    ),
-                  ),
+                      onPressed: () {
+                        Get.back();
+                        Get.bottomSheet(
+                          const DappBrowserView(),
+                          barrierColor: Colors.white.withOpacity(0.09),
+                          settings: RouteSettings(
+                            arguments: dappModel.url,
+                          ),
+                          isScrollControlled: true,
+                        );
+                      }),
                 ),
               ),
             ],

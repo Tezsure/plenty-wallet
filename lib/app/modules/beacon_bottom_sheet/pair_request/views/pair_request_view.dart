@@ -43,11 +43,18 @@ class PairRequestView extends GetView<PairRequestController> {
                   padding: const EdgeInsets.all(8.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(6),
-                    child: Image.network(
-                      controller.beaconRequest.peer?.icon ??
-                          'https://picsum.photos/250?image=9',
-                      height: 60,
-                      width: 60,
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: ColorConst.Primary,
+                      child: Center(
+                        child: Text(
+                          controller.beaconRequest.request?.appMetadata?.name
+                                  ?.substring(0, 1)
+                                  .toUpperCase() ??
+                              'U',
+                          style: titleLarge.copyWith(color: Colors.white),
+                        ),
+                      ),
                     ),
                   ),
                 ),

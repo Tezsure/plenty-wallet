@@ -8,6 +8,8 @@ import 'package:naan_wallet/app/modules/beacon_bottom_sheet/opreation_request/vi
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/payload_request/views/payload_request_view.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/widgets/test_network_alert_sheet.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_account_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 
 class BeaconService extends GetxService {
@@ -31,7 +33,26 @@ class BeaconService extends GetxService {
           switch (beaconRequest.type!) {
             case RequestType.permission:
               print("Permission requested");
+              HomePageController home = Get.find<HomePageController>();
 
+              if (home.userAccounts
+                  .where((element) => element.isWatchOnly == false)
+                  .toList()
+                  .isEmpty) {
+                await beaconPlugin.permissionResponse(
+                  id: beaconRequest.request!.id!,
+                  publicKey: null,
+                  address: null,
+                );
+                Get.bottomSheet(
+                  addAccountSheet("No accounts found"),
+                  isScrollControlled: true,
+                  enterBottomSheetDuration: const Duration(milliseconds: 180),
+                  exitBottomSheetDuration: const Duration(milliseconds: 150),
+                );
+
+                return;
+              }
               if (beaconRequest.request!.network!.type.toString() ==
                   (await RpcService.getCurrentNetworkType()).toString()) {
                 Get.bottomSheet(const PairRequestView(),

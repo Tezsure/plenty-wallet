@@ -24,7 +24,9 @@ class OpreationRequestController extends GetxController {
 
   final beaconPlugin = Get.find<BeaconService>().beaconPlugin;
 
-  Rx<AccountModel>? accountModels;
+  final Rx<bool> isBiometric = false.obs;
+
+  final accountModels = Rxn<AccountModel>();
 
   final error = "".obs;
 
@@ -41,14 +43,15 @@ class OpreationRequestController extends GetxController {
   void onInit() async {
     try {
       print(" req: ${beaconRequest.request}");
-
-      accountModels = Get.find<HomePageController>()
+      isBiometric.value = await AuthService().getBiometricAuth();
+      accountModels.value = Get.find<HomePageController>()
           .userAccounts
-          .firstWhere((element) =>
-              element.publicKeyHash == beaconRequest.request!.sourceAddress)
-          .obs;
-      print("account ${accountModels!.value.publicKeyHash}");
-      if (beaconRequest.operationDetails != null && accountModels != null) {
+          .firstWhereOrNull((element) =>
+              element.publicKeyHash == beaconRequest.request!.sourceAddress);
+
+      print("account yo ${accountModels.value!.publicKeyHash}");
+      if (beaconRequest.operationDetails != null &&
+          accountModels.value != null) {
         DataHandlerService()
             .renderService
             .xtzPriceUpdater
@@ -112,12 +115,12 @@ class OpreationRequestController extends GetxController {
             ServiceConfig.currentSelectedNode,
             KeyStoreModel(
               publicKey: (await UserStorageService()
-                      .readAccountSecrets(accountModels!.value.publicKeyHash!))!
+                      .readAccountSecrets(accountModels.value!.publicKeyHash!))!
                   .publicKey,
               secretKey: (await UserStorageService()
-                      .readAccountSecrets(accountModels!.value.publicKeyHash!))!
+                      .readAccountSecrets(accountModels.value!.publicKeyHash!))!
                   .secretKey,
-              publicKeyHash: accountModels!.value.publicKeyHash!,
+              publicKeyHash: accountModels.value!.publicKeyHash!,
             ));
         operation.value = op;
         fees.value = ((int.parse(op['gasEstimation']) / pow(10, 6)) * xtzPrice)

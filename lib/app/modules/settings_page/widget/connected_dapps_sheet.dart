@@ -41,8 +41,10 @@ class ConnectedDappBottomSheet extends StatelessWidget {
             return Column(
               children: List.generate(
                   controller.dapps.length,
-                  (index) => dappWidgetMethod(
-                      dappModel: controller.dapps[index], index: index)),
+                  (index) => controller.dapps[index].isPaired!
+                      ? dappWidgetMethod(
+                          dappModel: controller.dapps[index], index: index)
+                      : const SizedBox()),
             );
           },
         ),
@@ -57,13 +59,20 @@ class ConnectedDappBottomSheet extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 12.arP),
       width: double.infinity,
-      height: 48,
       child: Row(
         children: [
           CircleAvatar(
-            backgroundImage: CachedNetworkImageProvider(dappModel.icon ?? ""),
             radius: 22,
-            backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+            backgroundColor: dappModel.icon != null
+                ? ColorConst.NeutralVariant.shade60.withOpacity(0.2)
+                : ColorConst.Primary,
+            backgroundImage: CachedNetworkImageProvider(dappModel.icon ?? ""),
+            child: dappModel.icon == null
+                ? Text(
+                    dappModel.name.substring(0, 1).toUpperCase(),
+                    style: titleMedium.copyWith(color: Colors.white),
+                  )
+                : Container(),
           ),
           0.045.hspace,
           Text(
