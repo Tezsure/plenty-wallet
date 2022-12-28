@@ -1,26 +1,18 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
-import 'package:naan_wallet/app/modules/settings_page/controllers/backup_page_controller.dart';
-import 'package:naan_wallet/app/modules/settings_page/widget/backup/private_key_page.dart';
-import 'package:naan_wallet/app/modules/settings_page/widget/backup/secret_phrase_page.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/select_reveal_key_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 import '../../../../data/services/enums/enums.dart';
 import '../../../home_page/controllers/home_page_controller.dart';
-import '../../../common_widgets/info_bottom_sheet.dart';
 
 class BackupPage extends StatelessWidget {
   BackupPage({super.key});
@@ -34,7 +26,7 @@ class BackupPage extends StatelessWidget {
         height: 0.9.height,
         bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
-          Container(
+          SizedBox(
             height: 0.85.height,
             child: Column(
               children: [

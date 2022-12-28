@@ -47,6 +47,11 @@ class AccountsWidgetController extends GetxController {
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
     accountNameController.text =
         "Account ${homeController.userAccounts.length}";
+    // set selection at the end of the text
+    accountNameController.selection = TextSelection.fromPosition(
+      TextPosition(offset: accountNameController.text.length),
+    );
+    phrase.value = accountNameController.text.toString();
     accountNameFocus.requestFocus();
   }
 

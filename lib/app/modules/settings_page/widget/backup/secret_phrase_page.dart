@@ -83,7 +83,7 @@ class SecretPhrasePage extends StatelessWidget {
                     Obx(() => CopyButton(
                         isCopied: _settingsController.copyToClipboard.value,
                         onPressed: () => _settingsController
-                            .paste(data?.join().toString()))),
+                            .paste(data?.join(" ").toString()))),
                     0.020.vspace,
                     GridView.builder(
                         shrinkWrap: true,

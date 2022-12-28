@@ -9,7 +9,6 @@ class ServiceConfig {
   /// Current selected node
   static String currentSelectedNode =
       "https://tezos-prod.cryptonomic-infra.tech:443";
- 
 
   /// Teztools api with endpoint for mainnet token prices
   static String tezToolsApi = "https://api.teztools.io/token/prices";
@@ -110,7 +109,12 @@ class ServiceConfig {
 
   /// Clear the local storage
   Future<void> clearStorage() async {
-    await localStorage.deleteAll();
+    await localStorage.deleteAll(
+      // ignore: prefer_const_constructors
+      aOptions: AndroidOptions(
+        encryptedSharedPreferences: true,
+      ),
+    );
   }
 
   static const String cQuery = r'''

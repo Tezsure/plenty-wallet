@@ -18,7 +18,6 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
 
   @override
   Widget build(BuildContext context) {
-
     Get.lazyPut(() => DelegateWidgetController());
     HapticFeedback.heavyImpact();
     return NaanBottomSheet(
@@ -29,54 +28,60 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
         width: double.infinity,
         bottomSheetWidgets: [
           SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                0.015.vspace,
-                LottieBuilder.asset(
-                  '${PathConst.SEND_PAGE}lottie/success_primary.json',
-                  height: 80.sp,
-                  width: 80.sp,
-                  repeat: false,
-                ),
-                // Icon(
-                //   Icons.check_circle_outline,
-                //   color: ColorConst.Primary,
-                //   size: 80.sp,
-                // ),
-                0.0175.vspace,
-                Text(
-                  "Delegation successful",
-                  style: titleLarge,
-                ),
-                0.006.vspace,
-                Text(
-                  "Your delegation request should be \nconfirmed in next 30 seconds",
-                  textAlign: TextAlign.center,
-                  style: labelMedium.copyWith(color: ColorConst.textGrey1),
-                ),
-                0.03.vspace,
-                SolidButton(
-                  borderColor: ColorConst.Primary,
-                  active: true,
-                  textColor: ColorConst.Primary,
-                  primaryColor: Colors.transparent,
-                  onPressed: () {
-                    Get.back();
-                  },
-                  title: "Done",
-                ),
-                0.018.vspace,
-                SolidButton(
-                  active: true,
-                  onPressed: () {
-                    Share.share(
-                        "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}");
-                  },
-                  title: "Share Naan",
-                ),
-                0.018.vspace
-              ],
+            child: Container(
+              alignment: Alignment.center,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  0.015.vspace,
+                  LottieBuilder.asset(
+                    '${PathConst.SEND_PAGE}lottie/success_primary.json',
+                    height: 80.sp,
+                    width: 80.sp,
+                    repeat: false,
+                  ),
+                  // Icon(
+                  //   Icons.check_circle_outline,
+                  //   color: ColorConst.Primary,
+                  //   size: 80.sp,
+                  // ),
+                  0.0175.vspace,
+                  Text(
+                    "Delegation successful",
+                    style: titleLarge,
+                  ),
+                  0.006.vspace,
+                  Text(
+                    "Your delegation request should be \nconfirmed in next 30 seconds",
+                    textAlign: TextAlign.center,
+                    style: labelMedium.copyWith(color: ColorConst.textGrey1),
+                  ),
+                  0.03.vspace,
+                  SolidButton(
+                    width: 1.width - 64.arP,
+                    borderColor: ColorConst.Primary,
+                    active: true,
+                    textColor: ColorConst.Primary,
+                    primaryColor: Colors.transparent,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    title: "Done",
+                  ),
+                  0.018.vspace,
+                  SolidButton(
+                    width: 1.width - 64.arP,
+                    active: true,
+                    onPressed: () {
+                      Share.share(
+                          "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}");
+                    },
+                    title: "Share Naan",
+                  ),
+                  0.018.vspace
+                ],
+              ),
             ),
           ),
         ]);

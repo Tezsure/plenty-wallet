@@ -70,23 +70,23 @@ SnackbarController transactionStatusSnackbar({
         child: Stack(
           fit: StackFit.passthrough,
           children: [
-            Align(
-                alignment: const Alignment(1, -2),
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 8.sp),
-                  child: MaterialButton(
-                    padding: EdgeInsets.only(left: 90.sp),
-                    height: 2,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    shape: const CircleBorder(),
-                    onPressed: () {},
-                    child: Icon(
-                      Icons.close,
-                      size: 20,
-                      color: ColorConst.NeutralVariant.shade60,
-                    ),
-                  ),
-                )),
+            // Align(
+            //     alignment: const Alignment(1, -2),
+            //     child: Padding(
+            //       padding: EdgeInsets.only(bottom: 8.sp),
+            //       child: MaterialButton(
+            //         padding: EdgeInsets.only(left: 90.sp),
+            //         height: 2,
+            //         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            //         shape: const CircleBorder(),
+            //         onPressed: () {},
+            //         child: Icon(
+            //           Icons.close,
+            //           size: 20,
+            //           color: ColorConst.NeutralVariant.shade60,
+            //         ),
+            //       ),
+            //     )),
             Padding(
               padding: EdgeInsets.only(bottom: 8.sp),
               child: Align(

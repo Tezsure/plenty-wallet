@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
@@ -35,7 +34,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
     Get.put(SettingsPageController());
     return NaanBottomSheet(
         title: "Settings",
-        height: .9.height,
+        height: .91.height,
         bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
           Container(
@@ -43,29 +42,6 @@ class SettingsPageView extends GetView<SettingsPageController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Row(
-                //   children: [
-                //     Expanded(
-                //         child: Align(
-                //             alignment: Alignment.centerLeft,
-                //             child: backButton())),
-                //     Expanded(
-                //       child: Container(
-                //         // height: 0.09.width,
-                //         // width: 1.width,
-                //         alignment: Alignment.center,
-                //         child: Text(
-                //           "Settings",
-                //           maxLines: 1,
-                //           style: titleMedium,
-                //           textAlign: TextAlign.center,
-                //         ),
-                //       ),
-                //     ),
-                //     Spacer()
-                //   ],
-                // ),
-                // 0.03.vspace,
                 Expanded(
                   child: SingleChildScrollView(
                     physics: const BouncingScrollPhysics(
@@ -200,60 +176,55 @@ class SettingsPageView extends GetView<SettingsPageController> {
                           ],
                         ),
                         SizedBox(height: 0.05.width),
-                        Obx(() {
-                          return _settingsSeparator(
-                            title: "Social",
-                            settings: [
-                              _settingOption(
-                                onTap: () => Share.share(
-                                    "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}"),
-                                title: "Share Naan",
-                                svgPath:
-                                    "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
-                              ),
-                              if (controller.inAppReviewAvailable.value)
-                                _settingOption(
-                                  onTap: () async {
-                                    if (Platform.isAndroid) {
-                                      await controller.inAppReview
-                                          .openStoreListing(
-                                              appStoreId: "1573210354");
-                                    } else {
-                                      await controller.inAppReview
-                                          .requestReview();
-                                    }
-                                    controller.inAppReviewAvailable.value =
-                                        await controller.inAppReview
-                                            .isAvailable();
-                                  },
-                                  title: "Rate Naan",
-                                  svgPath:
-                                      "${PathConst.SETTINGS_PAGE.SVG}star.svg",
-                                ),
-                              _settingOption(
-                                onTap: (() => CommonFunctions.launchURL(
-                                    "https://twitter.com/Naanwallet")),
-                                title: "Follow us on Twitter",
-                                svgPath:
-                                    "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
-                              ),
-                              _settingOption(
-                                onTap: () => CommonFunctions.launchURL(
-                                    "https://discord.gg/wpcNRsBbxy"),
-                                title: "Join our Discord",
-                                svgPath:
-                                    "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
-                              ),
-                              _settingOption(
-                                onTap: () => CommonFunctions.launchURL(
-                                    "https://tally.so/r/w4a75r"),
-                                title: "Feedback & Support",
-                                svgPath:
-                                    "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
-                              ),
-                            ],
-                          );
-                        }),
+                        _settingsSeparator(
+                          title: "Social",
+                          settings: [
+                            _settingOption(
+                              onTap: () => Share.share(
+                                  "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}"),
+                              title: "Share Naan",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
+                            ),
+                            // if (controller.inAppReviewAvailable.value)
+                            _settingOption(
+                              onTap: () async {
+                                if (Platform.isAndroid) {
+                                  await controller.inAppReview.openStoreListing(
+                                      appStoreId: "1573210354");
+                                } else {
+                                  await controller.inAppReview.requestReview();
+                                }
+                                controller.inAppReviewAvailable.value =
+                                    await controller.inAppReview.isAvailable();
+                              },
+                              title: "Rate Naan",
+                              svgPath: "${PathConst.SETTINGS_PAGE.SVG}star.svg",
+                            ),
+                            _settingOption(
+                              onTap: (() => CommonFunctions.launchURL(
+                                  "https://twitter.com/Naanwallet")),
+                              title: "Follow us on Twitter",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
+                            ),
+                            _settingOption(
+                              onTap: () => CommonFunctions.launchURL(
+                                  "https://discord.gg/wpcNRsBbxy"),
+                              title: "Join our Discord",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
+                            ),
+                            _settingOption(
+                              onTap: () => CommonFunctions.launchURL(
+                                  "https://tally.so/r/w4a75r"),
+                              title: "Feedback & Support",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",
+                            ),
+                          ],
+                        ),
+
                         SizedBox(height: 0.05.width),
                         _resetOption(),
                         SizedBox(height: 0.065.width),
@@ -271,16 +242,6 @@ class SettingsPageView extends GetView<SettingsPageController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Padding(
-        //   padding: const EdgeInsets.only(left: 8),
-        //   child: Text(
-        //     title,
-        //     style: labelLarge,
-        //   ),
-        // ),
-        // const SizedBox(
-        //   height: 14,
-        // ),
         Container(
           decoration: BoxDecoration(
               color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),

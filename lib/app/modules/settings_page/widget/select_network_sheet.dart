@@ -44,7 +44,7 @@ class _SelectNetworkBottomSheetState extends State<SelectNetworkBottomSheet> {
               ),
               optionMethod(
                 value: NetworkType.mainnet,
-                title: "Main net",
+                title: "Mainnet",
               ),
               const Divider(
                 color: Colors.black,
@@ -53,7 +53,7 @@ class _SelectNetworkBottomSheetState extends State<SelectNetworkBottomSheet> {
               ),
               optionMethod(
                 value: NetworkType.testnet,
-                title: "Test net",
+                title: "Testnet",
               ),
               SizedBox(
                 height: 30.aR,

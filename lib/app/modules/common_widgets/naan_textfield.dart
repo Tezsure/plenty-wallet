@@ -16,6 +16,8 @@ class NaanTextfield extends StatelessWidget {
   final FocusNode? focusNode;
   final double? height;
   final TextStyle? textStyle;
+  // auto focus
+  final bool? autofocus;
 
   const NaanTextfield(
       {Key? key,
@@ -28,13 +30,15 @@ class NaanTextfield extends StatelessWidget {
       this.onSubmitted,
       this.focusNode,
       this.height,
-      this.textStyle})
+      this.textStyle,
+      this.autofocus = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       focusNode: focusNode,
+      autofocus: autofocus ?? false,
       controller: controller,
       cursorColor: ColorConst.Primary,
       style: bodyMedium.copyWith(fontSize: 14.aR),

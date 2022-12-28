@@ -83,12 +83,16 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                               ),
                             ),
                             0.01.vspace,
-                            backButton(),
+                            // backButton(),
                             0.03.vspace,
                             Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text("Name your account",
-                                  style: titleLarge.copyWith(fontSize: 22.aR)),
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Name your account",
+                                style: titleLarge.copyWith(
+                                  fontSize: 22.aR,
+                                ),
+                              ),
                             ),
                             0.05.vspace,
                             Obx(
@@ -144,6 +148,7 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                             NaanTextfield(
                               focusNode: controller.accountNameFocus,
                               height: 52.aR,
+                              autofocus: true,
                               onTextChange: (e) {
                                 controller.phrase.value = e;
                               },
@@ -152,11 +157,13 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                             ),
                             const Spacer(),
                             Obx(() => SolidButton(
-                                  primaryColor: controller.phrase.isNotEmpty
-                                      ? ColorConst.Primary
-                                      : const Color(0xFF1E1C1F),
+                                  primaryColor: controller.phrase.isEmpty ||
+                                          controller.phrase.value.length < 3
+                                      ? const Color(0xFF1E1C1F)
+                                      : ColorConst.Primary,
                                   height: 52.aR,
-                                  onPressed: controller.phrase.isEmpty
+                                  onPressed: controller.phrase.isEmpty ||
+                                          controller.phrase.value.length < 3
                                       ? null
                                       : () {
                                           FocusManager.instance.primaryFocus
@@ -170,7 +177,11 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                                     children: [
                                       SvgPicture.asset(
                                         "${PathConst.SVG}check.svg",
-                                        color: Colors.white,
+                                        color: controller.phrase.isEmpty ||
+                                                controller.phrase.value.length <
+                                                    3
+                                            ? ColorConst.textGrey1
+                                            : Colors.white,
                                         height: 16.aR,
                                       ),
                                       0.015.hspace,
@@ -178,7 +189,10 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                                         "Start using Naan",
                                         style: titleSmall.copyWith(
                                             fontSize: 14.aR,
-                                            color: controller.phrase.isEmpty
+                                            color: controller.phrase.isEmpty ||
+                                                    controller.phrase.value
+                                                            .length <
+                                                        3
                                                 ? ColorConst.textGrey1
                                                 : Colors.white,
                                             fontWeight: FontWeight.w600),
@@ -239,7 +253,7 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                             AccountProfileImageType.file;
                         controller.selectedImagePath.value = imagePath;
                         Get.back();
-                        Get.back();
+                        // Get.back();
                       }
                     },
                     child: Container(

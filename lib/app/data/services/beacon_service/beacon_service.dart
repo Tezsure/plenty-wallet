@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/modules/beacon_bottom_sheet/opreation_request/vi
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/payload_request/views/payload_request_view.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/widgets/test_network_alert_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_account_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
@@ -53,7 +54,7 @@ class BeaconService extends GetxService {
                   address: null,
                 );
                 Get.bottomSheet(
-                  addAccountSheet("No accounts found"),
+                  const NoAccountsFoundBottomSheet(),
                   isScrollControlled: true,
                   enterBottomSheetDuration: const Duration(milliseconds: 180),
                   exitBottomSheetDuration: const Duration(milliseconds: 150),

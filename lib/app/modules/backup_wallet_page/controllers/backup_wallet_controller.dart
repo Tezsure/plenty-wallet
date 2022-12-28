@@ -18,7 +18,7 @@ class BackupWalletController extends GetxController {
   Future<void> paste() async {
     await Clipboard.setData(
       ClipboardData(
-        text: seedPhrase.join().toString(),
+        text: seedPhrase.join(" ").toString(),
       ),
     ).whenComplete(() => phraseCopy.value = true);
   }

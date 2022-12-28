@@ -82,7 +82,6 @@ class LoadingPageController extends GetxController {
           UserStorageService().writeNewAccount(
             [
               ...importWalletPageController.selectedAccountsTz1,
-              ...importWalletPageController.selectedAccountsTz2
             ],
             false,
             true,

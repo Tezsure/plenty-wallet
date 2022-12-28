@@ -43,7 +43,10 @@ class _AccountsWidgetState extends State<AccountsWidget> {
           children: [
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 32.arP, right: 8.arP),
+                padding: EdgeInsets.only(
+                  left: 26.arP,
+                  right: 5.arP,
+                ),
                 child: SizedBox(
                   width: 1.width,
                   height: 0.45.width,
@@ -251,7 +254,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                             style: headlineLarge,
                           ),
                         ),
-                        if (model.isWatchOnly )
+                        if (model.isWatchOnly)
                           Container()
                         else
                           Container(

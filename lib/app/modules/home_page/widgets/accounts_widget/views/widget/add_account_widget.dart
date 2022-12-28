@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
@@ -32,15 +35,14 @@ class AddAccountWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Align(
+            Container(
               alignment: Alignment.topRight,
-              child: Icon(
-                Icons.add_circle,
-                color: ColorConst.textGrey1,
-                size: 30.arP,
+              child: SvgPicture.asset(
+                "assets/nft_page/svg/add_icon.svg",
+                height: 38.33.sp,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Text(
               'Add more accounts',
               style: titleLarge,
@@ -74,17 +76,36 @@ InkWell _optionMethod({Widget? child, GestureTapCallback? onTap}) {
 Widget addAccountSheet(warning) {
   return NaanBottomSheet(
     blurRadius: 5.sp,
-    height: 217.sp,
+    height: 240.arP,
     bottomSheetWidgets: [
       Center(
         child: Text(
-          warning ?? 'Add New Account',
-          style: labelMedium.copyWith(
-              color: warning != null ? ColorConst.NaanRed : Colors.white),
+          warning ?? 'Add new account',
+          style: TextStyle(
+            fontSize: 22.arP,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
           textAlign: TextAlign.center,
         ),
       ),
-      0.03.vspace,
+      SizedBox(
+        height: 6.arP,
+      ),
+      Center(
+        child: Text(
+          'Create or import new account',
+          style: TextStyle(
+              fontSize: 12.arP,
+              fontWeight: FontWeight.w400,
+              color: const Color(0xFF958E99),
+              letterSpacing: 0.4.arP),
+          textAlign: TextAlign.center,
+        ),
+      ),
+      SizedBox(
+        height: 10.arP,
+      ),
       Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(
@@ -92,42 +113,60 @@ Widget addAccountSheet(warning) {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+          // color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            _optionMethod(
-                child: Text(
-                  "Create a new wallet",
-                  style: labelMedium,
-                ),
-                onTap: () {
-                  Get.back();
-                  Get.bottomSheet(AddNewAccountBottomSheet(),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          barrierColor: Colors.transparent,
-                          isScrollControlled: true)
-                      .whenComplete(() {
-                    Get.find<AccountsWidgetController>().resetCreateNewWallet();
-                  });
-                }),
-            const Divider(
-              color: Color(0xff4a454e),
-              height: 1,
-              thickness: 1,
+            SizedBox(
+              height: 10.arP,
             ),
-            _optionMethod(
-              child: Text(
-                "Add an exisitng wallet",
-                style: labelMedium,
+            SolidButton(
+              width: 1.width - 64.arP,
+              title: "Create a new account",
+              titleStyle: titleSmall.copyWith(
+                fontWeight: FontWeight.w600,
               ),
+              onPressed: () {
+                Get.back();
+                Get.bottomSheet(AddNewAccountBottomSheet(),
+                        enterBottomSheetDuration:
+                            const Duration(milliseconds: 180),
+                        exitBottomSheetDuration:
+                            const Duration(milliseconds: 150),
+                        barrierColor: Colors.transparent,
+                        isScrollControlled: true)
+                    .whenComplete(() {
+                  Get.find<AccountsWidgetController>().resetCreateNewWallet();
+                });
+              },
+            ),
+            0.0125.vspace,
+            GestureDetector(
               onTap: () {
                 Get.back();
+
                 Get.toNamed(Routes.IMPORT_WALLET_PAGE);
               },
+              child: Container(
+                width: 1.width - 64.arP,
+                height: 48,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: ColorConst.Neutral.shade80,
+                    width: 1.50,
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Text("I already have an account",
+                    style: titleSmall.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: ColorConst.Neutral.shade80)),
+              ),
+            ),
+            SizedBox(
+              height: 10.arP,
             ),
           ],
         ),

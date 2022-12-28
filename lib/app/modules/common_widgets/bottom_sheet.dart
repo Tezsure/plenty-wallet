@@ -167,7 +167,7 @@ class NaanBottomSheet extends StatelessWidget {
                 ),
               ),
             ],
-            0.012.vspace,
+            0.010.vspace,
           ] +
           (bottomSheetWidgets ?? const []),
     );

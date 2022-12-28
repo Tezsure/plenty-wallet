@@ -173,8 +173,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: main
-      resolved-ref: e44e63f50d66210f0de5910fe7dbfa6bbef3bc7f
+      ref: "feat/tz2_support"
+      resolved-ref: "233abce80a723eddfa11ff5c19a2c6e3ec83576c"
       url: "https://github.com/Tezsure/Dartez.git"
     source: git
     version: "1.1.0"

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -25,7 +26,7 @@ class EarnTezWidget extends StatelessWidget {
             .toList()
             .isEmpty) {
           Get.bottomSheet(
-            addAccountSheet("No accounts found"),
+            const NoAccountsFoundBottomSheet(),
             isScrollControlled: true,
             enterBottomSheetDuration: const Duration(milliseconds: 180),
             exitBottomSheetDuration: const Duration(milliseconds: 150),

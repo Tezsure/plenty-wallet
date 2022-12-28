@@ -15,15 +15,16 @@ class SplashPageView extends GetView<SplashPageController> {
       backgroundColor: Colors.black,
       body: Center(
         child: SizedBox(
-          width: 01.width,
+          width: 1.width,
           child: Lottie.asset(
             "assets/onboarding_page/lottie/splash.json",
             animate: true,
             frameRate: FrameRate.max,
             fit: BoxFit.cover,
+            // ignore: avoid_print
             onWarning: (p) => print(p),
             alignment: Alignment.topCenter,
-            repeat: true,
+            repeat: false,
           ),
         ),
       ),

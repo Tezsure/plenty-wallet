@@ -24,13 +24,13 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
     return NaanBottomSheet(
         mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 16.sp,
-        height: 0.64.height,
+        height: 552.arP,
         blurRadius: 5,
         width: double.infinity,
         bottomSheetWidgets: [
           SafeArea(
             child: SizedBox(
-              height: 0.57.height,
+              height: 526.arP,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -49,12 +49,14 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                   ...List.generate(
                       infos.length,
                       (index) => Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.sp),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.sp, horizontal: 14.arP),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 CircleAvatar(
-                                  radius: 10.sp,
+                                  radius: 9.arP,
                                   backgroundColor: ColorConst.Primary,
                                   child: Text(
                                     (index + 1).toString(),
@@ -63,23 +65,24 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                                 ),
                                 0.02.hspace,
                                 Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 3.arP),
-                                    child: Text(
-                                      infos[index],
-                                      style: labelMedium.copyWith(
-                                          color: ColorConst.textGrey1,
-                                          fontWeight: FontWeight.normal),
-                                    ),
+                                  child: Text(
+                                    infos[index],
+                                    style: labelMedium.copyWith(
+                                        color: ColorConst.textGrey1,
+                                        fontWeight: FontWeight.normal),
                                   ),
                                 ),
                               ],
                             ),
                           )),
-                  const Spacer(),
+                  // const Spacer(),
                   // 0.075.vspace,
+                  SizedBox(
+                    height: 40.arP,
+                  ),
                   SolidButton(
                     active: true,
+                    width: 1.width - 64.arP,
                     onPressed: () {
                       // if (Get.isBottomSheetOpen ?? false) {
                       Get.back();
