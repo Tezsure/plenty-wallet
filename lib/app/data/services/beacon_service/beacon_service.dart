@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:beacon_flutter/beacon_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/opreation_request/views/opreation_request_view.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
@@ -34,7 +35,14 @@ class BeaconService extends GetxService {
             case RequestType.permission:
               print("Permission requested");
               HomePageController home = Get.find<HomePageController>();
-
+              final address = home.userAccounts.isEmpty
+                  ? null
+                  : home.userAccounts[home.selectedIndex.value].publicKeyHash;
+              NaanAnalytics.logEvent(NaanAnalyticsEvents.DAPP_CLICK, param: {
+                "type": beaconRequest.type!,
+                "name": beaconRequest.peer?.name,
+                "address": address
+              });
               if (home.userAccounts
                   .where((element) => element.isWatchOnly == false)
                   .toList()

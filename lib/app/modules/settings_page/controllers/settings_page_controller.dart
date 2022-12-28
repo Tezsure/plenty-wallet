@@ -90,6 +90,12 @@ class SettingsPageController extends GetxController {
   Future<void> disconnectDApp(int index) async {
     beaconPlugin.removePeerUsingPublicKey(
         publicKey: dapps.value[index].publicKey);
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.DAPP_CLICK, param: {
+      "type": "disconnect",
+      "name": dapps.value[index].name,
+      "address": homePageController
+          .userAccounts[homePageController.selectedIndex.value].publicKeyHash
+    });
     dapps.removeAt(index);
   }
 
