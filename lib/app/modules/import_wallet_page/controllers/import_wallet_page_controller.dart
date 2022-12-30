@@ -108,7 +108,7 @@ class ImportWalletPageController extends GetxController
 
       for (var i = 0; i < selectedAccounts.length; i++) {
         selectedAccounts[i] = selectedAccounts[i]
-          ..name = "Account ${accountLength + i}";
+          ..name = "Account ${accountLength == 0 ? 1 : accountLength + i}";
       }
       selectedAccounts.value = selectedAccounts.value;
       Get.back();

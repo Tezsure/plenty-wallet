@@ -173,14 +173,26 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                    text: '${widget.nftModel!.fa!.name}\n',
-                                    style: labelSmall.copyWith(
-                                        fontSize: 11.aR,
-                                        color:
-                                            ColorConst.NeutralVariant.shade60)),
+                                  text: '${widget.nftModel!.fa!.name}\n',
+                                  style: TextStyle(
+                                    fontSize: 12.arP,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xFF958E99),
+                                    letterSpacing: 0.5.arP,
+                                  ),
+                                ),
                                 TextSpan(
-                                    text: '${widget.nftModel!.name}\n',
-                                    style: bodyLarge.copyWith(fontSize: 16.aR)),
+                                  text: '${widget.nftModel!.name}\n',
+                                  style: TextStyle(
+                                      fontSize: 16.arP,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFFFFFFFF),
+                                      letterSpacing: 0.5.arP,
+                                      height: 1.5),
+                                ),
+                                TextSpan(
+                                    text: "  ",
+                                    style: TextStyle(fontSize: 5.arP)),
                                 WidgetSpan(
                                   child: ReadMoreText(
                                     widget.nftModel!.description == null
@@ -190,9 +202,12 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                                     lessStyle: bodySmall.copyWith(
                                         fontSize: 12.aR,
                                         color: ColorConst.Primary),
-                                    style: bodySmall.copyWith(
-                                        color:
-                                            ColorConst.NeutralVariant.shade60),
+                                    style: TextStyle(
+                                        fontSize: 12.arP,
+                                        fontWeight: FontWeight.w400,
+                                        color: const Color(0xFF958E99),
+                                        letterSpacing: 0.5.arP,
+                                        height: 1.6),
                                     colorClickableText: ColorConst.Primary,
                                     trimMode: TrimMode.Line,
                                     trimCollapsedText: ' Show more',

@@ -40,6 +40,7 @@ class NFTabPage extends GetView<AccountSummaryController> {
             ],
           )
         : ListView.builder(
+            physics: const BouncingScrollPhysics(),
             padding: EdgeInsets.only(left: 14.aR, right: 14.aR, top: 14.aR),
             itemCount: controller.userNfts.length,
             itemBuilder: ((context, index) => NftCollectibles(

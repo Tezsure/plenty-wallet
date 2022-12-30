@@ -17,6 +17,7 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
   Widget build(BuildContext context) {
     return Obx(() => controller.userTokens.isEmpty
         ? SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -44,7 +45,7 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
               ],
             ),
           )
-        : CustomScrollView(slivers: [
+        : CustomScrollView(physics: const BouncingScrollPhysics(), slivers: [
             SliverPadding(
               padding: EdgeInsets.only(left: 17.aR, right: 16.aR, top: 24.aR),
               sliver: SliverList(

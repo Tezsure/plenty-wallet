@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/view/create_new_nft_gallery/create_new_nft_gallery_bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_gallery_view.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 
 class NftGalleryWidgetController extends GetxController {
   List<AccountModel>? accounts;
@@ -158,8 +159,11 @@ class NftGalleryWidgetController extends GetxController {
         .toList();
 
     if (!(await checkIfEmpty(publicKeyHashs))) {
-      Get.snackbar('Cant create gallery', 'No NFTs found in selected accounts',
-          backgroundColor: Colors.red, colorText: Colors.white);
+      transactionStatusSnackbar(
+        status: TransactionStatus.error,
+        tezAddress: 'No NFTs found in selected accounts',
+        transactionAmount: 'Cant create gallery',
+      );
       return;
     }
 
@@ -171,9 +175,11 @@ class NftGalleryWidgetController extends GetxController {
         imageType: currentSelectedType,
       ));
     } catch (e) {
-      Get.snackbar(
-          'Cant create gallery', 'Gallery with same name already exists',
-          backgroundColor: Colors.red, colorText: Colors.white);
+      transactionStatusSnackbar(
+        status: TransactionStatus.error,
+        tezAddress: 'Gallery with same name already exists',
+        transactionAmount: 'Cant create gallery',
+      );
       return;
     }
 

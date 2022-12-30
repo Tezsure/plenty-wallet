@@ -206,38 +206,38 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                         style: labelMedium,
                       ),
                       Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              tz1Shortner(model.publicKeyHash!),
-                              style: bodySmall.copyWith(
-                                  color: Colors.white.withOpacity(0.8)),
-                            ),
-                            0.02.hspace,
-                            InkWell(
-                                onTap: () {
-                                  Clipboard.setData(
-                                      ClipboardData(text: model.publicKeyHash));
-                                  Get.rawSnackbar(
-                                    message: "Copied to clipboard",
-                                    shouldIconPulse: true,
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    maxWidth: 0.9.width,
-                                    margin: const EdgeInsets.only(
-                                      bottom: 20,
-                                    ),
-                                    duration:
-                                        const Duration(milliseconds: 2000),
-                                  );
-                                },
-                                child: SvgPicture.asset(
-                                  '${PathConst.SVG}copy.svg',
-                                  color: Colors.white.withOpacity(0.8),
-                                  fit: BoxFit.contain,
-                                  height: 14.aR,
-                                )),
-                          ],
+                        child: InkWell(
+                          onTap: () {
+                            Clipboard.setData(
+                                ClipboardData(text: model.publicKeyHash));
+                            Get.rawSnackbar(
+                              message: "Copied to clipboard",
+                              shouldIconPulse: true,
+                              snackPosition: SnackPosition.BOTTOM,
+                              maxWidth: 0.9.width,
+                              margin: const EdgeInsets.only(
+                                bottom: 20,
+                              ),
+                              duration: const Duration(milliseconds: 2000),
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                tz1Shortner(model.publicKeyHash!),
+                                style: bodySmall.copyWith(
+                                    color: Colors.white.withOpacity(0.8)),
+                              ),
+                              0.02.hspace,
+                              SvgPicture.asset(
+                                '${PathConst.SVG}copy.svg',
+                                color: Colors.white.withOpacity(0.8),
+                                fit: BoxFit.contain,
+                                height: 14.aR,
+                              ),
+                            ],
+                          ),
                         ),
                       )
                     ],

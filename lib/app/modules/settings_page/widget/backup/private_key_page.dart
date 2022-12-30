@@ -13,21 +13,33 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-import 'package:naan_wallet/app/data/mock/mock_data.dart';
-
 import '../../../../data/services/user_storage_service/user_storage_service.dart';
 import '../../controllers/settings_page_controller.dart';
 
-class PrivateKeyPage extends StatelessWidget {
+class PrivateKeyPage extends StatefulWidget {
   static final _settingsController = Get.find<SettingsPageController>();
   static final _backupController = Get.find<BackupPageController>();
   final String pkh;
   const PrivateKeyPage({super.key, required this.pkh});
+
+  @override
+  State<PrivateKeyPage> createState() => _PrivateKeyPageState();
+}
+
+class _PrivateKeyPageState extends State<PrivateKeyPage> {
+  @override
+  void dispose() {
+    if (PrivateKeyPage._backupController.timer.isActive) {
+      PrivateKeyPage._backupController.timer.cancel();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    _backupController.setup();
+    PrivateKeyPage._backupController.setup();
     NaanAnalytics.logEvent(NaanAnalyticsEvents.VIEW_PRIVATE_KEY,
-        param: {NaanAnalytics.address: pkh});
+        param: {NaanAnalytics.address: widget.pkh});
     return SafeArea(
       bottom: false,
       top: true,
@@ -36,7 +48,7 @@ class PrivateKeyPage extends StatelessWidget {
           height: 0.9.height,
           bottomSheetWidgets: [
             FutureBuilder<AccountSecretModel?>(
-                future: UserStorageService().readAccountSecrets(pkh),
+                future: UserStorageService().readAccountSecrets(widget.pkh),
                 builder: (context, snapshotData) {
                   if (snapshotData.hasData) {
                     return Container(
@@ -51,7 +63,7 @@ class PrivateKeyPage extends StatelessWidget {
                               backButton(),
                               InfoButton(
                                 onPressed: () => Get.bottomSheet(
-                                  InfoBottomSheet(),
+                                  const InfoBottomSheet(),
                                   enterBottomSheetDuration:
                                       const Duration(milliseconds: 180),
                                   exitBottomSheetDuration:
@@ -79,10 +91,12 @@ class PrivateKeyPage extends StatelessWidget {
                           ),
                           0.03.vspace,
                           Obx(() => CopyButton(
-                              isCopied:
-                                  _settingsController.copyToClipboard.value,
-                              onPressed: () => _settingsController.paste(
-                                  snapshotData.data!.secretKey?.toString()))),
+                              isCopied: PrivateKeyPage
+                                  ._settingsController.copyToClipboard.value,
+                              onPressed: () => PrivateKeyPage
+                                  ._settingsController
+                                  .paste(snapshotData.data!.secretKey
+                                      ?.toString()))),
                           0.03.vspace,
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 34),
@@ -98,7 +112,7 @@ class PrivateKeyPage extends StatelessWidget {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Obx(() {
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -110,7 +124,7 @@ class PrivateKeyPage extends StatelessWidget {
                                       color: ColorConst.NeutralVariant.shade60),
                                 ),
                                 Text(
-                                  '${_backupController.timeLeft.value} seconds',
+                                  '${PrivateKeyPage._backupController.timeLeft.value} seconds',
                                   textAlign: TextAlign.center,
                                   style: labelSmall,
                                 )

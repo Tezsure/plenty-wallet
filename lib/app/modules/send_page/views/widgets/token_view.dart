@@ -36,6 +36,14 @@ class TokenView extends StatelessWidget {
                   },
                   focusNode: controller.amountFocusNode.value,
                   hintText: '0.00',
+                  hintStyle: headlineMedium.copyWith(
+                    color: controller.amount.value.isNumericOnly &&
+                            controller.amount.value.isNotEmpty
+                        ? ColorConst.NeutralVariant.shade60
+                        : ColorConst.NeutralVariant.shade30,
+                    fontSize: 28.arP,
+                    fontWeight: FontWeight.w600,
+                  ),
                   controller: controller.amountController,
                   isError: (controller.amountTileError.value ||
                           controller.amountUsdTileError.value)
@@ -142,10 +150,13 @@ class TokenView extends StatelessWidget {
                     isError: controller.amountUsdTileError,
                     hintText: '0.00',
                     hintStyle: headlineMedium.copyWith(
-                        color: controller.amount.value.isNumericOnly &&
-                                controller.amount.value.isNotEmpty
-                            ? ColorConst.NeutralVariant.shade60
-                            : ColorConst.NeutralVariant.shade30),
+                      color: controller.amount.value.isNumericOnly &&
+                              controller.amount.value.isNotEmpty
+                          ? ColorConst.NeutralVariant.shade60
+                          : ColorConst.NeutralVariant.shade30,
+                      fontSize: 28.arP,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 trailing: SizedBox(

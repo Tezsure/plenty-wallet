@@ -37,6 +37,11 @@ class _ScanQrViewState extends State<ScanQrView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
@@ -63,25 +68,25 @@ class _ScanQrViewState extends State<ScanQrView> {
         : 230.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        QRView(
-          key: qrKey,
-          onQRViewCreated: controller.onQRViewCreated,
-          overlay: QrScannerOverlayShape(
-              overlayColor: ColorConst.darkGrey.withOpacity(0.8),
-              borderColor: ColorConst.Primary,
-              borderRadius: 24,
-              borderLength: 40,
-              borderWidth: 7,
-              cutOutSize: scanArea),
-          onPermissionSet: (ctrl, p) =>
-              controller.onPermissionSet(context, ctrl, p),
-        ),
-        SafeArea(
-          child: Obx(() {
-            return GestureDetector(
+    return Obx(
+      () => Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          QRView(
+            key: qrKey,
+            onQRViewCreated: controller.onQRViewCreated,
+            overlay: QrScannerOverlayShape(
+                overlayColor: ColorConst.darkGrey.withOpacity(0.8),
+                borderColor: ColorConst.Primary,
+                borderRadius: 24,
+                borderLength: 40,
+                borderWidth: 7,
+                cutOutSize: scanArea),
+            onPermissionSet: (ctrl, p) =>
+                controller.onPermissionSet(context, ctrl, p),
+          ),
+          SafeArea(
+            child: GestureDetector(
               onTap: () {
                 Get.bottomSheet(
                   ConnectedDappBottomSheet(),
@@ -129,10 +134,10 @@ class _ScanQrViewState extends State<ScanQrView> {
                   ],
                 ),
               ),
-            );
-          }),
-        )
-      ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

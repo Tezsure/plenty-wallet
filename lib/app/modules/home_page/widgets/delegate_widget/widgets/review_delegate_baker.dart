@@ -57,34 +57,37 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                   ),
                 ),
                 0.02.vspace,
-                SolidButton(
-                  active: true,
-                  onLongPressed: () {
-                    controller.confirmBioMetric(baker);
-                  },
-                  title: "Hold to Delegate",
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Platform.isAndroid
-                          ? SvgPicture.asset(
-                              "${PathConst.SVG}fingerprint.svg",
-                              color: ColorConst.Neutral.shade100,
-                              width: 15.sp,
-                            )
-                          : SvgPicture.asset(
-                              "${PathConst.SVG}faceid.svg",
-                              color: ColorConst.Neutral.shade100,
-                              width: 20.sp,
-                            ),
-                      0.02.hspace,
-                      Text(
-                        "Hold to Delegate",
-                        style: titleSmall.copyWith(
-                            fontSize: 14.aR,
-                            color: ColorConst.Neutral.shade100),
-                      )
-                    ],
+                Align(
+                  alignment: Alignment.center,
+                  child: SolidButton(
+                    width: 1.width - 64.arP,
+                    active: true,
+                    onLongPressed: () {
+                      controller.confirmBioMetric(baker);
+                    },
+                    title: "Hold to Delegate",
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Platform.isAndroid
+                            ? SvgPicture.asset(
+                                "${PathConst.SVG}fingerprint.svg",
+                                color: Colors.white,
+                                width: 24.sp,
+                              )
+                            : SvgPicture.asset(
+                                "${PathConst.SVG}faceid.svg",
+                                color: Colors.white,
+                                width: 24.sp,
+                              ),
+                        0.02.hspace,
+                        Text(
+                          "Hold to Delegate",
+                          style: titleSmall.copyWith(
+                              fontSize: 14.aR, color: Colors.white),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 0.018.vspace

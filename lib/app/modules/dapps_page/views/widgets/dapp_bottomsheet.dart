@@ -49,7 +49,7 @@ class DappBottomSheet extends StatelessWidget {
                             width: double.infinity,
                           )
                         : Image.network(
-                            "${ServiceConfig.naanApis}/images/${dappModel.backgroundImage!.toLowerCase()}",
+                            "${ServiceConfig.naanApis}/images/${dappModel.backgroundImage!}",
                             fit: BoxFit.cover,
                             width: double.infinity,
                           ),

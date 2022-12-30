@@ -141,9 +141,13 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                   top: 8.aR, left: 16.aR, right: 16.aR),
                               child: InkWell(
                                 onTap: () {
-                                  setState(() {
-                                    _controller.onAccountTap(index);
-                                  });
+                                  // setState(() {
+                                  print("==============");
+                                  print(index);
+                                  print("==============");
+
+                                  _controller.onAccountTap(index);
+                                  // });
                                 },
                                 child: SizedBox(
                                   height: 48.aR,
@@ -422,11 +426,13 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                   Obx(() => InkWell(
                         onTap: () {
                           if (_controller.isAccountEditable.isFalse) {
-                            Get.bottomSheet(const ImportWalletPageView(),
-                                isScrollControlled: true,
-                                useRootNavigator: true,
-                                settings: const RouteSettings(
-                                    arguments: Routes.ACCOUNT_SUMMARY));
+                            Get.to(ImportWalletPageView());
+                            // Get.bottomSheet(const ImportWalletPageView(),
+                            //     isScrollControlled: true,
+                            //     useRootNavigator: true,
+                            //     enableDrag: true,
+                            //     settings: const RouteSettings(
+                            //         arguments: Routes.ACCOUNT_SUMMARY));
                           }
                         },
                         child: Row(

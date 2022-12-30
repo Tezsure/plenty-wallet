@@ -111,7 +111,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
         width: controller.isTokensExpanded.value ? 55 : 45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: ColorConst.NeutralVariant.shade30,
+          color: const Color(0xFF1E1C1F),
         ),
         alignment: Alignment.center,
         child: Row(
@@ -120,13 +120,13 @@ class TokenAndNftPageView extends GetView<SendPageController> {
           children: [
             Text(
               controller.isTokensExpanded.value ? 'Less' : 'All',
-              style: labelSmall,
+              style: labelSmall.copyWith(color: const Color(0xFF958E99)),
             ),
             Icon(
               controller.isTokensExpanded.value
                   ? Icons.keyboard_arrow_up
                   : Icons.arrow_forward_ios,
-              color: Colors.white,
+              color: const Color(0xFF958E99),
               size: 10,
             )
           ],
@@ -146,7 +146,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
         width: controller.isCollectibleExpanded.value ? 55 : 45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: ColorConst.NeutralVariant.shade30,
+          color: const Color(0xFF1E1C1F),
         ),
         alignment: Alignment.center,
         child: Row(
@@ -155,14 +155,14 @@ class TokenAndNftPageView extends GetView<SendPageController> {
           children: [
             Text(
               controller.isCollectibleExpanded.value ? 'Less' : 'All',
-              style: labelSmall,
+              style: labelSmall.copyWith(color: const Color(0xFF958E99)),
             ),
             AnimatedRotation(
               turns: controller.isCollectibleExpanded.value ? -0 / 25 : 0,
               duration: const Duration(milliseconds: 300),
               child: const Icon(
                 Icons.arrow_forward_ios,
-                color: Colors.white,
+                color: Color(0xFF958E99),
                 size: 10,
               ),
             )

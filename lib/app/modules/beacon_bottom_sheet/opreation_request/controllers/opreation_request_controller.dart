@@ -50,7 +50,6 @@ class OpreationRequestController extends GetxController {
           .firstWhereOrNull((element) =>
               element.publicKeyHash == beaconRequest.request!.sourceAddress);
 
-      print("account yo ${accountModels.value!.publicKeyHash}");
       if (beaconRequest.operationDetails != null &&
           accountModels.value != null) {
         DataHandlerService()

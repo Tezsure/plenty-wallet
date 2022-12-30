@@ -5,8 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
-import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
-import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -19,36 +17,61 @@ class ConnectedDappBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NaanBottomSheet(
-      blurRadius: 5,
-      height: 0.87.height,
-      isScrollControlled: true,
-      title: "Connected apps",
-      bottomSheetHorizontalPadding: 13,
-      bottomSheetWidgets: [
-        Obx(
-          () {
-            if (controller.dapps.isEmpty) {
-              return Center(
-                child: Text(
-                  "No Dapp connected",
-                  style: bodySmall.copyWith(
-                    color: ColorConst.textGrey1,
+    return Obx(
+      () => NaanBottomSheet(
+        blurRadius: 5,
+        height: 0.87.height,
+        isScrollControlled: true,
+        title: controller.dapps.isEmpty ? "" : "Connected apps",
+        bottomSheetHorizontalPadding: 13,
+        bottomSheetWidgets: [
+          Obx(
+            () {
+              if (controller.dapps.isEmpty) {
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 32.arP),
+                  child: Column(
+                    children: [
+                      SvgPicture.asset(
+                        "${PathConst.SVG}no_apps.svg",
+                        width: 249.arP,
+                      ),
+                      0.03.vspace,
+                      Text(
+                        "No connected apps",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22.arP,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      0.01.vspace,
+                      Text(
+                        "Connect new apps using QR scanner or from discover apps section",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: const Color(0xFF958E99),
+                          fontSize: 12.arP,
+                          letterSpacing: 0.4.arP,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                );
+              }
+              return Column(
+                children: List.generate(
+                    controller.dapps.length,
+                    (index) => controller.dapps[index].isPaired!
+                        ? dappWidgetMethod(
+                            dappModel: controller.dapps[index], index: index)
+                        : const SizedBox()),
               );
-            }
-            return Column(
-              children: List.generate(
-                  controller.dapps.length,
-                  (index) => controller.dapps[index].isPaired!
-                      ? dappWidgetMethod(
-                          dappModel: controller.dapps[index], index: index)
-                      : const SizedBox()),
-            );
-          },
-        ),
-      ],
+            },
+          ),
+        ],
+      ),
     );
   }
 

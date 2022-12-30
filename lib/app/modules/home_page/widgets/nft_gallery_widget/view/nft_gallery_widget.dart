@@ -132,15 +132,19 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                           Align(
                             alignment: Alignment.bottomLeft,
                             child: Container(
-                              height: 0.5.height,
+                              height: 0.2.height,
                               width: double.infinity,
+                              // ignore: prefer_const_constructors
                               decoration: BoxDecoration(
+                                  // ignore: prefer_const_constructors
                                   gradient: LinearGradient(
                                       begin: Alignment.topCenter,
                                       end: Alignment.bottomCenter,
+                                      // ignore: prefer_const_literals_to_create_immutables
                                       colors: [
                                     Colors.transparent,
-                                    Colors.black.withOpacity(.8),
+                                    Colors.grey[900]!.withOpacity(0.6),
+                                    Colors.grey[900]!.withOpacity(0.99),
                                   ])),
                             ),
                           ),

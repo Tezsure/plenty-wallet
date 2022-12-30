@@ -32,6 +32,7 @@ class HomePageView extends GetView<HomePageController>
                         const HomepageAppBar(),
                         Expanded(
                           child: SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
                             child: Wrap(
                               alignment: WrapAlignment.center,
                               crossAxisAlignment: WrapCrossAlignment.center,

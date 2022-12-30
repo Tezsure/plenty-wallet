@@ -156,11 +156,13 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                     ),
                   ),
                 ),
-                Obx(
-                  () => controller.phraseText.isEmpty ||
-                          controller.phraseText.value == ""
-                      ? pasteButton()
-                      : importButton(),
+                Center(
+                  child: Obx(
+                    () => controller.phraseText.isEmpty ||
+                            controller.phraseText.value == ""
+                        ? pasteButton()
+                        : importButton(),
+                  ),
                 ),
                 0.05.vspace,
                 // SizedBox(
@@ -176,6 +178,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
 
   SolidButton pasteButton() {
     return SolidButton(
+      width: 1.width - 64.arP,
       onPressed: controller.paste,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -198,6 +201,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
   Widget importButton() {
     return Obx(
       () => SolidButton(
+          width: 1.width - 64.arP,
           onPressed: () async {
             if (controller.importWalletDataType ==
                 ImportWalletDataType.mnemonic) {

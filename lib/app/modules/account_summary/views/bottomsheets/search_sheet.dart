@@ -110,7 +110,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                                   controller.searchDebounceTimer =
                                       Timer(const Duration(milliseconds: 250),
                                           () async {
-                                    searchQuery = value.toLowerCase();
+                                    searchQuery = value.toLowerCase().trim();
                                     await controller
                                         .searchTransactionHistory(searchQuery);
                                     setState(() {});

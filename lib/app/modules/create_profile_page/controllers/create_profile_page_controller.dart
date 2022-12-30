@@ -8,7 +8,7 @@ class CreateProfilePageController extends GetxController {
   String? previousRoute;
   FocusNode accountNameFocus = FocusNode();
   TextEditingController accountNameController =
-      TextEditingController(text: 'Account 0');
+      TextEditingController(text: 'Account 1');
   var currentSelectedType = AccountProfileImageType.assets;
 
   RxBool isContiuneButtonEnable = false.obs;
@@ -23,7 +23,7 @@ class CreateProfilePageController extends GetxController {
     try {
       if (Get.find<HomePageController>().initialized) {
         accountNameController.text =
-            "Account ${Get.find<HomePageController>().userAccounts.length}";
+            "Account ${Get.find<HomePageController>().userAccounts.isEmpty ? 1 : Get.find<HomePageController>().userAccounts.length + 1}";
       }
     } catch (e) {}
     isContiuneButtonEnable.value = true;

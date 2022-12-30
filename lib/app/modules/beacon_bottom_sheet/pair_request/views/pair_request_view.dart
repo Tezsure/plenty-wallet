@@ -159,8 +159,9 @@ class PairRequestView extends GetView<PairRequestController> {
                               style: OutlinedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8)),
+                                  // ignore: prefer_const_constructors
                                   side: BorderSide(
-                                      color: ColorConst.Primary.shade60,
+                                      color: const Color(0xFFE8A2B9),
                                       width: 1)),
                               onPressed: () {
                                 controller.reject();
@@ -170,8 +171,11 @@ class PairRequestView extends GetView<PairRequestController> {
                                     vertical: 12, horizontal: 14),
                                 child: Text(
                                   'Cancel',
-                                  style: bodyMedium.copyWith(
-                                      color: ColorConst.Primary.shade60),
+                                  style: TextStyle(
+                                    color: const Color(0xFFE8A2B9),
+                                    fontSize: 14.arP,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
@@ -189,13 +193,17 @@ class PairRequestView extends GetView<PairRequestController> {
                               onPressed: () {
                                 controller.accept();
                               },
+                              // ignore: prefer_const_constructors
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4, horizontal: 14),
                                 child: Text(
                                   'Connect',
-                                  style:
-                                      bodyMedium.copyWith(color: Colors.white),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.arP,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),

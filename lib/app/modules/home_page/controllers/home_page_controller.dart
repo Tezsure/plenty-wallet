@@ -89,6 +89,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   }
 
   void changeSelectedAccount(int index) async {
+    print("On PAGECHANGED");
     Get.find<AccountsWidgetController>().onPageChanged(index);
     if (userAccounts.length > index) {
       selectedIndex.value = index;

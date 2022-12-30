@@ -72,7 +72,7 @@ class Web3Auth {
             margin: EdgeInsets.only(
               bottom: 20.aR,
             ),
-            duration: const Duration(milliseconds: 1000),
+            duration: const Duration(seconds: 3),
           );
         });
       } on UserCancelledException {
@@ -100,7 +100,7 @@ class Web3Auth {
     LoginParams loginParams = LoginParams(
       loginProvider: socialApp,
       curve: web3auth.Curve.secp256k1,
-      mfaLevel: web3auth.MFALevel.OPTIONAL,
+      mfaLevel: web3auth.MFALevel.NONE,
       extraLoginOptions: ExtraLoginOptions(
         display: web3auth.Display.wap,
       ),

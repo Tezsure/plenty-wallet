@@ -4,8 +4,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
 class ServiceConfig {
-  // TODO: Add support for testnet on all apis
-
   /// Current selected node
   static String currentSelectedNode =
       "https://tezos-prod.cryptonomic-infra.tech:443";
