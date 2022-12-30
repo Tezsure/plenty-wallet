@@ -1,8 +1,11 @@
 import 'package:dartez/models/key_store_model.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/helpers/on_going_tx_helper.dart';
 import 'package:naan_wallet/app/data/services/operation_service/operation_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
@@ -15,6 +18,9 @@ import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dar
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/buy_nft_success_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/fees_summary.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/review_nft.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
+import 'package:naan_wallet/app/data/services/service_models/operation_model.dart';
+import 'package:naan_wallet/utils/utils.dart';
 import 'package:simple_gql/simple_gql.dart';
 
 class BuyNFTController extends GetxController {
@@ -333,5 +339,26 @@ class BuyNFTController extends GetxController {
         barrierColor: const Color.fromARGB(09, 255, 255, 255),
       );
     }
+  }
+
+  Future<void> onConfirm(OperationModel operationModel, String opHash) async {
+    DataHandlerService().onGoingTxStatusHelpers.add(OnGoingTxStatusHelper(
+        opHash: opHash,
+        status: TransactionStatus.pending,
+        transactionAmount: operationModel.amount == 0.0
+            ? "1 ${operationModel.model.nodes}"
+            : operationModel.amount!.toStringAsFixed(6).removeTrailing0 +
+                " " +
+                (operationModel.model as AccountTokenModel).symbol!,
+        tezAddress: operationModel.receiveAddress!.tz1Short()));
+    transactionStatusSnackbar(
+      status: TransactionStatus.pending,
+      tezAddress: operationModel.receiveAddress!.tz1Short(),
+      transactionAmount: operationModel.amount == 0.0
+          ? "1 ${operationModel.model.nodes}"
+          : operationModel.amount!.toStringAsFixed(6).removeTrailing0 +
+              " " +
+              (operationModel.model as AccountTokenModel).symbol!,
+    );
   }
 }

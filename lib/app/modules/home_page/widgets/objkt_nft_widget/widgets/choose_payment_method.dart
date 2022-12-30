@@ -24,7 +24,7 @@ class ChoosePaymentMethod extends StatelessWidget {
     'kolibri-usd',
     'usdtez',
     "ctez",
-    "tez",
+    "tezos",
   ];
   @override
   Widget build(BuildContext context) {
