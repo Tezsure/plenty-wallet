@@ -113,7 +113,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                     },
                     child: Obx(() => Container(
                           height: 42.arP,
-                          width: 0.5.width,
+                          // width: 0.45.width,
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: ColorConst.grey,
@@ -122,7 +122,16 @@ class _AccountSwitchState extends State<AccountSwitch> {
                             borderRadius: BorderRadius.circular(30),
                             color: ColorConst.darkGrey,
                           ),
+                          margin: EdgeInsets.only(
+                            left: 32.arP,
+                            right: 32.arP,
+                          ),
+                          padding: EdgeInsets.only(
+                            left: 16.arP,
+                            right: 16.arP,
+                          ),
                           child: Row(
+                            mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
@@ -195,6 +204,8 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                               controller.selectedIndex.value]
                                           .name
                                           .toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                   style: titleSmall.copyWith(
                                       fontWeight: FontWeight.w500)),
                               const Icon(

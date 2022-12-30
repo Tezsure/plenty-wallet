@@ -13,6 +13,7 @@ class HomepageAppBar extends StatelessWidget {
       padding: const EdgeInsets.only(right: 24, top: 26, bottom: 24, left: 24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
         children: [
           GestureDetector(
             onTap: () {

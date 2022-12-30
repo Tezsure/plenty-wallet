@@ -43,7 +43,7 @@ class TransactionBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       blurRadius: controller.isNFTPage.value ? 50 : 5,
-      height: 450.sp,
+      height: 590.arP,
       title: 'Review',
       titleAlignment: Alignment.center,
       titleStyle: titleMedium,
@@ -68,7 +68,7 @@ class TransactionBottomSheet extends StatelessWidget {
           ),
           subtitle: Text(
             controller.isNFTPage.value
-                ? controller.selectedNftModel!.fa!.name!
+                ? controller.selectedNftModel!.fa!.name ?? "N/A"
                 : '${controller.selectedTokenModel!.symbol}',
             style: bodyMedium,
           ),
@@ -78,8 +78,8 @@ class TransactionBottomSheet extends StatelessWidget {
         ),
         Container(
           padding: EdgeInsets.symmetric(
-            vertical: 16.arP,
-            horizontal: 8.arP,
+            vertical: 20.arP,
+            horizontal: 12.arP,
           ),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
@@ -101,6 +101,9 @@ class TransactionBottomSheet extends StatelessWidget {
               )
             ],
           ),
+        ),
+        SizedBox(
+          height: 0.02.height,
         ),
         ListTile(
             onTap: () {
@@ -398,12 +401,12 @@ class TransactionBottomSheet extends StatelessWidget {
                     ? SvgPicture.asset(
                         "${PathConst.SVG}fingerprint.svg",
                         color: ColorConst.Neutral.shade100,
-                        width: 15.sp,
+                        width: 24.arP,
                       )
                     : SvgPicture.asset(
                         "${PathConst.SVG}faceid.svg",
                         color: ColorConst.Neutral.shade100,
-                        width: 20.sp,
+                        width: 24.arP,
                       ),
                 0.02.hspace,
                 Text(

@@ -85,13 +85,14 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
           ]));
   }
 
-  Widget _tokenBox(AccountTokenModel token, int index, bool isPinnedList) =>
-      TokenCheckbox(
+  Widget _tokenBox(AccountTokenModel token, int index, bool isPinnedList) {
+    return TokenCheckbox(
         xtzPrice: controller.xtzPrice.value,
         tokenModel: token,
         isEditable: controller.isEditable.value,
         onCheckboxTap: () => controller.onCheckBoxTap(isPinnedList, index),
       );
+  }
 
   Widget _tokenEditTile() => TokenEditTile(
         showHideButton: (controller.pinnedList.length >= 4),

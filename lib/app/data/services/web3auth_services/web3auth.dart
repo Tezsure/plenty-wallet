@@ -66,12 +66,13 @@ class Web3Auth {
             message:
                 "Successfully logged-in using ${response.userInfo?.typeOfLogin}",
             shouldIconPulse: true,
-            backgroundColor: ColorConst.Primary,
             snackPosition: SnackPosition.BOTTOM,
-            maxWidth: 0.9.width,
-            margin: EdgeInsets.only(
-              bottom: 20.aR,
+            borderRadius: 8.arP,
+            backgroundColor: const Color(0xFF421121),
+            margin: const EdgeInsets.only(
+              bottom: 20,
             ),
+            maxWidth: 0.9.width,
             duration: const Duration(seconds: 3),
           );
         });

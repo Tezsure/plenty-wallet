@@ -98,7 +98,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
       width: widget.checkBoxSize,
       height: widget.checkBoxSize,
       duration: const Duration(milliseconds: 250),
-      padding: EdgeInsets.all(widget.checkBoxIconSize ?? 0),
+      margin: EdgeInsets.only(right: widget.checkBoxIconSize ?? 0),
       decoration: BoxDecoration(
         color: fillColor,
         borderRadius:

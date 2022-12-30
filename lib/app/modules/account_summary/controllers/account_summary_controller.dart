@@ -4,10 +4,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../data/services/data_handler_service/data_handler_service.dart';
@@ -97,8 +99,10 @@ class AccountSummaryController extends GetxController {
       decimals: 6,
       iconUrl: "assets/tezos_logo.png",
     );
-    userTokens.addAll(await UserStorageService()
-        .getUserTokens(userAddress: selectedAccount.value.publicKeyHash!));
+    if ((await RpcService.getCurrentNetworkType()) == NetworkType.mainnet) {
+      userTokens.addAll(await UserStorageService()
+          .getUserTokens(userAddress: selectedAccount.value.publicKeyHash!));
+    }
     userTokens.value = userTokens.toSet().toList();
     if (userTokens.isNotEmpty &&
         userTokens.any((element) => element.name!.contains("Tezos"))) {
@@ -114,7 +118,7 @@ class AccountSummaryController extends GetxController {
           : userTokens.insert(0, tezos);
     }
     _tokenSort();
-    _updateUserTokenList();
+    // _updateUserTokenList();
   }
 
   /// Fetches the user account NFTs

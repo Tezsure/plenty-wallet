@@ -17,6 +17,7 @@ class NaanTextfield extends StatelessWidget {
   final double? height;
   final TextStyle? textStyle;
   // auto focus
+  final int? maxLen;
   final bool? autofocus;
 
   const NaanTextfield(
@@ -31,7 +32,8 @@ class NaanTextfield extends StatelessWidget {
       this.focusNode,
       this.height,
       this.textStyle,
-      this.autofocus = false})
+      this.autofocus = false,
+      this.maxLen})
       : super(key: key);
 
   @override
@@ -43,6 +45,7 @@ class NaanTextfield extends StatelessWidget {
       cursorColor: ColorConst.Primary,
       style: bodyMedium.copyWith(fontSize: 14.aR),
       textAlign: TextAlign.start,
+      maxLength: maxLen ?? 1000,
       textAlignVertical: TextAlignVertical.center,
       onChanged: onTextChange,
       onSubmitted: onSubmitted,

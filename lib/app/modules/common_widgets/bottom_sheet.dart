@@ -157,7 +157,7 @@ class NaanBottomSheet extends StatelessWidget {
               ),
             ),
             if (title != null) ...[
-              0.02.vspace,
+              0.01.vspace,
               Align(
                 alignment: titleAlignment ?? Alignment.center,
                 child: Text(
@@ -167,7 +167,7 @@ class NaanBottomSheet extends StatelessWidget {
                 ),
               ),
             ],
-            0.010.vspace,
+            // 0.010.vspace,
           ] +
           (bottomSheetWidgets ?? const []),
     );

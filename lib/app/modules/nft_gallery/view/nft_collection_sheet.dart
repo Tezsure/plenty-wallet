@@ -156,49 +156,52 @@ class NFTCollectionSheet extends StatelessWidget {
       logo = "https://ipfs.io/ipfs/${logo.replaceAll("ipfs://", "")}";
     }
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Expanded(
-            child: Align(alignment: Alignment.centerLeft, child: backButton())),
-        Expanded(
-          child: Row(
-            children: [
-              Container(
-                width: 32.arP,
-                height: 32.arP,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: CachedNetworkImageProvider(logo),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 12.arP,
-              ),
-              Text(
-                nftTokenModel.fa!.name!,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.arP,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.1.arP,
-                ),
-              ),
-            ],
-          ),
-        ),
+        backButton(),
         Expanded(
           child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              "$length items",
-              style: TextStyle(
-                color: const Color(0xFF958E99),
-                fontSize: 12.arP,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 0.1.arP,
-              ),
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  width: 32.arP,
+                  height: 32.arP,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: CachedNetworkImageProvider(logo),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 12.arP,
+                ),
+                Text(
+                  nftTokenModel.fa!.name!,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.arP,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.1.arP,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            "$length items",
+            style: TextStyle(
+              color: const Color(0xFF958E99),
+              fontSize: 12.arP,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.1.arP,
             ),
           ),
         ),

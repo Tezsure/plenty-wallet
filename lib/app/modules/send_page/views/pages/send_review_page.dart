@@ -80,25 +80,21 @@ class SendReviewPage extends StatelessWidget {
                                 !controller.amountUsdTileError.value;
                         return SolidButton(
                           // height: 48,
-                          onPressed: () => (controller
-                                          .amountText.value.isNotEmpty ||
-                                      controller.isNFTPage.value) &&
-                                  !(controller.amountTileError.value ||
-                                      controller.amountUsdTileError.value) &&
-                                  (controller.isNFTPage.value ||
-                                      double.parse(
-                                              controller.amountText.value) >
-                                          0)
-                              ? Get.bottomSheet(
-                                  TransactionBottomSheet(
-                                    controller: controller,
-                                  ),
-                                  enterBottomSheetDuration:
-                                      const Duration(milliseconds: 180),
-                                  exitBottomSheetDuration:
-                                      const Duration(milliseconds: 150),
-                                )
-                              : null,
+                          onPressed: () =>
+                              (controller.amountText.value.isNotEmpty ||
+                                          controller.isNFTPage.value) &&
+                                      !(controller.amountTileError.value ||
+                                          controller.amountUsdTileError.value) && (controller.isNFTPage.value || double.parse(controller.amountText.value) > 0)
+                                  ? Get.bottomSheet(
+                                      TransactionBottomSheet(
+                                        controller: controller,
+                                      ),
+                                      enterBottomSheetDuration:
+                                          const Duration(milliseconds: 180),
+                                      exitBottomSheetDuration:
+                                          const Duration(milliseconds: 150),
+                                    )
+                                  : null,
                           primaryColor: controller.isNFTPage.value
                               ? ColorConst.Primary
                               : isEnterAmountEnable

@@ -1,6 +1,6 @@
 class AppConstant {
   static const String defaultUrl = 'https://dapps-naan.netlify.app/';
-  static const String naanWebsite = 'https://naan.app/';
+  static const String naanWebsite = 'https://naan.app';
   static List<Dapp> dapps = [
     Dapp(
         name: "Ctez",

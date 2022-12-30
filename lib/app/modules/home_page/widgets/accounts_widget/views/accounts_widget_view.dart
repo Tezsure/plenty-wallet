@@ -211,10 +211,13 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                             Clipboard.setData(
                                 ClipboardData(text: model.publicKeyHash));
                             Get.rawSnackbar(
-                              message: "Copied to clipboard",
+                              message:
+                                  """Copied "${tz1Shortner(model.publicKeyHash!)}" """,
                               shouldIconPulse: true,
                               snackPosition: SnackPosition.BOTTOM,
-                              maxWidth: 0.9.width,
+                              maxWidth: 175.arP,
+                              borderRadius: 8.arP,
+                              backgroundColor: const Color(0xFF421121),
                               margin: const EdgeInsets.only(
                                 bottom: 20,
                               ),

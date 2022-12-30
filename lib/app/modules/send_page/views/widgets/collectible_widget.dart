@@ -20,7 +20,7 @@ class CollectibleWidget extends GetView<SendPageController> {
     if (logo.startsWith("ipfs://")) {
       logo = "https://ipfs.io/ipfs/${logo.replaceAll("ipfs://", "")}";
     }
-    name = firstValue.fa!.name!;
+    name = firstValue.fa!.name ?? "N/A";
   }
 
   final int widgetIndex;
@@ -99,7 +99,7 @@ class CollectibleWidget extends GetView<SendPageController> {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+        // color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
       ),
       alignment: Alignment.center,
       child: Row(
@@ -107,18 +107,21 @@ class CollectibleWidget extends GetView<SendPageController> {
         children: [
           Text(
             collectionNfts.length.toString(),
-            style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+            style: labelSmall.copyWith(
+              color: Colors.white,
+              fontSize: 12.arP,
+            ),
           ),
-          const SizedBox(
-            width: 2,
+          SizedBox(
+            width: 6.arP,
           ),
           AnimatedRotation(
             duration: const Duration(milliseconds: 300),
             turns: isExpanded ? 1 / 4 : 0,
             child: Icon(
               Icons.arrow_forward_ios,
-              color: ColorConst.NeutralVariant.shade60,
-              size: 10,
+              color: Colors.white,
+              size: 12.arP,
             ),
           )
         ],
@@ -170,7 +173,7 @@ class NFTwidget extends StatelessWidget {
               height: 10.aR,
             ),
             Text(
-              nfTmodel.name ??  "N/A",
+              nfTmodel.name ?? "N/A",
               style: labelMedium.copyWith(fontSize: 12.aR),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,

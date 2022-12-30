@@ -173,7 +173,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: '${widget.nftModel!.fa!.name}\n',
+                                  text: '${widget.nftModel!.fa!.name ?? "N/A"}\n',
                                   style: TextStyle(
                                     fontSize: 12.arP,
                                     fontWeight: FontWeight.w400,
@@ -553,7 +553,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                                   NetworkImage("${widget.nftModel!.fa!.logo}")),
                           0.04.hspace,
                           Text(
-                            "${widget.nftModel!.fa!.name}",
+                            widget.nftModel!.fa!.name ?? "N/A",
                             style: labelSmall.copyWith(fontSize: 11.aR),
                           ),
                         ],
@@ -711,7 +711,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                     const Spacer(),
                     InkWell(
                         onTap: () {
-                          final String? hash = widget.nftModel?.metadata
+                          final String? hash = widget.nftModel?.faContract
                               ?.replaceAll("ipfs://", "");
                           final String url = 'https://tzkt.io/$hash';
                           CommonFunctions.launchURL(url);

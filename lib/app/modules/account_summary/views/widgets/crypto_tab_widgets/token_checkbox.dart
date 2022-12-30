@@ -112,16 +112,6 @@ class TokenCheckbox extends StatelessWidget {
   }
 
   Widget _checkBox() {
-    return InkWell(
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      onTap: onCheckboxTap,
-      child: SvgPicture.asset(
-        "assets/svg/check_3.svg",
-        height: 17.sp,
-        width: 17.sp,
-      ),
-    );
     return CustomCheckBox(
         borderRadius: 12.aR,
         checkedIcon: Icons.done,

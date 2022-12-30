@@ -318,72 +318,85 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         itemCount: nfts.values.toList()[index].length,
                         itemBuilder: ((context, i) {
                           var nftTokenModel = nfts.values.toList()[index][i];
-                          return Container(
-                            width: double.infinity,
-                            // constraints: const BoxConstraints(minHeight: 1),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF958E99).withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(
+                          return GestureDetector(
+                            onTap: () => Get.bottomSheet(
+                              NFTDetailBottomSheet(
+                                onBackTap: Get.back,
+                                nftModel: nftTokenModel,
+                              ),
+                              enterBottomSheetDuration:
+                                  const Duration(milliseconds: 180),
+                              exitBottomSheetDuration:
+                                  const Duration(milliseconds: 150),
+                              isScrollControlled: true,
+                            ),
+                            child: Container(
+                              width: double.infinity,
+                              // constraints: const BoxConstraints(minHeight: 1),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF958E99).withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(
+                                  12.arP,
+                                ),
+                              ),
+                              padding: EdgeInsets.all(
                                 12.arP,
                               ),
-                            ),
-                            padding: EdgeInsets.all(
-                              12.arP,
-                            ),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(
-                                      8.arP,
-                                    ),
-                                    child: Image.network(
-                                      "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
-                                      fit: BoxFit.fitWidth,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                        8.arP,
+                                      ),
+                                      child: Image.network(
+                                        "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
+                                        fit: BoxFit.fitWidth,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 12.arP,
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    nftTokenModel.fa!.name!,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12.arP,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 0.5.arP,
+                                  SizedBox(
+                                    height: 12.arP,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      nftTokenModel.fa!.name ?? "N/A",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.arP,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.5.arP,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 4.arP,
-                                ),
-                                // created by text
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    nftTokenModel.creators!.isEmpty
-                                        ? "N/A"
-                                        : nftTokenModel
-                                                .creators![0].holder!.alias ??
-                                            nftTokenModel
-                                                .creators![0].holder!.address!
-                                                .tz1Short(),
-                                    style: TextStyle(
-                                      color: const Color(0xFF958E99),
-                                      fontSize: 10.arP,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 0.5.arP,
+                                  SizedBox(
+                                    height: 4.arP,
+                                  ),
+                                  // created by text
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      nftTokenModel.creators!.isEmpty
+                                          ? "N/A"
+                                          : nftTokenModel
+                                                  .creators![0].holder!.alias ??
+                                              nftTokenModel
+                                                  .creators![0].holder!.address!
+                                                  .tz1Short(),
+                                      style: TextStyle(
+                                        color: const Color(0xFF958E99),
+                                        fontSize: 10.arP,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.5.arP,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           );
                         })),
@@ -425,7 +438,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              nftTokenModel.fa!.name!,
+              nftTokenModel.fa!.name ?? "N/A",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14.arP,

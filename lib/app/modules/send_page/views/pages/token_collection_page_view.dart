@@ -232,8 +232,9 @@ class TokenAndNftPageView extends GetView<SendPageController> {
               Container(
                 height: 0.03.height,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.2)),
+                  borderRadius: BorderRadius.circular(8),
+                  // color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                ),
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 alignment: Alignment.center,
                 child: Text(
@@ -245,7 +246,8 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                           .toStringAsFixed(6)
                           .removeTrailing0,
                   style: labelSmall.apply(
-                      color: ColorConst.NeutralVariant.shade60),
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],

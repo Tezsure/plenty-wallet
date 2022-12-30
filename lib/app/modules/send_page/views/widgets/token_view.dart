@@ -52,7 +52,7 @@ class TokenView extends StatelessWidget {
                 ),
               ),
               trailing: SizedBox(
-                width: 0.27.width,
+                width: 0.3.width,
                 child: Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,

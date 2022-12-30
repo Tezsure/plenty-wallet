@@ -148,6 +148,7 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                             NaanTextfield(
                               focusNode: controller.accountNameFocus,
                               height: 52.aR,
+                              maxLen: 15,
                               autofocus: true,
                               onTextChange: (e) {
                                 controller.phrase.value = e;

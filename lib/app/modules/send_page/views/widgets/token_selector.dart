@@ -47,7 +47,7 @@ class TokenSelector extends StatelessWidget {
             ),
             subtitle: Text(
               controller!.isNFTPage.value
-                  ? controller!.selectedNftModel!.fa!.name!
+                  ? controller!.selectedNftModel!.fa!.name ?? "N/A"
                   : '${controller!.selectedTokenModel!.balance.toStringAsFixed(6)} ${controller!.selectedTokenModel!.symbol!.toUpperCase()} available',
               style: TextStyle(
                 color: const Color(0xFF958E99),

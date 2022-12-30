@@ -27,21 +27,50 @@ class HomePageView extends GetView<HomePageController>
                   color: Colors.black,
                   child: SafeArea(
                     bottom: false,
-                    child: Column(
+                    child: Stack(
                       children: [
-                        const HomepageAppBar(),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(),
-                            child: Wrap(
-                              alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              runAlignment: WrapAlignment.center,
-                              runSpacing: 22.arP,
-                              spacing: 22.sp,
-                              children: registeredWidgets,
+                        Column(
+                          children: [
+                            // SizedBox(height: 0.025.height),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                padding: EdgeInsets.only(
+                                  top: 100.arP,
+                                ),
+                                physics: const BouncingScrollPhysics(),
+                                child: Wrap(
+                                  alignment: WrapAlignment.center,
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  runAlignment: WrapAlignment.center,
+                                  runSpacing: 22.arP,
+                                  spacing: 22.sp,
+                                  children: registeredWidgets,
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
+                        ),
+                        Container(
+                            height: 100.arP,
+                            width: 1.width,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                stops: const [0.2, 0.7, 0.9],
+                                colors: [
+                                  ColorConst.Primary.shade0,
+                                  ColorConst.Primary.shade0.withOpacity(0.5),
+                                  ColorConst.Primary.shade0.withOpacity(0.0),
+                                ],
+                              ),
+                            )),
+                        // ignore: prefer_const_constructors
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          child: const HomepageAppBar(),
                         ),
                       ],
                     ),
