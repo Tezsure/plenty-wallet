@@ -17,10 +17,9 @@ import '../../../../../../utils/styles/styles.dart';
 class ChoosePaymentMethod extends StatelessWidget {
   ChoosePaymentMethod({super.key});
   final controller = Get.put(AccountSummaryController());
-  final buyNftController = Get.put(BuyNFTController());
-
   @override
   Widget build(BuildContext context) {
+    final buyNftController = Get.put(BuyNFTController());
     return NaanBottomSheet(
       isScrollControlled: true,
       title: "Choose payment",
@@ -31,6 +30,7 @@ class ChoosePaymentMethod extends StatelessWidget {
             child: Column(
               children: [
                 ListTile(
+                  onTap: buyNftController.buyWithCreditCard,
                   dense: true,
                   contentPadding: EdgeInsets.zero,
                   leading: SvgPicture.asset("assets/svg/credit-card.svg"),
@@ -56,6 +56,7 @@ class ChoosePaymentMethod extends StatelessWidget {
                         itemBuilder: (context, index) => _tokenBox(
                               controller.userTokens[index],
                               index,
+                              buyNftController,
                             ))
               ],
             ),
@@ -94,7 +95,9 @@ class ChoosePaymentMethod extends StatelessWidget {
     );
   }
 
-  Widget _tokenBox(AccountTokenModel token, int index) => TokenCheckbox(
+  Widget _tokenBox(AccountTokenModel token, int index,
+          BuyNFTController buyNftController) =>
+      TokenCheckbox(
         xtzPrice: controller.xtzPrice.value,
         tokenModel: token,
         isEditable: false,

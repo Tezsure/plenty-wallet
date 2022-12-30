@@ -20,12 +20,10 @@ class ObjktNftWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        String url = "";
+        String url = "https://objkt.com";
         // Get.to(BuyNFTPage(), arguments: url);
         Get.bottomSheet(
-          DappBrowserView(
-            floatingButton: _buildBuyButton(),
-          ),
+          const DappBrowserView(),
           barrierColor: Colors.white.withOpacity(0.09),
           settings: RouteSettings(
             arguments: url,
@@ -78,39 +76,6 @@ class ObjktNftWidget extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  SolidButton _buildBuyButton() {
-    return SolidButton(
-      width: 150,
-      primaryColor: ColorConst.Primary,
-      onPressed: () {
-        Get.put(AccountSummaryController());
-        HomePageController home = Get.find<HomePageController>();
-        Get.bottomSheet(
-          AccountSwitch(
-            title: "Buy NFT",
-            subtitle:
-                'This module will be powered by wert.io and you will be using wert’s interface.',
-            onNext: () {
-              Get.bottomSheet(
-                ChoosePaymentMethod(),
-                settings: RouteSettings(
-                  arguments: "",
-                ),
-              );
-            },
-          ),
-          isScrollControlled: true,
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
-        );
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [Icon(Icons.add), Text("Buy")],
       ),
     );
   }

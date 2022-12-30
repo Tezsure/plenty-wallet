@@ -42,7 +42,9 @@ class ReviewNFTSheet extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12.arP),
                   child: CachedNetworkImage(
-                    imageUrl: controller.selectedNFT.value?.artifactUri ?? "",
+                    imageUrl: controller.selectedNFT.value != null
+                        ? "https://assets.objkt.media/file/assets-003/${controller.selectedNFT.value!.faContract}/${controller.selectedNFT.value!.tokenId.toString()}/thumb400"
+                        : "",
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -57,7 +59,7 @@ class ReviewNFTSheet extends StatelessWidget {
               ),
               0.02.vspace,
               Text(
-                "\$${(controller.selectedNFT.value?.lowestAsk * homeController.xtzPrice.value).toStringAsFixed(2)}",
+                "\$${((double.parse(controller.selectedNFT.value?.lowestAsk) / 1e6) * homeController.xtzPrice.value).toStringAsFixed(2)}",
                 style: headlineLarge,
               ),
               0.008.vspace,
@@ -66,7 +68,7 @@ class ReviewNFTSheet extends StatelessWidget {
                 children: [
                   _imageAvatar(controller.selectedToken.value?.iconUrl ?? ""),
                   Text(
-                    "  ${controller.selectedNFT.value?.lowestAsk.toStringAsFixed(2)} ${controller.selectedToken.value?.symbol?.toUpperCase() ?? ""}",
+                    "  ${((((int.parse(controller.selectedNFT.value!.lowestAsk) / 1e6) * homeController.xtzPrice.value) * 1.1) / double.parse(controller.selectedToken.value!.currentPrice.toString())).toStringAsFixed(2)} ${controller.selectedToken.value?.symbol!.toUpperCase()}",
                     style: titleMedium.copyWith(
                         color: ColorConst.textGrey1,
                         fontWeight: FontWeight.w600),

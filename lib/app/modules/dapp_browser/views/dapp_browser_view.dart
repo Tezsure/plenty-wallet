@@ -6,19 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapps_page/views/dapps_page_view.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/account_switch_widget/account_switch_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/choose_payment_method.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+import '../../home_page/controllers/home_page_controller.dart';
 import '../controllers/dapp_browser_controller.dart';
 
 class DappBrowserView extends GetView<DappBrowserController> {
-  final Widget? floatingButton;
-  const DappBrowserView({Key? key, this.floatingButton}) : super(key: key);
+  final String? tagString;
+  const DappBrowserView({Key? key, this.tagString}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Get.put(DappBrowserController());
+    Get.put(DappBrowserController(), tag: tagString);
+
     final GlobalKey webViewKey = GlobalKey();
     InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
         crossPlatform: InAppWebViewOptions(
@@ -56,233 +62,251 @@ class DappBrowserView extends GetView<DappBrowserController> {
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
           color: ColorConst.darkGrey),
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Center(
-            child: Column(
-              children: [
-                0.005.vspace,
-                Container(
-                  height: 5,
-                  width: 36,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+      child: Center(
+        child: Column(
+          children: [
+            0.005.vspace,
+            Container(
+              height: 5,
+              width: 36,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+              ),
+            ),
+            Obx(() => AppBar(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Image.asset(
+                        "assets/dapp_browser/lock.png",
+                        height: 12,
+                        width: 12,
+                      ),
+                      0.01.hspace,
+                      Text(
+                        controller.url.value.contains("https://wert")
+                            ? "Buy tez"
+                            : Uri.parse(controller.url.value)
+                                .host
+                                .replaceAll(RegExp(r".+\/\/|www.|\..+"), ""),
+                        style: bodyMedium,
+                      ),
+                    ],
                   ),
-                ),
-                Obx(() => AppBar(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  backgroundColor: ColorConst.darkGrey,
+                  centerTitle: true,
+                  toolbarHeight: 60,
+                  automaticallyImplyLeading: false,
+                )),
+            Expanded(
+              child: Obx(
+                (() => Scaffold(
+                      backgroundColor: ColorConst.darkGrey,
+                      floatingActionButtonLocation:
+                          FloatingActionButtonLocation.centerFloat,
+                      floatingActionButton: controller.showButton.value
+                          ? SolidButton(
+                              width: 150,
+                              primaryColor: ColorConst.Primary,
+                              onPressed: () {
+                                print("buy now ${controller.url.value}");
+                                controller.naanBuy(controller.webViewController!
+                                    .getUrl()
+                                    .toString());
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [Icon(Icons.add), Text("Buy")],
+                              ),
+                            )
+                          : null,
+                      body: InAppWebView(
+                        gestureRecognizers: {
+                          Factory<OneSequenceGestureRecognizer>(
+                            () => EagerGestureRecognizer(),
+                          ),
+                        },
+                        key: webViewKey,
+                        initialUrlRequest: URLRequest(
+                            url: Uri.parse(
+                          controller.initUrl,
+                        )),
+                        initialOptions: options,
+                        pullToRefreshController: pullToRefreshController,
+                        onWebViewCreated: (webViewcontroller) {
+                          controller.webViewController = webViewcontroller;
+                        },
+                        onLoadStart: (controller, url) {
+                          this.controller.url.value = url.toString();
+                        },
+                        androidOnPermissionRequest:
+                            (controller, origin, resources) async {
+                          return PermissionRequestResponse(
+                            resources: resources,
+                            action: PermissionRequestResponseAction.GRANT,
+                          );
+                        },
+                        shouldOverrideUrlLoading:
+                            (controller, navigationAction) async {
+                          var uri = navigationAction.request.url.toString();
+                          if (uri.startsWith('tezos://') ||
+                              uri.startsWith('naan://')) {
+                            uri = uri.substring(
+                                uri.indexOf("data=") + 5, uri.length);
+                            try {
+                              //print(uri);
+                              /*                     var data = String.fromCharCodes(base58.decode(uri));
+                            if (!data.endsWith("}"))
+                              data = data.substring(0, data.lastIndexOf('}') + 1);
+                            var baseData = jsonDecode(data); */
+                              print("got here $uri");
+                              await this
+                                  .controller
+                                  .beaconPlugin
+                                  .pair(pairingRequest: uri);
+
+                              //print("response yo: $response");
+                              // await BeaconPlugin.addPeer(
+                              //   baseData['id'],
+                              //   baseData['name'],
+                              //   baseData['publicKey'],
+                              //   baseData['relayServer'],
+                              //   baseData['version'] ?? "2",
+                              // );
+                              return NavigationActionPolicy.CANCEL;
+                            } catch (e) {
+                              print("Erron from beacon $e");
+                            }
+                          }
+
+                          return NavigationActionPolicy.ALLOW;
+                        },
+                        onLoadStop: (controller, url) async {
+                          pullToRefreshController.endRefreshing();
+                          this.controller.url.value = url.toString();
+                          this.controller.setCanGoBackForward();
+                        },
+                        onLoadError: (controller, url, code, message) {
+                          pullToRefreshController.endRefreshing();
+                        },
+                        onProgressChanged: (webController, progress) {
+                          if (progress == 100) {
+                            pullToRefreshController.endRefreshing();
+                            controller.setCanGoBackForward();
+                          }
+                          controller.progress.value = progress / 100;
+                        },
+                        onUpdateVisitedHistory:
+                            (controller, url, androidIsReload) {
+                          print(url.toString());
+                          this.controller.url.value = url.toString();
+                          this.controller.onUrlUpdate(url.toString());
+                        },
+                        onConsoleMessage: (controller, consoleMessage) {
+                          print(consoleMessage);
+                        },
+                      ),
+                    )),
+              ),
+            ),
+            Obx(
+              () => controller.progress.value < 1.0
+                  ? LinearProgressIndicator(value: controller.progress.value)
+                  : Container(),
+            ),
+            Divider(
+              height: 1,
+              color: Colors.white.withOpacity(0.5),
+            ),
+            Obx(
+              () => Container(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Image.asset(
-                            "assets/dapp_browser/lock.png",
-                            height: 12,
-                            width: 12,
+                          IconButton(
+                            icon: controller.canGoBack.value
+                                ? Image.asset(
+                                    "assets/dapp_browser/back_light.png",
+                                    height: 20,
+                                    width: 20,
+                                  )
+                                : Image.asset(
+                                    "assets/dapp_browser/back_dark.png",
+                                    height: 20,
+                                    width: 20,
+                                  ),
+                            onPressed: () {
+                              if (controller.canGoBack.value) {
+                                controller.webViewController?.goBack();
+                              }
+                            },
                           ),
-                          0.01.hspace,
-                          Text(
-                            controller.url.value.contains("https://wert")
-                                ? "Buy tez"
-                                : Uri.parse(controller.url.value)
-                                    .host
-                                    .replaceAll(
-                                        RegExp(r".+\/\/|www.|\..+"), ""),
-                            style: bodyMedium,
+                          IconButton(
+                            icon: controller.canGoForward.value
+                                ? Image.asset(
+                                    "assets/dapp_browser/forward_light.png",
+                                    height: 20,
+                                    width: 20,
+                                  )
+                                : Image.asset(
+                                    "assets/dapp_browser/forward_dark.png",
+                                    height: 20,
+                                    width: 20,
+                                  ),
+                            onPressed: () {
+                              if (controller.canGoForward.value) {
+                                controller.webViewController?.goForward();
+                              }
+                            },
                           ),
                         ],
                       ),
-                      backgroundColor: ColorConst.darkGrey,
-                      centerTitle: true,
-                      toolbarHeight: 60,
-                      automaticallyImplyLeading: false,
-                    )),
-                Expanded(
-                  child: InAppWebView(
-                    gestureRecognizers: {
-                      Factory<OneSequenceGestureRecognizer>(
-                        () => EagerGestureRecognizer(),
-                      ),
-                    },
-                    key: webViewKey,
-                    initialUrlRequest: URLRequest(
-                        url: Uri.parse(
-                      controller.initUrl,
-                    )),
-                    initialOptions: options,
-                    pullToRefreshController: pullToRefreshController,
-                    onWebViewCreated: (webViewcontroller) {
-                      controller.webViewController = webViewcontroller;
-                    },
-                    onLoadStart: (controller, url) {
-                      this.controller.url.value = url.toString();
-                    },
-                    androidOnPermissionRequest:
-                        (controller, origin, resources) async {
-                      return PermissionRequestResponse(
-                        resources: resources,
-                        action: PermissionRequestResponseAction.GRANT,
-                      );
-                    },
-                    shouldOverrideUrlLoading:
-                        (controller, navigationAction) async {
-                      var uri = navigationAction.request.url.toString();
-                      if (uri.startsWith('tezos://') ||
-                          uri.startsWith('naan://')) {
-                        uri =
-                            uri.substring(uri.indexOf("data=") + 5, uri.length);
-                        try {
-                          //print(uri);
-/*                     var data = String.fromCharCodes(base58.decode(uri));
-                          if (!data.endsWith("}"))
-                            data = data.substring(0, data.lastIndexOf('}') + 1);
-                          var baseData = jsonDecode(data); */
-                          print("got here $uri");
-                          await this
-                              .controller
-                              .beaconPlugin
-                              .pair(pairingRequest: uri);
-
-                          //print("response yo: $response");
-                          // await BeaconPlugin.addPeer(
-                          //   baseData['id'],
-                          //   baseData['name'],
-                          //   baseData['publicKey'],
-                          //   baseData['relayServer'],
-                          //   baseData['version'] ?? "2",
-                          // );
-                          return NavigationActionPolicy.CANCEL;
-                        } catch (e) {
-                          print("Erron from beacon $e");
-                        }
-                      }
-
-                      return NavigationActionPolicy.ALLOW;
-                    },
-                    onLoadStop: (controller, url) async {
-                      pullToRefreshController.endRefreshing();
-                      this.controller.url.value = url.toString();
-                      this.controller.setCanGoBackForward();
-                    },
-                    onLoadError: (controller, url, code, message) {
-                      pullToRefreshController.endRefreshing();
-                    },
-                    onProgressChanged: (webController, progress) {
-                      if (progress == 100) {
-                        pullToRefreshController.endRefreshing();
-                        controller.setCanGoBackForward();
-                      }
-                      controller.progress.value = progress / 100;
-                    },
-                    onUpdateVisitedHistory: (controller, url, androidIsReload) {
-                      this.controller.url.value = url.toString();
-                    },
-                    onConsoleMessage: (controller, consoleMessage) {
-                      print(consoleMessage);
-                    },
-                  ),
-                ),
-                Obx(
-                  () => controller.progress.value < 1.0
-                      ? LinearProgressIndicator(
-                          value: controller.progress.value)
-                      : Container(),
-                ),
-                Divider(
-                  height: 1,
-                  color: Colors.white.withOpacity(0.5),
-                ),
-                Obx(
-                  () => Container(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              IconButton(
-                                icon: controller.canGoBack.value
-                                    ? Image.asset(
-                                        "assets/dapp_browser/back_light.png",
-                                        height: 20,
-                                        width: 20,
-                                      )
-                                    : Image.asset(
-                                        "assets/dapp_browser/back_dark.png",
-                                        height: 20,
-                                        width: 20,
-                                      ),
-                                onPressed: () {
-                                  if (controller.canGoBack.value) {
-                                    controller.webViewController?.goBack();
-                                  }
-                                },
-                              ),
-                              IconButton(
-                                icon: controller.canGoForward.value
-                                    ? Image.asset(
-                                        "assets/dapp_browser/forward_light.png",
-                                        height: 20,
-                                        width: 20,
-                                      )
-                                    : Image.asset(
-                                        "assets/dapp_browser/forward_dark.png",
-                                        height: 20,
-                                        width: 20,
-                                      ),
-                                onPressed: () {
-                                  if (controller.canGoForward.value) {
-                                    controller.webViewController?.goForward();
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        0.2.hspace,
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              IconButton(
-                                icon: Image.asset(
-                                  "assets/dapp_browser/reload.png",
-                                  height: 20,
-                                  width: 20,
-                                ),
-                                color: Colors.white,
-                                onPressed: () {
-                                  controller.webViewController?.reload();
-                                },
-                              ),
-                              IconButton(
-                                icon: Image.asset(
-                                  "assets/dapp_browser/home.png",
-                                  height: 20,
-                                  width: 20,
-                                ),
-                                color: Colors.white,
-                                onPressed: () {
-                                  Get.back();
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
                     ),
-                  )),
-                )
-              ],
-            ),
-          ),
-          floatingButton ?? Container()
-        ],
+                    0.2.hspace,
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          IconButton(
+                            icon: Image.asset(
+                              "assets/dapp_browser/reload.png",
+                              height: 20,
+                              width: 20,
+                            ),
+                            color: Colors.white,
+                            onPressed: () {
+                              controller.webViewController?.reload();
+                            },
+                          ),
+                          IconButton(
+                            icon: Image.asset(
+                              "assets/dapp_browser/home.png",
+                              height: 20,
+                              width: 20,
+                            ),
+                            color: Colors.white,
+                            onPressed: () {
+                              Get.back();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+            )
+          ],
+        ),
       ),
     );
   }
