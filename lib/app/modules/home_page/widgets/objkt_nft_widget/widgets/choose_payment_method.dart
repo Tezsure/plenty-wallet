@@ -17,6 +17,15 @@ import '../../../../../../utils/styles/styles.dart';
 class ChoosePaymentMethod extends StatelessWidget {
   ChoosePaymentMethod({super.key});
   final controller = Get.put(AccountSummaryController());
+  List<String> displayCoins = [
+    'tether',
+    'youves-uusd',
+    'lugh',
+    'kolibri-usd',
+    'usdtez',
+    "ctez",
+    "tezos",
+  ];
   @override
   Widget build(BuildContext context) {
     final buyNftController = Get.put(BuyNFTController());
@@ -53,11 +62,17 @@ class ChoosePaymentMethod extends StatelessWidget {
                         itemCount: controller.userTokens.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => _tokenBox(
-                              controller.userTokens[index],
-                              index,
-                              buyNftController,
-                            ))
+                        itemBuilder: (context, index) {
+                          if (!displayCoins.any((element) =>
+                              element.toLowerCase() ==
+                              controller.userTokens[index].symbol
+                                  ?.toLowerCase())) return Container();
+                          return _tokenBox(
+                            controller.userTokens[index],
+                            index,
+                            buyNftController,
+                          );
+                        })
               ],
             ),
           );

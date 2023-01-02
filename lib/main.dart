@@ -39,6 +39,9 @@ void main() async {
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: analytics),
         ],
+        supportedLocales: const [
+          Locale("en", "US"),
+        ],
         debugShowCheckedModeBanner: false,
         initialRoute: AppPages.INITIAL,
         getPages: AppPages.routes,
