@@ -58,14 +58,15 @@ class DappBrowserController extends GetxController {
       var response;
       if (mainUrl[0].startsWith('KT1')) {
         response = await GQLClient(
-          'https://data.objkt.com/v2/graphql',
+          'https://data.objkt.com/v3/graphql',
         ).query(
           query: r'''
                               query NftDetails($address: String!, $tokenId: String!) {
                                 token(where: {token_id: {_eq: $tokenId}, fa_contract: {_eq: $address}}) {
-                                  asks(limit: 1, order_by: {price: asc}, where: {status: {_eq: "active"}}) {
-                                    id
+                                  listings(limit: 1, order_by: {price: asc}, where: {status: {_eq: "active"}}) {
+                                    bigmap_key
                                     price
+                                    marketplace_contract
                                   }
                                 }
                               }
@@ -74,14 +75,15 @@ class DappBrowserController extends GetxController {
         );
       } else {
         response = await GQLClient(
-          'https://data.objkt.com/v2/graphql',
+          'https://data.objkt.com/v3/graphql',
         ).query(
           query: r'''
                               query NftDetails($address: String!, $tokenId: String!) {
                                 token(where: {token_id: {_eq: $tokenId}, fa: {path: {_eq: $address}}}) {
-                                  asks(limit: 1, order_by: {price: asc}, where: {status: {_eq: "active"}}) {
-                                    id
+                                  listings(limit: 1, order_by: {price: asc}, where: {status: {_eq: "active"}}) {
+                                    bigmap_key
                                     price
+                                    marketplace_contract
                                   }
                                 }
                               }
@@ -89,7 +91,9 @@ class DappBrowserController extends GetxController {
           variables: {'address': mainUrl[0], 'tokenId': mainUrl[1]},
         );
       }
-      if (response.data["token"][0]["asks"].length == 1) {
+      if (response.data["token"][0]["listings"].length == 1 &&
+          response.data["token"][0]["listings"][0]["marketplace_contract"] ==
+              "KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC") {
         fa.value = mainUrl[0];
         tokenId.value = mainUrl[1];
         showButton.value = true;

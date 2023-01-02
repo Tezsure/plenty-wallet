@@ -43,7 +43,7 @@ class ReviewNFTSheet extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.arP),
                   child: CachedNetworkImage(
                     imageUrl: controller.selectedNFT.value != null
-                        ? "https://assets.objkt.media/file/assets-003/${controller.selectedNFT.value!.faContract}/${controller.selectedNFT.value!.tokenId.toString()}/thumb400"
+                        ? "https://assets.objkt.media/file/assets-003/${controller.selectedNFT.value!.faContract}/${controller.mainUrl[1].toString()}/thumb400"
                         : "",
                     fit: BoxFit.cover,
                   ),
@@ -58,27 +58,40 @@ class ReviewNFTSheet extends StatelessWidget {
                 style: headlineSmall,
               ),
               0.02.vspace,
-              Text(
-                "\$${((double.parse(controller.selectedNFT.value?.lowestAsk) / 1e6) * homeController.xtzPrice.value).toStringAsFixed(2)}",
-                style: headlineLarge,
+              Obx(
+                () => Text(
+                  "\$${((double.parse(controller.priceInToken.value) * controller.selectedToken.value!.currentPrice! * homeController.xtzPrice.value).toStringAsFixed(2))}",
+                  style: headlineLarge,
+                ),
               ),
               0.008.vspace,
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _imageAvatar(controller.selectedToken.value?.iconUrl ?? ""),
-                  Text(
-                    "  ${((((int.parse(controller.selectedNFT.value!.lowestAsk) / 1e6) * homeController.xtzPrice.value) * 1.1) / double.parse(controller.selectedToken.value!.currentPrice.toString())).toStringAsFixed(2)} ${controller.selectedToken.value?.symbol!.toUpperCase()}",
-                    style: titleMedium.copyWith(
-                        color: ColorConst.textGrey1,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ],
+              Obx(
+                () => Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _imageAvatar(controller.selectedToken.value?.iconUrl ?? ""),
+                    Text(
+                      "  ${double.parse(controller.priceInToken.value).toStringAsFixed(3)} ${controller.selectedToken.value?.symbol!.toUpperCase()}",
+                      style: titleMedium.copyWith(
+                          color: ColorConst.textGrey1,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
               ),
               0.02.vspace,
               _buildAccount(),
               0.04.vspace,
-              _builButtons(),
+              Obx(() => Container(
+                    child: controller.error.value.trim().isEmpty
+                        ? _builButtons()
+                        : Text(
+                            'Transaction is likely to fail: ${controller.error.value.length > 100 ? controller.error.value.replaceRange(100, controller.error.value.length, '...') : controller.error.value}',
+                            style:
+                                bodyMedium.copyWith(color: ColorConst.NaanRed),
+                            textAlign: TextAlign.center,
+                          ),
+                  )),
               0.04.vspace,
               _buildFees()
             ],
@@ -102,19 +115,21 @@ class ReviewNFTSheet extends StatelessWidget {
                 "Estimate fee",
                 style: bodySmall.copyWith(color: ColorConst.grey),
               ),
-              Row(
-                children: [
-                  Text(
-                    "\$0.00018",
-                    style: labelMedium,
-                  ),
-                  0.01.hspace,
-                  Icon(
-                    Icons.info_outline,
-                    size: 16,
-                    color: ColorConst.NeutralVariant.shade60,
-                  ),
-                ],
+              Obx(
+                () => Row(
+                  children: [
+                    Text(
+                      "\$ ${controller.fees["totalFee"]!}",
+                      style: labelMedium,
+                    ),
+                    0.01.hspace,
+                    Icon(
+                      Icons.info_outline,
+                      size: 16,
+                      color: ColorConst.NeutralVariant.shade60,
+                    ),
+                  ],
+                ),
               )
             ],
           ),
@@ -127,7 +142,7 @@ class ReviewNFTSheet extends StatelessWidget {
                 style: bodySmall.copyWith(color: ColorConst.grey),
               ),
               Text(
-                "100 TEZ",
+                "${controller.selectedToken.value!.balance.toStringAsFixed(3)} ${controller.selectedToken.value!.symbol}",
                 style: labelMedium,
               )
             ],
@@ -235,6 +250,7 @@ class ReviewNFTSheet extends StatelessWidget {
         Expanded(
           child: SolidButton(
             onPressed: Get.back,
+            borderRadius: 1.5,
             borderColor: ColorConst.Neutral.shade80,
             textColor: ColorConst.Neutral.shade80,
             title: "Cancel",
@@ -243,35 +259,45 @@ class ReviewNFTSheet extends StatelessWidget {
         ),
         0.024.hspace,
         Expanded(
-          child: SolidButton(
-            title: "Confirm",
-            onPressed: () {
-              controller.openSuccessSheet();
-            },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: Platform.isAndroid
-                      ? SvgPicture.asset(
-                          "${PathConst.SVG}fingerprint.svg",
-                          color: ColorConst.Neutral.shade100,
-                        )
-                      : SvgPicture.asset(
-                          "${PathConst.SVG}faceid.svg",
-                          color: ColorConst.Neutral.shade100,
+          child: Obx(
+            () => SolidButton(
+              title: "Confirm",
+              onPressed: () {
+                controller.openSuccessSheet();
+              },
+              child: controller.operation.isEmpty
+                  ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    )
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: Platform.isAndroid
+                              ? SvgPicture.asset(
+                                  "${PathConst.SVG}fingerprint.svg",
+                                  color: ColorConst.Neutral.shade100,
+                                )
+                              : SvgPicture.asset(
+                                  "${PathConst.SVG}faceid.svg",
+                                  color: ColorConst.Neutral.shade100,
+                                ),
                         ),
-                ),
-                0.02.hspace,
-                Text(
-                  "Confirm",
-                  style: titleSmall.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: ColorConst.Neutral.shade100),
-                )
-              ],
+                        0.02.hspace,
+                        Text(
+                          "Confirm",
+                          style: titleSmall.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: ColorConst.Neutral.shade100),
+                        )
+                      ],
+                    ),
             ),
           ),
         ),
