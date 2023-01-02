@@ -133,8 +133,8 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                           GestureDetector(
                             onTap: () {
                               Get.to(FullScreenView(
-                                child: Image.network(
-                                  imageUrl,
+                                child: CachedNetworkImage(
+                                imageUrl:imageUrl,
                                   fit: BoxFit.contain,
                                 ),
                               ));
@@ -741,7 +741,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
 }
 
 class FullScreenView extends StatelessWidget {
-  final Image child;
+  final Widget child;
   const FullScreenView({required this.child, super.key});
 
   @override

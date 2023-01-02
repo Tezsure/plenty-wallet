@@ -124,7 +124,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                                   ),
                                   fit: BoxFit.cover,
                                 )),
-                            // child: Image.network(
+                            // child: CachedNetworkImage(
                             //   "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb288",
                             //   fit: BoxFit.cover,
                             // ),
@@ -357,7 +357,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                               SizedBox(
                                 width: double.infinity,
                                 height: double.infinity,
-                                child: Image.network(
+                                child: CachedNetworkImage(
                                   "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb288",
                                   fit: BoxFit.cover,
                                 ),

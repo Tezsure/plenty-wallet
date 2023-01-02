@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -48,8 +49,8 @@ class DelegateBakerTile extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 radius: 20,
                 child: ClipOval(
-                  child: Image.network(
-                    baker.logo ?? "",
+                  child: CachedNetworkImage(
+                      imageUrl:  baker.logo ?? "",
                     fit: BoxFit.fill,
                     width: 40,
                     height: 40,

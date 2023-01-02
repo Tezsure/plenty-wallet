@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -350,8 +351,9 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                       borderRadius: BorderRadius.circular(
                                         8.arP,
                                       ),
-                                      child: Image.network(
-                                        "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
                                         fit: BoxFit.fitWidth,
                                       ),
                                     ),
@@ -1137,8 +1139,9 @@ class NftCollectionItemWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(
               8.arP,
             ),
-            child: Image.network(
-              "https://assets.objkt.media/file/assets-003/${_nftTokens[i].faContract}/${_nftTokens[i].tokenId.toString()}/thumb288",
+            child: CachedNetworkImage(
+              imageUrl:
+                  "https://assets.objkt.media/file/assets-003/${_nftTokens[i].faContract}/${_nftTokens[i].tokenId.toString()}/thumb288",
               fit: BoxFit.cover,
             ),
           ),

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -105,24 +106,59 @@ class DappBrowserView extends GetView<DappBrowserController> {
                 (() => Scaffold(
                       backgroundColor: ColorConst.darkGrey,
                       floatingActionButtonLocation:
-                          FloatingActionButtonLocation.centerFloat,
-                      floatingActionButton: controller.showButton.value
-                          ? SolidButton(
-                              width: 150,
-                              primaryColor: ColorConst.Primary,
-                              onPressed: () {
-                                print("buy now ${controller.url.value}");
-                                controller.naanBuy(controller.webViewController!
-                                    .getUrl()
-                                    .toString());
-                              },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [Icon(Icons.add), Text("Buy")],
+                          FloatingActionButtonLocation.miniCenterFloat,
+                      floatingActionButton: controller.showButton.value || true
+                          ? AnimatedCrossFade(
+                              sizeCurve: Curves.easeIn,
+                              secondCurve: Curves.easeIn,
+                              firstCurve: Curves.easeIn,
+                              duration: const Duration(milliseconds: 500),
+                              firstChild: Container(),
+                              crossFadeState: controller.isScrolling.value
+                                  ? CrossFadeState.showFirst
+                                  : CrossFadeState.showSecond,
+                              secondChild: SolidButton(
+                                height: 45.arP,
+                                borderRadius: 30.arP,
+                                width: 110.arP,
+                                primaryColor: ColorConst.Primary,
+                                onPressed: () {
+                                  print("buy now ${controller.url.value}");
+                                  controller.naanBuy(controller
+                                      .webViewController!
+                                      .getUrl()
+                                      .toString());
+                                },
+                                child: Center(
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      ),
+                                      0.01.hspace,
+                                      Text(
+                                        "Buy",
+                                        style: labelLarge,
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
                             )
                           : null,
                       body: InAppWebView(
+                        onScrollChanged: (a, b, c) async {
+                          final isScroll = (await a.getScrollY()) ?? 0;
+                          log(isScroll.toString());
+
+                          controller.isScrolling.value =
+                              isScroll > controller.offset.value;
+                          controller.offset.value = isScroll;
+                        },
                         gestureRecognizers: {
                           Factory<OneSequenceGestureRecognizer>(
                             () => EagerGestureRecognizer(),

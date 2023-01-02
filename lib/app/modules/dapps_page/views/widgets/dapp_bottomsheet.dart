@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -48,8 +49,8 @@ class DappBottomSheet extends StatelessWidget {
                             fit: BoxFit.cover,
                             width: double.infinity,
                           )
-                        : Image.network(
-                            "${ServiceConfig.naanApis}/images/${dappModel.backgroundImage!}",
+                        : CachedNetworkImage(
+                               imageUrl:  "${ServiceConfig.naanApis}/images/${dappModel.backgroundImage!}",
                             fit: BoxFit.cover,
                             width: double.infinity,
                           ),

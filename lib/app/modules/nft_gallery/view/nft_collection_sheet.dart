@@ -94,8 +94,9 @@ class NFTCollectionSheet extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(
                                     8.arP,
                                   ),
-                                  child: Image.network(
-                                    "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
                                     fit: BoxFit.fitWidth,
                                   ),
                                 ),

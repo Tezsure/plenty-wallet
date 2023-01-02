@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -53,8 +54,9 @@ class SendReviewPage extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(vertical: 10),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          "https://assets.objkt.media/file/assets-003/${controller.selectedNftModel!.faContract}/${controller.selectedNftModel!.tokenId.toString()}/thumb400",
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              "https://assets.objkt.media/file/assets-003/${controller.selectedNftModel!.faContract}/${controller.selectedNftModel!.tokenId.toString()}/thumb400",
                           alignment: Alignment.center,
                           fit: BoxFit.cover,
                         ),
@@ -80,21 +82,25 @@ class SendReviewPage extends StatelessWidget {
                                 !controller.amountUsdTileError.value;
                         return SolidButton(
                           // height: 48,
-                          onPressed: () =>
-                              (controller.amountText.value.isNotEmpty ||
-                                          controller.isNFTPage.value) &&
-                                      !(controller.amountTileError.value ||
-                                          controller.amountUsdTileError.value) && (controller.isNFTPage.value || double.parse(controller.amountText.value) > 0)
-                                  ? Get.bottomSheet(
-                                      TransactionBottomSheet(
-                                        controller: controller,
-                                      ),
-                                      enterBottomSheetDuration:
-                                          const Duration(milliseconds: 180),
-                                      exitBottomSheetDuration:
-                                          const Duration(milliseconds: 150),
-                                    )
-                                  : null,
+                          onPressed: () => (controller
+                                          .amountText.value.isNotEmpty ||
+                                      controller.isNFTPage.value) &&
+                                  !(controller.amountTileError.value ||
+                                      controller.amountUsdTileError.value) &&
+                                  (controller.isNFTPage.value ||
+                                      double.parse(
+                                              controller.amountText.value) >
+                                          0)
+                              ? Get.bottomSheet(
+                                  TransactionBottomSheet(
+                                    controller: controller,
+                                  ),
+                                  enterBottomSheetDuration:
+                                      const Duration(milliseconds: 180),
+                                  exitBottomSheetDuration:
+                                      const Duration(milliseconds: 150),
+                                )
+                              : null,
                           primaryColor: controller.isNFTPage.value
                               ? ColorConst.Primary
                               : isEnterAmountEnable

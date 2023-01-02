@@ -13,6 +13,8 @@ class DappBrowserController extends GetxController {
   InAppWebViewController? webViewController;
   WebStorageManager webStorageManager = WebStorageManager.instance();
   RxBool showButton = false.obs;
+  RxBool isScrolling = false.obs;
+  RxInt offset = 0.obs;
   String initUrl = Get.arguments;
   RxString url = ''.obs;
   RxString fa = ''.obs;

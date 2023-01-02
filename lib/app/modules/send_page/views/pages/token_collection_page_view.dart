@@ -209,7 +209,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                                       ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
                                       : tokenModel.iconUrl!)),
                             ),
-                            // child: Image.network(
+                            // child: CachedNetworkImage(
                             //   ,
                             //   fit: BoxFit.contain,
                             // ),

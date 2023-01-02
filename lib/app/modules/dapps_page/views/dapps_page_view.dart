@@ -424,8 +424,8 @@ class CategoryListBottomSheet extends StatelessWidget {
                             fit: BoxFit.cover,
                             width: double.infinity,
                           )
-                        : Image.network(
-                            "${ServiceConfig.naanApis}/images/${dappBanner.bannerImage!}",
+                        : CachedNetworkImage(
+                               imageUrl:  "${ServiceConfig.naanApis}/images/${dappBanner.bannerImage!}",
                             fit: BoxFit.cover,
                             width: double.infinity,
                           ),
