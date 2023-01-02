@@ -134,7 +134,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                             onTap: () {
                               Get.to(FullScreenView(
                                 child: CachedNetworkImage(
-                                imageUrl:imageUrl,
+                                  imageUrl: imageUrl,
                                   fit: BoxFit.contain,
                                 ),
                               ));
@@ -173,7 +173,8 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: '${widget.nftModel!.fa!.name ?? "N/A"}\n',
+                                  text:
+                                      '${widget.nftModel!.fa!.name ?? "N/A"}\n',
                                   style: TextStyle(
                                     fontSize: 12.arP,
                                     fontWeight: FontWeight.w400,
@@ -341,7 +342,11 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                           return ListTile(
                             leading: CircleAvatar(
                               backgroundColor: Colors.white,
-                              foregroundImage: NetworkImage(creator),
+                              child: ClipOval(
+                                child: CachedNetworkImage(
+                                  imageUrl: creator,
+                                ),
+                              ),
                             ),
                             title: RichText(
                                 textAlign: TextAlign.start,
@@ -546,11 +551,16 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                     children: [
                       Row(
                         children: [
-                          CircleAvatar(
-                              radius: 10.aR,
-                              backgroundColor: Colors.white,
-                              foregroundImage:
-                                  NetworkImage("${widget.nftModel!.fa!.logo}")),
+                          SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: ClipOval(
+                                child: CachedNetworkImage(
+                                  imageUrl: "${widget.nftModel!.fa!.logo}",
+                                  memCacheHeight: 36,
+                                  memCacheWidth: 36,
+                                ),
+                              )),
                           0.04.hspace,
                           Text(
                             widget.nftModel!.fa!.name ?? "N/A",

@@ -85,6 +85,7 @@ class SettingsPageController extends GetxController {
     var seen = Set<String>();
     dapps.value = ConnectedPeers.fromJson(requestJson).peer ?? <P2PPeer>[];
     dapps.value = dapps.where((x) => seen.add(x.name)).toList();
+    dapps.value = [...dapps.where((p0) => p0.isPaired!)];
   }
 
   Future<void> disconnectDApp(int index) async {

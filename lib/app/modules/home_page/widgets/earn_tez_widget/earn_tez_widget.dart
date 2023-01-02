@@ -49,7 +49,11 @@ class EarnTezWidget extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: SvgPicture.asset("${PathConst.HOME_PAGE.SVG}earn.svg"),
+              child: Image.asset(
+                "${PathConst.HOME_PAGE}earn_tez.png",
+                cacheHeight: 335,
+                cacheWidth: 335,
+              ),
             ),
             Align(
               alignment: Alignment.bottomLeft,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
@@ -32,17 +33,19 @@ class _NftCollectiblesState extends State<NftCollectibles> {
               height: 40.aR,
               width: 40.aR,
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    widget.nftList.first.fa!.logo!.startsWith("ipfs://")
-                        ? "https://ipfs.io/ipfs/${widget.nftList.first.fa!.logo!.replaceAll("ipfs://", "")}"
-                        : widget.nftList.first.fa!.logo!,
-                  ),
-                ),
                 shape: BoxShape.circle,
                 border: Border.all(
                   width: 1.5.aR,
                   color: ColorConst.NeutralVariant.shade60,
+                ),
+              ),
+              child: ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: widget.nftList.first.fa!.logo!.startsWith("ipfs://")
+                      ? "https://ipfs.io/ipfs/${widget.nftList.first.fa!.logo!.replaceAll("ipfs://", "")}"
+                      : widget.nftList.first.fa!.logo!,
+                  memCacheHeight: 73,
+                  memCacheWidth: 73,
                 ),
               ),
             ),

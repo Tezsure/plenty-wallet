@@ -50,10 +50,12 @@ class DelegateBakerTile extends StatelessWidget {
                 radius: 20,
                 child: ClipOval(
                   child: CachedNetworkImage(
-                      imageUrl:  baker.logo ?? "",
+                    imageUrl: baker.logo ?? "",
                     fit: BoxFit.fill,
                     width: 40,
                     height: 40,
+                    maxWidthDiskCache: 80,
+                    maxHeightDiskCache: 80,
                   ),
                 ),
               ),

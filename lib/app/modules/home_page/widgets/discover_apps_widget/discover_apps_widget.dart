@@ -37,7 +37,7 @@ class DiscoverAppsWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(22.arP),
               child: Image.asset(
                 "${PathConst.HOME_PAGE}discover_apps.png",
-                fit: BoxFit.cover,
+                fit: BoxFit.cover,cacheHeight: 335,cacheWidth: 709,
               ),
             ),
             Align(

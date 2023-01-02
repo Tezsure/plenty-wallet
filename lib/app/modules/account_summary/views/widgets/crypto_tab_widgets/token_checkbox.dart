@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
@@ -130,30 +131,30 @@ class TokenCheckbox extends StatelessWidget {
   }
 
   Widget _imageAvatar() => CircleAvatar(
-        radius: 20.aR,
-        backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-        child: tokenModel.iconUrl!.startsWith("assets")
-            ? Image.asset(
-                tokenModel.iconUrl!,
-                fit: BoxFit.cover,
-              )
-            : tokenModel.iconUrl!.endsWith(".svg")
-                ? SvgPicture.network(
-                    tokenModel.iconUrl!,
+      radius: 20.aR,
+      backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+      child: tokenModel.iconUrl!.startsWith("assets")
+          ? Image.asset(
+              tokenModel.iconUrl!,
+              fit: BoxFit.cover,
+              cacheHeight: 73,
+              cacheWidth: 73,
+            )
+          : tokenModel.iconUrl!.endsWith(".svg")
+              ? SvgPicture.network(
+                  tokenModel.iconUrl!,
+                  fit: BoxFit.cover,
+                )
+              : ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: tokenModel.iconUrl!.startsWith("ipfs")
+                        ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
+                        : tokenModel.iconUrl!,
                     fit: BoxFit.cover,
-                  )
-                : Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(tokenModel.iconUrl!
-                                  .startsWith("ipfs")
-                              ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
-                              : tokenModel.iconUrl!)),
-                    ),
+                    memCacheHeight: 73,
+                    memCacheWidth: 73,
                   ),
-      );
+                ));
 
   Widget _isPinnedTokenSelector() => Padding(
         padding: EdgeInsets.only(right: 10.aR),

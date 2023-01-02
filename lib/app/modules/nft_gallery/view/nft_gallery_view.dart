@@ -425,10 +425,11 @@ class NftGalleryView extends GetView<NftGalleryController> {
         Container(
           width: 32.arP,
           height: 32.arP,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: NetworkImage(logo),
+          child: ClipOval(
+            child: CachedNetworkImage(
+              imageUrl: logo,
+              maxHeightDiskCache: 59,
+              maxWidthDiskCache: 59,
               fit: BoxFit.cover,
             ),
           ),
@@ -1141,6 +1142,12 @@ class NftCollectionItemWidget extends StatelessWidget {
             ),
             child: CachedNetworkImage(
               imageUrl:
+                  "https://assets.objkt.media/file/assets-003/${_nftTokens[i].faContract}/${_nftTokens[i].tokenId.toString()}/thumb288",
+              maxWidthDiskCache: 134,
+              maxHeightDiskCache: 134,
+              memCacheHeight: 134,
+              memCacheWidth: 134,
+              cacheKey:
                   "https://assets.objkt.media/file/assets-003/${_nftTokens[i].faContract}/${_nftTokens[i].tokenId.toString()}/thumb288",
               fit: BoxFit.cover,
             ),

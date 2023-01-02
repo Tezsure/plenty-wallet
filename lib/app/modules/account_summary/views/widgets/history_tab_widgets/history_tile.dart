@@ -45,6 +45,8 @@ class HistoryTile extends StatelessWidget {
                     child: tokenInfo.imageUrl.startsWith("assets")
                         ? Image.asset(
                             tokenInfo.imageUrl,
+                            cacheHeight: 82,
+                            cacheWidth: 82,
                             fit: BoxFit.cover,
                           )
                         : tokenInfo.imageUrl.endsWith(".svg")
@@ -62,13 +64,17 @@ class HistoryTile extends StatelessWidget {
                                               ColorConst.NeutralVariant.shade60,
                                         )
                                       : const Border(),
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: CachedNetworkImageProvider(tokenInfo
-                                              .imageUrl
-                                              .startsWith("ipfs")
-                                          ? "https://ipfs.io/ipfs/${tokenInfo.imageUrl.replaceAll("ipfs://", '')}"
-                                          : tokenInfo.imageUrl)),
+                                ),
+                                child: ClipOval(
+                                  child: CachedNetworkImage(
+                                    imageUrl: tokenInfo.imageUrl
+                                            .startsWith("ipfs")
+                                        ? "https://ipfs.io/ipfs/${tokenInfo.imageUrl.replaceAll("ipfs://", '')}"
+                                        : tokenInfo.imageUrl,
+                                    memCacheHeight: 82,
+                                    memCacheWidth: 82,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                   ),

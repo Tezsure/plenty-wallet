@@ -296,6 +296,8 @@ class DappListItemWidget extends StatelessWidget {
                             "${ServiceConfig.naanApis}/images/${dapp.logo!}",
                         fit: BoxFit.cover,
                         height: 50.arP,
+                        memCacheHeight: 92,
+                        memCacheWidth: 92,
                         width: 50.arP,
                       ),
               ),
@@ -425,7 +427,8 @@ class CategoryListBottomSheet extends StatelessWidget {
                             width: double.infinity,
                           )
                         : CachedNetworkImage(
-                               imageUrl:  "${ServiceConfig.naanApis}/images/${dappBanner.bannerImage!}",
+                            imageUrl:
+                                "${ServiceConfig.naanApis}/images/${dappBanner.bannerImage!}",
                             fit: BoxFit.cover,
                             width: double.infinity,
                           ),

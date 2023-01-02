@@ -107,10 +107,12 @@ class DelegateRewardsTile extends StatelessWidget {
           radius: 20,
           child: ClipOval(
             child: CachedNetworkImage(
-              imageUrl:     reward.bakerDetail?.logo ?? "",
+              imageUrl: reward.bakerDetail?.logo ?? "",
               fit: BoxFit.fill,
               width: 40,
               height: 40,
+              maxWidthDiskCache: 80,
+              maxHeightDiskCache: 80,
             ),
           ),
         ),

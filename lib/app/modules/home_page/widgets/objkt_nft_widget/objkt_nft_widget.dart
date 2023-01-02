@@ -44,7 +44,14 @@ class ObjktNftWidget extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: SvgPicture.asset("${PathConst.HOME_PAGE.SVG}nft.svg"),
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 64.arP),
+                child: Image.asset(
+                  "${PathConst.HOME_PAGE}buy_nft.png",
+                  cacheHeight: 217,
+                  cacheWidth: 158,
+                ),
+              ),
             ),
             Align(
               alignment: Alignment.topLeft,

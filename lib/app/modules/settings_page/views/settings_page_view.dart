@@ -38,7 +38,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
           Container(
-            height: 0.82.height,
+            height: 0.85.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

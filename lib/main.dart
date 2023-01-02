@@ -23,6 +23,7 @@ void main() async {
   ]);
 
   runZonedGuarded(() async {
+    // debugInvertOversizedImages = true;
     await Firebase.initializeApp();
     await FirebaseCrashlytics.instance
         .setCrashlyticsCollectionEnabled(kReleaseMode);

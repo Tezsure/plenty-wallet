@@ -33,7 +33,9 @@ class _ScanQrViewState extends State<ScanQrView> {
     if (Platform.isAndroid) {
       controller.controller.value.pauseCamera();
     }
-    controller.controller.value.resumeCamera();
+    try {
+      controller.controller.value.resumeCamera();
+    } catch (e) {}
   }
 
   @override

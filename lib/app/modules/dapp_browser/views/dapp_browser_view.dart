@@ -107,7 +107,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                       backgroundColor: ColorConst.darkGrey,
                       floatingActionButtonLocation:
                           FloatingActionButtonLocation.miniCenterFloat,
-                      floatingActionButton: controller.showButton.value || true
+                      floatingActionButton: controller.showButton.value
                           ? AnimatedCrossFade(
                               sizeCurve: Curves.easeIn,
                               secondCurve: Curves.easeIn,

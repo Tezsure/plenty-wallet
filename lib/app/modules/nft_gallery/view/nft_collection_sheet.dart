@@ -170,13 +170,12 @@ class NFTCollectionSheet extends StatelessWidget {
                 Container(
                   width: 32.arP,
                   height: 32.arP,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider(logo),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  child: ClipOval(
+                      child: CachedNetworkImage(
+                    imageUrl: logo,
+                    maxHeightDiskCache: 59,
+                    maxWidthDiskCache: 59,
+                  )),
                 ),
                 SizedBox(
                   width: 12.arP,

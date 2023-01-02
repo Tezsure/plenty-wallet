@@ -50,7 +50,8 @@ class DappBottomSheet extends StatelessWidget {
                             width: double.infinity,
                           )
                         : CachedNetworkImage(
-                               imageUrl:  "${ServiceConfig.naanApis}/images/${dappModel.backgroundImage!}",
+                            imageUrl:
+                                "${ServiceConfig.naanApis}/images/${dappModel.backgroundImage!}",
                             fit: BoxFit.cover,
                             width: double.infinity,
                           ),

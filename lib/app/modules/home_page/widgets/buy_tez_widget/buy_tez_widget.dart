@@ -96,7 +96,11 @@ class BuyTezWidget extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: SvgPicture.asset("${PathConst.HOME_PAGE.SVG}buy_tez.svg"),
+              child: Image.asset(
+                "${PathConst.HOME_PAGE}buy_tez.png",
+                cacheHeight: 335,
+                cacheWidth: 335,
+              ),
             ),
             Align(
               alignment: Alignment.bottomLeft,

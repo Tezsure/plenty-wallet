@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
@@ -158,14 +159,17 @@ class NFTwidget extends StatelessWidget {
                 height: 180.aR,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      nftArtifactUrl!,
-                    ),
-                  ),
                   color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(8.aR),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.aR),
+                  child: CachedNetworkImage(
+                    imageUrl: nftArtifactUrl!,
+                    fit: BoxFit.cover,
+                    memCacheWidth: 341,
+                    memCacheHeight: 332,
+                  ),
                 ),
               ),
             ),

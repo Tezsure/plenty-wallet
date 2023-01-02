@@ -116,18 +116,19 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                           Container(
                             width: double.infinity,
                             height: double.infinity,
-                            decoration: BoxDecoration(
-                                gradient: applePurple,
-                                image: DecorationImage(
-                                  image: CachedNetworkImageProvider(
-                                    "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb288",
-                                  ),
-                                  fit: BoxFit.cover,
-                                )),
-                            // child: CachedNetworkImage(
-                            //   "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb288",
-                            //   fit: BoxFit.cover,
-                            // ),
+                            // decoration: BoxDecoration(
+                            //     gradient: applePurple,
+                            //     image: DecorationImage(
+                            //       image: CachedNetworkImageProvider(
+                            //         "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb400",
+                            //       ),
+                            //       fit: BoxFit.cover,
+                            //     )),
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb400",
+                              fit: BoxFit.cover,
+                            ),
                           ),
                           Align(
                             alignment: Alignment.bottomLeft,
