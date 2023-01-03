@@ -13,6 +13,7 @@ class OnboardingPageController extends GetxController {
     const Color(0xff9961EC),
     const Color(0xffFD3289),
     const Color(0xffFA6163),
+    const Color(0xffF77A3A),
     // const Color(0xffF77A3A),
   ]; // Onboarding screens background colors
 
@@ -25,6 +26,8 @@ class OnboardingPageController extends GetxController {
         "Buy tez with\nyour credit\ncard",
     'assets/onboarding_page/lottie/Onboarding_4.json':
         "Discover DApps\nin the Tezos\necosystem",
+    'assets/onboarding_page/lottie/Onboarding_6.json':
+        "Purchase NFT\nusing credit card\nand stable coin"
     // 'assets/onboarding_page/lottie/Onboarding_5.json':
     //     "Earn high APR\nwith Liquidity\nBaking",
   }; // Onboarding screens lottie animation paths & messages

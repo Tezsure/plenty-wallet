@@ -34,7 +34,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
         color: widget.controller.colorList[widget.controller.pageIndex()],
         child: PageView.builder(
             controller: widget.controller.pageController,
-            itemCount: 4,
+            itemCount: widget.controller.onboardingMessages.keys.length,
             scrollDirection: Axis.horizontal,
             onPageChanged: (value) {
               widget.controller.onPageChanged(value);
