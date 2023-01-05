@@ -61,7 +61,7 @@ class BuyTezWidget extends StatelessWidget {
         } else {
           Get.bottomSheet(
             AccountSwitch(
-              title: "Buy Tez",
+              title: "Buy tez",
               subtitle:
                   'This module will be powered by wert.io and you will be using wert’s interface.',
               onNext: () {
@@ -110,7 +110,7 @@ class BuyTezWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("Buy Tez",
+                    Text("Buy tez",
                         style: headlineSmall.copyWith(fontSize: 20.sp)),
                     Text(
                       "with credit card",

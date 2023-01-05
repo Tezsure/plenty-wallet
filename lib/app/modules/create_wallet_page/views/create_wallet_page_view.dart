@@ -76,6 +76,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                       // ),
                       0.046.vspace,
                       SolidButton(
+                        width: 1.width - 64.arP,
                         title: "Create a new account",
                         titleStyle: titleSmall.copyWith(
                           fontWeight: FontWeight.w600,
@@ -103,6 +104,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         },
                         child: Container(
                           height: 48,
+                          width: 1.width - 64.arP,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
@@ -152,26 +154,30 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                 ),
                 0.035.vspace,
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 32.arP,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SocialLoginButton(
-                          onTap:
-                              controller.login(socialAppName: Provider.apple),
-                          socialIconPath: "apple.svg"),
+                        onTap: controller.login(socialAppName: Provider.apple),
+                        socialIconPath: "apple.svg",
+                      ),
                       SocialLoginButton(
-                          onTap:
-                              controller.login(socialAppName: Provider.google),
-                          socialIconPath: "google.svg"),
+                        onTap: controller.login(socialAppName: Provider.google),
+                        socialIconPath: "google.svg",
+                      ),
                       SocialLoginButton(
-                          onTap: controller.login(
-                              socialAppName: Provider.facebook),
-                          socialIconPath: "facebook.svg"),
+                        onTap:
+                            controller.login(socialAppName: Provider.facebook),
+                        socialIconPath: "facebook.svg",
+                      ),
                       SocialLoginButton(
-                          onTap:
-                              controller.login(socialAppName: Provider.twitter),
-                          socialIconPath: "twitter.svg"),
+                        onTap:
+                            controller.login(socialAppName: Provider.twitter),
+                        socialIconPath: "twitter.svg",
+                      ),
                     ],
                   ),
                 ),

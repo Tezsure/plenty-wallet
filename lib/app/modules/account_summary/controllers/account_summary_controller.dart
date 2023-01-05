@@ -93,7 +93,7 @@ class AccountSummaryController extends GetxController {
           .accountDataModel!
           .xtzBalance!,
       contractAddress: "xtz",
-      symbol: "Tezos",
+      symbol: "tezos",
       currentPrice: xtzPrice.value,
       tokenId: "0",
       decimals: 6,

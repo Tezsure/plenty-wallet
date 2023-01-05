@@ -43,7 +43,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Create new gallery",
+                    "Create gallery",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
@@ -54,12 +54,13 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                     height: 4.sp,
                   ),
                   Text(
-                    "Use a gallery to display NFTs from\nmultiple accounts",
+                    "Display NFTs from multiple\naccounts",
                     style: TextStyle(
-                        color: const Color(0xFF958E99),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12.sp,
-                        letterSpacing: .5),
+                      color: const Color(0xFF958E99),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12.sp,
+                      letterSpacing: .5,
+                    ),
                   ),
                 ],
               ),

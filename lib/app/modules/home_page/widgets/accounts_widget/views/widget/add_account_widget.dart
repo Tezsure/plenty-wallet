@@ -28,7 +28,12 @@ class AddAccountWidget extends StatelessWidget {
         );
       },
       child: Container(
-        padding: EdgeInsets.all(20.arP),
+        padding: EdgeInsets.only(
+          left: 20.arP,
+          right: 15.arP,
+          top: 20.arP,
+          bottom: 20.arP,
+        ),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(22),
             color: ColorConst.darkGrey),
@@ -44,11 +49,11 @@ class AddAccountWidget extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              'Add more accounts',
+              'Add account',
               style: titleLarge,
             ),
             Text(
-              'Use accounts to manage your\nassets separately',
+              'Manage multiple accounts\neasily',
               style: bodySmall.copyWith(color: ColorConst.textGrey1),
             ),
           ],
@@ -78,9 +83,12 @@ Widget addAccountSheet(warning) {
     blurRadius: 5.sp,
     height: 240.arP,
     bottomSheetWidgets: [
+      SizedBox(
+        height: 12.arP,
+      ),
       Center(
         child: Text(
-          warning ?? 'Add new account',
+          warning ?? 'Add account',
           style: TextStyle(
             fontSize: 22.arP,
             fontWeight: FontWeight.w700,
@@ -89,12 +97,9 @@ Widget addAccountSheet(warning) {
           textAlign: TextAlign.center,
         ),
       ),
-      SizedBox(
-        height: 6.arP,
-      ),
       Center(
         child: Text(
-          'Create or import new account',
+          'Create or import an account',
           style: TextStyle(
               fontSize: 12.arP,
               fontWeight: FontWeight.w400,

@@ -44,6 +44,7 @@ class SendPage extends GetView<SendPageController> {
         // decoration: const BoxDecoration(
         //     borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
         //     color: Colors.black),
+
         bottomSheetWidgets: [
           searchBar(),
           SizedBox(

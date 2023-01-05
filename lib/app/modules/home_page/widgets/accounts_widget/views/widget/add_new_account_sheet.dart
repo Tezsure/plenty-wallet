@@ -187,7 +187,7 @@ class AddNewAccountBottomSheet extends StatelessWidget {
                                       ),
                                       0.015.hspace,
                                       Text(
-                                        "Start using Naan",
+                                        "Start using naan",
                                         style: titleSmall.copyWith(
                                             fontSize: 14.aR,
                                             color: controller.phrase.isEmpty ||

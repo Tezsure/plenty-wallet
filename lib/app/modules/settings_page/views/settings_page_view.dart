@@ -90,7 +90,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                           title: "Others",
                           settings: [
                             _settingOption(
-                              title: "Change Network",
+                              title: "Network",
                               svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
                               onTap: () {
                                 Get.bottomSheet(
@@ -123,7 +123,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                               ),
                             ),
                             _settingOption(
-                                title: "Node Selector",
+                                title: "Node",
                                 svgPath:
                                     "${PathConst.SETTINGS_PAGE.SVG}node.svg",
                                 onTap: () {
@@ -169,7 +169,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                             _settingOption(
                               onTap: () => CommonFunctions.launchURL(
                                   "https://www.naan.app/terms"),
-                              title: "Terms & Condition",
+                              title: "Terms & Conditions",
                               svgPath:
                                   "${PathConst.SETTINGS_PAGE.SVG}terms.svg",
                             ),
@@ -181,8 +181,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
                           settings: [
                             _settingOption(
                               onTap: () => Share.share(
-                                  "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}"),
-                              title: "Share Naan",
+                                  "🔥🔥🔥 Hey friend! You need to check out naan - it's my favorite web3 app for all things Tezos. With naan, you can easily buy NFTs with your credit card, discover trusted web3 apps, and even explore the art collections of other collectors. Trust me, you won't be disappointed. Download it now at https://naan.app 🚀🚀🚀"),
+                              title: "Share naan",
                               svgPath:
                                   "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
                             ),
@@ -198,12 +198,12 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                 controller.inAppReviewAvailable.value =
                                     await controller.inAppReview.isAvailable();
                               },
-                              title: "Rate Naan",
+                              title: "Rate naan",
                               svgPath: "${PathConst.SETTINGS_PAGE.SVG}star.svg",
                             ),
                             _settingOption(
                               onTap: (() => CommonFunctions.launchURL(
-                                  "https://twitter.com/Naanwallet")),
+                                  "https://twitter.com/naan_app")),
                               title: "Follow us on Twitter",
                               svgPath:
                                   "${PathConst.SETTINGS_PAGE.SVG}twitter.svg",
@@ -314,7 +314,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
             ),
           ),
           Text(
-            "Sign in with ${Platform.isAndroid ? "Fingerprint" : "Face id"}",
+            "Sign in with ${Platform.isAndroid ? "Biometrics" : "Face ID"}",
             style: labelMedium,
           ),
           const Spacer(),
@@ -426,7 +426,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                       "${PathConst.SETTINGS_PAGE.SVG}connected_apps.svg")),
             ),
             Text(
-              "Connected Applications",
+              "Connected applications",
               style: labelMedium,
             ),
           ],
@@ -453,7 +453,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         child: Row(
           children: [
             Text(
-              "Reset Naan",
+              "Reset naan",
               style: labelMedium.apply(color: ColorConst.Error.shade60),
             ),
             const Spacer(),

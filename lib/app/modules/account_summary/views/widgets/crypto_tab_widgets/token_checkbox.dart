@@ -67,40 +67,46 @@ class TokenCheckbox extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(tokenModel.name!,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: false,
-                              maxLines: 1,
-                              style: labelLarge.copyWith(
-                                  letterSpacing: 0.5.aR,
-                                  fontSize: 14.aR,
-                                  height: 16 / 14)),
+                          Text(
+                            tokenModel.name!,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                            maxLines: 1,
+                            style: labelLarge.copyWith(
+                              letterSpacing: 0.5.aR,
+                              fontSize: 14.aR,
+                              height: 16 / 14,
+                            ),
+                          ),
                           SizedBox(
                             height: 3.sp,
                           ),
                           Text(
-                              "${tokenModel.balance.toStringAsFixed(6)} ${tokenModel.symbol}",
-                              softWrap: false,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: labelMedium.copyWith(
-                                  fontSize: 12.aR,
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorConst.NeutralVariant.shade60)),
+                            "${tokenModel.balance.toStringAsFixed(tokenModel.decimals).removeTrailing0} ${tokenModel.symbol}",
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: labelMedium.copyWith(
+                              fontSize: 12.aR,
+                              fontWeight: FontWeight.w400,
+                              color: ColorConst.NeutralVariant.shade60,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     const Spacer(),
                     Text(
-                      r"$" +
-                          (tokenModel.name == "Tezos"
-                                  ? tokenModel.balance * xtzPrice
-                                  : tokenModel.balance *
-                                      (tokenModel.currentPrice! * xtzPrice))
-                              .toStringAsFixed(6)
-                              .removeTrailing0,
+                      (tokenModel.name == "Tezos"
+                              ? tokenModel.balance * xtzPrice
+                              : tokenModel.balance *
+                                  (tokenModel.currentPrice! * xtzPrice))
+                          .roundUpDollar()
+                          .removeTrailing0,
                       style: labelMedium.copyWith(
-                          fontSize: 12.aR, fontWeight: FontWeight.w400),
+                        fontSize: 12.aR,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ],
                 ),

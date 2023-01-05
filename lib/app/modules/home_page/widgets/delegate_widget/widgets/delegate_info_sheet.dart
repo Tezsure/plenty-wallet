@@ -16,9 +16,9 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
   @override
   Widget build(BuildContext context) {
     final List<String> infos = [
-      'You are earning interest on your Tez through a process called Delegation. It is super safe on Tezos.',
-      'Your funds are neither locked nor frozen and do not move anywhere. You can spend them at any time.',
-      'Through delegation, you are delegating your staking/baking rights to another person(baker). Baker passes on the rewards he gets, to you as a delegator.'
+      'Participate in Tezos staking without the hassle of setting up a node by delegating your staking rights to a trusted baker.',
+      'Delegation allows you to share in the rewards of staking while a trusted baker handles the work. A small service fee is taken by the baker.',
+      'In Tezos, delegation is safe and secure. Your funds are not locked or frozen and you can use them at any time.'
     ];
     // Get.lazyPut(() => DelegateWidgetController());
     return NaanBottomSheet(
@@ -94,7 +94,7 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                           enableDrag: true,
                           isScrollControlled: true);
                     },
-                    title: "Delegate",
+                    title: "Continue",
                   ),
                   0.018.vspace
                 ],

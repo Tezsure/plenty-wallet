@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widget
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/review_delegate_baker.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../../utils/colors/colors.dart';
 import '../../../../../../utils/styles/styles.dart';
@@ -226,7 +227,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               style: labelMedium.copyWith(
                   color: ColorConst.NeutralVariant.shade60),
               text:
-                  'Select a Baker you want to delegate funds to.\nThis list is powered by ',
+                  'Choose a baker to delegate your tez to.\nThis list is powered by ',
               children: [
                 TextSpan(
                     text: 'Tezos-nodes.com',
@@ -234,7 +235,10 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                         const TextStyle(decoration: TextDecoration.underline),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        CommonFunctions.launchURL('https://tezos-nodes.com/');
+                        CommonFunctions.launchURL(
+                          'https://tezos-nodes.com/',
+                          mode: LaunchMode.platformDefault,
+                        );
                       })
               ]),
         ),
