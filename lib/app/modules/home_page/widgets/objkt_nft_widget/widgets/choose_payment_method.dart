@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
@@ -8,7 +7,7 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/account_summ
 import 'package:naan_wallet/app/modules/account_summary/views/widgets/crypto_tab_widgets/token_checkbox.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/controllers/buy_nft_controller.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/review_nft.dart';
+
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -16,67 +15,104 @@ import '../../../../../../utils/styles/styles.dart';
 
 class ChoosePaymentMethod extends StatelessWidget {
   ChoosePaymentMethod({super.key});
-  final controller = Get.put(AccountSummaryController());
-  List<String> displayCoins = [
-    'tether',
-    'youves-uusd',
-    'lugh',
-    'kolibri-usd',
-    'usdtez',
-    "ctez",
+
+  final List<String> displayCoins = [
     "tezos",
+    'USDt',
+    'uUSD',
+    'kUSD',
+    'EURL',
+    "ctez",
   ];
   @override
   Widget build(BuildContext context) {
     final buyNftController = Get.put(BuyNFTController());
+    final controller = Get.put(AccountSummaryController());
     return NaanBottomSheet(
       isScrollControlled: true,
       title: "Choose payment",
       bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
-        Obx(() {
-          return SafeArea(
-            child: Column(
-              children: [
-                ListTile(
-                  onTap: buyNftController.buyWithCreditCard,
-                  dense: true,
-                  contentPadding: EdgeInsets.zero,
-                  leading: SvgPicture.asset("assets/svg/credit-card.svg"),
-                  title: Text(
-                    "Credit card",
-                    style: labelLarge,
-                  ),
-                  subtitle: Text(
-                    "Powered by wert.io",
-                    style: bodySmall.copyWith(color: ColorConst.textGrey1),
-                  ),
+        SafeArea(
+          child: Column(
+            children: [
+              ListTile(
+                onTap: buyNftController.buyWithCreditCard,
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+                leading: SvgPicture.asset("assets/svg/credit-card.svg"),
+                title: Text(
+                  "Credit card",
+                  style: labelLarge,
                 ),
-                const Divider(
-                  color: ColorConst.darkGrey,
-                  thickness: 1,
+                subtitle: Text(
+                  "Powered by wert.io",
+                  style: bodySmall.copyWith(color: ColorConst.textGrey1),
                 ),
-                controller.userTokens.isEmpty
-                    ? noTokens()
+              ),
+              const Divider(
+                color: ColorConst.darkGrey,
+                thickness: 1,
+              ),
+              Obx(
+                () => controller.userTokens.isEmpty
+                    ? Container()
                     : ListView.builder(
-                        itemCount: controller.userTokens.length,
+                        itemCount: displayCoins.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          if (!displayCoins.any((element) =>
-                              element.toLowerCase() ==
-                              controller.userTokens[index].symbol
-                                  ?.toLowerCase())) return Container();
-                          return _tokenBox(
-                            controller.userTokens[index],
-                            index,
-                            buyNftController,
-                          );
-                        })
-              ],
-            ),
-          );
-        })
+                          final token = controller.tokensList.firstWhereOrNull(
+                              (p0) =>
+                                  displayCoins[index].toLowerCase() ==
+                                  p0.symbol!.toLowerCase());
+
+                          var accountToken = controller.userTokens
+                              .firstWhereOrNull((p0) =>
+                                  displayCoins[index].toLowerCase() ==
+                                  p0.symbol!.toLowerCase());
+                          if (token != null && accountToken == null) {
+                            accountToken = AccountTokenModel(
+                                name: token.name!,
+                                symbol: token.symbol!,
+                                iconUrl: token.thumbnailUri,
+                                balance: 0,
+                                currentPrice: token.currentPrice,
+                                contractAddress: token.tokenAddress!,
+                                tokenId: token.tokenId!,
+                                decimals: token.decimals!);
+                          }
+
+                          if (displayCoins[index].toLowerCase() == "tezos") {
+                            accountToken = controller.userTokens
+                                    .firstWhereOrNull((element) =>
+                                        element.symbol!.toLowerCase() ==
+                                        "tezos") ??
+                                AccountTokenModel(
+                                    name: "Tezos",
+                                    symbol: "Tezos",
+                                    iconUrl: "assets/tezos_logo.png",
+                                    balance: 0,
+                                    currentPrice: controller.xtzPrice.value,
+                                    contractAddress: "xtz",
+                                    tokenId: "0",
+                                    decimals: 6);
+                          }
+                          return accountToken == null
+                              ? Container()
+                              : Obx(
+                                  () => _tokenBox(
+                                      accountToken!,
+                                      index,
+                                      buyNftController,
+                                      controller.xtzPrice.value),
+                                );
+                        },
+                      ),
+              )
+            ],
+          ),
+        )
       ],
     );
   }
@@ -111,9 +147,9 @@ class ChoosePaymentMethod extends StatelessWidget {
   }
 
   Widget _tokenBox(AccountTokenModel token, int index,
-          BuyNFTController buyNftController) =>
+          BuyNFTController buyNftController, double xtzPrice) =>
       TokenCheckbox(
-        xtzPrice: controller.xtzPrice.value,
+        xtzPrice: xtzPrice,
         tokenModel: token,
         isEditable: false,
         onCheckboxTap: () => {buyNftController.selectMethod(token)},

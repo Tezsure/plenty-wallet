@@ -56,11 +56,14 @@ class ReviewNFTSheet extends StatelessWidget {
               Text(
                 controller.selectedNFT.value?.name ?? "",
                 style: headlineSmall,
+                textAlign: TextAlign.center,
               ),
               0.02.vspace,
               Obx(
                 () => Text(
-                  "\$${((double.parse(controller.priceInToken.value) * controller.selectedToken.value!.currentPrice! * homeController.xtzPrice.value).toStringAsFixed(2))}",
+                  controller.selectedToken.value!.symbol == "Tezos"
+                      ? "\$${(double.parse(controller.priceInToken.value) * homeController.xtzPrice.value).toStringAsFixed(2)}"
+                      : "\$${((double.parse(controller.priceInToken.value) * controller.selectedToken.value!.currentPrice! * homeController.xtzPrice.value).toStringAsFixed(2))}",
                   style: headlineLarge,
                 ),
               ),
@@ -143,7 +146,10 @@ class ReviewNFTSheet extends StatelessWidget {
               ),
               Text(
                 "${controller.selectedToken.value!.balance.toStringAsFixed(3)} ${controller.selectedToken.value!.symbol}",
-                style: labelMedium,
+                style: labelMedium.copyWith(
+                    color: controller.error.isEmpty
+                        ? Colors.white
+                        : ColorConst.NaanRed),
               )
             ],
           )
@@ -250,7 +256,7 @@ class ReviewNFTSheet extends StatelessWidget {
         Expanded(
           child: SolidButton(
             onPressed: Get.back,
-            borderRadius: 1.5,
+            borderWidth: 1,
             borderColor: ColorConst.Neutral.shade80,
             textColor: ColorConst.Neutral.shade80,
             title: "Cancel",

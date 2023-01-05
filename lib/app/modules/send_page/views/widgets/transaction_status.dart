@@ -40,6 +40,7 @@ SnackbarController transactionStatusSnackbar({
   required TransactionStatus status,
   required String transactionAmount,
   required String tezAddress,
+  bool isBrowser = false,
   Duration duration = const Duration(minutes: 1),
 }) {
   return Get.rawSnackbar(
@@ -75,7 +76,8 @@ SnackbarController transactionStatusSnackbar({
     borderRadius: 8,
     maxWidth: 8.width,
     isDismissible: true,
-    margin: EdgeInsets.only(bottom: 30.sp, left: 15.sp, right: 15.sp),
+    margin: EdgeInsets.only(
+        bottom: isBrowser ? 80.sp : 30.sp, left: 15.sp, right: 15.sp),
     messageText: Padding(
       padding: EdgeInsets.only(left: 20.sp),
       child: SizedBox(

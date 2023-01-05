@@ -1,11 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+
 import 'package:simple_gql/simple_gql.dart';
 
-import '../../home_page/controllers/home_page_controller.dart';
 import '../../home_page/widgets/account_switch_widget/account_switch_widget.dart';
 import '../../home_page/widgets/objkt_nft_widget/widgets/choose_payment_method.dart';
 
@@ -19,6 +20,8 @@ class DappBrowserController extends GetxController {
   RxString url = ''.obs;
   RxString fa = ''.obs;
   RxString tokenId = ''.obs;
+  RxInt scrollY = 0.obs;
+
   var canGoBack = false.obs;
   var canGoForward = false.obs;
   var progress = 0.0.obs;
@@ -28,14 +31,74 @@ class DappBrowserController extends GetxController {
     canGoForward.value = await webViewController?.canGoForward() ?? false;
   }
 
+  @override
+  void onInit() {
+    super.onInit();
+
+    Timer.periodic(const Duration(milliseconds: 200), (c) {
+      if (isScrolling.value == true) {
+        isScrolling.value = false;
+      }
+    });
+  }
+
   void naanBuy(String url) {
-    Get.put(AccountSummaryController());
+    //Get.put(AccountSummaryController());
     Get.bottomSheet(
       AccountSwitch(
         title: "Buy NFT",
         subtitle:
             'This module will be powered by wert.io and you will be using wert’s interface.',
         onNext: () {
+/*           final controller = Get.put(AccountSummaryController());
+
+          List<String> displayCoins = [
+            "tezos",
+            'USDt',
+            'uUSD',
+            'kUSD',
+            'EURL',
+            "ctez",
+          ];
+          final accountTokens = <AccountTokenModel>[];
+          for (int index = 0; index < displayCoins.length; index++) {
+            final token = controller.tokensList.firstWhereOrNull((p0) =>
+                displayCoins[index].toLowerCase() == p0.symbol!.toLowerCase());
+
+            var accountToken = controller.userTokens.firstWhereOrNull((p0) =>
+                displayCoins[index].toLowerCase() == p0.symbol!.toLowerCase());
+
+            if (token != null && accountToken == null) {
+              accountToken = AccountTokenModel(
+                  name: token.name!,
+                  symbol: token.symbol!,
+                  iconUrl: token.thumbnailUri,
+                  balance: 0,
+                  currentPrice: token.currentPrice,
+                  contractAddress: token.tokenAddress!,
+                  tokenId: token.tokenId!,
+                  decimals: token.decimals!);
+            }
+
+            if (displayCoins[index].toLowerCase() == "tezos") {
+              accountToken = controller.userTokens.firstWhereOrNull(
+                      (element) => element.symbol!.toLowerCase() == "tezos") ??
+                  AccountTokenModel(
+                      name: "Tezos",
+                      symbol: "Tezos",
+                      iconUrl: "assets/tezos_logo.png",
+                      balance: 0,
+                      currentPrice: controller.xtzPrice.value,
+                      contractAddress: "xtz",
+                      tokenId: "0",
+                      decimals: 6);
+            }
+
+            if (accountToken != null) {
+              accountTokens.add(accountToken);
+            }
+          } */
+
           Get.bottomSheet(
             ChoosePaymentMethod(),
             settings: RouteSettings(

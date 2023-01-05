@@ -22,11 +22,12 @@ import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widge
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/review_nft.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/data/services/service_models/operation_model.dart';
+import 'package:naan_wallet/app/modules/wert/views/wert_browser_view.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:simple_gql/simple_gql.dart';
 
 class BuyNFTController extends GetxController {
-  Rx<AccountTokenModel?> selectedToken = null.obs;
+  final selectedToken = Rxn<AccountTokenModel>(null);
   String url = "";
 
   List<String> mainUrl = [];
@@ -35,7 +36,7 @@ class BuyNFTController extends GetxController {
   RxString priceInToken = ''.obs;
 
   RxMap<String, String> fees = <String, String>{
-    "netowrkFee": "calculating...",
+    "networkFee": "calculating...",
     "interfaceFee": "calculating...",
     "totalFee": "calculating...",
     "totalFeeInTez": "calculating...",
@@ -45,8 +46,9 @@ class BuyNFTController extends GetxController {
   final error = "".obs;
 
   void selectMethod(AccountTokenModel token) async {
+    if (selectedNFT.value == null) return;
     try {
-      selectedToken = token.obs;
+      selectedToken.value = token;
       final accountToken = Get.find<AccountSummaryController>();
       Get.back();
       Get.bottomSheet(
@@ -56,20 +58,92 @@ class BuyNFTController extends GetxController {
           arguments: url,
         ),
       );
+      print("selected token: ${token.symbol}");
+      if (token.symbol == "Tezos") {
+        priceInToken.value =
+            ((int.parse(selectedNFT.value!.lowestAsk) / 1e6) * 1.01).toString();
+      } else {
+        priceInToken.value =
+            (((int.parse(selectedNFT.value!.lowestAsk) / 1e6) * 1.05) /
+                    (double.parse(token.currentPrice.toString())))
+                .toString();
+      } // todo check calculation
 
-      priceInToken.value =
-          (((int.parse(selectedNFT.value!.lowestAsk) / 1e6) * 1.10) /
-                  (double.parse(token.currentPrice.toString())))
-              .toString(); // todo check calculation
+      print("price in token: ${priceInToken.value}");
+      if (token.symbol == "Tezos") {
+        print("tezos balance: ${token.balance.toString()}");
 
-      if (token.symbol == "USDt") {
+        if (double.parse(token.balance.toString()) <
+            double.parse(priceInToken.value)) {
+          fees.value = <String, String>{
+            "networkFee": "0.0",
+            "interfaceFee": "0.0",
+            "totalFee": "0.0",
+            "totalFeeInTez": "0.0",
+          };
+          error.value =
+              "Insufficient Balance, You don't have enough ${token.symbol} to buy this NFT";
+
+          return;
+        }
+        print(
+            "amount : ${(double.parse(priceInToken.value) * 1e6).ceilToDouble().toStringAsFixed(0)}");
+        List<OperationModelBatch> opreateList = [
+          OperationModelBatch(
+              destination: "KT1KSYWH1Vn5K2GnkzDTdDXoF6njjZVoajef",
+              amount: (double.parse(priceInToken.value) * 1e6).ceilToDouble(),
+              entrypoint: "purchaseToken",
+              parameters:
+                  """{"prim": "Pair","args": [{"int": "${selectedNFT.value!.tokenId}"},{"prim": "Pair","args": [{"int": "${selectedNFT.value!.lowestAsk}"},{"string": "${accountToken.selectedAccount.value.publicKeyHash!}"}]}]}"""),
+        ];
+        operation.value = await OperationService().preApplyOperationBatch(
+          opreateList,
+          ServiceConfig.currentSelectedNode,
+          KeyStoreModel(
+            publicKey: (await UserStorageService().readAccountSecrets(
+                    accountToken.selectedAccount.value.publicKeyHash!))!
+                .publicKey,
+            secretKey: (await UserStorageService().readAccountSecrets(
+                    accountToken.selectedAccount.value.publicKeyHash!))!
+                .secretKey,
+            publicKeyHash: accountToken.selectedAccount.value.publicKeyHash!,
+          ),
+        );
+        String networkFee =
+            ((int.parse(operation['gasEstimation']) / pow(10, 6)) *
+                    accountToken.xtzPrice.value)
+                .toStringAsFixed(4);
+
+        String interfaceFee =
+            (((int.parse(selectedNFT.value!.lowestAsk) / 1e6) *
+                        accountToken.xtzPrice.value) /
+                    100)
+                .toStringAsFixed(4); //todo 1% fee for now
+
+        String totalFee =
+            (double.parse(networkFee) + double.parse(interfaceFee))
+                .toStringAsFixed(4);
+
+        String totalFeeInTez =
+            (double.parse(totalFee) / accountToken.xtzPrice.value)
+                .toStringAsFixed(4);
+
+        fees.value = <String, String>{
+          "networkFee": networkFee,
+          "interfaceFee": interfaceFee,
+          "totalFee": totalFee,
+          "totalFeeInTez": totalFeeInTez,
+        };
+
+        loading.value = false;
+      } else if (token.symbol == "USDt") {
         //check user balance
         print("USDt balance: ${token.balance.toString()}");
 
         if (double.parse(token.balance.toString()) <
             double.parse(priceInToken.value)) {
           fees.value = <String, String>{
-            "netowrkFee": "0.0",
+            "networkFee": "0.0",
             "interfaceFee": "0.0",
             "totalFee": "0.0",
             "totalFeeInTez": "0.0",
@@ -110,7 +184,7 @@ class BuyNFTController extends GetxController {
             ((int.parse(operation['gasEstimation']) / pow(10, 6)) *
                     accountToken.xtzPrice.value)
                 .toStringAsFixed(4);
-
+        // print(operation["opPair"].toString());
         String interfaceFee =
             (((int.parse(selectedNFT.value!.lowestAsk) / 1e6) *
                         accountToken.xtzPrice.value) /
@@ -126,7 +200,7 @@ class BuyNFTController extends GetxController {
                 .toStringAsFixed(4);
 
         fees.value = <String, String>{
-          "netowrkFee": networkFee,
+          "networkFee": networkFee,
           "interfaceFee": interfaceFee,
           "totalFee": totalFee,
           "totalFeeInTez": totalFeeInTez,
@@ -140,7 +214,7 @@ class BuyNFTController extends GetxController {
         if (double.parse(token.balance.toString()) <
             double.parse(priceInToken.value)) {
           fees.value = <String, String>{
-            "netowrkFee": "0.0",
+            "networkFee": "0.0",
             "interfaceFee": "0.0",
             "totalFee": "0.0",
             "totalFeeInTez": "0.0",
@@ -197,7 +271,7 @@ class BuyNFTController extends GetxController {
                 .toStringAsFixed(4);
 
         fees.value = <String, String>{
-          "netowrkFee": networkFee,
+          "networkFee": networkFee,
           "interfaceFee": interfaceFee,
           "totalFee": totalFee,
           "totalFeeInTez": totalFeeInTez,
@@ -211,7 +285,7 @@ class BuyNFTController extends GetxController {
         if (double.parse(token.balance.toString()) <
             double.parse(priceInToken.value)) {
           fees.value = <String, String>{
-            "netowrkFee": "0.0",
+            "networkFee": "0.0",
             "interfaceFee": "0.0",
             "totalFee": "0.0",
             "totalFeeInTez": "0.0",
@@ -268,7 +342,7 @@ class BuyNFTController extends GetxController {
                 .toStringAsFixed(4);
 
         fees.value = <String, String>{
-          "netowrkFee": networkFee,
+          "networkFee": networkFee,
           "interfaceFee": interfaceFee,
           "totalFee": totalFee,
           "totalFeeInTez": totalFeeInTez,
@@ -282,7 +356,7 @@ class BuyNFTController extends GetxController {
         if (double.parse(token.balance.toString()) <
             double.parse(priceInToken.value)) {
           fees.value = <String, String>{
-            "netowrkFee": "0.0",
+            "networkFee": "0.0",
             "interfaceFee": "0.0",
             "totalFee": "0.0",
             "totalFeeInTez": "0.0",
@@ -339,7 +413,7 @@ class BuyNFTController extends GetxController {
                 .toStringAsFixed(4);
 
         fees.value = <String, String>{
-          "netowrkFee": networkFee,
+          "networkFee": networkFee,
           "interfaceFee": interfaceFee,
           "totalFee": totalFee,
           "totalFeeInTez": totalFeeInTez,
@@ -353,7 +427,7 @@ class BuyNFTController extends GetxController {
         if (double.parse(token.balance.toString()) <
             double.parse(priceInToken.value)) {
           fees.value = <String, String>{
-            "netowrkFee": "0.0",
+            "networkFee": "0.0",
             "interfaceFee": "0.0",
             "totalFee": "0.0",
             "totalFeeInTez": "0.0",
@@ -410,7 +484,7 @@ class BuyNFTController extends GetxController {
                 .toStringAsFixed(4);
 
         fees.value = <String, String>{
-          "netowrkFee": networkFee,
+          "networkFee": networkFee,
           "interfaceFee": interfaceFee,
           "totalFee": totalFee,
           "totalFeeInTez": totalFeeInTez,
@@ -419,11 +493,11 @@ class BuyNFTController extends GetxController {
         loading.value = false;
       }
 
-      print("NFT Price in Token: $priceInToken.value ${token.symbol}");
+      //print("NFT Price in Token: $priceInToken.value ${token.symbol}");
     } catch (e) {
       error.value = "Error: $e";
       fees.value = fees.value = <String, String>{
-        "netowrkFee": "0.0",
+        "networkFee": "0.0",
         "interfaceFee": "0.0",
         "totalFee": "0.0",
         "totalFeeInTez": "0.0",
@@ -515,7 +589,7 @@ class BuyNFTController extends GetxController {
       ),
       settings: RouteSettings(
         arguments:
-            "https://naan-nft-credit-card.netlify.app/?fa=${mainUrl[0]}&tokenId=${mainUrl[1]}&address=tz1WDRu8H4dHbUwygocLsmaXgHthGiV6JGJG&askId=${selectedNFT.value!.tokenId}&askPrice=${selectedNFT.value!.lowestAsk}&name=${selectedNFT.value!.name}",
+            ,
       ),
       enterBottomSheetDuration: const Duration(milliseconds: 180),
       exitBottomSheetDuration: const Duration(milliseconds: 150),
@@ -524,16 +598,23 @@ class BuyNFTController extends GetxController {
       isScrollControlled: true,
       barrierColor: const Color.fromARGB(09, 255, 255, 255),
     ); */
-    DappBrowserController dappBrowserController =
-        Get.find<DappBrowserController>();
 
-    dappBrowserController.webViewController!.loadUrl(
-        urlRequest: URLRequest(
-            url: Uri.parse(
-                "https://naan-nft-credit-card.netlify.app/?fa=${mainUrl[0]}&tokenId=${mainUrl[1]}&address=tz1WDRu8H4dHbUwygocLsmaXgHthGiV6JGJG&askId=${selectedNFT.value!.tokenId}&askPrice=${selectedNFT.value!.lowestAsk}&name=${selectedNFT.value!.name}")));
+    final url =
+        "https://naan-nft-credit-card.netlify.app/?fa=${mainUrl[0]}&tokenId=${mainUrl[1]}&address=tz1WDRu8H4dHbUwygocLsmaXgHthGiV6JGJG&askId=${selectedNFT.value!.tokenId}&askPrice=${selectedNFT.value!.lowestAsk}&name=${selectedNFT.value!.name}&ipfs=${selectedNFT.value!.artifactUri!.replaceAll("ipfs://", "")}";
+    Get.bottomSheet(
+      const WertBrowserView(),
+      barrierColor: Colors.white.withOpacity(0.09),
+      settings: RouteSettings(
+        arguments: url,
+      ),
+      isScrollControlled: true,
+      enterBottomSheetDuration: const Duration(milliseconds: 180),
+      exitBottomSheetDuration: const Duration(milliseconds: 150),
+    );
   }
 
   void openFeeSummary() {
+    Get.put(this);
     Get.bottomSheet(
       FeesSummarySheet(),
       settings: RouteSettings(
@@ -554,10 +635,10 @@ class BuyNFTController extends GetxController {
       final txHash = await OperationService()
           .injectOperation(operation, ServiceConfig.currentSelectedNode);
       Get.find<DappBrowserController>().showButton.value = false;
-      //todo start tracking tx here
 
       Get.back();
-      Get.bottomSheet(
+
+      await Get.bottomSheet(
         const BuyNftSuccessSheet(),
         settings: RouteSettings(
           arguments: url,
@@ -569,27 +650,23 @@ class BuyNFTController extends GetxController {
         isScrollControlled: true,
         barrierColor: const Color.fromARGB(09, 255, 255, 255),
       );
+      // start tracking tx here
+      onConfirm(selectedToken.value!,
+          double.parse(priceInToken.value).toStringAsFixed(3), txHash);
     }
   }
 
-  Future<void> onConfirm(OperationModel operationModel, String opHash) async {
+  onConfirm(AccountTokenModel token, String amount, String opHash) {
     DataHandlerService().onGoingTxStatusHelpers.add(OnGoingTxStatusHelper(
         opHash: opHash,
         status: TransactionStatus.pending,
-        transactionAmount: operationModel.amount == 0.0
-            ? "1 ${operationModel.model.nodes}"
-            : operationModel.amount!.toStringAsFixed(6).removeTrailing0 +
-                " " +
-                (operationModel.model as AccountTokenModel).symbol!,
-        tezAddress: operationModel.receiveAddress!.tz1Short()));
+        transactionAmount: "$amount ${token.symbol!}",
+        isBrowser: true,
+        tezAddress: "${opHash.substring(0, 6)}...."));
     transactionStatusSnackbar(
-      status: TransactionStatus.pending,
-      tezAddress: operationModel.receiveAddress!.tz1Short(),
-      transactionAmount: operationModel.amount == 0.0
-          ? "1 ${operationModel.model.nodes}"
-          : operationModel.amount!.toStringAsFixed(6).removeTrailing0 +
-              " " +
-              (operationModel.model as AccountTokenModel).symbol!,
-    );
+        status: TransactionStatus.pending,
+        tezAddress: "${opHash.substring(0, 6)}....",
+        transactionAmount: "$amount ${token.symbol!}",
+        isBrowser: true);
   }
 }

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:get/get.dart';
@@ -104,60 +105,52 @@ class DappBrowserView extends GetView<DappBrowserController> {
             Expanded(
               child: Obx(
                 (() => Scaffold(
+                      resizeToAvoidBottomInset: false,
                       backgroundColor: ColorConst.darkGrey,
                       floatingActionButtonLocation:
                           FloatingActionButtonLocation.miniCenterFloat,
                       floatingActionButton: controller.showButton.value
-                          ? AnimatedCrossFade(
-                              sizeCurve: Curves.easeIn,
-                              secondCurve: Curves.easeIn,
-                              firstCurve: Curves.easeIn,
-                              duration: const Duration(milliseconds: 500),
-                              firstChild: Container(),
-                              crossFadeState: controller.isScrolling.value
-                                  ? CrossFadeState.showFirst
-                                  : CrossFadeState.showSecond,
-                              secondChild: SolidButton(
-                                height: 45.arP,
-                                borderRadius: 30.arP,
-                                width: 110.arP,
-                                primaryColor: ColorConst.Primary,
-                                onPressed: () {
-                                  print("buy now ${controller.url.value}");
-                                  controller.naanBuy(controller
-                                      .webViewController!
-                                      .getUrl()
-                                      .toString());
-                                },
-                                child: Center(
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                      ),
-                                      0.01.hspace,
-                                      Text(
-                                        "Buy",
-                                        style: labelLarge,
-                                      )
-                                    ],
+                          ? !controller.isScrolling.value
+                              ? SolidButton(
+                                  height: 45.arP,
+                                  borderRadius: 30.arP,
+                                  width: 110.arP,
+                                  primaryColor: ColorConst.Primary,
+                                  onPressed: () {
+                                    print("buy now ${controller.url.value}");
+                                    controller.naanBuy(controller
+                                        .webViewController!
+                                        .getUrl()
+                                        .toString());
+                                  },
+                                  child: Center(
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                        ),
+                                        0.01.hspace,
+                                        Text(
+                                          "Buy",
+                                          style: labelLarge,
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                            )
+                                )
+                              : null
                           : null,
                       body: InAppWebView(
-                        onScrollChanged: (a, b, c) async {
-                          final isScroll = (await a.getScrollY()) ?? 0;
-                          log(isScroll.toString());
-
-                          controller.isScrolling.value =
-                              isScroll > controller.offset.value;
-                          controller.offset.value = isScroll;
+                        onScrollChanged: (a, x, y) async {
+                          //detect scroll
+                          if (y != controller.scrollY.value) {
+                            controller.isScrolling.value = true;
+                            controller.scrollY.value = y;
+                          }
                         },
                         gestureRecognizers: {
                           Factory<OneSequenceGestureRecognizer>(

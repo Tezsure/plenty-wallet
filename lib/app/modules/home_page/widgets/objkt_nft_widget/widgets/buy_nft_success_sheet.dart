@@ -57,6 +57,7 @@ class BuyNftSuccessSheet extends StatelessWidget {
                 SolidButton(
                   borderColor: ColorConst.Primary,
                   active: true,
+                  borderWidth: 1,
                   textColor: ColorConst.Primary,
                   primaryColor: Colors.transparent,
                   onPressed: () {
@@ -67,6 +68,7 @@ class BuyNftSuccessSheet extends StatelessWidget {
                 0.018.vspace,
                 SolidButton(
                   active: true,
+                  borderWidth: 1,
                   onPressed: () {
                     Share.share(
                         "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}");

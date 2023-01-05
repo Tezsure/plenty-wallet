@@ -37,12 +37,14 @@ class FeesSummarySheet extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "${controller.selectedNFT.value!.lowestAsk.toString()}  ${controller.selectedToken.value!.symbol!.toUpperCase()}",
+                      "${double.parse(controller.priceInToken.value).toStringAsFixed(3)} ${controller.selectedToken.value?.symbol!.toUpperCase()}",
                       style: bodyLarge.copyWith(color: ColorConst.textGrey1),
                     ),
                     const Spacer(),
                     Text(
-                      "\$${controller.selectedNFT.value!.lowestAsk * (homeController.xtzPrice.value)}",
+                      controller.selectedToken.value!.symbol == "Tezos"
+                          ? "\$${(double.parse(controller.priceInToken.value) * homeController.xtzPrice.value).toStringAsFixed(2)}"
+                          : "\$${((double.parse(controller.priceInToken.value) * controller.selectedToken.value!.currentPrice! * homeController.xtzPrice.value).toStringAsFixed(2))}",
                       style: bodyLarge,
                     )
                   ],
@@ -52,12 +54,12 @@ class FeesSummarySheet extends StatelessWidget {
                   subtitle:
                       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. ",
                   title: "Network fee",
-                  trailing: "\$0.00018"),
+                  trailing: "\$ ${controller.fees["networkFee"]}"),
               _buildFeeTitle(
                   subtitle:
                       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.  ",
                   title: "Interface fee",
-                  trailing: "\$0.00018"),
+                  trailing: "\$${controller.fees["interfaceFee"]}"),
             ],
           ),
         ),
