@@ -28,92 +28,86 @@ class ChoosePaymentMethod extends StatelessWidget {
   Widget build(BuildContext context) {
     final buyNftController = Get.put(BuyNFTController());
     final controller = Get.put(AccountSummaryController());
-    return NaanBottomSheet(
-      isScrollControlled: true,
-      title: "Choose payment",
-      bottomSheetHorizontalPadding: 16.arP,
-      bottomSheetWidgets: [
-        SafeArea(
-          child: Column(
-            children: [
-              ListTile(
-                onTap: buyNftController.buyWithCreditCard,
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                leading: SvgPicture.asset("assets/svg/credit-card.svg"),
-                title: Text(
-                  "Credit card",
-                  style: labelLarge,
-                ),
-                subtitle: Text(
-                  "Powered by wert.io",
-                  style: bodySmall.copyWith(color: ColorConst.textGrey1),
-                ),
-              ),
-              const Divider(
-                color: ColorConst.darkGrey,
-                thickness: 1,
-              ),
-              Obx(
-                () => controller.userTokens.isEmpty
-                    ? Container()
-                    : ListView.builder(
-                        itemCount: displayCoins.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final token = controller.tokensList.firstWhereOrNull(
-                              (p0) =>
-                                  displayCoins[index].toLowerCase() ==
-                                  p0.symbol!.toLowerCase());
-
-                          var accountToken = controller.userTokens
-                              .firstWhereOrNull((p0) =>
-                                  displayCoins[index].toLowerCase() ==
-                                  p0.symbol!.toLowerCase());
-                          if (token != null && accountToken == null) {
-                            accountToken = AccountTokenModel(
-                                name: token.name!,
-                                symbol: token.symbol!,
-                                iconUrl: token.thumbnailUri,
-                                balance: 0,
-                                currentPrice: token.currentPrice,
-                                contractAddress: token.tokenAddress!,
-                                tokenId: token.tokenId!,
-                                decimals: token.decimals!);
-                          }
-
-                          if (displayCoins[index].toLowerCase() == "tezos") {
-                            accountToken = controller.userTokens
-                                    .firstWhereOrNull((element) =>
-                                        element.symbol!.toLowerCase() ==
-                                        "tezos") ??
-                                AccountTokenModel(
-                                    name: "Tezos",
-                                    symbol: "Tezos",
-                                    iconUrl: "assets/tezos_logo.png",
-                                    balance: 0,
-                                    currentPrice: controller.xtzPrice.value,
-                                    contractAddress: "xtz",
-                                    tokenId: "0",
-                                    decimals: 6);
-                          }
-                          return accountToken == null
-                              ? Container()
-                              : Obx(
-                                  () => _tokenBox(
-                                      accountToken!,
-                                      index,
-                                      buyNftController,
-                                      controller.xtzPrice.value),
-                                );
-                        },
-                      ),
-              )
-            ],
+    return SizedBox(
+      height: 0.7.height,
+      child: NaanBottomSheet(
+        height: 0.7.height,
+        isScrollControlled: true,
+        title: "Choose payment",
+        bottomSheetHorizontalPadding: 16.arP,
+        bottomSheetWidgets: [
+          ListTile(
+            onTap: buyNftController.buyWithCreditCard,
+            dense: true,
+            contentPadding: EdgeInsets.zero,
+            leading: SvgPicture.asset("assets/svg/credit-card.svg"),
+            title: Text(
+              "Credit card",
+              style: labelLarge,
+            ),
+            subtitle: Text(
+              "Powered by wert.io",
+              style: bodySmall.copyWith(color: ColorConst.textGrey1),
+            ),
           ),
-        )
-      ],
+          const Divider(
+            color: ColorConst.darkGrey,
+            thickness: 1,
+          ),
+          Obx(
+            () => controller.userTokens.isEmpty
+                ? Container()
+                : ListView.builder(
+                    itemCount: displayCoins.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final token = controller.tokensList.firstWhereOrNull(
+                          (p0) =>
+                              displayCoins[index].toLowerCase() ==
+                              p0.symbol!.toLowerCase());
+
+                      var accountToken = controller.userTokens.firstWhereOrNull(
+                          (p0) =>
+                              displayCoins[index].toLowerCase() ==
+                              p0.symbol!.toLowerCase());
+                      if (token != null && accountToken == null) {
+                        accountToken = AccountTokenModel(
+                            name: token.name!,
+                            symbol: token.symbol!,
+                            iconUrl: token.thumbnailUri,
+                            balance: 0,
+                            currentPrice: token.currentPrice,
+                            contractAddress: token.tokenAddress!,
+                            tokenId: token.tokenId!,
+                            decimals: token.decimals!);
+                      }
+
+                      if (displayCoins[index].toLowerCase() == "tezos") {
+                        accountToken = controller.userTokens.firstWhereOrNull(
+                                (element) =>
+                                    element.symbol!.toLowerCase() == "tezos") ??
+                            AccountTokenModel(
+                                name: "Tezos",
+                                symbol: "Tezos",
+                                iconUrl: "assets/tezos_logo.png",
+                                balance: 0,
+                                currentPrice: controller.xtzPrice.value,
+                                contractAddress: "xtz",
+                                tokenId: "0",
+                                decimals: 6);
+                      }
+                      return accountToken == null
+                          ? Container()
+                          : Obx(
+                              () => _tokenBox(accountToken!, index,
+                                  buyNftController, controller.xtzPrice.value),
+                            );
+                    },
+                  ),
+          )
+        ],
+      ),
     );
   }
 

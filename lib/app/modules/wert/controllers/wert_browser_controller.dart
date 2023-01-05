@@ -1,17 +1,7 @@
-import 'dart:async';
-
-import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
-import 'package:simple_gql/simple_gql.dart';
 
-import '../../home_page/controllers/home_page_controller.dart';
-import '../../home_page/widgets/account_switch_widget/account_switch_widget.dart';
-import '../../home_page/widgets/objkt_nft_widget/widgets/choose_payment_method.dart';
+import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 
 class WertBrowserController extends GetxController {
   InAppWebViewController? webViewController;

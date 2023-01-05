@@ -21,21 +21,21 @@ class DappBrowserController extends GetxController {
   RxString fa = ''.obs;
   RxString tokenId = ''.obs;
   RxInt scrollY = 0.obs;
-
+  Timer? t;
   var canGoBack = false.obs;
   var canGoForward = false.obs;
   var progress = 0.0.obs;
   final beaconPlugin = Get.find<BeaconService>().beaconPlugin;
   void setCanGoBackForward() async {
-    canGoBack.value = await webViewController?.canGoBack() ?? false;
-    canGoForward.value = await webViewController?.canGoForward() ?? false;
+    canGoBack.value = await webViewController?.canGoBack() ?? canGoBack.value;
+    canGoForward.value =
+        await webViewController?.canGoForward() ?? canGoForward.value;
   }
 
   @override
   void onInit() {
     super.onInit();
-
-    Timer.periodic(const Duration(milliseconds: 200), (c) {
+    t = Timer.periodic(const Duration(milliseconds: 200), (c) {
       if (isScrolling.value == true) {
         isScrolling.value = false;
       }
