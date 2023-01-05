@@ -26,10 +26,10 @@ class DappBrowserController extends GetxController {
   var canGoForward = false.obs;
   var progress = 0.0.obs;
   final beaconPlugin = Get.find<BeaconService>().beaconPlugin;
-  void setCanGoBackForward() async {
-    canGoBack.value = await webViewController?.canGoBack() ?? canGoBack.value;
-    canGoForward.value =
-        await webViewController?.canGoForward() ?? canGoForward.value;
+
+  setCanGoBackForward() async {
+    canGoBack.value = await webViewController?.canGoBack() ?? false;
+    canGoForward.value = await webViewController?.canGoForward() ?? false;
   }
 
   @override

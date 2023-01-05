@@ -269,7 +269,9 @@ class ReviewNFTSheet extends StatelessWidget {
             () => SolidButton(
               title: "Confirm",
               onPressed: () {
-                controller.openSuccessSheet();
+                if (controller.operation.isNotEmpty) {
+                  controller.openSuccessSheet();
+                }
               },
               child: controller.operation.isEmpty
                   ? const SizedBox(

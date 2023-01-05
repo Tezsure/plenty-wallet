@@ -34,8 +34,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
           useHybridComposition: true,
         ),
         ios: IOSInAppWebViewOptions(
-          allowsInlineMediaPlayback: true,
-        ));
+            allowsInlineMediaPlayback: true, useOnNavigationResponse: true));
     PullToRefreshController pullToRefreshController = PullToRefreshController(
       options: PullToRefreshOptions(
         color: Colors.blue,
@@ -48,6 +47,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
               urlRequest: URLRequest(
                   url: await controller.webViewController?.getUrl()));
         }
+        controller.setCanGoBackForward();
       },
     );
 
@@ -165,6 +165,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                         },
                         onLoadStart: (controller, url) {
                           this.controller.url.value = url.toString();
+                          this.controller.setCanGoBackForward();
                         },
                         androidOnPermissionRequest:
                             (controller, origin, resources) async {
@@ -175,6 +176,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                         },
                         shouldOverrideUrlLoading:
                             (controller, navigationAction) async {
+                          await this.controller.setCanGoBackForward();
                           var uri = navigationAction.request.url.toString();
                           if (uri.startsWith('tezos://') ||
                               uri.startsWith('naan://')) {
@@ -215,6 +217,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                         },
                         onLoadError: (controller, url, code, message) {
                           pullToRefreshController.endRefreshing();
+                          this.controller.setCanGoBackForward();
                         },
                         onProgressChanged: (webController, progress) {
                           if (progress == 100) {
@@ -228,6 +231,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                           print(url.toString());
                           this.controller.url.value = url.toString();
                           this.controller.onUrlUpdate(url.toString());
+                          this.controller.setCanGoBackForward();
                         },
                         onConsoleMessage: (controller, consoleMessage) {
                           print(consoleMessage);
@@ -245,18 +249,17 @@ class DappBrowserView extends GetView<DappBrowserController> {
               height: 1,
               color: Colors.white.withOpacity(0.5),
             ),
-            Obx(
-              () => Container(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          IconButton(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Obx(
+                          () => IconButton(
                             icon: controller.canGoBack.value
                                 ? Image.asset(
                                     "assets/dapp_browser/back_light.png",
@@ -274,7 +277,9 @@ class DappBrowserView extends GetView<DappBrowserController> {
                               }
                             },
                           ),
-                          IconButton(
+                        ),
+                        Obx(
+                          () => IconButton(
                             icon: controller.canGoForward.value
                                 ? Image.asset(
                                     "assets/dapp_browser/forward_light.png",
@@ -292,43 +297,43 @@ class DappBrowserView extends GetView<DappBrowserController> {
                               }
                             },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    0.2.hspace,
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          IconButton(
-                            icon: Image.asset(
-                              "assets/dapp_browser/reload.png",
-                              height: 20,
-                              width: 20,
-                            ),
-                            color: Colors.white,
-                            onPressed: () {
-                              controller.webViewController?.reload();
-                            },
+                  ),
+                  0.2.hspace,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            "assets/dapp_browser/reload.png",
+                            height: 20,
+                            width: 20,
                           ),
-                          IconButton(
-                            icon: Image.asset(
-                              "assets/dapp_browser/home.png",
-                              height: 20,
-                              width: 20,
-                            ),
-                            color: Colors.white,
-                            onPressed: () {
-                              Get.back();
-                            },
+                          color: Colors.white,
+                          onPressed: () {
+                            controller.webViewController?.reload();
+                          },
+                        ),
+                        IconButton(
+                          icon: Image.asset(
+                            "assets/dapp_browser/home.png",
+                            height: 20,
+                            width: 20,
                           ),
-                        ],
-                      ),
+                          color: Colors.white,
+                          onPressed: () {
+                            Get.back();
+                          },
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              )),
+                  ),
+                ],
+              ),
             )
           ],
         ),

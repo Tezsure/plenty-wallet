@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:dartez/models/key_store_model.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
@@ -16,14 +15,11 @@ import 'package:naan_wallet/app/data/services/service_models/operation_batch_mod
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/controllers/dapp_browser_controller.dart';
-import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/buy_nft_success_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/fees_summary.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/review_nft.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
-import 'package:naan_wallet/app/data/services/service_models/operation_model.dart';
 import 'package:naan_wallet/app/modules/wert/views/wert_browser_view.dart';
-import 'package:naan_wallet/utils/utils.dart';
 import 'package:simple_gql/simple_gql.dart';
 
 class BuyNFTController extends GetxController {
@@ -159,7 +155,7 @@ class BuyNFTController extends GetxController {
               amount: 0,
               entrypoint: "transfer",
               parameters:
-                  """[ { "prim": "Pair", "args": [ { "string": "${accountToken.selectedAccount.value.publicKeyHash!}" }, [ { "prim": "Pair", "args": [ { "string": "KT1JoZgGSgiW4xWLMRgcN1GgqZNwCHsxkjQ4" }, { "prim": "Pair", "args": [ { "int": "0" }, { "int": "${(double.parse(priceInToken.value) * 1e6).toStringAsFixed(0)}" } ] } ] } ] ] } ]"""),
+                  """[ { "prim": "Pair", "args": [ { "string": "${accountToken.selectedAccount.value.publicKeyHash!}" }, [ { "prim": "Pair", "args": [ { "string": "KT1KSYWH1Vn5K2GnkzDTdDXoF6njjZVoajef" }, { "prim": "Pair", "args": [ { "int": "0" }, { "int": "${(double.parse(priceInToken.value) * 1e6).toStringAsFixed(0)}" } ] } ] } ] ] } ]"""),
           OperationModelBatch(
               destination: "KT1KSYWH1Vn5K2GnkzDTdDXoF6njjZVoajef",
               amount: 0,
@@ -230,7 +226,7 @@ class BuyNFTController extends GetxController {
               amount: 0,
               entrypoint: "transfer",
               parameters:
-                  """[ { "prim": "Pair", "args": [ { "string": "${accountToken.selectedAccount.value.publicKeyHash!}" }, [ { "prim": "Pair", "args": [ { "string": "KT1JoZgGSgiW4xWLMRgcN1GgqZNwCHsxkjQ4" }, { "prim": "Pair", "args": [ { "int": "0" }, { "int": "${(double.parse(priceInToken.value) * 1e12).toStringAsFixed(0)}" } ] } ] } ] ] } ]"""),
+                  """[ { "prim": "Pair", "args": [ { "string": "${accountToken.selectedAccount.value.publicKeyHash!}" }, [ { "prim": "Pair", "args": [ { "string": "KT1KSYWH1Vn5K2GnkzDTdDXoF6njjZVoajef" }, { "prim": "Pair", "args": [ { "int": "0" }, { "int": "${(double.parse(priceInToken.value) * 1e12).toStringAsFixed(0)}" } ] } ] } ] ] } ]"""),
           OperationModelBatch(
               destination: "KT1KSYWH1Vn5K2GnkzDTdDXoF6njjZVoajef",
               amount: 0,
@@ -301,7 +297,7 @@ class BuyNFTController extends GetxController {
               amount: 0,
               entrypoint: "transfer",
               parameters:
-                  """{ "prim": "Pair", "args": [ { "string": "${accountToken.selectedAccount.value.publicKeyHash!}" }, { "prim": "Pair", "args": [ { "string": "KT1JoZgGSgiW4xWLMRgcN1GgqZNwCHsxkjQ4" }, { "int": "${(double.parse(priceInToken.value) * 1e18).toStringAsFixed(0)}" } ] } ] }"""),
+                  """{ "prim": "Pair", "args": [ { "string": "${accountToken.selectedAccount.value.publicKeyHash!}" }, { "prim": "Pair", "args": [ { "string": "KT1KSYWH1Vn5K2GnkzDTdDXoF6njjZVoajef" }, { "int": "${(double.parse(priceInToken.value) * 1e18).toStringAsFixed(0)}" } ] } ] }"""),
           OperationModelBatch(
               destination: "KT1KSYWH1Vn5K2GnkzDTdDXoF6njjZVoajef",
               amount: 0,
@@ -372,7 +368,7 @@ class BuyNFTController extends GetxController {
               amount: 0,
               entrypoint: "transfer",
               parameters:
-                  """[ { "prim": "Pair", "args": [ { "string": "${accountToken.selectedAccount.value.publicKeyHash!}" }, [ { "prim": "Pair", "args": [ { "string": "KT1JoZgGSgiW4xWLMRgcN1GgqZNwCHsxkjQ4" }, { "prim": "Pair", "args": [ { "int": "0" }, { "int": "${(double.parse(priceInToken.value) * 1e6).toStringAsFixed(0)}" } ] } ] } ] ] } ]"""),
+                  """[ { "prim": "Pair", "args": [ { "string": "${accountToken.selectedAccount.value.publicKeyHash!}" }, [ { "prim": "Pair", "args": [ { "string": "KT1KSYWH1Vn5K2GnkzDTdDXoF6njjZVoajef" }, { "prim": "Pair", "args": [ { "int": "0" }, { "int": "${(double.parse(priceInToken.value) * 1e6).toStringAsFixed(0)}" } ] } ] } ] ] } ]"""),
           OperationModelBatch(
               destination: "KT1KSYWH1Vn5K2GnkzDTdDXoF6njjZVoajef",
               amount: 0,
@@ -443,7 +439,7 @@ class BuyNFTController extends GetxController {
               amount: 0,
               entrypoint: "transfer",
               parameters:
-                  """{ "prim": "Pair", "args": [ { "string": "${accountToken.selectedAccount.value.publicKeyHash!}" }, { "prim": "Pair", "args": [ { "string": "KT1JoZgGSgiW4xWLMRgcN1GgqZNwCHsxkjQ4" }, { "int": "${(double.parse(priceInToken.value) * 1e6).toStringAsFixed(0)}" } ] } ] }"""),
+                  """{ "prim": "Pair", "args": [ { "string": "${accountToken.selectedAccount.value.publicKeyHash!}" }, { "prim": "Pair", "args": [ { "string": "KT1KSYWH1Vn5K2GnkzDTdDXoF6njjZVoajef" }, { "int": "${(double.parse(priceInToken.value) * 1e6).toStringAsFixed(0)}" } ] } ] }"""),
           OperationModelBatch(
               destination: "KT1KSYWH1Vn5K2GnkzDTdDXoF6njjZVoajef",
               amount: 0,
@@ -598,9 +594,9 @@ class BuyNFTController extends GetxController {
       isScrollControlled: true,
       barrierColor: const Color.fromARGB(09, 255, 255, 255),
     ); */
-
+    final accountToken = Get.find<AccountSummaryController>();
     final url =
-        "https://naan-nft-credit-card.netlify.app/?fa=${mainUrl[0]}&tokenId=${mainUrl[1]}&address=tz1WDRu8H4dHbUwygocLsmaXgHthGiV6JGJG&askId=${selectedNFT.value!.tokenId}&askPrice=${selectedNFT.value!.lowestAsk}&name=${selectedNFT.value!.name}&ipfs=${selectedNFT.value!.artifactUri!.replaceAll("ipfs://", "")}";
+        "https://naan-nft-credit-card.netlify.app/?fa=${mainUrl[0]}&tokenId=${mainUrl[1]}&address=${accountToken.selectedAccount.value.publicKeyHash!}&askId=${selectedNFT.value!.tokenId}&askPrice=${selectedNFT.value!.lowestAsk}&name=${selectedNFT.value!.name}&ipfs=${selectedNFT.value!.artifactUri!.replaceAll("ipfs://", "")}";
     Get.bottomSheet(
       const WertBrowserView(),
       barrierColor: Colors.white.withOpacity(0.09),
