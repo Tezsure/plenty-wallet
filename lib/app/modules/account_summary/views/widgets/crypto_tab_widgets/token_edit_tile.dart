@@ -64,6 +64,9 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        SizedBox(
+                          width: 5.arP,
+                        ),
                         Text(
                           expandedTokenList ? 'Less' : 'All',
                           style: labelLarge.copyWith(

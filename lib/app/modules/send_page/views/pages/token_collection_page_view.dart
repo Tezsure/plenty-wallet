@@ -185,7 +185,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
           child: Row(
             children: [
               CircleAvatar(
-                radius: 22,
+                radius: 20.arP,
                 backgroundColor:
                     ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                 child: tokenModel.iconUrl!.startsWith("assets")
@@ -209,10 +209,6 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                                       ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
                                       : tokenModel.iconUrl!)),
                             ),
-                            // child: CachedNetworkImage(
-                            //   ,
-                            //   fit: BoxFit.contain,
-                            // ),
                           ),
               ),
               0.03.hspace,
@@ -220,10 +216,14 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                   textAlign: TextAlign.start,
                   text: TextSpan(
                       text: '${tokenModel.symbol}\n',
-                      style: labelSmall,
+                      style: labelSmall.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                       children: [
                         TextSpan(
-                          text: tokenModel.balance.toStringAsFixed(6),
+                          text: tokenModel.balance
+                              .toStringAsFixed(tokenModel.decimals)
+                              .removeTrailing0,
                           style: labelSmall.apply(
                               color: ColorConst.NeutralVariant.shade60),
                         )
@@ -238,13 +238,12 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 alignment: Alignment.center,
                 child: Text(
-                  r"$" +
-                      (tokenModel.name == "Tezos"
-                              ? controller.xtzPrice.value
-                              : (tokenModel.currentPrice! *
-                                  controller.xtzPrice.value))
-                          .toStringAsFixed(6)
-                          .removeTrailing0,
+                  (tokenModel.name == "Tezos"
+                          ? controller.xtzPrice.value
+                          : (tokenModel.currentPrice! *
+                              controller.xtzPrice.value))
+                      .roundUpDollar()
+                      .removeTrailing0,
                   style: labelSmall.apply(
                     color: Colors.white,
                   ),

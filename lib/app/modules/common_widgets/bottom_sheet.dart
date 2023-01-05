@@ -82,7 +82,9 @@ class NaanBottomSheet extends StatelessWidget {
                         ),
                       ),
                     ),
-                    0.020.vspace,
+                    SizedBox(
+                      height: 15.arP,
+                    ),
                     Align(
                       alignment: titleAlignment ?? Alignment.centerLeft,
                       child: Text(
@@ -126,7 +128,7 @@ class NaanBottomSheet extends StatelessWidget {
                         BorderRadius.vertical(top: Radius.circular(10)),
                     color: Colors.black),
                 width: width ?? 1.width,
-                height: height,
+                height: height! + 15.arP,
                 padding: EdgeInsets.symmetric(
                     horizontal: bottomSheetHorizontalPadding ?? 32),
                 child: isScrollControlled
@@ -157,7 +159,9 @@ class NaanBottomSheet extends StatelessWidget {
               ),
             ),
             if (title != null) ...[
-              0.01.vspace,
+              SizedBox(
+                height: 15.arP,
+              ),
               Align(
                 alignment: titleAlignment ?? Alignment.center,
                 child: Text(

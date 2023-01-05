@@ -160,7 +160,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                           ),
                           0.015.hspace,
                           Text(
-                            "Start using Naan",
+                            "Start using naan",
                             style: titleSmall.copyWith(
                                 color: !controller.isContiuneButtonEnable.value
                                     ? ColorConst.textGrey1
@@ -181,7 +181,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                           ),
                           0.02.hspace,
                           Text(
-                            "Start using Naan",
+                            "Start using naan",
                             style: titleSmall.copyWith(
                                 color: !controller.isContiuneButtonEnable.value
                                     ? ColorConst.textGrey1

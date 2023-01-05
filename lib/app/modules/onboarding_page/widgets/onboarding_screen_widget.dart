@@ -117,7 +117,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                             style: TextStyle(
                               fontFamily: 'Space Grotesk',
                               color: Colors.white,
-                              fontSize: 40.sp,
+                              fontSize: 44.arP,
                               fontWeight: FontWeight.w400,
                             ),
                           ),

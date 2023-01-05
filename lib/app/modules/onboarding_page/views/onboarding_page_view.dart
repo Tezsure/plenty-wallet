@@ -61,7 +61,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                   child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 32.sp),
                       child: SolidButton(
-                        title: 'Get Started',
+                        title: 'Get started',
                         onPressed: () {
                           controller.navigateToLogin();
                         },
