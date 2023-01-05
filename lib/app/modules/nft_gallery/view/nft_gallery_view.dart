@@ -476,7 +476,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
               physics: const BouncingScrollPhysics(),
               crossAxisCount: Get.width > 768 ? 3 : 2,
               mainAxisSpacing: 12.arP,
-              addAutomaticKeepAlives: true,
+              addAutomaticKeepAlives: false,
+              addRepaintBoundaries: false,
               crossAxisSpacing: 12.arP,
               itemCount: nfts.length,
               itemBuilder: (context, index) => Container(

@@ -170,6 +170,7 @@ class ServiceConfig {
         alias
       }
       event_type
+      marketplace_event_type
       amount
     }
     fa {
@@ -230,6 +231,7 @@ class ServiceConfig {
         alias
       }
       event_type
+      marketplace_event_type
       amount
     }
     fa {

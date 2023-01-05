@@ -29,7 +29,12 @@ class NftGalleryModel {
             : Random().nextInt(addresses.length - 1)]);
     if (nfts.isNotEmpty) {
       int random = nfts.length == 1 ? 0 : Random().nextInt(nfts.length - 1);
-      nftTokenModel = nfts[random];
+      nftTokenModel = NftTokenModel(
+        name: nfts[random].name,
+        faContract: nfts[random].faContract,
+        tokenId: nfts[random].tokenId,
+      );
+      // nftTokenModel = nfts[random];
     } else {
       nftTokenModel = NftTokenModel(
         name: 'No NFTs',

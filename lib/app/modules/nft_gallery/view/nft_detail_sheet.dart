@@ -467,7 +467,11 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                         fit: BoxFit.contain),
                   ),
                   title: Text(
-                    widget.nftModel!.events![index].eventType
+                    widget.nftModel!.events![index].marketplaceEventType
+                            ?.split("_")
+                            .join(" ")
+                            .capitalizeFirst ??
+                        widget.nftModel!.events![index].eventType
                             ?.capitalizeFirst ??
                         "Sale",
                     style: labelMedium.copyWith(fontSize: 12.aR),

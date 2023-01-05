@@ -124,7 +124,7 @@ class AccountSummaryController extends GetxController {
   /// Fetches the user account NFTs
   Future<void> _fetchAllNfts() async {
     userNfts.clear();
-    if (selectedAccount.value == null) return;
+    if (selectedAccount.value.publicKeyHash == null) return;
     UserStorageService()
         .getUserNfts(userAddress: selectedAccount.value.publicKeyHash!)
         .then((nftList) {

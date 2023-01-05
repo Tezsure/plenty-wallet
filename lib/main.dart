@@ -14,7 +14,7 @@ import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart'
 import 'app/routes/app_pages.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();   
   DartPluginRegistrant.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
   SystemChrome.setPreferredOrientations([

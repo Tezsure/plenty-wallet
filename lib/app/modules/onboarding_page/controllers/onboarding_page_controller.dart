@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
@@ -37,7 +39,7 @@ class OnboardingPageController extends GetxController {
   List<Color> get colorList => _colorList;
 
   var pageIndex = 0.obs; // Incrementing the page index
-
+  Timer? _timer;
   @override
   void onClose() {
     pageController.dispose();
@@ -46,20 +48,30 @@ class OnboardingPageController extends GetxController {
 
   /// Increments page index by the value
   void onPageChanged(int value) => pageIndex(value);
+  void pause() {
+    _timer?.cancel();
+  }
+
+  void play() {
+    pause();
+    animateSlider();
+  }
 
   /// Animates the page transition from current to next page
   void animateSlider() {
-    Future.delayed(const Duration(seconds: 5)).then((_) {
-      int nextPage = _pageController.page!.round() + 1;
-      if (nextPage == onboardingMessages.keys.length) {
-        nextPage = 0;
-      }
-      _pageController
-          .animateToPage(nextPage,
-              duration: const Duration(milliseconds: 1000),
-              curve: Curves.fastOutSlowIn)
-          .then((_) => animateSlider());
-    }).onError((error, stackTrace) => null);
+    _timer = Timer.periodic(const Duration(seconds: 5), (_) {
+      animateToNextPage();
+    });
+  }
+
+  void animateToNextPage() {
+    int nextPage = _pageController.page!.round() + 1;
+    if (nextPage == onboardingMessages.keys.length) {
+      nextPage = 0;
+    }
+    _pageController.animateToPage(nextPage,
+        duration: const Duration(milliseconds: 1000),
+        curve: Curves.fastOutSlowIn);
   }
 
   void navigateToLogin() {

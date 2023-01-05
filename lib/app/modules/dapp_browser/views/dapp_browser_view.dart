@@ -104,41 +104,47 @@ class DappBrowserView extends GetView<DappBrowserController> {
                       resizeToAvoidBottomInset: false,
                       backgroundColor: ColorConst.darkGrey,
                       floatingActionButtonLocation:
-                          FloatingActionButtonLocation.miniCenterFloat,
-                      floatingActionButton: controller.showButton.value
-                          ? !controller.isScrolling.value
-                              ? SolidButton(
-                                  height: 45.arP,
-                                  borderRadius: 30.arP,
-                                  width: 110.arP,
-                                  primaryColor: ColorConst.Primary,
-                                  onPressed: () {
-                                    print("buy now ${controller.url.value}");
-                                    controller.naanBuy(controller
-                                        .webViewController!
-                                        .getUrl()
-                                        .toString());
-                                  },
-                                  child: Center(
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const Icon(
-                                          Icons.add,
-                                          color: Colors.white,
-                                        ),
-                                        0.01.hspace,
-                                        Text(
-                                          "Buy",
-                                          style: labelLarge,
-                                        )
-                                      ],
-                                    ),
+                          FloatingActionButtonLocation.centerFloat,
+                      floatingActionButton: controller.showButton.value || true
+                          ? AnimatedContainer(
+                              duration: const Duration(milliseconds: 350),
+                              transform: Matrix4.identity()
+                                ..translate(
+                                  0.0,
+                                  controller.isScrolling.value ? 0.0 : 100.arP,
+                                ),
+                              child: SolidButton(
+                                height: 45.arP,
+                                borderRadius: 30.arP,
+                                width: 110.arP,
+                                primaryColor: ColorConst.Primary,
+                                onPressed: () {
+                                  print("buy now ${controller.url.value}");
+                                  controller.naanBuy(controller
+                                      .webViewController!
+                                      .getUrl()
+                                      .toString());
+                                },
+                                child: Center(
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      ),
+                                      0.01.hspace,
+                                      Text(
+                                        "Buy",
+                                        style: labelLarge,
+                                      )
+                                    ],
                                   ),
-                                )
-                              : null
+                                ),
+                              ),
+                            )
                           : null,
                       body: InAppWebView(
                         onScrollChanged: (a, x, y) async {

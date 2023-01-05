@@ -172,7 +172,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                                   ),
                                   Text(
                                     controller.nftGalleryList[index]
-                                        .nftTokenModel!.name!,
+                                        .nftTokenModel?.name??"",
                                     style: TextStyle(
                                       color: const Color(0xFF958E99),
                                       fontWeight: FontWeight.w400,
