@@ -455,15 +455,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                   leading: CircleAvatar(
                     backgroundColor: Colors.transparent,
                     child: SvgPicture.asset(
-                        widget.nftModel!.events![index].eventType
-                                .toString()
-                                .contains("transfer")
-                            ? '${PathConst.SVG}bi_arrow.svg'
-                            : !widget.nftModel!.events![index].eventType
-                                    .toString()
-                                    .contains("mint")
-                                ? '${PathConst.SVG}cart.svg'
-                                : "assets/nft_page/svg/mint.svg",
+                        icon(widget.nftModel!.events![index]),
                         fit: BoxFit.contain),
                   ),
                   title: Text(
@@ -526,6 +518,27 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
         ),
       ],
     );
+  }
+
+  String icon(Events event) {
+    switch (event.eventType) {
+      case "transfer":
+        return '${PathConst.SVG}bi_arrow.svg';
+      case "mint":
+        return "assets/nft_page/svg/mint.svg";
+      case "burn":
+        return "assets/nft_page/svg/burn.svg";
+      case "sale":
+        return "assets/nft_page/svg/sale.svg";
+      case "list_buy":
+        return "assets/nft_page/svg/sale.svg";
+      case "list_cancel":
+        return "assets/nft_page/svg/cancel.svg";
+      case "list_create":
+        return "assets/nft_page/svg/create.svg";
+      default:
+        return '${PathConst.SVG}bi_arrow.svg';
+    }
   }
 
   Widget _buildDetailsTab(ScrollController scrollController) {

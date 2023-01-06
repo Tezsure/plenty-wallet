@@ -217,6 +217,7 @@ class Events {
         ? "burn"
         : json['event_type'];
     marketplaceEventType = json['marketplace_event_type'];
+    eventType = eventType ?? marketplaceEventType;
     amount = json['amount'];
   }
 

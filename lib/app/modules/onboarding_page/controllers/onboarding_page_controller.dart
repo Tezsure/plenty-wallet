@@ -43,6 +43,7 @@ class OnboardingPageController extends GetxController {
   @override
   void onClose() {
     pageController.dispose();
+    _timer?.cancel();
     super.onClose();
   }
 
