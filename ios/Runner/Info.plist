@@ -19,7 +19,7 @@
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
 		<key>CFBundleShortVersionString</key>
-		<string>0.2.65</string>
+		<string>0.2.66</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
 		<key>CFBundleVersion</key>
@@ -62,7 +62,6 @@
 		</array>
 		<key>NSLocalNetworkUsageDescription</key>
 		<string>$(PRODUCT_NAME) uses the local network to discover Cast-enabled devices on your WiFi network.</string>
-		<key>FLTEnableImpeller</key>
-  		<true/>
+
 	</dict>
 </plist>

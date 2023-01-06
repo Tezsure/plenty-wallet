@@ -40,6 +40,7 @@ dependencies:
   qr_code_scanner: ^1.0.1
   package_info_plus: ^1.4.2
   permission_handler: ^10.2.0
+  flutter_keyboard_visibility: ^5.4.0
   cast: ^1.1.1
 
   # Firebase

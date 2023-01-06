@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import 'package:get/get.dart';
 
@@ -34,7 +35,9 @@ class DappBrowserView extends GetView<DappBrowserController> {
           useHybridComposition: true,
         ),
         ios: IOSInAppWebViewOptions(
-            allowsInlineMediaPlayback: true, useOnNavigationResponse: true));
+          allowsInlineMediaPlayback: true,
+          useOnNavigationResponse: true,
+        ));
     PullToRefreshController pullToRefreshController = PullToRefreshController(
       options: PullToRefreshOptions(
         color: Colors.blue,
@@ -256,92 +259,97 @@ class DappBrowserView extends GetView<DappBrowserController> {
               height: 1,
               color: Colors.white.withOpacity(0.5),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Obx(
-                          () => IconButton(
-                            icon: controller.canGoBack.value
-                                ? Image.asset(
-                                    "assets/dapp_browser/back_light.png",
-                                    height: 20,
-                                    width: 20,
-                                  )
-                                : Image.asset(
-                                    "assets/dapp_browser/back_dark.png",
+            KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
+              return isKeyboardVisible
+                  ? const SizedBox()
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Obx(
+                                  () => IconButton(
+                                    icon: controller.canGoBack.value
+                                        ? Image.asset(
+                                            "assets/dapp_browser/back_light.png",
+                                            height: 20,
+                                            width: 20,
+                                          )
+                                        : Image.asset(
+                                            "assets/dapp_browser/back_dark.png",
+                                            height: 20,
+                                            width: 20,
+                                          ),
+                                    onPressed: () {
+                                      if (controller.canGoBack.value) {
+                                        controller.webViewController?.goBack();
+                                      }
+                                    },
+                                  ),
+                                ),
+                                Obx(
+                                  () => IconButton(
+                                    icon: controller.canGoForward.value
+                                        ? Image.asset(
+                                            "assets/dapp_browser/forward_light.png",
+                                            height: 20,
+                                            width: 20,
+                                          )
+                                        : Image.asset(
+                                            "assets/dapp_browser/forward_dark.png",
+                                            height: 20,
+                                            width: 20,
+                                          ),
+                                    onPressed: () {
+                                      if (controller.canGoForward.value) {
+                                        controller.webViewController
+                                            ?.goForward();
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          0.2.hspace,
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                IconButton(
+                                  icon: Image.asset(
+                                    "assets/dapp_browser/reload.png",
                                     height: 20,
                                     width: 20,
                                   ),
-                            onPressed: () {
-                              if (controller.canGoBack.value) {
-                                controller.webViewController?.goBack();
-                              }
-                            },
-                          ),
-                        ),
-                        Obx(
-                          () => IconButton(
-                            icon: controller.canGoForward.value
-                                ? Image.asset(
-                                    "assets/dapp_browser/forward_light.png",
-                                    height: 20,
-                                    width: 20,
-                                  )
-                                : Image.asset(
-                                    "assets/dapp_browser/forward_dark.png",
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    controller.webViewController?.reload();
+                                  },
+                                ),
+                                IconButton(
+                                  icon: Image.asset(
+                                    "assets/dapp_browser/home.png",
                                     height: 20,
                                     width: 20,
                                   ),
-                            onPressed: () {
-                              if (controller.canGoForward.value) {
-                                controller.webViewController?.goForward();
-                              }
-                            },
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  0.2.hspace,
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        IconButton(
-                          icon: Image.asset(
-                            "assets/dapp_browser/reload.png",
-                            height: 20,
-                            width: 20,
-                          ),
-                          color: Colors.white,
-                          onPressed: () {
-                            controller.webViewController?.reload();
-                          },
-                        ),
-                        IconButton(
-                          icon: Image.asset(
-                            "assets/dapp_browser/home.png",
-                            height: 20,
-                            width: 20,
-                          ),
-                          color: Colors.white,
-                          onPressed: () {
-                            Get.back();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )
+                        ],
+                      ),
+                    );
+            })
           ],
         ),
       ),

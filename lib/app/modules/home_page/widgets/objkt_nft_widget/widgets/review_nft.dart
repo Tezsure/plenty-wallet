@@ -61,7 +61,8 @@ class ReviewNFTSheet extends StatelessWidget {
               0.02.vspace,
               Obx(
                 () => Text(
-                  controller.selectedToken.value!.symbol == "Tezos"
+                  controller.selectedToken.value!.symbol!.toLowerCase() ==
+                          "Tezos".toLowerCase()
                       ? "\$${(double.parse(controller.priceInToken.value) * homeController.xtzPrice.value).toStringAsFixed(2)}"
                       : "\$${((double.parse(controller.priceInToken.value) * controller.selectedToken.value!.currentPrice! * homeController.xtzPrice.value).toStringAsFixed(2))}",
                   style: headlineLarge,

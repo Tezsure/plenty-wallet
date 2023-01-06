@@ -55,7 +55,7 @@ class ChoosePaymentMethod extends StatelessWidget {
             thickness: 1,
           ),
           Obx(
-            () => controller.userTokens.isEmpty
+            () => controller.tokensList.isEmpty
                 ? Container()
                 : ListView.builder(
                     itemCount: displayCoins.length,
@@ -89,7 +89,7 @@ class ChoosePaymentMethod extends StatelessWidget {
                                     element.symbol!.toLowerCase() == "tezos") ??
                             AccountTokenModel(
                                 name: "Tezos",
-                                symbol: "Tezos",
+                                symbol: "tezos",
                                 iconUrl: "assets/tezos_logo.png",
                                 balance: 0,
                                 currentPrice: controller.xtzPrice.value,
