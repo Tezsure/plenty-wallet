@@ -128,7 +128,7 @@ class NaanBottomSheet extends StatelessWidget {
                         BorderRadius.vertical(top: Radius.circular(10)),
                     color: Colors.black),
                 width: width ?? 1.width,
-                height: height! + 15.arP,
+                height: height,
                 padding: EdgeInsets.symmetric(
                     horizontal: bottomSheetHorizontalPadding ?? 32),
                 child: isScrollControlled
