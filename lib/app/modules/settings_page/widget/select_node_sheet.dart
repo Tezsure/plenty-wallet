@@ -23,17 +23,17 @@ class SelectNodeBottomSheet extends StatefulWidget {
 class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
   final SettingsPageController controller = Get.find<SettingsPageController>();
   late NodeModel selectedModel;
+  
   @override
   void initState() {
     selectedModel = controller.selectedNode.value;
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      title: "Select Node",
+      title: "Node",
       blurRadius: 5,
       isScrollControlled: true,
       bottomSheetHorizontalPadding: 16.arP,

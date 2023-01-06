@@ -57,18 +57,18 @@ class DappBottomSheet extends StatelessWidget {
                           ),
 
                     // back
-                    Positioned(
-                      top: 30.arP,
-                      left: 14.arP,
-                      child: GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                          color: Colors.white,
-                          size: 18.arP,
-                        ),
-                      ),
-                    ),
+                    // Positioned(
+                    //   top: 30.arP,
+                    //   left: 14.arP,
+                    //   child: GestureDetector(
+                    //     onTap: () => Navigator.pop(context),
+                    //     child: Icon(
+                    //       Icons.arrow_back_ios_new_rounded,
+                    //       color: Colors.white,
+                    //       size: 18.arP,
+                    //     ),
+                    //   ),
+                    // ),
 
                     Align(
                       alignment: Alignment.topCenter,
@@ -178,21 +178,13 @@ class DappBottomSheet extends StatelessWidget {
                   ),
                   child: SolidButton(
                       // title: 'Launch',
-                      width: 326.arP,
+                      width: 1.width - 64.arP,
                       height: 50.arP,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(
-                            'assets/dapps/launch.svg',
-                            height: 20.arP,
-                            width: 20.arP,
-                          ),
-                          SizedBox(
-                            width: 10.arP,
-                          ),
                           Text(
-                            'Launch App',
+                            'Launch',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 14.arP,

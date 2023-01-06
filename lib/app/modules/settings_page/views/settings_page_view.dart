@@ -34,11 +34,11 @@ class SettingsPageView extends GetView<SettingsPageController> {
     Get.put(SettingsPageController());
     return NaanBottomSheet(
         title: "Settings",
-        height: .91.height,
+        height: .89.height,
         bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
-          Container(
-            height: 0.85.height,
+          SizedBox(
+            height: 0.81.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -426,7 +426,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                       "${PathConst.SETTINGS_PAGE.SVG}connected_apps.svg")),
             ),
             Text(
-              "Connected applications",
+              "Connected apps",
               style: labelMedium,
             ),
           ],

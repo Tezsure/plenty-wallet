@@ -43,9 +43,11 @@ String relativeDate(DateTime d) {
 }
 
 extension DecimalsRoundUp on num {
-  String roundUpDollar() => this < 0.01
-      ? r"<$0.01"
-      : this >= 100
-          ? r"$ " + toStringAsFixed(0)
-          : r"$ " + toStringAsFixed(2);
+  String roundUpDollar() => this == 0
+      ? r"$ 0.00"
+      : this < 0.01
+          ? r"<$0.01"
+          : this >= 100
+              ? r"$ " + toStringAsFixed(0)
+              : r"$ " + toStringAsFixed(2);
 }
