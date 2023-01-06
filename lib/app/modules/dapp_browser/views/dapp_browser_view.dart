@@ -105,13 +105,14 @@ class DappBrowserView extends GetView<DappBrowserController> {
                       backgroundColor: ColorConst.darkGrey,
                       floatingActionButtonLocation:
                           FloatingActionButtonLocation.centerFloat,
-                      floatingActionButton: controller.showButton.value || true
+                      floatingActionButton: controller.showButton.value
                           ? AnimatedContainer(
+                              curve: Curves.fastOutSlowIn,
                               duration: const Duration(milliseconds: 350),
                               transform: Matrix4.identity()
                                 ..translate(
                                   0.0,
-                                  controller.isScrolling.value ? 0.0 : 100.arP,
+                                  controller.isScrolling.value ? 220.0.arP : 0,
                                 ),
                               child: SolidButton(
                                 height: 45.arP,

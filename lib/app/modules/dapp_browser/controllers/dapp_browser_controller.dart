@@ -35,7 +35,7 @@ class DappBrowserController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    t = Timer.periodic(const Duration(milliseconds: 200), (c) {
+    t = Timer.periodic(const Duration(milliseconds: 250), (c) {
       if (isScrolling.value == true) {
         isScrolling.value = false;
       }
