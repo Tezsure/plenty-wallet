@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
 class ServiceConfig {
   /// Current selected node
   static String currentSelectedNode =
       "https://tezos-prod.cryptonomic-infra.tech:443";
+  static NetworkType currentNetwork = NetworkType.mainnet;
 
   /// Teztools api with endpoint for mainnet token prices
   static String tezToolsApi = "https://api.teztools.io/token/prices";

@@ -146,6 +146,7 @@ class SettingsPageController extends GetxController {
     fingerprint.value = await AuthService().getBiometricAuth();
     isWalletBackup.value = await AuthService().getIsWalletBackup();
     networkType.value = await RpcService.getCurrentNetworkType();
+    ServiceConfig.currentNetwork = networkType.value;
     await changeNodeSelector();
     await RpcService.getCurrentNode().then((value) {
       if (value == null) {
@@ -178,6 +179,7 @@ class SettingsPageController extends GetxController {
     await RpcService.setNetworkType(value);
 
     networkType.value = value;
+    ServiceConfig.currentNetwork = networkType.value;
     final node = networkType.value.index == NetworkType.mainnet.index
         ? nodeModel.value.mainnet!.nodes!.first
         : nodeModel.value.testnet!.nodes!.first;

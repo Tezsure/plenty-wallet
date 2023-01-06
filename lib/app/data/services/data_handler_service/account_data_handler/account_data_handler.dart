@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/data/services/service_models/account_model.dart'
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 
 class AccountDataHandler {
   DataHandlerRenderService dataHandlerRenderService;
@@ -63,7 +64,9 @@ class AccountDataHandler {
         receivePort.sendPort,
         accountModels.map<String>((e) => e.publicKeyHash!),
         watchAccountModels.map<String>((e) => e.publicKeyHash!),
-        ServiceConfig.currentSelectedNode,
+        ServiceConfig.currentNetwork == NetworkType.mainnet
+            ? ""
+            : ServiceConfig.currentSelectedNode,
       ],
       debugName: "accounts xtz, tokens & nfts",
     );

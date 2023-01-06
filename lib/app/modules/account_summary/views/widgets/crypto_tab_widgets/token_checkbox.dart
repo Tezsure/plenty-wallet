@@ -62,6 +62,7 @@ class TokenCheckbox extends StatelessWidget {
                         : _imageAvatar(),
                     0.03.hspace,
                     Expanded(
+                      flex: 2,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,

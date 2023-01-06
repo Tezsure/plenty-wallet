@@ -22,6 +22,7 @@ class SplashPageController extends GetxController {
 
     ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
         ServiceConfig.currentSelectedNode;
+    ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
     await DataHandlerService().initDataServices();
 
     var walletAccountsLength =

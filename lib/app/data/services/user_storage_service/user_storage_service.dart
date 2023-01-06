@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/data/services/service_models/contact_model.dart'
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
+import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 
 /// Handle read and write user data
 class UserStorageService {
@@ -174,7 +175,10 @@ class UserStorageService {
 
     if (transactionHistory == null) {
       return await TzktTxHistoryApiService(
-              accountAddress, ServiceConfig.currentSelectedNode)
+              accountAddress,
+              ServiceConfig.currentNetwork == NetworkType.mainnet
+                  ? ""
+                  : ServiceConfig.currentSelectedNode)
           .getTxHistory();
     }
 
@@ -184,11 +188,17 @@ class UserStorageService {
           .toList();
     } else if (lastId == null) {
       transactionHistoryList = await TzktTxHistoryApiService(
-              accountAddress, ServiceConfig.currentSelectedNode)
+              accountAddress,
+              ServiceConfig.currentNetwork == NetworkType.mainnet
+                  ? ""
+                  : ServiceConfig.currentSelectedNode)
           .getTxHistory(limit: limit ?? 20);
     } else {
       transactionHistoryList = await TzktTxHistoryApiService(
-              accountAddress, ServiceConfig.currentSelectedNode)
+              accountAddress,
+              ServiceConfig.currentNetwork == NetworkType.mainnet
+                  ? ""
+                  : ServiceConfig.currentSelectedNode)
           .getTxHistory(lastId: lastId, limit: limit ?? 20);
     }
 

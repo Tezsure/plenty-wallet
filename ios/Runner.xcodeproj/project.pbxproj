@@ -31,8 +31,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0456A6DD295EE98B004573DF /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Main.strings"; sourceTree = "<group>"; };
-		0456A6DE295EE98B004573DF /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		0456A6DF295EE9A3004573DF /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "en-GB"; path = "en-GB.lproj/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		0456A6E0295EE9A5004573DF /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "en-GB"; path = "en-GB.lproj/Main.storyboard"; sourceTree = "<group>"; };
 		04E624EF2940721C00E2274B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -288,7 +286,6 @@
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				0456A6DD295EE98B004573DF /* en-GB */,
 				0456A6E0295EE9A5004573DF /* en-GB */,
 			);
 			name = Main.storyboard;
@@ -297,7 +294,6 @@
 		97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				0456A6DE295EE98B004573DF /* en-GB */,
 				0456A6DF295EE9A3004573DF /* en-GB */,
 			);
 			name = LaunchScreen.storyboard;

@@ -24,6 +24,7 @@ class SendPageController extends GetxController {
       <String, List<NftTokenModel>>{}.obs; // List of tokens
 
   Rx<TextfieldType> selectedTextfieldType = TextfieldType.token.obs;
+  double estimatedFee = 0.00181;
   @override
   void onInit() {
     super.onInit();
@@ -223,7 +224,7 @@ class SendPageController extends GetxController {
       if (searchBarFocusNode.hasFocus) {
         saveSelectedPageIndex.value = selectedPageIndex.value;
         setSelectedPageIndex(index: 0);
-      } 
+      }
       // else {
       //   setSelectedPageIndex(index: saveSelectedPageIndex.value);
       // }

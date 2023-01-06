@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/data/services/service_config/service_config.dart
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:simple_gql/simple_gql.dart';
 
 class NftAndTxHistoryHandler {
@@ -67,7 +68,9 @@ class NftAndTxHistoryHandler {
           ))
               .map<String>((e) => e.publicKeyHash!)
               .toList(),
-          ServiceConfig.currentSelectedNode
+          ServiceConfig.currentNetwork == NetworkType.mainnet
+              ? ""
+              : ServiceConfig.currentSelectedNode
         ],
       ],
       debugName: "nft & tx-history",
