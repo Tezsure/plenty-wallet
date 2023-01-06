@@ -55,7 +55,7 @@ class BuyNFTController extends GetxController {
         ),
       );
       print("selected token: ${token.symbol}");
-      if (token.symbol == "Tezos") {
+      if (token.symbol!.toLowerCase() == "Tezos".toLowerCase()) {
         priceInToken.value =
             ((int.parse(selectedNFT.value!.lowestAsk) / 1e6) * 1.01).toString();
       } else {
@@ -66,7 +66,7 @@ class BuyNFTController extends GetxController {
       } // todo check calculation
 
       print("price in token: ${priceInToken.value}");
-      if (token.symbol == "Tezos") {
+      if (token.symbol!.toLowerCase() == "Tezos".toLowerCase()) {
         print("tezos balance: ${token.balance.toString()}");
 
         if (double.parse(token.balance.toString()) <
