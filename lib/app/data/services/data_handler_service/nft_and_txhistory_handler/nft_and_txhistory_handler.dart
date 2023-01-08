@@ -152,11 +152,13 @@ class TzktTxHistoryApiService {
     }
 
     var response = await HttpService.performGetRequest(
-      ServiceConfig.tzktApiForAccountTxs(pkH,
-          limit: limit,
-          lastId: lastId,
-          sort: sortBy ?? "Descending",
-          network: network == "ak-csrjehxhpw0dl3" ? "" : network),
+      ServiceConfig.tzktApiForAccountTxs(
+        pkH,
+        limit: limit,
+        lastId: lastId,
+        sort: sortBy ?? "Descending",
+        network: network == "ak-csrjehxhpw0dl3" ? "" : network,
+      ),
     );
 
     /// if response is empty return empty list of tx history

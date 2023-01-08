@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
-import 'package:naan_wallet/app/data/services/web3auth_services/web3auth.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
@@ -27,11 +26,11 @@ class ResetWalletBottomSheet extends StatelessWidget {
     return NaanBottomSheet(
       blurRadius: 5.sp,
       height: isWalletBackup ? 325.arP : 400.arP,
-      title: "Reset Naan",
+      title: "Reset naan",
       bottomSheetWidgets: [
         Center(
           child: Text(
-            'You can lose your funds forever if you\ndidn’t make a backup. Are you sure you\nwant to reset Naan?',
+            'You can lose your funds forever if you\ndidn’t make a backup. Are you sure you\nwant to reset naan?',
             style: labelMedium.copyWith(color: ColorConst.textGrey1),
             textAlign: TextAlign.center,
           ),
@@ -49,16 +48,16 @@ class ResetWalletBottomSheet extends StatelessWidget {
                         ? SvgPicture.asset(
                             "${PathConst.SVG}fingerprint.svg",
                             color: ColorConst.Error.shade60,
-                            width: 17.sp,
+                            width: 24.arP,
                           )
                         : SvgPicture.asset(
                             "${PathConst.SVG}faceid.svg",
                             color: ColorConst.Error.shade60,
-                            width: 20.sp,
+                            width: 24.arP,
                           ),
                     0.02.hspace,
                     Text(
-                      "Hold to reset Naan",
+                      "Hold to reset naan",
                       style: labelMedium.apply(color: ColorConst.Error.shade60),
                     ),
                   ],

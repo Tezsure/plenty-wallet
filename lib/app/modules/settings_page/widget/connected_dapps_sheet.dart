@@ -23,15 +23,24 @@ class ConnectedDappBottomSheet extends StatelessWidget {
         height: 0.87.height,
         isScrollControlled: true,
         title: controller.dapps.isEmpty ? "" : "Connected apps",
-        bottomSheetHorizontalPadding: 13,
+        bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
+          SizedBox(
+            height: 20.arP,
+          ),
           Obx(
             () {
               if (controller.dapps.isEmpty) {
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 32.arP),
                   child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(
+                        width: 1.width,
+                      ),
                       SvgPicture.asset(
                         "${PathConst.SVG}no_apps.svg",
                         width: 249.arP,
@@ -43,17 +52,6 @@ class ConnectedDappBottomSheet extends StatelessWidget {
                           color: Colors.white,
                           fontSize: 22.arP,
                           fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      0.01.vspace,
-                      Text(
-                        "Connect new apps using QR scanner or from discover apps section",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: const Color(0xFF958E99),
-                          fontSize: 12.arP,
-                          letterSpacing: 0.4.arP,
-                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ],
@@ -135,34 +133,29 @@ class ConnectedDappBottomSheet extends StatelessWidget {
           ),
         ),
         0.03.vspace,
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-          ),
-          child: Column(
-            children: [
-              optionMethod(
-                  child: Text(
-                    "Disconnect",
-                    style: labelMedium.apply(color: ColorConst.Error.shade60),
-                  ),
-                  onTap: () {
-                    controller.disconnectDApp(index);
-                    Get.back();
-                  }),
-              SizedBox(
-                height: 16.arP,
-              ),
-              optionMethod(
-                  child: Text(
-                    "Cancel",
-                    style: labelMedium,
-                  ),
-                  onTap: () {
-                    Get.back();
-                  }),
-            ],
-          ),
+        Column(
+          children: [
+            optionMethod(
+                child: Text(
+                  "Disconnect",
+                  style: labelMedium.apply(color: ColorConst.Error.shade60),
+                ),
+                onTap: () {
+                  controller.disconnectDApp(index);
+                  Get.back();
+                }),
+            SizedBox(
+              height: 16.arP,
+            ),
+            optionMethod(
+                child: Text(
+                  "Cancel",
+                  style: labelMedium,
+                ),
+                onTap: () {
+                  Get.back();
+                }),
+          ],
         ),
       ],
     );
@@ -179,7 +172,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
         width: double.infinity,
-        height: 54,
+        height: 50.arP,
         child: Center(
           child: child,
         ),

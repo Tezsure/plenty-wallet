@@ -31,7 +31,7 @@ class _SelectNetworkBottomSheetState extends State<SelectNetworkBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      title: "Select Network",
+      title: "Network",
       blurRadius: 5,
       height: 360.arP,
       bottomSheetHorizontalPadding: 16.arP,

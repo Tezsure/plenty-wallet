@@ -70,7 +70,7 @@ class _TestNetworkBottomSheetState extends State<TestNetworkBottomSheet> {
                 ),
                 0.032.vspace,
                 Text(
-                  "Select Network",
+                  "Network",
                   style: labelMedium.copyWith(color: ColorConst.textGrey1),
                 ),
                 0.008.vspace,
