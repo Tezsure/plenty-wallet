@@ -59,7 +59,7 @@ class RpcService {
   Future<double> getUserBalanceInTezos(String address, [String? rpc]) async {
     try {
       var balance = await Dartez.getBalance(
-          address, rpc ?? ServiceConfig.currentSelectedNode);
+          address, rpc == "" ? ServiceConfig.currentSelectedNode : rpc!);
       if (balance == "0") return 0.0;
       return (int.parse(balance) / 1e6);
     } catch (e) {

@@ -87,9 +87,6 @@ class AccountDataHandler {
                       element.map<String>((e) => e.contractAddress).toList()))
             .toSet()
             .toList());
-    // if (tokenPrices.isEmpty) {
-    //   return;
-    // }
 
     List<String> supportedTokens =
         tokenPrices.map<String>((e) => e.tokenAddress!).toList();

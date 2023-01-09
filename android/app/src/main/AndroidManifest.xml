@@ -38,18 +38,11 @@
 			to determine the Window background
 			behind the Flutter UI.
 			-->
-<<<<<<< HEAD
-			<meta-data android:name="io.flutter.embedding.android.NormalTheme" android:resource="@style/NormalTheme" />
-			<!-- <meta-data
-    		android:name="io.flutter.embedding.android.EnableImpeller"
-    		android:value="true" /> -->
-=======
 			<meta-data android:name="io.flutter.embedding.android.NormalTheme"
 				android:resource="@style/NormalTheme" />
 			<!-- <meta-data
     		android:name="io.flutter.embedding.android.EnableImpeller"
 			android:value="true" /> -->
->>>>>>> 1d8fee83b37e511043f27f288004318103c5549c
 			<!--
 			Displays an Android View that continues showing the launch screen
 			Drawable
