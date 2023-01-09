@@ -5,7 +5,7 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 //? DISPLAY TYPO
 
-TextStyle displayLarge = TextStyle(
+/* TextStyle displayLarge = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Space Grotesk',
@@ -13,9 +13,9 @@ TextStyle displayLarge = TextStyle(
   letterSpacing: -0.25,
   fontWeight: FontWeight.normal,
   height: 64 / 57,
-);
+); */
 
-TextStyle displayMedium = TextStyle(
+/* TextStyle displayMedium = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Space Grotesk',
@@ -24,8 +24,8 @@ TextStyle displayMedium = TextStyle(
   fontWeight: FontWeight.normal,
   height: 48 / 40,
 );
-
-TextStyle displaySmall = TextStyle(
+ */
+/* TextStyle displaySmall = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Space Grotesk',
@@ -33,7 +33,7 @@ TextStyle displaySmall = TextStyle(
   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
   fontWeight: FontWeight.normal,
   height: 44 / 36,
-);
+); */
 
 //? HEADLINE TYPO
 
@@ -41,30 +41,30 @@ TextStyle headlineLarge = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Poppins',
-  fontSize: 32.sp,
+  fontSize: 32.arP,
   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
   fontWeight: FontWeight.w700,
-  height: 40 / 32,
+  height: 40.arP / 32.arP,
 );
 
 TextStyle headlineMedium = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Poppins',
-  fontSize: 28.sp,
+  fontSize: 28.arP,
   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-  fontWeight: FontWeight.w700,
-  height: 36 / 28,
+  fontWeight: FontWeight.w600,
+  height: 36.arP / 28.arP,
 );
 
 TextStyle headlineSmall = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Poppins',
-  fontSize: 24.sp,
+  fontSize: 24.arP,
   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
   fontWeight: FontWeight.w700,
-  height: 32 / 24,
+  height: 32.arP / 24.arP,
 );
 
 //? TITLE TYPO
