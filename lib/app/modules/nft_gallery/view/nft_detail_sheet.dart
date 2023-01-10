@@ -445,7 +445,8 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) => Padding(
-              padding: EdgeInsets.only(left: 10.sp, right: 10.sp, bottom: 8.sp),
+              padding:
+                  EdgeInsets.only(left: 10.arP, right: 10.arP, bottom: 8.arP),
               child: Material(
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                 shape: const RoundedRectangleBorder(
@@ -563,7 +564,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
               collapsedIconColor: Colors.white,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 16.sp, right: 13.sp),
+                  padding: EdgeInsets.only(left: 16.arP, right: 13.arP),
                   child: Column(
                     children: [
                       Row(
@@ -598,8 +599,8 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
               ]),
           Divider(
             color: ColorConst.NeutralVariant.shade20,
-            endIndent: 14.sp,
-            indent: 14.sp,
+            endIndent: 14.arP,
+            indent: 14.arP,
           ),
           ExpansionTile(
               onExpansionChanged: (val) => setState(() {
@@ -611,7 +612,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                 'Details',
                 style: labelSmall.copyWith(fontSize: 11.aR),
               ),
-              childrenPadding: EdgeInsets.only(left: 16.sp, right: 13.sp),
+              childrenPadding: EdgeInsets.only(left: 16.arP, right: 13.arP),
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

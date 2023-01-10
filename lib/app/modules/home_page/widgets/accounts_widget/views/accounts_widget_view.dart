@@ -66,7 +66,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                 decoration: BoxDecoration(
                                   color:
                                       const Color(0xff958E99).withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(22.sp),
+                                  borderRadius: BorderRadius.circular(22.arP),
                                 ),
                                 width: 1.width,
                                 height: 0.45.width,
@@ -184,11 +184,11 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 16.sp,
-                        height: 16.sp,
+                        width: 16.arP,
+                        height: 16.arP,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 1),
-                          borderRadius: BorderRadius.circular(4.sp),
+                          borderRadius: BorderRadius.circular(4.arP),
                           image: DecorationImage(
                             image: model.imageType ==
                                     AccountProfileImageType.assets
@@ -264,19 +264,19 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                         else
                           Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(22.sp),
+                              borderRadius: BorderRadius.circular(22.arP),
                               color: Colors.black.withOpacity(0.3),
                             ),
                             child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 8.0.sp, vertical: 6.sp),
+                                  horizontal: 8.0.arP, vertical: 6.arP),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   RawMaterialButton(
                                     constraints: BoxConstraints(
-                                        minWidth: 48.sp, minHeight: 48.sp),
+                                        minWidth: 48.arP, minHeight: 48.arP),
                                     elevation: 1,
                                     padding: const EdgeInsets.all(8),
                                     materialTapTargetSize:
@@ -299,8 +299,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                         side: BorderSide.none),
                                     child: Image.asset(
                                       "${PathConst.HOME_PAGE}send.png",
-                                      width: 22.sp,
-                                      height: 22.sp,
+                                      width: 22.arP,
+                                      height: 22.arP,
                                     ),
                                   ),
                                   0.036.hspace,
@@ -310,7 +310,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                         MaterialTapTargetSize.shrinkWrap,
                                     padding: const EdgeInsets.all(8),
                                     constraints: BoxConstraints(
-                                        minWidth: 48.sp, minHeight: 48.sp),
+                                        minWidth: 48.arP, minHeight: 48.arP),
                                     elevation: 1,
                                     onPressed: () => Get.bottomSheet(
                                         const ReceivePageView(),
@@ -329,8 +329,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                         side: BorderSide.none),
                                     child: Image.asset(
                                       "${PathConst.HOME_PAGE}qr.png",
-                                      width: 22.sp,
-                                      height: 22.sp,
+                                      width: 22.arP,
+                                      height: 22.arP,
                                     ),
                                   ),
                                 ],
@@ -358,7 +358,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   Widget build(BuildContext context) {
     Get.put(AccountsWidgetController());
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.sp),
+      padding: EdgeInsets.symmetric(horizontal: 24.arP),
       child: SizedBox(
         width: 1.width,
         height: 0.45.width,
@@ -378,7 +378,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                   : Container(
                       decoration: BoxDecoration(
                         color: const Color(0xff958E99).withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(22.sp),
+                        borderRadius: BorderRadius.circular(22.arP),
                       ),
                       width: 1.width,
                       height: 0.45.width,
@@ -464,11 +464,11 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                   Row(
                     children: [
                       Container(
-                        width: 16.sp,
-                        height: 16.sp,
+                        width: 16.arP,
+                        height: 16.arP,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 1),
-                          borderRadius: BorderRadius.circular(4.sp),
+                          borderRadius: BorderRadius.circular(4.arP),
                           image: DecorationImage(
                             image: model.imageType ==
                                     AccountProfileImageType.assets
@@ -535,19 +535,19 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(22.sp),
+                            borderRadius: BorderRadius.circular(22.arP),
                             color: Colors.black.withOpacity(0.3),
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 8.0.sp, vertical: 6.sp),
+                                horizontal: 8.0.arP, vertical: 6.arP),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 RawMaterialButton(
                                   constraints: BoxConstraints(
-                                      minWidth: 48.sp, minHeight: 48.sp),
+                                      minWidth: 48.arP, minHeight: 48.arP),
                                   elevation: 1,
                                   padding: const EdgeInsets.all(8),
                                   materialTapTargetSize:
@@ -566,8 +566,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                       const CircleBorder(side: BorderSide.none),
                                   child: Image.asset(
                                     "${PathConst.HOME_PAGE}send.png",
-                                    width: 24.sp,
-                                    height: 24.sp,
+                                    width: 24.arP,
+                                    height: 24.arP,
                                   ),
                                 ),
                                 0.036.hspace,
@@ -577,7 +577,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                       MaterialTapTargetSize.shrinkWrap,
                                   padding: const EdgeInsets.all(8),
                                   constraints: BoxConstraints(
-                                      minWidth: 48.sp, minHeight: 48.sp),
+                                      minWidth: 48.arP, minHeight: 48.arP),
                                   elevation: 1,
                                   onPressed: () => Get.bottomSheet(
                                       const ReceivePageView(),
@@ -592,8 +592,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                       const CircleBorder(side: BorderSide.none),
                                   child: Image.asset(
                                     "${PathConst.HOME_PAGE}qr.png",
-                                    width: 24.sp,
-                                    height: 24.sp,
+                                    width: 24.arP,
+                                    height: 24.arP,
                                   ),
                                 ),
                               ],

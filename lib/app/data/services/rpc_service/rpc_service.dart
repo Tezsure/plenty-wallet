@@ -70,7 +70,7 @@ class RpcService {
   Future<List<AccountTokenModel>> getUserTokenBalances(
       String address, String rpc) async {
     String network = "${ServiceConfig.currentNetwork.name}.";
-    if (Uri.parse(rpc).path.isNotEmpty && network == "testnet.") {
+    if (network == "testnet." && Uri.parse(rpc).path.isNotEmpty) {
       network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
     }
     try {

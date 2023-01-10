@@ -54,15 +54,15 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            width: 40.sp,
+                            width: 40.arP,
                             height: 5.spH,
                             margin: EdgeInsets.only(
-                              top: 5.sp,
+                              top: 5.arP,
                             ),
                             decoration: BoxDecoration(
                               color: const Color(0xFFEBEBF5).withOpacity(0.3),
                               borderRadius: BorderRadius.circular(
-                                100.sp,
+                                100.arP,
                               ),
                             ),
                           ),
@@ -126,10 +126,10 @@ class NftGalleryView extends GetView<NftGalleryController> {
                     color: Colors.black,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(
-                        10.sp,
+                        10.arP,
                       ),
                       topRight: Radius.circular(
-                        10.sp,
+                        10.arP,
                       ),
                     ),
                   ),
@@ -141,15 +141,15 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            width: 40.sp,
+                            width: 40.arP,
                             height: 5.spH,
                             margin: EdgeInsets.only(
-                              top: 5.sp,
+                              top: 5.arP,
                             ),
                             decoration: BoxDecoration(
                               color: const Color(0xFFEBEBF5).withOpacity(0.3),
                               borderRadius: BorderRadius.circular(
-                                100.sp,
+                                100.arP,
                               ),
                             ),
                           ),
@@ -511,7 +511,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
             for (var i = 0; i < controller.nftTypesChips.length; i++)
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 20.sp,
+                  horizontal: 20.arP,
                   vertical: 7.5.arP,
                 ),
                 margin: EdgeInsets.only(
@@ -635,7 +635,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                 prefixIcon: Icon(
                                   Icons.search_rounded,
                                   color: const Color(0xFFB0A9B3),
-                                  size: 18.sp,
+                                  size: 18.arP,
                                 ),
                                 hintText: "Search",
                                 hintStyle: bodyMedium.copyWith(
@@ -764,8 +764,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                         padding:
                                             const EdgeInsets.only(right: 20),
                                         child: Container(
-                                          height: 32.sp,
-                                          width: 32.sp,
+                                          height: 32.arP,
+                                          width: 32.arP,
                                           alignment: Alignment.bottomRight,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
@@ -826,8 +826,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
 
                                                       return <PopupMenuEntry>[
                                                         CustomPopupMenuItem(
-                                                          height: 30.sp,
-                                                          width: 120.sp,
+                                                          height: 30.arP,
+                                                          width: 120.arP,
                                                           onTap: () {
                                                             controller
                                                                 .editGallery(
@@ -844,7 +844,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                                 padding:
                                                                     EdgeInsets
                                                                         .only(
-                                                                  left: 10.sp,
+                                                                  left: 10.arP,
                                                                 ),
                                                                 child: Text(
                                                                   "Edit",
@@ -853,7 +853,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                                 ),
                                                               ),
                                                               SizedBox(
-                                                                height: 10.sp,
+                                                                height: 10.arP,
                                                               ),
                                                               const Divider(
                                                                   height: 0,
@@ -863,12 +863,12 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                           ),
                                                         ),
                                                         CustomPopupMenuItem(
-                                                          height: 30.sp,
-                                                          width: 120.sp,
+                                                          height: 30.arP,
+                                                          width: 120.arP,
                                                           padding: EdgeInsets
                                                               .symmetric(
                                                                   horizontal:
-                                                                      10.sp),
+                                                                      10.arP),
                                                           onTap: () {
                                                             Get.back();
                                                             Get.back();
@@ -911,8 +911,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                   alignment:
                                                       Alignment.centerRight,
                                                   child: Container(
-                                                    height: 16.sp,
-                                                    width: 16.sp,
+                                                    height: 16.arP,
+                                                    width: 16.arP,
                                                     decoration:
                                                         const BoxDecoration(
                                                       shape: BoxShape.circle,
@@ -920,8 +920,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                     ),
                                                     child: SvgPicture.asset(
                                                       "assets/svg/check2.svg",
-                                                      height: 16.sp,
-                                                      width: 16.sp,
+                                                      height: 16.arP,
+                                                      width: 16.arP,
                                                     ),
                                                   ),
                                                 ))
@@ -979,7 +979,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32.sp),
+                    padding: EdgeInsets.symmetric(horizontal: 32.arP),
                     child: TextButton(
                         onPressed: () {
                           controller.removeGallery(galleryIndex);
@@ -991,7 +991,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                             ),
                             child: Center(
                                 child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 13.sp),
+                              padding: EdgeInsets.symmetric(vertical: 13.arP),
                               child: Text(
                                 "Remove",
                                 style: titleSmall.copyWith(
@@ -1001,10 +1001,10 @@ class NftGalleryView extends GetView<NftGalleryController> {
                             )))),
                   ),
                   SizedBox(
-                    height: 4.sp,
+                    height: 4.arP,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32.sp),
+                    padding: EdgeInsets.symmetric(horizontal: 32.arP),
                     child: TextButton(
                         onPressed: () {
                           Get.back();
@@ -1016,7 +1016,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                             ),
                             child: Center(
                                 child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 13.sp),
+                              padding: EdgeInsets.symmetric(vertical: 13.arP),
                               child: Text(
                                 "Cancel",
                                 style: titleSmall.copyWith(

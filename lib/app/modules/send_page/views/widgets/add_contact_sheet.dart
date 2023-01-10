@@ -399,11 +399,11 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                     // });
                   },
                   child: CircleAvatar(
-                    radius: 70.sp,
+                    radius: 70.arP,
                     child: Image.asset(
                       ServiceConfig.allAssetsProfileImages[index],
                       fit: BoxFit.cover,
-                      height: 72.sp,
+                      height: 72.arP,
                     ),
                   ),
                 ),
@@ -412,9 +412,9 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
           ),
           0.01.vspace,
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.sp),
+            padding: EdgeInsets.symmetric(horizontal: 20.arP),
             child: SolidButton(
-              height: 40.sp,
+              height: 40.arP,
               onPressed: () {
                 widget.contactModel.imagePath =
                     createProfilePageController.selectedImagePath.value;

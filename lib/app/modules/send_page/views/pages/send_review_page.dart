@@ -128,7 +128,7 @@ class SendReviewPage extends StatelessWidget {
                 ),
                 0.02.vspace,
                 Padding(
-                    padding: EdgeInsets.all(12.sp),
+                    padding: EdgeInsets.all(12.arP),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

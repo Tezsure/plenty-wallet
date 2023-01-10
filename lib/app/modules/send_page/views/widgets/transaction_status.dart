@@ -58,16 +58,16 @@ SnackbarController transactionStatusSnackbar({
           ? SvgPicture.asset(
               status.lottiePath,
               fit: BoxFit.contain,
-              height: 40.sp,
-              width: 40.sp,
+              height: 40.arP,
+              width: 40.arP,
             )
           : LottieBuilder.asset(
               status.lottiePath,
               frameRate: FrameRate(60),
               fit: BoxFit.cover,
               repeat: status == TransactionStatus.pending ? true : false,
-              height: 40.sp,
-              width: 40.sp,
+              height: 40.arP,
+              width: 40.arP,
             ),
     ),
 
@@ -76,16 +76,16 @@ SnackbarController transactionStatusSnackbar({
     maxWidth: 8.width,
     isDismissible: true,
     margin: EdgeInsets.only(
-        bottom: isBrowser ? 80.sp : 30.sp, left: 15.sp, right: 15.sp),
+        bottom: isBrowser ? 80.arP : 30.arP, left: 15.arP, right: 15.arP),
     messageText: Padding(
-      padding: EdgeInsets.only(left: 20.sp),
+      padding: EdgeInsets.only(left: 20.arP),
       child: SizedBox(
         height: 0.05.height,
         child: Stack(
           fit: StackFit.passthrough,
           children: [
             Padding(
-              padding: EdgeInsets.only(bottom: 8.sp),
+              padding: EdgeInsets.only(bottom: 8.arP),
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(transactionAmount, style: labelMedium)),

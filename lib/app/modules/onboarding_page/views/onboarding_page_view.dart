@@ -27,7 +27,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                 // Obx(() {
                 //   return SafeArea(
                 //     child: AnimatedContainer(
-                //       margin: EdgeInsets.symmetric(horizontal: 32.sp),
+                //       margin: EdgeInsets.symmetric(horizontal: 32.arP),
 
                 //       duration: const Duration(milliseconds: 1000),
                 //       alignment: Alignment.bottomLeft,
@@ -39,7 +39,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                 //         style: TextStyle(
                 //           fontFamily: 'Space Grotesk',
                 //           color: Colors.white,
-                //           fontSize: 40.sp,
+                //           fontSize: 40.arP,
                 //           fontWeight: FontWeight.w400,
                 //         ),
                 //       ),
@@ -59,7 +59,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                 0.0.vspace,
                 SafeArea(
                   child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 32.sp),
+                      padding: EdgeInsets.symmetric(horizontal: 32.arP),
                       child: SolidButton(
                         title: 'Get started',
                         onPressed: () {

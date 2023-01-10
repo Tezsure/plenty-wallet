@@ -118,7 +118,7 @@ class BackupWalletView extends GetView<BackupWalletController> {
                         SvgPicture.asset(
                           "${PathConst.SVG}check.svg",
                           color: ColorConst.Neutral.shade100,
-                          width: 20.sp,
+                          width: 20.arP,
                         ),
                         0.02.hspace,
                         Text(

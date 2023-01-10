@@ -81,7 +81,7 @@ class LiquidityBakingWidget extends StatelessWidget {
                         width: 0.21.width,
                         decoration: BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.circular(25.sp),
+                          borderRadius: BorderRadius.circular(25.arP),
                         ),
                       ),
                     ),

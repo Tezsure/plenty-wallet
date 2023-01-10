@@ -24,7 +24,7 @@ class ResetWalletBottomSheet extends StatelessWidget {
     final settingController = Get.find<SettingsPageController>();
     bool isWalletBackup = settingController.isWalletBackup.value;
     return NaanBottomSheet(
-      blurRadius: 5.sp,
+      blurRadius: 5.arP,
       height: isWalletBackup ? 325.arP : 400.arP,
       title: "Reset naan",
       bottomSheetWidgets: [

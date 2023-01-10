@@ -34,10 +34,10 @@ class ObjktNftWidget extends StatelessWidget {
       child: Container(
         height: 0.405.width,
         width: 0.405.width,
-        margin: EdgeInsets.only(left: 24.sp),
+        margin: EdgeInsets.only(left: 24.arP),
         decoration: BoxDecoration(
           gradient: purpleGradient,
-          borderRadius: BorderRadius.circular(22.sp),
+          borderRadius: BorderRadius.circular(22.arP),
         ),
         child: Stack(
           fit: StackFit.expand,
@@ -57,22 +57,22 @@ class ObjktNftWidget extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Padding(
                 padding:
-                    EdgeInsets.symmetric(horizontal: 16.sp, vertical: 22.sp),
+                    EdgeInsets.symmetric(horizontal: 16.arP, vertical: 22.arP),
                 child: Text("objkt.com",
                     style: bodySmall.copyWith(
-                        fontWeight: FontWeight.w900, letterSpacing: 0.6.sp)),
+                        fontWeight: FontWeight.w900, letterSpacing: 0.6.arP)),
               ),
             ),
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: EdgeInsets.all(16.sp),
+                padding: EdgeInsets.all(16.arP),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text("Buy NFT",
-                        style: headlineSmall.copyWith(fontSize: 20.sp)),
+                        style: headlineSmall.copyWith(fontSize: 20.arP)),
                     Text(
                       "with credit card",
                       style: bodySmall,

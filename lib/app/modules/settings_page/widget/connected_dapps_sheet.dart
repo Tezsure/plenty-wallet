@@ -111,7 +111,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
             icon: SvgPicture.asset(
               "${PathConst.SVG}trash.svg",
               // color: ColorConst.Neutral.shade100,
-              width: 20.sp,
+              width: 20.arP,
             ),
             color: ColorConst.Primary,
           )

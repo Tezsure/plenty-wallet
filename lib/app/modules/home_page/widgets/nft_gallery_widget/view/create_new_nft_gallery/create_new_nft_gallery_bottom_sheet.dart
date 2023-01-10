@@ -40,10 +40,10 @@ class CreateNewNftGalleryBottomSheet
           color: Colors.black,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(
-              10.sp,
+              10.arP,
             ),
             topRight: Radius.circular(
-              10.sp,
+              10.arP,
             ),
           ),
         ),
@@ -106,20 +106,20 @@ class CreateNewNftGalleryBottomSheet
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          width: 40.sp,
+          width: 40.arP,
           height: 5.spH,
           margin: EdgeInsets.only(
-            top: 5.sp,
+            top: 5.arP,
           ),
           decoration: BoxDecoration(
             color: const Color(0xFFEBEBF5).withOpacity(0.3),
             borderRadius: BorderRadius.circular(
-              100.sp,
+              100.arP,
             ),
           ),
         ),
         SizedBox(
-          height: 27.sp,
+          height: 27.arP,
         ),
         Text(
           "Select accounts",
@@ -151,8 +151,8 @@ class CreateNewNftGalleryBottomSheet
                 flex: 1,
                 child: NaanListView(
                   listViewEdgeInsets: EdgeInsets.only(
-                    left: 16.sp,
-                    right: 16.sp,
+                    left: 16.arP,
+                    right: 16.arP,
                   ),
                   itemBuilder: (context, index) =>
                       accountItemWidget(index, controller.accounts![index]),
@@ -164,8 +164,8 @@ class CreateNewNftGalleryBottomSheet
             : Container(),
         Container(
           margin: EdgeInsets.only(
-            left: 16.sp + 16.arP,
-            right: 16.sp + 16.arP,
+            left: 16.arP + 16.arP,
+            right: 16.arP + 16.arP,
             bottom: 40.arP,
             top: 30.spH,
           ),
@@ -206,8 +206,8 @@ class CreateNewNftGalleryBottomSheet
             bottom: 8.spH,
           ),
           padding: EdgeInsets.only(
-            top: 4.sp,
-            bottom: 4.sp,
+            top: 4.arP,
+            bottom: 4.arP,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -220,7 +220,7 @@ class CreateNewNftGalleryBottomSheet
                     : Image.file(File(accountModel.profileImage!)),
               ),
               SizedBox(
-                width: 20.sp,
+                width: 20.arP,
               ),
               Expanded(
                 flex: 1,
@@ -280,7 +280,7 @@ class CreateNewNftGalleryBottomSheet
                         : false),
                     borderColor: const Color(0xFF1E1C1F),
                     uncheckedIconColor: Colors.transparent,
-                    borderWidth: 1.33.sp,
+                    borderWidth: 1.33.arP,
                     checkedIcon: "assets/nft_page/svg/done.svg",
                     value: controller.selectedAccountIndex
                             .containsKey(accountModel.publicKeyHash!)
@@ -309,20 +309,20 @@ class CreateNewNftGalleryBottomSheet
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            width: 40.sp,
+            width: 40.arP,
             height: 5.spH,
             margin: EdgeInsets.only(
-              top: 5.sp,
+              top: 5.arP,
             ),
             decoration: BoxDecoration(
               color: const Color(0xFFEBEBF5).withOpacity(0.3),
               borderRadius: BorderRadius.circular(
-                100.sp,
+                100.arP,
               ),
             ),
           ),
           SizedBox(
-            height: 27.sp,
+            height: 27.arP,
           ),
           Container(
             margin: EdgeInsets.only(
@@ -435,8 +435,8 @@ class CreateNewNftGalleryBottomSheet
             alignment: Alignment.bottomCenter,
             child: Container(
               margin: EdgeInsets.only(
-                left: 16.sp + 16.arP,
-                right: 16.sp + 16.arP,
+                left: 16.arP + 16.arP,
+                right: 16.arP + 16.arP,
                 bottom: 40.arP,
                 top: 30.spH,
               ),

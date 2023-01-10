@@ -102,7 +102,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                         children: [
                                           WidgetSpan(
                                               child: SizedBox(
-                                            width: 2.sp,
+                                            width: 2.arP,
                                           )),
                                           WidgetSpan(
                                             alignment:
@@ -182,7 +182,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                     0.036.vspace,
                     Obx(() => Center(
                           child: Text(
-                            (controller.selectedAccount.value.accountDataModel!.totalBalance! * controller.xtzPrice.value).roundUpDollar(),
+                            (controller.selectedAccount.value.accountDataModel!
+                                        .totalBalance! *
+                                    controller.xtzPrice.value)
+                                .roundUpDollar(),
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 30.aR,
@@ -193,7 +196,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                     0.03.vspace,
                     Obx(() {
                       return Padding(
-                        padding: EdgeInsets.only(left: 17.sp, right: 16.sp),
+                        padding: EdgeInsets.only(left: 17.arP, right: 16.arP),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -265,7 +268,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                     }),
                     0.02.vspace,
                     Divider(
-                      height: 0.sp,
+                      height: 0.arP,
                       color: ColorConst.NeutralVariant.shade20,
                       endIndent: 16.aR,
                       indent: 16.aR,
@@ -303,25 +306,25 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                               ColorConst.NeutralVariant.shade60,
                           tabs: [
                             SizedBox(
-                              width: 70.sp,
+                              width: 70.arP,
                               child: Tab(
-                                height: 30.sp,
+                                height: 30.arP,
                                 text: "Crypto",
                                 iconMargin: EdgeInsets.zero,
                               ),
                             ),
                             SizedBox(
-                              width: 70.sp,
+                              width: 70.arP,
                               child: Tab(
-                                height: 30.sp,
+                                height: 30.arP,
                                 text: "NFTs",
                                 iconMargin: EdgeInsets.zero,
                               ),
                             ),
                             SizedBox(
-                              width: 70.sp,
+                              width: 70.arP,
                               child: Tab(
-                                height: 30.sp,
+                                height: 30.arP,
                                 text: "History",
                                 iconMargin: EdgeInsets.zero,
                               ),
@@ -376,7 +379,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
   //                       children: [
   //                         WidgetSpan(
   //                             child: SizedBox(
-  //                           width: 2.sp,
+  //                           width: 2.arP,
   //                         )),
   //                         WidgetSpan(
   //                           alignment: PlaceholderAlignment.bottom,
@@ -460,7 +463,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
             WidgetSpan(
                 alignment: PlaceholderAlignment.middle,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.sp),
+                  padding: EdgeInsets.symmetric(vertical: 8.arP),
                   child: CircleAvatar(
                     backgroundColor:
                         isEnabled ? ColorConst.Primary : ColorConst.darkGrey,

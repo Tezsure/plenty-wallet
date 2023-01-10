@@ -128,7 +128,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               : CrossFadeState.showFirst,
           secondChild: SafeArea(
             child: Padding(
-              padding: EdgeInsets.only(bottom: 48.sp),
+              padding: EdgeInsets.only(bottom: 48.arP),
               child: GestureDetector(
                 onTap: () => Get.bottomSheet(const BakerFilterBottomSheet()),
                 child: Container(

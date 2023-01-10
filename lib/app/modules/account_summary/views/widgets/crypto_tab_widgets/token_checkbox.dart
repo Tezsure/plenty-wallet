@@ -80,7 +80,7 @@ class TokenCheckbox extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            height: 3.sp,
+                            height: 3.arP,
                           ),
                           Text(
                             "${tokenModel.balance.toStringAsFixed(tokenModel.decimals).removeTrailing0} ${tokenModel.symbol}",

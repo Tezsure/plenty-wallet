@@ -39,10 +39,10 @@ class EarnTezWidget extends StatelessWidget {
       child: Container(
         height: 0.405.width,
         width: 0.405.width,
-        margin: EdgeInsets.only(right: 24.sp),
+        margin: EdgeInsets.only(right: 24.arP),
         decoration: BoxDecoration(
           gradient: blueGradient,
-          borderRadius: BorderRadius.circular(22.sp),
+          borderRadius: BorderRadius.circular(22.arP),
         ),
         child: Stack(
           fit: StackFit.expand,
@@ -58,13 +58,13 @@ class EarnTezWidget extends StatelessWidget {
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: EdgeInsets.all(16.sp),
+                padding: EdgeInsets.all(16.arP),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text("Earn 5%",
-                        style: headlineSmall.copyWith(fontSize: 20.sp)),
+                        style: headlineSmall.copyWith(fontSize: 20.arP)),
                     Text(
                       "on your tez",
                       style: bodySmall,

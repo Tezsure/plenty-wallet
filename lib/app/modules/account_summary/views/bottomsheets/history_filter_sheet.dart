@@ -185,7 +185,7 @@ class HistoryFilterSheet extends StatelessWidget {
             controller.transactionType.any((e) => e == transactionType);
         return Flexible(
           child: Padding(
-            padding: EdgeInsets.only(right: 12.sp),
+            padding: EdgeInsets.only(right: 12.arP),
             child: MaterialButton(
               height: 79.arP,
               onPressed: () {

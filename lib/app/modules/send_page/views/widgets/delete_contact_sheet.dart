@@ -22,7 +22,7 @@ class DeleteContactBottomSheet extends StatelessWidget {
     Get.put(TransactionController());
     return NaanBottomSheet(
       title: 'Delete contact',
-      bottomSheetHorizontalPadding: 32.sp,
+      bottomSheetHorizontalPadding: 32.arP,
       height: 275,
       bottomSheetWidgets: [
         Center(

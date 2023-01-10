@@ -62,7 +62,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
 
   Widget draggableUI() {
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 20.sp, sigmaY: 20.sp),
+      filter: ImageFilter.blur(sigmaX: 20.arP, sigmaY: 20.arP),
       child: DraggableScrollableSheet(
         maxChildSize: 0.9,
         initialChildSize: 0.8,
@@ -130,7 +130,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                   ),
                   0.02.vspace,
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.sp),
+                    padding: EdgeInsets.symmetric(horizontal: 8.arP),
                     child: Text(
                       _controller
                               .homePageController
@@ -236,19 +236,19 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                 child: SvgPicture.asset(
                   "${PathConst.SVG}add_photo.svg",
                   fit: BoxFit.contain,
-                  height: 20.sp,
+                  height: 20.arP,
                 ),
               ),
             ),
           ),
           0.02.vspace,
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.sp),
+            padding: EdgeInsets.symmetric(horizontal: 30.arP),
             child: Text(
               _controller.homePageController.userAccounts[widget.accountIndex]
                       .publicKeyHash ??
                   "public key",
-              style: labelMedium.copyWith(fontSize: 10.sp),
+              style: labelMedium.copyWith(fontSize: 10.arP),
               textAlign: TextAlign.center,
             ),
           ),
@@ -257,7 +257,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             height: 8,
           ),
           NaanTextfield(
-              height: 52.sp,
+              height: 52.arP,
               backgroundColor:
                   ColorConst.NeutralVariant.shade60.withOpacity(0.2),
               hint: "Account Name",
@@ -282,7 +282,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               }),
           0.04.vspace,
           SolidButton(
-            height: 40.sp,
+            height: 40.arP,
             primaryColor:
                 _controller.accountNameController.value.text.isNotEmpty
                     ? ColorConst.Primary
@@ -313,7 +313,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             color: Colors.black),
         width: 1.width,
         height: 275.aR,
-        padding: EdgeInsets.symmetric(horizontal: 16.sp),
+        padding: EdgeInsets.symmetric(horizontal: 16.arP),
         child: Column(
           children: [
             0.005.vspace,
@@ -434,7 +434,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             ),
             0.016.vspace,
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32.sp),
+              padding: EdgeInsets.symmetric(horizontal: 32.arP),
               child: GestureDetector(
                 onTap: () => Get.back(),
                 child: Container(
@@ -568,11 +568,11 @@ class _PickAvatarState extends State<PickAvatar> {
                       // });
                     },
                     child: CircleAvatar(
-                      radius: 70.sp,
+                      radius: 70.arP,
                       child: Image.asset(
                         ServiceConfig.allAssetsProfileImages[index],
                         fit: BoxFit.cover,
-                        height: 72.sp,
+                        height: 72.arP,
                       ),
                     ),
                   ),
@@ -581,9 +581,9 @@ class _PickAvatarState extends State<PickAvatar> {
             ),
             0.01.vspace,
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.sp),
+              padding: EdgeInsets.symmetric(horizontal: 20.arP),
               child: SolidButton(
-                height: 40.sp,
+                height: 40.arP,
                 onPressed: () {
                   widget._controller.editUserProfilePhoto(
                       imageType: AccountProfileImageType.assets,

@@ -23,7 +23,7 @@ class SelectNodeBottomSheet extends StatefulWidget {
 class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
   final SettingsPageController controller = Get.find<SettingsPageController>();
   late NodeModel selectedModel;
-  
+
   @override
   void initState() {
     selectedModel = controller.selectedNode.value;
@@ -172,7 +172,7 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
       highlightColor: Colors.transparent,
       child: SizedBox(
         width: double.infinity,
-        height: 58.sp,
+        height: 58.arP,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Row(
@@ -198,7 +198,7 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
                   ? SvgPicture.asset(
                       "${PathConst.SVG}check_3.svg",
                       // color: ColorConst.Primary,
-                      height: 16.6.sp,
+                      height: 16.6.arP,
                       fit: BoxFit.contain,
                     )
                   : Container()

@@ -23,7 +23,7 @@ class VerifyPhraseSuccessSheet extends StatelessWidget {
     AuthService().setWalletBackup(true);
     return NaanBottomSheet(
         mainAxisAlignment: MainAxisAlignment.end,
-        bottomSheetHorizontalPadding: 32.sp,
+        bottomSheetHorizontalPadding: 32.arP,
         height: 0.4.height,
         blurRadius: 5,
         width: double.infinity,
@@ -35,8 +35,8 @@ class VerifyPhraseSuccessSheet extends StatelessWidget {
                 0.015.vspace,
                 LottieBuilder.asset(
                   '${PathConst.SEND_PAGE}lottie/success_primary.json',
-                  height: 80.sp,
-                  width: 80.sp,
+                  height: 80.arP,
+                  width: 80.arP,
                   repeat: false,
                 ),
                 0.0175.vspace,

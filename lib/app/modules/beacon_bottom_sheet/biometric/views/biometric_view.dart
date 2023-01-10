@@ -55,12 +55,12 @@ class BiometricView extends GetView<BiometricController> {
                 ? SvgPicture.asset(
                     "${PathConst.SVG}fingerprint.svg",
                     color: ColorConst.Neutral.shade100,
-                    width: 75.sp,
+                    width: 75.arP,
                   )
                 : SvgPicture.asset(
                     "${PathConst.SVG}faceid.svg",
                     color: ColorConst.Neutral.shade100,
-                    width: 75.sp,
+                    width: 75.arP,
                   ),
             // Icon(Icons.fingerprint, size: 0.08.height, color: ColorConst.grey),
             Expanded(

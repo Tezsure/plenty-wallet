@@ -16,10 +16,10 @@ class TezosPriceWidget extends StatelessWidget {
       height: 0.405.width,
       width: 0.405.width,
       padding: EdgeInsets.all(0.035.width),
-      margin: EdgeInsets.only(right: 24.sp),
+      margin: EdgeInsets.only(right: 24.arP),
       decoration: BoxDecoration(
         color: ColorConst.NeutralVariant.shade10,
-        borderRadius: BorderRadius.circular(22.sp),
+        borderRadius: BorderRadius.circular(22.arP),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

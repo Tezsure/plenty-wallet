@@ -44,7 +44,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
       height: 450.arP,
       titleAlignment: Alignment.center,
       titleStyle: titleMedium,
-      bottomSheetHorizontalPadding: 16.sp,
+      bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
         Center(
           child: Text(
@@ -270,7 +270,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                       snackPosition: SnackPosition.BOTTOM,
                       maxWidth: 0.9.width,
                       margin: EdgeInsets.only(
-                        bottom: 20.sp,
+                        bottom: 20.arP,
                       ),
                       duration: const Duration(milliseconds: 2000),
                     );
@@ -303,9 +303,9 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                       if (contact == null &&
                           getSenderAddress().isValidWalletAddress) ...[
                         CustomPopupMenuItem(
-                          height: 30.sp,
-                          width: 120.sp,
-                          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                          height: 30.arP,
+                          width: 120.arP,
+                          padding: EdgeInsets.symmetric(horizontal: 10.arP),
                           onTap: () {
                             Get.bottomSheet(
                               AddContactBottomSheet(
@@ -372,11 +372,11 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                         CustomPopupMenuDivider(
                           height: 1,
                           color: ColorConst.Neutral.shade50,
-                          padding: EdgeInsets.symmetric(horizontal: 0.sp),
+                          padding: EdgeInsets.symmetric(horizontal: 0.arP),
                           thickness: 1,
                         ),
                         CustomPopupMenuItem(
-                          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                          padding: EdgeInsets.symmetric(horizontal: 10.arP),
                           height: 30.aR,
                           width: 100.aR,
                           onTap: () {
@@ -461,14 +461,14 @@ class RemoveContactBottomSheet extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      height: 262.sp,
+      height: 262.arP,
       bottomSheetHorizontalPadding: 32,
       blurRadius: 5,
       crossAxisAlignment: CrossAxisAlignment.center,
       bottomSheetWidgets: [
         Text(
           'Delete Contact',
-          style: titleLarge.copyWith(fontSize: 22.sp),
+          style: titleLarge.copyWith(fontSize: 22.arP),
         ),
         0.03.vspace,
         Text(

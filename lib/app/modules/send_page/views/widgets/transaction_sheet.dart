@@ -305,7 +305,7 @@ class TransactionBottomSheet extends StatelessWidget {
                   });
               Get.bottomSheet(
                 NaanBottomSheet(
-                  height: 380.sp,
+                  height: 380.arP,
                   bottomSheetWidgets: [
                     0.04.vspace,
                     Align(
