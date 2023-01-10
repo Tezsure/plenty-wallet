@@ -63,7 +63,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
                       ? Center(
                           child: Text(
                             "Delegation is pending . . .",
-                            style: bodyLarge.copyWith(
+                            style: titleMedium.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: ColorConst.textGrey1),
                           ),

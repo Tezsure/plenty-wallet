@@ -43,7 +43,7 @@ class BackupPage extends StatelessWidget {
                         child: Text(
                           "Backup",
                           maxLines: 1,
-                          style: titleMedium,
+                          style: titleLarge,
                           textAlign: TextAlign.center,
                         ),
                       ),

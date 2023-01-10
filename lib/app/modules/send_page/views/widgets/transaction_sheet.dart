@@ -97,7 +97,7 @@ class TransactionBottomSheet extends StatelessWidget {
                 controller.isNFTPage.value
                     ? '\$ 0.00'
                     : '\$${controller.amountUsdController.text}',
-                style: bodyLarge,
+                style: bodyMedium,
               )
             ],
           ),

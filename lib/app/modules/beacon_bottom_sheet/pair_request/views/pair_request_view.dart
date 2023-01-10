@@ -60,7 +60,7 @@ class PairRequestView extends GetView<PairRequestController> {
                 ),
                 Text(
                   controller.beaconRequest.peer?.name ?? 'Unknown',
-                  style: titleLarge,
+                  style: titleSmall,
                 ),
 
                 0.04.vspace,
