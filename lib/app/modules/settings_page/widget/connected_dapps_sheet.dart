@@ -91,7 +91,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
             child: dappModel.icon == null
                 ? Text(
                     dappModel.name.substring(0, 1).toUpperCase(),
-                    style: titleMedium.copyWith(color: Colors.white),
+                    style: titleMedium,
                   )
                 : Container(),
           ),

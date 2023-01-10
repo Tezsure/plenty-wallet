@@ -90,8 +90,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                     child: Text(
                       'Accounts',
                       style: titleLarge.copyWith(
-                        fontSize: 22.aR,
-                        letterSpacing: 0.5.aR,
+                        letterSpacing: 0.5.arP,
                       ),
                     ),
                   ),

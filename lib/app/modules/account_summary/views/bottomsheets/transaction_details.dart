@@ -141,10 +141,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                 : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: titleMedium.copyWith(
-                            fontSize: 16.aR,
-                            letterSpacing: 0.5.aR,
-                            fontWeight: FontWeight.w400,
+                        style: bodyLarge.copyWith(
                             color: transactionModel.sender!.address!
                                     .contains(userAccountAddress)
                                 ? Colors.white

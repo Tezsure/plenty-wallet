@@ -40,8 +40,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
             0.036.vspace,
             Text(
               'Receive',
-              style: titleLarge.copyWith(
-                  fontSize: 22.aR, height: 24 / 22, letterSpacing: 0.15.aR),
+              style: titleLarge.copyWith(letterSpacing: 0.15.aR),
             ),
             0.01.vspace,
             Text(

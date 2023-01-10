@@ -73,30 +73,30 @@ TextStyle titleLarge = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Poppins',
-  fontSize: 22.sp,
+  fontSize: 22.arP,
   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
   fontWeight: FontWeight.w700,
-  height: 28 / 22,
+  height: 24.arP / 22.arP,
 );
 
 TextStyle titleMedium = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Poppins',
-  fontSize: 16.sp,
-  letterSpacing: 0.15,
+  fontSize: 16.arP,
+  letterSpacing: 0.15.arP,
   fontWeight: FontWeight.w700,
-  height: 24 / 16,
+  height: 24.arP / 16.arP,
 );
 
 TextStyle titleSmall = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Poppins',
-  fontSize: 14.sp,
+  fontSize: 14.arP,
   letterSpacing: 0.1,
   fontWeight: FontWeight.w700,
-  height: 20 / 14,
+  height: 20.arP / 14.arP,
 );
 
 //? BODY LARGE
@@ -105,29 +105,29 @@ TextStyle bodyLarge = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Poppins',
-  fontSize: 16.sp,
-  letterSpacing: 0.5,
+  fontSize: 16.arP,
+  letterSpacing: 0.5.arP,
   fontWeight: FontWeight.w400,
-  height: 24 / 16,
+  height: 24.arP / 16.arP,
 );
 
 TextStyle bodyMedium = TextStyle(
     color: Colors.white,
     decoration: TextDecoration.none,
     fontFamily: 'Poppins',
-    fontSize: 14.sp,
+    fontSize: 14.arP,
     letterSpacing: 0.25,
     fontWeight: FontWeight.w400,
-    height: 20 / 14);
+    height: 20.arP / 14.arP);
 
 TextStyle bodySmall = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Poppins',
-  fontSize: 12.sp,
-  letterSpacing: 0.4,
+  fontSize: 12.arP,
+  letterSpacing: 0.4.arP,
   fontWeight: FontWeight.w400,
-  height: 16 / 12,
+  height: 16.arP / 12.arP,
 );
 
 //? LABEL LARGE
@@ -136,28 +136,28 @@ TextStyle labelLarge = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Poppins',
-  fontSize: 14.sp,
-  letterSpacing: 0.1,
+  fontSize: 14.arP,
+  letterSpacing: 0.1.arP,
   fontWeight: FontWeight.w600,
-  height: 20 / 14,
+  height: 20.arP / 14.arP,
 );
 
 TextStyle labelMedium = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Poppins',
-  fontSize: 12.sp,
-  letterSpacing: 0.5,
+  fontSize: 12.arP,
+  letterSpacing: 0.5.arP,
   fontWeight: FontWeight.w600,
-  height: 16 / 12,
+  height: 16.arP / 12.arP,
 );
 
 TextStyle labelSmall = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'Poppins',
-  fontSize: 11.sp,
+  fontSize: 11.arP,
   letterSpacing: 0.5,
   fontWeight: FontWeight.w500,
-  height: 16 / 11,
+  height: 16.arP / 11.arP,
 );

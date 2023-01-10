@@ -72,7 +72,6 @@ SnackbarController transactionStatusSnackbar({
     ),
 
     barBlur: 1,
-    onTap: (val) {},
     borderRadius: 8,
     maxWidth: 8.width,
     isDismissible: true,
