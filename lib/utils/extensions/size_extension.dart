@@ -6,7 +6,8 @@ extension SizeExtension on num {
   double get height => Get.height * this;
 
   /// Calculates the sp (Scalable Pixel) depending on the device's screen size
-  double get sp => this * (Get.width / 4) / 100;
+  // double get sp => this * (Get.width / 4) / 100;
+  double get sp => this * (Get.size.aspectRatio * 2);
 
   double get spH => this * (Get.height / 6) / 100;
 
@@ -17,10 +18,10 @@ extension SizeExtension on num {
       : this * (Get.size.aspectRatio * 2);
 
   SizedBox get vspace => SizedBox(
-        height: height.toDouble(),
+        height: height.arP.toDouble(),
       );
 
   SizedBox get hspace => SizedBox(
-        width: width.toDouble(),
+        width: width.arP.toDouble(),
       );
 }
