@@ -16,7 +16,7 @@ class PairRequestView extends GetView<PairRequestController> {
   @override
   Widget build(BuildContext context) {
     Get.put(PairRequestController());
-    return NaanBottomSheet(height: 0.5.height, bottomSheetHorizontalPadding: 0,
+    return NaanBottomSheet(height: 0.4.height, bottomSheetHorizontalPadding: 0,
         // width: 1.width,
 
         // decoration: const BoxDecoration(
@@ -24,7 +24,7 @@ class PairRequestView extends GetView<PairRequestController> {
         //     color: Colors.black),
         bottomSheetWidgets: [
           Container(
-            height: 0.4.height,
+            height: 0.33.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -38,7 +38,7 @@ class PairRequestView extends GetView<PairRequestController> {
                 //     color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
                 //   ),
                 // ),
-                // 0.04.vspace,
+                0.02.vspace,
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ClipRRect(
@@ -52,6 +52,7 @@ class PairRequestView extends GetView<PairRequestController> {
                                   ?.substring(0, 1)
                                   .toUpperCase() ??
                               'U',
+                          maxLines: 1,
                           style: titleLarge.copyWith(color: Colors.white),
                         ),
                       ),
@@ -63,12 +64,12 @@ class PairRequestView extends GetView<PairRequestController> {
                   style: titleLarge,
                 ),
 
-                0.04.vspace,
+                0.02.vspace,
                 Text(
                   'Wants to connect to your account',
                   style: bodyMedium.copyWith(color: ColorConst.grey),
                 ),
-                0.04.vspace,
+                0.02.vspace,
                 Text(
                   'Account',
                   style: bodySmall.copyWith(color: ColorConst.grey),

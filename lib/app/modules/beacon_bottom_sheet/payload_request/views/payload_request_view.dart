@@ -16,7 +16,7 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
   Widget build(BuildContext context) {
     Get.put(PayloadRequestController());
     return Container(
-        height: 0.65.height,
+        height: 0.6.height,
         width: 1.width,
         padding: EdgeInsets.only(
           bottom: Platform.isIOS ? 0.05.height : 0.02.height,
