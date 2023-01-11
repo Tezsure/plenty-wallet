@@ -1,5 +1,5 @@
-# Naan - A Tasty Tezos Wallet
-Naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.
+# naan - Your portal to Web3
+A fun, simple, and secure way to create a Tezos account, collect NFTs, and explore the new world of Web3.
 
 Features:
 1. Multiple account
