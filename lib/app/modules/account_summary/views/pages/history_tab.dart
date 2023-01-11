@@ -234,8 +234,8 @@ class HistoryPage extends GetView<TransactionController> {
         children: [
           index == 0
               ? Padding(
-                  padding: EdgeInsets.only(
-                      top: 24.arP, left: 16.arP, bottom: 16.arP),
+                  padding:
+                      EdgeInsets.only(top: 8.arP, left: 16.arP, bottom: 16.arP),
                   child: Text(
                     DateFormat.MMMM()
                         // displaying formatted date

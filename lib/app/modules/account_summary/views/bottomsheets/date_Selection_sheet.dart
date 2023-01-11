@@ -24,13 +24,14 @@ class DateSelectionSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => NaanBottomSheet(
-        height: 425.aR,
+        height: 0.5.height,
         bottomSheetHorizontalPadding: 15.aR,
         crossAxisAlignment: CrossAxisAlignment.center,
         bottomSheetWidgets: [
+          0.02.vspace,
           Text(
             'Select Start Date',
-            style: labelMedium.copyWith(fontSize: 12.aR),
+            style: titleSmall.copyWith(letterSpacing: 0.5.arP),
           ),
           SizedBox(
             height: 20.aR,

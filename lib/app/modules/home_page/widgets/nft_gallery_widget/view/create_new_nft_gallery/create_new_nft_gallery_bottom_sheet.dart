@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/app/data/services/create_profile_service/create_profile_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
@@ -171,7 +172,8 @@ class CreateNewNftGalleryBottomSheet
           ),
           child: Obx(
             () => SolidButton(
-              title: "Next",
+              title:
+                  "Next (${controller.selectedAccountIndex.values.where((element) => element == true).toList().length}/5)",
               height: 50.arP,
               active: controller.selectedAccountIndex.isNotEmpty &&
                       controller.selectedAccountIndex.values.contains(true)
@@ -195,12 +197,33 @@ class CreateNewNftGalleryBottomSheet
   }
 
   Widget accountItemWidget(int index, AccountModel accountModel) => InkWell(
-        onTap: () => controller
-            .selectedAccountIndex[accountModel.publicKeyHash!] = controller
-                .selectedAccountIndex
-                .containsKey(accountModel.publicKeyHash!)
-            ? !controller.selectedAccountIndex[accountModel.publicKeyHash!]!
-            : true,
+        onTap: () {
+          if (controller.selectedAccountIndex.values
+                      .where((element) => element == true)
+                      .toList()
+                      .length ==
+                  5 &&
+              (!controller.selectedAccountIndex
+                  .containsKey(accountModel.publicKeyHash!))) {
+            HapticFeedback.mediumImpact();
+            return;
+          }
+          if (controller.selectedAccountIndex.values
+                      .where((element) => element == true)
+                      .toList()
+                      .length ==
+                  5 &&
+              !controller.selectedAccountIndex[accountModel.publicKeyHash!]!) {
+            HapticFeedback.mediumImpact();
+            return;
+          }
+          controller.selectedAccountIndex[accountModel.publicKeyHash!] =
+              controller.selectedAccountIndex
+                      .containsKey(accountModel.publicKeyHash!)
+                  ? !controller
+                      .selectedAccountIndex[accountModel.publicKeyHash!]!
+                  : true;
+        },
         child: Container(
           margin: EdgeInsets.only(
             bottom: 8.spH,
@@ -268,26 +291,31 @@ class CreateNewNftGalleryBottomSheet
                     )
                   : Container(),
               Obx(() => CustomCheckBox(
-                    borderRadius: 100,
-                    checkBoxSize: 16.arP,
-                    checkBoxIconSize: 2.5.arP,
-                    checkedFillColor: const Color(0xFFFF006E),
+                    borderRadius: 12.aR,
+                    checkedIcon: Icons.done,
+                    borderWidth: 2,
+                    checkBoxIconSize: 12.aR,
+                    checkBoxSize: 20.aR,
+                    borderColor: const Color(0xff1E1C1F),
+                    checkedIconColor: Colors.white,
                     uncheckedFillColor: Colors.transparent,
-                    shouldShowBorder: !(controller.selectedAccountIndex
-                            .containsKey(accountModel.publicKeyHash!)
-                        ? controller
-                            .selectedAccountIndex[accountModel.publicKeyHash!]!
-                        : false),
-                    borderColor: const Color(0xFF1E1C1F),
                     uncheckedIconColor: Colors.transparent,
-                    borderWidth: 1.33.arP,
-                    checkedIcon: "assets/nft_page/svg/done.svg",
+                    checkedFillColor: ColorConst.Primary,
                     value: controller.selectedAccountIndex
                             .containsKey(accountModel.publicKeyHash!)
                         ? controller
                             .selectedAccountIndex[accountModel.publicKeyHash!]!
                         : false,
-                    onChanged: (_) {
+                    onChanged: (val) {
+                      if (controller.selectedAccountIndex.values
+                                  .where((element) => element == true)
+                                  .toList()
+                                  .length ==
+                              5 &&
+                          val) {
+                        HapticFeedback.mediumImpact();
+                        return;
+                      }
                       controller.selectedAccountIndex[accountModel
                           .publicKeyHash!] = controller.selectedAccountIndex
                               .containsKey(accountModel.publicKeyHash!)

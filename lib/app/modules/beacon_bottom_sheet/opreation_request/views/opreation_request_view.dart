@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -102,7 +103,8 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                           width: 25,
                                                         )
                                                       : CachedNetworkImage(
-                                                              imageUrl: element.thumbnailUri!,
+                                                          imageUrl: element
+                                                              .thumbnailUri!,
                                                           height: 25,
                                                           width: 25,
                                                         ),
@@ -225,38 +227,18 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: [
                                                   Expanded(
-                                                    child: OutlinedButton(
-                                                      style: OutlinedButton.styleFrom(
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8)),
-                                                          side: BorderSide(
-                                                              color: ColorConst
-                                                                  .Primary
-                                                                  .shade60,
-                                                              width: 1)),
-                                                      onPressed: () {
-                                                        controller.reject();
-                                                      },
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 12,
-                                                                horizontal: 14),
-                                                        child: Text(
-                                                          'Reject',
-                                                          style: bodyMedium
-                                                              .copyWith(
-                                                                  color: ColorConst
-                                                                      .Primary
-                                                                      .shade60),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
+                                                      child: SolidButton(
+                                                    borderColor:
+                                                        const Color(0xFFE8A2B9),
+                                                    title: "Cancel",
+                                                    primaryColor:
+                                                        Colors.transparent,
+                                                    onPressed: () {
+                                                      controller.reject();
+                                                    },
+                                                    textColor:
+                                                        const Color(0xFFE8A2B9),
+                                                  )),
                                                   0.04.hspace,
                                                   Expanded(
                                                       child: TextButton(
@@ -302,10 +284,13 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                                     .value
                                                                 ? Text(
                                                                     'Confirm',
-                                                                    style: bodyMedium
-                                                                        .copyWith(
-                                                                            color:
-                                                                                Colors.white),
+                                                                    style: titleSmall.copyWith(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w600,
+                                                                        color: ColorConst
+                                                                            .Neutral
+                                                                            .shade100),
                                                                   )
                                                                 : Row(
                                                                     mainAxisAlignment:
@@ -324,9 +309,10 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                                             ),
                                                                       Text(
                                                                         'Confirm',
-                                                                        style: bodyMedium.copyWith(
-                                                                            color:
-                                                                                Colors.white),
+                                                                        style: titleSmall.copyWith(
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                            color: ColorConst.Neutral.shade100),
                                                                       ),
                                                                     ],
                                                                   ),

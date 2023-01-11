@@ -45,13 +45,7 @@ SnackbarController transactionStatusSnackbar({
 }) {
   return Get.rawSnackbar(
     backgroundColor: ColorConst.NeutralVariant.shade20,
-    boxShadows: [
-      BoxShadow(
-          color: Colors.white.withOpacity(0.1),
-          blurRadius: 10,
-          spreadRadius: 5,
-          offset: const Offset(0, 4)),
-    ],
+
     icon: Padding(
       padding: EdgeInsets.only(left: 0.04.width),
       child: status.lottiePath.endsWith(".svg")

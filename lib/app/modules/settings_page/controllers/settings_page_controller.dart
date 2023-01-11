@@ -17,6 +17,9 @@ import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_v
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:web3auth_flutter/enums.dart';
 
 import '../../../data/services/enums/enums.dart';
@@ -354,10 +357,38 @@ class SettingsPageController extends GetxController {
         ),
       ).whenComplete(() {
         copyToClipboard.value = true;
-        Get.showSnackbar(const GetSnackBar(
-          message: "Copied to clipboard",
-          duration: Duration(seconds: 2),
-        ));
+        Get.rawSnackbar(
+          maxWidth: 0.45.width,
+          backgroundColor: Colors.transparent,
+          snackPosition: SnackPosition.BOTTOM,
+          snackStyle: SnackStyle.FLOATING,
+          padding: const EdgeInsets.only(bottom: 60),
+          messageText: Container(
+            height: 36,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+                color: ColorConst.Neutral.shade10,
+                borderRadius: BorderRadius.circular(8)),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.check_circle_outline_rounded,
+                  size: 14,
+                  color: Colors.white,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  "Copied",
+                  style: labelSmall,
+                )
+              ],
+            ),
+          ),
+        );
         Future.delayed(
             const Duration(seconds: 5), () => copyToClipboard.value = false);
       });

@@ -24,13 +24,13 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
     return NaanBottomSheet(
         mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 16.arP,
-        height: 552.arP,
+        height: 582.arP,
         blurRadius: 5,
         width: double.infinity,
         bottomSheetWidgets: [
           SafeArea(
             child: SizedBox(
-              height: 526.arP,
+              height: 530.arP,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -96,7 +96,6 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                     },
                     title: "Continue",
                   ),
-                  0.018.vspace
                 ],
               ),
             ),

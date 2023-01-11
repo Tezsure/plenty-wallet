@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
@@ -47,6 +49,7 @@ class NftGalleryController extends GetxController {
     selectedGalleryIndex.value = Get.arguments[0];
     nftGalleryList.value = Get.arguments[1];
     selectedNftGallery.value = nftGalleryList[selectedGalleryIndex.value];
+
     await fetchAllNftForGallery();
   }
 
@@ -88,7 +91,6 @@ class NftGalleryController extends GetxController {
   }
 
   Future<void> removeGallery(int galleryIndex) async {
-  
     await UserStorageService().removeGallery(galleryIndex);
     await fetchAllNftForGallery();
     await Get.find<NftGalleryWidgetController>().fetchNftGallerys();

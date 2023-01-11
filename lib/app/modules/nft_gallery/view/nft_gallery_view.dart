@@ -826,7 +826,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
 
                                                       return <PopupMenuEntry>[
                                                         CustomPopupMenuItem(
-                                                          height: 30.arP,
+                                                          height: 35.arP,
                                                           width: 120.arP,
                                                           onTap: () {
                                                             controller
@@ -840,6 +840,9 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                                 CrossAxisAlignment
                                                                     .start,
                                                             children: [
+                                                              SizedBox(
+                                                                height: 5.arP,
+                                                              ),
                                                               Padding(
                                                                 padding:
                                                                     EdgeInsets
@@ -1073,7 +1076,7 @@ class NftCollectionItemWidget extends StatelessWidget {
           12.arP,
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Wrap(
               runSpacing: 12.arP,
@@ -1136,7 +1139,7 @@ class NftCollectionItemWidget extends StatelessWidget {
                   ? double.infinity
                   : Get.width > 768
                       ? 88.arP
-                      : 73.arP,
+                      : 78.arP,
           height: _nftTokens.length == 1 ? 160.arP : 73.arP,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(
@@ -1162,7 +1165,7 @@ class NftCollectionItemWidget extends StatelessWidget {
         children: [
           images.last,
           Container(
-            width: Get.width > 768 ? 88.arP : 73.arP,
+            width: Get.width > 768 ? 88.arP : 78.arP,
             height: 74.arP,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.8),

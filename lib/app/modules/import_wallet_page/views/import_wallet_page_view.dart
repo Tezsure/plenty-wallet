@@ -231,7 +231,6 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           )),
     );
   }
-
 }
 
 class AccountBottomSheet extends StatelessWidget {
@@ -248,6 +247,7 @@ class AccountBottomSheet extends StatelessWidget {
       blurRadius: 5,
       height: 0.85.height,
       bottomSheetWidgets: [
+        0.04.vspace,
         Text(
           "Select addresses",
           textAlign: TextAlign.start,

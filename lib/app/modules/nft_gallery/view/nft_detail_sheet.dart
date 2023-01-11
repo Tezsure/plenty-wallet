@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/custom_packages/readmore/readmore.dart';
+import 'package:naan_wallet/app/modules/import_wallet_page/widgets/custom_tab_indicator.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/cast_devices.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
@@ -38,8 +39,14 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   late String imageUrl;
   final _controller = Get.put(AccountSummaryController());
   String ipfsHost = "https://ipfs.io/ipfs";
+  bool showButton = true;
   @override
   void initState() {
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        showButton = false;
+      });
+    });
     imageUrl =
         "https://assets.objkt.media/file/assets-003/${widget.nftModel!.faContract}/${widget.nftModel!.tokenId.toString()}/thumb400";
     super.initState();
@@ -117,50 +124,52 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                       margin: EdgeInsets.symmetric(vertical: 0.02.height),
                       height: 0.5.height,
                       width: 1.width,
-                      color: Colors.white,
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: SizedBox(
-                              height: 0.5.height,
-                              width: 1.width,
-                              child: CachedNetworkImage(
-                                imageUrl: imageUrl,
-                                fit: BoxFit.cover,
-                              ),
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.to(FullScreenView(
+                            child: CachedNetworkImage(
+                              imageUrl: imageUrl,
+                              fit: BoxFit.contain,
                             ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Get.to(FullScreenView(
+                          ));
+                        },
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: SizedBox(
+                                height: 0.5.height,
+                                width: 1.width,
                                 child: CachedNetworkImage(
                                   imageUrl: imageUrl,
-                                  fit: BoxFit.contain,
+                                  fit: BoxFit.cover,
                                 ),
-                              ));
-                            },
-                            child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                    right: 10.aR, bottom: 22.aR),
-                                height: 36.aR,
-                                width: 36.aR,
-                                decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Transform.rotate(
-                                  angle: pi / 180 * 135,
-                                  child: Icon(
-                                    Icons.code_outlined,
-                                    size: 20.aR,
-                                    color: Colors.white,
+                              ),
+                            ),
+                            Visibility(
+                              visible: showButton,
+                              child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      right: 10.aR, bottom: 22.aR),
+                                  height: 36.aR,
+                                  width: 36.aR,
+                                  decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Transform.rotate(
+                                    angle: pi / 180 * 135,
+                                    child: Icon(
+                                      Icons.code_outlined,
+                                      size: 20.aR,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     Padding(
@@ -191,9 +200,12 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                                       letterSpacing: 0.5.arP,
                                       height: 1.5),
                                 ),
-                                TextSpan(
+                                /*         TextSpan(
                                     text: "  ",
-                                    style: TextStyle(fontSize: 5.arP)),
+                                    style: TextStyle(
+                                      fontSize: 5.arP,
+                                    )), */
+                                WidgetSpan(child: 0.03.vspace),
                                 WidgetSpan(
                                   child: ReadMoreText(
                                     widget.nftModel!.description == null
@@ -413,12 +425,20 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   SizedBox _buildTabs() {
     return SizedBox(
       width: 1.width,
-      height: 0.1.height,
+      height: 0.06.height,
       child: TabBar(
-          padding: EdgeInsets.all(8.aR),
+          padding: EdgeInsets.symmetric(horizontal: 8.aR, vertical: 4.aR),
+          indicatorWeight: 4.aR,
+          indicatorSize: TabBarIndicatorSize.tab,
           enableFeedback: true,
           isScrollable: true,
-          indicatorColor: ColorConst.Primary,
+          indicator: MaterialIndicator(
+            color: ColorConst.Primary,
+            height: 4.aR,
+            topLeftRadius: 4.aR,
+            topRightRadius: 4.aR,
+            strokeWidth: 4.aR,
+          ),
           unselectedLabelColor: ColorConst.NeutralVariant.shade60,
           unselectedLabelStyle: labelLarge.copyWith(fontSize: 14.aR),
           labelColor: ColorConst.Primary.shade95,

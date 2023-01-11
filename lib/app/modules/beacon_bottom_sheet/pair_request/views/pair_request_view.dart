@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -16,15 +17,15 @@ class PairRequestView extends GetView<PairRequestController> {
   @override
   Widget build(BuildContext context) {
     Get.put(PairRequestController());
-    return NaanBottomSheet(height: 0.4.height, bottomSheetHorizontalPadding: 0,
+    return NaanBottomSheet(height: 0.42.height, bottomSheetHorizontalPadding: 0,
         // width: 1.width,
 
         // decoration: const BoxDecoration(
         //     borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
         //     color: Colors.black),
         bottomSheetWidgets: [
-          Container(
-            height: 0.33.height,
+          SizedBox(
+            height: 0.36.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -61,15 +62,16 @@ class PairRequestView extends GetView<PairRequestController> {
                 ),
                 Text(
                   controller.beaconRequest.peer?.name ?? 'Unknown',
-                  style: titleSmall,
+                  style: titleLarge,
                 ),
 
                 0.02.vspace,
                 Text(
                   'Wants to connect to your account',
-                  style: bodyMedium.copyWith(color: ColorConst.grey),
+                  style: bodyLarge.copyWith(
+                      color: ColorConst.grey, fontWeight: FontWeight.w600),
                 ),
-                0.02.vspace,
+                0.03.vspace,
                 Text(
                   'Account',
                   style: bodySmall.copyWith(color: ColorConst.grey),
@@ -133,8 +135,7 @@ class PairRequestView extends GetView<PairRequestController> {
                                           controller.selectedAccount.value]
                                       .name
                                       .toString(),
-                                  style: titleSmall.copyWith(
-                                      fontWeight: FontWeight.w500)),
+                                  style: labelMedium),
                               const Icon(
                                 Icons.keyboard_arrow_right_rounded,
                                 color: Colors.white,
@@ -156,57 +157,24 @@ class PairRequestView extends GetView<PairRequestController> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Expanded(
-                            child: OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)),
-                                  // ignore: prefer_const_constructors
-                                  side: BorderSide(
-                                      color: const Color(0xFFE8A2B9),
-                                      width: 1)),
+                            child: SolidButton(
+                              borderColor: const Color(0xFFE8A2B9),
+                              title: "Cancel",
+                              primaryColor: Colors.transparent,
                               onPressed: () {
                                 controller.reject();
                               },
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 12, horizontal: 14),
-                                child: Text(
-                                  'Cancel',
-                                  style: TextStyle(
-                                    color: const Color(0xFFE8A2B9),
-                                    fontSize: 14.arP,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
+                              textColor: const Color(0xFFE8A2B9),
                             ),
                           ),
                           0.04.hspace,
                           Expanded(
-                            child: TextButton(
-                              style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8))),
-                                  backgroundColor: MaterialStateProperty.all(
-                                      ColorConst.Primary)),
+                            child: SolidButton(
+                              title: "Connect",
+                              primaryColor: ColorConst.Primary,
                               onPressed: () {
                                 controller.accept();
                               },
-                              // ignore: prefer_const_constructors
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 14),
-                                child: Text(
-                                  'Connect',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.arP,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
                             ),
                           ),
                         ],

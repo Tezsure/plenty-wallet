@@ -33,7 +33,7 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
       bottomSheetHorizontalPadding: 32,
       height: .4.height,
       bottomSheetWidgets: [
-        0.015.vspace,
+        0.03.vspace,
         NaanTextfield(
           onTextChange: (_) {
             setState(() {});
@@ -45,7 +45,7 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
               color: ColorConst.lightGrey, fontWeight: FontWeight.w400),
           backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
-        0.015.vspace,
+
         NaanTextfield(
           onTextChange: (_) {
             setState(() {});
@@ -57,7 +57,7 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
               color: ColorConst.lightGrey, fontWeight: FontWeight.w400),
           backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
-        0.03.vspace,
+        0.025.vspace,
         SolidButton(
             title: "Add RPC",
             onPressed: (_name.text.isEmpty || (!_url.text.isURL))

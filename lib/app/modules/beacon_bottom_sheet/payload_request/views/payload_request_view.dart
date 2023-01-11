@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -16,7 +17,7 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
   Widget build(BuildContext context) {
     Get.put(PayloadRequestController());
     return Container(
-        height: 0.6.height,
+        height: 0.65.height,
         width: 1.width,
         padding: EdgeInsets.only(
           bottom: Platform.isIOS ? 0.05.height : 0.02.height,
@@ -73,10 +74,16 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                           'Message Signature Request',
                           style: titleMedium.copyWith(fontSize: 18),
                         ),
-                        0.02.vspace,
-                        Text(
-                          'Message',
-                          style: bodyMedium,
+                        0.03.vspace,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Message',
+                              style: labelMedium,
+                            ),
+                          ),
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(
@@ -87,9 +94,10 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                               borderRadius: BorderRadius.circular(5)),
                           child: Text(
                               controller.beaconRequest.request?.payload ?? '',
-                              style: bodySmall),
+                              style:
+                                  bodySmall.copyWith(color: ColorConst.grey)),
                         ),
-                        0.02.vspace,
+                        0.03.vspace,
                         Text(
                           'Account',
                           style: bodySmall.copyWith(color: ColorConst.grey),
@@ -158,53 +166,23 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Expanded(
-                                    child: OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          side: BorderSide(
-                                              color: ColorConst.Primary.shade60,
-                                              width: 1)),
-                                      onPressed: () {
-                                        controller.reject();
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 12, horizontal: 14),
-                                        child: Text(
-                                          'Reject',
-                                          style: bodyMedium.copyWith(
-                                              color:
-                                                  ColorConst.Primary.shade60),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                      child: SolidButton(
+                                    borderColor: const Color(0xFFE8A2B9),
+                                    title: "Cancel",
+                                    primaryColor: Colors.transparent,
+                                    onPressed: () {
+                                      controller.reject();
+                                    },
+                                    textColor: const Color(0xFFE8A2B9),
+                                  )),
                                   0.04.hspace,
                                   Expanded(
-                                    child: TextButton(
-                                      style: ButtonStyle(
-                                          shape: MaterialStateProperty.all(
-                                              RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8))),
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  ColorConst.Primary)),
+                                    child: SolidButton(
+                                      title: "Connect",
+                                      primaryColor: ColorConst.Primary,
                                       onPressed: () {
                                         controller.confirm();
                                       },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 4, horizontal: 14),
-                                        child: Text(
-                                          'Confirm',
-                                          style: bodyMedium.copyWith(
-                                              color: Colors.white),
-                                        ),
-                                      ),
                                     ),
                                   ),
                                 ],

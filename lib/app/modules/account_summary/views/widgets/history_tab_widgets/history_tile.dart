@@ -41,7 +41,7 @@ class HistoryTile extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 20.arP,
-                    backgroundColor: ColorConst.NeutralVariant.shade60,
+                    backgroundColor: Colors.white,
                     child: tokenInfo.imageUrl.startsWith("assets")
                         ? Image.asset(
                             tokenInfo.imageUrl,

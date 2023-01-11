@@ -36,6 +36,7 @@ class ChoosePaymentMethod extends StatelessWidget {
         title: "Choose payment",
         bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
+          0.012.vspace,
           ListTile(
             onTap: buyNftController.buyWithCreditCard,
             dense: true,
