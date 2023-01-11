@@ -89,7 +89,7 @@ class ConfirmTransactionSheet extends StatelessWidget {
               Container(
                 height: 0.1.height,
                 width: 1.width,
-                padding: EdgeInsets.all(8.sp),
+                padding: EdgeInsets.all(8.arP),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.transparent,
@@ -129,7 +129,7 @@ class ConfirmTransactionSheet extends StatelessWidget {
             ),
             0.01.vspace,
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.sp),
+              padding: EdgeInsets.symmetric(vertical: 10.arP),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -187,7 +187,7 @@ class ConfirmTransactionSheet extends StatelessWidget {
                   false
                       ? const SizedBox()
                       : Padding(
-                          padding: EdgeInsets.all(10.sp),
+                          padding: EdgeInsets.all(10.arP),
                           child: RichText(
                             text: TextSpan(
                               text: 'Balance\n',

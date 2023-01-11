@@ -48,9 +48,9 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                     ).createShader(bounds);
                   },
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                    padding: EdgeInsets.symmetric(horizontal: 16.arP),
                     child: Container(
-                      margin: EdgeInsets.only(top: 25.sp),
+                      margin: EdgeInsets.only(top: 25.arP),
                       child: SvgPicture.asset(
                         "${PathConst.SVG}create_wallet_background.svg",
                         fit: BoxFit.contain,

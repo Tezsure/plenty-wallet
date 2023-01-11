@@ -65,8 +65,8 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                   },
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 500),
-                    // height: 517.sp,
-                    // width: 390.sp,
+                    // height: 517.arP,
+                    // width: 390.arP,
                     color: widget
                         .controller.colorList[widget.controller.pageIndex()],
                     child: Stack(
@@ -117,7 +117,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                         ),
                         SafeArea(
                           child: AnimatedContainer(
-                            margin: EdgeInsets.symmetric(horizontal: 32.sp),
+                            margin: EdgeInsets.symmetric(horizontal: 32.arP),
                             padding: EdgeInsets.only(bottom: .2.height),
                             duration: const Duration(milliseconds: 1000),
                             color: Colors.transparent,
@@ -130,7 +130,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                               style: TextStyle(
                                 fontFamily: 'Space Grotesk',
                                 color: Colors.white,
-                                fontSize: 40.sp,
+                                fontSize: 40.arP,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),

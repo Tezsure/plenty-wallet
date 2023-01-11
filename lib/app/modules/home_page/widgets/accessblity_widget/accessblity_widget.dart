@@ -12,17 +12,17 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return Padding(
-//       padding: EdgeInsets.symmetric(horizontal: 24.sp),
+//       padding: EdgeInsets.symmetric(horizontal: 24.arP),
 //       child: Container(
 //         height: 0.45.width,
 //         width: 1.width,
 //         padding: EdgeInsets.all(0.04.width),
 //         decoration: BoxDecoration(
 //           color: const Color(0xff958E99).withOpacity(0.2),
-//           borderRadius: BorderRadius.circular(22.sp),
+//           borderRadius: BorderRadius.circular(22.arP),
 //           border: Border.all(
 //             color: const Color(0xff332f37),
-//             width: 1.sp,
+//             width: 1.arP,
 //           ),
 //         ),
 //         child: Column(
@@ -104,7 +104,7 @@
 //       child: Container(
 //         decoration: BoxDecoration(
 //           color: color!,
-//           borderRadius: BorderRadius.circular(16.sp),
+//           borderRadius: BorderRadius.circular(16.arP),
 //         ),
 //         child: Center(
 //           child: Row(
@@ -112,7 +112,7 @@
 //             children: [
 //               0.04.hspace,
 //               CircleAvatar(
-//                 radius: 16.sp,
+//                 radius: 16.arP,
 //                 backgroundColor: circleColor,
 //                 child: Image.asset(
 //                   image!,

@@ -74,8 +74,8 @@ class NaanBottomSheet extends StatelessWidget {
                     0.05.vspace,
                     Center(
                       child: Container(
-                        height: 5.sp,
-                        width: 36.sp,
+                        height: 5.arP,
+                        width: 36.arP,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: const Color(0xffEBEBF5).withOpacity(0.3),

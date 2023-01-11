@@ -94,8 +94,8 @@ class AccountSelector extends StatelessWidget {
                                   alignment: Alignment.centerRight,
                                   child: SvgPicture.asset(
                                     "assets/svg/check_3.svg",
-                                    height: 14.sp,
-                                    width: 14.sp,
+                                    height: 14.arP,
+                                    width: 14.arP,
                                   ),
                                 ),
                               )

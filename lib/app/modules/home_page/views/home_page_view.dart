@@ -43,7 +43,7 @@ class HomePageView extends GetView<HomePageController>
                                   crossAxisAlignment: WrapCrossAlignment.center,
                                   runAlignment: WrapAlignment.center,
                                   runSpacing: 22.arP,
-                                  spacing: 22.sp,
+                                  spacing: 22.arP,
                                   children: registeredWidgets,
                                 ),
                               ),

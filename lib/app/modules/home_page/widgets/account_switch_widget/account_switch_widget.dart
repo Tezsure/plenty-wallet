@@ -40,7 +40,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    return NaanBottomSheet(height: 0.45.height, bottomSheetHorizontalPadding: 0,
+    return NaanBottomSheet(height: 0.4.height, bottomSheetHorizontalPadding: 0,
         // width: 1.width,
 
         // decoration: const BoxDecoration(
@@ -48,7 +48,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
         //     color: Colors.black),
         bottomSheetWidgets: [
           Container(
-            height: 0.4.height,
+            height: 0.33.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -62,7 +62,8 @@ class _AccountSwitchState extends State<AccountSwitch> {
                 //     color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
                 //   ),
                 // ),
-                // 0.04.vspace,`    0.04.vspace,
+                // 0.04.vspace,
+                0.03.vspace,
                 Text(
                   widget.title,
                   style: titleLarge,

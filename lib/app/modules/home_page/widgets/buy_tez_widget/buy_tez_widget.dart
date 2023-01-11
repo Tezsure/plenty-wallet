@@ -86,10 +86,10 @@ class BuyTezWidget extends StatelessWidget {
       child: Container(
         height: 0.405.width,
         width: 0.405.width,
-        margin: EdgeInsets.only(left: 24.sp),
+        margin: EdgeInsets.only(left: 24.arP),
         decoration: BoxDecoration(
           gradient: appleYellow,
-          borderRadius: BorderRadius.circular(22.sp),
+          borderRadius: BorderRadius.circular(22.arP),
         ),
         child: Stack(
           fit: StackFit.expand,
@@ -105,13 +105,13 @@ class BuyTezWidget extends StatelessWidget {
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: EdgeInsets.all(16.sp),
+                padding: EdgeInsets.all(16.arP),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text("Buy tez",
-                        style: headlineSmall.copyWith(fontSize: 20.sp)),
+                        style: headlineSmall.copyWith(fontSize: 20.arP)),
                     Text(
                       "with credit card",
                       style: bodySmall,

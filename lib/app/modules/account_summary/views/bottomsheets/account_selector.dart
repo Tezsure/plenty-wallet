@@ -226,7 +226,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          8.sp)),
+                                                          8.arP)),
                                               color: const Color(0xff421121),
                                               itemBuilder: (_) {
                                                 _controller.popupIndex.value =
@@ -238,8 +238,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                     width: 140.aR,
                                                     height: 30.aR,
                                                     padding: EdgeInsets.only(
-                                                        left: 12.sp,
-                                                        bottom: 5.sp),
+                                                        left: 12.arP,
+                                                        bottom: 5.arP),
                                                     onTap: () {
                                                       Get.bottomSheet(
                                                         EditAccountBottomSheet(
@@ -284,8 +284,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                       1)
                                                     CustomPopupMenuItem(
                                                       padding: EdgeInsets.only(
-                                                          left: 12.sp,
-                                                          top: 5.sp),
+                                                          left: 12.arP,
+                                                          top: 5.arP),
                                                       width: 140.aR,
                                                       height: 30.aR,
                                                       onTap: () {
@@ -359,12 +359,12 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                         .selectedIndex.value
                                                 ? SvgPicture.asset(
                                                     "assets/svg/check_3.svg",
-                                                    height: 14.sp,
-                                                    width: 14.sp,
+                                                    height: 14.arP,
+                                                    width: 14.arP,
                                                   )
                                                 : SizedBox(
-                                                    height: 14.sp,
-                                                    width: 14.sp,
+                                                    height: 14.arP,
+                                                    width: 14.arP,
                                                   ),
                                           ))
                                     ],
@@ -377,7 +377,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 52.sp, left: 16.sp),
+              padding: EdgeInsets.only(bottom: 52.arP, left: 16.arP),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Column(children: [
@@ -527,7 +527,7 @@ Widget removeAccountBottomSheet(int index,
     {required String accountName, required Function() onPressed}) {
   return NaanBottomSheet(
     title: 'Remove Account',
-    bottomSheetHorizontalPadding: 32.sp,
+    bottomSheetHorizontalPadding: 32.arP,
     blurRadius: 5,
     titleAlignment: Alignment.center,
     height: 300.aR,
@@ -544,7 +544,7 @@ Widget removeAccountBottomSheet(int index,
       Column(
         children: [
           SolidButton(
-            // width: 326.sp,
+            // width: 326.arP,
             height: 50.aR,
             primaryColor: const Color(0xff1E1C1F).withOpacity(0.8),
             onPressed: onPressed,
@@ -555,7 +555,7 @@ Widget removeAccountBottomSheet(int index,
           ),
           0.012.vspace,
           SolidButton(
-            // width: 326.sp,
+            // width: 326.arP,
             height: 50.aR,
             primaryColor: const Color(0xff1E1C1F).withOpacity(0.8),
             onPressed: () {

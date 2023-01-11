@@ -56,7 +56,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 20.sp, sigmaY: 20.sp),
+      filter: ImageFilter.blur(sigmaX: 20.arP, sigmaY: 20.arP),
       child: DraggableScrollableSheet(
           maxChildSize: 0.95,
           initialChildSize: 0.9,
@@ -76,8 +76,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                     0.02.vspace,
                     Center(
                       child: Container(
-                        height: 5.sp,
-                        width: 36.sp,
+                        height: 5.arP,
+                        width: 36.arP,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: ColorConst.NeutralVariant.shade60
@@ -96,7 +96,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                               left: 16.arP,
                             ),
                             child: SizedBox(
-                              height: 50.sp,
+                              height: 50.arP,
                               child: TextFormField(
                                 controller: searchController,
                                 textAlignVertical: TextAlignVertical.top,
@@ -123,7 +123,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                                   prefixIcon: Icon(
                                     Icons.search,
                                     color: ColorConst.NeutralVariant.shade60,
-                                    size: 18.sp,
+                                    size: 18.arP,
                                   ),
                                   counterStyle: const TextStyle(
                                       backgroundColor: Colors.white),
@@ -141,7 +141,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                                       color: ColorConst.NeutralVariant.shade70),
                                   labelStyle: labelSmall,
                                   contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 10.sp, vertical: 20.sp),
+                                      horizontal: 10.arP, vertical: 20.arP),
                                 ),
                               ),
                             ),
@@ -181,7 +181,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                             controller.searchTransactionList.isEmpty
                         ? Center(
                             child: Padding(
-                              padding: EdgeInsets.only(top: 44.sp),
+                              padding: EdgeInsets.only(top: 44.arP),
                               child: Text(
                                   "Try searching for token,\n protocols, and tags",
                                   textAlign: TextAlign.center,
@@ -229,8 +229,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         children: [
           index == 0
               ? Padding(
-                  padding:
-                      EdgeInsets.only(top: 24.sp, left: 16.sp, bottom: 16.sp),
+                  padding: EdgeInsets.only(
+                      top: 24.arP, left: 16.arP, bottom: 16.arP),
                   child: Text(
                     DateFormat.MMMM()
                         // displaying formatted date
@@ -248,7 +248,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   ? const SizedBox()
                   : Padding(
                       padding: EdgeInsets.only(
-                          top: 20.sp, left: 16.sp, bottom: 12.sp),
+                          top: 20.arP, left: 16.arP, bottom: 12.arP),
                       child: Text(
                         DateFormat.MMMM()
                             // displaying formatted date

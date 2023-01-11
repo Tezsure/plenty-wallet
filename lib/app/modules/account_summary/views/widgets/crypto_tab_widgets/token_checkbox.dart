@@ -80,7 +80,7 @@ class TokenCheckbox extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            height: 3.sp,
+                            height: 3.arP,
                           ),
                           Text(
                             "${tokenModel.balance.toStringAsFixed(tokenModel.decimals).removeTrailing0} ${tokenModel.symbol}",
@@ -154,6 +154,12 @@ class TokenCheckbox extends StatelessWidget {
                 )
               : ClipOval(
                   child: CachedNetworkImage(
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover)),
+                    ),
                     imageUrl: tokenModel.iconUrl!.startsWith("ipfs")
                         ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
                         : tokenModel.iconUrl!,

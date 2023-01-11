@@ -144,7 +144,6 @@ class AccountWidget extends StatelessWidget {
               ),
               FutureBuilder<double>(
                 future: accountModel.getUserBalanceInTezos(),
-      
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData) {
                     return Text(
@@ -185,8 +184,8 @@ class AccountWidget extends StatelessWidget {
                   icon: isSelected
                       ? SvgPicture.asset(
                           "assets/svg/check_3.svg",
-                          height: 20.sp,
-                          width: 20.sp,
+                          height: 20.arP,
+                          width: 20.arP,
                         )
                       : Icon(
                           Icons.circle_outlined,

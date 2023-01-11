@@ -22,7 +22,7 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
     HapticFeedback.heavyImpact();
     return NaanBottomSheet(
         mainAxisAlignment: MainAxisAlignment.end,
-        bottomSheetHorizontalPadding: 16.sp,
+        bottomSheetHorizontalPadding: 16.arP,
         height: 0.45.height,
         blurRadius: 5,
         width: double.infinity,
@@ -37,14 +37,14 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
                   0.015.vspace,
                   LottieBuilder.asset(
                     '${PathConst.SEND_PAGE}lottie/success_primary.json',
-                    height: 80.sp,
-                    width: 80.sp,
+                    height: 80.arP,
+                    width: 80.arP,
                     repeat: false,
                   ),
                   // Icon(
                   //   Icons.check_circle_outline,
                   //   color: ColorConst.Primary,
-                  //   size: 80.sp,
+                  //   size: 80.arP,
                   // ),
                   0.0175.vspace,
                   Text(

@@ -21,7 +21,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
     return Obx(() {
       return NaanBottomSheet(
         height: 0.9.height,
-        bottomSheetHorizontalPadding: 16.sp,
+        bottomSheetHorizontalPadding: 16.arP,
         // decoration: const BoxDecoration(
         //   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
         //   gradient: GradConst.GradientBackground,
@@ -34,7 +34,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
               children: [
                 Container(
                   alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(vertical: 24.sp),
+                  margin: EdgeInsets.symmetric(vertical: 24.arP),
                   child: Column(
                     children: [
                       Text(

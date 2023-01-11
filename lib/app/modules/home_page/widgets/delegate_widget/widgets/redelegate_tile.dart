@@ -40,8 +40,8 @@
 //                 child: Image.asset(
 //                   'assets/temp/delegate_baker.png',
 //                   fit: BoxFit.cover,
-//                   width: 40.sp,
-//                   height: 40.sp,
+//                   width: 40.arP,
+//                   height: 40.arP,
 //                 ),
 //               ),
 //               0.02.hspace,

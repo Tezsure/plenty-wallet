@@ -20,8 +20,8 @@ class BuyNftSuccessSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     HapticFeedback.heavyImpact();
     return NaanBottomSheet(
-        mainAxisAlignment: MainAxisAlignment.end,
-        bottomSheetHorizontalPadding: 16.sp,
+        mainAxisAlignment: MainAxisAlignment.start,
+        bottomSheetHorizontalPadding: 32.arP,
         height: 0.45.height,
         blurRadius: 5,
         width: double.infinity,
@@ -30,17 +30,17 @@ class BuyNftSuccessSheet extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                0.015.vspace,
+                0.02.vspace,
                 LottieBuilder.asset(
                   '${PathConst.SEND_PAGE}lottie/success_primary.json',
-                  height: 80.sp,
-                  width: 80.sp,
+                  height: 80.arP,
+                  width: 80.arP,
                   repeat: false,
                 ),
                 // Icon(
                 //   Icons.check_circle_outline,
                 //   color: ColorConst.Primary,
-                //   size: 80.sp,
+                //   size: 80.arP,
                 // ),
                 0.0175.vspace,
                 Text(
@@ -55,10 +55,10 @@ class BuyNftSuccessSheet extends StatelessWidget {
                 ),
                 0.03.vspace,
                 SolidButton(
-                  borderColor: ColorConst.Primary,
+                  borderColor: ColorConst.Neutral.shade90,
                   active: true,
                   borderWidth: 1,
-                  textColor: ColorConst.Primary,
+                  textColor: ColorConst.Neutral.shade90,
                   primaryColor: Colors.transparent,
                   onPressed: () {
                     Get.back();

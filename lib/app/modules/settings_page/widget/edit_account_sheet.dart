@@ -84,7 +84,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             ),
             0.02.vspace,
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.sp),
+              padding: EdgeInsets.symmetric(horizontal: 30.arP),
               child: Text(
                 _controller.homePageController.userAccounts[widget.accountIndex]
                         .publicKeyHash ??

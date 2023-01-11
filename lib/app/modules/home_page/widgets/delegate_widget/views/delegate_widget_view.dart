@@ -69,7 +69,7 @@
 //                             text: 'Delegate your ',
 //                             style: TextStyle(
 //                               fontWeight: FontWeight.w300,
-//                               fontSize: 24.sp,
+//                               fontSize: 24.arP,
 //                             ),
 //                             children: [
 //                               WidgetSpan(
@@ -85,12 +85,12 @@
 //                                   text: '\nand earn',
 //                                   style: TextStyle(
 //                                       fontWeight: FontWeight.w300,
-//                                       fontSize: 22.sp)),
+//                                       fontSize: 22.arP)),
 //                               TextSpan(
 //                                   text: ' 5% APR',
 //                                   style: TextStyle(
 //                                       fontWeight: FontWeight.w600,
-//                                       fontSize: 22.sp)),
+//                                       fontSize: 22.arP)),
 //                             ],
 //                           ),
 //                         ),

@@ -24,24 +24,24 @@ class HistoryTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: EdgeInsets.only(left: 16.sp, right: 16.sp, bottom: 10.sp),
+        padding: EdgeInsets.only(left: 16.arP, right: 16.arP, bottom: 10.arP),
         child: Material(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.sp),
+            borderRadius: BorderRadius.circular(8.arP),
           ),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           child: SizedBox(
-            height: 61.sp,
+            height: 61.arP,
             child: Padding(
               padding: EdgeInsets.only(
-                  left: 12.sp, right: 9.sp, top: 10.sp, bottom: 10.sp),
+                  left: 12.arP, right: 9.arP, top: 10.arP, bottom: 10.arP),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    radius: 20.sp,
-                    backgroundColor: ColorConst.NeutralVariant.shade60,
+                    radius: 20.arP,
+                    backgroundColor: Colors.white,
                     child: tokenInfo.imageUrl.startsWith("assets")
                         ? Image.asset(
                             tokenInfo.imageUrl,
@@ -59,7 +59,7 @@ class HistoryTile extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   border: tokenInfo.isNft
                                       ? Border.all(
-                                          width: 1.5.sp,
+                                          width: 1.5.arP,
                                           color:
                                               ColorConst.NeutralVariant.shade60,
                                         )
@@ -91,7 +91,7 @@ class HistoryTile extends StatelessWidget {
                               tokenInfo.isSent
                                   ? Icons.arrow_upward
                                   : Icons.arrow_downward,
-                              size: 14.sp,
+                              size: 14.arP,
                               color: ColorConst.NeutralVariant.shade60),
                           Text(tokenInfo.isSent ? ' Sent' : ' Received',
                               style: labelMedium.copyWith(
@@ -100,9 +100,9 @@ class HistoryTile extends StatelessWidget {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 4.sp),
+                        padding: EdgeInsets.only(left: 4.arP),
                         child: SizedBox(
-                          width: 180.sp,
+                          width: 180.arP,
                           child: Text(
                             tokenInfo.name,
                             style: labelLarge.copyWith(

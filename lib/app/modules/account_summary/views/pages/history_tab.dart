@@ -235,7 +235,7 @@ class HistoryPage extends GetView<TransactionController> {
           index == 0
               ? Padding(
                   padding:
-                      EdgeInsets.only(top: 24.sp, left: 16.sp, bottom: 16.sp),
+                      EdgeInsets.only(top: 8.arP, left: 16.arP, bottom: 16.arP),
                   child: Text(
                     DateFormat.MMMM()
                         // displaying formatted date
@@ -247,7 +247,7 @@ class HistoryPage extends GetView<TransactionController> {
                   ? const SizedBox()
                   : Padding(
                       padding: EdgeInsets.only(
-                          top: 20.sp, left: 16.sp, bottom: 12.sp),
+                          top: 20.arP, left: 16.arP, bottom: 12.arP),
                       child: Text(
                         DateFormat.MMMM()
                             // displaying formatted date
@@ -261,8 +261,8 @@ class HistoryPage extends GetView<TransactionController> {
             onTap: () => Get.bottomSheet(
               TransactionDetailsBottomSheet(
                 tokenInfo: token,
-                userAccountAddress:
-                    controller.accController.selectedAccount.value.publicKeyHash!,
+                userAccountAddress: controller
+                    .accController.selectedAccount.value.publicKeyHash!,
                 transactionModel: token.token!,
               ),
               enterBottomSheetDuration: const Duration(milliseconds: 180),
@@ -312,7 +312,7 @@ class HistoryPage extends GetView<TransactionController> {
                     ? const SizedBox()
                     : Padding(
                         padding: EdgeInsets.only(
-                            top: 16.sp, left: 16.sp, bottom: 16.sp),
+                            top: 16.arP, left: 16.arP, bottom: 16.arP),
                         child: Text(
                           DateFormat.MMMM()
                               // displaying formatted date

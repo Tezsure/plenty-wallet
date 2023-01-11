@@ -19,7 +19,7 @@ class CustomImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      radius: imageRadius ?? 30.sp,
+      radius: imageRadius ?? 30.arP,
       backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
       child: Image(
         fit: BoxFit.cover,

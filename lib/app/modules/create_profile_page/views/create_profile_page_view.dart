@@ -37,7 +37,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
           color: Colors.black,
           width: 1.width,
           height: 1.height,
-          padding: EdgeInsets.symmetric(horizontal: 16.5.sp),
+          padding: EdgeInsets.symmetric(horizontal: 16.5.arP),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -52,8 +52,8 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
               Obx(
                 () => Center(
                   child: Container(
-                    height: 120.sp,
-                    width: 120.sp,
+                    height: 120.arP,
+                    width: 120.arP,
                     alignment: Alignment.bottomRight,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -82,12 +82,12 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                         );
                       },
                       child: CircleAvatar(
-                        radius: 20.sp,
+                        radius: 20.arP,
                         backgroundColor: Colors.white,
                         child: SvgPicture.asset(
                           "${PathConst.SVG}add_photo.svg",
                           fit: BoxFit.contain,
-                          height: 20.sp,
+                          height: 20.arP,
                           color: ColorConst.Primary,
                         ),
                       ),
@@ -97,7 +97,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
               ),
               0.05.vspace,
               NaanTextfield(
-                // height: 52.sp,
+                // height: 52.arP,
                 backgroundColor: const Color(0xff1E1C1F),
                 hint: "Account Name",
                 focusNode: controller.accountNameFocus,
@@ -111,12 +111,12 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                 () => Center(
                   child: Container(
                     margin: EdgeInsets.only(
-                      left: 14.sp,
-                      right: 14.sp,
+                      left: 14.arP,
+                      right: 14.arP,
                     ),
                     child: SolidButton(
-                      height: 50.sp,
-                      width: 326.sp,
+                      height: 50.arP,
+                      width: 326.arP,
                       active: controller.isContiuneButtonEnable.value,
                       onPressed: () {
                         if (controller.previousRoute ==
@@ -155,7 +155,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                             color: !controller.isContiuneButtonEnable.value
                                 ? ColorConst.textGrey1
                                 : Colors.white,
-                            height: 16.6.sp,
+                            height: 16.6.arP,
                             fit: BoxFit.contain,
                           ),
                           0.015.hspace,
@@ -174,7 +174,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                         children: [
                           SvgPicture.asset(
                             "${PathConst.SVG}check.svg",
-                            height: 16.6.sp,
+                            height: 16.6.arP,
                             color: !controller.isContiuneButtonEnable.value
                                 ? ColorConst.textGrey1
                                 : Colors.white,
@@ -216,8 +216,8 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
             children: [
               0.005.vspace,
               Container(
-                height: 5.sp,
-                width: 36.sp,
+                height: 5.arP,
+                width: 36.arP,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),

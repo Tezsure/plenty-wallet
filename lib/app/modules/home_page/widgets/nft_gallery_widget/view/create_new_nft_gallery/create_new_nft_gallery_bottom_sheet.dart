@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/app/data/services/create_profile_service/create_profile_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
@@ -40,10 +41,10 @@ class CreateNewNftGalleryBottomSheet
           color: Colors.black,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(
-              10.sp,
+              10.arP,
             ),
             topRight: Radius.circular(
-              10.sp,
+              10.arP,
             ),
           ),
         ),
@@ -106,20 +107,20 @@ class CreateNewNftGalleryBottomSheet
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          width: 40.sp,
+          width: 40.arP,
           height: 5.spH,
           margin: EdgeInsets.only(
-            top: 5.sp,
+            top: 5.arP,
           ),
           decoration: BoxDecoration(
             color: const Color(0xFFEBEBF5).withOpacity(0.3),
             borderRadius: BorderRadius.circular(
-              100.sp,
+              100.arP,
             ),
           ),
         ),
         SizedBox(
-          height: 27.sp,
+          height: 27.arP,
         ),
         Text(
           "Select accounts",
@@ -151,8 +152,8 @@ class CreateNewNftGalleryBottomSheet
                 flex: 1,
                 child: NaanListView(
                   listViewEdgeInsets: EdgeInsets.only(
-                    left: 16.sp,
-                    right: 16.sp,
+                    left: 16.arP,
+                    right: 16.arP,
                   ),
                   itemBuilder: (context, index) =>
                       accountItemWidget(index, controller.accounts![index]),
@@ -164,14 +165,15 @@ class CreateNewNftGalleryBottomSheet
             : Container(),
         Container(
           margin: EdgeInsets.only(
-            left: 16.sp + 16.arP,
-            right: 16.sp + 16.arP,
+            left: 16.arP + 16.arP,
+            right: 16.arP + 16.arP,
             bottom: 40.arP,
             top: 30.spH,
           ),
           child: Obx(
             () => SolidButton(
-              title: "Next",
+              title:
+                  "Next (${controller.selectedAccountIndex.values.where((element) => element == true).toList().length}/5)",
               height: 50.arP,
               active: controller.selectedAccountIndex.isNotEmpty &&
                       controller.selectedAccountIndex.values.contains(true)
@@ -195,19 +197,40 @@ class CreateNewNftGalleryBottomSheet
   }
 
   Widget accountItemWidget(int index, AccountModel accountModel) => InkWell(
-        onTap: () => controller
-            .selectedAccountIndex[accountModel.publicKeyHash!] = controller
-                .selectedAccountIndex
-                .containsKey(accountModel.publicKeyHash!)
-            ? !controller.selectedAccountIndex[accountModel.publicKeyHash!]!
-            : true,
+        onTap: () {
+          if (controller.selectedAccountIndex.values
+                      .where((element) => element == true)
+                      .toList()
+                      .length ==
+                  5 &&
+              (!controller.selectedAccountIndex
+                  .containsKey(accountModel.publicKeyHash!))) {
+            HapticFeedback.mediumImpact();
+            return;
+          }
+          if (controller.selectedAccountIndex.values
+                      .where((element) => element == true)
+                      .toList()
+                      .length ==
+                  5 &&
+              !controller.selectedAccountIndex[accountModel.publicKeyHash!]!) {
+            HapticFeedback.mediumImpact();
+            return;
+          }
+          controller.selectedAccountIndex[accountModel.publicKeyHash!] =
+              controller.selectedAccountIndex
+                      .containsKey(accountModel.publicKeyHash!)
+                  ? !controller
+                      .selectedAccountIndex[accountModel.publicKeyHash!]!
+                  : true;
+        },
         child: Container(
           margin: EdgeInsets.only(
             bottom: 8.spH,
           ),
           padding: EdgeInsets.only(
-            top: 4.sp,
-            bottom: 4.sp,
+            top: 4.arP,
+            bottom: 4.arP,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -220,7 +243,7 @@ class CreateNewNftGalleryBottomSheet
                     : Image.file(File(accountModel.profileImage!)),
               ),
               SizedBox(
-                width: 20.sp,
+                width: 20.arP,
               ),
               Expanded(
                 flex: 1,
@@ -268,26 +291,31 @@ class CreateNewNftGalleryBottomSheet
                     )
                   : Container(),
               Obx(() => CustomCheckBox(
-                    borderRadius: 100,
-                    checkBoxSize: 16.arP,
-                    checkBoxIconSize: 2.5.arP,
-                    checkedFillColor: const Color(0xFFFF006E),
+                    borderRadius: 12.aR,
+                    checkedIcon: Icons.done,
+                    borderWidth: 2,
+                    checkBoxIconSize: 12.aR,
+                    checkBoxSize: 20.aR,
+                    borderColor: const Color(0xff1E1C1F),
+                    checkedIconColor: Colors.white,
                     uncheckedFillColor: Colors.transparent,
-                    shouldShowBorder: !(controller.selectedAccountIndex
-                            .containsKey(accountModel.publicKeyHash!)
-                        ? controller
-                            .selectedAccountIndex[accountModel.publicKeyHash!]!
-                        : false),
-                    borderColor: const Color(0xFF1E1C1F),
                     uncheckedIconColor: Colors.transparent,
-                    borderWidth: 1.33.sp,
-                    checkedIcon: "assets/nft_page/svg/done.svg",
+                    checkedFillColor: ColorConst.Primary,
                     value: controller.selectedAccountIndex
                             .containsKey(accountModel.publicKeyHash!)
                         ? controller
                             .selectedAccountIndex[accountModel.publicKeyHash!]!
                         : false,
-                    onChanged: (_) {
+                    onChanged: (val) {
+                      if (controller.selectedAccountIndex.values
+                                  .where((element) => element == true)
+                                  .toList()
+                                  .length ==
+                              5 &&
+                          val) {
+                        HapticFeedback.mediumImpact();
+                        return;
+                      }
                       controller.selectedAccountIndex[accountModel
                           .publicKeyHash!] = controller.selectedAccountIndex
                               .containsKey(accountModel.publicKeyHash!)
@@ -309,20 +337,20 @@ class CreateNewNftGalleryBottomSheet
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            width: 40.sp,
+            width: 40.arP,
             height: 5.spH,
             margin: EdgeInsets.only(
-              top: 5.sp,
+              top: 5.arP,
             ),
             decoration: BoxDecoration(
               color: const Color(0xFFEBEBF5).withOpacity(0.3),
               borderRadius: BorderRadius.circular(
-                100.sp,
+                100.arP,
               ),
             ),
           ),
           SizedBox(
-            height: 27.sp,
+            height: 27.arP,
           ),
           Container(
             margin: EdgeInsets.only(
@@ -435,8 +463,8 @@ class CreateNewNftGalleryBottomSheet
             alignment: Alignment.bottomCenter,
             child: Container(
               margin: EdgeInsets.only(
-                left: 16.sp + 16.arP,
-                right: 16.sp + 16.arP,
+                left: 16.arP + 16.arP,
+                right: 16.arP + 16.arP,
                 bottom: 40.arP,
                 top: 30.spH,
               ),

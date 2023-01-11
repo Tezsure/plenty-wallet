@@ -25,8 +25,8 @@ class NftHistoryTile extends StatelessWidget {
             visualDensity: VisualDensity.compact,
             dense: true,
             leading: Container(
-              height: 40.sp,
-              width: 40.sp,
+              height: 40.arP,
+              width: 40.arP,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
                 image: const DecorationImage(

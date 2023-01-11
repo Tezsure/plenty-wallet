@@ -28,7 +28,7 @@ class DiscoverAppsWidget extends StatelessWidget {
         margin: EdgeInsets.only(left: 32.arP, right: 32.arP),
         decoration: BoxDecoration(
           gradient: appleOrange,
-          borderRadius: BorderRadius.circular(22.sp),
+          borderRadius: BorderRadius.circular(22.arP),
         ),
         child: Stack(
           fit: StackFit.passthrough,
@@ -45,13 +45,13 @@ class DiscoverAppsWidget extends StatelessWidget {
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: EdgeInsets.all(16.sp),
+                padding: EdgeInsets.all(16.arP),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text("Discover",
-                        style: headlineSmall.copyWith(fontSize: 20.sp)),
+                        style: headlineSmall.copyWith(fontSize: 20.arP)),
                     Text(
                       "apps on Tezos",
                       style: bodySmall,

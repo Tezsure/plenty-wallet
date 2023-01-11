@@ -44,7 +44,7 @@ class AddAccountWidget extends StatelessWidget {
               alignment: Alignment.topRight,
               child: SvgPicture.asset(
                 "assets/nft_page/svg/add_icon.svg",
-                height: 38.33.sp,
+                height: 38.33.arP,
               ),
             ),
             const Spacer(),
@@ -80,7 +80,7 @@ InkWell _optionMethod({Widget? child, GestureTapCallback? onTap}) {
 
 Widget addAccountSheet(warning) {
   return NaanBottomSheet(
-    blurRadius: 5.sp,
+    blurRadius: 5.arP,
     height: 240.arP,
     bottomSheetWidgets: [
       SizedBox(

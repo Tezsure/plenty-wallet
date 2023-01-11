@@ -285,13 +285,13 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
                       ? Icon(
                           iconData,
                           color: ColorConst.NeutralVariant.shade60,
-                          size: 18.sp,
+                          size: 18.arP,
                         )
                       : Text(
                           value,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 18.0.sp,
+                            fontSize: 18.0.arP,
                           ),
                         ),
             ),

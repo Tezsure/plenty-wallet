@@ -23,7 +23,7 @@
 //           child: ListTile(
 //             dense: true,
 //             leading: CircleAvatar(
-//               radius: 20.sp,
+//               radius: 20.arP,
 //               backgroundColor: ColorConst.Neutral.shade30,
 //               child: Icon(
 //                 Icons.wallet,
@@ -50,7 +50,7 @@
 //           child: ListTile(
 //             dense: true,
 //             leading: CircleAvatar(
-//                 radius: 20.sp,
+//                 radius: 20.arP,
 //                 backgroundColor: ColorConst.Tertiary,
 //                 child: Image.asset('${PathConst.SEND_PAGE}nft_art1.png')),
 //             title: Text(

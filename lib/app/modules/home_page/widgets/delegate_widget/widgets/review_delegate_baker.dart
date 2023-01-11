@@ -27,7 +27,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
     return NaanBottomSheet(
         title: "Review",
         mainAxisAlignment: MainAxisAlignment.end,
-        bottomSheetHorizontalPadding: 16.sp,
+        bottomSheetHorizontalPadding: 16.arP,
         height: 0.52.height,
         blurRadius: 5,
         width: double.infinity,
@@ -40,7 +40,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                 _accountOption(),
                 0.015.vspace,
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.sp),
+                  padding: EdgeInsets.symmetric(vertical: 8.arP),
                   child: const Divider(
                     thickness: .2,
                     color: ColorConst.grey,
@@ -51,7 +51,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                   style: labelMedium.copyWith(color: ColorConst.textGrey1),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12.sp),
+                  padding: EdgeInsets.symmetric(vertical: 12.arP),
                   child: DelegateBakerTile(
                     baker: baker,
                   ),
@@ -73,12 +73,12 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                             ? SvgPicture.asset(
                                 "${PathConst.SVG}fingerprint.svg",
                                 color: Colors.white,
-                                width: 24.sp,
+                                width: 24.arP,
                               )
                             : SvgPicture.asset(
                                 "${PathConst.SVG}faceid.svg",
                                 color: Colors.white,
-                                width: 24.sp,
+                                width: 24.arP,
                               ),
                         0.02.hspace,
                         Text(

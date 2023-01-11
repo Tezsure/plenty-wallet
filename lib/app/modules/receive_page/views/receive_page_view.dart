@@ -63,7 +63,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
                     style: titleLarge.copyWith(fontSize: 22.aR),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 8.sp),
+                    padding: EdgeInsets.only(top: 8.arP),
                     child: Text(
                       tz1Shortner(
                         controller.userAccount!.publicKeyHash!,
@@ -89,11 +89,11 @@ class ReceivePageView extends GetView<ReceivePageController> {
       height: 0.3.height,
       width: 0.3.height,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.sp), color: Colors.white),
+          borderRadius: BorderRadius.circular(20.arP), color: Colors.white),
       alignment: Alignment.center,
       child: QrImage(
         data: controller.userAccount!.publicKeyHash!,
-        padding: EdgeInsets.all(20.sp),
+        padding: EdgeInsets.all(20.arP),
         gapless: false,
         eyeStyle:
             const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),

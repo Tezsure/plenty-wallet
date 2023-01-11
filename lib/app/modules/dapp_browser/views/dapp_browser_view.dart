@@ -98,7 +98,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                   ),
                   backgroundColor: ColorConst.darkGrey,
                   centerTitle: true,
-                  toolbarHeight: 60,
+                  toolbarHeight: 50.arP,
                   automaticallyImplyLeading: false,
                 )),
             Expanded(

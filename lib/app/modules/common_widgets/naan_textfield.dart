@@ -61,7 +61,7 @@ class NaanTextfield extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide.none),
         contentPadding:
-            EdgeInsets.symmetric(horizontal: 10.sp, vertical: 20.sp),
+            EdgeInsets.symmetric(horizontal: 10.arP, vertical: 20.arP),
         // contentPadding: EdgeInsets.zero,
         hintStyle: hintTextSyle ??
             bodyMedium.copyWith(

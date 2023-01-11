@@ -135,10 +135,10 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
                         WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
                             child: Padding(
-                              padding: EdgeInsets.only(left: 4.sp),
+                              padding: EdgeInsets.only(left: 4.arP),
                               child: SvgPicture.asset(
                                 '${PathConst.HOME_PAGE}svg/xtz.svg',
-                                height: 12.sp,
+                                height: 12.arP,
                                 color: ColorConst.NeutralVariant.shade60,
                               ),
                             ))

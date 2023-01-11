@@ -25,18 +25,18 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
           children: [
             Container(
               margin: EdgeInsets.only(
-                top: 22.sp,
-                right: 18.3.sp,
+                top: 22.arP,
+                right: 18.3.arP,
               ),
               alignment: Alignment.topRight,
               child: SvgPicture.asset(
                 "assets/nft_page/svg/add_icon.svg",
-                height: 38.33.sp,
+                height: 38.33.arP,
               ),
             ),
             Container(
               margin: EdgeInsets.all(
-                22.sp,
+                22.arP,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -47,18 +47,18 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
-                      fontSize: 22.sp,
+                      fontSize: 22.arP,
                     ),
                   ),
                   SizedBox(
-                    height: 4.sp,
+                    height: 4.arP,
                   ),
                   Text(
                     "Display NFTs from multiple\naccounts",
                     style: TextStyle(
                       color: const Color(0xFF958E99),
                       fontWeight: FontWeight.w400,
-                      fontSize: 12.sp,
+                      fontSize: 12.arP,
                       letterSpacing: .5,
                     ),
                   ),
@@ -154,7 +154,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                             alignment: Alignment.bottomLeft,
                             child: Container(
                               margin: EdgeInsets.all(
-                                22.sp,
+                                22.arP,
                               ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -165,19 +165,20 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 22.sp,
+                                      fontSize: 22.arP,
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 4.sp,
+                                    height: 4.arP,
                                   ),
                                   Text(
                                     controller.nftGalleryList[index]
-                                        .nftTokenModel?.name??"",
+                                            .nftTokenModel?.name ??
+                                        "",
                                     style: TextStyle(
                                       color: const Color(0xFF958E99),
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 12.sp,
+                                      fontSize: 12.arP,
                                       letterSpacing: .5,
                                     ),
                                   ),
@@ -200,8 +201,8 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
       // color: Colors.red,
       width: double.infinity,
       margin: EdgeInsets.only(
-        left: 26.sp,
-        right: 26.sp,
+        left: 26.arP,
+        right: 26.arP,
       ),
       height: 0.87.width,
       decoration: BoxDecoration(
@@ -227,8 +228,8 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
       // color: Colors.red,
       width: double.infinity,
       margin: EdgeInsets.only(
-        left: 26.sp,
-        right: 26.sp,
+        left: 26.arP,
+        right: 26.arP,
       ),
       height: 0.87.width,
       decoration: BoxDecoration(
@@ -251,13 +252,13 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
               alignment: Alignment.topRight,
               child: Container(
                 margin: EdgeInsets.only(
-                  top: 22.sp,
-                  right: 18.3.sp,
+                  top: 22.arP,
+                  right: 18.3.arP,
                 ),
                 alignment: Alignment.topRight,
                 child: SvgPicture.asset(
                   "assets/nft_page/svg/add_icon.svg",
-                  height: 38.33.sp,
+                  height: 38.33.arP,
                 ),
               ),
             ),
@@ -265,7 +266,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
               alignment: Alignment.bottomLeft,
               child: Container(
                 margin: EdgeInsets.all(
-                  22.sp,
+                  22.arP,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -276,18 +277,18 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
-                        fontSize: 22.sp,
+                        fontSize: 22.arP,
                       ),
                     ),
                     SizedBox(
-                      height: 4.sp,
+                      height: 4.arP,
                     ),
                     Text(
                       "Use a gallery to display NFTs from\nmultiple accounts",
                       style: TextStyle(
                           color: const Color(0xFF958E99),
                           fontWeight: FontWeight.w400,
-                          fontSize: 12.sp,
+                          fontSize: 12.arP,
                           letterSpacing: .5),
                     ),
                   ],
@@ -368,7 +369,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                                 alignment: Alignment.bottomLeft,
                                 child: Container(
                                   margin: EdgeInsets.all(
-                                    22.sp,
+                                    22.arP,
                                   ),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -380,11 +381,11 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w700,
-                                          fontSize: 22.sp,
+                                          fontSize: 22.arP,
                                         ),
                                       ),
                                       SizedBox(
-                                        height: 4.sp,
+                                        height: 4.arP,
                                       ),
                                       Text(
                                         controller.nftGalleryList[index]
@@ -392,7 +393,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                                         style: TextStyle(
                                           color: const Color(0xFF958E99),
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 12.sp,
+                                          fontSize: 12.arP,
                                           letterSpacing: .5,
                                         ),
                                       ),

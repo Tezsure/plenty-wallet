@@ -6,8 +6,7 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 
 class ServiceConfig {
   /// Current selected node
-  static String currentSelectedNode =
-      "https://tezos-prod.cryptonomic-infra.tech:443";
+  static String currentSelectedNode = "https://rpc.tzkt.io/mainnet";
   static NetworkType currentNetwork = NetworkType.mainnet;
 
   /// Teztools api with endpoint for mainnet token prices
