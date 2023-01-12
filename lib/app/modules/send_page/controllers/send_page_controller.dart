@@ -1,15 +1,18 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:dartez/models/key_store_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
+import 'package:naan_wallet/app/data/services/operation_service/operation_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/operation_model.dart';
 import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/token_view.dart';
@@ -25,7 +28,7 @@ class SendPageController extends GetxController {
       <String, List<NftTokenModel>>{}.obs; // List of tokens
 
   Rx<TextfieldType> selectedTextfieldType = TextfieldType.token.obs;
-  double estimatedFee = 0.00181;
+  RxString estimatedFee = "0.00181".obs;
   @override
   void onInit() {
     super.onInit();
@@ -58,6 +61,64 @@ class SendPageController extends GetxController {
       // amountFocusNode.value.requestFocus(FocusNode());
     }
     selectedPageIndex.value = index;
+    if (index == 2) {
+      estimatedFee.value = "calculating...";
+      getFees();
+    }
+  }
+
+  getFees() async {
+    AccountSecretModel? accountSecretModel = await UserStorageService()
+        .readAccountSecrets(senderAccountModel!.publicKeyHash!);
+
+    // submit Tx
+    KeyStoreModel keyStoreModel = KeyStoreModel(
+      publicKeyHash: senderAccountModel!.publicKeyHash!,
+      secretKey: accountSecretModel!.secretKey,
+      publicKey: accountSecretModel.publicKey,
+    );
+    OperationModel operationModel;
+
+    if (isNFTPage.value) {
+      operationModel = OperationModel<NftTokenModel>();
+    } else {
+      operationModel = OperationModel<AccountTokenModel>();
+    }
+
+    operationModel.amount = !isNFTPage.value ? 0.00001 : 0.0;
+
+    operationModel.keyStoreModel = keyStoreModel;
+
+    operationModel.model =
+        isNFTPage.value ? selectedNftModel : selectedTokenModel;
+
+    operationModel.receiverContractAddres =
+        !isNFTPage.value && selectedTokenModel!.name == "Tezos"
+            ? ""
+            : isNFTPage.value
+                ? selectedNftModel!.faContract
+                : selectedTokenModel!.contractAddress;
+
+    operationModel.receiveAddress = selectedReceiver.value!.address;
+
+    if (!isNFTPage.value && selectedTokenModel!.name == "Tezos") {
+      estimatedFee.value = "0.00185";
+      // print(opHash);
+    } else {
+      operationModel.buildParams();
+      // do preApply from start and inject here
+      operationModel.preAppliedResult = await OperationService()
+          .preApplyOperation(operationModel, ServiceConfig.currentSelectedNode);
+
+      // var opHash =
+      estimatedFee.value = ((int.parse(operationModel
+                      .preAppliedResult!["gasEstimation"]
+                      .toString()) /
+                  1e6) *
+              xtzPrice.value)
+          .toString();
+      // print(opHash);
+    }
   }
 
   /// Paste the text from the clipboard to the search bar textfield.

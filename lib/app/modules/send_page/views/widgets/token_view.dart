@@ -67,11 +67,12 @@ class TokenView extends StatelessWidget {
                                   controller.amountFocusNode.value
                                       .requestFocus();
                                 }
-                                controller.amountController.text =
-                                    (controller.selectedTokenModel!.balance -
-                                            (controller.estimatedFee /
-                                                controller.xtzPrice.value))
-                                        .toString();
+                                controller.amountController.text = (controller
+                                            .selectedTokenModel!.balance -
+                                        (double.parse(
+                                                controller.estimatedFee.value) /
+                                            controller.xtzPrice.value))
+                                    .toString();
                                 controller.amountController.selection =
                                     TextSelection.fromPosition(
                                   TextPosition(
@@ -176,7 +177,8 @@ class TokenView extends StatelessWidget {
                                       controller.selectedTokenModel != null
                                           ? (controller.selectedTokenModel!
                                                       .balance -
-                                                  (controller.estimatedFee /
+                                                  (double.parse(controller
+                                                          .estimatedFee.value) /
                                                       controller
                                                           .xtzPrice.value))
                                               .toString()
