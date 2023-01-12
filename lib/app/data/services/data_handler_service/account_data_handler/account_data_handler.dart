@@ -91,6 +91,17 @@ class AccountDataHandler {
     List<String> supportedTokens =
         tokenPrices.map<String>((e) => e.tokenAddress!).toList();
 
+    Map<String, List<AccountTokenModel>> unsupportedTokens =
+        (data[1] as Map<String, List<AccountTokenModel>>)
+            .map<String, List<AccountTokenModel>>((key, value) {
+      return MapEntry(
+          key,
+          value
+              .where((element) =>
+                  !supportedTokens.contains(element.contractAddress))
+              .toList());
+    });
+
     (data[1] as Map<String, List<AccountTokenModel>>).forEach((key, value) {
       data[1][key] = value
         ..removeWhere(
@@ -145,6 +156,14 @@ class AccountDataHandler {
           .getUserTokens(userAddress: key)
           .then((tokenList) {
         if (tokenList.isNotEmpty) {
+          // remove unsupported tokens
+          if (unsupportedTokens.containsKey(key)) {
+            tokenList.removeWhere((element) =>
+                unsupportedTokens[key]!
+                    .map<String>((e) => e.contractAddress)
+                    .toList()
+                    .contains(element.contractAddress));
+          }
           List<String> updateTokenAddresses = value
               .map<String>((e) => e.contractAddress)
               .toList(); // get all the token addresses which are updated
@@ -202,7 +221,8 @@ class AccountDataHandler {
     for (String key in data[1].keys) {
       await ServiceConfig.localStorage.write(
           key: "${ServiceConfig.accountTokensStorage}_$key",
-          value: jsonEncode(data[1][key]));
+          value:
+              jsonEncode([...data[1][key], ...(unsupportedTokens[key] ?? [])]));
     }
   }
 
