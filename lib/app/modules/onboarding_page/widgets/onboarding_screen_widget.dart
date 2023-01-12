@@ -75,7 +75,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                         Align(
                           alignment: Alignment.topCenter,
                           child: SizedBox(
-                            height: 390.arP,
+                            height: 450.arP,
                             width: 1.width,
                             child: Lottie.asset(
                               widget.controller.onboardingMessages.keys

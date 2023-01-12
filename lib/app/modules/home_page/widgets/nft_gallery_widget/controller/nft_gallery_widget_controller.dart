@@ -134,8 +134,12 @@ class NftGalleryWidgetController extends GetxController {
         .toList();
 
     if (!(await checkIfEmpty(publicKeyHashs))) {
-      Get.snackbar('Cant create gallery', 'No NFTs found in selected accounts',
-          backgroundColor: Colors.red, colorText: Colors.white);
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: 'No NFTs found in selected accounts',
+        transactionAmount: 'Cant create gallery',
+      );
       return;
     }
 
@@ -160,6 +164,7 @@ class NftGalleryWidgetController extends GetxController {
 
     if (!(await checkIfEmpty(publicKeyHashs))) {
       transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
         tezAddress: 'No NFTs found in selected accounts',
         transactionAmount: 'Cant create gallery',
@@ -176,6 +181,7 @@ class NftGalleryWidgetController extends GetxController {
       ));
     } catch (e) {
       transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
         tezAddress: 'Gallery with same name already exists',
         transactionAmount: 'Cant create gallery',

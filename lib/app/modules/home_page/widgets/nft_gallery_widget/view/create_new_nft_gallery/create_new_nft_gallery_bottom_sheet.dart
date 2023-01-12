@@ -144,9 +144,6 @@ class CreateNewNftGalleryBottomSheet
             letterSpacing: 0.4.arP,
           ),
         ),
-        SizedBox(
-          height: 24.spH,
-        ),
         controller.accounts != null
             ? Expanded(
                 flex: 1,

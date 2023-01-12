@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/data/services/service_models/account_model.dart'
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/token_view.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -65,14 +66,33 @@ class SendPageController extends GetxController {
     if (cdata != null) {
       searchTextController.value.text = cdata.text!;
       searchText.value = cdata.text!;
-      if (cdata.text!.isValidWalletAddress) {
+      TezosDomainService().searchUsingText(cdata.text!).then((data) {
+        /// add if not exits
+        data = data
+            .map<ContactModel>((e) => contacts.contains(e)
+                ? contacts[contacts.indexOf(e)]
+                : suggestedContacts.contains(e)
+                    ? suggestedContacts[suggestedContacts.indexOf(e)]
+                    : e)
+            .toList();
+        if (cdata.text!.isValidWalletAddress && data.isEmpty) {
+          data.add(ContactModel(
+              name: "Account",
+              address: cdata.text!,
+              imagePath: ServiceConfig.allAssetsProfileImages[Random().nextInt(
+                ServiceConfig.allAssetsProfileImages.length - 1,
+              )]));
+        }
+        suggestedContacts.value = data;
+      });
+/*       if (cdata.text!.isValidWalletAddress) {
         suggestedContacts.value.add(ContactModel(
             name: "Account",
             address: cdata.text!,
             imagePath: ServiceConfig.allAssetsProfileImages[Random().nextInt(
               ServiceConfig.allAssetsProfileImages.length - 1,
             )]));
-      }
+      } */
     }
   }
 

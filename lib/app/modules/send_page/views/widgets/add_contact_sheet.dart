@@ -59,7 +59,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
       isScrollControlled: true,
       height: (widget.isTransactionContact
           ? 520.arP
-          : (widget.isEditContact ? 0.48.height : 0.3.height)),
+          : (widget.isEditContact ? 0.48.height : 0.35.height)),
       bottomSheetHorizontalPadding: 32.aR,
       blurRadius: 5,
       bottomSheetWidgets: [
@@ -72,6 +72,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
           //   ),
           // ),
           // 0.03.vspace,
+          0.02.vspace,
           Center(
             child: Container(
               height: 0.3.width,
@@ -128,7 +129,9 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
           },
           controller: nameController,
         ),
-        0.02.vspace,
+        widget.isTransactionContact || widget.isEditContact
+            ? const SizedBox()
+            : 0.02.vspace,
         widget.isTransactionContact || widget.isEditContact
             ? const SizedBox()
             : Text(
@@ -136,12 +139,11 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                 style: labelSmall.copyWith(
                     color: ColorConst.NeutralVariant.shade60),
               ),
-        0.03.vspace,
-        MaterialButton(
-          color: nameController.text.isEmpty
-              ? const Color(0xff1E1C1F)
-              : ColorConst.Primary,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        0.02.vspace,
+        SolidButton(
+          title: widget.isTransactionContact
+              ? "Add to contacts"
+              : (widget.isEditContact ? "Save Changes" : 'Add contact'),
           onPressed: () async {
             if (widget.isTransactionContact && !widget.isEditContact) {
               if (nameController.text.isEmpty) return;
@@ -180,22 +182,9 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
               Get.back();
             }
           },
-          child: SizedBox(
-            width: double.infinity,
-            height: 50.aR,
-            child: Center(
-                child: Text(
-              widget.isTransactionContact
-                  ? "Add to contacts"
-                  : (widget.isEditContact ? "Save Changes" : 'Add contact'),
-              style: titleSmall.copyWith(
-                  fontSize: 14.aR,
-                  fontWeight: FontWeight.w600,
-                  color: nameController.text.isEmpty
-                      ? ColorConst.NeutralVariant.shade60
-                      : Colors.white),
-            )),
-          ),
+          primaryColor: nameController.text.isEmpty
+              ? const Color(0xff1E1C1F)
+              : ColorConst.Primary,
         ),
         0.04.vspace,
       ],
@@ -399,7 +388,8 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                     // });
                   },
                   child: CircleAvatar(
-                    radius: 70.arP,
+                    radius: 72.arP,
+                    backgroundColor: Colors.transparent,
                     child: Image.asset(
                       ServiceConfig.allAssetsProfileImages[index],
                       fit: BoxFit.cover,
@@ -414,7 +404,6 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.arP),
             child: SolidButton(
-              height: 40.arP,
               onPressed: () {
                 widget.contactModel.imagePath =
                     createProfilePageController.selectedImagePath.value;

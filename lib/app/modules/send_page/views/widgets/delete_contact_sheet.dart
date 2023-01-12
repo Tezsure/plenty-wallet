@@ -25,10 +25,14 @@ class DeleteContactBottomSheet extends StatelessWidget {
       bottomSheetHorizontalPadding: 32.arP,
       height: 275,
       bottomSheetWidgets: [
+        0.01.vspace,
         Center(
           child: Text(
             'Do you want to remove“${contactModel.name}”\nfrom your contacts?',
-            style: labelMedium.copyWith(color: ColorConst.textGrey1),
+            style: labelMedium.copyWith(
+                fontSize: 12.aR,
+                fontWeight: FontWeight.w400,
+                color: ColorConst.NeutralVariant.shade60),
             textAlign: TextAlign.center,
           ),
         ),

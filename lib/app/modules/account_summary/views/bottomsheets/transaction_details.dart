@@ -466,6 +466,7 @@ class RemoveContactBottomSheet extends GetView<TransactionController> {
       blurRadius: 5,
       crossAxisAlignment: CrossAxisAlignment.center,
       bottomSheetWidgets: [
+        0.01.vspace,
         Text(
           'Delete Contact',
           style: titleLarge.copyWith(fontSize: 22.arP),
