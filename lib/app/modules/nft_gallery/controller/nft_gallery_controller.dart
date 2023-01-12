@@ -71,11 +71,12 @@ class NftGalleryController extends GetxController {
               (element.fa?.name?.toLowerCase().contains(searchText) ?? false) ||
               (element.fa?.contract?.toLowerCase().contains(searchText) ??
                   false) ||
-              ((element.creators![0].holder?.alias ??
-                          element.creators![0].holder?.address!.tz1Short())
-                      ?.toLowerCase()
-                      .contains(searchText) ??
-                  false))
+              ((element.creators!.isNotEmpty) &&
+                  ((element.creators![0].holder?.alias ??
+                              element.creators![0].holder?.address!.tz1Short())
+                          ?.toLowerCase()
+                          .contains(searchText) ??
+                      false)))
           .toList();
 
       for (var i = 0; i < filteredNfts.length; i++) {
