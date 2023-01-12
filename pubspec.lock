@@ -159,9 +159,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "10e62a6d0459674d3a9508a9b482bdd831541ad6"
-      resolved-ref: "10e62a6d0459674d3a9508a9b482bdd831541ad6"
-      url: "https://github.com/AniketSindhu/Dartez.git"
+      ref: "feat/tz2_support"
+      resolved-ref: "3f71dd00fec9b89538b4709bba9946a06979ac88"
+      url: "https://github.com/Tezsure/Dartez.git"
     source: git
     version: "1.1.0"
   ed25519_hd_key:
@@ -975,6 +975,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.1"
+  uni_links:
+    dependency: "direct main"
+    description:
+      name: uni_links
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
+  uni_links_platform_interface:
+    dependency: transitive
+    description:
+      name: uni_links_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
+  uni_links_web:
+    dependency: transitive
+    description:
+      name: uni_links_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   unorm_dart:
     dependency: transitive
     description:

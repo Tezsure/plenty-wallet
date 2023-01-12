@@ -69,5 +69,19 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>naanwallet.com</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>naan</string>
+				<string>fxhash</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
