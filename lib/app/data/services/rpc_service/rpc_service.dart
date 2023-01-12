@@ -63,7 +63,6 @@ class RpcService {
           rpc == ""
               ? ServiceConfig.currentSelectedNode
               : rpc ?? ServiceConfig.currentSelectedNode);
-      print(balance);
       if (balance == "0") return 0.0;
       return (int.parse(balance) / 1e6);
     } catch (e) {

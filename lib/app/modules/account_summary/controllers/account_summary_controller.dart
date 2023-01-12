@@ -105,8 +105,8 @@ class AccountSummaryController extends GetxController {
     }
     userTokens.value = userTokens.toSet().toList();
     if (userTokens.isNotEmpty &&
-        userTokens.any((element) => element.name!.contains("Tezos"))) {
-      userTokens.map((element) => element.name!.contains("Tezos")
+        userTokens.any((element) => element.name!.toLowerCase() == "tezos")) {
+      userTokens.map((element) => element.name!.toLowerCase() == "tezos"
           ? element.copyWith(
               balance: selectedAccount.value.accountDataModel!.xtzBalance!,
               currentPrice: xtzPrice.value,
