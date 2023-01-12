@@ -66,12 +66,17 @@ class NftGalleryController extends GetxController {
     if (searchText.isNotEmpty) {
       List<NftTokenModel> filteredNfts = nftList
           .where((element) =>
-              element.name!.toLowerCase().contains(searchText) ||
-              element.fa!.name!.toLowerCase().contains(searchText) ||
-              (element.creators![0].holder!.alias ??
-                      element.creators![0].holder!.address!.tz1Short())
-                  .toLowerCase()
-                  .contains(searchText))
+              (element.name?.toLowerCase().contains(searchText) ?? false) ||
+              (element.tokenId?.toLowerCase().contains(searchText) ?? false) ||
+              (element.fa?.name?.toLowerCase().contains(searchText) ?? false) ||
+              (element.fa?.contract?.toLowerCase().contains(searchText) ??
+                  false) ||
+              ((element.creators!.isNotEmpty) &&
+                  ((element.creators![0].holder?.alias ??
+                              element.creators![0].holder?.address!.tz1Short())
+                          ?.toLowerCase()
+                          .contains(searchText) ??
+                      false)))
           .toList();
 
       for (var i = 0; i < filteredNfts.length; i++) {

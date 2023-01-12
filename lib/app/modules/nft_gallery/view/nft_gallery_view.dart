@@ -625,7 +625,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           child: Center(
                             child: TextField(
                               onChanged: ((value) => controller
-                                  .searchNftGallery(value.toLowerCase())),
+                                  .searchNftGallery(value.toLowerCase().trim())),
                               autofocus: true,
                               textAlignVertical: TextAlignVertical.center,
                               style: bodyMedium.copyWith(
