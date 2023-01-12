@@ -40,6 +40,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
             scrollDirection: Axis.horizontal,
             onPageChanged: (value) {
               widget.controller.onPageChanged(value);
+              widget.controller.resetTimer();
               setState(() {});
             },
             itemBuilder: (_, index) {

@@ -94,6 +94,7 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                               borderRadius: BorderRadius.circular(5)),
                           child: Text(
                               controller.beaconRequest.request?.payload ?? '',
+                              maxLines: 6,
                               style:
                                   bodySmall.copyWith(color: ColorConst.grey)),
                         ),

@@ -5,9 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/permission_sheet.dart';
+import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../../send_page/controllers/send_page_controller.dart';
 
 class ScanQRController extends GetxController with WidgetsBindingObserver {
   // RxBool flash = false.obs;
@@ -21,7 +25,6 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
     Get.lazyPut(() => SettingsPageController());
 
     super.onInit();
-
   }
 
   @override
@@ -36,6 +39,24 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
     controller = c.obs;
     // controller.value.resumeCamera();
     controller.value.scannedDataStream.listen((scanData) async {
+      if ((scanData.code?.startsWith('tz1') ?? false) ||
+          (scanData.code?.startsWith('tz2') ?? false)) {
+        if (result != null) return;
+        result = scanData;
+        Get.back();
+        final home = Get.find<HomePageController>();
+        Get.bottomSheet(const SendPage(),
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
+            isScrollControlled: true,
+            settings: RouteSettings(
+              arguments: home.userAccounts[home.selectedIndex.value],
+            ),
+            barrierColor: Colors.white.withOpacity(0.09));
+        Future.delayed(const Duration(milliseconds: 300), () async {
+          Get.find<SendPageController>().scanner(scanData.code!);
+        });
+      }
       if ((scanData.code?.startsWith('tezos://') ?? false) ||
           (scanData.code?.startsWith('naan://') ?? false)) {
         if (result != null) return;

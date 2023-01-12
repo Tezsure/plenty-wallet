@@ -1078,10 +1078,14 @@ class NftCollectionItemWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Wrap(
-              runSpacing: 12.arP,
-              spacing: 8.arP,
-              children: _getImagesWidget(),
+            SizedBox(
+              width: double.infinity,
+              child: Wrap(
+                runSpacing: 12.arP,
+                spacing: 8.arP,
+                alignment: WrapAlignment.spaceBetween,
+                children: _getImagesWidget(),
+              ),
             ),
             SizedBox(
               height: 12.arP,
@@ -1139,7 +1143,7 @@ class NftCollectionItemWidget extends StatelessWidget {
                   ? double.infinity
                   : Get.width > 768
                       ? 88.arP
-                      : 78.arP,
+                      : 73.arP,
           height: _nftTokens.length == 1 ? 160.arP : 73.arP,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(
@@ -1165,7 +1169,7 @@ class NftCollectionItemWidget extends StatelessWidget {
         children: [
           images.last,
           Container(
-            width: Get.width > 768 ? 88.arP : 78.arP,
+            width: Get.width > 768 ? 88.arP : 74.arP,
             height: 74.arP,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.8),

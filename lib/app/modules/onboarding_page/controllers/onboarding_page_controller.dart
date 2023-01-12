@@ -65,6 +65,13 @@ class OnboardingPageController extends GetxController {
     });
   }
 
+  void resetTimer() {
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 5), (_) {
+      animateToNextPage();
+    });
+  }
+
   void animateToNextPage() {
     int nextPage = _pageController.page!.round() + 1;
     if (nextPage == onboardingMessages.keys.length) {

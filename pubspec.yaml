@@ -19,8 +19,8 @@ dependencies:
   qr_flutter: ^4.0.0
   dartez:
     git:
-      url: https://github.com/Tezsure/Dartez.git
-      ref: feat/tz2_support
+      url: https://github.com/AniketSindhu/Dartez.git
+      ref: 10e62a6d0459674d3a9508a9b482bdd831541ad6
   local_auth: ^2.1.2
   image_picker: ^0.8.5+3
   path_provider: ^2.0.11

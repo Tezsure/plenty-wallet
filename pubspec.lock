@@ -159,9 +159,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "feat/tz2_support"
-      resolved-ref: "233abce80a723eddfa11ff5c19a2c6e3ec83576c"
-      url: "https://github.com/Tezsure/Dartez.git"
+      ref: "10e62a6d0459674d3a9508a9b482bdd831541ad6"
+      resolved-ref: "10e62a6d0459674d3a9508a9b482bdd831541ad6"
+      url: "https://github.com/AniketSindhu/Dartez.git"
     source: git
     version: "1.1.0"
   ed25519_hd_key:
@@ -240,7 +240,7 @@ packages:
       name: firebase_crashlytics
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.9"
+    version: "3.0.10"
   firebase_crashlytics_platform_interface:
     dependency: "direct overridden"
     description:
@@ -591,7 +591,7 @@ packages:
       name: mime
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   octo_image:
     dependency: transitive
     description:
@@ -953,7 +953,7 @@ packages:
       name: synchronized
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0+3"
+    version: "3.0.1"
   term_glyph:
     dependency: transitive
     description:
@@ -1072,7 +1072,7 @@ packages:
       name: xdg_directories
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0+2"
+    version: "0.2.0+3"
   xml:
     dependency: transitive
     description:

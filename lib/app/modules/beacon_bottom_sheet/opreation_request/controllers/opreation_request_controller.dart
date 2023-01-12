@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:beacon_flutter/enums/enums.dart';
 import 'package:beacon_flutter/models/beacon_request.dart';
 import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:naan_wallet/app/data/services/operation_service/operation_servic
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/operation_batch_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/operation_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
@@ -81,6 +83,35 @@ class OpreationRequestController extends GetxController {
           print(
               "tokenPriceModels ${element.symbol} ${element.currentPrice} ${element.address} ${element.tokenId}");
         }); */
+        if (beaconRequest.operationDetails![0].kind ==
+            OperationKind.origination) {
+          var operationModel = OperationModel(
+              code: beaconRequest.operationDetails![0].code.toString(),
+              storage: beaconRequest.operationDetails![0].storage.toString(),
+              amount: double.parse(
+                  beaconRequest.operationDetails![0].amount ?? "0"),
+              keyStoreModel: KeyStoreModel(
+                publicKey: (await UserStorageService().readAccountSecrets(
+                        accountModels.value!.publicKeyHash!))!
+                    .publicKey,
+                secretKey: (await UserStorageService().readAccountSecrets(
+                        accountModels.value!.publicKeyHash!))!
+                    .secretKey,
+                publicKeyHash: accountModels.value!.publicKeyHash!,
+              ));
+
+          var op = await OperationService().preApplyContractOrigination(
+            operationModel,
+            ServiceConfig.currentSelectedNode,
+          );
+          operation.value = op;
+          fees.value =
+              ((int.parse(op['gasEstimation']) / pow(10, 6)) * xtzPrice)
+                  .toStringAsFixed(4);
+          print("operation ${operation.toString()}");
+
+          return;
+        }
 
         for (var e in beaconRequest.operationDetails!) {
           if (e.entrypoint == "transfer") {

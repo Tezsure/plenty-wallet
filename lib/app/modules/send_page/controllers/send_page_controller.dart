@@ -96,6 +96,39 @@ class SendPageController extends GetxController {
     }
   }
 
+  /// Paste the text from the clipboard to the search bar textfield.
+  void scanner(String address) async {
+    searchTextController.value.text = address;
+    searchText.value = address;
+    TezosDomainService().searchUsingText(address).then((data) {
+      /// add if not exits
+      data = data
+          .map<ContactModel>((e) => contacts.contains(e)
+              ? contacts[contacts.indexOf(e)]
+              : suggestedContacts.contains(e)
+                  ? suggestedContacts[suggestedContacts.indexOf(e)]
+                  : e)
+          .toList();
+      if (address.isValidWalletAddress && data.isEmpty) {
+        data.add(ContactModel(
+            name: "Account",
+            address: address,
+            imagePath: ServiceConfig.allAssetsProfileImages[Random().nextInt(
+              ServiceConfig.allAssetsProfileImages.length - 1,
+            )]));
+      }
+      suggestedContacts.value = data;
+    });
+/*       if (cdata.text!.isValidWalletAddress) {
+        suggestedContacts.value.add(ContactModel(
+            name: "Account",
+            address: cdata.text!,
+            imagePath: ServiceConfig.allAssetsProfileImages[Random().nextInt(
+              ServiceConfig.allAssetsProfileImages.length - 1,
+            )]));
+      } */
+  }
+
   // * For Search Bar Textfield * //
 
   Timer? searchDebounceTimer;
