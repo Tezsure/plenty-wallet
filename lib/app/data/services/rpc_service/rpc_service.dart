@@ -94,8 +94,29 @@ class RpcService {
         .toDouble();
     return AccountTokenModel(
         balance: balance,
+        name: e['token']['metadata']['name'] ?? 'N/A',
+        symbol: e['token']['metadata']['symbol'] ?? 'N/A',
         contractAddress: e['token']['contract']['address'],
         tokenId: e['token']['tokenId'] ?? '0',
+        currentPrice: 0.0,
+        valueInXtz: 0.0,
+        iconUrl: _getTokenURL(e['token']['metadata']),
         decimals: int.parse(e['token']['metadata']['decimals']));
+  }
+
+  String? _getTokenURL(e) {
+    String? url;
+    if (e['artifactUri'] != null) {
+      url = e['artifactUri'];
+    } else if (e['displayUri'] != null) {
+      url = e['displayUri'];
+    } else if (e['thumbnailUri'] != null) {
+      url = e['thumbnailUri'];
+    }
+
+    if (url != null && url.startsWith("ipfs://")) {
+      url = "https://cloudflare-ipfs.com/ipfs/${url.replaceAll("ipfs://", "")}";
+    }
+    return url;
   }
 }
