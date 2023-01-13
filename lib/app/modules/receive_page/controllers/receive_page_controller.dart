@@ -30,7 +30,7 @@ class ReceivePageController extends GetxController {
       snackStyle: SnackStyle.FLOATING,
       padding: const EdgeInsets.only(bottom: 60),
       messageText: Container(
-        height: 36,
+        height: 36.arP,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
             color: ColorConst.Neutral.shade10,
@@ -44,8 +44,8 @@ class ReceivePageController extends GetxController {
               size: 14,
               color: Colors.white,
             ),
-            const SizedBox(
-              width: 5,
+            SizedBox(
+              width: 5.arP,
             ),
             Text(
               "Copied ${address.tz1Short()}",
