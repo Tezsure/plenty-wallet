@@ -188,28 +188,50 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                 radius: 20.arP,
                 backgroundColor:
                     ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                child: tokenModel.iconUrl!.startsWith("assets")
-                    ? Image.asset(
-                        tokenModel.iconUrl!,
-                        fit: BoxFit.cover,
+                child: tokenModel.iconUrl == null
+                    ? Container(
+                        width: 20.aR,
+                        height: 20.aR,
+                        decoration: BoxDecoration(
+                          color: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            (tokenModel.name ?? tokenModel.symbol ?? "N/A")
+                                .substring(0, 1)
+                                .toUpperCase(),
+                            style: labelMedium.copyWith(
+                              fontSize: 12.aR,
+                              fontWeight: FontWeight.w400,
+                              color: ColorConst.NeutralVariant.shade60,
+                            ),
+                          ),
+                        ),
                       )
-                    : tokenModel.iconUrl!.endsWith(".svg")
-                        ? SvgPicture.network(
+                    : tokenModel.iconUrl!.startsWith("assets")
+                        ? Image.asset(
                             tokenModel.iconUrl!,
                             fit: BoxFit.cover,
                           )
-                        : Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: CachedNetworkImageProvider(tokenModel
-                                          .iconUrl!
-                                          .startsWith("ipfs")
-                                      ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
-                                      : tokenModel.iconUrl!)),
-                            ),
-                          ),
+                        : tokenModel.iconUrl!.endsWith(".svg")
+                            ? SvgPicture.network(
+                                tokenModel.iconUrl!,
+                                fit: BoxFit.cover,
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: CachedNetworkImageProvider(tokenModel
+                                              .iconUrl!
+                                              .startsWith("ipfs")
+                                          ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
+                                          : tokenModel.iconUrl!)),
+                                ),
+                              ),
               ),
               0.03.hspace,
               RichText(
