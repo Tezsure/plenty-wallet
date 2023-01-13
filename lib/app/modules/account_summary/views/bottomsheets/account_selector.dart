@@ -139,6 +139,9 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                               padding: EdgeInsets.only(
                                   top: 8.aR, left: 16.aR, right: 16.aR),
                               child: InkWell(
+                                splashColor: Colors.transparent,
+                                overlayColor: MaterialStateProperty.all<Color>(
+                                    Colors.transparent),
                                 onTap: () {
                                   // setState(() {
                                   print("==============");

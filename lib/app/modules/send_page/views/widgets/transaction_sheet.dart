@@ -112,10 +112,38 @@ class TransactionBottomSheet extends StatelessWidget {
                   text: controller.selectedReceiver.value!.address,
                 ),
               ).whenComplete(() {
-                Get.showSnackbar(const GetSnackBar(
-                  message: "Copied to clipboard",
-                  duration: Duration(seconds: 2),
-                ));
+                Get.rawSnackbar(
+                  maxWidth: 0.45.width,
+                  backgroundColor: Colors.transparent,
+                  snackPosition: SnackPosition.BOTTOM,
+                  snackStyle: SnackStyle.FLOATING,
+                  padding: const EdgeInsets.only(bottom: 60),
+                  messageText: Container(
+                    height: 36,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        color: ColorConst.Neutral.shade10,
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.check_circle_outline_rounded,
+                          size: 14,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Copied ${tz1Shortner(controller.selectedReceiver.value!.address)}",
+                          style: labelSmall,
+                        )
+                      ],
+                    ),
+                  ),
+                );
               });
             },
             contentPadding: EdgeInsets.zero,

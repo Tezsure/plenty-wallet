@@ -80,9 +80,9 @@ class _ScanQrViewState extends State<ScanQrView> {
             overlay: QrScannerOverlayShape(
                 overlayColor: ColorConst.darkGrey.withOpacity(0.8),
                 borderColor: ColorConst.Primary,
-                borderRadius: 24,
-                borderLength: 40,
-                borderWidth: 7,
+                borderRadius: 26.arP,
+                borderLength: 40.arP,
+                borderWidth: 7.arP,
                 cutOutSize: scanArea),
             onPermissionSet: (ctrl, p) =>
                 controller.onPermissionSet(context, ctrl, p),
@@ -109,7 +109,7 @@ class _ScanQrViewState extends State<ScanQrView> {
                   children: [
                     CircleAvatar(
                       backgroundColor: ColorConst.Primary,
-                      radius: 10,
+                      radius: 10.arP,
                       child: Text(
                         Get.find<SettingsPageController>()
                             .dapps

@@ -133,14 +133,36 @@ class DelegateRewardsTile extends StatelessWidget {
                     Clipboard.setData(
                         ClipboardData(text: reward.bakerDetail?.address ?? ""));
                     Get.rawSnackbar(
-                      message: "Copied to clipboard",
-                      shouldIconPulse: true,
+                      maxWidth: 0.45.width,
+                      backgroundColor: Colors.transparent,
                       snackPosition: SnackPosition.BOTTOM,
-                      maxWidth: 0.9.width,
-                      margin: const EdgeInsets.only(
-                        bottom: 20,
+                      snackStyle: SnackStyle.FLOATING,
+                      padding: const EdgeInsets.only(bottom: 60),
+                      messageText: Container(
+                        height: 36,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                            color: ColorConst.Neutral.shade10,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.check_circle_outline_rounded,
+                              size: 14,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Copied to clipboard",
+                              style: labelSmall,
+                            )
+                          ],
+                        ),
                       ),
-                      duration: const Duration(milliseconds: 2000),
                     );
                   },
                   icon: SvgPicture.asset(
