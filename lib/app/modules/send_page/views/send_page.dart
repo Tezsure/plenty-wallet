@@ -141,8 +141,8 @@ class SendPage extends GetView<SendPageController> {
                   )),
               0.02.hspace,
               Obx(
-                () => controller.suggestedContacts.isEmpty &&
-                        controller.selectedReceiver.value == null
+                () => controller.suggestedContacts.isEmpty
+                    // &&        controller.selectedReceiver.value == null
                     ? PasteButton(
                         onTap: controller.paste,
                       )

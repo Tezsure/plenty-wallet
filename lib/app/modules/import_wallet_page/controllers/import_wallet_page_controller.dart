@@ -138,7 +138,7 @@ class ImportWalletPageController extends GetxController
 
   Future<AccountModel> getAccountModelIndexAt(int index) async {
     var account = await WalletService().genAccountFromMnemonic(
-        phraseText.value.trim(), index, !isTz1Selected.value);
+        phraseText.value.trim().toLowerCase(), index, !isTz1Selected.value);
     return account;
   }
 
