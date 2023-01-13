@@ -25,7 +25,7 @@ class DiscoverAppsWidget extends StatelessWidget {
       child: Container(
         height: 0.405.width,
         width: 1.width,
-        margin: EdgeInsets.only(left: 32.arP, right: 32.arP),
+        margin: EdgeInsets.only(left: 26.arP, right: 26.arP),
         decoration: BoxDecoration(
           gradient: appleOrange,
           borderRadius: BorderRadius.circular(22.arP),

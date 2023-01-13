@@ -38,18 +38,15 @@ class _AccountsWidgetState extends State<AccountsWidget> {
     AccountsWidgetController controller = Get.put(AccountsWidgetController());
     return Obx(() {
       return SizedBox(
-        height: 0.45.width,
+        height: 0.405.width,
         child: Row(
           children: [
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(
-                  left: 26.arP,
-                  right: 5.arP,
-                ),
+                padding: EdgeInsets.only(left: 26.arP, right: 5.arP),
                 child: SizedBox(
                   width: 1.width,
-                  height: 0.45.width,
+                  height: 0.405.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +55,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                         () => homePageController.userAccounts.isEmpty
                             ? Container(
                                 width: 1.width,
-                                height: 0.45.width,
+                                height: 0.405.width,
                                 padding: EdgeInsets.only(right: 8.arP),
                                 child: const AddAccountWidget(),
                               )
@@ -69,7 +66,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                   borderRadius: BorderRadius.circular(22.arP),
                                 ),
                                 width: 1.width,
-                                height: 0.45.width,
+                                height: 0.405.width,
                                 child: Obx(() => PageView.builder(
                                     padEnds: false,
                                     itemCount: homePageController.userAccounts
@@ -140,9 +137,9 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             ),
             if (homePageController.userAccounts.isNotEmpty)
               AnimatedSmoothIndicator(
-                  effect: const ExpandingDotsEffect(
-                    dotHeight: 6,
-                    dotWidth: 6,
+                  effect: ExpandingDotsEffect(
+                    dotHeight: 5.arP,
+                    dotWidth: 5.arP,
                     expansionFactor: 1.01,
                     activeDotColor: Colors.white,
                     dotColor: ColorConst.darkGrey,
