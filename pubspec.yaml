@@ -11,7 +11,7 @@ dependencies:
   flutter_lints: ^2.0.1
   flutter:
     sdk: flutter
-  web3auth_flutter: ^1.0.3
+
   flutter_svg: ^1.1.1+1
   cached_network_image: ^3.2.1
   flutter_secure_storage: ^6.0.0

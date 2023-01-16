@@ -21,34 +21,11 @@ class BeaconService extends GetxService {
   @override
   void onInit() async {
     super.onInit();
-    String link = (await getInitialUri()).toString();
-    if (link.isNotEmpty || link != "null") {
-      if (link.startsWith('tezos://') || link.startsWith('naan://')) {
-        link = link.substring(link.indexOf("data=") + 5, link.length);
-
-        try {
-          await beaconPlugin.pair(pairingRequest: link);
-        } catch (e) {}
-      }
-    }
-    linkStream.listen((String? link) async {
-      if (link != null) {
-        if (link.startsWith('tezos://') || link.startsWith('naan://')) {
-          link = link.substring(link.indexOf("data=") + 5, link.length);
-
-          try {
-            await beaconPlugin.pair(pairingRequest: link);
-          } catch (e) {}
-        }
-      }
-    }, onError: (err) {
-      print(err.toString());
-    });
 
     print('BeaconService Started');
     await beaconPlugin.startBeacon(walletName: "Naan");
     try {
-      Future.delayed(const Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 1), () async {
         beaconPlugin.getBeaconResponse().listen((data) async {
           print('BeaconService fired: $data');
           final Map<String, dynamic> requestJson =
@@ -145,6 +122,29 @@ class BeaconService extends GetxService {
           Get.snackbar("Error", err.toString());
         }, onDone: () {
           print("BeaconService done");
+        });
+        String link = (await getInitialUri()).toString();
+        if (link.isNotEmpty || link != "null") {
+          if (link.startsWith('tezos://') || link.startsWith('naan://')) {
+            link = link.substring(link.indexOf("data=") + 5, link.length);
+
+            try {
+              await beaconPlugin.pair(pairingRequest: link);
+            } catch (e) {}
+          }
+        }
+        linkStream.listen((String? link) async {
+          if (link != null) {
+            if (link.startsWith('tezos://') || link.startsWith('naan://')) {
+              link = link.substring(link.indexOf("data=") + 5, link.length);
+
+              try {
+                await beaconPlugin.pair(pairingRequest: link);
+              } catch (e) {}
+            }
+          }
+        }, onError: (err) {
+          print(err.toString());
         });
       });
     } catch (e) {

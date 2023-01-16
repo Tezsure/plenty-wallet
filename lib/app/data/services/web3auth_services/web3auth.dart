@@ -1,4 +1,4 @@
-import 'dart:collection';
+/* import 'dart:collection';
 import 'dart:io';
 
 import 'package:dartez/helper/generateKeys.dart';
@@ -109,3 +109,4 @@ class Web3Auth {
     return Web3AuthFlutter.login(loginParams);
   }
 }
+ */
