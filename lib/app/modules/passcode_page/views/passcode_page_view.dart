@@ -33,20 +33,22 @@ class PasscodePageView extends GetView<PasscodePageController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               0.02.vspace,
-              Align(
-                alignment: Alignment.centerLeft,
-                child: GestureDetector(
-                  onTap: () => Get.back(),
-                  child: CircleAvatar(
-                    radius: 0.045.width,
-                    backgroundColor: Colors.transparent,
-                    child: SvgPicture.asset(
-                      "${PathConst.SVG}arrow_back.svg",
-                      fit: BoxFit.scaleDown,
+              Get.previousRoute.toString() == "/splash-page"
+                  ? Container()
+                  : Align(
+                      alignment: Alignment.centerLeft,
+                      child: GestureDetector(
+                        onTap: () => Get.back(),
+                        child: CircleAvatar(
+                          radius: 0.045.width,
+                          backgroundColor: Colors.transparent,
+                          child: SvgPicture.asset(
+                            "${PathConst.SVG}arrow_back.svg",
+                            fit: BoxFit.scaleDown,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
               0.05.vspace,
               Center(
                 child: SizedBox(

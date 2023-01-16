@@ -51,6 +51,7 @@ class HistoryFilterController extends GetxController {
 
   List<TokenInfo> _applyFilter(List<TokenInfo> transactions) {
     DateTime time = DateTime.now();
+    //print(transactions);
     switch (dateType.value) {
       case DateType.today:
         transactions = transactions
@@ -89,34 +90,37 @@ class HistoryFilterController extends GetxController {
     List<TokenInfo> tempTransactions = [];
     if (transactionType
         .any((element) => element == TransactionType.delegation)) {
-      tempTransactions = [...transactions.where((e) => e.isDelegated).toList()];
+      tempTransactions = [
+        ...tempTransactions,
+        ...transactions.where((e) => e.isDelegated).toList()
+      ];
     }
     if (transactionType.any((element) => element == TransactionType.receive)) {
-      tempTransactions = [...transactions.where((e) => !e.isSent).toList()];
+      tempTransactions = [
+        ...tempTransactions,
+        ...transactions.where((e) => !e.isSent).toList()
+      ];
     }
     if (transactionType.any((element) => element == TransactionType.send)) {
-      tempTransactions = [...transactions.where((e) => e.isSent).toList()];
+      tempTransactions = [
+        ...tempTransactions,
+        ...transactions.where((e) => e.isSent).toList()
+      ];
     }
-    // switch (transactionType.value) {
-    //   case TransactionType.delegation:
-    //     transactions = transactions.where((e) => e.isDelegated).toList();
-    //     break;
-    //   case TransactionType.receive:
-    //     transactions = transactions.where((e) => !e.isSent).toList();
-    //     break;
-    //   case TransactionType.send:
-    //     transactions = transactions.where((e) => e.isSent).toList();
-    //     break;
-    //   default:
-    // }
+    if (assetType.length != 2) {
+      if (assetType.any((element) => element == AssetType.token)) {
+        tempTransactions = [
+          ...tempTransactions.where((e) => !e.isNft).toList()
+        ];
+      }
+      if (assetType.any((element) => element == AssetType.nft)) {
+        tempTransactions = [...tempTransactions.where((e) => e.isNft).toList()];
+      }
+    }
 
-    if (assetType.any((element) => element == AssetType.token)) {
-      tempTransactions = [...tempTransactions.where((e) => !e.isNft).toList()];
-    }
-    if (assetType.any((element) => element == AssetType.nft)) {
-      tempTransactions = [...tempTransactions.where((e) => e.isNft).toList()];
-    }
+    //print(tempTransactions);
     transactions = tempTransactions.toSet().toList();
+    print(transactions);
     // switch (assetType.value) {
     //   case AssetType.token:
     //     transactions = transactions.where((e) => !e.isNft).toList();

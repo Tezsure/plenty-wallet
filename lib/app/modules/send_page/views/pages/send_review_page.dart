@@ -140,7 +140,10 @@ class SendReviewPage extends StatelessWidget {
                         const SizedBox(
                           height: 4,
                         ),
-                        Text('\$0.00181', style: labelMedium),
+                        Obx(
+                          () => Text('\$${controller.estimatedFee.value}',
+                              style: labelMedium),
+                        ),
                       ],
                     )),
               ]),

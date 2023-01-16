@@ -53,7 +53,15 @@ class SolidButton extends StatelessWidget {
   Widget build(BuildContext context) {
     isLoading ??= false.obs;
     return BouncingWidget(
-      onPressed: active ? (onPressed ?? onLongPressed) : null,
+      onPressed: active ? onPressed : null,
+      onLongPressed: active ? onLongPressed : null,
+      duration: onLongPressed != null
+          ? const Duration(
+              milliseconds: 800,
+            )
+          : const Duration(
+              milliseconds: 200,
+            ),
       child: Container(
         decoration: BoxDecoration(
             color: !active || (onPressed == null && onLongPressed == null)

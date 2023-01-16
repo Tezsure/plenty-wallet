@@ -351,11 +351,17 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                       borderRadius: BorderRadius.circular(
                                         8.arP,
                                       ),
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
-                                        fit: BoxFit.fitWidth,
-                                      ),
+                                      child: nftTokenModel.artifactUri!
+                                              .startsWith("data")
+                                          ? SvgPicture.network(
+                                              nftTokenModel.artifactUri!,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : CachedNetworkImage(
+                                              imageUrl:
+                                                  "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
+                                              fit: BoxFit.fitWidth,
+                                            ),
                                     ),
                                   ),
                                   SizedBox(
@@ -624,8 +630,9 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           ),
                           child: Center(
                             child: TextField(
-                              onChanged: ((value) => controller
-                                  .searchNftGallery(value.toLowerCase().trim())),
+                              onChanged: ((value) =>
+                                  controller.searchNftGallery(
+                                      value.toLowerCase().trim())),
                               autofocus: true,
                               textAlignVertical: TextAlignVertical.center,
                               style: bodyMedium.copyWith(
@@ -1150,6 +1157,10 @@ class NftCollectionItemWidget extends StatelessWidget {
               8.arP,
             ),
             child: CachedNetworkImage(
+              errorWidget: (_, __, ____) => SvgPicture.network(
+                _nftTokens[i].artifactUri!,
+                fit: BoxFit.cover,
+              ),
               imageUrl:
                   "https://assets.objkt.media/file/assets-003/${_nftTokens[i].faContract}/${_nftTokens[i].tokenId.toString()}/thumb288",
               maxWidthDiskCache: 134,

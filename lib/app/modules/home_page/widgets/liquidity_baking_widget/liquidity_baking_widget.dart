@@ -36,23 +36,23 @@ class LiquidityBakingWidget extends StatelessWidget {
             textAlign: TextAlign.center,
             text: TextSpan(
                 text: 'Earn ',
-                style: const TextStyle(
+                style: TextStyle(
                     fontWeight: FontWeight.w300,
-                    fontSize: 24,
+                    fontSize: 24.arP,
                     color: Colors.black),
                 children: [
-                  const TextSpan(
+                  TextSpan(
                     text: '31% APR\n',
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 24,
+                        fontSize: 24.arP,
                         color: Colors.black),
                   ),
-                  const TextSpan(
+                  TextSpan(
                     text: 'on your ',
                     style: TextStyle(
                         fontWeight: FontWeight.w300,
-                        fontSize: 24,
+                        fontSize: 24.arP,
                         color: Colors.black),
                   ),
                   WidgetSpan(

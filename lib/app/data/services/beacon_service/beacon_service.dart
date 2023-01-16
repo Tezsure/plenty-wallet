@@ -13,6 +13,7 @@ import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_account_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
+import 'package:uni_links/uni_links.dart';
 
 class BeaconService extends GetxService {
   final beaconPlugin = Beacon();
@@ -20,6 +21,30 @@ class BeaconService extends GetxService {
   @override
   void onInit() async {
     super.onInit();
+    String link = (await getInitialUri()).toString();
+    if (link.isNotEmpty || link != "null") {
+      if (link.startsWith('tezos://') || link.startsWith('naan://')) {
+        link = link.substring(link.indexOf("data=") + 5, link.length);
+
+        try {
+          await beaconPlugin.pair(pairingRequest: link);
+        } catch (e) {}
+      }
+    }
+    linkStream.listen((String? link) async {
+      if (link != null) {
+        if (link.startsWith('tezos://') || link.startsWith('naan://')) {
+          link = link.substring(link.indexOf("data=") + 5, link.length);
+
+          try {
+            await beaconPlugin.pair(pairingRequest: link);
+          } catch (e) {}
+        }
+      }
+    }, onError: (err) {
+      print(err.toString());
+    });
+
     print('BeaconService Started');
     await beaconPlugin.startBeacon(walletName: "Naan");
     try {
