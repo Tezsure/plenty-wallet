@@ -465,25 +465,28 @@ class CreateNewNftGalleryBottomSheet
                 bottom: 40.arP,
                 top: 30.spH,
               ),
-              child: SolidButton(
-                title: "Done",
-                height: 50.arP,
-                active: controller.accountName.isNotEmpty &&
-                    controller.accountName.value.length > 2,
-                borderRadius: 8.arP,
-                titleStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.arP,
-                  fontWeight: FontWeight.w600,
-                ),
-                onPressed: () async {
-                  if (nftGalleryModel == null) {
-                    await controller.addNewNftGallery();
-                  } else {
-                    await controller.editNftGallery(galleryIndex!);
-                  }
-                },
-              ),
+              child: Obx(() {
+                return SolidButton(
+                  isLoading: controller.isCreating,
+                  title: "Done",
+                  height: 50.arP,
+                  active: controller.accountName.isNotEmpty &&
+                      controller.accountName.value.length > 2,
+                  borderRadius: 8.arP,
+                  titleStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.arP,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  onPressed: () async {
+                    if (nftGalleryModel == null) {
+                      await controller.addNewNftGallery();
+                    } else {
+                      await controller.editNftGallery(galleryIndex!);
+                    }
+                  },
+                );
+              }),
             ),
           ),
         ],

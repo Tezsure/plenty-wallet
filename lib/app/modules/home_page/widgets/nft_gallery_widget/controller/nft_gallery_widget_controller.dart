@@ -47,8 +47,10 @@ class NftGalleryWidgetController extends GetxController {
     nftGalleryList.value = tempNftGallerys;
   }
 
+  RxBool isCreating = false.obs;
   //return false if empty
   Future<bool> checkIfEmpty(List<String> publicKeyHashs) async {
+    isCreating.value = true;
     bool noNfts = false;
     for (int j = 0; j < publicKeyHashs.length; j++) {
       if ((await UserStorageService()
@@ -58,6 +60,8 @@ class NftGalleryWidgetController extends GetxController {
         break;
       }
     }
+    isCreating.value = false;
+
     return noNfts;
   }
 
