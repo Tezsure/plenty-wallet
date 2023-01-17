@@ -12,7 +12,6 @@ class CreateWalletPageController extends GetxController {
   }
 
   VoidCallback login({required Provider socialAppName}) {
-
     return Web3Auth.login(socialAppName: socialAppName);
   }
 }
