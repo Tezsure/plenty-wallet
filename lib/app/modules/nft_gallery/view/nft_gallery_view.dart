@@ -1156,21 +1156,61 @@ class NftCollectionItemWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(
               8.arP,
             ),
-            child: CachedNetworkImage(
-              errorWidget: (_, __, ____) => SvgPicture.network(
-                _nftTokens[i].artifactUri!,
-                fit: BoxFit.cover,
-              ),
-              imageUrl:
-                  "https://assets.objkt.media/file/assets-003/${_nftTokens[i].faContract}/${_nftTokens[i].tokenId.toString()}/thumb288",
-              maxWidthDiskCache: 134,
-              maxHeightDiskCache: 134,
-              memCacheHeight: 134,
-              memCacheWidth: 134,
-              cacheKey:
-                  "https://assets.objkt.media/file/assets-003/${_nftTokens[i].faContract}/${_nftTokens[i].tokenId.toString()}/thumb288",
+            child: Image.network(
+              "https://assets.objkt.media/file/assets-003/${_nftTokens[i].faContract}/${_nftTokens[i].tokenId.toString()}/thumb288",
               fit: BoxFit.cover,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null,
+                  ),
+                );
+              },
             ),
+
+            // CachedNetworkImage(
+            //   errorWidget: (_, __, ____) => SvgPicture.network(
+            //     _nftTokens[i].artifactUri!,
+            //     fit: BoxFit.cover,
+            //   ),
+            //   imageUrl:
+            //       "https://assets.objkt.media/file/assets-003/${_nftTokens[i].faContract}/${_nftTokens[i].tokenId.toString()}/thumb288",
+            //   maxWidthDiskCache: _nftTokens.length == 1
+            //       ? 288
+            //       : _nftTokens.length == 3 && i == 0
+            //           ? 288
+            //           : Get.width > 768
+            //               ? 88.arP.toInt()
+            //               : 73.arP.toInt(),
+            //   maxHeightDiskCache: _nftTokens.length == 1
+            //       ? 288
+            //       : _nftTokens.length == 3 && i == 0
+            //           ? 288
+            //           : Get.width > 768
+            //               ? 88.arP.toInt()
+            //               : 73.arP.toInt(),
+            //   memCacheHeight: _nftTokens.length == 1
+            //       ? 288
+            //       : _nftTokens.length == 3 && i == 0
+            //           ? 288
+            //           : Get.width > 768
+            //               ? 88.arP.toInt()
+            //               : 73.arP.toInt(),
+            //   memCacheWidth: _nftTokens.length == 1
+            //       ? 288
+            //       : _nftTokens.length == 3 && i == 0
+            //           ? 288
+            //           : Get.width > 768
+            //               ? 88.arP.toInt()
+            //               : 73.arP.toInt(),
+            //   // cacheKey:
+            //   //     "https://assets.objkt.media/file/assets-003/${_nftTokens[i].faContract}/${_nftTokens[i].tokenId.toString()}/thumb288",
+            //   fit: BoxFit.cover,
+            // ),
           ),
         ),
       );
