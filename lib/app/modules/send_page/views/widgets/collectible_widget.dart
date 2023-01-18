@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dar
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
@@ -134,10 +135,10 @@ class CollectibleWidget extends GetView<SendPageController> {
 class NFTwidget extends StatelessWidget {
   final NftTokenModel nfTmodel;
   final Function(NftTokenModel) onTap;
-  String? nftArtifactUrl;
+  // String? nftArtifactUrl;
   NFTwidget({super.key, required this.nfTmodel, required this.onTap}) {
-    nftArtifactUrl =
-        "https://assets.objkt.media/file/assets-003/${nfTmodel.faContract}/${nfTmodel.tokenId.toString()}/thumb400";
+    // nftArtifactUrl =
+    //     "https://assets.objkt.media/file/assets-003/${nfTmodel.faContract}/${nfTmodel.tokenId.toString()}/thumb400";
   }
 
   @override
@@ -163,14 +164,17 @@ class NFTwidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.aR),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.aR),
-                  child: CachedNetworkImage(
-                    imageUrl: nftArtifactUrl!,
-                    fit: BoxFit.cover,
-                    memCacheWidth: 341,
-                    memCacheHeight: 332,
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(8.aR),
+                    child: NFTImage(
+                      nftTokenModel: nfTmodel,
+                    )
+                    // CachedNetworkImage(
+                    //   imageUrl: nftArtifactUrl!,
+                    //   fit: BoxFit.cover,
+                    //   memCacheWidth: 341,
+                    //   memCacheHeight: 332,
+                    // ),
+                    ),
               ),
             ),
             SizedBox(
@@ -186,8 +190,10 @@ class NFTwidget extends StatelessWidget {
               height: 4.aR,
             ),
             Text(
-              nfTmodel.creators?.first.holder?.alias ??
-                  nfTmodel.creators!.first.holder!.address!.tz1Short(),
+              nfTmodel.creators?.isEmpty ?? true
+                  ? "N/A"
+                  : nfTmodel.creators?.first.holder?.alias ??
+                      nfTmodel.creators!.first.holder!.address!.tz1Short(),
               maxLines: 1,
               style: labelMedium.copyWith(
                   fontSize: 12.aR,

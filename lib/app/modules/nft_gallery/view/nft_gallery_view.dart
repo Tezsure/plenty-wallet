@@ -19,6 +19,7 @@ import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_she
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
@@ -266,7 +267,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
         ),
       );
 
-  Widget menuIcon(asset, NftGalleryFilter filter) => GestureDetector(
+  Widget menuIcon(asset, NftGalleryFilter filter) => InkWell(
         onTap: () {
           controller.selectedGalleryFilter.value = filter;
         },
@@ -319,7 +320,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         itemCount: nfts.values.toList()[index].length,
                         itemBuilder: ((context, i) {
                           var nftTokenModel = nfts.values.toList()[index][i];
-                          return GestureDetector(
+                          return InkWell(
                             onTap: () => Get.bottomSheet(
                               NFTDetailBottomSheet(
                                 onBackTap: Get.back,
@@ -348,21 +349,24 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                   SizedBox(
                                     width: double.infinity,
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                        8.arP,
-                                      ),
-                                      child: nftTokenModel.artifactUri!
-                                              .startsWith("data")
-                                          ? SvgPicture.network(
-                                              nftTokenModel.artifactUri!,
-                                              fit: BoxFit.cover,
-                                            )
-                                          : CachedNetworkImage(
-                                              imageUrl:
-                                                  "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
-                                              fit: BoxFit.fitWidth,
-                                            ),
-                                    ),
+                                        borderRadius: BorderRadius.circular(
+                                          8.arP,
+                                        ),
+                                        child: NFTImage(
+                                            nftTokenModel: nftTokenModel)
+                                        //  nftTokenModel.artifactUri
+                                        //             ?.startsWith("data") ??
+                                        //         false
+                                        //     ? SvgPicture.network(
+                                        //         nftTokenModel.artifactUri!,
+                                        //         fit: BoxFit.cover,
+                                        //       )
+                                        //     : CachedNetworkImage(
+                                        //         imageUrl:
+                                        //             "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
+                                        //         fit: BoxFit.fitWidth,
+                                        //       ),
+                                        ),
                                   ),
                                   SizedBox(
                                     height: 12.arP,
@@ -425,6 +429,10 @@ class NftGalleryView extends GetView<NftGalleryController> {
     var logo = nftTokenModel.fa!.logo!;
     if (logo.startsWith("ipfs://")) {
       logo = "https://ipfs.io/ipfs/${logo.replaceAll("ipfs://", "")}";
+    }
+    if (logo.isEmpty && (nftTokenModel.creators?.isNotEmpty ?? false)) {
+      logo =
+          "https://services.tzkt.io/v1/avatars/${nftTokenModel.creators!.first.creatorAddress}";
     }
     return Row(
       children: [
@@ -552,7 +560,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            GestureDetector(
+            InkWell(
               onTap: () async {
                 await Get.bottomSheet(
                   _selectGallery(controller.selectedGalleryIndex.value),
@@ -658,7 +666,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           ),
                         ),
                       ),
-                      GestureDetector(
+                      InkWell(
                         onTap: () {
                           controller.isSearch.value = false;
                           controller.searchText.value = "";
@@ -694,7 +702,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
               Positioned(
                 top: 10 + 0.045.height,
                 right: 20,
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     controller.isEditing.value = !controller.isEditing.value;
                   },
@@ -723,7 +731,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return index == controller.nftGalleryList.length
-                            ? GestureDetector(
+                            ? InkWell(
                                 onTap: () async {
                                   Get.back(closeOverlays: true);
                                   Get.back(closeOverlays: true);
@@ -754,7 +762,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                   ),
                                 ),
                               )
-                            : GestureDetector(
+                            : InkWell(
                                 onTap: () async {
                                   if (!controller.isEditing.value) {
                                     controller.changeSelectedNftGallery(index);
@@ -1053,7 +1061,7 @@ class NftCollectionItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         if (nftTokens.length != 1) {
           Get.bottomSheet(
@@ -1153,25 +1161,16 @@ class NftCollectionItemWidget extends StatelessWidget {
                       : 73.arP,
           height: _nftTokens.length == 1 ? 160.arP : 73.arP,
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(
-              8.arP,
-            ),
-            child: CachedNetworkImage(
-              errorWidget: (_, __, ____) => SvgPicture.network(
-                _nftTokens[i].artifactUri!,
-                fit: BoxFit.cover,
+              borderRadius: BorderRadius.circular(
+                8.arP,
               ),
-              imageUrl:
-                  "https://assets.objkt.media/file/assets-003/${_nftTokens[i].faContract}/${_nftTokens[i].tokenId.toString()}/thumb288",
-              maxWidthDiskCache: 134,
-              maxHeightDiskCache: 134,
-              memCacheHeight: 134,
-              memCacheWidth: 134,
-              cacheKey:
-                  "https://assets.objkt.media/file/assets-003/${_nftTokens[i].faContract}/${_nftTokens[i].tokenId.toString()}/thumb288",
-              fit: BoxFit.cover,
-            ),
-          ),
+              child: NFTImage(
+                nftTokenModel: _nftTokens[i],
+                maxHeightDiskCache: 134,
+                maxWidthDiskCache: 134,
+                memCacheHeight: 134,
+                memCacheWidth: 134,
+              )),
         ),
       );
     }

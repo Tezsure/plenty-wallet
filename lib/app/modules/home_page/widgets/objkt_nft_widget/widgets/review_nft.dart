@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widge
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../controllers/buy_nft_controller.dart';
@@ -41,12 +42,14 @@ class ReviewNFTSheet extends StatelessWidget {
                 width: double.infinity,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12.arP),
-                  child: CachedNetworkImage(
-                    imageUrl: controller.selectedNFT.value != null
-                        ? "https://assets.objkt.media/file/assets-003/${controller.selectedNFT.value!.faContract}/${controller.mainUrl[1].toString()}/thumb400"
-                        : "",
-                    fit: BoxFit.cover,
-                  ),
+                  child: controller.selectedNFT.value != null
+                      ? NFTImage(nftTokenModel: controller.selectedNFT.value!)
+                      : CachedNetworkImage(
+                          imageUrl: controller.selectedNFT.value != null
+                              ? "https://assets.objkt.media/file/assets-003/${controller.selectedNFT.value!.faContract}/${controller.mainUrl[1].toString()}/thumb400"
+                              : "",
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
               Text(

@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controll
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../widgets/token_selector.dart';
@@ -53,14 +54,16 @@ class SendReviewPage extends StatelessWidget {
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 10),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://assets.objkt.media/file/assets-003/${controller.selectedNftModel!.faContract}/${controller.selectedNftModel!.tokenId.toString()}/thumb400",
-                          alignment: Alignment.center,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                          borderRadius: BorderRadius.circular(8),
+                          child: NFTImage(
+                              nftTokenModel: controller.selectedNftModel!)
+                          //  CachedNetworkImage(
+                          //   imageUrl:
+                          //       "https://assets.objkt.media/file/assets-003/${controller.selectedNftModel!.faContract}/${controller.selectedNftModel!.tokenId.toString()}/thumb400",
+                          //   alignment: Alignment.center,
+                          //   fit: BoxFit.cover,
+                          // ),
+                          ),
                     ),
                   ),
                   // 0.03.vspace,
