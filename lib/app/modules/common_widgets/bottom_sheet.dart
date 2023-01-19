@@ -146,7 +146,7 @@ class NaanBottomSheet extends StatelessWidget {
       mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
       crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
       children: <Widget>[
-            0.01.vspace,
+            0.02.vspace,
             Align(
               alignment: Alignment.topCenter,
               child: Container(
@@ -159,9 +159,7 @@ class NaanBottomSheet extends StatelessWidget {
               ),
             ),
             if (title != null) ...[
-              SizedBox(
-                height: 15.arP,
-              ),
+              0.02.vspace,
               Align(
                 alignment: titleAlignment ?? Alignment.center,
                 child: Text(

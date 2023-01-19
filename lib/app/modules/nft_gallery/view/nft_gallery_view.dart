@@ -1148,10 +1148,10 @@ class NftCollectionItemWidget extends StatelessWidget {
   }
 
   List<Widget> _getImagesWidget() {
-    final List<Widget> images = [];
+    List<Widget> images = [];
     // ignore: no_leading_underscores_for_local_identifiers
     List<NftTokenModel> _nftTokens = nftTokens.take(4).toList();
-    final width = (0.25 - 0.048).width.arP;
+    final width = (0.25 - 0.072).width;
     for (var i = 0; i < _nftTokens.length; i++) {
       images.add(
         SizedBox(
@@ -1206,6 +1206,49 @@ class NftCollectionItemWidget extends StatelessWidget {
       );
     }
 
+    switch (images.length) {
+      case 1:
+        images = images;
+        break;
+      case 2:
+        images = [
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [images[0], images[1]])
+        ];
+        break;
+      case 3:
+        images = [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              images[0],
+              0.012.vspace,
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [images[1], images[2]]),
+            ],
+          )
+        ];
+        break;
+      case 4:
+        images = [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [images[0], images[1]]),
+              0.012.vspace,
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [images[2], images[3]]),
+            ],
+          )
+        ];
+        break;
+      default:
+    }
     return images;
   }
 }

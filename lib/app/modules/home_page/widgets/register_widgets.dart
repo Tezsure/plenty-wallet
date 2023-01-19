@@ -24,9 +24,14 @@ final List<Widget> registeredWidgets = [
   0.024.vspace,
   Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: const [
-      BuyTezWidget(),
-      EarnTezWidget(),
+    children: [
+      homeWidgetsGap,
+      const BuyTezWidget(),
+      SizedBox(
+        width: 12.arP,
+      ),
+      const EarnTezWidget(),
+      homeWidgetsGap,
     ],
   ),
   0.024.vspace,
@@ -41,6 +46,9 @@ final List<Widget> registeredWidgets = [
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       const ObjktNftWidget(),
+      SizedBox(
+        width: 12.arP,
+      ),
       TezosPriceWidget(),
     ],
   ),
@@ -55,3 +63,7 @@ final List<Widget> registeredWidgets = [
   // const DelegateWidget(),
   //const NewsHeadlineWidget()
 ];
+
+Widget homeWidgetsGap = SizedBox(
+  width: 24.arP,
+);

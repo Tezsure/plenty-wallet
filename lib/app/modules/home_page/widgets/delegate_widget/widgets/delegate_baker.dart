@@ -28,39 +28,45 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
         title: "Delegate",
         mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 0,
-        height: (isScrollable ? 0.9.height : 1.height),
+        height: (isScrollable ? 0.85.height : 1.height),
         bottomSheetWidgets: [
           Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              SizedBox(
-                height: (isScrollable ? 0.8.height : 1.height) -
-                    MediaQuery.of(context).viewInsets.bottom,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    right: 0.05.width,
-                    left: 0.05.width,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: isScrollable
-                        ? CrossAxisAlignment.center
-                        : CrossAxisAlignment.start,
-                    children: [
-                      _buildHeader(),
-                      _buildSearch(),
-                      0.01.vspace,
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 0.012.height),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text("Recommended bakers", style: labelLarge),
-                        ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: (isScrollable ? 0.78.height : 1.height) -
+                        MediaQuery.of(context).viewInsets.bottom,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        right: 0.05.width,
+                        left: 0.05.width,
                       ),
-                      _buildBakerList(),
-                    ],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: isScrollable
+                            ? CrossAxisAlignment.center
+                            : CrossAxisAlignment.start,
+                        children: [
+                          _buildHeader(),
+                          _buildSearch(),
+                          0.01.vspace,
+                          Padding(
+                            padding:
+                                EdgeInsets.symmetric(vertical: 0.012.height),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child:
+                                  Text("Recommended bakers", style: labelLarge),
+                            ),
+                          ),
+                          _buildBakerList(),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
               _buildSortByWidget(context)
             ],

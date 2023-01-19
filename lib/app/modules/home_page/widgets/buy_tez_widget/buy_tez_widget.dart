@@ -87,7 +87,7 @@ class BuyTezWidget extends StatelessWidget {
       child: Container(
         height: AppConstant.homeWidgetDimension,
         width: AppConstant.homeWidgetDimension,
-        margin: EdgeInsets.only(left: 24.arP),
+        // margin: EdgeInsets.only(left: 24.arP),
         decoration: BoxDecoration(
           gradient: appleYellow,
           borderRadius: BorderRadius.circular(22.arP),

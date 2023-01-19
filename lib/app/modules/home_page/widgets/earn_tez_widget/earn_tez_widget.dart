@@ -40,7 +40,6 @@ class EarnTezWidget extends StatelessWidget {
       child: Container(
         height: AppConstant.homeWidgetDimension,
         width: AppConstant.homeWidgetDimension,
-        margin: EdgeInsets.only(right: 24.arP),
         decoration: BoxDecoration(
           gradient: blueGradient,
           borderRadius: BorderRadius.circular(22.arP),
