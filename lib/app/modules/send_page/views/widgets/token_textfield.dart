@@ -31,7 +31,7 @@ class TokenSendTextfield extends StatelessWidget {
       onTap: onTap,
       focusNode: focusNode,
       controller: controller,
-      cursorHeight: 28.arP,
+      cursorHeight: 24.arP,
       textAlignVertical: TextAlignVertical.center,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       textAlign: TextAlign.left,

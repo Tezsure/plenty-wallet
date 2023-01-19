@@ -34,9 +34,9 @@ class TokenAndXtzPriceHandler {
   }
 
   /// Get&Store teztool price apis for tokens price
-  Future<void> executeProcess({required Function postProcess}) async {
+  Future<void> executeProcess({required Function postProcess,required Function onDone})async {
     ReceivePort receivePort = ReceivePort();
-    await Isolate.spawn(
+    Isolate isolate = await Isolate.spawn(
       _isolateProcess,
       <dynamic>[
         receivePort.sendPort,
@@ -44,6 +44,8 @@ class TokenAndXtzPriceHandler {
       debugName: "xtz & tokenPrices",
     );
     receivePort.asBroadcastStream().listen((data) async {
+      isolate.kill(priority: Isolate.immediate);
+      onDone();
       await _storeData(data, postProcess);
     });
   }
