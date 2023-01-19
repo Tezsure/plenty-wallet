@@ -358,7 +358,7 @@ class DelegateWidgetController extends GetxController {
         AccountSwitch(
           title: "Delegate",
           subtitle:
-              "In Tezos, we delegate an account to a baker and\nearn interest on the available Tez in the account.",
+              "In Tezos, we delegate an account to a baker\nand earn interest on the available Tez in the account.",
           onNext: () {
             checkBaker();
           },

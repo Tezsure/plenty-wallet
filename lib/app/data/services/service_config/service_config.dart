@@ -20,7 +20,7 @@ class ServiceConfig {
   static String nodeSelector = "https://cdn.naan.app/rpc-list";
 
   static String tzktApiForToken(String pkh, String network) =>
-      "https://api.${network}tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true";
+      "https://api.${network}tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true&token.contract.ne=KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS";
 
   static String tzktApiForAccountTxs(String pkh,
       {int limit = 20,

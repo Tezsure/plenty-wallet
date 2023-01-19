@@ -83,7 +83,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
                       ? "Passcode doesn’t match"
                       : controller.isToVerifyPassCode.value
                           ? "Confirm your passcode"
-                          : "Protect your naan by creating a passcode ",
+                          : "Re-enter your passcode",
                   style:
                       bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
                 ),

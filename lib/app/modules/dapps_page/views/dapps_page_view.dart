@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
@@ -333,6 +334,12 @@ class DappListItemWidget extends StatelessWidget {
               SizedBox(width: 12.arP),
               InkWell(
                 onTap: () {
+                  NaanAnalytics.logEvent(NaanAnalyticsEvents.DAPP_CLICK,
+                      param: {
+                        "type": "click",
+                        "name": dapp.name,
+                        "url": dapp.url
+                      });
                   Get.bottomSheet(
                     const DappBrowserView(),
                     barrierColor: Colors.white.withOpacity(0.09),

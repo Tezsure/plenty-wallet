@@ -517,7 +517,7 @@ Widget noAccountWidget() => SizedBox(
               height: 12.arP,
             ),
             Text(
-              "Create or import new account to create\nnew gallery",
+              "Create or import new account to proceed",
               textAlign: TextAlign.center,
               style: bodySmall.copyWith(color: ColorConst.textGrey1),
             ),

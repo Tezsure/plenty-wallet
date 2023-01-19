@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/nft_image.dart';
 
 class NftGalleryWidget extends StatefulWidget {
   const NftGalleryWidget({super.key});
@@ -102,6 +103,8 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                       duration: const Duration(milliseconds: 350),
                       child: _getNoGalleryStateWidget());
                 }
+                // final String image =
+                //     "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb400";
                 return TweenAnimationBuilder(
                     tween: Tween<double>(begin: scale, end: scale),
                     curve: Curves.easeIn,
@@ -125,11 +128,9 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                             //       ),
                             //       fit: BoxFit.cover,
                             //     )),
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb400",
-                              fit: BoxFit.cover,
-                            ),
+                            child: NFTImage(
+                                nftTokenModel: controller
+                                    .nftGalleryList[index].nftTokenModel!),
                           ),
                           Align(
                             alignment: Alignment.bottomLeft,

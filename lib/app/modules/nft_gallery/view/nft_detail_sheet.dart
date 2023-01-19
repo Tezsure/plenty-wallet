@@ -13,6 +13,7 @@ import 'package:naan_wallet/app/modules/nft_gallery/view/cast_devices.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/app/modules/custom_packages/timeago/timeago.dart'
     as timeago;
@@ -36,7 +37,7 @@ class NFTDetailBottomSheet extends StatefulWidget {
 
 class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   bool isExpanded = false;
-  late String imageUrl;
+  // late String imageUrl;
   final _controller = Get.put(AccountSummaryController());
   String ipfsHost = "https://ipfs.io/ipfs";
   bool showButton = true;
@@ -47,8 +48,10 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
         showButton = false;
       });
     });
-    imageUrl =
-        "https://assets.objkt.media/file/assets-003/${widget.nftModel!.faContract}/${widget.nftModel!.tokenId.toString()}/thumb400";
+    // imageUrl = widget.nftModel!.artifactUri?.contains("data:image/svg+xml") ??
+    //         false
+    //     ? (widget.nftModel!.artifactUri ?? "")
+    //     : "https://assets.objkt.media/file/assets-003/${widget.nftModel!.faContract}/${widget.nftModel!.tokenId.toString()}/thumb400";
     super.initState();
   }
 
@@ -107,17 +110,17 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                               color: Colors.white,
                               size: 16.aR,
                             )),
-                        IconButton(
-                            onPressed: () {
-                              Get.bottomSheet(const CastDevicesSheet());
-                            },
-                            padding: EdgeInsets.zero,
-                            visualDensity: VisualDensity.compact,
-                            icon: Icon(
-                              Icons.cast_rounded,
-                              color: Colors.white,
-                              size: 16.aR,
-                            )),
+                        // IconButton(
+                        //     onPressed: () {
+                        //       Get.bottomSheet(const CastDevicesSheet());
+                        //     },
+                        //     padding: EdgeInsets.zero,
+                        //     visualDensity: VisualDensity.compact,
+                        //     icon: Icon(
+                        //       Icons.cast_rounded,
+                        //       color: Colors.white,
+                        //       size: 16.aR,
+                        //     )),
                       ],
                     ),
                     Container(
@@ -127,11 +130,10 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                       child: GestureDetector(
                         onTap: () {
                           Get.to(FullScreenView(
-                            child: CachedNetworkImage(
-                              imageUrl: imageUrl,
-                              fit: BoxFit.contain,
-                            ),
-                          ));
+                              child: NFTImage(
+                            nftTokenModel: widget.nftModel!,
+                            boxFit: BoxFit.contain,
+                          )));
                         },
                         child: Stack(
                           children: [
@@ -139,10 +141,8 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                               child: SizedBox(
                                 height: 0.5.height,
                                 width: 1.width,
-                                child: CachedNetworkImage(
-                                  imageUrl: imageUrl,
-                                  fit: BoxFit.cover,
-                                ),
+                                child:
+                                    NFTImage(nftTokenModel: widget.nftModel!),
                               ),
                             ),
                             Visibility(
@@ -563,9 +563,19 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   }
 
   Widget _buildDetailsTab(ScrollController scrollController) {
-    final royality = ((widget.nftModel?.royalties?.last.decimals ?? 0) /
-            (widget.nftModel?.royalties?.last.amount ?? 1)) *
-        100;
+    final royality = widget.nftModel?.royalties?.isEmpty ?? true
+        ? 0
+        : ((widget.nftModel?.royalties?.last.decimals ?? 0) /
+                (widget.nftModel?.royalties?.last.amount ?? 1)) *
+            100;
+    var logo = widget.nftModel!.fa!.logo!;
+    if (logo.startsWith("ipfs://")) {
+      logo = "https://ipfs.io/ipfs/${logo.replaceAll("ipfs://", "")}";
+    }
+    if (logo.isEmpty && (widget.nftModel!.creators?.isNotEmpty ?? false)) {
+      logo =
+          "https://services.tzkt.io/v1/avatars/${widget.nftModel!.creators!.first.creatorAddress}";
+    }
     return SingleChildScrollView(
       controller: scrollController,
       child: Column(
@@ -594,7 +604,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                               width: 20,
                               child: ClipOval(
                                 child: CachedNetworkImage(
-                                  imageUrl: "${widget.nftModel!.fa!.logo}",
+                                  imageUrl: logo,
                                   memCacheHeight: 36,
                                   memCacheWidth: 36,
                                 ),

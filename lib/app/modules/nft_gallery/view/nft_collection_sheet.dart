@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_sheet.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/nft_image.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 class NFTCollectionSheet extends StatelessWidget {
@@ -91,15 +92,18 @@ class NFTCollectionSheet extends StatelessWidget {
                               SizedBox(
                                 width: double.infinity,
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(
-                                    8.arP,
-                                  ),
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
-                                    fit: BoxFit.fitWidth,
-                                  ),
-                                ),
+                                    borderRadius: BorderRadius.circular(
+                                      8.arP,
+                                    ),
+                                    child: NFTImage(
+                                      nftTokenModel: nftTokenModel,
+                                    )
+                                    // CachedNetworkImage(
+                                    //   imageUrl:
+                                    //       "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
+                                    //   fit: BoxFit.fitWidth,
+                                    // ),
+                                    ),
                               ),
                               SizedBox(
                                 height: 12.arP,
@@ -156,6 +160,10 @@ class NFTCollectionSheet extends StatelessWidget {
     if (logo.startsWith("ipfs://")) {
       logo = "https://ipfs.io/ipfs/${logo.replaceAll("ipfs://", "")}";
     }
+    if (logo.isEmpty && (nftTokenModel.creators?.isNotEmpty ?? false)) {
+      logo =
+          "https://services.tzkt.io/v1/avatars/${nftTokenModel.creators!.first.creatorAddress}";
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -181,7 +189,9 @@ class NFTCollectionSheet extends StatelessWidget {
                   width: 12.arP,
                 ),
                 Text(
-                  nftTokenModel.fa!.name!,
+                  nftTokenModel.fa!.name ??
+                      nftTokenModel.fa!.contract?.tz1Short() ??
+                      "",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.arP,

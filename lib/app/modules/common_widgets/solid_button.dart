@@ -54,7 +54,7 @@ class SolidButton extends StatelessWidget {
     isLoading ??= false.obs;
     return BouncingWidget(
       onPressed: active ? onPressed : null,
-      onLongPressed: active ? onLongPressed : null,
+      onLongPressed: active ? (onLongPressed ?? onPressed) : null,
       duration: onLongPressed != null
           ? const Duration(
               milliseconds: 800,

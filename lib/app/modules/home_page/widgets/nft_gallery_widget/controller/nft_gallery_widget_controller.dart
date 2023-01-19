@@ -47,6 +47,7 @@ class NftGalleryWidgetController extends GetxController {
     nftGalleryList.value = tempNftGallerys;
   }
 
+  RxBool isCreating = false.obs;
   //return false if empty
   Future<bool> checkIfEmpty(List<String> publicKeyHashs) async {
     bool noNfts = false;
@@ -58,6 +59,7 @@ class NftGalleryWidgetController extends GetxController {
         break;
       }
     }
+
     return noNfts;
   }
 
@@ -65,6 +67,9 @@ class NftGalleryWidgetController extends GetxController {
     accounts = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
     accountNameFocus = FocusNode();
+
+    accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
+    accountName.value = accountNameController.text;
     NaanAnalytics.logEvent(NaanAnalyticsEvents.CREATE_NFT_GALLERY, param: {
       "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
     });
@@ -81,7 +86,7 @@ class NftGalleryWidgetController extends GetxController {
         accounts = null;
         formIndex.value = 0;
         accountNameFocus.hasFocus ? accountNameFocus.unfocus() : null;
-        accountNameController.text = 'Gallery 1';
+        accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
         selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
         accountName.value = accountNameController.text;
       },
@@ -105,6 +110,9 @@ class NftGalleryWidgetController extends GetxController {
       "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
     });
     accountNameFocus = FocusNode();
+    accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
+    accountName.value = accountNameController.text;
+
     await Get.bottomSheet(
       CreateNewNftGalleryBottomSheet(
         nftGalleryModel: nftGallery,
@@ -121,7 +129,7 @@ class NftGalleryWidgetController extends GetxController {
         accounts = null;
         formIndex.value = 0;
         accountNameFocus.hasFocus ? accountNameFocus.unfocus() : null;
-        accountNameController.text = 'Gallery 1';
+        accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
         selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
         accountName.value = accountNameController.text;
       },
@@ -132,7 +140,7 @@ class NftGalleryWidgetController extends GetxController {
     final List<String> publicKeyHashs = selectedAccountIndex.keys
         .where((String key) => selectedAccountIndex[key] == true)
         .toList();
-
+    isCreating.value = true;
     if (!(await checkIfEmpty(publicKeyHashs))) {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
@@ -140,6 +148,7 @@ class NftGalleryWidgetController extends GetxController {
         tezAddress: 'No NFTs found in selected accounts',
         transactionAmount: 'Cant create gallery',
       );
+      isCreating.value = false;
       return;
     }
 
@@ -161,7 +170,7 @@ class NftGalleryWidgetController extends GetxController {
     final List<String> publicKeyHashs = selectedAccountIndex.keys
         .where((String key) => selectedAccountIndex[key] == true)
         .toList();
-
+    isCreating.value = true;
     if (!(await checkIfEmpty(publicKeyHashs))) {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
@@ -169,6 +178,7 @@ class NftGalleryWidgetController extends GetxController {
         tezAddress: 'No NFTs found in selected accounts',
         transactionAmount: 'Cant create gallery',
       );
+      isCreating.value = false;
       return;
     }
 

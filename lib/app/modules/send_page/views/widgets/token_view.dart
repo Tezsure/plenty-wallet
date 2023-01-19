@@ -22,93 +22,101 @@ class TokenView extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           child: Obx(
-            () => ListTile(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              dense: true,
-              leading: SizedBox(
-                width: 0.5.width,
-                child: TokenSendTextfield(
-                  textfieldType: TextfieldType.token,
-                  onTap: () {
-                    controller.selectedTextfieldType.value =
-                        TextfieldType.token;
-                  },
-                  focusNode: controller.amountFocusNode.value,
-                  hintText: '0.00',
-                  hintStyle: headlineMedium.copyWith(
-                    color: controller.amount.value.isNumericOnly &&
-                            controller.amount.value.isNotEmpty
-                        ? ColorConst.NeutralVariant.shade60
-                        : ColorConst.NeutralVariant.shade30,
-                    fontSize: 28.arP,
-                    fontWeight: FontWeight.w600,
+            () {
+              // return Container(
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(8),
+              //     color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              //   ),child: ,
+              // );
+              return ListTile(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                // dense: true,
+                leading: SizedBox(
+                  width: 0.5.width,
+                  child: TokenSendTextfield(
+                    textfieldType: TextfieldType.token,
+                    onTap: () {
+                      controller.selectedTextfieldType.value =
+                          TextfieldType.token;
+                    },
+                    focusNode: controller.amountFocusNode.value,
+                    hintText: '0.00',
+                    hintStyle: headlineMedium.copyWith(
+                      color: controller.amount.value.isNumericOnly &&
+                              controller.amount.value.isNotEmpty
+                          ? ColorConst.NeutralVariant.shade60
+                          : ColorConst.NeutralVariant.shade30,
+                      fontSize: 28.arP,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    controller: controller.amountController,
+                    isError: (controller.amountTileError.value ||
+                            controller.amountUsdTileError.value)
+                        .obs,
+                    onChanged: _onChange,
                   ),
-                  controller: controller.amountController,
-                  isError: (controller.amountTileError.value ||
-                          controller.amountUsdTileError.value)
-                      .obs,
-                  onChanged: _onChange,
                 ),
-              ),
-              trailing: SizedBox(
-                width: 0.3.width,
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      controller.selectedTextfieldType.value ==
-                              TextfieldType.token
-                          ? GestureDetector(
-                              onTap: () {
-                                if (!controller
-                                    .amountFocusNode.value.hasFocus) {
-                                  controller.amountFocusNode.value
-                                      .requestFocus();
-                                }
-                                controller.amountController.text = (controller
-                                            .selectedTokenModel!.balance -
-                                        (double.parse(
-                                                controller.estimatedFee.value) /
-                                            controller.xtzPrice.value))
-                                    .toString();
-                                controller.amountController.selection =
-                                    TextSelection.fromPosition(
-                                  TextPosition(
-                                    offset:
-                                        controller.amountController.text.length,
+                trailing: SizedBox(
+                  width: 0.3.width,
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        controller.selectedTextfieldType.value ==
+                                TextfieldType.token
+                            ? GestureDetector(
+                                onTap: () {
+                                  if (!controller
+                                      .amountFocusNode.value.hasFocus) {
+                                    controller.amountFocusNode.value
+                                        .requestFocus();
+                                  }
+                                  controller.amountController.text =
+                                      (controller.selectedTokenModel!.balance -
+                                              (double.parse(controller
+                                                      .estimatedFee.value) /
+                                                  controller.xtzPrice.value))
+                                          .toString();
+                                  controller.amountController.selection =
+                                      TextSelection.fromPosition(
+                                    TextPosition(
+                                      offset: controller
+                                          .amountController.text.length,
+                                    ),
+                                  );
+                                  _onChange(controller.amountController.text);
+                                },
+                                child: Container(
+                                  height: 24,
+                                  width: 48,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: const Color(0xFF332F37)),
+                                  child: Center(
+                                    child: Text('Max',
+                                        style: labelMedium.copyWith(
+                                            color: const Color(0xFF625C66))),
                                   ),
-                                );
-                                _onChange(controller.amountController.text);
-                              },
-                              child: Container(
-                                height: 24,
-                                width: 48,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: const Color(0xFF332F37)),
-                                child: Center(
-                                  child: Text('Max',
-                                      style: labelMedium.copyWith(
-                                          color: const Color(0xFF625C66))),
                                 ),
-                              ),
-                            )
-                          : const SizedBox(),
-                      0.02.hspace,
-                      controller.selectedTokenModel != null
-                          ? Text(
-                              controller.selectedTokenModel!.symbol!,
-                              style: labelLarge.copyWith(
-                                  color: const Color(0xFF625C66)),
-                            )
-                          : Container(),
-                    ],
+                              )
+                            : const SizedBox(),
+                        0.02.hspace,
+                        controller.selectedTokenModel != null
+                            ? Text(
+                                controller.selectedTokenModel!.symbol!,
+                                style: labelLarge.copyWith(
+                                    color: const Color(0xFF625C66)),
+                              )
+                            : Container(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ),
         0.008.vspace,
@@ -118,7 +126,6 @@ class TokenView extends StatelessWidget {
           child: Obx(() => ListTile(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
-                dense: true,
                 leading: SizedBox(
                   width: 0.7.width,
                   child: TokenSendTextfield(

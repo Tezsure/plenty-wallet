@@ -79,7 +79,7 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
                             height: 12.arP,
                           ),
                           Text(
-                            "Create or import new account to create\nnew gallery",
+                            "Create or import new account to proceed",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: const Color(0xFF958E99),

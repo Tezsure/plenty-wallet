@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -160,10 +162,12 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SocialLoginButton(
-                        onTap: controller.login(socialAppName: Provider.apple),
-                        socialIconPath: "apple.svg",
-                      ),
+                      if (Platform.isIOS)
+                        SocialLoginButton(
+                          onTap:
+                              controller.login(socialAppName: Provider.apple),
+                          socialIconPath: "apple.svg",
+                        ),
                       SocialLoginButton(
                         onTap: controller.login(socialAppName: Provider.google),
                         socialIconPath: "google.svg",

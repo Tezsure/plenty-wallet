@@ -87,11 +87,14 @@ class TransactionBottomSheet extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                controller.isNFTPage.value
-                    ? controller.selectedNftModel!.name!
-                    : '${controller.amountController.text} ${controller.selectedTokenModel!.symbol}',
-                style: bodyLarge.copyWith(color: ColorConst.textGrey1),
+              Container(
+                constraints: BoxConstraints(maxWidth: 0.65.width),
+                child: Text(
+                  controller.isNFTPage.value
+                      ? controller.selectedNftModel!.name!
+                      : '${controller.amountController.text} ${controller.selectedTokenModel!.symbol}',
+                  style: bodyLarge.copyWith(color: ColorConst.textGrey1),
+                ),
               ),
               Text(
                 controller.isNFTPage.value
@@ -170,7 +173,8 @@ class TransactionBottomSheet extends StatelessWidget {
               ),
             ),
             leading: Image.asset(
-              controller.selectedReceiver.value!.imagePath,
+              controller.selectedReceiver.value?.imagePath ??
+                  ServiceConfig.allAssetsProfileImages[1],
               width: 44,
             )),
 
@@ -231,7 +235,8 @@ class TransactionBottomSheet extends StatelessWidget {
               ),
             ),
             leading: Image.asset(
-              controller.senderAccountModel!.profileImage!,
+              controller.senderAccountModel?.profileImage ??
+                  ServiceConfig.allAssetsProfileImages[0],
               width: 44,
             )),
         0.02.vspace,

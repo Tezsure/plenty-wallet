@@ -41,9 +41,13 @@ class _NftCollectiblesState extends State<NftCollectibles> {
               ),
               child: ClipOval(
                 child: CachedNetworkImage(
-                  imageUrl: widget.nftList.first.fa!.logo!.startsWith("ipfs://")
-                      ? "https://ipfs.io/ipfs/${widget.nftList.first.fa!.logo!.replaceAll("ipfs://", "")}"
-                      : widget.nftList.first.fa!.logo!,
+                  imageUrl: widget.nftList.first.fa!.logo?.isEmpty ?? true
+                      ? widget.nftList.first.creators?.isNotEmpty ?? false
+                          ? "https://services.tzkt.io/v1/avatars/${widget.nftList.first.creators?.first.creatorAddress}"
+                          : ""
+                      : widget.nftList.first.fa!.logo!.startsWith("ipfs://")
+                          ? "https://ipfs.io/ipfs/${widget.nftList.first.fa!.logo!.replaceAll("ipfs://", "")}"
+                          : widget.nftList.first.fa!.logo!,
                   memCacheHeight: 73,
                   memCacheWidth: 73,
                 ),

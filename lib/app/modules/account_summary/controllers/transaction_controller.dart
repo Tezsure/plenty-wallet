@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/data/services/service_models/tx_history_model.da
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/models/token_info.dart';
 
+import '../../../../utils/constants/path_const.dart';
 import '../../../data/services/service_config/service_config.dart';
 import '../../../data/services/service_models/contact_model.dart';
 import '../../../data/services/user_storage_service/user_storage_service.dart';
@@ -143,7 +144,8 @@ class TransactionController extends GetxController {
             String amount = tx.fa2TokenAmount;
             tokenInfo = tokenInfo.copyWith(
                 name: token.name!,
-                imageUrl: token.thumbnailUri!,
+                imageUrl:
+                    token.thumbnailUri ?? "${PathConst.EMPTY_STATES}token.svg",
                 tokenSymbol: token.symbol!,
                 tokenAmount: double.parse(amount) / pow(10, token.decimals!),
                 dollarAmount: double.parse(amount) /
