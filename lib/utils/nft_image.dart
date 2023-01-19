@@ -9,6 +9,7 @@ import 'package:flutter_svg/parser.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:jovial_svg/jovial_svg.dart';
 import 'package:naan_wallet/app/modules/veNFT.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
 
 class NFTImage extends StatelessWidget {
   final NftTokenModel nftTokenModel;
@@ -45,6 +46,7 @@ class NFTImage extends StatelessWidget {
                 if (loadingProgress == null) return child;
                 return Center(
                   child: CircularProgressIndicator(
+                    color: ColorConst.Primary,
                     value: loadingProgress.expectedTotalBytes != null
                         ? loadingProgress.cumulativeBytesLoaded /
                             loadingProgress.expectedTotalBytes!

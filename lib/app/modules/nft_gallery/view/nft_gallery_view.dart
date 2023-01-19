@@ -1151,7 +1151,7 @@ class NftCollectionItemWidget extends StatelessWidget {
     final List<Widget> images = [];
     // ignore: no_leading_underscores_for_local_identifiers
     List<NftTokenModel> _nftTokens = nftTokens.take(4).toList();
-    final width = (0.25 - 0.062).width;
+    final width = (0.25 - 0.048).width.arP;
     for (var i = 0; i < _nftTokens.length; i++) {
       images.add(
         SizedBox(
@@ -1205,6 +1205,7 @@ class NftCollectionItemWidget extends StatelessWidget {
         ],
       );
     }
+
     return images;
   }
 }
