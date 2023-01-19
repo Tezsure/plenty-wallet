@@ -30,6 +30,7 @@
 		<array>
 			<string>_googlecast._tcp</string>
 			<string>com.naan._googlecast._tcp</string>
+			<string>_dartobservatory._tcp</string>
 		</array>
 		<key>NSCameraUsageDescription</key>
 		<string>Naan requires acess to camera.</string>

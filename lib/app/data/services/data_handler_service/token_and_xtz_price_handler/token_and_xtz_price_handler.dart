@@ -19,7 +19,7 @@ class TokenAndXtzPriceHandler {
 
     args[0].send({
       "xtzPrice": await HttpService.performGetRequest(
-        ServiceConfig.coingeckoApi,
+        ServiceConfig.xtzPriceApi,
       ),
       "tokenPrices":
           await HttpService.performGetRequest(ServiceConfig.tezToolsApi),
@@ -38,20 +38,20 @@ class TokenAndXtzPriceHandler {
       debugName: "xtz & tokenPrices",
     );
     receivePort.asBroadcastStream().listen((data) async {
-      receivePort.close();
-      isolate.kill(priority: Isolate.immediate);
       onDone();
       await _storeData(data, postProcess);
+      receivePort.close();
+      isolate.kill(priority: Isolate.immediate);
     });
   }
 
   Future<void> _storeData(Map<String, String> data, postProcess) async {
     if (jsonDecode(data['xtzPrice']!) != null) {
-      postProcess(double.parse(
-          jsonDecode(data['xtzPrice']!)['tezos']['usd'].toString()));
+      postProcess(
+          double.parse(jsonDecode(data['xtzPrice']!)[0]['price'].toString()));
       await ServiceConfig.localStorage.write(
           key: ServiceConfig.xtzPriceStorage,
-          value: jsonDecode(data['xtzPrice']!)['tezos']['usd'].toString());
+          value: jsonDecode(data['xtzPrice']!)[0]['price'].toString());
     }
     await ServiceConfig.localStorage.write(
         key: ServiceConfig.tokenPricesStorage, value: data['tokenPrices']);
