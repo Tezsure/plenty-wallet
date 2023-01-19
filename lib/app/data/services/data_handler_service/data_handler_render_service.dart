@@ -76,7 +76,7 @@ class DataHandlerRenderService {
     String? tokensPrice = await ServiceConfig.localStorage
         .read(key: ServiceConfig.tokenPricesStorage);
     if (tokensPrice != null && contractAddress != null) {
-      return jsonDecode(tokensPrice)
+      return jsonDecode(tokensPrice)['contracts']
           .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
           .toList()
           .where((e) => contractAddress.contains(e.tokenAddress.toString()))

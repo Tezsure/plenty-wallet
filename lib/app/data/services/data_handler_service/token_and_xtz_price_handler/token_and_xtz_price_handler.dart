@@ -12,29 +12,19 @@ class TokenAndXtzPriceHandler {
   TokenAndXtzPriceHandler(this.dataHandlerRenderService);
 
   static Future<void> _isolateProcess(List<dynamic> args) async {
-    // fetch xtz price using coingecko
-    var xtzPriceResponse = jsonDecode(await HttpService.performGetRequest(
-      ServiceConfig.coingeckoApi,
-    ));
-    double xtzPrice = xtzPriceResponse['tezos']['usd'] as double;
-
-    // fetch token prices using teztools api
-    String tokenPricesResponse =
-        await HttpService.performGetRequest(ServiceConfig.tezToolsApi);
-
-    List<TokenPriceModel> tokenPriceModels =
-        jsonDecode(tokenPricesResponse)['contracts']
-            .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
-            .toList();
-
     args[0].send({
-      "xtzPrice": xtzPrice.toString(),
-      "tokenPrices": jsonEncode(tokenPriceModels),
+      "xtzPrice": jsonDecode(await HttpService.performGetRequest(
+        ServiceConfig.coingeckoApi,
+      ))['tezos']['usd']
+          .toString(),
+      "tokenPrices":
+          await HttpService.performGetRequest(ServiceConfig.tezToolsApi),
     });
   }
 
   /// Get&Store teztool price apis for tokens price
-  Future<void> executeProcess({required Function postProcess,required Function onDone})async {
+  Future<void> executeProcess(
+      {required Function postProcess, required Function onDone}) async {
     ReceivePort receivePort = ReceivePort();
     Isolate isolate = await Isolate.spawn(
       _isolateProcess,
@@ -44,6 +34,7 @@ class TokenAndXtzPriceHandler {
       debugName: "xtz & tokenPrices",
     );
     receivePort.asBroadcastStream().listen((data) async {
+      receivePort.close();
       isolate.kill(priority: Isolate.immediate);
       onDone();
       await _storeData(data, postProcess);
