@@ -44,12 +44,16 @@ class NftGalleryController extends GetxController {
   var selectedGalleryFilter = NftGalleryFilter.collection.obs;
 
   @override
-  Future<void> onInit() async {
+  onInit() {
     super.onInit();
     selectedGalleryIndex.value = Get.arguments[0];
     nftGalleryList.value = Get.arguments[1];
     selectedNftGallery.value = nftGalleryList[selectedGalleryIndex.value];
+  }
 
+  @override
+  onReady() async {
+    super.onReady();
     await fetchAllNftForGallery();
   }
 

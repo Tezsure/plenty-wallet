@@ -87,7 +87,7 @@ class LifeCycleController extends SuperController {
 
   closeBackground() {
     if (DataHandlerService().updateTimer != null) {
-      Get.delete<BeaconService>(force: true);
+      //Get.delete<BeaconService>(force: true);
       DataHandlerService().updateTimer!.cancel();
       DataHandlerService().updateTimer = null;
     }
@@ -95,7 +95,7 @@ class LifeCycleController extends SuperController {
 
   @override
   void onResumed() {
-    Get.put(BeaconService(), permanent: true);
+    //Get.put(BeaconService(), permanent: true);
     DataHandlerService().setUpTimer();
     print("onResumed");
   }
