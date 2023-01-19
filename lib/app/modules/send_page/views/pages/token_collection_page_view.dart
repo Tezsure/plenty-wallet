@@ -261,9 +261,14 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                 alignment: Alignment.center,
                 child: Text(
                   (tokenModel.name == "Tezos"
-                          ? controller.xtzPrice.value
-                          : (tokenModel.currentPrice! *
-                              controller.xtzPrice.value))
+                          ? tokenModel.balance * controller.xtzPrice.value
+                          : tokenModel.balance *
+                              (tokenModel.currentPrice ??
+                                  0.0 * controller.xtzPrice.value))
+                      // (tokenModel.name == "Tezos"
+                      //         ? controller.xtzPrice.value
+                      //         : (tokenModel.currentPrice! *
+                      //             controller.xtzPrice.value))
                       .roundUpDollar()
                       .removeTrailing0,
                   style: labelSmall.apply(

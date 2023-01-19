@@ -35,10 +35,10 @@ class TokenSendTextfield extends StatelessWidget {
       textAlignVertical: TextAlignVertical.center,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       textAlign: TextAlign.left,
-      style: TextStyle(
+      style: headlineMedium.copyWith(
           fontSize: 28.arP,
           fontWeight: FontWeight.w600,
-          height: 1.1.arP,
+          height: 1.2.arP,
           color: isError != null && isError!.value
               ? ColorConst.NaanRed
               : textfieldType == TextfieldType.token

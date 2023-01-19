@@ -82,7 +82,7 @@ class DataHandlerRenderService {
           .where((e) => contractAddress.contains(e.tokenAddress.toString()))
           .toList();
     } else if (tokensPrice != null) {
-      return jsonDecode(tokensPrice)
+      return jsonDecode(tokensPrice)["contracts"]
           .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
           .toList();
     } else {

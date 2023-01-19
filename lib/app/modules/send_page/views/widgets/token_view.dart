@@ -30,6 +30,7 @@ class TokenView extends StatelessWidget {
               //   ),child: ,
               // );
               return ListTile(
+                minVerticalPadding: 0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
                 // dense: true,
@@ -50,6 +51,7 @@ class TokenView extends StatelessWidget {
                           : ColorConst.NeutralVariant.shade30,
                       fontSize: 28.arP,
                       fontWeight: FontWeight.w600,
+                      // height: 1.9,
                     ),
                     controller: controller.amountController,
                     isError: (controller.amountTileError.value ||
