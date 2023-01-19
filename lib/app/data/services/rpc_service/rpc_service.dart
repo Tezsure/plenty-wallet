@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dartez/dartez.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
@@ -77,19 +78,25 @@ class RpcService {
       network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
     }
     try {
-      return jsonDecode(await HttpService.performGetRequest(
-              ServiceConfig.tzktApiForToken(address, network)))
-          .map<AccountTokenModel>((e) => parseAccountModel(e))
-          .toList();
+    return jsonDecode(await HttpService.performGetRequest(
+            ServiceConfig.tzktApiForToken(address, network)))
+        .map<AccountTokenModel>((e) => parseAccountModel(e))
+        .toList();
     } catch (e) {
+      log(e.toString());
       return [];
     }
   }
 
   AccountTokenModel parseAccountModel(e) {
+    if (e['token']['metadata']['0'] != null) {
+      e['token']['metadata'] = e['token']['metadata']['0']['metadata'];
+    }
     var balance = (BigInt.parse(e['balance']) /
             BigInt.parse(1
-                .toStringAsFixed(int.parse(e['token']['metadata']['decimals']))
+                .toStringAsFixed(
+                    int.tryParse(e['token']['metadata']?['decimals'] ?? "0") ??
+                        0)
                 .replaceAll(".", "")))
         .toDouble();
     return AccountTokenModel(
@@ -101,7 +108,7 @@ class RpcService {
         currentPrice: 0.0,
         valueInXtz: 0.0,
         iconUrl: _getTokenURL(e['token']['metadata']),
-        decimals: int.parse(e['token']['metadata']['decimals']));
+        decimals: int.parse(e['token']['metadata']?['decimals'] ?? "0"));
   }
 
   String? _getTokenURL(e) {
