@@ -277,12 +277,18 @@ class TokenView extends StatelessWidget {
           : double.parse(value) /
               (controller.xtzPrice.value *
                   controller.selectedTokenModel!.currentPrice!);
+      if (newAmountValue.isNaN || newAmountValue.isInfinite) {
+        newAmountValue = 0;
+      }
     } else {
       newUsdValue = controller.selectedTokenModel!.name == "Tezos"
           ? double.parse(value) * controller.xtzPrice.value
           : double.parse(value) *
               controller.selectedTokenModel!.currentPrice! *
               controller.xtzPrice.value;
+      if (newUsdValue.isNaN || newUsdValue.isInfinite) {
+        newUsdValue = 0;
+      }
     }
     if (!isUsd &&
         controller.amountUsdController.text !=
