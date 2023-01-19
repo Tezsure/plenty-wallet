@@ -1,10 +1,15 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/parser.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
+import 'package:naan_wallet/app/modules/veNFT.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -164,12 +169,15 @@ class NFTwidget extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.aR),
-                  child: CachedNetworkImage(
-                    imageUrl: nftArtifactUrl!,
-                    fit: BoxFit.cover,
-                    memCacheWidth: 341,
-                    memCacheHeight: 332,
-                  ),
+                  child: nfTmodel.faContract ==
+                          "KT18kkvmUoefkdok5mrjU6fxsm7xmumy1NEw"
+                      ? VeNFT(url: nfTmodel.artifactUri!)
+                      : CachedNetworkImage(
+                          imageUrl: nftArtifactUrl!,
+                          fit: BoxFit.cover,
+                          memCacheWidth: 341,
+                          memCacheHeight: 332,
+                        ),
                 ),
               ),
             ),
@@ -185,16 +193,18 @@ class NFTwidget extends StatelessWidget {
             SizedBox(
               height: 4.aR,
             ),
-            Text(
-              nfTmodel.creators?.first.holder?.alias ??
-                  nfTmodel.creators!.first.holder!.address!.tz1Short(),
-              maxLines: 1,
-              style: labelMedium.copyWith(
-                  fontSize: 12.aR,
-                  color: ColorConst.NeutralVariant.shade60,
-                  fontWeight: FontWeight.w400),
-              overflow: TextOverflow.ellipsis,
-            ),
+/*             nfTmodel.creators != null
+                ? Text(
+                    nfTmodel.creators?.first.holder?.alias ??
+                        nfTmodel.creators!.first.holder!.address!.tz1Short(),
+                    maxLines: 1,
+                    style: labelMedium.copyWith(
+                        fontSize: 12.aR,
+                        color: ColorConst.NeutralVariant.shade60,
+                        fontWeight: FontWeight.w400),
+                    overflow: TextOverflow.ellipsis,
+                  )
+                : SizedBox(), */
           ],
         ),
       ),
