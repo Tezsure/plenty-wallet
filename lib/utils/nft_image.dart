@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/parser.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:jovial_svg/jovial_svg.dart';
+import 'package:naan_wallet/app/modules/veNFT.dart';
 
 class NFTImage extends StatelessWidget {
   final NftTokenModel nftTokenModel;
@@ -35,11 +36,8 @@ class NFTImage extends StatelessWidget {
             ? "https://ipfs.io/ipfs/${nftTokenModel.displayUri?.replaceAll("ipfs://", '')}"
             : "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb400");
     return Container(
-      child: nftImageUrl.contains("data:image/svg+xml")
-          ? SvgPicture.string(
-              nftImageUrl.replaceAll("data:image/svg+xml;charset=UTF-8,", ""),
-              fit: boxFit,
-            )
+      child: nftTokenModel.faContract == "KT18kkvmUoefkdok5mrjU6fxsm7xmumy1NEw"
+          ? VeNFT(url: nftImageUrl)
           : CachedNetworkImage(
               errorWidget: (context, url, error) => CachedNetworkImage(
                 imageUrl:
