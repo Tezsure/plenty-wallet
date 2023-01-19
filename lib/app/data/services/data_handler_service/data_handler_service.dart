@@ -62,6 +62,7 @@ class DataHandlerService {
   /// Init all isolate for fetching data
   /// postProcess trigger ui for update new data
   Future<void> updateAllTheValues() async {
+    if (updateTimer == null) return;
     updateTimer!.cancel();
     await TokenAndXtzPriceHandler(renderService).executeProcess(
       postProcess: renderService.xtzPriceUpdater.updateProcess,

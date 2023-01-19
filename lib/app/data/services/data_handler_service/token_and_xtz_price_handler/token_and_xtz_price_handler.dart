@@ -13,28 +13,22 @@ class TokenAndXtzPriceHandler {
 
   static Future<void> _isolateProcess(List<dynamic> args) async {
     // fetch xtz price using coingecko
-    var xtzPriceResponse = jsonDecode(await HttpService.performGetRequest(
-      ServiceConfig.coingeckoApi,
-    ));
-    double xtzPrice = xtzPriceResponse['tezos']['usd'] as double;
+    // var xtzPriceResponse = ;
 
-    // fetch token prices using teztools api
-    String tokenPricesResponse =
-        await HttpService.performGetRequest(ServiceConfig.tezToolsApi);
-
-    List<TokenPriceModel> tokenPriceModels =
-        jsonDecode(tokenPricesResponse)['contracts']
-            .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
-            .toList();
+    // double xtzPrice = xtzPriceResponse['tezos']['usd'] as double;
 
     args[0].send({
-      "xtzPrice": xtzPrice.toString(),
-      "tokenPrices": jsonEncode(tokenPriceModels),
+      "xtzPrice": await HttpService.performGetRequest(
+        ServiceConfig.coingeckoApi,
+      ),
+      "tokenPrices":
+          await HttpService.performGetRequest(ServiceConfig.tezToolsApi),
     });
   }
 
   /// Get&Store teztool price apis for tokens price
-  Future<void> executeProcess({required Function postProcess,required Function onDone})async {
+  Future<void> executeProcess(
+      {required Function postProcess, required Function onDone}) async {
     ReceivePort receivePort = ReceivePort();
     Isolate isolate = await Isolate.spawn(
       _isolateProcess,
@@ -44,6 +38,7 @@ class TokenAndXtzPriceHandler {
       debugName: "xtz & tokenPrices",
     );
     receivePort.asBroadcastStream().listen((data) async {
+      receivePort.close();
       isolate.kill(priority: Isolate.immediate);
       onDone();
       await _storeData(data, postProcess);
@@ -51,11 +46,13 @@ class TokenAndXtzPriceHandler {
   }
 
   Future<void> _storeData(Map<String, String> data, postProcess) async {
-    postProcess(double.parse(data['xtzPrice'].toString()));
-    // store xtz and token prices into local
-
-    await ServiceConfig.localStorage
-        .write(key: ServiceConfig.xtzPriceStorage, value: data['xtzPrice']);
+    if (jsonDecode(data['xtzPrice']!) != null) {
+      postProcess(double.parse(
+          jsonDecode(data['xtzPrice']!)['tezos']['usd'].toString()));
+      await ServiceConfig.localStorage.write(
+          key: ServiceConfig.xtzPriceStorage,
+          value: jsonDecode(data['xtzPrice']!)['tezos']['usd'].toString());
+    }
     await ServiceConfig.localStorage.write(
         key: ServiceConfig.tokenPricesStorage, value: data['tokenPrices']);
   }

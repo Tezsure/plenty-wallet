@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:isolate';
 
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_render_service.dart';
@@ -14,6 +13,7 @@ import 'package:simple_gql/simple_gql.dart';
 class NftAndTxHistoryHandler {
   DataHandlerRenderService dataHandlerRenderService;
   NftAndTxHistoryHandler(this.dataHandlerRenderService);
+  static const Duration _delayDuration = Duration(seconds: 2);
 
   static Future<void> _isolateProcess(List<dynamic> args) async {
     List<String> accountAddress = args[1][0].toList();
@@ -54,8 +54,9 @@ class NftAndTxHistoryHandler {
   /// Get&Store teztool price apis for tokens price
   Future<void> executeProcess(
       {required Function postProcess, required Function onDone}) async {
+    await Future.delayed(_delayDuration);
     ReceivePort receivePort = ReceivePort();
-  var isolate = await Isolate.spawn(
+    var isolate = await Isolate.spawn(
       _isolateProcess,
       <dynamic>[
         receivePort.sendPort,
@@ -75,8 +76,9 @@ class NftAndTxHistoryHandler {
       ],
       debugName: "nft & tx-history",
     );
-    
+
     receivePort.asBroadcastStream().listen((data) async {
+      receivePort.close();
       isolate.kill(priority: Isolate.immediate);
       onDone();
       await _storeData(data);
