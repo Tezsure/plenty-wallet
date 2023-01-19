@@ -11,10 +11,12 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();   
+  WidgetsFlutterBinding.ensureInitialized();
   DartPluginRegistrant.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
   SystemChrome.setPreferredOrientations([
@@ -28,9 +30,9 @@ void main() async {
     await FirebaseCrashlytics.instance
         .setCrashlyticsCollectionEnabled(kReleaseMode);
     // FirebaseCrashlytics.instance.crash();
-    FirebaseAnalytics analytics = NaanAnalytics().getAnalytics();
     NaanAnalytics().setupAnalytics();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    Get.put(LifeCycleController(), permanent: true);
     runApp(
       GetMaterialApp(
         title: "Naan",
@@ -38,7 +40,7 @@ void main() async {
           fontFamily: "Poppins",
         ),
         navigatorObservers: [
-          FirebaseAnalyticsObserver(analytics: analytics),
+          FirebaseAnalyticsObserver(analytics: NaanAnalytics().getAnalytics()),
         ],
         supportedLocales: const [
           Locale("en", "US"),
@@ -59,5 +61,42 @@ class MyHttpOverrides extends HttpOverrides {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+class LifeCycleController extends SuperController {
+  @override
+  void onDetached() {
+    if (DataHandlerService().updateTimer != null) {
+      DataHandlerService().updateTimer!.cancel();
+    }
+    print("onDetached");
+  }
+
+  @override
+  void onInactive() {
+    closeBackground();
+    print("onInactive");
+  }
+
+  @override
+  void onPaused() {
+    closeBackground();
+    print("onPaused");
+  }
+
+  closeBackground() {
+    if (DataHandlerService().updateTimer != null) {
+      Get.delete<BeaconService>(force: true);
+      DataHandlerService().updateTimer!.cancel();
+      DataHandlerService().updateTimer = null;
+    }
+  }
+
+  @override
+  void onResumed() {
+    Get.put(BeaconService(), permanent: true);
+    DataHandlerService().setUpTimer();
+    print("onResumed");
   }
 }

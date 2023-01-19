@@ -72,6 +72,7 @@ class AccountDataHandler {
       debugName: "accounts xtz, tokens & nfts",
     );
     receivePort.asBroadcastStream().listen((data) async {
+      receivePort.close();
       isolate.kill(priority: Isolate.immediate);
       onDone();
       await _storeData(data, accountModels, watchAccountModels, postProcess);
