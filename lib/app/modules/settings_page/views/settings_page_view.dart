@@ -189,12 +189,12 @@ class SettingsPageView extends GetView<SettingsPageController> {
                             // if (controller.inAppReviewAvailable.value)
                             _settingOption(
                               onTap: () async {
-                                if (Platform.isAndroid) {
-                                  await controller.inAppReview.openStoreListing(
-                                      appStoreId: "1573210354");
-                                } else {
-                                  await controller.inAppReview.requestReview();
-                                }
+                                // if (Platform.isAndroid) {
+                                await controller.inAppReview
+                                    .openStoreListing(appStoreId: "1573210354");
+                                // } else {
+                                //   await controller.inAppReview.requestReview();
+                                // }
                                 controller.inAppReviewAvailable.value =
                                     await controller.inAppReview.isAvailable();
                               },

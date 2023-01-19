@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -13,8 +14,8 @@ class TezosPriceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 0.405.width,
-      width: 0.405.width,
+      height: AppConstant.homeWidgetDimension,
+      width: AppConstant.homeWidgetDimension,
       padding: EdgeInsets.all(0.035.width),
       margin: EdgeInsets.only(right: 24.arP),
       decoration: BoxDecoration(

@@ -1096,7 +1096,7 @@ class NftCollectionItemWidget extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: Wrap(
-                runSpacing: 12.arP,
+                runSpacing: 8.arP,
                 spacing: 8.arP,
                 alignment: WrapAlignment.spaceBetween,
                 children: _getImagesWidget(),
@@ -1149,6 +1149,7 @@ class NftCollectionItemWidget extends StatelessWidget {
     final List<Widget> images = [];
     // ignore: no_leading_underscores_for_local_identifiers
     List<NftTokenModel> _nftTokens = nftTokens.take(4).toList();
+    final width = (0.25 - 0.062).width;
     for (var i = 0; i < _nftTokens.length; i++) {
       images.add(
         SizedBox(
@@ -1156,10 +1157,11 @@ class NftCollectionItemWidget extends StatelessWidget {
               ? double.infinity
               : _nftTokens.length == 3 && i == 0
                   ? double.infinity
-                  : Get.width > 768
-                      ? 88.arP
-                      : 73.arP,
-          height: _nftTokens.length == 1 ? 160.arP : 73.arP,
+                  : width,
+          // : Get.width > 768
+          //     ? 88.arP
+          //     : 73.arP,
+          height: _nftTokens.length == 1 ? 160.arP : width,
           child: ClipRRect(
               borderRadius: BorderRadius.circular(
                 8.arP,
@@ -1179,8 +1181,8 @@ class NftCollectionItemWidget extends StatelessWidget {
         children: [
           images.last,
           Container(
-            width: Get.width > 768 ? 88.arP : 74.arP,
-            height: 74.arP,
+            width: width,
+            height: width,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.8),
               borderRadius: BorderRadius.circular(

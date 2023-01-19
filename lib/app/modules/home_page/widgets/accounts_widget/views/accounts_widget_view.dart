@@ -43,7 +43,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
           children: [
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 26.arP, right: 5.arP),
+                padding: EdgeInsets.only(left: 24.arP, right: 0.arP),
                 child: SizedBox(
                   width: 1.width,
                   height: 0.405.width,
@@ -135,6 +135,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                 ),
               ),
             ),
+            0.01.hspace,
             if (homePageController.userAccounts.isNotEmpty)
               AnimatedSmoothIndicator(
                   effect: ExpandingDotsEffect(

@@ -34,19 +34,22 @@ class HomePageView extends GetView<HomePageController>
                             // SizedBox(height: 0.025.height),
                             Expanded(
                               child: SingleChildScrollView(
-                                padding: EdgeInsets.only(
-                                  top: 100.arP,
-                                ),
-                                physics: const BouncingScrollPhysics(),
-                                child: Wrap(
-                                  alignment: WrapAlignment.center,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  runAlignment: WrapAlignment.center,
-                                  runSpacing: 24.arP,
-                                  spacing: 24.arP,
-                                  children: registeredWidgets,
-                                ),
-                              ),
+                                  padding: EdgeInsets.only(
+                                    top: 100.arP,
+                                  ),
+                                  physics: const BouncingScrollPhysics(),
+                                  child: Column(
+                                    children: registeredWidgets,
+                                  )
+                                  //     Wrap(
+                                  //   alignment: WrapAlignment.center,
+                                  //   crossAxisAlignment: WrapCrossAlignment.center,
+                                  //   runAlignment: WrapAlignment.center,
+                                  //   runSpacing: 24.arP,
+                                  //   spacing: 24.arP,
+                                  //   children: registeredWidgets,
+                                  // ),
+                                  ),
                             ),
                           ],
                         ),

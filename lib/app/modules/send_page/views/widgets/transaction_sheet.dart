@@ -24,6 +24,7 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:share_plus/share_plus.dart';
@@ -456,11 +457,12 @@ class TransactionBottomSheet extends StatelessWidget {
   }
 
   Widget getNftImage(nfTmodel) {
-    return CircleAvatar(
-      radius: 22,
-      foregroundImage: NetworkImage(
-          "https://assets.objkt.media/file/assets-003/${nfTmodel.faContract}/${nfTmodel.tokenId.toString()}/thumb400"),
-    );
+    return SizedBox(
+        height: 44,
+        width: 44,
+        child: ClipOval(
+          child: NFTImage(nftTokenModel: nfTmodel),
+        ));
   }
 
   Widget getTokenImage(tokenModel) => CircleAvatar(

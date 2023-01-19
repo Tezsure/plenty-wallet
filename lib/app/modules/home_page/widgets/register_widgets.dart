@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/discover_apps_widget/d
 import 'package:naan_wallet/app/modules/home_page/widgets/earn_tez_widget/earn_tez_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/view/nft_gallery_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/objkt_nft_widget.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 // import 'package:naan_wallet/app/data/mock/mock_data.dart';
 import 'accounts_widget/views/accounts_widget_view.dart';
@@ -20,16 +21,31 @@ final List<Widget> registeredWidgets = [
   // ),
   const AccountsWidget(),
   // const Accessiblity(),
+  0.024.vspace,
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: const [
+      BuyTezWidget(),
+      EarnTezWidget(),
+    ],
+  ),
+  0.024.vspace,
 
-  const BuyTezWidget(),
-  const EarnTezWidget(),
   //const TezosPriceWidget(),
   //const MyNFTwidget(),
 
   const NftGalleryWidget(),
-  const ObjktNftWidget(),
+  0.024.vspace,
 
-  TezosPriceWidget(),
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      const ObjktNftWidget(),
+      TezosPriceWidget(),
+    ],
+  ),
+  0.024.vspace,
+
   const DiscoverAppsWidget(),
   const ComingSoonWidget()
 

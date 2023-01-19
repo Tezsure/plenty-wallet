@@ -173,6 +173,7 @@ class DelegateWidgetController extends GetxController {
     } catch (e) {
       transactionStatusSnackbar(
         status: TransactionStatus.error,
+        duration: const Duration(seconds: 2),
         tezAddress: "Something went wrong",
         transactionAmount: "Error",
       );
@@ -238,7 +239,7 @@ class DelegateWidgetController extends GetxController {
         onTap: (_) {
           getDelegateRewardList();
         },
-        message: "Failed to load, tap to try gain",
+        message: "Failed to load, tap to try again",
         shouldIconPulse: true,
         backgroundColor: ColorConst.NaanRed,
         snackPosition: SnackPosition.BOTTOM,

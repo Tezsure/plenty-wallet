@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -37,8 +38,8 @@ class EarnTezWidget extends StatelessWidget {
         Get.put(DelegateWidgetController()).openBakerList();
       },
       child: Container(
-        height: 0.405.width,
-        width: 0.405.width,
+        height: AppConstant.homeWidgetDimension,
+        width: AppConstant.homeWidgetDimension,
         margin: EdgeInsets.only(right: 24.arP),
         decoration: BoxDecoration(
           gradient: blueGradient,

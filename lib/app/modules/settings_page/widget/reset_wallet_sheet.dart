@@ -64,23 +64,27 @@ class ResetWalletBottomSheet extends StatelessWidget {
                   ],
                 ),
                 onLongPress: () async {
-                  try {
-                    Get.find<HomePageController>().dispose();
-                  } catch (_) {}
                   if (Get.find<HomePageController>().userAccounts.isEmpty) {
                     await ServiceConfig().clearStorage();
                     NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
                     Get.offAllNamed(Routes.ONBOARDING_PAGE);
+                  } else {
+                    final isVerified =
+                        await AuthService().verifyBiometricOrPassCode();
+                    if (isVerified) {
+                      await ServiceConfig().clearStorage();
+                      NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
+                      Get.offAllNamed(Routes.ONBOARDING_PAGE);
+                    }
                   }
-                  final isVerified =
-                      await AuthService().verifyBiometricOrPassCode();
-                  if (isVerified) {
-                    await ServiceConfig().clearStorage();
-                    NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
-                    Get.offAllNamed(Routes.ONBOARDING_PAGE);
-                  }
+                  try {
+                    Get.find<HomePageController>().dispose();
+                  } catch (_) {}
                 }),
-            if (Get.find<HomePageController>().userAccounts.isNotEmpty)
+            if (Get.find<HomePageController>()
+                .userAccounts
+                .where((p0) => !p0.isWatchOnly)
+                .isNotEmpty)
               if (!isWalletBackup)
                 Column(
                   children: [

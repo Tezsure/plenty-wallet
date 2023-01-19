@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dar
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/choose_payment_method.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -32,8 +33,8 @@ class ObjktNftWidget extends StatelessWidget {
         );
       },
       child: Container(
-        height: 0.405.width,
-        width: 0.405.width,
+        height: AppConstant.homeWidgetDimension,
+        width: AppConstant.homeWidgetDimension,
         margin: EdgeInsets.only(left: 24.arP),
         decoration: BoxDecoration(
           gradient: purpleGradient,
@@ -42,14 +43,18 @@ class ObjktNftWidget extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: EdgeInsets.only(bottom: 64.arP),
-                child: Image.asset(
-                  "${PathConst.HOME_PAGE}buy_nft.png",
-                  cacheHeight: 217,
-                  cacheWidth: 158,
+            ClipRRect(
+              borderRadius:
+                  BorderRadius.only(topRight: Radius.circular(22.arP)),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 64.arP),
+                  child: Image.asset(
+                    "${PathConst.HOME_PAGE}buy_nft.png",
+                    cacheHeight: 217,
+                    cacheWidth: 158,
+                  ),
                 ),
               ),
             ),

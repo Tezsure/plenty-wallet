@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
@@ -181,6 +182,24 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                     title: "Save Changes",
                     titleStyle: labelLarge.copyWith(fontSize: 14.aR),
                     onPressed: () {
+                      if (_controller.homePageController.userAccounts.any(
+                          (element) =>
+                              (element.name?.toLowerCase() ?? "") ==
+                                  _controller.accountNameController.value.text
+                                      .toLowerCase() &&
+                              (element.publicKeyHash !=
+                                  _controller
+                                      .homePageController
+                                      .userAccounts[widget.accountIndex]
+                                      .publicKeyHash))) {
+                        transactionStatusSnackbar(
+                          duration: const Duration(seconds: 2),
+                          status: TransactionStatus.error,
+                          tezAddress: 'Account with same name already exists',
+                          transactionAmount: 'Cannot save account changes',
+                        );
+                        return;
+                      }
                       if (_controller
                           .accountNameController.value.text.isNotEmpty) {
                         _accountController.changeSelectedAccountName(

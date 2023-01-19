@@ -52,6 +52,7 @@ class SendReviewPage extends StatelessWidget {
                   // 0.07.vspace,
                   Center(
                     child: Container(
+                      constraints: BoxConstraints(maxHeight: 0.4.height),
                       margin: const EdgeInsets.symmetric(vertical: 10),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
