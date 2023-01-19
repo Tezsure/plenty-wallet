@@ -47,7 +47,8 @@ class AccountDataHandler {
   }
 
   /// Get&Store all accounts balances, tokens data and nfts
-  Future<void> executeProcess({required Function postProcess}) async {
+  Future<void> executeProcess(
+      {required Function postProcess, required Function onDone}) async {
     ReceivePort receivePort = ReceivePort();
 
     List<AccountModel> accountModels =
@@ -58,7 +59,7 @@ class AccountDataHandler {
       watchAccountsList: true,
     );
 
-    await Isolate.spawn(
+   var isolate= await Isolate.spawn(
       _isolateProcess,
       <dynamic>[
         receivePort.sendPort,
@@ -71,6 +72,8 @@ class AccountDataHandler {
       debugName: "accounts xtz, tokens & nfts",
     );
     receivePort.asBroadcastStream().listen((data) async {
+      isolate.kill(priority: Isolate.immediate);
+      onDone();
       await _storeData(data, accountModels, watchAccountModels, postProcess);
     });
   }
@@ -158,11 +161,10 @@ class AccountDataHandler {
         if (tokenList.isNotEmpty) {
           // remove unsupported tokens
           if (unsupportedTokens.containsKey(key)) {
-            tokenList.removeWhere((element) =>
-                unsupportedTokens[key]!
-                    .map<String>((e) => e.contractAddress)
-                    .toList()
-                    .contains(element.contractAddress));
+            tokenList.removeWhere((element) => unsupportedTokens[key]!
+                .map<String>((e) => e.contractAddress)
+                .toList()
+                .contains(element.contractAddress));
           }
           List<String> updateTokenAddresses = value
               .map<String>((e) => e.contractAddress)

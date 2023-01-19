@@ -19,9 +19,8 @@ class NftAndTxHistoryHandler {
     List<String> accountAddress = args[1][0].toList();
     List<String> watchAccountAddress = args[1][1].toList();
     String rpc = args[1][2];
-    List<List<NftTokenModel>> accountsNft = await Future.wait(
-      [...accountAddress, ...watchAccountAddress]
-          .map<Future<List<NftTokenModel>>>(
+    List<String> accountsNft = await Future.wait(
+      [...accountAddress, ...watchAccountAddress].map<Future<String>>(
         (e) => ObjktNftApiService().getNfts(e),
       ),
     );
@@ -33,8 +32,8 @@ class NftAndTxHistoryHandler {
 
     // send data back
     args[0].send([
-      // account nfts as Map<String(address),List<NftTokenModel>>
-      <String, List<NftTokenModel>>{
+      // account nfts as Map<String(address),List<dynamic>>
+      <String, String>{
         ...{
           for (int i = 0; i < accountAddress.length; i++)
             accountAddress[i]: accountsNft[i]
@@ -53,9 +52,10 @@ class NftAndTxHistoryHandler {
   }
 
   /// Get&Store teztool price apis for tokens price
-  Future<void> executeProcess({required Function postProcess}) async {
+  Future<void> executeProcess(
+      {required Function postProcess, required Function onDone}) async {
     ReceivePort receivePort = ReceivePort();
-    await Isolate.spawn(
+  var isolate = await Isolate.spawn(
       _isolateProcess,
       <dynamic>[
         receivePort.sendPort,
@@ -75,7 +75,10 @@ class NftAndTxHistoryHandler {
       ],
       debugName: "nft & tx-history",
     );
+    
     receivePort.asBroadcastStream().listen((data) async {
+      isolate.kill(priority: Isolate.immediate);
+      onDone();
       await _storeData(data);
       // await postProcess();
     });
@@ -86,7 +89,7 @@ class NftAndTxHistoryHandler {
     for (var key in data[0].keys) {
       await ServiceConfig.localStorage.write(
           key: "${ServiceConfig.nftStorage}_$key",
-          value: jsonEncode(data[0][key]));
+          value: data[0][key] as String);
     }
 
     // store tx history
@@ -99,7 +102,7 @@ class NftAndTxHistoryHandler {
 }
 
 class ObjktNftApiService {
-  Future<List<NftTokenModel>> getNfts(String pkH) async {
+  Future<String> getNfts(String pkH) async {
     try {
       final response = await GQLClient(
         'https://data.objkt.com/v3/graphql',
@@ -108,13 +111,11 @@ class ObjktNftApiService {
         variables: {'address': pkH},
       );
 
-      return response.data['token']
-          .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
-          .toList()
-          .where((e) => e.holders.length > 0 && e.tokenId.isNotEmpty)
-          .toList();
+      return jsonEncode(response.data['token']
+          .where((e) => e['holders'].length > 0 && e['token_id'].isNotEmpty)
+          .toList());
     } catch (e) {
-      return <NftTokenModel>[];
+      return "[]";
     }
   }
 

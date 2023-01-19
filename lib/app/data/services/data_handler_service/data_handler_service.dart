@@ -37,38 +37,43 @@ class DataHandlerService {
     Get.put(BeaconService(), permanent: true);
     // first time if data exists in storage readand render
     await renderService.updateUi();
+    setUpTimer();
 
     // update the values&store using isolates
     await updateAllTheValues();
     // init timer
-    updateTimer = Timer.periodic(
-        const Duration(seconds: 15), (_) => updateAllTheValues());
 
     // update one time data in cache
     _updateOneTimeData();
   }
 
+  setUpTimer() => updateTimer =
+      Timer.periodic(const Duration(seconds: 15), (_) => updateAllTheValues());
+
   /// forced update when added new account
   Future<void> forcedUpdateData() async {
     await AccountDataHandler(renderService).executeProcess(
       postProcess: renderService.accountUpdater.updateProcess,
-    );
-    await NftAndTxHistoryHandler(renderService).executeProcess(
-      postProcess: () {},
+      onDone: () async => await NftAndTxHistoryHandler(renderService)
+          .executeProcess(postProcess: () {}, onDone: () => {}),
     );
   }
 
   /// Init all isolate for fetching data
   /// postProcess trigger ui for update new data
   Future<void> updateAllTheValues() async {
+    updateTimer!.cancel();
     await TokenAndXtzPriceHandler(renderService).executeProcess(
       postProcess: renderService.xtzPriceUpdater.updateProcess,
-    );
-    await AccountDataHandler(renderService).executeProcess(
-      postProcess: renderService.accountUpdater.updateProcess,
-    );
-    await NftAndTxHistoryHandler(renderService).executeProcess(
-      postProcess: () {},
+      onDone: () async =>
+          await AccountDataHandler(renderService).executeProcess(
+        postProcess: renderService.accountUpdater.updateProcess,
+        onDone: () async =>
+            await NftAndTxHistoryHandler(renderService).executeProcess(
+          postProcess: () {},
+          onDone: () => setUpTimer(),
+        ),
+      ),
     );
 
     if (onGoingTxStatusHelpers.isNotEmpty) {
