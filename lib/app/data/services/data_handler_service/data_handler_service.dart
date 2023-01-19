@@ -47,8 +47,11 @@ class DataHandlerService {
     _updateOneTimeData();
   }
 
-  setUpTimer() => updateTimer =
-      Timer.periodic(const Duration(seconds: 15), (_) => updateAllTheValues());
+  setUpTimer() => {
+        if (updateTimer == null || !updateTimer!.isActive)
+          updateTimer = Timer.periodic(
+              const Duration(seconds: 15), (_) => updateAllTheValues())
+      };
 
   /// forced update when added new account
   Future<void> forcedUpdateData() async {
@@ -72,7 +75,9 @@ class DataHandlerService {
         onDone: () async =>
             await NftAndTxHistoryHandler(renderService).executeProcess(
           postProcess: () {},
-          onDone: () => setUpTimer(),
+          onDone: () {
+            setUpTimer();
+          },
         ),
       ),
     );

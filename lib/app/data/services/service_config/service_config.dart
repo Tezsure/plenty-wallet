@@ -16,6 +16,9 @@ class ServiceConfig {
   static String coingeckoApi =
       "https://api.coingecko.com/api/v3/simple/price?ids=tezos&vs_currencies=usd";
 
+  static String xtzPriceApi =
+      "https://api.analytics.plenty.network/ve/prices/XTZ";
+
   /// Rpc Node Selector
   static String nodeSelector = "https://cdn.naan.app/rpc-list";
 
