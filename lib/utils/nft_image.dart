@@ -38,25 +38,25 @@ class NFTImage extends StatelessWidget {
     return Container(
       child: nftTokenModel.faContract == "KT18kkvmUoefkdok5mrjU6fxsm7xmumy1NEw"
           ? VeNFT(url: nftImageUrl)
-          : CachedNetworkImage(
-              errorWidget: (context, url, error) => CachedNetworkImage(
+          : Image.network(
+              nftImageUrl,
+              errorBuilder: (context, url, error) => CachedNetworkImage(
                 imageUrl:
                     "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb400",
                 fit: boxFit,
               ),
-              imageUrl: nftImageUrl,
               fit: boxFit,
-              placeholderFadeInDuration: const Duration(milliseconds: 1),
-              placeholder: (context, url) => CachedNetworkImage(
-                  imageUrl:
-                      "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb400"),
-              cacheKey:
-                  "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId?.toString()}/thumb288",
-
-              // maxWidthDiskCache: maxWidthDiskCache,
-              // maxHeightDiskCache: maxHeightDiskCache,
-              // memCacheHeight: memCacheHeight,
-              // memCacheWidth: memCacheWidth,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null,
+                  ),
+                );
+              },
             ),
     );
   }

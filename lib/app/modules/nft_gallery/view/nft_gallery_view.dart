@@ -346,7 +346,9 @@ class NftGalleryView extends GetView<NftGalleryController> {
                               ),
                               child: Column(
                                 children: [
-                                  SizedBox(
+                                  Container(
+                                    constraints:
+                                        BoxConstraints(maxHeight: 1.width),
                                     width: double.infinity,
                                     child: ClipRRect(
                                         borderRadius: BorderRadius.circular(
