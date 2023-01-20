@@ -46,6 +46,8 @@ class NFTCollectionSheet extends StatelessWidget {
               ),
               Expanded(
                 child: MasonryGridView.count(
+                    addAutomaticKeepAlives: false,
+                    addRepaintBoundaries: false,
                     crossAxisCount: (Get.width > 768
                             ? crossAxisCount == 1.1
                                 ? 2

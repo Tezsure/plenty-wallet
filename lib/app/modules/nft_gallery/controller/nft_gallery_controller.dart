@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:isolate';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
@@ -54,7 +56,7 @@ class NftGalleryController extends GetxController {
   @override
   onReady() async {
     super.onReady();
-    await fetchAllNftForGallery();
+    fetchAllNftForGallery();
   }
 
   changeSelectedNftGallery(int index) async {
@@ -92,11 +94,13 @@ class NftGalleryController extends GetxController {
   }
 
   Future<void> fetchAllNftForGallery() async {
-    nftList = await selectedNftGallery.value.fetchAllNft();
-    for (var i = 0; i < nftList.length; i++) {
-      galleryNfts[nftList[i].fa!.contract!] =
-          (galleryNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
-    }
+    selectedNftGallery.value.fetchAllNft().then((nftList) {
+      this.nftList = nftList;
+      for (var i = 0; i < nftList.length; i++) {
+        galleryNfts[nftList[i].fa!.contract!] =
+            (galleryNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
+      }
+    });
   }
 
   Future<void> removeGallery(int galleryIndex) async {
@@ -128,4 +132,15 @@ class NftGalleryController extends GetxController {
     galleryNfts.value = {};
     await fetchAllNftForGallery();
   }
+
+/*   static Future<void> _fetchAllNftForGallery(List<dynamic> args) async {
+    Map<String, List<NftTokenModel>> galleryNfts =
+        <String, List<NftTokenModel>>{};
+    for (var i = 0; i < args[0].length; i++) {
+      galleryNfts[args[0][i].fa!.contract!] =
+          (args[1][args[0][i].fa!.contract!] ?? [])..add(args[0][i]);
+    }
+
+    args[2].send(galleryNfts);
+  } */
 }

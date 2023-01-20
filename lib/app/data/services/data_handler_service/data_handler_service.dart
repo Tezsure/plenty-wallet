@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/data/services/data_handler_service/token_and_xtz
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
+import 'package:naan_wallet/main.dart';
 
 import 'data_handler_render_service.dart';
 

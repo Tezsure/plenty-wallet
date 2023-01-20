@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -34,6 +35,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
   @override
   Widget build(BuildContext context) {
     Get.put(NftGalleryController());
+
     return SafeArea(
       bottom: false,
       child: Obx(
@@ -421,6 +423,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
             horizontal: 16.arP,
           ),
           child: ListView.builder(
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
             physics: const BouncingScrollPhysics(),
             itemBuilder: ((context, index) => Column(
                   children: [
@@ -654,6 +658,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
         height: 35.arP,
         child: ListView(
           shrinkWrap: true,
+          addAutomaticKeepAlives: false,
+          addRepaintBoundaries: false,
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           children: [

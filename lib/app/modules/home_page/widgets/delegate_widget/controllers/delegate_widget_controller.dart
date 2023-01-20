@@ -292,11 +292,12 @@ class DelegateWidgetController extends GetxController {
     totalRewards.value = 0;
     for (var element in delegateRewardList) {
       totalRewards.value = totalRewards.value +
-          ((element.balance / element.activeStake) *
+          ((element.balance /
+                  (element.activeStake == 0.0 ? 1 : element.activeStake)) *
               (element.blockRewards + element.endorsementRewards));
     }
-    totalRewards.value = (totalRewards / pow(10, 6)) *
-        Get.find<HomePageController>().xtzPrice.value;
+    totalRewards.value =
+        (totalRewards / 1e6) * Get.find<HomePageController>().xtzPrice.value;
   }
 
   Future<String?> getCurrentBakerAddress(String pkh) async {

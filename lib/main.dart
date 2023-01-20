@@ -18,6 +18,7 @@ import 'app/routes/app_pages.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DartPluginRegistrant.ensureInitialized();
+  Get.put(LifeCycleController(), permanent: true);
   HttpOverrides.global = MyHttpOverrides();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -32,7 +33,7 @@ void main() async {
     // FirebaseCrashlytics.instance.crash();
     NaanAnalytics().setupAnalytics();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-    Get.put(LifeCycleController(), permanent: true);
+
     runApp(
       GetMaterialApp(
         title: "Naan",
@@ -74,10 +75,7 @@ class LifeCycleController extends SuperController {
   }
 
   @override
-  void onInactive() {
-    closeBackground();
-    print("onInactive");
-  }
+  void onInactive() {}
 
   @override
   void onPaused() {
@@ -96,6 +94,7 @@ class LifeCycleController extends SuperController {
   @override
   void onResumed() {
     //Get.put(BeaconService(), permanent: true);
+
     DataHandlerService().setUpTimer();
     print("onResumed");
   }
