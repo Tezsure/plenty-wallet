@@ -10,6 +10,7 @@ class NaanBottomSheet extends StatelessWidget {
   final double? width;
   final List<Widget>? bottomSheetWidgets;
   final String? title;
+  final Widget? action;
   final double? blurRadius;
   final double? gradientStartingOpacity;
   final bool isDraggableBottomSheet;
@@ -36,6 +37,7 @@ class NaanBottomSheet extends StatelessWidget {
     this.width,
     this.bottomSheetWidgets,
     this.title,
+    this.action,
     this.blurRadius,
     this.gradientStartingOpacity,
     this.isDraggableBottomSheet = false,
@@ -159,15 +161,54 @@ class NaanBottomSheet extends StatelessWidget {
               ),
             ),
             if (title != null) ...[
-              0.02.vspace,
-              Align(
-                alignment: titleAlignment ?? Alignment.center,
-                child: Text(
-                  title!,
-                  textAlign: TextAlign.start,
-                  style: titleStyle ?? titleLarge,
+              if (action == null)
+                Column(
+                  children: [
+                    0.02.vspace,
+                    Align(
+                      alignment: titleAlignment ?? Alignment.center,
+                      child: Text(
+                        title!,
+                        textAlign: TextAlign.start,
+                        style: titleStyle ?? titleLarge,
+                      ),
+                    ),
+                  ],
+                )
+              else
+                Row(
+                  children: [
+                    const Spacer(),
+                    Expanded(
+                      child: Align(
+                        alignment: titleAlignment ?? Alignment.center,
+                        child: Text(
+                          title!,
+                          textAlign: TextAlign.start,
+                          style: titleStyle ?? titleLarge,
+                        ),
+                      ),
+                    ),
+                    if (action == null)
+                      const Spacer()
+                    else
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: action!,
+                        ),
+                      ),
+                  ],
                 ),
-              ),
+
+              // Align(
+              //   alignment: titleAlignment ?? Alignment.center,
+              //   child: Text(
+              //     title!,
+              //     textAlign: TextAlign.start,
+              //     style: titleStyle ?? titleLarge,
+              //   ),
+              // ),
             ],
             // 0.010.vspace,
           ] +
