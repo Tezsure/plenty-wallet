@@ -83,7 +83,7 @@ class DataHandlerService {
       return;
     }
     updateTimer!.cancel();
-    await TokenAndXtzPriceHandler(renderService).executeProcess(
+    TokenAndXtzPriceHandler(renderService).executeProcess(
       postProcess: renderService.xtzPriceUpdater.updateProcess,
       onDone: () async =>
           await AccountDataHandler(renderService).executeProcess(
