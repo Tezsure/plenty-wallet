@@ -60,6 +60,7 @@ class NFTCollectionSheet extends StatelessWidget {
                         .toInt(),
                     mainAxisSpacing: 12.arP,
                     crossAxisSpacing: 12.arP,
+                    cacheExtent: 0.0,
                     itemCount: nfts.toList().length,
                     itemBuilder: ((context, i) {
                       var nftTokenModel = nfts[i];

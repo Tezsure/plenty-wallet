@@ -632,6 +632,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
               addAutomaticKeepAlives: false,
               addRepaintBoundaries: false,
               crossAxisSpacing: 12.arP,
+              cacheExtent: 0.0,
               itemCount: nfts.length,
               itemBuilder: (context, index) => Container(
                 width: double.infinity,

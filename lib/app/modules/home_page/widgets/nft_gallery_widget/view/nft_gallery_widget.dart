@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -18,7 +17,8 @@ class NftGalleryWidget extends StatefulWidget {
 
 class _NftGalleryWidgetState extends State<NftGalleryWidget> {
   int currIndex = 0;
-  NftGalleryWidgetController controller = Get.put(NftGalleryWidgetController());
+  NftGalleryWidgetController controller =
+      Get.find<NftGalleryWidgetController>();
   Widget _getNoGalleryStateWidget() => InkWell(
         onTap: () => controller.showCreateNewNftGalleryBottomSheet(),
         child: Column(
