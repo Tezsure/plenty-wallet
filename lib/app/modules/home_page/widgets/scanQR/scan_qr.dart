@@ -50,13 +50,39 @@ class _ScanQrViewState extends State<ScanQrView> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        leading: backButton(),
+        leading: SizedBox.shrink(),
         backgroundColor: Colors.transparent,
       ),
       // height: 01.height,
       body: Column(
         children: <Widget>[
-          Expanded(child: _buildQrView(context)),
+          Expanded(
+              child: Stack(
+            children: [
+              _buildQrView(context),
+              SafeArea(
+                child: Column(
+                  children: [
+                    // 0.02.vspace,
+                    Container(
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Container(
+                          height: 5,
+                          width: 36,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: ColorConst.NeutralVariant.shade60
+                                .withOpacity(0.3),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )),
         ],
       ),
     );

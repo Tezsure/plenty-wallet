@@ -13,6 +13,7 @@ import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicato
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -38,7 +39,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
     AccountsWidgetController controller = Get.put(AccountsWidgetController());
     return Obx(() {
       return SizedBox(
-        height: 0.405.width,
+        height: AppConstant.homeWidgetDimension,
         child: Row(
           children: [
             Expanded(
@@ -46,7 +47,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                 padding: EdgeInsets.only(left: 24.arP, right: 0.arP),
                 child: SizedBox(
                   width: 1.width,
-                  height: 0.405.width,
+                  height: AppConstant.homeWidgetDimension,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +56,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                         () => homePageController.userAccounts.isEmpty
                             ? Container(
                                 width: 1.width,
-                                height: 0.405.width,
+                                height: AppConstant.homeWidgetDimension,
                                 padding: EdgeInsets.only(right: 8.arP),
                                 child: const AddAccountWidget(),
                               )
@@ -66,7 +67,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                   borderRadius: BorderRadius.circular(22.arP),
                                 ),
                                 width: 1.width,
-                                height: 0.405.width,
+                                height: AppConstant.homeWidgetDimension,
                                 child: Obx(() => PageView.builder(
                                     padEnds: false,
                                     itemCount: homePageController.userAccounts

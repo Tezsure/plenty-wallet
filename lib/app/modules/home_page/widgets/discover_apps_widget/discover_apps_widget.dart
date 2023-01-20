@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/dapps_page/views/dapps_page_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -23,7 +24,7 @@ class DiscoverAppsWidget extends StatelessWidget {
         );
       },
       child: Container(
-        height: 0.405.width,
+        height: AppConstant.homeWidgetDimension,
         width: 1.width,
         margin: EdgeInsets.only(left: 26.arP, right: 26.arP),
         decoration: BoxDecoration(
