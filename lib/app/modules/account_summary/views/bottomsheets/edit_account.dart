@@ -4,8 +4,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
@@ -62,159 +64,289 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   }
 
   Widget draggableUI() {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 20.arP, sigmaY: 20.arP),
-      child: DraggableScrollableSheet(
-        maxChildSize: 0.9,
-        initialChildSize: 0.8,
-        minChildSize: 0.8,
-        builder: ((context, scrollController) => SingleChildScrollView(
-              controller: scrollController,
-              child: Container(
-                width: 1.width,
-                padding: EdgeInsets.symmetric(horizontal: 31.aR),
-                height: 1.height,
-                decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10.aR)),
-                    color: Colors.black),
-                child: Column(children: [
-                  0.02.vspace,
-                  Center(
-                    child: Container(
-                      height: 5.aR,
-                      width: 36.aR,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.aR),
-                          color: const Color(0xffEBEBF5).withOpacity(0.3)),
-                    ),
-                  ),
-                  0.036.vspace,
-                  Text("Edit Account",
-                      style: titleLarge.copyWith(fontSize: 22.aR)),
-                  0.031.vspace,
-                  Container(
-                    height: 120.aR,
-                    width: 120.aR,
-                    alignment: Alignment.bottomRight,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: _controller
-                            .showUpdatedProfilePhoto(widget.accountIndex),
-                      ),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.bottomSheet(
-                          changePhotoBottomSheet(),
-                          barrierColor: Colors.transparent,
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                        ).whenComplete(() {
-                          setState(() {});
-                        });
-                      },
-                      child: CircleAvatar(
-                        radius: 20.aR,
-                        backgroundColor: Colors.white,
-                        child: SvgPicture.asset(
-                          "${PathConst.SVG}add_photo.svg",
-                          fit: BoxFit.contain,
-                          height: 20.aR,
-                        ),
-                      ),
-                    ),
-                  ),
-                  0.02.vspace,
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.arP),
-                    child: Text(
-                      _controller
-                              .homePageController
-                              .userAccounts[widget.accountIndex]
-                              .publicKeyHash ??
-                          "public key",
-                      style: labelMedium.copyWith(fontSize: 12.aR),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  0.02.vspace,
-                  SizedBox(
-                    height: 8.aR,
-                  ),
-                  NaanTextfield(
-                      height: 50.aR,
-                      backgroundColor:
-                          ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                      hint: "Account Name",
-                      focusNode: nameFocusNode,
-                      controller: _controller.accountNameController,
-                      onSubmitted: (value) {
-                        setState(() {
-                          if (_accountController.homePageController
-                              .userAccounts[widget.accountIndex].publicKeyHash!
-                              .contains(_accountController
-                                  .selectedAccount.value.publicKeyHash!)) {
-                            if (value.isNotEmpty) {
-                              _accountController.selectedAccount.update((val) {
-                                val!.name = value;
-                              });
-                            }
-                          }
-                          if (value.isNotEmpty) {
-                            _controller.editAccountName(
-                                widget.accountIndex, value);
-                          }
-                        });
-                      }),
-                  0.044.vspace,
-                  SolidButton(
-                    height: 50.aR,
-                    width: 0.8.width,
-                    primaryColor:
-                        _controller.accountNameController.value.text.isNotEmpty
-                            ? ColorConst.Primary
-                            : const Color(0xFF1E1C1F),
-                    title: "Save Changes",
-                    titleStyle: labelLarge.copyWith(fontSize: 14.aR),
-                    onPressed: () {
-                      if (_controller.homePageController.userAccounts.any(
-                          (element) =>
-                              (element.name?.toLowerCase() ?? "") ==
-                                  _controller.accountNameController.value.text
-                                      .toLowerCase() &&
-                              (element.publicKeyHash !=
-                                  _controller
-                                      .homePageController
-                                      .userAccounts[widget.accountIndex]
-                                      .publicKeyHash))) {
-                        transactionStatusSnackbar(
-                          duration: const Duration(seconds: 2),
-                          status: TransactionStatus.error,
-                          tezAddress: 'Account with same name already exists',
-                          transactionAmount: 'Cannot save account changes',
-                        );
-                        return;
-                      }
-                      if (_controller
-                          .accountNameController.value.text.isNotEmpty) {
-                        _accountController.changeSelectedAccountName(
-                            accountIndex: widget.accountIndex,
-                            changedValue:
-                                _controller.accountNameController.value.text);
-                        _controller.editAccountName(widget.accountIndex,
-                            _controller.accountNameController.value.text);
-                      }
-                    },
-                  ),
-                  0.02.vspace,
-                ]),
+    return NaanBottomSheet(
+      height: AppConstant.naanBottomSheetHeight -
+          MediaQuery.of(context).viewInsets.bottom,
+      title: "Edit Account",
+      bottomSheetWidgets: [
+        SizedBox(
+          height: AppConstant.naanBottomSheetChildHeight -
+              MediaQuery.of(context).viewInsets.bottom -
+              28.arP,
+          child: Column(children: [
+            0.02.vspace,
+            _buildAvatar(),
+            0.02.vspace,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.arP),
+              child: Text(
+                _controller.homePageController.userAccounts[widget.accountIndex]
+                        .publicKeyHash ??
+                    "public key",
+                style: labelMedium.copyWith(fontSize: 12.aR),
+                textAlign: TextAlign.center,
               ),
-            )),
+            ),
+            0.02.vspace,
+            SizedBox(
+              height: 8.aR,
+            ),
+            NaanTextfield(
+                height: 50.aR,
+                backgroundColor:
+                    ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                hint: "Account Name",
+                focusNode: nameFocusNode,
+                controller: _controller.accountNameController,
+                onSubmitted: (value) {
+                  setState(() {
+                    if (_accountController.homePageController
+                        .userAccounts[widget.accountIndex].publicKeyHash!
+                        .contains(_accountController
+                            .selectedAccount.value.publicKeyHash!)) {
+                      if (value.isNotEmpty) {
+                        _accountController.selectedAccount.update((val) {
+                          val!.name = value;
+                        });
+                      }
+                    }
+                    if (value.isNotEmpty) {
+                      _controller.editAccountName(widget.accountIndex, value);
+                    }
+                  });
+                }),
+            0.044.vspace,
+            SolidButton(
+              height: 50.aR,
+              width: 0.8.width,
+              primaryColor:
+                  _controller.accountNameController.value.text.isNotEmpty
+                      ? ColorConst.Primary
+                      : const Color(0xFF1E1C1F),
+              title: "Save Changes",
+              titleStyle: labelLarge.copyWith(fontSize: 14.aR),
+              onPressed: () {
+                if (_controller.homePageController.userAccounts.any((element) =>
+                    (element.name?.toLowerCase() ?? "") ==
+                        _controller.accountNameController.value.text
+                            .toLowerCase() &&
+                    (element.publicKeyHash !=
+                        _controller
+                            .homePageController
+                            .userAccounts[widget.accountIndex]
+                            .publicKeyHash))) {
+                  transactionStatusSnackbar(
+                    duration: const Duration(seconds: 2),
+                    status: TransactionStatus.error,
+                    tezAddress: 'Account with same name already exists',
+                    transactionAmount: 'Cannot save account changes',
+                  );
+                  return;
+                }
+                if (_controller.accountNameController.value.text.isNotEmpty) {
+                  _accountController.changeSelectedAccountName(
+                      accountIndex: widget.accountIndex,
+                      changedValue:
+                          _controller.accountNameController.value.text);
+                  _controller.editAccountName(widget.accountIndex,
+                      _controller.accountNameController.value.text);
+                }
+              },
+            ),
+            0.02.vspace,
+          ]),
+        )
+      ],
+    );
+    // return BackdropFilter(
+    //   filter: ImageFilter.blur(sigmaX: 20.arP, sigmaY: 20.arP),
+    //   child: DraggableScrollableSheet(
+    //     maxChildSize: 0.9,
+    //     initialChildSize: 0.8,
+    //     minChildSize: 0.8,
+    //     builder: ((context, scrollController) => SingleChildScrollView(
+    //           controller: scrollController,
+    //           child: Container(
+    //             width: 1.width,
+    //             padding: EdgeInsets.symmetric(horizontal: 31.aR),
+    //             height: 1.height,
+    //             decoration: BoxDecoration(
+    //                 borderRadius:
+    //                     BorderRadius.vertical(top: Radius.circular(10.aR)),
+    //                 color: Colors.black),
+    //             child: Column(children: [
+    //               0.02.vspace,
+    //               Center(
+    //                 child: Container(
+    //                   height: 5.aR,
+    //                   width: 36.aR,
+    //                   decoration: BoxDecoration(
+    //                       borderRadius: BorderRadius.circular(5.aR),
+    //                       color: const Color(0xffEBEBF5).withOpacity(0.3)),
+    //                 ),
+    //               ),
+    //               0.036.vspace,
+    //               Text("Edit Account",
+    //                   style: titleLarge.copyWith(fontSize: 22.aR)),
+    //               0.031.vspace,
+    //               Container(
+    //                 height: 120.aR,
+    //                 width: 120.aR,
+    //                 alignment: Alignment.bottomRight,
+    //                 decoration: BoxDecoration(
+    //                   shape: BoxShape.circle,
+    //                   image: DecorationImage(
+    //                     fit: BoxFit.cover,
+    //                     image: _controller
+    //                         .showUpdatedProfilePhoto(widget.accountIndex),
+    //                   ),
+    //                 ),
+    //                 child: GestureDetector(
+    //                   onTap: () {
+    //                     Get.bottomSheet(
+    //                       changePhotoBottomSheet(),
+    //                       barrierColor: Colors.transparent,
+    //                       enterBottomSheetDuration:
+    //                           const Duration(milliseconds: 180),
+    //                       exitBottomSheetDuration:
+    //                           const Duration(milliseconds: 150),
+    //                     ).whenComplete(() {
+    //                       setState(() {});
+    //                     });
+    //                   },
+    //                   child: CircleAvatar(
+    //                     radius: 20.aR,
+    //                     backgroundColor: Colors.white,
+    //                     child: SvgPicture.asset(
+    //                       "${PathConst.SVG}add_photo.svg",
+    //                       fit: BoxFit.contain,
+    //                       height: 20.aR,
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ),
+    //               0.02.vspace,
+    //               Padding(
+    //                 padding: EdgeInsets.symmetric(horizontal: 8.arP),
+    //                 child: Text(
+    //                   _controller
+    //                           .homePageController
+    //                           .userAccounts[widget.accountIndex]
+    //                           .publicKeyHash ??
+    //                       "public key",
+    //                   style: labelMedium.copyWith(fontSize: 12.aR),
+    //                   textAlign: TextAlign.center,
+    //                 ),
+    //               ),
+    //               0.02.vspace,
+    //               SizedBox(
+    //                 height: 8.aR,
+    //               ),
+    //               NaanTextfield(
+    //                   height: 50.aR,
+    //                   backgroundColor:
+    //                       ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+    //                   hint: "Account Name",
+    //                   focusNode: nameFocusNode,
+    //                   controller: _controller.accountNameController,
+    //                   onSubmitted: (value) {
+    //                     setState(() {
+    //                       if (_accountController.homePageController
+    //                           .userAccounts[widget.accountIndex].publicKeyHash!
+    //                           .contains(_accountController
+    //                               .selectedAccount.value.publicKeyHash!)) {
+    //                         if (value.isNotEmpty) {
+    //                           _accountController.selectedAccount.update((val) {
+    //                             val!.name = value;
+    //                           });
+    //                         }
+    //                       }
+    //                       if (value.isNotEmpty) {
+    //                         _controller.editAccountName(
+    //                             widget.accountIndex, value);
+    //                       }
+    //                     });
+    //                   }),
+    //               0.044.vspace,
+    //               SolidButton(
+    //                 height: 50.aR,
+    //                 width: 0.8.width,
+    //                 primaryColor:
+    //                     _controller.accountNameController.value.text.isNotEmpty
+    //                         ? ColorConst.Primary
+    //                         : const Color(0xFF1E1C1F),
+    //                 title: "Save Changes",
+    //                 titleStyle: labelLarge.copyWith(fontSize: 14.aR),
+    //                 onPressed: () {
+    //                   if (_controller.homePageController.userAccounts.any(
+    //                       (element) =>
+    //                           (element.name?.toLowerCase() ?? "") ==
+    //                               _controller.accountNameController.value.text
+    //                                   .toLowerCase() &&
+    //                           (element.publicKeyHash !=
+    //                               _controller
+    //                                   .homePageController
+    //                                   .userAccounts[widget.accountIndex]
+    //                                   .publicKeyHash))) {
+    //                     transactionStatusSnackbar(
+    //                       duration: const Duration(seconds: 2),
+    //                       status: TransactionStatus.error,
+    //                       tezAddress: 'Account with same name already exists',
+    //                       transactionAmount: 'Cannot save account changes',
+    //                     );
+    //                     return;
+    //                   }
+    //                   if (_controller
+    //                       .accountNameController.value.text.isNotEmpty) {
+    //                     _accountController.changeSelectedAccountName(
+    //                         accountIndex: widget.accountIndex,
+    //                         changedValue:
+    //                             _controller.accountNameController.value.text);
+    //                     _controller.editAccountName(widget.accountIndex,
+    //                         _controller.accountNameController.value.text);
+    //                   }
+    //                 },
+    //               ),
+    //               0.02.vspace,
+    //             ]),
+    //           ),
+    //         )),
+    //   ),
+    // );
+  }
+
+  Container _buildAvatar() {
+    return Container(
+      height: 120.aR,
+      width: 120.aR,
+      alignment: Alignment.bottomRight,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: _controller.showUpdatedProfilePhoto(widget.accountIndex),
+        ),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          Get.bottomSheet(
+            changePhotoBottomSheet(),
+            barrierColor: Colors.transparent,
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
+          ).whenComplete(() {
+            setState(() {});
+          });
+        },
+        child: CircleAvatar(
+          radius: 20.aR,
+          backgroundColor: Colors.white,
+          child: SvgPicture.asset(
+            "${PathConst.SVG}add_photo.svg",
+            fit: BoxFit.contain,
+            height: 20.aR,
+          ),
+        ),
       ),
     );
   }
