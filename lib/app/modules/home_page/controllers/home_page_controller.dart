@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
@@ -140,9 +141,11 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
 
       // We didn't ask for permission yet or the permission has been denied before but not permanently.
     } else {
-      Get.to(
-        const ScanQrView(),
-      );
+      HapticFeedback.heavyImpact();
+      Get.bottomSheet(const ScanQrView(),
+          enterBottomSheetDuration: const Duration(milliseconds: 180),
+          exitBottomSheetDuration: const Duration(milliseconds: 150),
+          isScrollControlled: true);
     }
   } // void onIndicatorTapped(int index) => selectedIndex.value = index;
 }
