@@ -47,7 +47,8 @@ class DataHandlerRenderService {
       accountUpdater.value = accounts;
       return;
     }
-    accountUpdater.value = await UserStorageService().getAllAccount();
+    accountUpdater.value =
+        await UserStorageService().getAllAccount(watchAccountsList: true);
   }
 
   /// read from store and update based on tz1 address or all if not provided
