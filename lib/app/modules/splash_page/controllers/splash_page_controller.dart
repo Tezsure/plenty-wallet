@@ -31,10 +31,8 @@ class SplashPageController extends GetxController {
     var watchAccountsLength =
         (await UserStorageService().getAllAccount(watchAccountsList: true))
             .length;
-
+    Get.put(NftGalleryWidgetController(), permanent: true);
     if (walletAccountsLength != 0 || watchAccountsLength != 0) {
-      Get.put(NftGalleryWidgetController(), permanent: true);
-
       bool isPasscodeSet = await AuthService().getIsPassCodeSet();
 
       /// ask for auth and redirect to home page

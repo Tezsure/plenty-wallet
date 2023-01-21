@@ -34,12 +34,14 @@ class NftGalleryWidgetController extends GetxController {
   }
 
   void fetchNftGallerys() {
-    UserStorageService().getAllGallery().then((value) async {
-      for (int i = 0; i < value.length; i++) {
-        await value[i].randomNft();
-      }
-      nftGalleryList.value = value;
-    });
+    try {
+      UserStorageService().getAllGallery().then((value) async {
+        for (int i = 0; i < value.length; i++) {
+          await value[i].randomNft();
+        }
+        nftGalleryList.value = value;
+      });
+    } catch (e) {}
 
     // List<NftGalleryModel> tempNftGallerys =
     //     (await UserStorageService().getAllGallery());
