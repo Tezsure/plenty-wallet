@@ -8,6 +8,8 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/nft_image.dart';
 
+import '../../../../custom_packages/animated_scroll_indicator/effects/scrolling_dot_effect.dart';
+
 class NftGalleryWidget extends StatefulWidget {
   const NftGalleryWidget({super.key});
 
@@ -223,13 +225,14 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
           0.01.hspace,
           if (controller.nftGalleryList.isNotEmpty)
             AnimatedSmoothIndicator(
-                effect: ExpandingDotsEffect(
+                effect: ScrollingDotsEffect(
                   dotHeight: 5.arP,
                   dotWidth: 5.arP,
-                  expansionFactor: 1.01,
+                  // expansionFactor: 1.01,
                   activeDotColor: Colors.white,
                   dotColor: ColorConst.darkGrey,
                 ),
+                curve: Curves.easeIn,
                 axisDirection: Axis.vertical,
                 activeIndex: currIndex,
                 count: controller.nftGalleryList.length + 1),

@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/account_summary_view.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
+import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/scrolling_dot_effect.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
@@ -149,14 +150,16 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             0.01.hspace,
             if (homePageController.userAccounts.isNotEmpty)
               AnimatedSmoothIndicator(
-                  effect: ExpandingDotsEffect(
+                  effect: ScrollingDotsEffect(
                     dotHeight: 5.arP,
                     dotWidth: 5.arP,
-                    expansionFactor: 1.01,
+                    // expansionFactor: 1.01,
                     activeDotColor: Colors.white,
                     dotColor: ColorConst.darkGrey,
                   ),
                   axisDirection: Axis.vertical,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeIn,
                   activeIndex: controller.currIndex.value,
                   count: homePageController.userAccounts.length + 1),
             SizedBox(
