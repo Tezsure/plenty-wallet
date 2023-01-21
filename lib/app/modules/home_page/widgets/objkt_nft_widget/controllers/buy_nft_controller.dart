@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:dartez/models/key_store_model.dart';
@@ -595,8 +596,10 @@ class BuyNFTController extends GetxController {
       barrierColor: const Color.fromARGB(09, 255, 255, 255),
     ); */
     final accountToken = Get.find<AccountSummaryController>();
+    String encodedName =
+        base64Url.encode(utf8.encode(selectedNFT.value!.name.toString()));
     final url =
-        "https://naan-nft-credit-card.netlify.app/?fa=${mainUrl[0]}&tokenId=${mainUrl[1]}&address=${accountToken.selectedAccount.value.publicKeyHash!}&askId=${selectedNFT.value!.tokenId}&askPrice=${selectedNFT.value!.lowestAsk}&name=${selectedNFT.value!.name}&ipfs=${selectedNFT.value!.artifactUri!.replaceAll("ipfs://", "")}";
+        "https://naan-nft-credit-card.netlify.app/?fa=${mainUrl[0]}&tokenId=${mainUrl[1]}&address=${accountToken.selectedAccount.value.publicKeyHash!}&askId=${selectedNFT.value!.tokenId}&askPrice=${selectedNFT.value!.lowestAsk}&name=${encodedName}&ipfs=${selectedNFT.value!.artifactUri!.replaceAll("ipfs://", "")}";
     Get.bottomSheet(
       const WertBrowserView(),
       barrierColor: Colors.white.withOpacity(0.09),

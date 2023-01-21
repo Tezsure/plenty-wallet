@@ -328,10 +328,10 @@ class CreateNewNftGalleryBottomSheet
 
   Widget createGalleryProfileWidget(BuildContext context) => NaanBottomSheet(
         bottomSheetHorizontalPadding: 0,
-        height: 0.85.height - MediaQuery.of(context).viewInsets.bottom,
+        height: 0.95.height - MediaQuery.of(context).viewInsets.bottom,
         bottomSheetWidgets: [
           SizedBox(
-            height: 0.8.height - MediaQuery.of(context).viewInsets.bottom,
+            height: 0.925.height - MediaQuery.of(context).viewInsets.bottom,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
