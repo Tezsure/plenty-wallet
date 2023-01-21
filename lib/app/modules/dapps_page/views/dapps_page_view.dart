@@ -25,6 +25,9 @@ class DappsPageView extends GetView<DappsPageController> {
     return Container(
       height: 0.95.height,
       width: 1.width,
+      margin: EdgeInsets.only(
+        top: 20.arP,
+      ),
       padding: EdgeInsets.only(
         bottom: Platform.isIOS ? 0.05.height : 0.02.height,
       ),
