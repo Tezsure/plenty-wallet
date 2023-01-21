@@ -43,7 +43,10 @@ class ReviewNFTSheet extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12.arP),
                   child: controller.selectedNFT.value != null
-                      ? NFTImage(nftTokenModel: controller.selectedNFT.value!)
+                      ? NFTImage(
+                          nftTokenModel: controller.selectedNFT.value!
+                            ..tokenId = controller.mainUrl[1],
+                        )
                       : CachedNetworkImage(
                           imageUrl: controller.selectedNFT.value != null
                               ? "https://assets.objkt.media/file/assets-003/${controller.selectedNFT.value!.faContract}/${controller.mainUrl[1].toString()}/thumb400"

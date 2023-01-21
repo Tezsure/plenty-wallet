@@ -167,7 +167,7 @@ packages:
     description:
       path: "."
       ref: "feat/tz2_support"
-      resolved-ref: "3f71dd00fec9b89538b4709bba9946a06979ac88"
+      resolved-ref: c689352b3ac9ee352c5fcc723e9d785e6285fca8
       url: "https://github.com/Tezsure/Dartez.git"
     source: git
     version: "1.1.0"
