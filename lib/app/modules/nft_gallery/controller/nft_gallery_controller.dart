@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
@@ -9,6 +11,7 @@ import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dar
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
+import '../../../data/services/service_config/service_config.dart';
 import '../../home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 
 enum NftGalleryFilter { collection, list, thumbnail }
@@ -94,13 +97,12 @@ class NftGalleryController extends GetxController {
   }
 
   Future<void> fetchAllNftForGallery() async {
-    selectedNftGallery.value.fetchAllNft().then((nftList) {
-      this.nftList = nftList;
-      for (var i = 0; i < nftList.length; i++) {
-        galleryNfts[nftList[i].fa!.contract!] =
-            (galleryNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
-      }
-    });
+    nftList = await fetchAllNft(selectedNftGallery.value.publicKeyHashs);
+
+    for (var i = 0; i < nftList.length; i++) {
+      galleryNfts[nftList[i].fa!.contract!] =
+          (galleryNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
+    }
   }
 
   Future<void> removeGallery(int galleryIndex) async {
@@ -143,4 +145,23 @@ class NftGalleryController extends GetxController {
 
     args[2].send(galleryNfts);
   } */
+
+  static Future<List<NftTokenModel>> fetchAllNft(publicKeyHashs) async {
+    if (publicKeyHashs == null) return [];
+    return <NftTokenModel>[
+      for (var publicKeyHash in publicKeyHashs!)
+        ...(await compute(
+            json,
+            (await ServiceConfig.localStorage
+                    .read(key: "${ServiceConfig.nftStorage}_$publicKeyHash") ??
+                "[]"),
+            debugLabel: "fetchAllNft"))
+    ];
+  }
+}
+
+Future<List<NftTokenModel>> json(x) async {
+  return jsonDecode(x)
+      .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
+      .toList();
 }

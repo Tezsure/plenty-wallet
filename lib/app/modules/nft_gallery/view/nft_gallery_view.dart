@@ -119,7 +119,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
               ),
             ],
           ),
-        )
+        ),
       ],
     );
     // return BackdropFilter(
@@ -242,6 +242,15 @@ class NftGalleryView extends GetView<NftGalleryController> {
                   SizedBox(
                     height: 24.arP,
                   ),
+/*                   controller.galleryNfts.isEmpty
+                      ? const Expanded(
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: ColorConst.Primary,
+                            ),
+                          ),
+                        )
+                      :  */
                   NotificationListener<UserScrollNotification>(
                     onNotification: (notification) {
                       final ScrollDirection direction = notification.direction;

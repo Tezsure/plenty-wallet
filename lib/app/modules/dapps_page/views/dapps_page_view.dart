@@ -26,7 +26,7 @@ class DappsPageView extends GetView<DappsPageController> {
       height: 0.95.height,
       width: 1.width,
       margin: EdgeInsets.only(
-        top: 20.arP,
+        top: 0.05.height,
       ),
       padding: EdgeInsets.only(
         bottom: Platform.isIOS ? 0.05.height : 0.02.height,
@@ -37,7 +37,7 @@ class DappsPageView extends GetView<DappsPageController> {
       child: Column(
         children: [
           SizedBox(
-            height: 5.arP,
+            height: 10.arP,
           ),
           Container(
             height: 5.arP,

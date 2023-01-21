@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:io' show Platform;
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
@@ -58,7 +58,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
       height: 0.95.height,
       width: 1.width,
       margin: EdgeInsets.only(
-        top: 20.arP,
+        top: 0.05.height,
       ),
       padding: EdgeInsets.only(
         bottom: Platform.isIOS ? 0.03.height : 0.01.height,
@@ -69,7 +69,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
       child: Center(
         child: Column(
           children: [
-            0.005.vspace,
+            0.01.vspace,
             Container(
               height: 5,
               width: 36,
