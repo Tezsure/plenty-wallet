@@ -317,7 +317,7 @@ class DelegateWidgetController extends GetxController {
         .obs;
 
     if (accountModel == null) {
-      Get.bottomSheet(
+      return Get.bottomSheet(
         const AccountSelectorSheet(),
         isScrollControlled: true,
         enterBottomSheetDuration: const Duration(milliseconds: 180),
@@ -349,6 +349,9 @@ class DelegateWidgetController extends GetxController {
             ),
             enableDrag: true,
             isScrollControlled: true);
+      } else {
+        Get.bottomSheet(const DelegateInfoSheet(),
+            enableDrag: true, isScrollControlled: true);
       }
     }
   }

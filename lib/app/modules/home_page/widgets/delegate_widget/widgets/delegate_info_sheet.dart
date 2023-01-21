@@ -30,7 +30,7 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
         bottomSheetWidgets: [
           SafeArea(
             child: SizedBox(
-              height: 530.arP,
+              height: 521.arP,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
