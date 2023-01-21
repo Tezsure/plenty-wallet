@@ -34,6 +34,7 @@ class HomePageView extends GetView<HomePageController>
                             // SizedBox(height: 0.025.height),
                             Expanded(
                                 child: ListView(
+                              addAutomaticKeepAlives: true,
                               padding: EdgeInsets.only(
                                 top: 100.arP,
                               ),

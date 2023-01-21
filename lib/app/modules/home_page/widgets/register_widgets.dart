@@ -19,7 +19,7 @@ final List<Widget> registeredWidgets = [
   //   profileImagePath: MockData.naanInfoStory.values.toList(),
   //   storyTitle: MockData.naanInfoStory.keys.toList(),
   // ),
-  const AccountsWidget(),
+   const AccountsWidget(),
   // const Accessiblity(),
   0.024.vspace,
   Row(

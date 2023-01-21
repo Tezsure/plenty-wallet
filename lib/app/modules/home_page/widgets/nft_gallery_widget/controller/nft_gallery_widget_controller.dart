@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
@@ -33,15 +35,17 @@ class NftGalleryWidgetController extends GetxController {
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
   }
 
-  void fetchNftGallerys() {
+  Future<void> fetchNftGallerys() async {
     try {
-      UserStorageService().getAllGallery().then((value) async {
+      await UserStorageService().getAllGallery().then((value) async {
         for (int i = 0; i < value.length; i++) {
           await value[i].randomNft();
         }
         nftGalleryList.value = value;
       });
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
 
     // List<NftGalleryModel> tempNftGallerys =
     //     (await UserStorageService().getAllGallery());
@@ -208,7 +212,7 @@ class NftGalleryWidgetController extends GetxController {
       return;
     }
 
-    fetchNftGallerys();
+    await fetchNftGallerys();
 
     Get.back();
 

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/account_summary_view.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
+import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/scrolling_dot_effect.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
@@ -33,10 +35,23 @@ class AccountsWidget extends StatefulWidget {
 }
 
 class _AccountsWidgetState extends State<AccountsWidget> {
+  @override
+  void initState() {
+    controller.pageController = PageController(
+      keepPage: true,
+      viewportFraction: 1,
+      initialPage: controller.currIndex.value,
+    );
+    // TODO: implement initState
+    super.initState();
+  }
+
   final HomePageController homePageController = Get.find<HomePageController>();
+  final AccountsWidgetController controller =
+      Get.put(AccountsWidgetController());
   @override
   Widget build(BuildContext context) {
-    AccountsWidgetController controller = Get.put(AccountsWidgetController());
+    log("message");
     return Obx(() {
       return SizedBox(
         height: AppConstant.homeWidgetDimension,
@@ -52,86 +67,81 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Obx(
-                        () => homePageController.userAccounts.isEmpty
-                            ? Container(
-                                width: 1.width,
-                                height: AppConstant.homeWidgetDimension,
-                                padding: EdgeInsets.only(right: 8.arP),
-                                child: const AddAccountWidget(),
-                              )
-                            : Container(
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color(0xff958E99).withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(22.arP),
-                                ),
-                                width: 1.width,
-                                height: AppConstant.homeWidgetDimension,
-                                child: Obx(() => PageView.builder(
-                                    padEnds: false,
-                                    itemCount: homePageController.userAccounts
-                                            .where((e) =>
-                                                e.isAccountHidden == false)
-                                            .toList()
-                                            .length +
-                                        1,
-                                    controller: controller.pageController,
-                                    onPageChanged: (index) {
-                                      controller.currIndex.value = index;
-                                      homePageController
-                                          .changeSelectedAccount(index);
-                                      setState(() {});
-                                    },
-                                    physics: const BouncingScrollPhysics(),
-                                    scrollDirection: Axis.vertical,
-                                    itemBuilder: (_, index) {
-                                      var scale =
-                                          controller.currIndex.value == index
-                                              ? 1.0
-                                              : 0.8;
-                                      return index ==
-                                              homePageController.userAccounts
-                                                  .where((e) =>
-                                                      e.isAccountHidden ==
-                                                      false)
-                                                  .toList()
-                                                  .length
-                                          ? TweenAnimationBuilder(
-                                              tween: Tween<double>(
-                                                  begin: scale, end: scale),
-                                              curve: Curves.easeIn,
-                                              builder:
-                                                  (context, value, child) =>
-                                                      Transform.scale(
-                                                        scale: value,
-                                                        child: child,
-                                                      ),
-                                              duration: const Duration(
-                                                  milliseconds: 350),
-                                              child: const AddAccountWidget())
-                                          : homePageController
-                                                  .userAccounts[index]
-                                                  .isAccountHidden!
-                                              ? const SizedBox()
-                                              : TweenAnimationBuilder(
-                                                  tween: Tween<double>(
-                                                      begin: scale, end: scale),
-                                                  curve: Curves.easeIn,
-                                                  builder:
-                                                      (context, value, child) =>
-                                                          Transform.scale(
-                                                            scale: value,
-                                                            child: child,
-                                                          ),
-                                                  duration: const Duration(
-                                                      milliseconds: 350),
-                                                  child: accountContainer(
-                                                      homePageController
-                                                          .userAccounts[index],
-                                                      index));
-                                    }))),
-                      )
+                      homePageController.userAccounts.isEmpty
+                          ? Container(
+                              width: 1.width,
+                              height: AppConstant.homeWidgetDimension,
+                              padding: EdgeInsets.only(right: 8.arP),
+                              child: const AddAccountWidget(),
+                            )
+                          : Container(
+                              decoration: BoxDecoration(
+                                color: const Color(0xff958E99).withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(22.arP),
+                              ),
+                              width: 1.width,
+                              height: AppConstant.homeWidgetDimension,
+                              child: Obx(() => PageView.builder(
+                                  padEnds: false,
+                                  itemCount: homePageController.userAccounts
+                                          .where(
+                                              (e) => e.isAccountHidden == false)
+                                          .toList()
+                                          .length +
+                                      1,
+                                  controller: controller.pageController,
+                                  onPageChanged: (index) {
+                                    controller.currIndex.value = index;
+                                    homePageController
+                                        .changeSelectedAccount(index);
+                                    setState(() {});
+                                  },
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  itemBuilder: (_, index) {
+                                    final scale =
+                                        controller.currIndex.value == index
+                                            ? 1.0
+                                            : 0.8;
+
+                                    return index ==
+                                            homePageController.userAccounts
+                                                .where((e) =>
+                                                    e.isAccountHidden == false)
+                                                .toList()
+                                                .length
+                                        ? TweenAnimationBuilder(
+                                            tween: Tween<double>(
+                                                begin: scale, end: scale),
+                                            curve: Curves.easeIn,
+                                            builder: (context, value, child) =>
+                                                Transform.scale(
+                                                  scale: value,
+                                                  child: child,
+                                                ),
+                                            duration: const Duration(
+                                                milliseconds: 350),
+                                            child: const AddAccountWidget())
+                                        : homePageController.userAccounts[index]
+                                                .isAccountHidden!
+                                            ? const SizedBox()
+                                            : TweenAnimationBuilder(
+                                                tween: Tween<double>(
+                                                    begin: scale, end: scale),
+                                                curve: Curves.easeIn,
+                                                builder:
+                                                    (context, value, child) =>
+                                                        Transform.scale(
+                                                          scale: value,
+                                                          child: child,
+                                                        ),
+                                                duration: const Duration(
+                                                    milliseconds: 350),
+                                                child: accountContainer(
+                                                    homePageController
+                                                        .userAccounts[index],
+                                                    index));
+                                  }))),
                     ],
                   ),
                 ),
@@ -140,14 +150,16 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             0.01.hspace,
             if (homePageController.userAccounts.isNotEmpty)
               AnimatedSmoothIndicator(
-                  effect: ExpandingDotsEffect(
+                  effect: ScrollingDotsEffect(
                     dotHeight: 5.arP,
                     dotWidth: 5.arP,
-                    expansionFactor: 1.01,
+                    // expansionFactor: 1.01,
                     activeDotColor: Colors.white,
                     dotColor: ColorConst.darkGrey,
                   ),
                   axisDirection: Axis.vertical,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeIn,
                   activeIndex: controller.currIndex.value,
                   count: homePageController.userAccounts.length + 1),
             SizedBox(
