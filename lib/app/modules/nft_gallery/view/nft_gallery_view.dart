@@ -242,7 +242,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                   SizedBox(
                     height: 24.arP,
                   ),
-/*                   controller.galleryNfts.isEmpty
+                  controller.galleryNfts.isEmpty
                       ? const Expanded(
                           child: Center(
                             child: CircularProgressIndicator(
@@ -250,29 +250,30 @@ class NftGalleryView extends GetView<NftGalleryController> {
                             ),
                           ),
                         )
-                      :  */
-                  NotificationListener<UserScrollNotification>(
-                    onNotification: (notification) {
-                      final ScrollDirection direction = notification.direction;
-                      if (direction == ScrollDirection.forward) {
-                        controller.isScrollingUp.value = false;
-                      } else if (direction == ScrollDirection.reverse) {
-                        controller.isScrollingUp.value = true;
-                      }
-                      return true;
-                    },
-                    child: Obx(
-                      () => controller.selectedGalleryFilter.value ==
-                              NftGalleryFilter.collection
-                          ? _getCollectionGridViewWidget(controller.galleryNfts)
-                          : controller.selectedGalleryFilter.value ==
-                                  NftGalleryFilter.list
-                              ? _getNftListViewWidget(
-                                  2.1, controller.galleryNfts)
-                              : _getNftListViewWidget(
-                                  1.1, controller.galleryNfts),
-                    ),
-                  ),
+                      : NotificationListener<UserScrollNotification>(
+                          onNotification: (notification) {
+                            final ScrollDirection direction =
+                                notification.direction;
+                            if (direction == ScrollDirection.forward) {
+                              controller.isScrollingUp.value = false;
+                            } else if (direction == ScrollDirection.reverse) {
+                              controller.isScrollingUp.value = true;
+                            }
+                            return true;
+                          },
+                          child: Obx(
+                            () => controller.selectedGalleryFilter.value ==
+                                    NftGalleryFilter.collection
+                                ? _getCollectionGridViewWidget(
+                                    controller.galleryNfts)
+                                : controller.selectedGalleryFilter.value ==
+                                        NftGalleryFilter.list
+                                    ? _getNftListViewWidget(
+                                        2.1, controller.galleryNfts)
+                                    : _getNftListViewWidget(
+                                        1.1, controller.galleryNfts),
+                          ),
+                        ),
                 ],
               ),
               Obx(

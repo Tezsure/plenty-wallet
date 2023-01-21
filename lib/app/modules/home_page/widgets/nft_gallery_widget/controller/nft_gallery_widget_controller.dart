@@ -233,7 +233,7 @@ class NftGalleryWidgetController extends GetxController {
     NaanAnalytics.logEvent(NaanAnalyticsEvents.MY_GALLERY_CLICK);
     Get.bottomSheet(
       const NftGalleryView(),
-      enterBottomSheetDuration: const Duration(milliseconds: 230),
+      enterBottomSheetDuration: const Duration(milliseconds: 180),
       exitBottomSheetDuration: const Duration(milliseconds: 150),
       isScrollControlled: true,
       settings: RouteSettings(arguments: [index, nftGalleryList]),
