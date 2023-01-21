@@ -9,7 +9,7 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
-
+import 'package:naan_wallet/utils/utils.dart';
 import 'delegate_baker.dart';
 
 class DelegateBakerTile extends StatelessWidget {
@@ -61,7 +61,7 @@ class DelegateBakerTile extends StatelessWidget {
               ),
               0.02.hspace,
               Text(
-                baker.name ?? "",
+                baker.name ?? baker.address?.tz1Short() ?? "",
                 style: labelMedium,
               ),
               0.015.hspace,
@@ -127,7 +127,8 @@ class DelegateBakerTile extends StatelessWidget {
                   style: labelMedium.copyWith(
                       color: ColorConst.NeutralVariant.shade70),
                   children: [
-                    TextSpan(text: baker.freespaceMin ?? "", style: labelLarge)
+                    TextSpan(
+                        text: baker.freespaceMin ?? "N/A", style: labelLarge)
                   ],
                 ),
               ),
@@ -140,7 +141,9 @@ class DelegateBakerTile extends StatelessWidget {
                       color: ColorConst.NeutralVariant.shade70),
                   children: [
                     TextSpan(
-                        text: '${baker.delegateBakersListResponseYield}%',
+                        text: baker.delegateBakersListResponseYield == null
+                            ? "N/A"
+                            : '${baker.delegateBakersListResponseYield}%',
                         style: labelLarge)
                   ],
                 ),

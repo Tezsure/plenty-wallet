@@ -26,6 +26,16 @@ class DelegateHandler {
     return null;
   }
 
+  Future<DelegateBakerModel?> bakerDetail(String pKH) async {
+    var response = await HttpService.performGetRequest(
+        "https://api.baking-bad.org/v2/bakers/$pKH");
+
+    if (response.isNotEmpty && jsonDecode(response).length != 0) {
+      return DelegateBakerModel.fromJson(jsonDecode(response));
+    }
+    return null;
+  }
+
   Future<List<DelegateRewardModel>> getDelegateReward(
     String pKH,
   ) async {
