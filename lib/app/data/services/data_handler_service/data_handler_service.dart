@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/data/services/data_handler_service/token_and_xtz
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
+import 'package:naan_wallet/main.dart';
 
 import 'data_handler_render_service.dart';
 
@@ -29,8 +30,11 @@ class DataHandlerService {
   /// list of ongoing txs
   List<OnGoingTxStatusHelper> onGoingTxStatusHelpers = [];
 
-  /// update value every 20 sec
+  /// update value every 15 sec
   Timer? updateTimer;
+
+  /// isDataFetching
+  bool _isDataFetching = false;
 
   /// init all data services which runs in isolate and store user specific data in to local storage
   Future<void> initDataServices() async {
@@ -49,25 +53,37 @@ class DataHandlerService {
 
   setUpTimer() => {
         if (updateTimer == null || !updateTimer!.isActive)
-          updateTimer = Timer.periodic(
-              const Duration(seconds: 15), (_) => updateAllTheValues())
+          updateTimer = Timer.periodic(const Duration(seconds: 15), (_) {
+            _isDataFetching = false;
+            updateAllTheValues();
+          })
       };
 
   /// forced update when added new account
   Future<void> forcedUpdateData() async {
+    _isDataFetching = true;
     await AccountDataHandler(renderService).executeProcess(
       postProcess: renderService.accountUpdater.updateProcess,
-      onDone: () async => await NftAndTxHistoryHandler(renderService)
-          .executeProcess(postProcess: () {}, onDone: () => {}),
+      onDone: () async =>
+          await NftAndTxHistoryHandler(renderService).executeProcess(
+              postProcess: () {},
+              onDone: () => {
+                    _isDataFetching = false,
+                  }),
     );
   }
 
   /// Init all isolate for fetching data
   /// postProcess trigger ui for update new data
   Future<void> updateAllTheValues() async {
-    if (updateTimer == null) return;
+    if (updateTimer == null || _isDataFetching) {
+      print("data fetching in progress.............");
+      print("updateTimer: ${updateTimer == null}");
+      print("_isDataFetching: $_isDataFetching");
+      return;
+    }
     updateTimer!.cancel();
-    await TokenAndXtzPriceHandler(renderService).executeProcess(
+    TokenAndXtzPriceHandler(renderService).executeProcess(
       postProcess: renderService.xtzPriceUpdater.updateProcess,
       onDone: () async =>
           await AccountDataHandler(renderService).executeProcess(

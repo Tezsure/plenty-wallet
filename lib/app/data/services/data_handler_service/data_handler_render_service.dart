@@ -47,8 +47,11 @@ class DataHandlerRenderService {
       accountUpdater.value = accounts;
       return;
     }
-    accountUpdater.value =
-        await UserStorageService().getAllAccount(watchAccountsList: true);
+
+    accountUpdater.value = [
+      ...(await UserStorageService().getAllAccount()),
+      ...(await UserStorageService().getAllAccount(watchAccountsList: true))
+    ];
   }
 
   /// read from store and update based on tz1 address or all if not provided
@@ -95,7 +98,7 @@ class DataHandlerRenderService {
     var tokensPrice = await ServiceConfig.localStorage
         .read(key: ServiceConfig.tokenPricesStorage);
     if (tokensPrice != null) {
-      return jsonDecode(tokensPrice)
+      return jsonDecode(tokensPrice)["contracts"]
           .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
           .toList()
           .toList();

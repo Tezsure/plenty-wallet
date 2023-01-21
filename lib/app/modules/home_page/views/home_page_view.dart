@@ -33,24 +33,32 @@ class HomePageView extends GetView<HomePageController>
                           children: [
                             // SizedBox(height: 0.025.height),
                             Expanded(
-                              child: SingleChildScrollView(
-                                  padding: EdgeInsets.only(
-                                    top: 100.arP,
-                                  ),
-                                  physics: const BouncingScrollPhysics(),
-                                  child: Column(
-                                    children: registeredWidgets,
-                                  )
-                                  //     Wrap(
-                                  //   alignment: WrapAlignment.center,
-                                  //   crossAxisAlignment: WrapCrossAlignment.center,
-                                  //   runAlignment: WrapAlignment.center,
-                                  //   runSpacing: 24.arP,
-                                  //   spacing: 24.arP,
-                                  //   children: registeredWidgets,
-                                  // ),
-                                  ),
-                            ),
+                                child: ListView(
+                              padding: EdgeInsets.only(
+                                top: 100.arP,
+                              ),
+                              physics: const BouncingScrollPhysics(),
+                              children: registeredWidgets,
+                            )
+
+                                // SingleChildScrollView(
+                                //     padding: EdgeInsets.only(
+                                //       top: 100.arP,
+                                //     ),
+                                //     physics: const BouncingScrollPhysics(),
+                                //     child: Column(
+                                //       children: registeredWidgets,
+                                //     )
+                                //     //     Wrap(
+                                //     //   alignment: WrapAlignment.center,
+                                //     //   crossAxisAlignment: WrapCrossAlignment.center,
+                                //     //   runAlignment: WrapAlignment.center,
+                                //     //   runSpacing: 24.arP,
+                                //     //   spacing: 24.arP,
+                                //     //   children: registeredWidgets,
+                                //     // ),
+                                //     ),
+                                ),
                           ],
                         ),
                         Container(

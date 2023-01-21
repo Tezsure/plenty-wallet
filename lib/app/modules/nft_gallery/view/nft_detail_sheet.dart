@@ -618,7 +618,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                       ),
                       0.01.vspace,
                       Text(
-                        widget.nftModel?.description ?? "",
+                        widget.nftModel?.description ?? "N/A",
                         style: bodySmall.copyWith(
                             fontSize: 12.aR,
                             color: ColorConst.NeutralVariant.shade60),
@@ -666,17 +666,20 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                   ],
                 ),
                 .008.vspace,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Minted", style: bodySmall),
-                    Text(
-                      DateFormat("MMM dd,yyyy")
-                          .format(DateTime.parse(widget.nftModel!.timestamp!)),
-                      style: bodySmall.copyWith(color: ColorConst.textGrey1),
-                    )
-                  ],
-                ),
+                widget.nftModel!.timestamp != null
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Minted", style: bodySmall),
+                          Text(
+                            DateFormat("MMM dd,yyyy").format(
+                                DateTime.parse(widget.nftModel!.timestamp!)),
+                            style:
+                                bodySmall.copyWith(color: ColorConst.textGrey1),
+                          )
+                        ],
+                      )
+                    : const SizedBox(),
                 .008.vspace,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

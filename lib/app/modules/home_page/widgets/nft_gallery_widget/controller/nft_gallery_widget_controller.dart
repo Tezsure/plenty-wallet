@@ -29,22 +29,29 @@ class NftGalleryWidgetController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await fetchNftGallerys();
+    fetchNftGallerys();
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
   }
 
-  Future<void> fetchNftGallerys() async {
-    List<NftGalleryModel> tempNftGallerys =
-        (await UserStorageService().getAllGallery());
-    for (int i = 0; i < tempNftGallerys.length; i++) {
-      bool noNfts = await checkIfEmpty(tempNftGallerys[i].publicKeyHashs!);
-      if (noNfts) {
-        await tempNftGallerys[i].randomNft();
-      } else {
-        tempNftGallerys.removeAt(i);
+  void fetchNftGallerys() {
+    UserStorageService().getAllGallery().then((value) async {
+      for (int i = 0; i < value.length; i++) {
+        await value[i].randomNft();
       }
-    }
-    nftGalleryList.value = tempNftGallerys;
+      nftGalleryList.value = value;
+    });
+
+    // List<NftGalleryModel> tempNftGallerys =
+    //     (await UserStorageService().getAllGallery());
+    // for (int i = 0; i < tempNftGallerys.length; i++) {
+    //   bool noNfts = await checkIfEmpty(tempNftGallerys[i].publicKeyHashs!);
+    //   if (noNfts) {
+    //     await tempNftGallerys[i].randomNft();
+    //   } else {
+    //     tempNftGallerys.removeAt(i);
+    //   }
+    // }
+    // nftGalleryList.value = tempNftGallerys;
   }
 
   RxBool isCreating = false.obs;
@@ -161,7 +168,7 @@ class NftGalleryWidgetController extends GetxController {
         ),
         galleryIndex);
 
-    await fetchNftGallerys();
+    fetchNftGallerys();
 
     Get.back();
   }
@@ -199,7 +206,7 @@ class NftGalleryWidgetController extends GetxController {
       return;
     }
 
-    await fetchNftGallerys();
+    fetchNftGallerys();
 
     Get.back();
 

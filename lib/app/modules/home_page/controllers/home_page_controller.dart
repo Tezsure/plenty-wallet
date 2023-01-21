@@ -41,21 +41,22 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   @override
   void onInit() async {
     super.onInit();
-    Get.put(NftGalleryWidgetController());
 
     DataHandlerService()
         .renderService
         .accountUpdater
         .registerCallback((accounts) async {
-      print("accountUpdater".toUpperCase());
-      print("${userAccounts.value.hashCode == accounts.hashCode}");
+      // print("accountUpdater".toUpperCase());
+      // print("${userAccounts.value.hashCode == accounts.hashCode}");
       userAccounts.value = accounts ?? [];
       try {
         if (userAccounts.where((p0) => !p0.isWatchOnly).isNotEmpty) {
-          userAccounts[0].delegatedBakerAddress =
-              await Get.put(DelegateWidgetController())
-                  .getCurrentBakerAddress(userAccounts[0].publicKeyHash!);
-          print("baker address :${userAccounts[0].delegatedBakerAddress}");
+          Future.delayed(const Duration(seconds: 1), () async {
+            userAccounts[0].delegatedBakerAddress =
+                await Get.put(DelegateWidgetController())
+                    .getCurrentBakerAddress(userAccounts[0].publicKeyHash!);
+            print("baker address :${userAccounts[0].delegatedBakerAddress}");
+          });
         }
       } catch (e) {}
     });

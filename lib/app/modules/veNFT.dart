@@ -9,6 +9,10 @@ class VeNFT extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScalableImageWidget.fromSISource(
-        si: ScalableImageSource.fromSvgHttpUrl(Uri.parse(url)));
+      si: ScalableImageSource.fromSvgHttpUrl(
+        Uri.parse(url),
+      ),
+      scale: 0.2,
+    );
   }
 }
