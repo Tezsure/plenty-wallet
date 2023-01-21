@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:beacon_flutter/models/connected_peers.dart';
@@ -14,6 +15,7 @@ import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
@@ -237,17 +239,24 @@ class SettingsPageController extends GetxController {
   }
 
   /// Remove the account and change the primary account if the primary account is removed
-  void removeAccount(int index) {
+  void removeAccount(int index) async {
     if (homePageController.userAccounts.length > 1) {
       NaanAnalytics.logEvent(NaanAnalyticsEvents.REMOVE_ACCOUNT, param: {
         NaanAnalytics.address:
             homePageController.userAccounts[index].publicKeyHash
       });
-      homePageController
-        ..userAccounts.removeAt(index)
-        ..userAccounts[0].isAccountPrimary = true;
+      log("Before: ${homePageController.userAccounts.length}");
+      if (homePageController.selectedIndex.value ==
+          homePageController.userAccounts.length - 1) {
+        Get.find<AccountsWidgetController>()
+            .onPageChanged(homePageController.userAccounts.length - 2);
+      }
+      homePageController.userAccounts.removeAt(index);
 
-      _updateUserAccountsValue();
+      homePageController.userAccounts[0].isAccountPrimary = true;
+
+      await _updateUserAccountsValue();
+      log("After: ${homePageController.userAccounts.length}");
     } else {
       return;
       // Can't remove the only account
@@ -308,8 +317,10 @@ class SettingsPageController extends GetxController {
   /// Updates the user accounts list with the latest modifications
   Future<void> _updateUserAccountsValue() async {
     await UserStorageService().updateAccounts(homePageController.userAccounts);
-    homePageController.userAccounts.value =
-        await UserStorageService().getAllAccount();
+    homePageController.userAccounts.value = [
+      ...(await UserStorageService().getAllAccount()),
+      ...(await UserStorageService().getAllAccount(watchAccountsList: true)),
+    ];
   }
 
   /// Updates the user accounts profile name with the latest name changes

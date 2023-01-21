@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/data/services/service_models/account_token_model
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -157,7 +158,7 @@ class AccountSummaryController extends GetxController {
   /// Changes the current selected account from the account list
   void onAccountTap(int index) {
     if (!_isSelectedAccount(index)) {
-      homePageController.changeSelectedAccount(index);
+      Get.find<AccountsWidgetController>().onPageChanged(index);
       // selectedAccountIndex.value = index;
       // selectedAccount.value = homePageController.userAccounts[index];
       _fetchAllTokens();
@@ -185,12 +186,12 @@ class AccountSummaryController extends GetxController {
     } else if (index == homePageController.userAccounts.length - 1) {
       // When the last index is selected
       if (_isSelectedAccount(index)) {
-        homePageController.changeSelectedAccount(index - 1);
+        Get.find<AccountsWidgetController>().onPageChanged(index - 1);
         // selectedAccount.value = homePageController.userAccounts[index - 1];
       }
     } else {
       if (_isSelectedAccount(index)) {
-        homePageController.changeSelectedAccount(index);
+        Get.find<AccountsWidgetController>().onPageChanged(index);
         // selectedAccount.value = homePageController.userAccounts[index + 1];
       }
     }

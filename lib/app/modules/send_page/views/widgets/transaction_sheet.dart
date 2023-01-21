@@ -160,7 +160,7 @@ class TransactionBottomSheet extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    controller.selectedReceiver.value!.name,
+                    controller.selectedReceiver.value!.address.tz1Short(),
                     style: bodyMedium,
                   ),
                   0.02.hspace,

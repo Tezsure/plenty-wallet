@@ -22,14 +22,18 @@ class AccountsWidgetController extends GetxController {
   /// Change the current index to the new index of visible account container
   void onPageChanged(int index) {
     if (pageController.page != index) {
-      pageController.animateToPage(index,
-          duration: const Duration(milliseconds: 100), curve: Curves.easeIn);
+      pageController.jumpToPage(
+        index,
+        // duration: const Duration(milliseconds: 100),
+        // curve: Curves.easeIn,
+      );
     }
-    print("onPageChanged: $index");
+
     // homeController.selectedIndex.value = index;
-    if (currIndex.value != index) {
+    // if (currIndex.value != index) {
+      // print("onPageChanged: $index");
       currIndex.value = index;
-    }
+    // }
     // update();
   }
 

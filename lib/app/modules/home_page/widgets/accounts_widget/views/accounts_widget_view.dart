@@ -78,6 +78,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                         1,
                                     controller: controller.pageController,
                                     onPageChanged: (index) {
+                                      controller.currIndex.value = index;
                                       homePageController
                                           .changeSelectedAccount(index);
                                       setState(() {});

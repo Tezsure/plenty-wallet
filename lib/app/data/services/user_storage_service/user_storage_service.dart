@@ -50,9 +50,18 @@ class UserStorageService {
   }
 
   /// update accountList
-  Future<void> updateAccounts(List<AccountModel> accountList) async =>
-      await ServiceConfig.localStorage.write(
-          key: ServiceConfig.accountsStorage, value: jsonEncode(accountList));
+  Future<void> updateAccounts(List<AccountModel> accountList) async {
+    await ServiceConfig.localStorage.write(
+        key: ServiceConfig.accountsStorage,
+        value: jsonEncode(
+          accountList.where((element) => !element.isWatchOnly).toList(),
+        ));
+    await ServiceConfig.localStorage.write(
+        key: ServiceConfig.watchAccountsStorage,
+        value: jsonEncode(
+          accountList.where((element) => element.isWatchOnly).toList(),
+        ));
+  }
 
   /// Get all accounts in storage <br>
   /// If onlyNaanAccount is true then returns the account list which is created on naan<br>

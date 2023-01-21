@@ -51,6 +51,7 @@ class NftGalleryModel {
   }
 
   Future<List<NftTokenModel>> fetchAllNft() async {
+    if (publicKeyHashs == null) return [];
     return <NftTokenModel>[
       for (var publicKeyHash in publicKeyHashs!)
         ...(await UserStorageService().getUserNfts(userAddress: publicKeyHash))

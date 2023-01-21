@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -36,6 +38,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   RxDouble sliderValue = 0.0.obs;
 
   RxDouble xtzPrice = 0.0.obs;
+
   RxList<AccountModel> userAccounts = <AccountModel>[].obs;
 
   @override
@@ -48,7 +51,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         .registerCallback((accounts) async {
       // print("accountUpdater".toUpperCase());
       // print("${userAccounts.value.hashCode == accounts.hashCode}");
-      userAccounts.value = accounts ?? [];
+      userAccounts.value = [...(accounts ?? [])];
       try {
         if (userAccounts.where((p0) => !p0.isWatchOnly).isNotEmpty) {
           Future.delayed(const Duration(seconds: 1), () async {
@@ -58,7 +61,9 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
             print("baker address :${userAccounts[0].delegatedBakerAddress}");
           });
         }
-      } catch (e) {}
+      } catch (e) {
+        log(e.toString());
+      }
     });
     // .registerVariable(userAccounts);
 
@@ -94,7 +99,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
 
   void changeSelectedAccount(int index) async {
     print("On PAGECHANGED");
-    Get.find<AccountsWidgetController>().onPageChanged(index);
+    // Get.find<AccountsWidgetController>().onPageChanged(index);
     if (userAccounts.length > index) {
       selectedIndex.value = index;
       userAccounts[index].delegatedBakerAddress =
