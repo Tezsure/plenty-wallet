@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:math';
 
 import 'package:dartez/dartez.dart';
@@ -334,15 +335,16 @@ class DelegateWidgetController extends GetxController {
       Get.bottomSheet(const DelegateInfoSheet(),
           enableDrag: true, isScrollControlled: true);
     } else {
-      DelegateBakerModel delegatedBaker;
+      DelegateBakerModel? delegatedBaker;
       if (delegateBakerList.isEmpty) {
         await toggleLoaderOverlay(getBakerList);
       }
+      NaanAnalytics.logEvent(NaanAnalyticsEvents.REDELEGATE);
       if (delegateBakerList.any((element) => element.address == bakerAddress)) {
         delegatedBaker = delegateBakerList.firstWhere(
           (element) => element.address == bakerAddress,
         );
-        NaanAnalytics.logEvent(NaanAnalyticsEvents.REDELEGATE);
+
         Get.bottomSheet(
             ReDelegateBottomSheet(
               baker: delegatedBaker,
@@ -350,10 +352,24 @@ class DelegateWidgetController extends GetxController {
             enableDrag: true,
             isScrollControlled: true);
       } else {
-        Get.bottomSheet(const DelegateInfoSheet(),
+        await toggleLoaderOverlay(() async {
+          delegatedBaker = (await getBakerDetail(bakerAddress!)) ??
+              DelegateBakerModel(address: bakerAddress);
+          delegateBakerList.add(delegatedBaker!);
+        });
+        Get.bottomSheet(ReDelegateBottomSheet(baker: delegatedBaker!),
             enableDrag: true, isScrollControlled: true);
       }
     }
+  }
+
+  Future<DelegateBakerModel?> getBakerDetail(String bakerAddress) async {
+    // try {
+    return await _delegateHandler.bakerDetail(bakerAddress);
+    // } catch (e) {
+    //   print(e.toString());
+    //   return null;
+    // }
   }
 
   Future<void> openBakerList() async {
