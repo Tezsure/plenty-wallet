@@ -127,9 +127,9 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                                   duration: const Duration(
                                                       milliseconds: 350),
                                                   child: accountContainer(
-                                                    homePageController
-                                                        .userAccounts[index],
-                                                  ));
+                                                      homePageController
+                                                          .userAccounts[index],
+                                                      index));
                                     }))),
                       )
                     ],
@@ -159,15 +159,18 @@ class _AccountsWidgetState extends State<AccountsWidget> {
     });
   }
 
-  Widget accountContainer(AccountModel model) {
+  Widget accountContainer(AccountModel model, int index) {
     return InkWell(
-        onTap: () => Get.bottomSheet(
-              const AccountSummaryView(),
-              enterBottomSheetDuration: const Duration(milliseconds: 180),
-              exitBottomSheetDuration: const Duration(milliseconds: 150),
-              settings: RouteSettings(arguments: model),
-              isScrollControlled: true,
-            ),
+        onTap: () {
+          homePageController.changeSelectedAccount(index);
+          Get.bottomSheet(
+            const AccountSummaryView(),
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
+            settings: RouteSettings(arguments: model),
+            isScrollControlled: true,
+          );
+        },
         child: Stack(
           children: [
             Container(
