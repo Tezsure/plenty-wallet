@@ -238,6 +238,8 @@ class HistoryFilterSheet extends StatelessWidget {
       child: SolidButton(
         onPressed: () {
           controller.clear();
+              Get.back();
+
         },
         title: "Clear",
         borderColor: ColorConst.Primary.shade80,

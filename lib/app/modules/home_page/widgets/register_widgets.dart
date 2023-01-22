@@ -22,24 +22,24 @@ final List<Widget> registeredWidgets = [
   // ),
   const AccountsWidget(),
   // const Accessiblity(),
-  0.024.vspace,
+  homeWidgetsGap,
   Padding(
     padding: EdgeInsets.symmetric(horizontal: 22.arP),
     child: Row(
       children: [
         BuyTezWidget(),
-        Spacer(),
+        const Spacer(),
         const EarnTezWidget(),
       ],
     ),
   ),
-  0.024.vspace,
+  homeWidgetsGap,
 
   //const TezosPriceWidget(),
   //const MyNFTwidget(),
 
   const NftGalleryWidget(),
-  0.024.vspace,
+  homeWidgetsGap,
 
   Container(
     padding: EdgeInsets.symmetric(horizontal: 22.arP),
@@ -48,12 +48,12 @@ final List<Widget> registeredWidgets = [
       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const ObjktNftWidget(),
-        Spacer(),
+        const Spacer(),
         TezosPriceWidget(),
       ],
     ),
   ),
-  0.024.vspace,
+  homeWidgetsGap,
 
   Padding(
       padding: EdgeInsets.symmetric(horizontal: 22.arP),
@@ -68,5 +68,5 @@ final List<Widget> registeredWidgets = [
 ];
 
 Widget homeWidgetsGap = SizedBox(
-  width: 22.arP,
+  height: 22.arP,
 );

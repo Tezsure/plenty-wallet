@@ -46,7 +46,6 @@ class HistoryFilterController extends GetxController {
     dateType.value = DateType.none;
     accountController.noMoreResults.value = false;
     accountController.isFilterApplied.value = false;
-    Get.back();
   }
 
   List<TokenInfo> _applyFilter(List<TokenInfo> transactions) {

@@ -50,6 +50,10 @@ class TransactionController extends GetxController {
     _tokenTransactionID.clear();
     paginationController.value.removeListener(() {});
     userTransactionHistory.value = await fetchUserTransactionsHistory();
+    isFilterApplied.value = false;
+    if (Get.isRegistered<HistoryFilterController>()) {
+      Get.find<HistoryFilterController>().clear();
+    }
     defaultTransactionList.addAll(_sortTransaction(userTransactionHistory));
     // Lazy Loading
     paginationController.value.addListener(() async {
