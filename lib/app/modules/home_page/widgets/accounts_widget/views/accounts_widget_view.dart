@@ -51,7 +51,6 @@ class _AccountsWidgetState extends State<AccountsWidget> {
       Get.put(AccountsWidgetController());
   @override
   Widget build(BuildContext context) {
-    log("message");
     return Obx(() {
       return SizedBox(
         height: AppConstant.homeWidgetDimension,
@@ -59,7 +58,9 @@ class _AccountsWidgetState extends State<AccountsWidget> {
           children: [
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 24.arP, right: 0.arP),
+                padding: EdgeInsets.only(
+                  left: 22.arP,
+                ),
                 child: SizedBox(
                   width: 1.width,
                   height: AppConstant.homeWidgetDimension,
@@ -147,12 +148,14 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                 ),
               ),
             ),
-            0.01.hspace,
+            SizedBox(
+              width: 8.arP,
+            ),
             if (homePageController.userAccounts.isNotEmpty)
               AnimatedSmoothIndicator(
                   effect: ScrollingDotsEffect(
-                    dotHeight: 5.arP,
-                    dotWidth: 5.arP,
+                    dotHeight: 4.arP,
+                    dotWidth: 4.arP,
                     // expansionFactor: 1.01,
                     activeDotColor: Colors.white,
                     dotColor: ColorConst.darkGrey,
@@ -161,9 +164,13 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeIn,
                   activeIndex: controller.currIndex.value,
-                  count: homePageController.userAccounts.length + 1),
+                  count: homePageController.userAccounts.length + 1)
+            else
+              SizedBox(
+                width: 4.arP,
+              ),
             SizedBox(
-              width: 18.arP,
+              width: 10.arP,
             )
           ],
         ),

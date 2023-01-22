@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/discover_apps_widget/d
 import 'package:naan_wallet/app/modules/home_page/widgets/earn_tez_widget/earn_tez_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/view/nft_gallery_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/objkt_nft_widget.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 // import 'package:naan_wallet/app/data/mock/mock_data.dart';
@@ -19,20 +20,18 @@ final List<Widget> registeredWidgets = [
   //   profileImagePath: MockData.naanInfoStory.values.toList(),
   //   storyTitle: MockData.naanInfoStory.keys.toList(),
   // ),
-   const AccountsWidget(),
+  const AccountsWidget(),
   // const Accessiblity(),
   0.024.vspace,
-  Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      homeWidgetsGap,
-      const BuyTezWidget(),
-      SizedBox(
-        width: 12.arP,
-      ),
-      const EarnTezWidget(),
-      homeWidgetsGap,
-    ],
+  Padding(
+    padding: EdgeInsets.symmetric(horizontal: 22.arP),
+    child: Row(
+      children: [
+        BuyTezWidget(),
+        Spacer(),
+        const EarnTezWidget(),
+      ],
+    ),
   ),
   0.024.vspace,
 
@@ -42,19 +41,23 @@ final List<Widget> registeredWidgets = [
   const NftGalleryWidget(),
   0.024.vspace,
 
-  Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      const ObjktNftWidget(),
-      SizedBox(
-        width: 12.arP,
-      ),
-      TezosPriceWidget(),
-    ],
+  Container(
+    padding: EdgeInsets.symmetric(horizontal: 22.arP),
+    height: AppConstant.homeWidgetDimension,
+    child: Row(
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const ObjktNftWidget(),
+        Spacer(),
+        TezosPriceWidget(),
+      ],
+    ),
   ),
   0.024.vspace,
 
-  const DiscoverAppsWidget(),
+  Padding(
+      padding: EdgeInsets.symmetric(horizontal: 22.arP),
+      child: const DiscoverAppsWidget()),
   const ComingSoonWidget()
 
   // const PublicNFTgalleryWidget(),
@@ -65,5 +68,5 @@ final List<Widget> registeredWidgets = [
 ];
 
 Widget homeWidgetsGap = SizedBox(
-  width: 24.arP,
+  width: 22.arP,
 );

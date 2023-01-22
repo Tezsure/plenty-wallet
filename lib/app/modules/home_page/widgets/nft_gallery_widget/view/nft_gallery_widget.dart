@@ -207,7 +207,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
               // color: Colors.red,
               width: double.infinity,
               margin: EdgeInsets.only(
-                left: 26.arP,
+                left: 22.arP,
                 right: 0.arP,
               ),
               height: 0.87.width,
@@ -222,12 +222,14 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
               ),
             ),
           ),
-          0.01.hspace,
+          SizedBox(
+            width: 8.arP,
+          ),
           if (controller.nftGalleryList.isNotEmpty)
             AnimatedSmoothIndicator(
                 effect: ScrollingDotsEffect(
-                  dotHeight: 5.arP,
-                  dotWidth: 5.arP,
+                  dotHeight: 4.arP,
+                  dotWidth: 4.arP,
                   // expansionFactor: 1.01,
                   activeDotColor: Colors.white,
                   dotColor: ColorConst.darkGrey,
@@ -235,9 +237,13 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                 curve: Curves.easeIn,
                 axisDirection: Axis.vertical,
                 activeIndex: currIndex,
-                count: controller.nftGalleryList.length + 1),
+                count: controller.nftGalleryList.length + 1)
+          else
+            SizedBox(
+              width: 4.arP,
+            ),
           SizedBox(
-            width: 18.arP,
+            width: 10.arP,
           )
         ],
       );

@@ -12,7 +12,7 @@ class HomepageAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-          right: 24.arP, top: 26.arP, bottom: 24.arP, left: 24.arP),
+          right: 22.arP, top: 26.arP, bottom: 24.arP, left: 22.arP),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,

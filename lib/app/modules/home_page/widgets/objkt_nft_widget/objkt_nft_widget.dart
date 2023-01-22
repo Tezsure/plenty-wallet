@@ -5,6 +5,7 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/account_summ
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/choose_payment_method.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
@@ -19,34 +20,29 @@ class ObjktNftWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        String url = "https://objkt.com";
-        // Get.to(BuyNFTPage(), arguments: url);
-        Get.bottomSheet(
-          const DappBrowserView(),
-          barrierColor: Colors.white.withOpacity(0.09),
-          settings: RouteSettings(
-            arguments: url,
+    return HomeWidgetFrame(
+      child: GestureDetector(
+        onTap: () {
+          String url = "https://objkt.com";
+          // Get.to(BuyNFTPage(), arguments: url);
+          Get.bottomSheet(
+            const DappBrowserView(),
+            barrierColor: Colors.white.withOpacity(0.09),
+            settings: RouteSettings(
+              arguments: url,
+            ),
+            isScrollControlled: true,
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: purpleGradient,
+            // borderRadius: BorderRadius.circular(22.arP),
           ),
-          isScrollControlled: true,
-        );
-      },
-      child: Container(
-        height: AppConstant.homeWidgetDimension,
-        width: AppConstant.homeWidgetDimension,
-        margin: EdgeInsets.only(left: 24.arP),
-        decoration: BoxDecoration(
-          gradient: purpleGradient,
-          borderRadius: BorderRadius.circular(22.arP),
-        ),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            ClipRRect(
-              borderRadius:
-                  BorderRadius.only(topRight: Radius.circular(22.arP)),
-              child: Align(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Align(
                 alignment: Alignment.topRight,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 64.arP),
@@ -57,36 +53,36 @@ class ObjktNftWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 16.arP, vertical: 22.arP),
-                child: Text("objkt.com",
-                    style: bodySmall.copyWith(
-                        fontWeight: FontWeight.w900, letterSpacing: 0.6.arP)),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: EdgeInsets.all(16.arP),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text("Buy NFT",
-                        style: headlineSmall.copyWith(fontSize: 20.arP)),
-                    Text(
-                      "with credit card",
-                      style: bodySmall,
-                    ),
-                  ],
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 16.arP, vertical: 22.arP),
+                  child: Text("objkt.com",
+                      style: bodySmall.copyWith(
+                          fontWeight: FontWeight.w900, letterSpacing: 0.6.arP)),
                 ),
               ),
-            ),
-          ],
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: EdgeInsets.all(16.arP),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("Buy NFT",
+                          style: headlineSmall.copyWith(fontSize: 20.arP)),
+                      Text(
+                        "with credit card",
+                        style: bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
