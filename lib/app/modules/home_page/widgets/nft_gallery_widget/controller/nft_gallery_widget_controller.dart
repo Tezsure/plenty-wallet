@@ -230,7 +230,9 @@ class NftGalleryWidgetController extends GetxController {
   }
 
   void openGallery(int index) {
-    NaanAnalytics.logEvent(NaanAnalyticsEvents.MY_GALLERY_CLICK);
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.MY_GALLERY_CLICK, param: {
+      NaanAnalytics.address: nftGalleryList[index].publicKeyHashs?.join(", ")
+    });
     Get.bottomSheet(
       const NftGalleryView(),
       enterBottomSheetDuration: const Duration(milliseconds: 180),

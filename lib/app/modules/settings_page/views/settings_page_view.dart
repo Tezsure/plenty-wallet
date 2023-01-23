@@ -219,7 +219,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                             ),
                             _settingOption(
                               onTap: () => CommonFunctions.launchURL(
-                                  "https://tally.so/r/w4a75r"),
+                                  "https://tally.so/r/w4aKgd"),
                               title: "Feedback & Support",
                               svgPath:
                                   "${PathConst.SETTINGS_PAGE.SVG}feedback.svg",

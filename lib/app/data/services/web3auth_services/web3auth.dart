@@ -29,7 +29,6 @@ class Web3Auth {
   static Future<void> initPlatformState() async {
     HashMap themeMap = HashMap<String, String>();
     themeMap['primary'] = "#fff000";
-
     Web3AuthOptions web3authOptions = Web3AuthOptions(
       clientId: clientId,
       network: web3auth.Network.mainnet,
@@ -87,6 +86,7 @@ class Web3Auth {
   /// Logout the user & redirect to the onboarding page
   static Future<void> signOut() async {
     try {
+      await initPlatformState();
       await Web3AuthFlutter.logout();
     } on UserCancelledException {
       debugPrint("User cancelled.");
@@ -97,7 +97,8 @@ class Web3Auth {
 
   /// Authenticate the user with the social app which can be passed as parameter
   static Future<Web3AuthResponse> _socialLogin(
-      {required web3auth.Provider socialApp}) {
+      {required web3auth.Provider socialApp}) async {
+    await initPlatformState();
     LoginParams loginParams = LoginParams(
       loginProvider: socialApp,
       curve: web3auth.Curve.secp256k1,

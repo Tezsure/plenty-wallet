@@ -84,8 +84,6 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                           fontWeight: FontWeight.w600,
                         ),
                         onPressed: () {
-                          NaanAnalytics.logEvent(
-                              NaanAnalyticsEvents.CREATE_NEW_ACCOUNT);
                           // arguments true is define for setting a new passcode for wallet
                           Get.toNamed(
                             Routes.PASSCODE_PAGE,
@@ -100,8 +98,6 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                       0.0125.vspace,
                       GestureDetector(
                         onTap: () {
-                          NaanAnalytics.logEvent(
-                              NaanAnalyticsEvents.ALREADY_HAVE_ACCOUNT);
                           Get.toNamed(Routes.IMPORT_WALLET_PAGE);
                         },
                         child: Container(
