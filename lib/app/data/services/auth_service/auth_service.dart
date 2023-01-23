@@ -61,7 +61,8 @@ class AuthService {
 
     return availableBiometrics.isNotEmpty &&
         (availableBiometrics.contains(BiometricType.fingerprint) ||
-            availableBiometrics.contains(BiometricType.strong));
+            availableBiometrics.contains(BiometricType.strong) ||
+            availableBiometrics.contains(BiometricType.face));
   }
 
   Future<bool> verifyBiometric(

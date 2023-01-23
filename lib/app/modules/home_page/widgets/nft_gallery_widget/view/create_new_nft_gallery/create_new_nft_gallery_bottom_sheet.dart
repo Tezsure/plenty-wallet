@@ -328,57 +328,59 @@ class CreateNewNftGalleryBottomSheet
 
   Widget createGalleryProfileWidget(BuildContext context) => NaanBottomSheet(
         bottomSheetHorizontalPadding: 0,
-        height: 0.95.height - MediaQuery.of(context).viewInsets.bottom,
+        title:
+            nftGalleryModel != null ? "Edit your gallery" : "Name your gallery",
+        height: 0.85.height - MediaQuery.of(context).viewInsets.bottom,
         bottomSheetWidgets: [
           SizedBox(
-            height: 0.925.height - MediaQuery.of(context).viewInsets.bottom,
+            height: 0.78.height - MediaQuery.of(context).viewInsets.bottom,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                0.02.vspace,
-                Container(
-                  margin: EdgeInsets.only(
-                    left: 16.arP,
-                    right: 16.arP,
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: GestureDetector(
-                            onTap: () => controller.formIndex.value = 0,
-                            child: SvgPicture.asset(
-                              "${PathConst.SVG}arrow_back.svg",
-                              fit: BoxFit.scaleDown,
-                              width: 28.arP,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Center(
-                          child: Text(
-                            nftGalleryModel != null
-                                ? "Edit your gallery"
-                                : "Name your gallery",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 22.arP,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 0.15.arP,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Spacer()
-                    ],
-                  ),
-                ),
+                // 0.02.vspace,
+                // Container(
+                //   margin: EdgeInsets.only(
+                //     left: 16.arP,
+                //     right: 16.arP,
+                //   ),
+                //   child: Row(
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       Expanded(
+                //         child: Align(
+                //           alignment: Alignment.centerLeft,
+                //           child: GestureDetector(
+                //             onTap: () => controller.formIndex.value = 0,
+                //             child: SvgPicture.asset(
+                //               "${PathConst.SVG}arrow_back.svg",
+                //               fit: BoxFit.scaleDown,
+                //               width: 28.arP,
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //       Expanded(
+                //         flex: 3,
+                //         child: Center(
+                //           child: Text(
+                //             nftGalleryModel != null
+                //                 ? "Edit your gallery"
+                //                 : "Name your gallery",
+                //             style: TextStyle(
+                //               color: Colors.white,
+                //               fontSize: 20.arP,
+                //               fontWeight: FontWeight.w700,
+                //               letterSpacing: 0.15.arP,
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //       const Spacer()
+                //     ],
+                //   ),
+                // ),
                 Obx(
                   () => Container(
                     height: 104.arP,
