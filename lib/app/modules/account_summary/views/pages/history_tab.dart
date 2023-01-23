@@ -165,26 +165,15 @@ class HistoryPage extends GetView<TransactionController> {
                               return controller
                                       .defaultTransactionList[index].isNft
                                   ? _loadNFTTransaction(index)
-                                  : controller.defaultTransactionList[index]
-                                              .skip ||
-                                          controller
-                                                  .defaultTransactionList[index]
-                                                  .isHashSame ==
-                                              true
-                                      ? const SizedBox()
-                                      : _loadTokenTransaction(
-                                          controller
-                                              .defaultTransactionList[index],
-                                          index,
-                                          controller
-                                              .defaultTransactionList[index]
-                                              .timeStamp!
-                                              .isSameMonth(controller
-                                                  .defaultTransactionList[
-                                                      index == 0
-                                                          ? 0
-                                                          : index - 1]
-                                                  .timeStamp!));
+                                  : _loadTokenTransaction(
+                                      controller.defaultTransactionList[index],
+                                      index,
+                                      controller.defaultTransactionList[index]
+                                          .timeStamp!
+                                          .isSameMonth(controller
+                                              .defaultTransactionList[
+                                                  index == 0 ? 0 : index - 1]
+                                              .timeStamp!));
                             }
                           }
                         },

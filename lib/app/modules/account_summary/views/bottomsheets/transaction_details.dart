@@ -148,10 +148,15 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                 : ColorConst.naanCustomColor)),
                   ),
                   trailing: Text(
-                    "\$${tokenInfo.dollarAmount.toStringAsFixed(6)}",
+                    tokenInfo.token!.operationStatus != "applied"
+                        ? "failed"
+                        : "\$${tokenInfo.dollarAmount.toStringAsFixed(6)}",
                     style: labelLarge.copyWith(
                         letterSpacing: 0.5.aR,
                         fontWeight: FontWeight.w400,
+                        color: tokenInfo.token!.operationStatus != "applied"
+                            ? ColorConst.NaanRed
+                            : Colors.white,
                         fontSize: 14.aR),
                   )),
             ),
@@ -162,14 +167,17 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
           color: Color(0xff1E1C1F),
         ),
         0.012.vspace,
-        Obx(() {
-          if (controller.contacts.isEmpty) {
-            return contactTile(null);
-          } else {
-            return contactTile(controller.contacts.firstWhereOrNull(
-                (element) => element.address == getSenderAddress()));
-          }
-        }),
+        tokenInfo.token!.operationStatus != "applied" ||
+                getSenderAddress().isEmpty
+            ? const SizedBox()
+            : Obx(() {
+                if (controller.contacts.isEmpty) {
+                  return contactTile(null);
+                } else {
+                  return contactTile(controller.contacts.firstWhereOrNull(
+                      (element) => element.address == getSenderAddress()));
+                }
+              }),
         const Spacer(),
         Center(
           child: GestureDetector(
@@ -441,19 +449,26 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
     );
   }
 
-  String getSenderAddress() => transactionModel.sender!.address!
-          .contains(userAccountAddress)
-      ? transactionModel.parameter?.value == null
-          ? transactionModel.target?.address ??
-              transactionModel.newDelegate!.address!
-          : senderAddress(transactionModel,
-              transactionModel.sender!.address!.contains(userAccountAddress))!
-      : transactionModel.parameter?.value == null
-          ? transactionModel.sender!.address!
-          : senderAddress(transactionModel,
-              transactionModel.sender!.address!.contains(userAccountAddress))!;
+  String getSenderAddress() =>
+      transactionModel.sender!.address!.contains(userAccountAddress)
+          ? transactionModel.parameter?.value == null
+              ? transactionModel.target?.address ??
+                  transactionModel.newDelegate!.address!
+              : senderAddress(
+                      transactionModel,
+                      transactionModel.sender!.address!
+                          .contains(userAccountAddress)) ??
+                  ""
+          : transactionModel.parameter?.value == null
+              ? transactionModel.sender!.address!
+              : senderAddress(
+                      transactionModel,
+                      transactionModel.sender!.address!
+                          .contains(userAccountAddress)) ??
+                  "";
 
   String? senderAddress(TxHistoryModel model, bool isSent) {
+    if (transactionModel.operationStatus != "applied") return "";
     if (transactionModel.parameter?.value is List) {
       return isSent
           ? transactionModel.parameter?.value[0]['txs'][0]['to_']
@@ -472,7 +487,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
     } else {
       return "";
     }
-    return null;
+    return "";
   }
 }
 
