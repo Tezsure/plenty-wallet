@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
@@ -16,9 +17,11 @@ class BiometricPageController extends GetxController {
     /// require biometric here if isEnable
     AuthService authService = AuthService();
     if (isEnable) {
+      NaanAnalytics.logEvent(NaanAnalyticsEvents.BIOMETRIC_ENABLE);
       var isValid = await authService.verifyBiometric();
       if (!isValid) return;
     }
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.BIOMETRIC_SKIP);
     await authService.setBiometricAuth(isEnable);
 
     /// if biometric verified then redirect and set bio enable disable

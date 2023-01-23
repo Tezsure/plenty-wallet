@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -68,6 +69,7 @@ class BiometricPageView extends GetView<BiometricPageController> {
               GestureDetector(
                 onTap: () {
                   controller.checkOrWriteNewAndRedirectToNewPage(false);
+       
                 },
                 child: Container(
                   height: 48,

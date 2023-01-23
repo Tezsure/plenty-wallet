@@ -63,6 +63,7 @@ class NaanAnalyticsEvents {
   static const String VIEW_PRIVATE_KEY = "view_private_key";
   //done
   static const String BACKUP_SUCCESSFUL = "backup_successful";
+  //done
   static const String BUY_TEZ_CLICKED = "buy_tez_clicked";
   //done
   static const String DELEGATE_WIDGET_CLICK = "delegate_widget_click";

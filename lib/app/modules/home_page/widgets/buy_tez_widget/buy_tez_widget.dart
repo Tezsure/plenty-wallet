@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom_sheet.dart';
@@ -69,6 +70,11 @@ class BuyTezWidget extends StatelessWidget {
               subtitle:
                   'This module will be powered by wert.io and you will be using wert’s interface.',
               onNext: () {
+                NaanAnalytics.logEvent(NaanAnalyticsEvents.BUY_TEZ_CLICKED,
+                    param: {
+                      NaanAnalytics.address: home
+                          .userAccounts[home.selectedIndex.value].publicKeyHash
+                    });
                 String url =
                     "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
                 Get.bottomSheet(

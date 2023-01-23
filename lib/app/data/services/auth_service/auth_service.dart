@@ -21,11 +21,6 @@ class AuthService {
 
   /// set biometricauth true/false
   Future<void> setBiometricAuth(bool isEnable) async {
-    NaanAnalytics.logEvent(
-      isEnable
-          ? NaanAnalyticsEvents.BIOMETRIC_ENABLE
-          : NaanAnalyticsEvents.BIOMETRIC_SKIP,
-    );
     await ServiceConfig.localStorage.write(
         key: ServiceConfig.biometricAuthStorage, value: isEnable ? "1" : "0");
   }
