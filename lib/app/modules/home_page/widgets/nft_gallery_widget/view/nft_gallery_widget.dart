@@ -215,8 +215,8 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                 height: 0.87.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(22.arP),
-                  color: Colors.white,
-                  // color: const Color(0xFF1E1C1F),
+                  // color: Colors.white,
+                  color: const Color(0xFF1E1C1F),
                 ),
                 child: Obx(
                   () => controller.nftGalleryList.isEmpty
