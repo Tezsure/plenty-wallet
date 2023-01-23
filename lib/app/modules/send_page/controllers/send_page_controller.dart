@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/data/services/service_models/operation_model.dar
 import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/token_view.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 class SendPageController extends GetxController {
@@ -62,7 +63,7 @@ class SendPageController extends GetxController {
     }
     selectedPageIndex.value = index;
     if (index == 2) {
-      estimatedFee.value = "calculating...";
+      estimatedFee.value = "0.0";
       getFees();
     }
   }
@@ -107,16 +108,28 @@ class SendPageController extends GetxController {
     } else {
       operationModel.buildParams();
       // do preApply from start and inject here
-      operationModel.preAppliedResult = await OperationService()
-          .preApplyOperation(operationModel, ServiceConfig.currentSelectedNode);
+      try {
+        operationModel.preAppliedResult = await OperationService()
+            .preApplyOperation(
+                operationModel, ServiceConfig.currentSelectedNode);
 
-      // var opHash =
-      estimatedFee.value = ((int.parse(operationModel
-                      .preAppliedResult!["gasEstimation"]
-                      .toString()) /
-                  1e6) *
-              xtzPrice.value)
-          .toString();
+        // var opHash =
+        estimatedFee.value = ((int.parse(operationModel
+                        .preAppliedResult!["gasEstimation"]
+                        .toString()) /
+                    1e6) *
+                xtzPrice.value)
+            .toString();
+      } catch (e) {
+        amountTileError.value = true;
+        transactionStatusSnackbar(
+          duration: const Duration(seconds: 2),
+          status: TransactionStatus.error,
+          tezAddress: 'You have low tez',
+          transactionAmount: 'Low balance',
+        );
+        print(e.toString());
+      }
       // print(opHash);
     }
   }
@@ -316,12 +329,17 @@ class SendPageController extends GetxController {
 
   /// Sets the page to NFT page for send flow
   void onNFTClick(NftTokenModel nftModel) {
+    amountController.clear();
+    amountUsdController.clear();
     selectedNftModel = nftModel;
     isNFTPage.value = true;
   }
 
   /// Sets the page to token for send flow
   void onTokenClick(AccountTokenModel tokenModel) {
+    amountController.clear();
+    amountUsdController.clear();
+
     selectedTokenModel = tokenModel;
     isNFTPage.value = false;
   }
