@@ -75,7 +75,7 @@ class AccountSummaryController extends GetxController {
         .registerCallback((value) {
       xtzPrice.value = value;
     });
-    _fetchAllTokens();
+    fetchAllTokens();
     _fetchAllNfts();
     tokensList.value =
         await DataHandlerService().renderService.getTokenPriceModel();
@@ -84,7 +84,7 @@ class AccountSummaryController extends GetxController {
   }
 
   /// Fetches all the user tokens
-  Future<void> _fetchAllTokens() async {
+  Future<void> fetchAllTokens() async {
     userTokens.clear();
     if (homePageController.userAccounts.isEmpty) return;
     AccountTokenModel tezos = AccountTokenModel(
@@ -161,7 +161,7 @@ class AccountSummaryController extends GetxController {
       Get.find<AccountsWidgetController>().onPageChanged(index);
       // selectedAccountIndex.value = index;
       // selectedAccount.value = homePageController.userAccounts[index];
-      _fetchAllTokens();
+      fetchAllTokens();
       _fetchAllNfts();
       loadUserTransaction();
     }
@@ -196,7 +196,7 @@ class AccountSummaryController extends GetxController {
       }
     }
     selectedAccount.refresh();
-    _fetchAllTokens();
+    fetchAllTokens();
     _fetchAllNfts();
     loadUserTransaction();
     Get

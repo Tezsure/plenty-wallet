@@ -16,18 +16,10 @@ import '../../../../../../utils/styles/styles.dart';
 class ChoosePaymentMethod extends StatelessWidget {
   ChoosePaymentMethod({super.key});
 
-  final List<String> displayCoins = [
-    "tezos",
-    'USDt',
-    'uUSD',
-    'kUSD',
-    'EURL',
-    "ctez",
-  ];
   @override
   Widget build(BuildContext context) {
     final buyNftController = Get.put(BuyNFTController());
-    final controller = Get.put(AccountSummaryController());
+    final accountSummaryController = Get.put(AccountSummaryController());
     return SizedBox(
       height: 0.7.height,
       child: NaanBottomSheet(
@@ -56,54 +48,21 @@ class ChoosePaymentMethod extends StatelessWidget {
             thickness: 1,
           ),
           Obx(
-            () => controller.tokensList.isEmpty
-                ? noTokens()
+            () => buyNftController.accountTokens.isEmpty
+                ? Center(child: noTokens())
                 : ListView.builder(
-                    itemCount: displayCoins.length,
+                    itemCount: buyNftController.accountTokens.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      final token = controller.tokensList.firstWhereOrNull(
-                          (p0) =>
-                              displayCoins[index].toLowerCase() ==
-                              p0.symbol!.toLowerCase());
-
-                      var accountToken = controller.userTokens.firstWhereOrNull(
-                          (p0) =>
-                              displayCoins[index].toLowerCase() ==
-                              p0.symbol!.toLowerCase());
-                      if (token != null && accountToken == null) {
-                        accountToken = AccountTokenModel(
-                            name: token.name!,
-                            symbol: token.symbol!,
-                            iconUrl: token.thumbnailUri,
-                            balance: 0,
-                            currentPrice: token.currentPrice,
-                            contractAddress: token.tokenAddress!,
-                            tokenId: token.tokenId!,
-                            decimals: token.decimals!);
-                      }
-
-                      if (displayCoins[index].toLowerCase() == "tezos") {
-                        accountToken = controller.userTokens.firstWhereOrNull(
-                                (element) =>
-                                    element.symbol!.toLowerCase() == "tezos") ??
-                            AccountTokenModel(
-                                name: "Tezos",
-                                symbol: "tezos",
-                                iconUrl: "assets/tezos_logo.png",
-                                balance: 0,
-                                currentPrice: controller.xtzPrice.value,
-                                contractAddress: "xtz",
-                                tokenId: "0",
-                                decimals: 6);
-                      }
-                      return accountToken == null
-                          ? Container()
-                          : Obx(
-                              () => _tokenBox(accountToken!, index,
-                                  buyNftController, controller.xtzPrice.value),
-                            );
+                      return Obx(
+                        () => _tokenBox(
+                          accountSummaryController.xtzPrice.value,
+                          buyNftController.accountTokens[index],
+                          index,
+                          buyNftController,
+                        ),
+                      );
                     },
                   ),
           )
@@ -115,34 +74,17 @@ class ChoosePaymentMethod extends StatelessWidget {
   Widget noTokens() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        0.02.vspace,
-        SvgPicture.asset(
-          "assets/empty_states/empty1.svg",
-          height: 120.aR,
-        ),
-        0.03.vspace,
-        RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-                text: "No token found\n",
-                style: titleLarge.copyWith(
-                    fontWeight: FontWeight.w700, fontSize: 22.aR),
-                children: [
-                  WidgetSpan(child: 0.04.vspace),
-                  TextSpan(
-                      text:
-                          "Buy or Transfer token from another\n wallet or elsewhere",
-                      style: labelMedium.copyWith(
-                          fontSize: 12.aR,
-                          color: ColorConst.NeutralVariant.shade60))
-                ])),
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: const [
+        CircularProgressIndicator(
+          color: ColorConst.Primary,
+        )
       ],
     );
   }
 
-  Widget _tokenBox(AccountTokenModel token, int index,
-          BuyNFTController buyNftController, double xtzPrice) =>
+  Widget _tokenBox(double xtzPrice, AccountTokenModel token, int index,
+          BuyNFTController buyNftController) =>
       TokenCheckbox(
         xtzPrice: xtzPrice,
         tokenModel: token,
