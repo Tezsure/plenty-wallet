@@ -49,7 +49,7 @@ class Web3Auth {
         NaanAnalytics.logEvent(NaanAnalyticsEvents.SOCIAL_LOGIN,
             param: {"login_type": socialAppName.name});
         await _socialLogin(socialApp: socialAppName).then((response) async {
-          AuthService().setWalletBackup(true);
+          // AuthService().setWalletBackup(true);
           Get.put(Web3AuthController());
           Web3AuthController controller = Get.find<Web3AuthController>();
           controller.privateKey = GenerateKeys.readKeysWithHint(

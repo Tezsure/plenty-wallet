@@ -31,7 +31,7 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
       title: 'Add Custom RPC',
       blurRadius: 5,
       bottomSheetHorizontalPadding: 32,
-      height: .4.height,
+      height: .45.height,
       bottomSheetWidgets: [
         0.03.vspace,
         NaanTextfield(

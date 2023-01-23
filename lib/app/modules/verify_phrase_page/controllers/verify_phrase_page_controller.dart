@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/verify_phrase_page/widgets/verify_phrase_success_sheet.dart';
 
 class VerifyPhrasePageController extends GetxController {
@@ -32,7 +34,7 @@ class VerifyPhrasePageController extends GetxController {
   @override
   void onReady() {
     // TODO: implement onReady
-  
+
     super.onReady();
   }
 
@@ -58,6 +60,15 @@ class VerifyPhrasePageController extends GetxController {
       isPhraseSelected.value = false;
       showError.value = false;
     } else if (keyIndex.value == 2 && selectedPhrase.value == listSeeds[11]) {
+      String seedPhrase = [...phraseList.map((e) => e.join(" "))].join(" ");
+      if (Get.isRegistered<SettingsPageController>()) {
+        final settingsPageController = Get.find<SettingsPageController>();
+        settingsPageController.markWalletAsBackedUp(seedPhrase);
+      } else {
+        final settingsPageController = Get.put(SettingsPageController());
+        settingsPageController.markWalletAsBackedUp(seedPhrase);
+      }
+
       Get
         ..back() // close current
         ..back() // close seeds

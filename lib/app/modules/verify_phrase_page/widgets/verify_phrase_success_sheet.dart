@@ -20,7 +20,6 @@ class VerifyPhraseSuccessSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     HapticFeedback.heavyImpact();
     NaanAnalytics.logEvent(NaanAnalyticsEvents.BACKUP_SUCCESSFUL);
-    AuthService().setWalletBackup(true);
     return NaanBottomSheet(
         mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 32.arP,

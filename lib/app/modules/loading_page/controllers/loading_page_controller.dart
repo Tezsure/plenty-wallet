@@ -59,10 +59,10 @@ class LoadingPageController extends GetxController {
     } else if (fromRoute == Routes.IMPORT_WALLET_PAGE) {
       ImportWalletPageController importWalletPageController =
           Get.find<ImportWalletPageController>();
-      AuthService().setWalletBackup(true);
 
       if (importWalletPageController.importWalletDataType ==
           ImportWalletDataType.privateKey) {
+       
         CreateProfilePageController createWalletPageController =
             Get.find<CreateProfilePageController>();
         // import wallet using private key
@@ -77,6 +77,8 @@ class LoadingPageController extends GetxController {
         ]);
       } else if (importWalletPageController.importWalletDataType ==
           ImportWalletDataType.mnemonic) {
+        // AuthService().setWalletBackup(true);
+
         // mnemonic accounts
         await Future.wait([
           UserStorageService().writeNewAccount(

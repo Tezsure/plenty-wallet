@@ -30,11 +30,11 @@ class AuthService {
         key: ServiceConfig.biometricAuthStorage, value: isEnable ? "1" : "0");
   }
 
-  /// set biometricauth true/false
-  Future<void> setWalletBackup(bool isEnable) async {
-    await ServiceConfig.localStorage.write(
-        key: ServiceConfig.walletBackupStorage, value: isEnable ? "1" : "0");
-  }
+  /// set walletbackup true/false
+  // Future<void> setWalletBackup(bool isEnable) async {
+  //   await ServiceConfig.localStorage.write(
+  //       key: ServiceConfig.walletBackupStorage, value: isEnable ? "1" : "0");
+  // }
 
   Future<bool> getIsPassCodeSet() async =>
       await ServiceConfig.localStorage
@@ -47,10 +47,10 @@ class AuthService {
         "1";
   }
 
-  Future<bool> getIsWalletBackup() async =>
-      (await ServiceConfig.localStorage
-          .read(key: ServiceConfig.walletBackupStorage)) !=
-      null;
+  // Future<bool> getIsWalletBackup() async =>
+  //     (await ServiceConfig.localStorage
+  //         .read(key: ServiceConfig.walletBackupStorage)) !=
+  //     null;
 
   /// check if device support biometrictype fingerprint or not <br>
   /// return false if not supported device

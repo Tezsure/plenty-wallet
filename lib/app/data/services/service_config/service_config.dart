@@ -62,7 +62,7 @@ class ServiceConfig {
   // auth
   static const String passCodeStorage = "${storageName}_password";
   static const String biometricAuthStorage = "${storageName}_biometricAuth";
-  static const String walletBackupStorage = "${storageName}_walletBackup";
+  // static const String walletBackupStorage = "${storageName}_walletBackup";
 
   // xtz price and token price
   static const String xtzPriceStorage = "${storageName}_xtz_price";

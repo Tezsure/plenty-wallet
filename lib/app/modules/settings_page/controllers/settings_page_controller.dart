@@ -149,8 +149,9 @@ class SettingsPageController extends GetxController {
   void onInit() async {
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
     fingerprint.value = await AuthService().getBiometricAuth();
-    isWalletBackup.value = await AuthService().getIsWalletBackup();
+    getWalletBackupStatus();
     networkType.value = await RpcService.getCurrentNetworkType();
+    log("isWalletBackup.value :${isWalletBackup.value} ");
     ServiceConfig.currentNetwork = networkType.value;
     await changeNodeSelector();
     await RpcService.getCurrentNode().then((value) {
@@ -314,6 +315,22 @@ class SettingsPageController extends GetxController {
     _updateUserAccountsValue();
   }
 
+  Future<void> markWalletAsBackedUp(String seedPhrase) async {
+    for (var i = 0; i < homePageController.userAccounts.length; i++) {
+      if (homePageController.userAccounts[i].isWatchOnly) continue;
+      if ((await UserStorageService().readAccountSecrets(
+                  homePageController.userAccounts[i].publicKeyHash!))
+              ?.seedPhrase ==
+          seedPhrase) {
+         homePageController.userAccounts[i].isWalletBackedUp = true;
+
+        break;
+      }
+    }
+    await _updateUserAccountsValue();
+    getWalletBackupStatus();
+  }
+
   /// Updates the user accounts list with the latest modifications
   Future<void> _updateUserAccountsValue() async {
     await UserStorageService().updateAccounts(homePageController.userAccounts);
@@ -341,8 +358,9 @@ class SettingsPageController extends GetxController {
       Get.bottomSheet(BackupPage(), isScrollControlled: true);
     } else {
       final seedPhrase = await UserStorageService()
-          .readAccountSecrets(
-              Get.find<HomePageController>().userAccounts[0].publicKeyHash!)
+          .readAccountSecrets(homePageController.userAccounts
+              .firstWhere((element) => !element.isWalletBackedUp)
+              .publicKeyHash!)
           .then((value) {
         return value?.seedPhrase ?? "";
       });
@@ -354,9 +372,13 @@ class SettingsPageController extends GetxController {
               enterBottomSheetDuration: const Duration(milliseconds: 180),
               exitBottomSheetDuration: const Duration(milliseconds: 150),
               isScrollControlled: true)
-          .whenComplete(() async =>
-              isWalletBackup.value = await AuthService().getIsWalletBackup());
+          .whenComplete(getWalletBackupStatus);
     }
+  }
+
+  void getWalletBackupStatus() {
+    isWalletBackup.value = !homePageController.userAccounts
+        .any((element) => !element.isWalletBackedUp);
   }
 
   /// Paste the copied address to the clipboard

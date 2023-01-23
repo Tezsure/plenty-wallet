@@ -57,6 +57,7 @@ class WalletService {
     );
     accountModel = AccountModel(
       isNaanAccount: true,
+      isWalletBackedUp: false,
       derivationPathIndex: derivationIndex,
       name: name,
       imageType: imageType,
@@ -89,6 +90,7 @@ class WalletService {
       publicKeyHash: keyStore[2],
     );
     accountModel = AccountModel(
+      isWalletBackedUp: true,
       isNaanAccount: false,
       derivationPathIndex: 0,
       name: name,
@@ -118,6 +120,7 @@ class WalletService {
             isTz2Address ? SignerCurve.SECP256K1 : SignerCurve.ED25519);
     return AccountModel(
       isNaanAccount: false,
+      isWalletBackedUp: true,
       derivationPathIndex: index,
       name: "",
       imageType: AccountProfileImageType.assets,
@@ -142,6 +145,7 @@ class WalletService {
     var account = AccountModel(
         isNaanAccount: false,
         isWatchOnly: true,
+        isWalletBackedUp: true,
         name: name,
         imageType: imageType,
         profileImage: image,

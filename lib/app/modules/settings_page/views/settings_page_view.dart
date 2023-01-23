@@ -59,15 +59,17 @@ class SettingsPageView extends GetView<SettingsPageController> {
                           _settingsSeparator(
                             title: "Security",
                             settings: [
-                              _settingOption(
-                                onTap: () {
-                                  Get.bottomSheet(BackupPage(),
-                                      isScrollControlled: true);
-                                },
-                                title: "Backup",
-                                svgPath:
-                                    "${PathConst.SETTINGS_PAGE.SVG}backup.svg",
-                              ),
+                              if (!_homePageController.userAccounts
+                                  .every((element) => element.isWatchOnly))
+                                _settingOption(
+                                  onTap: () {
+                                    Get.bottomSheet(BackupPage(),
+                                        isScrollControlled: true);
+                                  },
+                                  title: "Backup",
+                                  svgPath:
+                                      "${PathConst.SETTINGS_PAGE.SVG}backup.svg",
+                                ),
                               if (controller.supportBiometric.value)
                                 _settingOption(
                                   onTap: () =>
