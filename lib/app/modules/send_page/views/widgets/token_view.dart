@@ -312,6 +312,7 @@ class TokenView extends StatelessWidget {
   }
 
   String formatEnterAmount(String amount) {
+    
     var decimalEnters = amount.substring(amount.indexOf(".") + 1).length;
     if (decimalEnters == 0) return amount;
     return double.parse(amount).toStringAsFixed(

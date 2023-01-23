@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/state_manager.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/token_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -35,6 +36,7 @@ class TokenSendTextfield extends StatelessWidget {
       textAlignVertical: TextAlignVertical.center,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       textAlign: TextAlign.left,
+      inputFormatters: [ReplaceCommaFormatter()],
       style: headlineMedium.copyWith(
           fontSize: 28.arP,
           fontWeight: FontWeight.w600,
@@ -57,5 +59,24 @@ class TokenSendTextfield extends StatelessWidget {
             headlineMedium.copyWith(color: ColorConst.NeutralVariant.shade30),
       ),
     );
+  }
+}
+
+class ReplaceCommaFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final regEx = RegExp(r"^\d*\.?\d*");
+    String newString =
+        (regEx.stringMatch(newValue.text) ?? "").replaceAll(',', '.');
+    return TextEditingValue(
+        text: newString,
+        selection: TextSelection.fromPosition(
+          TextPosition(
+            offset: newString.length,
+          ),
+        ));
   }
 }

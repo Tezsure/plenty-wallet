@@ -200,52 +200,56 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return Row(
-        children: [
-          Expanded(
-            child: Container(
-              // color: Colors.red,
-              width: double.infinity,
-              margin: EdgeInsets.only(
-                left: 22.arP,
-                right: 0.arP,
-              ),
-              height: 0.87.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(22.arP),
-                color: const Color(0xFF1E1C1F),
-              ),
-              child: Obx(
-                () => controller.nftGalleryList.isEmpty
-                    ? _getNoGalleryStateWidget()
-                    : _getGalleryWidget(),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 8.arP,
-          ),
-          if (controller.nftGalleryList.isNotEmpty)
-            AnimatedSmoothIndicator(
-                effect: ScrollingDotsEffect(
-                  dotHeight: 4.arP,
-                  dotWidth: 4.arP,
-                  // expansionFactor: 1.01,
-                  activeDotColor: Colors.white,
-                  dotColor: ColorConst.darkGrey,
+      return Container(
+        margin: EdgeInsets.only(
+          left: 22.arP,
+          right: 10.arP,
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                // color: Colors.red,
+                width: double.infinity,
+
+                height: 0.87.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(22.arP),
+                  color: Colors.white,
+                  // color: const Color(0xFF1E1C1F),
                 ),
-                curve: Curves.easeIn,
-                axisDirection: Axis.vertical,
-                activeIndex: currIndex,
-                count: controller.nftGalleryList.length + 1)
-          else
-            SizedBox(
-              width: 4.arP,
+                child: Obx(
+                  () => controller.nftGalleryList.isEmpty
+                      ? _getNoGalleryStateWidget()
+                      : _getGalleryWidget(),
+                ),
+              ),
             ),
-          SizedBox(
-            width: 10.arP,
-          )
-        ],
+            SizedBox(
+              width: 8.arP,
+            ),
+            if (controller.nftGalleryList.isNotEmpty)
+              SizedBox(
+                width: 4.arP,
+                child: AnimatedSmoothIndicator(
+                    effect: ScrollingDotsEffect(
+                      dotHeight: 4.arP,
+                      dotWidth: 4.arP,
+                      // expansionFactor: 1.01,
+                      activeDotColor: Colors.white,
+                      dotColor: ColorConst.darkGrey,
+                    ),
+                    curve: Curves.easeIn,
+                    axisDirection: Axis.vertical,
+                    activeIndex: currIndex,
+                    count: controller.nftGalleryList.length + 1),
+              )
+            else
+              SizedBox(
+                width: 4.arP,
+              ),
+          ],
+        ),
       );
     });
   }
