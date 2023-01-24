@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/data/services/service_config/service_config.dart
 import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -73,14 +74,13 @@ class DappBottomSheet extends StatelessWidget {
                     Align(
                       alignment: Alignment.topCenter,
                       child: Container(
-                        height: 5.arP,
-                        width: 36.arP,
-                        margin: EdgeInsets.only(
-                          top: 5.arP,
-                        ),
+                        margin: EdgeInsets.only(top: 0.02.height),
+                        height: 5,
+                        width: 36,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: const Color(0xffEBEBF5).withOpacity(0.3),
+                          color: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.3),
                         ),
                       ),
                     ),

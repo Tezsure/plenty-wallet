@@ -100,7 +100,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               cacheExtent: 4,
               controller: controller.scrollController,
               padding: EdgeInsets.zero,
-                    physics: AppConstant.scrollPhysics,
+              physics: AppConstant.scrollPhysics,
               itemBuilder: (_, index) {
                 if (delegatedBaker?.address ==
                     controller.searchedDelegateBakerList[index].address) {
@@ -193,6 +193,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
         controller: controller.textEditingController,
         textAlignVertical: TextAlignVertical.top,
         textAlign: TextAlign.start,
+        cursorColor: ColorConst.Primary,
         decoration: InputDecoration(
           filled: true,
           fillColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
@@ -211,7 +212,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               borderSide: BorderSide.none),
           hintText: 'Search baker',
           hintStyle:
-              bodySmall.copyWith(color: ColorConst.NeutralVariant.shade70),
+              bodyMedium.copyWith(color: ColorConst.NeutralVariant.shade70),
           labelStyle: labelSmall,
           // contentPadding:
           //     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -227,12 +228,12 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
         //   'Delegate',
         //   style: titleLarge,
         // ),
-        // 0.012.vspace,
+        0.012.vspace,
         RichText(
           textAlign: isScrollable ? TextAlign.center : TextAlign.start,
           text: TextSpan(
-              style: labelMedium.copyWith(
-                  color: ColorConst.NeutralVariant.shade60),
+              style:
+                  bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
               text:
                   'Choose a baker to delegate your tez to.\nThis list is powered by ',
               children: [

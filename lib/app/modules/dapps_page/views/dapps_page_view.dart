@@ -30,22 +30,23 @@ class DappsPageView extends GetView<DappsPageController> {
         top: 0.05.height,
       ),
       padding: EdgeInsets.only(
-        bottom: Platform.isIOS ? 0.05.height : 0.02.height,
-      ),
+          // bottom: Platform.isIOS ? 0.05.height : 0.02.height,
+          ),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
           color: Colors.black),
       child: Column(
         children: [
-          SizedBox(
-            height: 10.arP,
-          ),
-          Container(
-            height: 5.arP,
-            width: 36.arP,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+          0.02.vspace,
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              height: 5,
+              width: 36,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+              ),
             ),
           ),
           SizedBox(
@@ -366,7 +367,7 @@ class DappListItemWidget extends StatelessWidget {
                   height: 32.arP,
                   width: 79.arP,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF332F37),
+                    color: ColorConst.Primary,
                     borderRadius: BorderRadius.circular(20.arP),
                   ),
                   alignment: Alignment.center,
@@ -374,7 +375,7 @@ class DappListItemWidget extends StatelessWidget {
                     "Launch",
                     style: TextStyle(
                       fontSize: 14.arP,
-                      color: const Color(0xFF958E99),
+                      color: ColorConst.Neutral.shade100,
                       letterSpacing: 0.5.arP,
                       fontWeight: FontWeight.w600,
                     ),

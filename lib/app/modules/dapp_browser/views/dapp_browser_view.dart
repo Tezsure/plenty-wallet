@@ -65,17 +65,20 @@ class DappBrowserView extends GetView<DappBrowserController> {
       ),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-          color: ColorConst.darkGrey),
+          color: Colors.black),
       child: Center(
         child: Column(
           children: [
-            0.01.vspace,
-            Container(
-              height: 5,
-              width: 36,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+            0.02.vspace,
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                height: 5,
+                width: 36,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+                ),
               ),
             ),
             Obx(() => AppBar(
@@ -94,12 +97,12 @@ class DappBrowserView extends GetView<DappBrowserController> {
                             ? "Buy tez"
                             : Uri.parse(controller.url.value)
                                 .host
-                                .replaceAll(RegExp(r".+\/\/|www.|\..+"), ""),
+                                .replaceAll(RegExp(r".+\/\/|www.|"), ""),
                         style: bodyMedium,
                       ),
                     ],
                   ),
-                  backgroundColor: ColorConst.darkGrey,
+                  backgroundColor: Colors.black,
                   centerTitle: true,
                   toolbarHeight: 50.arP,
                   automaticallyImplyLeading: false,

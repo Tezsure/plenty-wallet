@@ -276,12 +276,12 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         ),
                 ],
               ),
-              Obx(
-                () => Align(
-                  alignment: Alignment.bottomCenter,
-                  child: _getHoverFilterWidget(),
-                ),
-              ),
+              // Obx(
+              //   () => Align(
+              //     alignment: Alignment.bottomCenter,
+              //     child: _getHoverFilterWidget(),
+              //   ),
+              // ),
             ],
           ),
         )
