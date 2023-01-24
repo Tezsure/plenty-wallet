@@ -12,6 +12,7 @@ import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/dapps_page/views/widgets/dapp_bottomsheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../controllers/dapps_page_controller.dart';
@@ -53,7 +54,7 @@ class DappsPageView extends GetView<DappsPageController> {
           Expanded(
             child: Obx(
               () => ListView.builder(
-                physics: const BouncingScrollPhysics(),
+                physics: AppConstant.scrollPhysics,
                 itemCount: controller.dappBanners.length,
                 itemBuilder: (context, index) {
                   List<DappModel> dapps = controller.dappBanners[index].dapps!
@@ -235,7 +236,7 @@ class DappsPageView extends GetView<DappsPageController> {
     return ListView.builder(
       itemCount: dapps.length,
       shrinkWrap: true,
-      physics: const BouncingScrollPhysics(),
+      physics: AppConstant.scrollPhysics,
       itemBuilder: (context, index) => DappListItemWidget(
         dapp: dapps[index],
         index: index,
@@ -520,7 +521,7 @@ class CategoryListBottomSheet extends StatelessWidget {
                     right: 16.arP,
                   ),
                   itemCount: dapps.length,
-                  physics: const BouncingScrollPhysics(),
+                  physics: AppConstant.scrollPhysics,
                   itemBuilder: (context, index) => DappListItemWidget(
                     dapp: dapps[index],
                     index: index,

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
@@ -17,7 +18,7 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
   Widget build(BuildContext context) {
     return Obx(() => controller.userTokens.isEmpty
         ? SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+                    physics: AppConstant.scrollPhysics,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

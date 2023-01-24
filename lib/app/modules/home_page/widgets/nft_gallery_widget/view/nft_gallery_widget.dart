@@ -5,6 +5,7 @@ import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicato
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/nft_image.dart';
 
@@ -89,7 +90,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
               currIndex = index;
               setState(() {});
             },
-            physics: const BouncingScrollPhysics(),
+                    physics: AppConstant.scrollPhysics,
             itemCount: controller.nftGalleryList.length + 1,
             itemBuilder: (context, index) {
               var scale = currIndex == index ? 1.0 : 0.8;

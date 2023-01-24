@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -111,8 +112,7 @@ class NaanBottomSheet extends StatelessWidget {
                           child: ListView.builder(
                             shrinkWrap: true,
                             controller: scrollController,
-                            physics: const BouncingScrollPhysics(
-                                parent: AlwaysScrollableScrollPhysics()),
+                            physics: AppConstant.scrollPhysics,
                             itemCount: 6,
                             itemBuilder: draggableListBuilder ??
                                 (_, index) => Container(),

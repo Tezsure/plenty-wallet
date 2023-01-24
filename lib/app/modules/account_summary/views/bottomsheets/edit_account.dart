@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
+import 'package:naan_wallet/utils/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -65,14 +66,16 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
 
   Widget draggableUI() {
     return NaanBottomSheet(
+      bottomSheetHorizontalPadding: 16.arP,
       height: AppConstant.naanBottomSheetHeight -
           MediaQuery.of(context).viewInsets.bottom,
+      isScrollControlled: true,
       title: "Edit Account",
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
               MediaQuery.of(context).viewInsets.bottom -
-              28.arP,
+              36.arP,
           child: Column(children: [
             0.02.vspace,
             _buildAvatar(),
@@ -87,10 +90,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                 textAlign: TextAlign.center,
               ),
             ),
-            0.02.vspace,
-            SizedBox(
-              height: 8.aR,
-            ),
+            0.028.vspace,
             NaanTextfield(
                 height: 50.aR,
                 backgroundColor:
@@ -115,7 +115,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                     }
                   });
                 }),
-            0.044.vspace,
+            const Spacer(),
             SolidButton(
               height: 50.aR,
               width: 0.8.width,
@@ -153,7 +153,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                 }
               },
             ),
-            0.02.vspace,
+            const BottomButtonPadding()
           ]),
         )
       ],
@@ -456,6 +456,144 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   }
 
   Widget changePhotoBottomSheet() {
+    return NaanBottomSheet(
+      bottomSheetHorizontalPadding: 0,
+      height: .275.height,
+      bottomSheetWidgets: [
+        Column(
+          children: [
+            0.005.vspace,
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+                horizontal: 12.aR,
+              ),
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(8.aR),
+              //   color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              // ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      var imagePath = await CreateProfileService()
+                          .pickANewImageFromGallery();
+                      if (imagePath.isNotEmpty) {
+                        _controller.editUserProfilePhoto(
+                            accountIndex: widget.accountIndex,
+                            imagePath: imagePath,
+                            imageType: AccountProfileImageType.file);
+
+                        Get.back();
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.aR),
+                        color:
+                            ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                      ),
+                      width: double.infinity,
+                      height: 51.aR,
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Choose from library",
+                        style: labelMedium.copyWith(fontSize: 12.aR),
+                      ),
+                    ),
+                  ),
+                  // const Divider(
+                  //   color: Color(0xff4a454e),
+                  //   height: 1,
+                  //   thickness: 1,
+                  // ),
+                  0.01.vspace,
+                  GestureDetector(
+                    onTap: () async {
+                      Get.bottomSheet(
+                        avatarPicker(),
+                        isScrollControlled: true,
+                        enterBottomSheetDuration:
+                            const Duration(milliseconds: 180),
+                        exitBottomSheetDuration:
+                            const Duration(milliseconds: 150),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.aR),
+                        color:
+                            ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                      ),
+                      width: double.infinity,
+                      height: 51.aR,
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Pick an avatar",
+                        style: labelMedium.copyWith(fontSize: 12.aR),
+                      ),
+                    ),
+                  ),
+                  // const Divider(
+                  //   color: Color(0xff4a454e),
+                  //   height: 1,
+                  //   thickness: 1,
+                  // ),
+                  _controller.homePageController
+                              .userAccounts[widget.accountIndex].imageType! ==
+                          AccountProfileImageType.file
+                      ? GestureDetector(
+                          onTap: () {
+                            _controller.editUserProfilePhoto(
+                                imageType: AccountProfileImageType.assets,
+                                imagePath:
+                                    ServiceConfig.allAssetsProfileImages[0],
+                                accountIndex: widget.accountIndex);
+
+                            Get.back();
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 51.aR,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Remove photo",
+                              style: labelMedium.copyWith(
+                                  color: ColorConst.Error.shade60,
+                                  fontSize: 12.aR),
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
+              ),
+            ),
+            0.016.vspace,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32.arP),
+              child: GestureDetector(
+                onTap: () => Get.back(),
+                child: Container(
+                  height: 51.aR,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.aR),
+                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                  ),
+                  child: Text(
+                    "Cancel",
+                    style: labelMedium.copyWith(
+                        color: Colors.white, fontSize: 12.aR),
+                  ),
+                ),
+              ),
+            ),
+            const BottomButtonPadding()
+          ],
+        ),
+      ],
+    );
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
       child: Container(
@@ -654,110 +792,215 @@ class _PickAvatarState extends State<PickAvatar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black,
-      width: 1.width,
-      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            0.04.vspace,
-            Align(
-                alignment: Alignment.centerLeft,
-                child: GestureDetector(
-                  onTap: Get.back,
-                  child: SvgPicture.asset(
-                    "${PathConst.SVG}arrow_back.svg",
-                    fit: BoxFit.scaleDown,
+    return NaanBottomSheet(
+      title: "Pick an avatar",
+      bottomSheetHorizontalPadding: 16.arP,
+      height: AppConstant.naanBottomSheetHeight,
+      bottomSheetWidgets: [
+        SizedBox(
+          height: AppConstant.naanBottomSheetChildHeight - 32.arP,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // 0.04.vspace,
+              // Align(
+              //     alignment: Alignment.centerLeft,
+              //     child: GestureDetector(
+              //       onTap: Get.back,
+              //       child: SvgPicture.asset(
+              //         "${PathConst.SVG}arrow_back.svg",
+              //         fit: BoxFit.scaleDown,
+              //       ),
+              //     )),
+              // 0.05.vspace,
+              // Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: Text("Pick an Avatar", style: titleLarge),
+              // ),
+              0.02.vspace,
+              Container(
+                height: 0.3.width,
+                width: 0.3.width,
+                alignment: Alignment.bottomRight,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: imageType == AccountProfileImageType.assets
+                        ? AssetImage(selectedAvatar)
+                        : FileImage(
+                            File(selectedAvatar),
+                          ) as ImageProvider,
                   ),
-                )),
-            0.05.vspace,
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text("Pick an Avatar", style: titleLarge),
-            ),
-            0.05.vspace,
-            Container(
-              height: 0.3.width,
-              width: 0.3.width,
-              alignment: Alignment.bottomRight,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: imageType == AccountProfileImageType.assets
-                      ? AssetImage(selectedAvatar)
-                      : FileImage(
-                          File(selectedAvatar),
-                        ) as ImageProvider,
                 ),
               ),
-            ),
-            0.05.vspace,
-            Expanded(
-              child: GridView.count(
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                crossAxisCount: 4,
-                mainAxisSpacing: 0.06.width,
-                crossAxisSpacing: 0.06.width,
-                children: List.generate(
-                  ServiceConfig.allAssetsProfileImages.length,
-                  (index) => GestureDetector(
-                    onTap: () {
-                      // widget._controller.editUserProfilePhoto(
-                      //     imageType: AccountProfileImageType.assets,
-                      //     imagePath: ServiceConfig.allAssetsProfileImages[index],
-                      //     accountIndex: widget.accountIndex);
-                      // widget._accountController.selectedAccount.update((val) {
-                      imageType = AccountProfileImageType.assets;
-                      selectedAvatar =
-                          ServiceConfig.allAssetsProfileImages[index];
-                      setState(() {});
-                      // });
-                    },
-                    child: CircleAvatar(
-                      radius: 70.arP,
-                      child: Image.asset(
-                        ServiceConfig.allAssetsProfileImages[index],
-                        fit: BoxFit.cover,
-                        height: 72.arP,
+              0.02.vspace,
+              Expanded(
+                child: GridView.count(
+                  physics: AppConstant.scrollPhysics,
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 0.06.width,
+                  crossAxisSpacing: 0.06.width,
+                  children: List.generate(
+                    ServiceConfig.allAssetsProfileImages.length,
+                    (index) => GestureDetector(
+                      onTap: () {
+                        // widget._controller.editUserProfilePhoto(
+                        //     imageType: AccountProfileImageType.assets,
+                        //     imagePath: ServiceConfig.allAssetsProfileImages[index],
+                        //     accountIndex: widget.accountIndex);
+                        // widget._accountController.selectedAccount.update((val) {
+                        imageType = AccountProfileImageType.assets;
+                        selectedAvatar =
+                            ServiceConfig.allAssetsProfileImages[index];
+                        setState(() {});
+                        // });
+                      },
+                      child: ClipOval(
+                        // radius: 70.arP,
+                        child: Image.asset(
+                          ServiceConfig.allAssetsProfileImages[index],
+                          fit: BoxFit.cover,
+                          height: 72.arP,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            0.01.vspace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.arP),
-              child: SolidButton(
-                height: 40.arP,
-                onPressed: () {
-                  widget._controller.editUserProfilePhoto(
-                      imageType: AccountProfileImageType.assets,
-                      imagePath: selectedAvatar,
-                      accountIndex: widget.accountIndex);
-                  widget._accountController.selectedAccount.update((val) {
-                    val?.imageType = AccountProfileImageType.assets;
-                    val?.profileImage = selectedAvatar;
-                  });
-                  Get.back();
-                  Get.back();
-                },
-                title: "Confirm",
-                // child: Text(
-                //   "Confirm",
-                //   style: titleSmall.apply(color: ColorConst.Primary.shade95),
-                // ),
+              0.02.vspace,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.arP),
+                child: SolidButton(
+                  onPressed: () {
+                    widget._controller.editUserProfilePhoto(
+                        imageType: AccountProfileImageType.assets,
+                        imagePath: selectedAvatar,
+                        accountIndex: widget.accountIndex);
+                    widget._accountController.selectedAccount.update((val) {
+                      val?.imageType = AccountProfileImageType.assets;
+                      val?.profileImage = selectedAvatar;
+                    });
+                    Get.back();
+                    Get.back();
+                  },
+                  title: "Confirm",
+                  // child: Text(
+                  //   "Confirm",
+                  //   style: titleSmall.apply(color: ColorConst.Primary.shade95),
+                  // ),
+                ),
               ),
-            ),
-            0.05.vspace
-          ],
+              const BottomButtonPadding()
+            ],
+          ),
         ),
-      ),
+      ],
     );
+    // return Container(
+    //   color: Colors.black,
+    //   width: 1.width,
+    //   padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+    //   child: SafeArea(
+    //     bottom: false,
+    //     child: Column(
+    //       crossAxisAlignment: CrossAxisAlignment.center,
+    //       children: [
+    //         0.04.vspace,
+    //         Align(
+    //             alignment: Alignment.centerLeft,
+    //             child: GestureDetector(
+    //               onTap: Get.back,
+    //               child: SvgPicture.asset(
+    //                 "${PathConst.SVG}arrow_back.svg",
+    //                 fit: BoxFit.scaleDown,
+    //               ),
+    //             )),
+    //         0.05.vspace,
+    //         Align(
+    //           alignment: Alignment.centerLeft,
+    //           child: Text("Pick an Avatar", style: titleLarge),
+    //         ),
+    //         0.05.vspace,
+    //         Container(
+    //           height: 0.3.width,
+    //           width: 0.3.width,
+    //           alignment: Alignment.bottomRight,
+    //           decoration: BoxDecoration(
+    //             shape: BoxShape.circle,
+    //             image: DecorationImage(
+    //               fit: BoxFit.cover,
+    //               image: imageType == AccountProfileImageType.assets
+    //                   ? AssetImage(selectedAvatar)
+    //                   : FileImage(
+    //                       File(selectedAvatar),
+    //                     ) as ImageProvider,
+    //             ),
+    //           ),
+    //         ),
+    //         0.05.vspace,
+    //         Expanded(
+    //           child: GridView.count(
+    //             physics: const BouncingScrollPhysics(
+    //                 parent: AlwaysScrollableScrollPhysics()),
+    //             crossAxisCount: 4,
+    //             mainAxisSpacing: 0.06.width,
+    //             crossAxisSpacing: 0.06.width,
+    //             children: List.generate(
+    //               ServiceConfig.allAssetsProfileImages.length,
+    //               (index) => GestureDetector(
+    //                 onTap: () {
+    //                   // widget._controller.editUserProfilePhoto(
+    //                   //     imageType: AccountProfileImageType.assets,
+    //                   //     imagePath: ServiceConfig.allAssetsProfileImages[index],
+    //                   //     accountIndex: widget.accountIndex);
+    //                   // widget._accountController.selectedAccount.update((val) {
+    //                   imageType = AccountProfileImageType.assets;
+    //                   selectedAvatar =
+    //                       ServiceConfig.allAssetsProfileImages[index];
+    //                   setState(() {});
+    //                   // });
+    //                 },
+    //                 child: CircleAvatar(
+    //                   radius: 70.arP,
+    //                   child: Image.asset(
+    //                     ServiceConfig.allAssetsProfileImages[index],
+    //                     fit: BoxFit.cover,
+    //                     height: 72.arP,
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+    //         0.01.vspace,
+    //         Padding(
+    //           padding: EdgeInsets.symmetric(horizontal: 20.arP),
+    //           child: SolidButton(
+    //             height: 40.arP,
+    //             onPressed: () {
+    //               widget._controller.editUserProfilePhoto(
+    //                   imageType: AccountProfileImageType.assets,
+    //                   imagePath: selectedAvatar,
+    //                   accountIndex: widget.accountIndex);
+    //               widget._accountController.selectedAccount.update((val) {
+    //                 val?.imageType = AccountProfileImageType.assets;
+    //                 val?.profileImage = selectedAvatar;
+    //               });
+    //               Get.back();
+    //               Get.back();
+    //             },
+    //             title: "Confirm",
+    //             // child: Text(
+    //             //   "Confirm",
+    //             //   style: titleSmall.apply(color: ColorConst.Primary.shade95),
+    //             // ),
+    //           ),
+    //         ),
+    //         0.05.vspace
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }

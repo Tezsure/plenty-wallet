@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -28,7 +29,7 @@ class HistoryPage extends GetView<TransactionController> {
     return Obx(() {
       return CustomScrollView(
         controller: controller.paginationController.value,
-        physics: const BouncingScrollPhysics(),
+                    physics: AppConstant.scrollPhysics,
         slivers: [
           SliverToBoxAdapter(
             child: Padding(

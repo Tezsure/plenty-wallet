@@ -24,7 +24,6 @@ class BuyTezWidget extends StatelessWidget {
   BuyTezWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    log("AppConstant.homeWidgetDimension:${AppConstant.homeWidgetDimension}");
     return GestureDetector(
       onTap: () {
         Get.put(AccountSummaryController());

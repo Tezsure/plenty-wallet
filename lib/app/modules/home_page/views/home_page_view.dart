@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../controllers/home_page_controller.dart';
@@ -38,7 +39,7 @@ class HomePageView extends GetView<HomePageController>
                               padding: EdgeInsets.only(
                                 top: 100.arP,
                               ),
-                              physics: const BouncingScrollPhysics(),
+                    physics: AppConstant.scrollPhysics,
                               children: registeredWidgets,
                             )
 

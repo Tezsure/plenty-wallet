@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/utils/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../../utils/colors/colors.dart';
@@ -80,22 +81,12 @@ InkWell _optionMethod({Widget? child, GestureTapCallback? onTap}) {
 
 Widget addAccountSheet(warning) {
   return NaanBottomSheet(
-    blurRadius: 5.arP,
-    height: 240.arP,
+    bottomSheetHorizontalPadding: 0,
+    height: 300.arP,
+    title: warning ?? 'Add account',
     bottomSheetWidgets: [
       SizedBox(
-        height: 12.arP,
-      ),
-      Center(
-        child: Text(
-          warning ?? 'Add account',
-          style: TextStyle(
-            fontSize: 22.arP,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-          textAlign: TextAlign.center,
-        ),
+        height: 8.arP,
       ),
       Center(
         child: Text(
@@ -108,6 +99,7 @@ Widget addAccountSheet(warning) {
           textAlign: TextAlign.center,
         ),
       ),
+      Spacer(),
       SizedBox(
         height: 10.arP,
       ),
@@ -146,7 +138,7 @@ Widget addAccountSheet(warning) {
                 });
               },
             ),
-            0.0125.vspace,
+            0.016.vspace,
             GestureDetector(
               onTap: () {
                 Get.back();
@@ -170,9 +162,7 @@ Widget addAccountSheet(warning) {
                         color: ColorConst.Neutral.shade80)),
               ),
             ),
-            SizedBox(
-              height: 10.arP,
-            ),
+            BottomButtonPadding()
           ],
         ),
       ),

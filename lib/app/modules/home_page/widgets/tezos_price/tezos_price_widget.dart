@@ -27,13 +27,7 @@ class TezosPriceWidget extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: SvgPicture.asset(
                 "${PathConst.HOME_PAGE.SVG}tezos_price.svg",
-                width: 0.2.width,
-              ),
-            ),
-            Text(
-              "Tez",
-              style: labelSmall.apply(
-                color: ColorConst.NeutralVariant.shade60,
+                width: 0.225.width,
               ),
             ),
             Expanded(

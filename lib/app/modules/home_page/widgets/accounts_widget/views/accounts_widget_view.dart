@@ -97,7 +97,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                       .changeSelectedAccount(index);
                                   setState(() {});
                                 },
-                                physics: const BouncingScrollPhysics(),
+                                physics: AppConstant.scrollPhysics,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (_, index) {
                                   final scale =

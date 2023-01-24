@@ -5,6 +5,7 @@ import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker_tile.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/review_delegate_baker.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -99,7 +100,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               cacheExtent: 4,
               controller: controller.scrollController,
               padding: EdgeInsets.zero,
-              physics: const BouncingScrollPhysics(),
+                    physics: AppConstant.scrollPhysics,
               itemBuilder: (_, index) {
                 if (delegatedBaker?.address ==
                     controller.searchedDelegateBakerList[index].address) {

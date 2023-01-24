@@ -433,9 +433,11 @@ class NftGalleryView extends GetView<NftGalleryController> {
             horizontal: 16.arP,
           ),
           child: ListView.builder(
-            addAutomaticKeepAlives: false,
-            addRepaintBoundaries: false,
-            physics: const BouncingScrollPhysics(),
+            // cacheExtent: 10.arP,
+            shrinkWrap: true,
+            // addAutomaticKeepAlives: false,
+            // addRepaintBoundaries: false,
+            physics: AppConstant.scrollPhysics,
             itemBuilder: ((context, index) => Column(
                   children: [
                     SizedBox(
@@ -636,13 +638,14 @@ class NftGalleryView extends GetView<NftGalleryController> {
               horizontal: 16.arP,
             ),
             child: MasonryGridView.count(
-              physics: const BouncingScrollPhysics(),
+              physics: AppConstant.scrollPhysics,
               crossAxisCount: Get.width > 768 ? 3 : 2,
               mainAxisSpacing: 12.arP,
-              addAutomaticKeepAlives: false,
-              addRepaintBoundaries: false,
+              // addAutomaticKeepAlives: false,
+              // addRepaintBoundaries: false,
+              shrinkWrap: true,
               crossAxisSpacing: 12.arP,
-              cacheExtent: 0.0,
+              // cacheExtent: 100.0.arP,
               itemCount: nfts.length,
               itemBuilder: (context, index) => Container(
                 width: double.infinity,
@@ -671,7 +674,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
           shrinkWrap: true,
           addAutomaticKeepAlives: false,
           addRepaintBoundaries: false,
-          physics: const BouncingScrollPhysics(),
+          physics: AppConstant.scrollPhysics,
           scrollDirection: Axis.horizontal,
           children: [
             for (var i = 0; i < controller.nftTypesChips.length; i++)
@@ -764,7 +767,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
               child: Icon(
                 Icons.search_rounded,
                 color: const Color(0xFF958E99),
-                size: 18.arP,
+                size: 24.arP,
               ),
             ),
           ],

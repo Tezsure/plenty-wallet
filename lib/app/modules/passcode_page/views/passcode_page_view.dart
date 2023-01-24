@@ -25,6 +25,26 @@ class PasscodePageView extends GetView<PasscodePageController> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        leading: Get.previousRoute.toString() == "/splash-page"
+            ? Container()
+            : Align(
+                alignment: Alignment.centerLeft,
+                child: GestureDetector(
+                  onTap: () => Get.back(),
+                  child: CircleAvatar(
+                    radius: 0.045.width,
+                    backgroundColor: Colors.transparent,
+                    child: SvgPicture.asset(
+                      "${PathConst.SVG}arrow_back.svg",
+                      fit: BoxFit.scaleDown,
+                    ),
+                  ),
+                ),
+              ),
+        backgroundColor: Colors.transparent,
+      ),
       body: Container(
         color: Colors.black,
         padding: const EdgeInsets.symmetric(horizontal: 21),
@@ -33,22 +53,6 @@ class PasscodePageView extends GetView<PasscodePageController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               0.02.vspace,
-              Get.previousRoute.toString() == "/splash-page"
-                  ? Container()
-                  : Align(
-                      alignment: Alignment.centerLeft,
-                      child: GestureDetector(
-                        onTap: () => Get.back(),
-                        child: CircleAvatar(
-                          radius: 0.045.width,
-                          backgroundColor: Colors.transparent,
-                          child: SvgPicture.asset(
-                            "${PathConst.SVG}arrow_back.svg",
-                            fit: BoxFit.scaleDown,
-                          ),
-                        ),
-                      ),
-                    ),
               0.05.vspace,
               Center(
                 child: SizedBox(
@@ -190,7 +194,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
   }
 
   Widget getKeyBoardWidget() => Container(
-        width: 0.7.width,
+        width: 0.8.width,
         alignment: Alignment.center,
         child: Wrap(
           alignment: WrapAlignment.center,
@@ -293,7 +297,7 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
                           value,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 18.0.arP,
+                            fontSize: 22.0.arP,
                           ),
                         ),
             ),

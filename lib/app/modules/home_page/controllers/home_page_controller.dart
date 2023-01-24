@@ -15,6 +15,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/contro
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/scan_qr.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
+import 'package:naan_wallet/utils/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../utils/colors/colors.dart';
@@ -217,8 +218,7 @@ class BackupWalletBottomSheet extends StatelessWidget {
                 Get.back();
               }),
         ),
-        .01.vspace,
-        const SafeArea(child: SizedBox.shrink())
+        BottomButtonPadding()
       ],
     );
   }

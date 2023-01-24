@@ -400,7 +400,11 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                     Obx(() => InkWell(
                           onTap: () {
                             if (_controller.isAccountEditable.isFalse) {
-                              Get.to(ImportWalletPageView());
+                              Get.bottomSheet(
+                                  ImportWalletPageView(
+                                    isBottomSheet: true,
+                                  ),
+                                  isScrollControlled: true);
                               // Get.bottomSheet(const ImportWalletPageView(),
                               //     isScrollControlled: true,
                               //     useRootNavigator: true,

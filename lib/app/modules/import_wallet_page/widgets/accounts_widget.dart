@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/data/services/service_models/account_model.dart'
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:naan_wallet/app/data/services/extension_service/extension_service.dart';
@@ -67,7 +68,7 @@ class AccountWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
+                    physics: AppConstant.scrollPhysics,
                             itemBuilder: (context, index) => accountWidget(
                                 controller.generatedAccounts[index], index),
                             itemCount: controller.generatedAccounts.length,

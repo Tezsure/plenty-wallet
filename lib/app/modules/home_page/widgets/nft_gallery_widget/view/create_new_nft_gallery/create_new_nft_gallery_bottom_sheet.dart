@@ -18,6 +18,7 @@ import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/create_profile_page/views/avatar_picker_view.dart';
 import 'package:naan_wallet/app/modules/custom_packages/custom_checkbox.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
+import 'package:naan_wallet/utils/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -330,57 +331,14 @@ class CreateNewNftGalleryBottomSheet
         bottomSheetHorizontalPadding: 0,
         title:
             nftGalleryModel != null ? "Edit your gallery" : "Name your gallery",
-        height: 0.85.height - MediaQuery.of(context).viewInsets.bottom,
+        height: AppConstant.naanBottomSheetHeight,
+        isScrollControlled: true,
         bottomSheetWidgets: [
           SizedBox(
-            height: 0.78.height - MediaQuery.of(context).viewInsets.bottom,
+            height: AppConstant.naanBottomSheetChildHeight -
+                MediaQuery.of(context).viewInsets.bottom,
             child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // 0.02.vspace,
-                // Container(
-                //   margin: EdgeInsets.only(
-                //     left: 16.arP,
-                //     right: 16.arP,
-                //   ),
-                //   child: Row(
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     children: [
-                //       Expanded(
-                //         child: Align(
-                //           alignment: Alignment.centerLeft,
-                //           child: GestureDetector(
-                //             onTap: () => controller.formIndex.value = 0,
-                //             child: SvgPicture.asset(
-                //               "${PathConst.SVG}arrow_back.svg",
-                //               fit: BoxFit.scaleDown,
-                //               width: 28.arP,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //       Expanded(
-                //         flex: 3,
-                //         child: Center(
-                //           child: Text(
-                //             nftGalleryModel != null
-                //                 ? "Edit your gallery"
-                //                 : "Name your gallery",
-                //             style: TextStyle(
-                //               color: Colors.white,
-                //               fontSize: 20.arP,
-                //               fontWeight: FontWeight.w700,
-                //               letterSpacing: 0.15.arP,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //       const Spacer()
-                //     ],
-                //   ),
-                // ),
                 Obx(
                   () => Container(
                     height: 104.arP,
@@ -452,7 +410,7 @@ class CreateNewNftGalleryBottomSheet
                         controller.accountName.value = value,
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
@@ -486,6 +444,7 @@ class CreateNewNftGalleryBottomSheet
                     }),
                   ),
                 ),
+                BottomButtonPadding()
               ],
             ),
           ),
@@ -494,10 +453,10 @@ class CreateNewNftGalleryBottomSheet
 
   Widget changePhotoBottomSheet() {
     return NaanBottomSheet(
-      height: 250.arP,
+      height: 275.arP,
       bottomSheetWidgets: [
         SizedBox(
-          height: 225.arP,
+          height: 250.arP,
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -613,7 +572,7 @@ class CreateNewNftGalleryBottomSheet
                     ),
                   ),
                 ),
-                0.063.vspace,
+                BottomButtonPadding()
               ],
             ),
           ),

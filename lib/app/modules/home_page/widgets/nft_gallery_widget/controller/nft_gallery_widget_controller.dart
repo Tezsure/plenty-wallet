@@ -174,8 +174,8 @@ class NftGalleryWidgetController extends GetxController {
         ),
         galleryIndex);
 
-    fetchNftGallerys();
-
+    await fetchNftGallerys();
+    isCreating.value = false;
     Get.back();
   }
 
@@ -209,11 +209,12 @@ class NftGalleryWidgetController extends GetxController {
         tezAddress: 'Gallery with same name already exists',
         transactionAmount: 'Cant create gallery',
       );
+      isCreating.value = false;
       return;
     }
 
     await fetchNftGallerys();
-
+    isCreating.value = false;
     Get.back();
 
     Get.bottomSheet(
