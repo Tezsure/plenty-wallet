@@ -97,7 +97,7 @@ class AppPages {
     // ),
     GetPage(
       name: _Paths.IMPORT_WALLET_PAGE,
-      page: () => const ImportWalletPageView(),
+      page: () =>  ImportWalletPageView(),
       binding: ImportWalletPageBinding(),
     ),
     GetPage(

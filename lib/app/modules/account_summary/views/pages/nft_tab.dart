@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -40,7 +41,7 @@ class NFTabPage extends GetView<AccountSummaryController> {
             ],
           )
         : ListView.builder(
-            physics: const BouncingScrollPhysics(),
+                    physics: AppConstant.scrollPhysics,
             padding: EdgeInsets.only(left: 14.aR, right: 14.aR, top: 14.aR),
             itemCount: controller.userNfts.length,
             itemBuilder: ((context, index) => NftCollectibles(

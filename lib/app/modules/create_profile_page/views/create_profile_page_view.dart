@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
@@ -13,6 +14,7 @@ import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/create_profile_page/views/avatar_picker_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/utils/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -25,6 +27,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
   const CreateProfilePageView({super.key, this.isBottomSheet = false});
   @override
   Widget build(BuildContext context) {
+    log("message:$isBottomSheet");
     isBottomSheet ? Get.put(CreateProfilePageController()) : null;
     var args = ModalRoute.of(context)!.settings.arguments as List;
     controller.previousRoute = args[0] as String;
@@ -33,6 +36,10 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
       minChildSize: isBottomSheet ? 0.9 : 1,
       maxChildSize: isBottomSheet ? 0.95 : 1,
       builder: (context, scrollController) => Scaffold(
+        appBar: AppBar(
+          leading: backButton(),
+          backgroundColor: Colors.black,
+        ),
         body: Container(
           color: Colors.black,
           width: 1.width,
@@ -41,9 +48,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              0.04.vspace,
-              backButton(),
-              0.05.vspace,
+              0.02.vspace,
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text("Name your account", style: titleLarge),
@@ -111,12 +116,11 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                 () => Center(
                   child: Container(
                     margin: EdgeInsets.only(
-                      left: 14.arP,
-                      right: 14.arP,
+                      left: 16.arP,
+                      right: 16.arP,
                     ),
                     child: SolidButton(
-                      height: 50.arP,
-                      width: 326.arP,
+                      // width: 326.arP,
                       active: controller.isContiuneButtonEnable.value,
                       onPressed: () {
                         if (controller.previousRoute ==
@@ -194,7 +198,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                   ),
                 ),
               ),
-              0.05.vspace
+              const BottomButtonPadding()
             ],
           ),
         ),

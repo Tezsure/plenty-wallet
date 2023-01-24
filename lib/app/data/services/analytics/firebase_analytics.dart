@@ -1,15 +1,15 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
+// import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class NaanAnalytics {
   static const address = "address";
   static final NaanAnalytics _singleton = NaanAnalytics._internal();
-  static late FirebaseAnalytics _analytics;
+  // static late FirebaseAnalytics _analytics;
 
   factory NaanAnalytics() => _singleton;
 
   NaanAnalytics._internal() {
-    _analytics = FirebaseAnalytics.instance;
+    // _analytics = FirebaseAnalytics.instance;
   }
   Future<void> setupAnalytics() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -18,21 +18,21 @@ class NaanAnalytics {
     String packageName = packageInfo.packageName;
     String version = packageInfo.version;
     String buildNumber = packageInfo.buildNumber;
-    await _analytics.setDefaultEventParameters({
-      'version': version,
-      'buildNumber': buildNumber,
-      'packageName': packageName,
-      'appName': appName
-    });
+    // await _analytics.setDefaultEventParameters({
+    //   'version': version,
+    //   'buildNumber': buildNumber,
+    //   'packageName': packageName,
+    //   'appName': appName
+    // });
   }
 
   static void logEvent(String name, {Map<String, dynamic>? param}) async {
-    await _analytics.logEvent(name: name, parameters: param);
+    // await _analytics.logEvent(name: name, parameters: param);
   }
 
-  FirebaseAnalytics getAnalytics() {
-    return _analytics;
-  }
+  // FirebaseAnalytics getAnalytics() {
+  //   return _analytics;
+  // }
 }
 
 class NaanAnalyticsEvents {

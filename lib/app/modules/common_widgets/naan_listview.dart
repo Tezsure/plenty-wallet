@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 
 // ignore: must_be_immutable
 class NaanListView extends StatefulWidget {
@@ -55,7 +56,7 @@ class _NaanListViewState extends State<NaanListView>
           margin: widget.listViewEdgeInsets,
           child: ListView.builder(
             controller: _scrollController,
-            physics: const BouncingScrollPhysics(),
+                    physics: AppConstant.scrollPhysics,
             itemCount: widget.itemCount,
             itemBuilder: widget.itemBuilder,
           ),

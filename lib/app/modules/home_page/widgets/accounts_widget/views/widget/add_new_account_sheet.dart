@@ -12,6 +12,7 @@ import 'package:naan_wallet/app/data/services/service_config/service_config.dart
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -392,8 +393,8 @@ class _AvatarPickerState extends State<AvatarPicker> {
           0.05.vspace,
           Expanded(
             child: GridView.count(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
+                             physics: AppConstant.scrollPhysics,
+
               crossAxisCount: 4,
               mainAxisSpacing: 0.06.width,
               crossAxisSpacing: 0.06.width,

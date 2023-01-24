@@ -42,10 +42,10 @@ class SettingsPageView extends GetView<SettingsPageController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                0.01.vspace,
                 Expanded(
                   child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics()),
+                    physics: AppConstant.scrollPhysics,
                     child: Column(
                       children: [
                         // Obx(() => _homePageController.userAccounts.isEmpty

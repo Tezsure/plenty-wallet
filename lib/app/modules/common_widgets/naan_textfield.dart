@@ -51,6 +51,7 @@ class NaanTextfield extends StatelessWidget {
       onSubmitted: onSubmitted,
       onEditingComplete: onEditingComplete,
       decoration: InputDecoration(
+        counterText: "",
         fillColor: backgroundColor ?? Colors.white.withOpacity(0.1),
         filled: true,
         border: OutlineInputBorder(

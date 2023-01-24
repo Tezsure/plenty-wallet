@@ -65,6 +65,10 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--bundle-sksl-path flutter_02.sksl.json"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--cache-sksl --purge-persistent-cache"
             isEnabled = "NO">
          </CommandLineArgument>

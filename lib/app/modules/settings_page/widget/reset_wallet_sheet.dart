@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/con
 import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/utils/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -34,7 +35,7 @@ class ResetWalletBottomSheet extends StatelessWidget {
         Center(
           child: Text(
             'You can lose your funds forever if you\ndidn’t make a backup. Are you sure you\nwant to reset naan?',
-            style: labelMedium.copyWith(color: ColorConst.textGrey1),
+            style: bodySmall.copyWith(color: ColorConst.textGrey1),
             textAlign: TextAlign.center,
           ),
         ),
@@ -82,28 +83,24 @@ class ResetWalletBottomSheet extends StatelessWidget {
                   try {
                     Get.find<HomePageController>().dispose();
                   } catch (_) {}
-                   try {
+                  try {
                     Get.find<NftGalleryWidgetController>().fetchNftGallerys();
                   } catch (_) {}
                 }),
-            if (Get.find<HomePageController>()
-                .userAccounts
-                .where((p0) => !p0.isWatchOnly)
-                .isNotEmpty)
-              if (!isWalletBackup)
-                Column(
-                  children: [
-                    0.016.vspace,
-                    optionMethod(
-                        child: Text(
-                          "Backup Account",
-                          style: labelMedium,
-                        ),
-                        onTap: () {
-                          settingController.checkWalletBackup();
-                        }),
-                  ],
-                ),
+            if (!isWalletBackup)
+              Column(
+                children: [
+                  0.016.vspace,
+                  optionMethod(
+                      child: Text(
+                        "Backup Account",
+                        style: labelMedium,
+                      ),
+                      onTap: () {
+                        settingController.checkWalletBackup();
+                      }),
+                ],
+              ),
             0.016.vspace,
             optionMethod(
                 child: Text(
@@ -113,8 +110,7 @@ class ResetWalletBottomSheet extends StatelessWidget {
                 onTap: () {
                   Get.back();
                 }),
-            0.016.vspace,
-            const SafeArea(child: SizedBox.shrink())
+            BottomButtonPadding()
           ],
         ),
       ],

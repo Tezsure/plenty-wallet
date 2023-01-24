@@ -174,7 +174,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   : Expanded(
                       child: CustomScrollView(
                       controller: paginationController,
-                      physics: const BouncingScrollPhysics(),
+                      physics: AppConstant.scrollPhysics,
                       slivers: [
                         SliverList(
                           delegate: SliverChildBuilderDelegate(

@@ -5,6 +5,7 @@ import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controll
 import 'package:naan_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/delete_contact_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -22,8 +23,8 @@ class ContactsListView extends GetView<SendPageController> {
           Obx(
             () => Expanded(
               child: ListView(
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
+                            physics: AppConstant.scrollPhysics,
+
                 children: (<Widget>[
                       if (controller.searchText.isNotEmpty)
                         ...[

@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/edit_account_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -66,7 +67,7 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
                         },
                         child: controller.isRearranging.value
                             ? ReorderableListView.builder(
-                                physics: const BouncingScrollPhysics(),
+                                physics: AppConstant.scrollPhysics,
                                 scrollController:
                                     controller.scrollcontroller.value,
                                 itemBuilder: (context, index) => accountWIdget(
@@ -76,7 +77,7 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
                                     _homePageController.userAccounts.length,
                                 onReorder: controller.reorderUserAccountsList)
                             : ListView.builder(
-                                physics: const BouncingScrollPhysics(),
+                    physics: AppConstant.scrollPhysics,
                                 controller: controller.scrollcontroller.value,
                                 itemBuilder: (context, index) => accountWIdget(
                                     index,
