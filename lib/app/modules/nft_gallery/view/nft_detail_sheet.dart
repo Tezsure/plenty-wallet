@@ -44,9 +44,11 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        showButton = false;
-      });
+      if (mounted) {
+        setState(() {
+          showButton = false;
+        });
+      }
     });
     // imageUrl = widget.nftModel!.artifactUri?.contains("data:image/svg+xml") ??
     //         false

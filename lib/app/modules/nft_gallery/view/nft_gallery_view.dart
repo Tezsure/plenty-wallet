@@ -276,12 +276,12 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         ),
                 ],
               ),
-              // Obx(
-              //   () => Align(
-              //     alignment: Alignment.bottomCenter,
-              //     child: _getHoverFilterWidget(),
-              //   ),
-              // ),
+              Obx(
+                () => Align(
+                  alignment: Alignment.bottomCenter,
+                  child: _getHoverFilterWidget(),
+                ),
+              ),
             ],
           ),
         )
@@ -504,6 +504,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                           8.arP,
                                         ),
                                         child: NFTImage(
+                                            memCacheHeight: 350,
+                                            memCacheWidth: 350,
                                             nftTokenModel: nftTokenModel)
                                         //  nftTokenModel.artifactUri
                                         //             ?.startsWith("data") ??
@@ -1323,10 +1325,10 @@ class NftCollectionItemWidget extends StatelessWidget {
               ),
               child: NFTImage(
                 nftTokenModel: _nftTokens[i],
-                maxHeightDiskCache: 134,
-                maxWidthDiskCache: 134,
-                memCacheHeight: 134,
-                memCacheWidth: 134,
+/*                 maxHeightDiskCache: 134,
+                maxWidthDiskCache: 134, */
+                memCacheHeight: 350,
+                memCacheWidth: 350,
               )),
         ),
       );
