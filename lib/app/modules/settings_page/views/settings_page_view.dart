@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -44,9 +45,9 @@ class SettingsPageView extends GetView<SettingsPageController> {
               children: [
                 0.01.vspace,
                 Expanded(
-                  child: SingleChildScrollView(
-                    physics: AppConstant.scrollPhysics,
-                    child: Column(
+                  child: Obx(() {
+                    return ListView(
+                      physics: AppConstant.scrollPhysics,
                       children: [
                         // Obx(() => _homePageController.userAccounts.isEmpty
                         //     ? const SizedBox()
@@ -70,7 +71,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                   svgPath:
                                       "${PathConst.SETTINGS_PAGE.SVG}backup.svg",
                                 ),
-                              if (controller.supportBiometric.value)
+                              if (controller.isPasscodeSet.value)
                                 _settingOption(
                                   onTap: () =>
                                       Get.to(() => const ChangePasscode()),
@@ -78,7 +79,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                   svgPath:
                                       "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
                                 ),
-                              _fingerPrintOption()
+                              if (controller.supportBiometric.value)
+                                _fingerPrintOption()
                             ],
                           ),
                         if (_homePageController.userAccounts.isNotEmpty)
@@ -231,8 +233,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         _resetOption(),
                         SizedBox(height: 0.065.width),
                       ],
-                    ),
-                  ),
+                    );
+                  }),
                 ),
               ],
             ),

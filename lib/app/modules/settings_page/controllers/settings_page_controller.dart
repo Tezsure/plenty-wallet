@@ -59,9 +59,10 @@ class SettingsPageController extends GetxController {
   RxBool verifyPassCode = false.obs; // Verify passcode status
   RxBool inAppReviewAvailable =
       true.obs; // Check if in app purchase is available
+  RxBool supportBiometric = true.obs;
+  RxBool isPasscodeSet = true.obs;
 
   final InAppReview inAppReview = InAppReview.instance;
-  RxBool supportBiometric = false.obs;
 
   /// To change the app passcode and verify the passcode if fails, redirects to verify passcode screen otherwise changes the passcode
   void changeAppPasscode(String passCode) async {
@@ -149,6 +150,7 @@ class SettingsPageController extends GetxController {
   void onInit() async {
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
     fingerprint.value = await AuthService().getBiometricAuth();
+    isPasscodeSet.value = await AuthService().getIsPassCodeSet();
     getWalletBackupStatus();
     networkType.value = await RpcService.getCurrentNetworkType();
     log("isWalletBackup.value :${isWalletBackup.value} ");
@@ -174,6 +176,7 @@ class SettingsPageController extends GetxController {
     inAppReviewAvailable.value = await inAppReview.isAvailable();
     supportBiometric.value =
         await AuthService().checkIfDeviceSupportBiometricAuth();
+
     getAllConnectedApps();
     super.onInit();
   }
@@ -322,7 +325,7 @@ class SettingsPageController extends GetxController {
                   homePageController.userAccounts[i].publicKeyHash!))
               ?.seedPhrase ==
           seedPhrase) {
-         homePageController.userAccounts[i].isWalletBackedUp = true;
+        homePageController.userAccounts[i].isWalletBackedUp = true;
 
         break;
       }
