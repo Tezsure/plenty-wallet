@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
-import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
@@ -45,7 +43,6 @@ class LoadingPageController extends GetxController {
           Future.delayed(const Duration(seconds: 3))
         ]);
       } else {
-
         var createWalletResult = await Future.wait([
           WalletService().createNewAccount(
             createWalletPageController.accountNameController.text,
@@ -64,7 +61,6 @@ class LoadingPageController extends GetxController {
 
       if (importWalletPageController.importWalletDataType ==
           ImportWalletDataType.privateKey) {
-       
         CreateProfilePageController createWalletPageController =
             Get.find<CreateProfilePageController>();
         // import wallet using private key

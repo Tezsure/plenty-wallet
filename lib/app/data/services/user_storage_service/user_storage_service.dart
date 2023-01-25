@@ -259,4 +259,5 @@ class UserStorageService {
               "[]")
           .map<NftGalleryModel>((e) => NftGalleryModel.fromJson(e))
           .toList();
+
 }
