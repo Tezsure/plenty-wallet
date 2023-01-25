@@ -27,6 +27,14 @@ LinearGradient accountBg = LinearGradient(
   ],
 );
 
+LinearGradient appleRed = const LinearGradient(
+  begin: Alignment.centerRight,
+  end: Alignment.centerLeft,
+  colors: [
+    Color(0xffE6406F),
+    Color(0xffFE0618),
+  ],
+);
 LinearGradient appleGreen = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,

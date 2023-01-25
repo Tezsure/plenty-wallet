@@ -132,7 +132,7 @@ class NaanBottomSheet extends StatelessWidget {
                 width: width ?? 1.width,
                 height: height,
                 padding: EdgeInsets.symmetric(
-                    horizontal: bottomSheetHorizontalPadding ?? 32),
+                    horizontal: bottomSheetHorizontalPadding ?? 16.arP),
                 child: isScrollControlled
                     ? SingleChildScrollView(
                         child: isScrollControlledUI(),

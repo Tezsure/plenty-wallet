@@ -4,6 +4,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/buy_tez_widget/buy_tez
 import 'package:naan_wallet/app/modules/home_page/widgets/coming_soon_widget/coming_soon_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/discover_apps_widget/discover_apps_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/earn_tez_widget/earn_tez_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/iaf/iaf_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/view/nft_gallery_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/objkt_nft_widget.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
@@ -34,7 +35,10 @@ final List<Widget> registeredWidgets = [
     ),
   ),
   homeWidgetsGap,
-
+  Padding(
+      padding: EdgeInsets.symmetric(horizontal: 22.arP),
+      child: const IAFWidget()),
+  homeWidgetsGap,
   //const TezosPriceWidget(),
   //const MyNFTwidget(),
 

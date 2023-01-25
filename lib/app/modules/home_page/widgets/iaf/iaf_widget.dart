@@ -1,27 +1,23 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
-
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom_sheet.dart';
-
+import 'package:naan_wallet/app/modules/dapps_page/views/dapps_page_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/account_switch_widget/account_switch_widget.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_account_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/iaf/controller/iaf_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/iaf/view/iaf_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-import '../../../dapp_browser/views/dapp_browser_view.dart';
+class IAFWidget extends StatelessWidget {
+  const IAFWidget({Key? key}) : super(key: key);
 
-class BuyTezWidget extends StatelessWidget {
-  BuyTezWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -29,7 +25,7 @@ class BuyTezWidget extends StatelessWidget {
         Get.put(AccountSummaryController());
         HomePageController home = Get.find<HomePageController>();
         if (home.userAccounts
-            .where((element) => element.isWatchOnly == false)
+            .where((element) => !element.isWatchOnly)
             .toList()
             .isEmpty) {
           Get.bottomSheet(
@@ -42,23 +38,16 @@ class BuyTezWidget extends StatelessWidget {
         } else {
           Get.bottomSheet(
             AccountSwitch(
-              title: "Buy tez",
-              subtitle:
-                  'This module will be powered by wert.io and you will be using wert’s interface.',
+              title: "Claim drop",
+              subtitle: 'Chose an account to claim your free NFT and tez ',
               onNext: () {
-                NaanAnalytics.logEvent(NaanAnalyticsEvents.BUY_TEZ_CLICKED,
-                    param: {
-                      NaanAnalytics.address: home
-                          .userAccounts[home.selectedIndex.value].publicKeyHash
-                    });
-                String url =
-                    "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
+                Get.put(
+                    IAFController(home.userAccounts[home.selectedIndex.value]));
+                // String url =
+                //     "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
                 Get.bottomSheet(
-                  const DappBrowserView(),
+                  IAFSheet(),
                   barrierColor: Colors.white.withOpacity(0.09),
-                  settings: RouteSettings(
-                    arguments: url,
-                  ),
                   isScrollControlled: true,
                 );
               },
@@ -70,23 +59,21 @@ class BuyTezWidget extends StatelessWidget {
         }
       },
       child: HomeWidgetFrame(
+        width: 1.width,
         child: Container(
-          // height: AppConstant.homeWidgetDimension,
-          // width: AppConstant.homeWidgetDimension,
-          // margin: EdgeInsets.only(left: 24.arP),
           decoration: BoxDecoration(
-            gradient: appleYellow,
-            borderRadius: BorderRadius.circular(22.arP),
+            gradient: appleRed,
           ),
           child: Stack(
-            fit: StackFit.expand,
+            fit: StackFit.passthrough,
             children: [
-              Align(
-                alignment: Alignment.topRight,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(22.arP),
                 child: Image.asset(
-                  "${PathConst.HOME_PAGE}buy_tez.png",
+                  "${PathConst.HOME_PAGE}iaf.png",
+                  fit: BoxFit.cover,
                   cacheHeight: 335,
-                  cacheWidth: 335,
+                  cacheWidth: 709,
                 ),
               ),
               Align(
@@ -97,10 +84,10 @@ class BuyTezWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("Buy tez",
+                      Text("INDIA ART FAIR",
                           style: headlineSmall.copyWith(fontSize: 20.arP)),
                       Text(
-                        "with credit card",
+                        "apps on Tezos",
                         style: bodySmall,
                       ),
                     ],
