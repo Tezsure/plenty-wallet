@@ -76,21 +76,13 @@ class IAFWidget extends StatelessWidget {
                   cacheWidth: 709,
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(16.arP),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text("INDIA ART FAIR",
-                          style: headlineSmall.copyWith(fontSize: 20.arP)),
-                      Text(
-                        "apps on Tezos",
-                        style: bodySmall,
-                      ),
-                    ],
+              Padding(
+                padding: EdgeInsets.all(16.arP),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Image.asset(
+                    "${PathConst.HOME_PAGE}iaf-watermark.png",
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),

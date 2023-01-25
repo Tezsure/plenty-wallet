@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/iaf/controller/iaf_controller.dart';
-import 'package:naan_wallet/utils/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -21,28 +21,36 @@ class IAFSheet extends StatelessWidget {
       height: AppConstant.naanBottomSheetHeight -
           MediaQuery.of(context).viewInsets.bottom,
       bottomSheetWidgets: [
-        SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight -
-              28.arP -
-              MediaQuery.of(context).viewInsets.bottom,
-          child: Column(
-            children: [
-              0.032.vspace,
-              _buildSearch(),
-              const Spacer(),
-              SolidButton(
-                onPressed: () {},
-                title: "Verify",
-              ),
-              const BottomButtonPadding()
-            ],
-          ),
-        )
+        Obx(() {
+          return SizedBox(
+            height: AppConstant.naanBottomSheetChildHeight -
+                28.arP -
+                MediaQuery.of(context).viewInsets.bottom,
+            child: Column(
+              children: [
+                0.032.vspace,
+                _buildTextField(),
+                const Spacer(),
+                SolidButton(
+                  onPressed: () {
+                    if (controller.isverified.value) {
+                      controller.claim();
+                    } else {
+                      controller.verify();
+                    }
+                  },
+                  title: controller.isverified.value ? "Claim" : "Verify",
+                ),
+                const BottomButtonPadding()
+              ],
+            ),
+          );
+        })
       ],
     );
   }
 
-  SizedBox _buildSearch() {
+  SizedBox _buildTextField() {
     return SizedBox(
       height: 0.06.height,
       width: 1.width,
@@ -54,7 +62,6 @@ class IAFSheet extends StatelessWidget {
         textAlign: TextAlign.start,
         cursorColor: ColorConst.Primary,
         keyboardType: TextInputType.emailAddress,
-        validator: controller.validate,
         decoration: InputDecoration(
           filled: true,
           fillColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
