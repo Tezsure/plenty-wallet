@@ -7,13 +7,14 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart';
 import 'package:naan_wallet/app/modules/custom_packages/readmore/readmore.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/custom_tab_indicator.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/cast_devices.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/nft_image.dart';
+import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/app/modules/custom_packages/timeago/timeago.dart'
     as timeago;
@@ -44,9 +45,11 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        showButton = false;
-      });
+      if (mounted) {
+        setState(() {
+          showButton = false;
+        });
+      }
     });
     // imageUrl = widget.nftModel!.artifactUri?.contains("data:image/svg+xml") ??
     //         false
@@ -582,7 +585,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ExpansionTile(
+          NaanExpansionTile(
               onExpansionChanged: (val) => setState(() {
                     isExpanded = val;
                   }),
@@ -632,7 +635,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
             endIndent: 14.arP,
             indent: 14.arP,
           ),
-          ExpansionTile(
+          NaanExpansionTile(
               onExpansionChanged: (val) => setState(() {
                     isExpanded = val;
                   }),

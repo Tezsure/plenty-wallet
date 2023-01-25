@@ -23,8 +23,7 @@ class ContactsListView extends GetView<SendPageController> {
           Obx(
             () => Expanded(
               child: ListView(
-                            physics: AppConstant.scrollPhysics,
-
+                physics: AppConstant.scrollPhysics,
                 children: (<Widget>[
                       if (controller.searchText.isNotEmpty)
                         ...[
@@ -131,16 +130,16 @@ class ContactsListView extends GetView<SendPageController> {
                           onTap: () {
                             Get.back();
                             Get.bottomSheet(
-                              AddContactBottomSheet(
-                                contactModel: contact,
-                                isTransactionContact: false,
-                                isEditContact: true,
-                              ),
-                              enterBottomSheetDuration:
-                                  const Duration(milliseconds: 180),
-                              exitBottomSheetDuration:
-                                  const Duration(milliseconds: 150),
-                            );
+                                AddContactBottomSheet(
+                                  contactModel: contact,
+                                  isTransactionContact: false,
+                                  isEditContact: true,
+                                ),
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
+                                isScrollControlled: true);
                           },
                           child: Text(
                             "Edit",

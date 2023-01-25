@@ -35,6 +35,35 @@ class PasscodePageController extends GetxController {
       }
     } else if (nextPageRoute != null &&
         nextPageRoute == Routes.BIOMETRIC_PAGE &&
+        previousRoute == Routes.ONBOARDING_PAGE) {
+      await authService.setNewPassCode(passCode);
+      var isBioSupported =
+          await authService.checkIfDeviceSupportBiometricAuth();
+
+      /// arguments here defines that whether it's from create new wallet or import new wallet
+      // Get.toNamed(
+      //   isBioSupported ? Routes.BIOMETRIC_PAGE : Routes.CREATE_PROFILE_PAGE,
+      //   arguments: isBioSupported
+      //       ? [
+      //           previousRoute,
+      //           Routes.CREATE_PROFILE_PAGE,
+      //         ]
+      //       : [previousRoute],
+      // );
+
+      Get.toNamed(isBioSupported ? Routes.BIOMETRIC_PAGE : Routes.LOADING_PAGE,
+          arguments: isBioSupported
+              ? [
+                  previousRoute,
+                  Routes.LOADING_PAGE,
+                ]
+              : [
+                  'assets/create_wallet/lottie/wallet_success.json',
+                  previousRoute,
+                  Routes.HOME_PAGE,
+                ]);
+    } else if (nextPageRoute != null &&
+        nextPageRoute == Routes.BIOMETRIC_PAGE &&
         previousRoute == Routes.CREATE_WALLET_PAGE) {
       /// set a new passcode and redirect to biometric page if supported else redirect /create-profile-page
       await authService.setNewPassCode(passCode);

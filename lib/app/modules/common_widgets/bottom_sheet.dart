@@ -12,6 +12,7 @@ class NaanBottomSheet extends StatelessWidget {
   final List<Widget>? bottomSheetWidgets;
   final String? title;
   final Widget? action;
+  final Widget? leading;
   final double? blurRadius;
   final double? gradientStartingOpacity;
   final bool isDraggableBottomSheet;
@@ -39,6 +40,7 @@ class NaanBottomSheet extends StatelessWidget {
     this.bottomSheetWidgets,
     this.title,
     this.action,
+    this.leading,
     this.blurRadius,
     this.gradientStartingOpacity,
     this.isDraggableBottomSheet = false,
@@ -161,45 +163,41 @@ class NaanBottomSheet extends StatelessWidget {
               ),
             ),
             if (title != null) ...[
-              if (action == null)
-                Column(
-                  children: [
-                    0.02.vspace,
-                    Align(
-                      alignment: titleAlignment ?? Alignment.center,
-                      child: Text(
-                        title!,
-                        textAlign: TextAlign.start,
-                        style: titleStyle ?? titleLarge,
-                      ),
-                    ),
-                  ],
-                )
-              else
-                Row(
-                  children: [
-                    const Spacer(),
-                    Expanded(
-                      child: Align(
-                        alignment: titleAlignment ?? Alignment.center,
-                        child: Text(
-                          title!,
-                          textAlign: TextAlign.start,
-                          style: titleStyle ?? titleLarge,
+              Column(
+                children: [
+                  if (action == null && leading == null)
+                    0.02.vspace
+                  else
+                    0.01.vspace,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: leading ?? SizedBox.shrink(),
                         ),
                       ),
-                    ),
-                    if (action == null)
-                      const Spacer()
-                    else
+                      Expanded(
+                        flex: 4,
+                        child: Align(
+                          alignment: titleAlignment ?? Alignment.center,
+                          child: Text(
+                            title!,
+                            textAlign: TextAlign.center,
+                            style: titleStyle ?? titleLarge,
+                          ),
+                        ),
+                      ),
                       Expanded(
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child: action!,
+                          child: action ?? SizedBox.shrink(),
                         ),
                       ),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
+              )
 
               // Align(
               //   alignment: titleAlignment ?? Alignment.center,

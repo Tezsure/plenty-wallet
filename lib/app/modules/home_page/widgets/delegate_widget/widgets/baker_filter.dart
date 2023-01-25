@@ -24,12 +24,13 @@ class BakerFilterBottomSheet extends GetView<DelegateWidgetController> {
     Get.lazyPut(() => DelegateWidgetController());
     return NaanBottomSheet(
       height: 0.4.height,
-      title: 'Set baker by:',
+      title: 'Set baker by :',
       titleAlignment: Alignment.center,
       titleStyle: labelLarge,
       bottomSheetWidgets: [
         Column(
           children: [
+            0.02.vspace,
             Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
@@ -76,8 +77,8 @@ class BakerFilterBottomSheet extends GetView<DelegateWidgetController> {
                                                 // controller.bakerListBy.value ==
                                                 //         status[index]
                                                 //     ? ColorConst.Primary
-                                                //     : 
-                                                    Colors.transparent,
+                                                //     :
+                                                Colors.transparent,
                                           )))
                                 ],
                               ),

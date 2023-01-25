@@ -11,14 +11,16 @@ import 'package:naan_wallet/app/data/services/service_models/account_model.dart'
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/image_picker.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_listview.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/pick_an_avatar.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/create_profile_page/views/avatar_picker_view.dart';
 import 'package:naan_wallet/app/modules/custom_packages/custom_checkbox.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
-import 'package:naan_wallet/utils/bottom_button_padding.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -452,133 +454,163 @@ class CreateNewNftGalleryBottomSheet
       );
 
   Widget changePhotoBottomSheet() {
-    return NaanBottomSheet(
-      height: 275.arP,
-      bottomSheetWidgets: [
-        SizedBox(
-          height: 250.arP,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                0.02.vspace,
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          var imagePath = await CreateProfileService()
-                              .pickANewImageFromGallery();
-                          if (imagePath.isNotEmpty) {
-                            controller.currentSelectedType =
-                                AccountProfileImageType.file;
-                            controller.selectedImagePath.value = imagePath;
-                            Get.back();
-                          }
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          height: 51,
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Choose from library",
-                            style: labelMedium,
-                          ),
-                        ),
-                      ),
-                      const Divider(
-                        color: Color(0xff4a454e),
-                        height: 1,
-                        thickness: 1,
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          final result = await Get.to(const AvatarPickerView());
-
-                          if (result != null) {
-                            controller.currentSelectedType = result[1];
-                            controller.selectedImagePath.value = result[0];
-                          }
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          height: 51,
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Pick an avatar",
-                            style: labelMedium,
-                          ),
-                        ),
-                      ),
-                      if (controller.currentSelectedType ==
-                          AccountProfileImageType.file)
-                        Column(
-                          children: [
-                            const Divider(
-                              color: Color(0xff4a454e),
-                              height: 1,
-                              thickness: 1,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                controller.currentSelectedType =
-                                    AccountProfileImageType.assets;
-                                controller.selectedImagePath.value =
-                                    ServiceConfig.allAssetsProfileImages[0];
-                                Get.back();
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                height: 51,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "Remove photo",
-                                  style: labelMedium.apply(
-                                      color: ColorConst.Error.shade60),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                    ],
-                  ),
-                ),
-                0.016.vspace,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Container(
-                      height: 51,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color:
-                            ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                      ),
-                      child: Text(
-                        "Cancel",
-                        style: labelMedium.apply(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-                BottomButtonPadding()
-              ],
-            ),
-          ),
-        )
-      ],
+    return ImagePickerSheet(
+      onGallerySelect: () async {
+        var imagePath = await CreateProfileService().pickANewImageFromGallery();
+        if (imagePath.isNotEmpty) {
+          controller.currentSelectedType = AccountProfileImageType.file;
+          controller.selectedImagePath.value = imagePath;
+          Get.back();
+        }
+      },
+      onPickAvatarSelect: () async {
+        Get.bottomSheet(
+          avatarPicker(),
+          isScrollControlled: true,
+          enterBottomSheetDuration: const Duration(milliseconds: 180),
+          exitBottomSheetDuration: const Duration(milliseconds: 150),
+        );
+      },
+      onRemoveImage: controller.currentSelectedType ==
+              AccountProfileImageType.file
+          ? () {
+              controller.currentSelectedType = AccountProfileImageType.assets;
+              controller.selectedImagePath.value =
+                  ServiceConfig.allAssetsProfileImages[0];
+              Get.back();
+            }
+          : null,
     );
+    // return NaanBottomSheet(
+    //   height: 275.arP,
+    //   bottomSheetWidgets: [
+    //     SizedBox(
+    //       height: 250.arP,
+    //       child: SingleChildScrollView(
+    //         child: Column(
+    //           mainAxisSize: MainAxisSize.min,
+    //           children: [
+    //             0.02.vspace,
+    //             Container(
+    //               width: double.infinity,
+    //               padding: const EdgeInsets.symmetric(
+    //                 horizontal: 12,
+    //               ),
+    //               decoration: BoxDecoration(
+    //                 borderRadius: BorderRadius.circular(8),
+    //                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+    //               ),
+    //               child: Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.center,
+    //                 children: [
+    //                   GestureDetector(
+    //                     onTap: () async {
+    //                       var imagePath = await CreateProfileService()
+    //                           .pickANewImageFromGallery();
+    //                       if (imagePath.isNotEmpty) {
+    //                         controller.currentSelectedType =
+    //                             AccountProfileImageType.file;
+    //                         controller.selectedImagePath.value = imagePath;
+    //                         Get.back();
+    //                       }
+    //                     },
+    //                     child: Container(
+    //                       width: double.infinity,
+    //                       height: 51,
+    //                       alignment: Alignment.center,
+    //                       child: Text(
+    //                         "Choose from library",
+    //                         style: labelMedium,
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   const Divider(
+    //                     color: Color(0xff4a454e),
+    //                     height: 1,
+    //                     thickness: 1,
+    //                   ),
+    //                   GestureDetector(
+    //                     onTap: () async {
+    //                       Get.bottomSheet(
+    //                         avatarPicker(),
+    //                         isScrollControlled: true,
+    //                         enterBottomSheetDuration:
+    //                             const Duration(milliseconds: 180),
+    //                         exitBottomSheetDuration:
+    //                             const Duration(milliseconds: 150),
+    //                       );
+    //                     },
+    //                     child: Container(
+    //                       width: double.infinity,
+    //                       height: 51,
+    //                       alignment: Alignment.center,
+    //                       child: Text(
+    //                         "Pick an avatar",
+    //                         style: labelMedium,
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   if (controller.currentSelectedType ==
+    //                       AccountProfileImageType.file)
+    //                     Column(
+    //                       children: [
+    //                         const Divider(
+    //                           color: Color(0xff4a454e),
+    //                           height: 1,
+    //                           thickness: 1,
+    //                         ),
+    //                         GestureDetector(
+    //                           onTap: () {
+    //                             controller.currentSelectedType =
+    //                                 AccountProfileImageType.assets;
+    //                             controller.selectedImagePath.value =
+    //                                 ServiceConfig.allAssetsProfileImages[0];
+    //                             Get.back();
+    //                           },
+    //                           child: Container(
+    //                             width: double.infinity,
+    //                             height: 51,
+    //                             alignment: Alignment.center,
+    //                             child: Text(
+    //                               "Remove photo",
+    //                               style: labelMedium.apply(
+    //                                   color: ColorConst.Error.shade60),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ],
+    //                     ),
+    //                 ],
+    //               ),
+    //             ),
+    //             0.016.vspace,
+    //             Padding(
+    //               padding: const EdgeInsets.symmetric(horizontal: 16),
+    //               child: GestureDetector(
+    //                 onTap: () => Get.back(),
+    //                 child: Container(
+    //                   height: 51,
+    //                   alignment: Alignment.center,
+    //                   decoration: BoxDecoration(
+    //                     borderRadius: BorderRadius.circular(8),
+    //                     color:
+    //                         ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+    //                   ),
+    //                   child: Text(
+    //                     "Cancel",
+    //                     style: labelMedium.apply(color: Colors.white),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //             BottomButtonPadding()
+    //           ],
+    //         ),
+    //       ),
+    //     )
+    //   ],
+    // );
+
     // return SizedBox(
     //   height: 250.arP,
     //   child: Scaffold(
@@ -723,5 +755,19 @@ class CreateNewNftGalleryBottomSheet
     //     ),
     //   ),
     // );
+  }
+
+  Widget avatarPicker() {
+    return PickAvatar(
+      selectedAvatar: controller.selectedImagePath.value,
+      imageType: controller.currentSelectedType,
+      onConfirm: (String selectedAvatar) {
+        controller.currentSelectedType == AccountProfileImageType.assets;
+        controller.selectedImagePath.value = selectedAvatar;
+
+        Get.back();
+        Get.back();
+      },
+    );
   }
 }

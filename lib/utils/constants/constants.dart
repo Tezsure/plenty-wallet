@@ -9,7 +9,7 @@ class AppConstant {
   static double homeWidgetDimension = ((0.5 * Get.width) - 33.arP);
   static double naanBottomSheetHeight = 0.89.height;
   static double naanBottomSheetChildHeight = 0.85.height;
-  static const ScrollPhysics scrollPhysics = ClampingScrollPhysics();
+  static const ScrollPhysics scrollPhysics = BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics());
 }
 
 class Dapp {

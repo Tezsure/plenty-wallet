@@ -6,7 +6,7 @@ import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controll
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/nft_image.dart';
+import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../widgets/token_selector.dart';
@@ -33,7 +33,7 @@ class SendReviewPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Material(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(8.arP),
                   color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                   child: TokenSelector(
                     onTap: () {
@@ -53,9 +53,9 @@ class SendReviewPage extends StatelessWidget {
                   Center(
                     child: Container(
                       constraints: BoxConstraints(maxHeight: 0.4.height),
-                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      margin:  EdgeInsets.symmetric(vertical: 10.arP),
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8.arP),
                           child: NFTImage(
                               nftTokenModel: controller.selectedNftModel!)
                           //  CachedNetworkImage(
@@ -71,7 +71,7 @@ class SendReviewPage extends StatelessWidget {
                 ],
                 0.04.vspace,
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding:  EdgeInsets.symmetric(horizontal: 16.arP),
                   child: Align(
                     alignment: Alignment.center,
                     child: Obx(
@@ -132,7 +132,7 @@ class SendReviewPage extends StatelessWidget {
                 ),
                 0.02.vspace,
                 Padding(
-                    padding: EdgeInsets.all(12.arP),
+                    padding: EdgeInsets.all(16.arP),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

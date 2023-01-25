@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -80,6 +82,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                   0.040.vspace,
                   GridView.builder(
                       shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: controller
                           .phraseList[controller.keyIndex.value].length,
                       padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -91,29 +94,46 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                         mainAxisSpacing: 16,
                       ),
                       itemBuilder: (_, index) {
-                        return Obx(() => Material(
-                              color: (controller.phraseIndex?.value == index &&
-                                      controller.isPhraseSelected.value)
-                                  ? ColorConst.Primary
-                                  : ColorConst.NeutralVariant.shade60
-                                      .withOpacity(0.2),
-                              type: MaterialType.canvas,
-                              elevation: 1,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8)),
-                              child: InkWell(
+                        // return Obx(() => SolidButton(
+                        //       active: controller.selectedPhrase.value ==
+                        //           controller
+                        //               .phraseList[controller.keyIndex.value]
+                        //               .elementAt(index),
+                        //       onPressed: () => controller.selectSecretPhrase(
+                        //         index: index,
+                        //       ),
+                        //       title: controller
+                        //           .phraseList[controller.keyIndex.value]
+                        //           .elementAt(index),
+                        //     ));
+                        return Obx(() => BouncingWidget(
+                              onPressed: () => controller.selectSecretPhrase(
+                                index: index,
+                              ),
+                              child: Material(
+                                color:
+                                    (controller.phraseIndex?.value == index &&
+                                            controller.isPhraseSelected.value)
+                                        ? ColorConst.Primary
+                                        : ColorConst.NeutralVariant.shade60
+                                            .withOpacity(0.2),
+                                type: MaterialType.canvas,
+                                elevation: 1,
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(8)),
-                                onTap: () => controller.selectSecretPhrase(
-                                  index: index,
-                                ),
-                                splashColor: Colors.transparent,
                                 child: Center(
                                   child: Text(
                                     controller
                                         .phraseList[controller.keyIndex.value]
                                         .elementAt(index),
-                                    style: bodyMedium,
+                                    style: titleSmall.copyWith(
+                                        color: (controller.phraseIndex?.value ==
+                                                    index &&
+                                                controller
+                                                    .isPhraseSelected.value)
+                                            ? ColorConst.Neutral.shade100
+                                            : ColorConst
+                                                .NeutralVariant.shade60),
                                   ),
                                 ),
                               ),
@@ -130,46 +150,55 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                         )
                       : Container()),
                   const Spacer(),
-                  Obx(() => Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Material(
-                            color: (controller.isPhraseSelected.value)
-                                ? ColorConst.Primary
-                                : ColorConst.NeutralVariant.shade60
-                                    .withOpacity(0.2),
-                            type: MaterialType.canvas,
-                            elevation: 1,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8)),
-                            child: InkWell(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8)),
-                              onTap: () => controller.selectedPhrase.isEmpty
-                                  ? null
-                                  : controller.verifySecretPhrase(),
-                              splashColor: Colors.transparent,
-                              child: Container(
-                                height: 48,
-                                width: 0.8.width,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.transparent,
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  controller.isPhraseVerified.value &&
-                                          controller.isPhraseSelected.value
-                                      ? 'Done'
-                                      : 'Next',
-                                  style: titleSmall.apply(
-                                    color: (controller.isPhraseSelected.value)
-                                        ? Colors.white
-                                        : ColorConst.NeutralVariant.shade60,
-                                  ),
-                                ),
-                              ),
-                            )),
-                      )),
+                  Obx(() => SolidButton(
+                        title: controller.isPhraseVerified.value &&
+                                controller.isPhraseSelected.value
+                            ? 'Done'
+                            : 'Next',
+                        onPressed: controller.selectedPhrase.isEmpty
+                            ? null
+                            : controller.verifySecretPhrase,
+                      ))
+                  // Obx(() => Align(
+                  //       alignment: Alignment.bottomCenter,
+                  //       child: Material(
+                  //           color: (controller.isPhraseSelected.value)
+                  //               ? ColorConst.Primary
+                  //               : ColorConst.NeutralVariant.shade60
+                  //                   .withOpacity(0.2),
+                  //           type: MaterialType.canvas,
+                  //           elevation: 1,
+                  //           borderRadius:
+                  //               const BorderRadius.all(Radius.circular(8)),
+                  //           child: InkWell(
+                  //             borderRadius:
+                  //                 const BorderRadius.all(Radius.circular(8)),
+                  // onTap: () => controller.selectedPhrase.isEmpty
+                  //     ? null
+                  //     : controller.verifySecretPhrase(),
+                  //             splashColor: Colors.transparent,
+                  //             child: Container(
+                  //               height: 48,
+                  //               width: 0.8.width,
+                  //               decoration: BoxDecoration(
+                  //                 borderRadius: BorderRadius.circular(8),
+                  //                 color: Colors.transparent,
+                  //               ),
+                  //               alignment: Alignment.center,
+                  //               child: Text(
+                  // controller.isPhraseVerified.value &&
+                  //         controller.isPhraseSelected.value
+                  //     ? 'Done'
+                  //     : 'Next',
+                  //                 style: titleSmall.apply(
+                  //                   color: (controller.isPhraseSelected.value)
+                  //                       ? Colors.white
+                  //                       : ColorConst.NeutralVariant.shade60,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           )),
+                  //     )),
                 ]),
           ),
         ]);

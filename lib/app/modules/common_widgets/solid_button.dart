@@ -68,7 +68,7 @@ class SolidButton extends StatelessWidget {
                 ? (disabledButtonColor ?? const Color(0xFF1E1C1F))
                 : (primaryColor ?? ColorConst.Primary),
             borderRadius: BorderRadius.circular(borderRadius ?? 8)),
-        height: height,
+        height: 50,
         // elevation: elevation,
         // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: EdgeInsets.zero,
@@ -80,7 +80,7 @@ class SolidButton extends StatelessWidget {
         // shape: RoundedRectangleBorder(
         //     borderRadius: BorderRadius.circular(borderRadius ?? 8)),
         child: Container(
-          height: height ?? 50,
+          height: 50,
           width: width ?? double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
@@ -108,10 +108,12 @@ class SolidButton extends StatelessWidget {
                             style: titleStyle ??
                                 titleSmall.copyWith(
                                     fontWeight: FontWeight.w600,
-                                    color: active
-                                        ? textColor ??
-                                            ColorConst.Neutral.shade100
-                                        : ColorConst.NeutralVariant.shade60),
+                                    color: !active ||
+                                            (onPressed == null &&
+                                                onLongPressed == null)
+                                        ? ColorConst.NeutralVariant.shade60
+                                        : textColor ??
+                                            ColorConst.Neutral.shade100),
                           )
                     : rowWidget!,
           ),

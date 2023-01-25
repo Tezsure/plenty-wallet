@@ -9,7 +9,7 @@ import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_sheet.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/nft_image.dart';
+import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 class NFTCollectionSheet extends StatelessWidget {

@@ -8,11 +8,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/parser.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/app/modules/veNFT.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/nft_image.dart';
+import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
@@ -43,7 +44,8 @@ class CollectibleWidget extends GetView<SendPageController> {
         child: Obx(
           () => Column(
             children: [
-              ExpansionTile(
+              NaanExpansionTile(
+                maintainState: true,
                 tilePadding: EdgeInsets.zero,
                 leading: CircleAvatar(
                   radius: 20,
