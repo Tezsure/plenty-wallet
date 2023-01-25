@@ -17,12 +17,11 @@ class AddContactButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.bottomSheet(
-          AddContactBottomSheet(contactModel: contactModel),
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
-          barrierColor: Colors.black.withOpacity(0.2),
-        );
+        Get.bottomSheet(AddContactBottomSheet(contactModel: contactModel),
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
+            barrierColor: Colors.black.withOpacity(0.2),
+            isScrollControlled: true);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

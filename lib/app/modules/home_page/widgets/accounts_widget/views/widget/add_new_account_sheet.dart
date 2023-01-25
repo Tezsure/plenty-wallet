@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/data/services/create_profile_service/create_prof
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/image_picker.dart';
 
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/pick_an_avatar.dart';
@@ -189,263 +190,280 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
         )
       ],
     );
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-      child: DraggableScrollableSheet(
-          initialChildSize: 0.95,
-          minChildSize: 0.9,
-          maxChildSize: 0.95,
-          builder: (context, scrollController) {
-            return Scaffold(
-              resizeToAvoidBottomInset: false,
-              backgroundColor: Colors.transparent,
-              body: Container(
-                color: Colors.black,
-                width: 1.width,
-                height: 1.height,
-                padding: EdgeInsets.symmetric(horizontal: 32.aR),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    0.01.vspace,
-                    Center(
-                      child: Container(
-                        height: 5.aR,
-                        width: 36.aR,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: ColorConst.NeutralVariant.shade60
-                              .withOpacity(0.3),
-                        ),
-                      ),
-                    ),
-                    0.01.vspace,
-                    // backButton(),
-                    0.03.vspace,
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Name your account",
-                        style: titleLarge.copyWith(
-                          fontSize: 22.aR,
-                        ),
-                      ),
-                    ),
-                    0.05.vspace,
-                    Obx(
-                      () => Center(
-                        child: Container(
-                          height: 120.aR,
-                          width: 120.aR,
-                          alignment: Alignment.bottomRight,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: controller.currentSelectedType ==
-                                      AccountProfileImageType.assets
-                                  ? AssetImage(
-                                      controller.selectedImagePath.value)
-                                  : FileImage(
-                                      File(
-                                        controller.selectedImagePath.value,
-                                      ),
-                                    ) as ImageProvider,
-                            ),
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.bottomSheet(
-                                changePhotoBottomSheet(),
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                                barrierColor: Colors.white.withOpacity(0.01),
-                                isScrollControlled: true,
-                              );
-                            },
-                            child: CircleAvatar(
-                              radius: 20.aR,
-                              backgroundColor: Colors.white,
-                              child: SvgPicture.asset(
-                                "${PathConst.SVG}add_photo.svg",
-                                fit: BoxFit.contain,
-                                height: 20.aR,
-                                color: ColorConst.Primary,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    0.038.vspace,
-                    NaanTextfield(
-                      focusNode: controller.accountNameFocus,
-                      height: 52.aR,
-                      maxLen: 15,
-                      autofocus: true,
-                      onTextChange: (e) {
-                        controller.phrase.value = e;
-                      },
-                      hint: "Account Name",
-                      controller: controller.accountNameController,
-                    ),
-                    const Spacer(),
-                    Obx(() => SolidButton(
-                          primaryColor: controller.phrase.isEmpty ||
-                                  controller.phrase.value.length < 3
-                              ? const Color(0xFF1E1C1F)
-                              : ColorConst.Primary,
-                          height: 52.aR,
-                          onPressed: controller.phrase.isEmpty ||
-                                  controller.phrase.value.length < 3
-                              ? null
-                              : () {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  controller.isCreatingNewAccount.value = true;
-                                  controller.createNewWallet();
-                                },
-                          rowWidget: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                "${PathConst.SVG}check.svg",
-                                color: controller.phrase.isEmpty ||
-                                        controller.phrase.value.length < 3
-                                    ? ColorConst.textGrey1
-                                    : Colors.white,
-                                height: 16.aR,
-                              ),
-                              0.015.hspace,
-                              Text(
-                                "Start using naan",
-                                style: titleSmall.copyWith(
-                                    fontSize: 14.aR,
-                                    color: controller.phrase.isEmpty ||
-                                            controller.phrase.value.length < 3
-                                        ? ColorConst.textGrey1
-                                        : Colors.white,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        )),
-                    0.05.vspace
-                  ],
-                ),
-              ),
-            );
-          }),
-    );
+    // return BackdropFilter(
+    //   filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+    //   child: DraggableScrollableSheet(
+    //       initialChildSize: 0.95,
+    //       minChildSize: 0.9,
+    //       maxChildSize: 0.95,
+    //       builder: (context, scrollController) {
+    //         return Scaffold(
+    //           resizeToAvoidBottomInset: false,
+    //           backgroundColor: Colors.transparent,
+    //           body: Container(
+    //             color: Colors.black,
+    //             width: 1.width,
+    //             height: 1.height,
+    //             padding: EdgeInsets.symmetric(horizontal: 32.aR),
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 0.01.vspace,
+    //                 Center(
+    //                   child: Container(
+    //                     height: 5.aR,
+    //                     width: 36.aR,
+    //                     decoration: BoxDecoration(
+    //                       borderRadius: BorderRadius.circular(5),
+    //                       color: ColorConst.NeutralVariant.shade60
+    //                           .withOpacity(0.3),
+    //                     ),
+    //                   ),
+    //                 ),
+    //                 0.01.vspace,
+    //                 // backButton(),
+    //                 0.03.vspace,
+    //                 Align(
+    //                   alignment: Alignment.center,
+    //                   child: Text(
+    //                     "Name your account",
+    //                     style: titleLarge.copyWith(
+    //                       fontSize: 22.aR,
+    //                     ),
+    //                   ),
+    //                 ),
+    //                 0.05.vspace,
+    //                 Obx(
+    //                   () => Center(
+    //                     child: Container(
+    //                       height: 120.aR,
+    //                       width: 120.aR,
+    //                       alignment: Alignment.bottomRight,
+    //                       decoration: BoxDecoration(
+    //                         shape: BoxShape.circle,
+    //                         image: DecorationImage(
+    //                           fit: BoxFit.cover,
+    //                           image: controller.currentSelectedType ==
+    //                                   AccountProfileImageType.assets
+    //                               ? AssetImage(
+    //                                   controller.selectedImagePath.value)
+    //                               : FileImage(
+    //                                   File(
+    //                                     controller.selectedImagePath.value,
+    //                                   ),
+    //                                 ) as ImageProvider,
+    //                         ),
+    //                       ),
+    //                       child: GestureDetector(
+    //                         onTap: () {
+    //                           Get.bottomSheet(
+    //                             changePhotoBottomSheet(),
+    //                             enterBottomSheetDuration:
+    //                                 const Duration(milliseconds: 180),
+    //                             exitBottomSheetDuration:
+    //                                 const Duration(milliseconds: 150),
+    //                             barrierColor: Colors.white.withOpacity(0.01),
+    //                             isScrollControlled: true,
+    //                           );
+    //                         },
+    //                         child: CircleAvatar(
+    //                           radius: 20.aR,
+    //                           backgroundColor: Colors.white,
+    //                           child: SvgPicture.asset(
+    //                             "${PathConst.SVG}add_photo.svg",
+    //                             fit: BoxFit.contain,
+    //                             height: 20.aR,
+    //                             color: ColorConst.Primary,
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 ),
+    //                 0.038.vspace,
+    //                 NaanTextfield(
+    //                   focusNode: controller.accountNameFocus,
+    //                   height: 52.aR,
+    //                   maxLen: 15,
+    //                   autofocus: true,
+    //                   onTextChange: (e) {
+    //                     controller.phrase.value = e;
+    //                   },
+    //                   hint: "Account Name",
+    //                   controller: controller.accountNameController,
+    //                 ),
+    //                 const Spacer(),
+    //                 Obx(() => SolidButton(
+    //                       primaryColor: controller.phrase.isEmpty ||
+    //                               controller.phrase.value.length < 3
+    //                           ? const Color(0xFF1E1C1F)
+    //                           : ColorConst.Primary,
+    //                       height: 52.aR,
+    //                       onPressed: controller.phrase.isEmpty ||
+    //                               controller.phrase.value.length < 3
+    //                           ? null
+    //                           : () {
+    //                               FocusManager.instance.primaryFocus?.unfocus();
+    //                               controller.isCreatingNewAccount.value = true;
+    //                               controller.createNewWallet();
+    //                             },
+    //                       rowWidget: Row(
+    //                         mainAxisAlignment: MainAxisAlignment.center,
+    //                         children: [
+    //                           SvgPicture.asset(
+    //                             "${PathConst.SVG}check.svg",
+    //                             color: controller.phrase.isEmpty ||
+    //                                     controller.phrase.value.length < 3
+    //                                 ? ColorConst.textGrey1
+    //                                 : Colors.white,
+    //                             height: 16.aR,
+    //                           ),
+    //                           0.015.hspace,
+    //                           Text(
+    //                             "Start using naan",
+    //                             style: titleSmall.copyWith(
+    //                                 fontSize: 14.aR,
+    //                                 color: controller.phrase.isEmpty ||
+    //                                         controller.phrase.value.length < 3
+    //                                     ? ColorConst.textGrey1
+    //                                     : Colors.white,
+    //                                 fontWeight: FontWeight.w600),
+    //                           ),
+    //                         ],
+    //                       ),
+    //                     )),
+    //                 0.05.vspace
+    //               ],
+    //             ),
+    //           ),
+    //         );
+    //       }),
+    // );
   }
 
   Widget changePhotoBottomSheet() {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-      child: Container(
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-            color: Colors.black),
-        width: 1.width,
-        height: 296,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            0.005.vspace,
-            Container(
-              height: 5,
-              width: 36,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
-              ),
-            ),
-            0.03.vspace,
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      var imagePath = await CreateProfileService()
-                          .pickANewImageFromGallery();
-                      if (imagePath.isNotEmpty) {
-                        controller.currentSelectedType =
-                            AccountProfileImageType.file;
-                        controller.selectedImagePath.value = imagePath;
-                        Get.back();
-                        // Get.back();
-                      }
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 51,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Choose from library",
-                        style: labelMedium,
-                      ),
-                    ),
-                  ),
-                  const Divider(
-                    color: Color(0xff4a454e),
-                    height: 1,
-                    thickness: 1,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      Get.bottomSheet(avatarPicker(),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          isScrollControlled: true);
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 51,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Pick an avatar",
-                        style: labelMedium,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            0.016.vspace,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: GestureDetector(
-                onTap: Get.back,
-                child: Container(
-                  height: 51,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                  ),
-                  child: Text(
-                    "Cancel",
-                    style: labelMedium.apply(color: Colors.white),
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
+    return ImagePickerSheet(
+      onGallerySelect: () async {
+        var imagePath = await CreateProfileService().pickANewImageFromGallery();
+        if (imagePath.isNotEmpty) {
+          controller.currentSelectedType = AccountProfileImageType.file;
+          controller.selectedImagePath.value = imagePath;
+          Get.back();
+          // Get.back();
+        }
+      },
+      onPickAvatarSelect: () async {
+        Get.bottomSheet(avatarPicker(),
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
+            isScrollControlled: true);
+      },
     );
+    // return BackdropFilter(
+    //   filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+    //   child: Container(
+    //     decoration: const BoxDecoration(
+    //         borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+    //         color: Colors.black),
+    //     width: 1.width,
+    //     height: 296,
+    //     padding: const EdgeInsets.symmetric(horizontal: 16),
+    //     child: Column(
+    //       children: [
+    //         0.005.vspace,
+    //         Container(
+    //           height: 5,
+    //           width: 36,
+    //           decoration: BoxDecoration(
+    //             borderRadius: BorderRadius.circular(5),
+    //             color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
+    //           ),
+    //         ),
+    //         0.03.vspace,
+    //         Container(
+    //           width: double.infinity,
+    //           padding: const EdgeInsets.symmetric(
+    //             horizontal: 12,
+    //           ),
+    //           decoration: BoxDecoration(
+    //             borderRadius: BorderRadius.circular(8),
+    //             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+    //           ),
+    //           child: Column(
+    //             crossAxisAlignment: CrossAxisAlignment.center,
+    //             children: [
+    //               GestureDetector(
+    //                 onTap: () async {
+    //                   var imagePath = await CreateProfileService()
+    //                       .pickANewImageFromGallery();
+    //                   if (imagePath.isNotEmpty) {
+    //                     controller.currentSelectedType =
+    //                         AccountProfileImageType.file;
+    //                     controller.selectedImagePath.value = imagePath;
+    //                     Get.back();
+    //                     // Get.back();
+    //                   }
+    //                 },
+    //                 child: Container(
+    //                   width: double.infinity,
+    //                   height: 51,
+    //                   alignment: Alignment.center,
+    //                   child: Text(
+    //                     "Choose from library",
+    //                     style: labelMedium,
+    //                   ),
+    //                 ),
+    //               ),
+    //               const Divider(
+    //                 color: Color(0xff4a454e),
+    //                 height: 1,
+    //                 thickness: 1,
+    //               ),
+    //               GestureDetector(
+    //                 onTap: () async {
+    //                   Get.bottomSheet(avatarPicker(),
+    //                       enterBottomSheetDuration:
+    //                           const Duration(milliseconds: 180),
+    //                       exitBottomSheetDuration:
+    //                           const Duration(milliseconds: 150),
+    //                       isScrollControlled: true);
+    //                 },
+    //                 child: Container(
+    //                   width: double.infinity,
+    //                   height: 51,
+    //                   alignment: Alignment.center,
+    //                   child: Text(
+    //                     "Pick an avatar",
+    //                     style: labelMedium,
+    //                   ),
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         0.016.vspace,
+    //         Padding(
+    //           padding: const EdgeInsets.symmetric(horizontal: 16),
+    //           child: GestureDetector(
+    //             onTap: Get.back,
+    //             child: Container(
+    //               height: 51,
+    //               alignment: Alignment.center,
+    //               decoration: BoxDecoration(
+    //                 borderRadius: BorderRadius.circular(8),
+    //                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+    //               ),
+    //               child: Text(
+    //                 "Cancel",
+    //                 style: labelMedium.apply(color: Colors.white),
+    //               ),
+    //             ),
+    //           ),
+    //         )
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   Widget avatarPicker() {

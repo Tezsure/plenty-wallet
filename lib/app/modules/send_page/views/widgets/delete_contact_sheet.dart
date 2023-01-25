@@ -50,9 +50,8 @@ class DeleteContactBottomSheet extends StatelessWidget {
                 await UserStorageService()
                     .updateContactList(accountController.contacts);
                 accountController.updateSavedContacts();
-                Get
-                  ..back()
-                  ..back();
+                Get.back();
+                // ..back();
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(

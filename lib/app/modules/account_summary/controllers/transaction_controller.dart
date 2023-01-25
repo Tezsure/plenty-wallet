@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/data/services/service_models/token_price_model.d
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/models/token_info.dart';
+import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 
 import '../../../../utils/constants/path_const.dart';
 import '../../../data/services/service_config/service_config.dart';
@@ -218,22 +219,23 @@ class TransactionController extends GetxController {
 
   Future<void> updateSavedContacts() async {
     contacts.value = await UserStorageService().getAllSavedContacts();
+    if (Get.isRegistered<SendPageController>()) {
+      Get.find<SendPageController>().contacts.value = contacts.value;
+    }
   }
 
   ContactModel? getContact(String address) {
     return contacts.firstWhereOrNull((element) => element.address == address);
   }
 
-  void onAddContact(
-    String address,
-    String name,
-  ) {
+  void onAddContact(String address, String name, String? imagePath) {
     contacts.add(ContactModel(
         name: name,
         address: address,
-        imagePath: ServiceConfig.allAssetsProfileImages[Random().nextInt(
-          ServiceConfig.allAssetsProfileImages.length - 1,
-        )]));
+        imagePath: imagePath ??
+            ServiceConfig.allAssetsProfileImages[Random().nextInt(
+              ServiceConfig.allAssetsProfileImages.length - 1,
+            )]));
   }
 }
 
