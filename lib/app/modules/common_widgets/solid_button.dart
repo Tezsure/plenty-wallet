@@ -108,10 +108,12 @@ class SolidButton extends StatelessWidget {
                             style: titleStyle ??
                                 titleSmall.copyWith(
                                     fontWeight: FontWeight.w600,
-                                    color: active
-                                        ? textColor ??
-                                            ColorConst.Neutral.shade100
-                                        : ColorConst.NeutralVariant.shade60),
+                                    color: !active ||
+                                            (onPressed == null &&
+                                                onLongPressed == null)
+                                        ? ColorConst.NeutralVariant.shade60
+                                        : textColor ??
+                                            ColorConst.Neutral.shade100),
                           )
                     : rowWidget!,
           ),

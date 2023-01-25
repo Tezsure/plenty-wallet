@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart';
 import 'package:naan_wallet/app/modules/custom_packages/readmore/readmore.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/custom_tab_indicator.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/cast_devices.dart';
@@ -584,7 +585,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ExpansionTile(
+          NaanExpansionTile(
               onExpansionChanged: (val) => setState(() {
                     isExpanded = val;
                   }),
@@ -634,7 +635,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
             endIndent: 14.arP,
             indent: 14.arP,
           ),
-          ExpansionTile(
+          NaanExpansionTile(
               onExpansionChanged: (val) => setState(() {
                     isExpanded = val;
                   }),
