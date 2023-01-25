@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -51,9 +52,8 @@ class PasscodePageView extends GetView<PasscodePageController> {
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              0.02.vspace,
-              0.05.vspace,
               Center(
                 child: SizedBox(
                   height: 0.27.width,
@@ -128,7 +128,8 @@ class PasscodePageView extends GetView<PasscodePageController> {
                     controller.isPassCodeWrong.value = false;
                   }
                 }
-              })
+              }),
+              BottomButtonPadding()
             ],
           ),
         ),

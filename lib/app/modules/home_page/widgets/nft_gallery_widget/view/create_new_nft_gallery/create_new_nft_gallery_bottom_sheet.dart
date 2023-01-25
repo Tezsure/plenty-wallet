@@ -14,11 +14,12 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_listview.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/pick_an_avatar.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/create_profile_page/views/avatar_picker_view.dart';
 import 'package:naan_wallet/app/modules/custom_packages/custom_checkbox.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
-import 'package:naan_wallet/utils/bottom_button_padding.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -502,12 +503,14 @@ class CreateNewNftGalleryBottomSheet
                       ),
                       GestureDetector(
                         onTap: () async {
-                          final result = await Get.to(const AvatarPickerView());
-
-                          if (result != null) {
-                            controller.currentSelectedType = result[1];
-                            controller.selectedImagePath.value = result[0];
-                          }
+                          Get.bottomSheet(
+                            avatarPicker(),
+                            isScrollControlled: true,
+                            enterBottomSheetDuration:
+                                const Duration(milliseconds: 180),
+                            exitBottomSheetDuration:
+                                const Duration(milliseconds: 150),
+                          );
                         },
                         child: Container(
                           width: double.infinity,
@@ -723,5 +726,19 @@ class CreateNewNftGalleryBottomSheet
     //     ),
     //   ),
     // );
+  }
+
+  Widget avatarPicker() {
+    return PickAvatar(
+      selectedAvatar: controller.selectedImagePath.value,
+      imageType: controller.currentSelectedType,
+      onConfirm: (String selectedAvatar) {
+        controller.currentSelectedType == AccountProfileImageType.assets;
+        controller.selectedImagePath.value = selectedAvatar;
+
+        Get.back();
+        Get.back();
+      },
+    );
   }
 }

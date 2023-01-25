@@ -16,7 +16,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widge
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/nft_image.dart';
+import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../controllers/buy_nft_controller.dart';

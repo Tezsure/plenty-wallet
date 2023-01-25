@@ -7,7 +7,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/con
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/nft_image.dart';
+import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 
 import '../../../../custom_packages/animated_scroll_indicator/effects/scrolling_dot_effect.dart';
 

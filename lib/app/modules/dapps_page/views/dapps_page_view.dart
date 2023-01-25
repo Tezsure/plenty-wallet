@@ -367,7 +367,7 @@ class DappListItemWidget extends StatelessWidget {
                   height: 32.arP,
                   width: 79.arP,
                   decoration: BoxDecoration(
-                    color: ColorConst.Primary,
+                    color: const Color(0xFF332F37),
                     borderRadius: BorderRadius.circular(20.arP),
                   ),
                   alignment: Alignment.center,
@@ -375,7 +375,7 @@ class DappListItemWidget extends StatelessWidget {
                     "Launch",
                     style: TextStyle(
                       fontSize: 14.arP,
-                      color: ColorConst.Neutral.shade100,
+                      color: const Color(0xFF958E99),
                       letterSpacing: 0.5.arP,
                       fontWeight: FontWeight.w600,
                     ),

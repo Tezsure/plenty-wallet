@@ -11,10 +11,11 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
+import 'package:naan_wallet/app/modules/common_widgets/pick_an_avatar.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/create_profile_page/views/avatar_picker_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
-import 'package:naan_wallet/utils/bottom_button_padding.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -268,7 +269,15 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        Get.to(const AvatarPickerView());
+                        Get.bottomSheet(
+                          avatarPicker(),
+                          isScrollControlled: true,
+                          enterBottomSheetDuration:
+                              const Duration(milliseconds: 180),
+                          exitBottomSheetDuration:
+                              const Duration(milliseconds: 150),
+                        );
+                        // Get.to(const AvatarPickerView());
                       },
                       child: Container(
                         width: double.infinity,
@@ -337,6 +346,20 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget avatarPicker() {
+    return PickAvatar(
+      selectedAvatar: controller.selectedImagePath.value,
+      imageType: controller.currentSelectedType,
+      onConfirm: (String selectedAvatar) {
+        controller.currentSelectedType == AccountProfileImageType.assets;
+        controller.selectedImagePath.value = selectedAvatar;
+   
+        Get.back();
+        Get.back();
+      },
     );
   }
 }
