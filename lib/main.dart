@@ -4,6 +4,7 @@ import 'dart:isolate';
 import 'dart:ui';
 
 // import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -28,7 +29,7 @@ void main() async {
 
   runZonedGuarded(() async {
     //  debugPaintSizeEnabled = true;
-    // debugInvertOversizedImages = true;
+    //  debugInvertOversizedImages = true;
     await Firebase.initializeApp();
     await FirebaseCrashlytics.instance
         .setCrashlyticsCollectionEnabled(kReleaseMode);
@@ -55,7 +56,7 @@ void main() async {
           fontFamily: "Poppins",
         ),
         navigatorObservers: [
-          // FirebaseAnalyticsObserver(analytics: NaanAnalytics().getAnalytics()),
+          FirebaseAnalyticsObserver(analytics: NaanAnalytics().getAnalytics()),
         ],
         supportedLocales: const [
           Locale("en", "US"),
