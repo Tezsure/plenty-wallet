@@ -44,9 +44,9 @@ class NftAndTxHistoryHandler {
         }
       },
       // account tx history as Map<String(address),List<TxHistoryModel>>
-      <String, List<TxHistoryModel>>{
+      <String, String>{
         for (int i = 0; i < accountAddress.length; i++)
-          accountAddress[i]: accountsTxHistory[i]
+          accountAddress[i]: jsonEncode(accountsTxHistory[i])
       },
     ]);
   }
@@ -80,8 +80,8 @@ class NftAndTxHistoryHandler {
     receivePort.asBroadcastStream().listen((data) async {
       receivePort.close();
       isolate.kill(priority: Isolate.immediate);
-      onDone();
       await _storeData(data);
+      onDone();
       // await postProcess();
     });
   }
@@ -97,8 +97,7 @@ class NftAndTxHistoryHandler {
     // store tx history
     for (var key in data[1].keys) {
       await ServiceConfig.localStorage.write(
-          key: "${ServiceConfig.txHistoryStorage}_$key",
-          value: jsonEncode(data[1][key]));
+          key: "${ServiceConfig.txHistoryStorage}_$key", value: data[1][key]);
     }
   }
 }

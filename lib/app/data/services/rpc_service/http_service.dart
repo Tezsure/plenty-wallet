@@ -15,16 +15,16 @@ class HttpService {
             ),
             headers: headers)
         .timeout(
-      const Duration(seconds: 15),
-      onTimeout: () {
+          const Duration(seconds: 15),
+/*       onTimeout: () {
         Future.delayed(const Duration(seconds: 15), () {
           DataHandlerService().setUpTimer();
         });
 
         throw TimeoutException(
             "Timeout $server${endpoint.isNotEmpty ? '/$endpoint' : ''}");
-      },
-    );
+      }, */
+        );
     return response.body;
   }
 }
