@@ -18,8 +18,9 @@ class ChoosePaymentMethod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final buyNftController = Get.put(BuyNFTController());
     final accountSummaryController = Get.put(AccountSummaryController());
+
+    final buyNftController = Get.put(BuyNFTController());
     return SizedBox(
       height: 0.7.height,
       child: NaanBottomSheet(

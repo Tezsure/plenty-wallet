@@ -35,21 +35,21 @@ class ObjktNftWidget extends StatelessWidget {
           );
         },
         child: Container(
-          decoration: BoxDecoration(
-            gradient: purpleGradient,
-            // borderRadius: BorderRadius.circular(22.arP),
-          ),
+          decoration: BoxDecoration(color: Colors.white
+              // gradient: purpleGradient,
+              // borderRadius: BorderRadius.circular(22.arP),
+              ),
           child: Stack(
             fit: StackFit.expand,
             children: [
               Align(
-                alignment: Alignment.topRight,
+                alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 64.arP),
+                  padding: EdgeInsets.only(top: 24.arP),
                   child: Image.asset(
                     "${PathConst.HOME_PAGE}buy_nft.png",
-                    cacheHeight: 217,
-                    cacheWidth: 158,
+                    // cacheHeight: 217,
+                    // cacheWidth: 158,
                   ),
                 ),
               ),
@@ -60,7 +60,9 @@ class ObjktNftWidget extends StatelessWidget {
                       horizontal: 16.arP, vertical: 22.arP),
                   child: Text("objkt.com",
                       style: bodySmall.copyWith(
-                          fontWeight: FontWeight.w900, letterSpacing: 0.6.arP)),
+                          color: Colors.black,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.6.arP)),
                 ),
               ),
               Align(
@@ -72,11 +74,12 @@ class ObjktNftWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text("Buy NFT",
-                          style: headlineSmall.copyWith(fontSize: 20.arP)),
-                      Text(
-                        "with credit card",
-                        style: bodySmall,
-                      ),
+                          style: headlineSmall.copyWith(
+                              color: Colors.black, fontSize: 20.arP)),
+                      Text("using your card",
+                          style: bodySmall.copyWith(
+                            color: Colors.black,
+                          )),
                     ],
                   ),
                 ),

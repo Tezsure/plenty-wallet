@@ -33,7 +33,7 @@ class SolidButton extends StatelessWidget {
       this.onPressed,
       this.onLongPressed,
       this.textColor,
-      this.height,
+      this.height = 50,
       this.width,
       this.rowWidget,
       this.active = true,
@@ -68,7 +68,7 @@ class SolidButton extends StatelessWidget {
                 ? (disabledButtonColor ?? const Color(0xFF1E1C1F))
                 : (primaryColor ?? ColorConst.Primary),
             borderRadius: BorderRadius.circular(borderRadius ?? 8)),
-        height: 50,
+        height: height,
         // elevation: elevation,
         // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: EdgeInsets.zero,
@@ -80,7 +80,7 @@ class SolidButton extends StatelessWidget {
         // shape: RoundedRectangleBorder(
         //     borderRadius: BorderRadius.circular(borderRadius ?? 8)),
         child: Container(
-          height: 50,
+          height: height,
           width: width ?? double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),

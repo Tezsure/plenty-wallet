@@ -23,10 +23,10 @@ class WertBrowserView extends GetView<WertBrowserController> {
     final GlobalKey webViewKey = GlobalKey();
     InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
         crossPlatform: InAppWebViewOptions(
-          useShouldOverrideUrlLoading: true,
-          mediaPlaybackRequiresUserGesture: false,
-          allowUniversalAccessFromFileURLs: true,
-        ),
+            useShouldOverrideUrlLoading: true,
+            mediaPlaybackRequiresUserGesture: false,
+            allowUniversalAccessFromFileURLs: true,
+            useOnLoadResource: true),
         android: AndroidInAppWebViewOptions(
           useHybridComposition: true,
         ),

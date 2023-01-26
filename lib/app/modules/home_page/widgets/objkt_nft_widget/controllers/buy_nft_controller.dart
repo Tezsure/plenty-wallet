@@ -521,43 +521,47 @@ class BuyNFTController extends GetxController {
     super.onInit();
     await getNFTdata();
 
-    final controller = Get.put(AccountSummaryController());
+    final controller = Get.find<AccountSummaryController>();
     xtzPrice.value = controller.xtzPrice.value;
     await controller.fetchAllTokens();
     for (int index = 0; index < displayCoins.length; index++) {
-      final token = controller.tokensList.firstWhereOrNull((p0) =>
-          displayCoins[index].toLowerCase() == p0.symbol!.toLowerCase());
+      try {
+        final token = controller.tokensList.firstWhereOrNull((p0) =>
+            displayCoins[index].toLowerCase() == p0.symbol!.toLowerCase());
 
-      var accountToken = controller.userTokens.firstWhereOrNull((p0) =>
-          displayCoins[index].toLowerCase() == p0.symbol!.toLowerCase());
-      if (token != null && accountToken == null) {
-        accountToken = AccountTokenModel(
-            name: token.name!,
-            symbol: token.symbol!,
-            iconUrl: token.thumbnailUri,
-            balance: 0,
-            currentPrice: token.currentPrice,
-            contractAddress: token.tokenAddress!,
-            tokenId: token.tokenId!,
-            decimals: token.decimals!);
-      }
+        var accountToken = controller.userTokens.firstWhereOrNull((p0) =>
+            displayCoins[index].toLowerCase() == p0.symbol!.toLowerCase());
+        if (token != null && accountToken == null) {
+          accountToken = AccountTokenModel(
+              name: token.name!,
+              symbol: token.symbol!,
+              iconUrl: token.thumbnailUri,
+              balance: 0,
+              currentPrice: token.currentPrice,
+              contractAddress: token.tokenAddress!,
+              tokenId: token.tokenId!,
+              decimals: token.decimals!);
+        }
 
-      if (displayCoins[index].toLowerCase() == "tezos") {
-        accountToken = controller.userTokens.firstWhereOrNull(
-                (element) => element.symbol!.toLowerCase() == "tezos") ??
-            AccountTokenModel(
-                name: "Tezos",
-                symbol: "tezos",
-                iconUrl: "assets/tezos_logo.png",
-                balance: 0,
-                currentPrice: controller.xtzPrice.value,
-                contractAddress: "xtz",
-                tokenId: "0",
-                decimals: 6);
-      }
+        if (displayCoins[index].toLowerCase() == "tezos") {
+          accountToken = controller.userTokens.firstWhereOrNull(
+                  (element) => element.symbol!.toLowerCase() == "tezos") ??
+              AccountTokenModel(
+                  name: "Tezos",
+                  symbol: "tezos",
+                  iconUrl: "assets/tezos_logo.png",
+                  balance: 0,
+                  currentPrice: controller.xtzPrice.value,
+                  contractAddress: "xtz",
+                  tokenId: "0",
+                  decimals: 6);
+        }
 
-      if (accountToken != null) {
-        accountTokens.add(accountToken);
+        if (accountToken != null) {
+          accountTokens.add(accountToken);
+        }
+      } catch (e) {
+        print("=============================$e");
       }
     }
   }

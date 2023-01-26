@@ -95,7 +95,7 @@ class AccountSummaryController extends GetxController {
       String tokens =
           await DataHandlerService().renderService.getTokenPriceModelString();
       isLoading.value = true;
-      UserStorageService()
+ await UserStorageService()
           .getUserTokensString(
               userAddress: selectedAccount.value.publicKeyHash!)
           .then(

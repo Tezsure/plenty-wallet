@@ -76,7 +76,7 @@ class NaanBottomSheet extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 0.05.width),
                 child: Column(
                   children: [
-                    0.05.vspace,
+                    0.02.vspace,
                     Center(
                       child: Container(
                         height: 5.arP,
@@ -88,12 +88,12 @@ class NaanBottomSheet extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 15.arP,
+                      height: 16.arP,
                     ),
                     Align(
                       alignment: titleAlignment ?? Alignment.centerLeft,
                       child: Text(
-                        title ?? "Bottom Sheet Title",
+                        title ?? "",
                         textAlign: TextAlign.start,
                         style: titleStyle ?? titleLarge,
                       ),

@@ -7,7 +7,9 @@ import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_
 
 class HttpService {
   static Future<String> performGetRequest(String server,
-      {String endpoint = "", Map<String, String>? headers}) async {
+      {String endpoint = "",
+      Map<String, String>? headers,
+      bool callSetupTimer = false}) async {
     var response = await http
         .get(
             Uri.parse(
@@ -15,16 +17,18 @@ class HttpService {
             ),
             headers: headers)
         .timeout(
-          const Duration(seconds: 15),
-/*       onTimeout: () {
-        Future.delayed(const Duration(seconds: 15), () {
-          DataHandlerService().setUpTimer();
-        });
+      const Duration(seconds: 15),
+      onTimeout: () {
+        if (callSetupTimer) {
+          Future.delayed(const Duration(seconds: 15), () {
+            DataHandlerService().setUpTimer();
+          });
+        }
 
         throw TimeoutException(
             "Timeout $server${endpoint.isNotEmpty ? '/$endpoint' : ''}");
-      }, */
-        );
+      },
+    );
     return response.body;
   }
 }

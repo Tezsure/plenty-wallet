@@ -34,7 +34,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
               children: [
                 Container(
                   alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(vertical: 24.arP),
+                  margin: EdgeInsets.only(bottom: 24.arP, top: 18.arP),
                   child: Column(
                     children: [
                       Text(

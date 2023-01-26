@@ -18,11 +18,11 @@ class TokenAndXtzPriceHandler {
     // double xtzPrice = xtzPriceResponse['tezos']['usd'] as double;
 
     args[0].send({
-      "xtzPrice": await HttpService.performGetRequest(
-        ServiceConfig.xtzPriceApi,
-      ),
-      "tokenPrices":
-          await HttpService.performGetRequest(ServiceConfig.tezToolsApi),
+      "xtzPrice": await HttpService.performGetRequest(ServiceConfig.xtzPriceApi,
+          callSetupTimer: true),
+      "tokenPrices": await HttpService.performGetRequest(
+          ServiceConfig.tezToolsApi,
+          callSetupTimer: true),
     });
   }
 

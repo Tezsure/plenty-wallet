@@ -28,7 +28,9 @@ class NaanAnalytics {
   }
 
   static void logEvent(String name, {Map<String, dynamic>? param}) async {
-    await _analytics.logEvent(name: name, parameters: param);
+    try {
+      await _analytics.logEvent(name: name, parameters: param);
+    } catch (e) {}
   }
 
   FirebaseAnalytics getAnalytics() {
