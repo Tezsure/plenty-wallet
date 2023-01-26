@@ -83,9 +83,9 @@ class NftGalleryWidgetController extends GetxController {
 
     accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
     accountName.value = accountNameController.text;
-    NaanAnalytics.logEvent(NaanAnalyticsEvents.CREATE_NFT_GALLERY, param: {
-      "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
-    });
+    // NaanAnalytics.logEvent(NaanAnalyticsEvents.CREATE_NFT_GALLERY, param: {
+    //   "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
+    // });
     Get.bottomSheet(
       const CreateNewNftGalleryBottomSheet(),
       isScrollControlled: true,
@@ -119,9 +119,9 @@ class NftGalleryWidgetController extends GetxController {
     accountNameController.text = nftGallery.name!;
     selectedImagePath.value = nftGallery.profileImage!;
     accountName.value = accountNameController.text;
-    NaanAnalytics.logEvent(NaanAnalyticsEvents.EDIT_NFT_GALLERY, param: {
-      "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
-    });
+    // NaanAnalytics.logEvent(NaanAnalyticsEvents.EDIT_NFT_GALLERY, param: {
+    //   "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
+    // });
     accountNameFocus = FocusNode();
     accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
     accountName.value = accountNameController.text;
@@ -231,9 +231,9 @@ class NftGalleryWidgetController extends GetxController {
   }
 
   void openGallery(int index) {
-    NaanAnalytics.logEvent(NaanAnalyticsEvents.MY_GALLERY_CLICK, param: {
-      NaanAnalytics.address: nftGalleryList[index].publicKeyHashs?.join(", ")
-    });
+    // NaanAnalytics.logEvent(NaanAnalyticsEvents.MY_GALLERY_CLICK, param: {
+    //   NaanAnalytics.address: nftGalleryList[index].publicKeyHashs?.join(", ")
+    // });
     Get.bottomSheet(
       const NftGalleryView(),
       enterBottomSheetDuration: const Duration(milliseconds: 180),

@@ -106,10 +106,14 @@ class LifeCycleController extends SuperController {
     }
   }
 
+  bool isFirstTime = true;
   @override
   void onResumed() {
     //Get.put(BeaconService(), permanent: true);
-
+    if (isFirstTime) {
+      isFirstTime = false;
+      return;
+    }
     DataHandlerService().setUpTimer();
     print("onResumed");
   }
