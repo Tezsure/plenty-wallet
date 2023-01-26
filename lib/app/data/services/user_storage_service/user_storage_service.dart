@@ -121,6 +121,11 @@ class UserStorageService {
           .map<AccountTokenModel>((e) => AccountTokenModel.fromJson(e))
           .toList();
 
+  Future<String> getUserTokensString({required String userAddress}) async =>
+      await ServiceConfig.localStorage
+          .read(key: "${ServiceConfig.accountTokensStorage}_$userAddress") ??
+      "[]";
+
   /// update userTokenList
   Future<void> updateUserTokens(
       {required String userAddress,
@@ -155,6 +160,12 @@ class UserStorageService {
               "[]")
           .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
           .toList();
+
+  /// read user nft using user address RETURN STRING
+  Future<String> getUserNftsString({required String userAddress}) async =>
+      await ServiceConfig.localStorage
+          .read(key: "${ServiceConfig.nftStorage}_$userAddress") ??
+      "[]";
 
   Future<void> writeNewAccountSecrets(
           AccountSecretModel accountSecretModel) async =>
@@ -259,5 +270,4 @@ class UserStorageService {
               "[]")
           .map<NftGalleryModel>((e) => NftGalleryModel.fromJson(e))
           .toList();
-
 }
