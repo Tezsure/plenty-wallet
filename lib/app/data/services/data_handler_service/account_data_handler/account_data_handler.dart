@@ -16,7 +16,6 @@ class AccountDataHandler {
   AccountDataHandler(this.dataHandlerRenderService);
 
   // delay duration
-  static const Duration _delayDuration = Duration(seconds: 2);
 
   static Future<void> _isolateProcess(List<dynamic> args) async {
     List<String> accountAddress = [...args[1].toList(), ...args[2].toList()];
@@ -263,7 +262,6 @@ class AccountDataHandler {
   /// Get&Store all accounts balances, tokens data and nfts
   Future<void> executeProcess(
       {required Function postProcess, required Function onDone}) async {
-    await Future.delayed(_delayDuration);
     ReceivePort receivePort = ReceivePort();
 
     List<AccountModel> accountModels =

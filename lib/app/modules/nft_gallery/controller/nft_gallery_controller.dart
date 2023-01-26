@@ -107,7 +107,7 @@ class NftGalleryController extends GetxController {
 
   Future<void> removeGallery(int galleryIndex) async {
     await UserStorageService().removeGallery(galleryIndex);
-    await fetchAllNftForGallery();
+    // await fetchAllNftForGallery();
     Get.find<NftGalleryWidgetController>().fetchNftGallerys();
     print("nfts left: ${nftGalleryList.length}");
     if (nftGalleryList.isEmpty) {
@@ -116,7 +116,7 @@ class NftGalleryController extends GetxController {
       selectedGalleryIndex.value = 0;
       selectedNftGallery.value = nftGalleryList[0];
       galleryNfts.value = {};
-      await fetchAllNftForGallery();
+      fetchAllNftForGallery();
     }
 
     Get.back();
