@@ -92,7 +92,6 @@ class AccountSummaryController extends GetxController {
 
   /// Fetches all the user tokens
   Future<void> fetchAllTokens() async {
-    userTokens.clear();
     if (homePageController.userAccounts.isEmpty) return;
 
     if ((await RpcService.getCurrentNetworkType()) == NetworkType.mainnet) {
@@ -121,9 +120,10 @@ class AccountSummaryController extends GetxController {
       minTokens,
       pinnedList,
       unPinnedList */
-
+          userTokens.clear();
           userTokens.addAll(data[0]);
           userTokens.sort(tokenComparator);
+          userTokens.value = userTokens.value;
           _pinnedTokens = data[1];
           _hiddenTokens = data[2];
           minTokens.value = data[3];
@@ -132,7 +132,6 @@ class AccountSummaryController extends GetxController {
           tokensList.value = data[6];
           pinnedList.refresh();
           unPinnedList.refresh();
-          userTokens.value = userTokens.value;
           isLoading.value = false;
         },
       );

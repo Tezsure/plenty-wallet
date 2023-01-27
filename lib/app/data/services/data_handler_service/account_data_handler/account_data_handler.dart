@@ -306,7 +306,6 @@ class AccountDataHandler {
       onDone();
 
       //await _storeData(data, accountModels, watchAccountModels, postProcess);
-      await postProcess([...data[0], ...data[1]].cast<AccountModel>());
       await ServiceConfig.localStorage.write(
           key: ServiceConfig.accountsStorage, value: jsonEncode(data[0]));
 
@@ -320,6 +319,7 @@ class AccountDataHandler {
             key: "${ServiceConfig.accountTokensStorage}_$key",
             value: data[2][key]);
       }
+      await postProcess([...data[0], ...data[1]].cast<AccountModel>());
     });
   }
 
