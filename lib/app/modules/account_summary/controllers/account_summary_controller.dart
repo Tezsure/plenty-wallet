@@ -126,13 +126,13 @@ class AccountSummaryController extends GetxController {
           userTokens.sort(tokenComparator);
           _pinnedTokens = data[1];
           _hiddenTokens = data[2];
-
           minTokens.value = data[3];
           pinnedList.value = data[4];
           unPinnedList.value = data[5];
           tokensList.value = data[6];
           pinnedList.refresh();
           unPinnedList.refresh();
+          userTokens.value = userTokens.value;
           isLoading.value = false;
         },
       );
