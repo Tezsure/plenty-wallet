@@ -29,7 +29,7 @@ class HistoryPage extends GetView<TransactionController> {
     return Obx(() {
       return CustomScrollView(
         controller: controller.paginationController.value,
-                    physics: AppConstant.scrollPhysics,
+        physics: AppConstant.scrollPhysics,
         slivers: [
           SliverToBoxAdapter(
             child: Padding(

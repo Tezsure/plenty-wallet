@@ -172,10 +172,14 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
             ? const SizedBox()
             : Obx(() {
                 if (controller.contacts.isEmpty) {
-                  return contactTile(null);
+                  return contactTile(
+                    null,
+                  );
                 } else {
-                  return contactTile(controller.contacts.firstWhereOrNull(
-                      (element) => element.address == getSenderAddress()));
+                  return contactTile(
+                    controller.contacts.firstWhereOrNull(
+                        (element) => element.address == getSenderAddress()),
+                  );
                 }
               }),
         const Spacer(),
@@ -214,7 +218,9 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
     );
   }
 
-  Widget contactTile(ContactModel? contact) {
+  Widget contactTile(
+    ContactModel? contact,
+  ) {
     return Row(
       children: [
         CircleAvatar(
@@ -233,7 +239,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'From',
+              "From",
               style: bodySmall.copyWith(
                   fontSize: 12.aR,
                   color: ColorConst.NeutralVariant.shade60,
@@ -471,7 +477,10 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
     if (transactionModel.operationStatus != "applied") return "";
     if (transactionModel.parameter?.value is List) {
       return isSent
-          ? transactionModel.parameter?.value[0]['txs'][0]['to_']
+          ? (transactionModel.parameter?.value[0]?['txs']?[0]?['to_'] ??
+              transactionModel.parameter?.value[0]?['add_operator']
+                  ?['operator'] ??
+              "")
           : transactionModel.parameter?.value[0]['from_'];
     } else if (transactionModel.parameter?.value is Map) {
       return isSent
