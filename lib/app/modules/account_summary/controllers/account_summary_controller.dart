@@ -79,6 +79,10 @@ class AccountSummaryController extends GetxController {
         .registerCallback((value) {
       xtzPrice.value = value;
     });
+    Get.find<HomePageController>().userAccounts.listen((event) {
+      fetchAllTokens();
+      _fetchAllNfts();
+    });
     fetchAllTokens();
     _fetchAllNfts();
 

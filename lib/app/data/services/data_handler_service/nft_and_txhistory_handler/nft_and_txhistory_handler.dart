@@ -80,7 +80,7 @@ class NftAndTxHistoryHandler {
 
     receivePort.asBroadcastStream().listen((data) async {
       if (data[0] is ProcessStatus && data[0] == ProcessStatus.done) {
-        print("nft & tx-history process done");
+        // print("nft & tx-history process done");
         receivePort.close();
         isolate.kill(priority: Isolate.immediate);
         onDone();

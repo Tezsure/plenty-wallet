@@ -77,13 +77,13 @@ class DataHandlerService {
   /// postProcess trigger ui for update new data
   Future<void> updateAllTheValues() async {
     if (updateTimer == null || _isDataFetching) {
-      print("data fetching in progress.............");
-      print("updateTimer: ${updateTimer == null}");
-      print("_isDataFetching: $_isDataFetching");
+      // print("data fetching in progress.............");
+      // print("updateTimer: ${updateTimer == null}");
+      // print("_isDataFetching: $_isDataFetching");
       return;
     }
     updateTimer!.cancel();
-    print("updating all the values.............");
+    // print("updating all the values.............");
     TokenAndXtzPriceHandler(renderService).executeProcess(
       postProcess: renderService.xtzPriceUpdater.updateProcess,
       onDone: () async =>
