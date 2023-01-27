@@ -73,7 +73,7 @@ class VerifyPhrasePageController extends GetxController {
         ..back() // close current
         ..back() // close seeds
         ..back(); // close bottom sheet
-      Get.bottomSheet(VerifyPhraseSuccessSheet());
+      Get.bottomSheet(VerifyPhraseSuccessSheet(), isScrollControlled: true);
     } else {
       selectedPhrase.value = '';
       isPhraseSelected.value = false;

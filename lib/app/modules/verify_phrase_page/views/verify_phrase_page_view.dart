@@ -126,7 +126,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                                     controller
                                         .phraseList[controller.keyIndex.value]
                                         .elementAt(index),
-                                    style: titleSmall.copyWith(
+                                    style: labelLarge.copyWith(
                                         color: (controller.phraseIndex?.value ==
                                                     index &&
                                                 controller
