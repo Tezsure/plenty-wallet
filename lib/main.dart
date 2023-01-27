@@ -112,6 +112,7 @@ class LifeCycleController extends SuperController {
     //Get.put(BeaconService(), permanent: true);
     if (isFirstTime) {
       isFirstTime = false;
+
       return;
     }
     DataHandlerService().setUpTimer();
