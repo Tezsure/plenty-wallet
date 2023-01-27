@@ -105,7 +105,7 @@ SnackbarController transactionStatusSnackbar({
                               top: 5.0.arP,
                             ),
                             child: Text(
-                              tezAddress,
+                              tezAddress.replaceFirst("Exception", ""),
                               style: labelSmall.copyWith(
                                 color: ColorConst.NeutralVariant.shade60,
                               ),
