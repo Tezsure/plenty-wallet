@@ -154,7 +154,7 @@ packages:
     source: hosted
     version: "1.1.1"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       sha256: cfc915e6923fe5ce6e153b0723c753045de46de1b4d63771530504004a45fae0
@@ -319,14 +319,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
-  flutter_image_compress:
-    dependency: transitive
-    description:
-      name: flutter_image_compress
-      sha256: "37f1b26399098e5f97b74c1483f534855e7dff68ead6ddaccf747029fb03f29f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.3"
   flutter_inappwebview:
     dependency: "direct main"
     description:
@@ -513,14 +505,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
-  image:
-    dependency: transitive
-    description:
-      name: image
-      sha256: "8e9d133755c3e84c73288363e6343157c383a0c6c56fc51afcc5d4d7180306d6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.3.0"
   image_picker:
     dependency: "direct main"
     description:
@@ -721,14 +705,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
-  optimized_cached_image:
-    dependency: "direct main"
-    description:
-      name: optimized_cached_image
-      sha256: "9761aee196cdea172c5643245416c08bfcc8b94f35464af8c7462e2bab7c0b7f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
   package_info_plus:
     dependency: "direct main"
     description:
@@ -1078,14 +1054,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
-  sprintf:
-    dependency: transitive
-    description:
-      name: sprintf
-      sha256: ec76d38910b6f1c854ce1353c62d37e7ef82b53dc5ab048c25400d35970776d1
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.2"
   sqflite:
     dependency: transitive
     description:

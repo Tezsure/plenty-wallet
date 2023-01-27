@@ -17,7 +17,7 @@ class ServiceConfig {
       "https://api.coingecko.com/api/v3/simple/price?ids=tezos&vs_currencies=usd";
 
   static String xtzPriceApi =
-      "https://api.analytics.plenty.network/ve/prices/XTZ";
+      "https://api.analytics.plenty.network/analytics/tokens/XTZ?historical=false";
 
   /// Rpc Node Selector
   static String nodeSelector = "https://cdn.naan.app/rpc-list";
@@ -66,6 +66,7 @@ class ServiceConfig {
 
   // xtz price and token price
   static const String xtzPriceStorage = "${storageName}_xtz_price";
+  static const String dayChangeStorage = "${storageName}_24_hr_change";
   static const String tokenPricesStorage = "${storageName}_token_prices";
 
   // nfts storage name append with user address

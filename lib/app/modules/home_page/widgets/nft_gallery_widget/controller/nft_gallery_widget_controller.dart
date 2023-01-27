@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
@@ -154,6 +156,19 @@ class NftGalleryWidgetController extends GetxController {
         .where((String key) => selectedAccountIndex[key] == true)
         .toList();
     isCreating.value = true;
+    Function unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
+    if (nftGalleryList.firstWhereOrNull(
+            (element) => unOrdDeepEq(element.publicKeyHashs, publicKeyHashs)) !=
+        null) {
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: 'Gallery with same Accounts already exists',
+        transactionAmount: 'Cant create gallery',
+      );
+      isCreating.value = false;
+      return;
+    }
     if (!(await checkIfEmpty(publicKeyHashs))) {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
@@ -183,7 +198,22 @@ class NftGalleryWidgetController extends GetxController {
     final List<String> publicKeyHashs = selectedAccountIndex.keys
         .where((String key) => selectedAccountIndex[key] == true)
         .toList();
+
     isCreating.value = true;
+    Function unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
+    if (nftGalleryList.firstWhereOrNull(
+            (element) => unOrdDeepEq(element.publicKeyHashs, publicKeyHashs)) !=
+        null) {
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: 'Gallery with same Accounts already exists',
+        transactionAmount: 'Cant create gallery',
+      );
+      isCreating.value = false;
+      return;
+    }
+
     if (!(await checkIfEmpty(publicKeyHashs))) {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),

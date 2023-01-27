@@ -31,43 +31,49 @@ class TezosPriceWidget extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Obx((() => Text(
-                        "\$${homePageController.xtzPrice.value.toStringAsFixed(2)}",
-                        style: headlineSmall,
-                      ))),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 0.006.height),
-                        child: RichText(
-                          text: TextSpan(children: [
-                            const WidgetSpan(
-                              child: Icon(
-                                true
-                                    ? Icons.arrow_upward_outlined
-                                    : Icons.arrow_downward_outlined,
-                                size: 14,
-                                color: ColorConst.green,
+              child: Obx(
+                () => Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "\$${homePageController.xtzPrice.value.toStringAsFixed(2)}",
+                      style: headlineSmall,
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 0.006.height),
+                          child: RichText(
+                            text: TextSpan(children: [
+                              WidgetSpan(
+                                child: Icon(
+                                  homePageController.dayChange.value >= 0
+                                      ? Icons.arrow_upward_outlined
+                                      : Icons.arrow_downward_outlined,
+                                  size: 14,
+                                  color: homePageController.dayChange.value >= 0
+                                      ? ColorConst.green
+                                      : ColorConst.NaanRed,
+                                ),
                               ),
-                            ),
-                            WidgetSpan(child: 0.005.hspace),
-                            TextSpan(
-                              text: "${0.03}%",
-                              style: labelMedium.apply(
-                                color: ColorConst.green,
-                              ),
-                            )
-                          ]),
+                              WidgetSpan(child: 0.005.hspace),
+                              TextSpan(
+                                text: "${homePageController.dayChange.value}%",
+                                style: labelMedium.apply(
+                                  color: homePageController.dayChange.value >= 0
+                                      ? ColorConst.green
+                                      : ColorConst.NaanRed,
+                                ),
+                              )
+                            ]),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           ],
