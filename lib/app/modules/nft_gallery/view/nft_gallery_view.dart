@@ -13,7 +13,9 @@ import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart'
 
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
@@ -1021,16 +1023,21 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                         //     NaanAnalyticsEvents
                                                         //         .REMOVE_NFT_GALLERY);
                                                         Get.bottomSheet(
-                                                          _removeGallery(index),
-                                                          enterBottomSheetDuration:
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      180),
-                                                          exitBottomSheetDuration:
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      150),
-                                                        );
+                                                            RemoveGallerySheet(
+                                                                controller:
+                                                                    controller,
+                                                                galleryIndex:
+                                                                    index),
+                                                            enterBottomSheetDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        180),
+                                                            exitBottomSheetDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        150),
+                                                            isScrollControlled:
+                                                                true);
                                                       },
                                                       child: Text(
                                                         "Remove",
@@ -1348,99 +1355,76 @@ class NftGalleryView extends GetView<NftGalleryController> {
     //     ),
     //   ),
     // );
- 
   }
+}
 
-  Widget _removeGallery(int galleryIndex) => Container(
-        width: 1.width,
-        height: 0.34.height,
-        padding: EdgeInsets.only(
-          bottom: Platform.isIOS ? 0.05.height : 0.02.height,
-        ),
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-            color: Colors.black),
-        child: Column(
-          children: [
-            0.005.vspace,
-            Container(
-              height: 5,
-              width: 36,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: ColorConst.NeutralVariant.shade60,
-              ),
-            ),
-            0.015.vspace,
-            Text("Remove Gallery", style: titleLarge),
-            0.02.vspace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 0.175.width),
-              child: Text(
-                "Do you want to remove \"${controller.nftGalleryList[galleryIndex].name}\" from your gallery list?",
-                style: bodySmall.copyWith(
-                  color: ColorConst.NeutralVariant.shade60,
+class RemoveGallerySheet extends StatelessWidget {
+  const RemoveGallerySheet({
+    super.key,
+    required this.controller,
+    required this.galleryIndex,
+  });
+
+  final NftGalleryController controller;
+
+  final int galleryIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return NaanBottomSheet(
+      height: 0.32.height,
+      title: "Remove Gallery",
+      bottomSheetWidgets: [
+        SizedBox(
+          height: 0.25.height,
+          child: Column(
+            children: [
+              0.01.vspace,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 0.175.width),
+                child: Text(
+                  "Do you want to remove \"${controller.nftGalleryList[galleryIndex].name}\" from your gallery list?",
+                  style: bodySmall.copyWith(
+                    color: ColorConst.NeutralVariant.shade60,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32.arP),
-                    child: TextButton(
-                        onPressed: () {
-                          controller.removeGallery(galleryIndex);
-                        },
-                        child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: ColorConst.darkGrey,
-                            ),
-                            child: Center(
-                                child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 13.arP),
-                              child: Text(
-                                "Remove",
-                                style: titleSmall.copyWith(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            )))),
-                  ),
-                  SizedBox(
-                    height: 4.arP,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32.arP),
-                    child: TextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: ColorConst.darkGrey,
-                            ),
-                            child: Center(
-                                child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 13.arP),
-                              child: Text(
-                                "Cancel",
-                                style: titleSmall.copyWith(
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            )))),
-                  ),
-                  0.01.vspace,
-                ],
+              Spacer(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.arP),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SolidButton(
+                      primaryColor: ColorConst.darkGrey,
+                      title: "Remove",
+                      textColor: ColorConst.Error.shade60,
+                      onPressed: () {
+                        controller.removeGallery(galleryIndex);
+                      },
+                    ),
+                    0.016.vspace,
+                    SolidButton(
+                      primaryColor: ColorConst.darkGrey,
+                      title: "Cancel",
+                      textColor: ColorConst.Error.shade60,
+                      titleStyle:
+                          titleSmall.copyWith(fontWeight: FontWeight.w600),
+                      onPressed: () {
+                        Get.back();
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              BottomButtonPadding()
+            ],
+          ),
         ),
-      );
+      ],
+    );
+  }
 }
 
 /// Nft collection view item stateless widget

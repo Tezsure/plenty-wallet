@@ -206,8 +206,8 @@ class NftGalleryWidgetController extends GetxController {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
-        tezAddress: 'Gallery with same name already exists',
-        transactionAmount: 'Cant create gallery',
+        tezAddress: (e as Exception).toString(),
+        transactionAmount: 'Cannot create gallery',
       );
       isCreating.value = false;
       return;

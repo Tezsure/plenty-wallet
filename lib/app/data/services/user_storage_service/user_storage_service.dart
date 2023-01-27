@@ -233,7 +233,17 @@ class UserStorageService {
 
     bool exist = galleryList.any((element) =>
         element.name!.toLowerCase() == galleryModel.name!.toLowerCase());
-
+    bool sameAddressesExists = galleryList
+        .where((element) =>
+            element.publicKeyHashs!.length ==
+            galleryModel.publicKeyHashs!.length)
+        .where((element1) => element1.publicKeyHashs!.every((element2) =>
+            galleryModel.publicKeyHashs!.any((element3) =>
+                element3.toLowerCase() == element2.toLowerCase())))
+        .isNotEmpty;
+    if (sameAddressesExists) {
+      throw Exception("Gallery with same address already exist");
+    }
     if (exist) {
       throw Exception("Gallery with same name already exist");
     } else {

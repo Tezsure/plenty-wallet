@@ -23,7 +23,9 @@ class NaanBottomSheet extends StatelessWidget {
   final CrossAxisAlignment? crossAxisAlignment;
   final MainAxisAlignment? mainAxisAlignment;
   final bool isScrollControlled;
-
+  final double? initialChildSize;
+  final double? minChildSize;
+  final double? maxChildSize;
   final Widget Function(BuildContext context, int index)? draggableListBuilder;
 
   /// Create a bottom sheet of non-draggable and draggable type.
@@ -37,6 +39,8 @@ class NaanBottomSheet extends StatelessWidget {
     super.key,
     this.height,
     this.width,
+    this.initialChildSize,
+    this.minChildSize,this.maxChildSize,
     this.bottomSheetWidgets,
     this.title,
     this.action,
@@ -65,9 +69,9 @@ class NaanBottomSheet extends StatelessWidget {
           ImageFilter.blur(sigmaX: blurRadius ?? 50, sigmaY: blurRadius ?? 50),
       child: isDraggableBottomSheet
           ? DraggableScrollableSheet(
-              initialChildSize: 0.85,
-              minChildSize: 0.4,
-              maxChildSize: 1,
+              initialChildSize: initialChildSize ?? 0.85,
+              minChildSize: minChildSize ?? 0.4,
+              maxChildSize:maxChildSize?? 1,
               builder: (_, scrollController) => Container(
                 decoration: const BoxDecoration(
                     borderRadius:
