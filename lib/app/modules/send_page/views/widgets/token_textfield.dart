@@ -34,8 +34,8 @@ class TokenSendTextfield extends StatelessWidget {
       controller: controller,
       cursorHeight: 24.arP,
       textAlignVertical: TextAlignVertical.center,
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       textAlign: TextAlign.left,
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [ReplaceCommaFormatter()],
       style: headlineMedium.copyWith(
           fontSize: 28.arP,
@@ -68,9 +68,24 @@ class ReplaceCommaFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    final regEx = RegExp(r"^\d*\.?\d*");
+    String newString = newValue.text;
+    if (newValue.text.contains(",")) {
+      if (oldValue.text.contains(".")) {
+        newString = newValue.text.replaceAll(",", "");
+      } else {
+        newString = newValue.text.replaceAll(",", ".");
+      }
+    }
+    //avoid multiple dots
+    if (newString.contains(".")) {
+      final split = newString.split(".");
+      if (split.length > 2) {
+        newString = split[0] + "." + split[1];
+      }
+    }
+/*     final regEx = RegExp(r"^\d*\.?\d*");
     String newString =
-        (regEx.stringMatch(newValue.text) ?? "").replaceAll(',', '.');
+        (regEx.stringMatch(newValue.text) ?? "").replaceAll(',', '.'); */
     return TextEditingValue(
         text: newString,
         selection: TextSelection.fromPosition(
