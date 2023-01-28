@@ -24,80 +24,76 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
     return NaanBottomSheet(
         mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 16.arP,
-        height: 582.arP,
-        blurRadius: 5,
-        width: double.infinity,
+        height: 0.6.height,
         bottomSheetWidgets: [
-          SafeArea(
-            child: SizedBox(
-              height: 521.arP,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  0.015.vspace,
-                  SvgPicture.asset(
-                    "${PathConst.HOME_PAGE.SVG}tezos_price.svg",
-                    width: 0.2.width,
-                  ),
-                  0.02.vspace,
-                  Text(
-                    "Earn 5% APR on your tez",
-                    style: titleLarge,
-                  ),
+          SizedBox(
+            height: 0.56.height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                0.015.vspace,
+                SvgPicture.asset(
+                  "${PathConst.HOME_PAGE.SVG}tezos_price.svg",
+                  width: 0.2.width,
+                ),
+                0.02.vspace,
+                Text(
+                  "Earn 5% APR on your tez",
+                  style: titleLarge,
+                ),
 
-                  0.03.vspace,
-                  ...List.generate(
-                      infos.length,
-                      (index) => Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10.arP, horizontal: 14.arP),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                CircleAvatar(
-                                  radius: 9.arP,
-                                  backgroundColor: ColorConst.Primary,
-                                  child: Text(
-                                    (index + 1).toString(),
-                                    style: labelSmall,
-                                  ),
+                0.03.vspace,
+                ...List.generate(
+                    infos.length,
+                    (index) => Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10.arP, horizontal: 14.arP),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                radius: 9.arP,
+                                backgroundColor: ColorConst.Primary,
+                                child: Text(
+                                  (index + 1).toString(),
+                                  style: labelSmall,
                                 ),
-                                0.02.hspace,
-                                Expanded(
-                                  child: Text(
-                                    infos[index],
-                                    style: labelMedium.copyWith(
-                                        color: ColorConst.textGrey1,
-                                        fontWeight: FontWeight.normal),
-                                  ),
+                              ),
+                              0.02.hspace,
+                              Expanded(
+                                child: Text(
+                                  infos[index],
+                                  style: labelMedium.copyWith(
+                                      color: ColorConst.textGrey1,
+                                      fontWeight: FontWeight.normal),
                                 ),
-                              ],
-                            ),
-                          )),
-                  // const Spacer(),
-                  // 0.075.vspace,
-                  SizedBox(
-                    height: 40.arP,
-                  ),
-                  SolidButton(
-                    active: true,
-                    width: 1.width - 64.arP,
-                    onPressed: () {
-                      // if (Get.isBottomSheetOpen ?? false) {
-                      Get.back();
-                      // }
-                      Get.bottomSheet(
-                          DelegateSelectBaker(
-                            isScrollable: true,
+                              ),
+                            ],
                           ),
-                          enableDrag: true,
-                          isScrollControlled: true);
-                    },
-                    title: "Continue",
-                  ),
-                ],
-              ),
+                        )),
+                // const Spacer(),
+                // 0.075.vspace,
+                SizedBox(
+                  height: 40.arP,
+                ),
+                SolidButton(
+                  active: true,
+                  width: 1.width - 64.arP,
+                  onPressed: () {
+                    // if (Get.isBottomSheetOpen ?? false) {
+                    Get.back();
+                    // }
+                    Get.bottomSheet(
+                        DelegateSelectBaker(
+                          isScrollable: true,
+                        ),
+                        enableDrag: true,
+                        isScrollControlled: true);
+                  },
+                  title: "Continue",
+                ),
+              ],
             ),
           ),
         ]);

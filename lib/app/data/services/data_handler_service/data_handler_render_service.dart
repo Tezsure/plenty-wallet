@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_
 
 class DataHandlerRenderService {
   late DataVariable<double> xtzPriceUpdater;
+  late DataVariable<double> dayChangeUpdater;
 
   late DataVariable<List<AccountModel>> accountUpdater;
 
@@ -16,6 +17,7 @@ class DataHandlerRenderService {
 
   DataHandlerRenderService() {
     xtzPriceUpdater = DataVariable<double>(updateProcess: _updateXtzPrice);
+    dayChangeUpdater = DataVariable<double>(updateProcess: _updateXtzPrice);
     accountUpdater = DataVariable<List<AccountModel>>(
         updateProcess: _updateAccountXtzBalances);
     accountNft = DataVariable<Map<String, List<NftTokenModel>>>(
@@ -30,14 +32,18 @@ class DataHandlerRenderService {
   }
 
   /// read from store and update xtzPrice
-  Future<void> _updateXtzPrice([double? xtzPrice]) async {
+  Future<void> _updateXtzPrice([dynamic xtzPrice]) async {
     if (xtzPrice != null) {
-      xtzPriceUpdater.value = xtzPrice;
+      xtzPriceUpdater.value = double.parse(xtzPrice['value']);
+      dayChangeUpdater.value = double.parse(xtzPrice['change24H'] ?? "0");
       return;
     }
 
     xtzPriceUpdater.value = double.parse(await ServiceConfig.localStorage
             .read(key: ServiceConfig.xtzPriceStorage) ??
+        "0.0");
+    dayChangeUpdater.value = double.parse(await ServiceConfig.localStorage
+            .read(key: ServiceConfig.dayChangeStorage) ??
         "0.0");
   }
 
@@ -92,6 +98,19 @@ class DataHandlerRenderService {
     } else {
       return [];
     }
+  }
+
+  Future<String> getTokenPriceModelString() async {
+    return (await ServiceConfig.localStorage
+            .read(key: ServiceConfig.tokenPricesStorage)) ??
+        "[]";
+  }
+
+  Future<String?> getTokenPrice() async {
+    String? tokensPrice = await ServiceConfig.localStorage
+        .read(key: ServiceConfig.tokenPricesStorage);
+
+    return tokensPrice;
   }
 
   Future<List<TokenPriceModel>> getTokenPriceModels() async {

@@ -28,7 +28,9 @@ class NaanAnalytics {
   }
 
   static void logEvent(String name, {Map<String, dynamic>? param}) async {
-    await _analytics.logEvent(name: name, parameters: param);
+    try {
+      await _analytics.logEvent(name: name, parameters: param);
+    } catch (e) {}
   }
 
   FirebaseAnalytics getAnalytics() {
@@ -76,7 +78,7 @@ class NaanAnalyticsEvents {
   static const String DELEGATE_TRANSACTION_SUBMITTED =
       "delegate_transaction_submitted";
   //done
-  static const String MY_GALLERY_CLICK = "my_galler_click";
+  // static const String MY_GALLERY_CLICK = "my_galler_click";
   //done
   static const String RESET_NAAN = "reset_naan";
   //done
@@ -92,10 +94,10 @@ class NaanAnalyticsEvents {
   //done
   static const String SEND_TRANSACTION = "send_transaction";
   //done
-  static const String CREATE_NFT_GALLERY = "create_nft_gallery";
-  //done
-  static const String EDIT_NFT_GALLERY = "edit_nft_gallery";
-  //done
-  static const String REMOVE_NFT_GALLERY = "remove_nft_gallery";
+  // static const String CREATE_NFT_GALLERY = "create_nft_gallery";
+  // //done
+  // static const String EDIT_NFT_GALLERY = "edit_nft_gallery";
+  // //done
+  // static const String REMOVE_NFT_GALLERY = "remove_nft_gallery";
   static const String DAPP_CLICK = "dapp_click";
 }

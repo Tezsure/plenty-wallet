@@ -27,10 +27,10 @@ class DappBrowserView extends GetView<DappBrowserController> {
     final GlobalKey webViewKey = GlobalKey();
     InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
         crossPlatform: InAppWebViewOptions(
-          useShouldOverrideUrlLoading: true,
-          mediaPlaybackRequiresUserGesture: false,
-          allowUniversalAccessFromFileURLs: true,
-        ),
+            useShouldOverrideUrlLoading: true,
+            mediaPlaybackRequiresUserGesture: false,
+            allowUniversalAccessFromFileURLs: true,
+            useOnLoadResource: true),
         android: AndroidInAppWebViewOptions(
           useHybridComposition: true,
         ),
@@ -40,7 +40,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
         ));
     PullToRefreshController pullToRefreshController = PullToRefreshController(
       options: PullToRefreshOptions(
-        color: Colors.blue,
+        color: ColorConst.Primary,
       ),
       onRefresh: () async {
         if (Platform.isAndroid) {

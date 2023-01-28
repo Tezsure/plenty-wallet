@@ -78,10 +78,11 @@ class RpcService {
       network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
     }
     try {
-    return jsonDecode(await HttpService.performGetRequest(
-            ServiceConfig.tzktApiForToken(address, network)))
-        .map<AccountTokenModel>((e) => parseAccountModel(e))
-        .toList();
+      return jsonDecode(await HttpService.performGetRequest(
+              ServiceConfig.tzktApiForToken(address, network),
+              callSetupTimer: true))
+          .map<AccountTokenModel>((e) => parseAccountModel(e))
+          .toList();
     } catch (e) {
       log(e.toString());
       return [];

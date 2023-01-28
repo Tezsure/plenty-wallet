@@ -75,63 +75,64 @@ class BackupPage extends StatelessWidget {
   }
 
   Widget accountMethod(AccountModel accountModel) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: SizedBox(
-        height: 44,
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 22,
-              backgroundColor:
-                  ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              child: Container(
-                alignment: Alignment.bottomRight,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image:
-                        accountModel.imageType == AccountProfileImageType.assets
-                            ? AssetImage(accountModel.profileImage!)
-                            : FileImage(
-                                File(accountModel.profileImage!),
-                              ) as ImageProvider,
+    return InkWell(
+      onTap: () {
+        Get.bottomSheet(
+          isScrollControlled: true,
+          barrierColor: Colors.transparent,
+          enterBottomSheetDuration: const Duration(milliseconds: 180),
+          exitBottomSheetDuration: const Duration(milliseconds: 150),
+          SelectToRevealKeyBottomSheet(
+            accountModel: accountModel,
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: SizedBox(
+          height: 44,
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 22,
+                backgroundColor:
+                    ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                child: Container(
+                  alignment: Alignment.bottomRight,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: accountModel.imageType ==
+                              AccountProfileImageType.assets
+                          ? AssetImage(accountModel.profileImage!)
+                          : FileImage(
+                              File(accountModel.profileImage!),
+                            ) as ImageProvider,
+                    ),
                   ),
                 ),
               ),
-            ),
-            0.04.hspace,
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  accountModel.name!,
-                  style: bodySmall.copyWith(fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  tz1Shortner(accountModel.publicKeyHash ?? 'nxkjfbhedvzbv'),
-                  style: labelSmall.apply(
-                      color: ColorConst.NeutralVariant.shade60),
-                ),
-              ],
-            ),
-            const Spacer(),
-            GestureDetector(
-                onTap: () {
-                  Get.bottomSheet(
-                    isScrollControlled: true,
-                    barrierColor: Colors.transparent,
-                    enterBottomSheetDuration: const Duration(milliseconds: 180),
-                    exitBottomSheetDuration: const Duration(milliseconds: 150),
-                    SelectToRevealKeyBottomSheet(
-                      accountModel: accountModel,
-                    ),
-                  );
-                },
-                child: revealButtonUI())
-          ],
+              0.04.hspace,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    accountModel.name!,
+                    style: bodySmall.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    tz1Shortner(accountModel.publicKeyHash ?? 'nxkjfbhedvzbv'),
+                    style: labelSmall.apply(
+                        color: ColorConst.NeutralVariant.shade60),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              revealButtonUI()
+            ],
+          ),
         ),
       ),
     );

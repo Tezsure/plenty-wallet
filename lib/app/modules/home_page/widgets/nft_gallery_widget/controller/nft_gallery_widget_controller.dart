@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
@@ -83,9 +85,9 @@ class NftGalleryWidgetController extends GetxController {
 
     accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
     accountName.value = accountNameController.text;
-    NaanAnalytics.logEvent(NaanAnalyticsEvents.CREATE_NFT_GALLERY, param: {
-      "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
-    });
+    // NaanAnalytics.logEvent(NaanAnalyticsEvents.CREATE_NFT_GALLERY, param: {
+    //   "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
+    // });
     Get.bottomSheet(
       const CreateNewNftGalleryBottomSheet(),
       isScrollControlled: true,
@@ -119,9 +121,9 @@ class NftGalleryWidgetController extends GetxController {
     accountNameController.text = nftGallery.name!;
     selectedImagePath.value = nftGallery.profileImage!;
     accountName.value = accountNameController.text;
-    NaanAnalytics.logEvent(NaanAnalyticsEvents.EDIT_NFT_GALLERY, param: {
-      "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
-    });
+    // NaanAnalytics.logEvent(NaanAnalyticsEvents.EDIT_NFT_GALLERY, param: {
+    //   "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
+    // });
     accountNameFocus = FocusNode();
     accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
     accountName.value = accountNameController.text;
@@ -154,6 +156,19 @@ class NftGalleryWidgetController extends GetxController {
         .where((String key) => selectedAccountIndex[key] == true)
         .toList();
     isCreating.value = true;
+    Function unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
+    if (nftGalleryList.firstWhereOrNull(
+            (element) => unOrdDeepEq(element.publicKeyHashs, publicKeyHashs)) !=
+        null) {
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: 'Gallery with same Accounts already exists',
+        transactionAmount: 'Cant create gallery',
+      );
+      isCreating.value = false;
+      return;
+    }
     if (!(await checkIfEmpty(publicKeyHashs))) {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
@@ -183,7 +198,22 @@ class NftGalleryWidgetController extends GetxController {
     final List<String> publicKeyHashs = selectedAccountIndex.keys
         .where((String key) => selectedAccountIndex[key] == true)
         .toList();
+
     isCreating.value = true;
+    Function unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
+    if (nftGalleryList.firstWhereOrNull(
+            (element) => unOrdDeepEq(element.publicKeyHashs, publicKeyHashs)) !=
+        null) {
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: 'Gallery with same Accounts already exists',
+        transactionAmount: 'Cant create gallery',
+      );
+      isCreating.value = false;
+      return;
+    }
+
     if (!(await checkIfEmpty(publicKeyHashs))) {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
@@ -206,8 +236,8 @@ class NftGalleryWidgetController extends GetxController {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
-        tezAddress: 'Gallery with same name already exists',
-        transactionAmount: 'Cant create gallery',
+        tezAddress: (e as Exception).toString(),
+        transactionAmount: 'Cannot create gallery',
       );
       isCreating.value = false;
       return;
@@ -231,9 +261,9 @@ class NftGalleryWidgetController extends GetxController {
   }
 
   void openGallery(int index) {
-    NaanAnalytics.logEvent(NaanAnalyticsEvents.MY_GALLERY_CLICK, param: {
-      NaanAnalytics.address: nftGalleryList[index].publicKeyHashs?.join(", ")
-    });
+    // NaanAnalytics.logEvent(NaanAnalyticsEvents.MY_GALLERY_CLICK, param: {
+    //   NaanAnalytics.address: nftGalleryList[index].publicKeyHashs?.join(", ")
+    // });
     Get.bottomSheet(
       const NftGalleryView(),
       enterBottomSheetDuration: const Duration(milliseconds: 180),

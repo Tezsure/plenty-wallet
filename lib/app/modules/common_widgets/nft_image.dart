@@ -81,7 +81,7 @@ class NFTImage extends StatelessWidget {
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress == null) return child;
                     return SizedBox(
-                      height: 36.arP,
+                      height: 100.arP,
                       child: Center(
                         child: CircularProgressIndicator(
                           color: ColorConst.Primary,

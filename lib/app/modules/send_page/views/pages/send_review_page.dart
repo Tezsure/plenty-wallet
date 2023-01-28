@@ -53,7 +53,7 @@ class SendReviewPage extends StatelessWidget {
                   Center(
                     child: Container(
                       constraints: BoxConstraints(maxHeight: 0.4.height),
-                      margin:  EdgeInsets.symmetric(vertical: 10.arP),
+                      margin: EdgeInsets.symmetric(vertical: 10.arP),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.arP),
                           child: NFTImage(
@@ -71,7 +71,7 @@ class SendReviewPage extends StatelessWidget {
                 ],
                 0.04.vspace,
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 16.arP),
+                  padding: EdgeInsets.symmetric(horizontal: 16.arP),
                   child: Align(
                     alignment: Alignment.center,
                     child: Obx(
@@ -130,9 +130,9 @@ class SendReviewPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                0.02.vspace,
+                0.036.vspace,
                 Padding(
-                    padding: EdgeInsets.all(16.arP),
+                    padding: EdgeInsets.all(0.arP),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

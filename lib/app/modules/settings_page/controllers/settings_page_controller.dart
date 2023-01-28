@@ -153,7 +153,6 @@ class SettingsPageController extends GetxController {
     isPasscodeSet.value = await AuthService().getIsPassCodeSet();
     getWalletBackupStatus();
     networkType.value = await RpcService.getCurrentNetworkType();
-    log("isWalletBackup.value :${isWalletBackup.value} ");
     ServiceConfig.currentNetwork = networkType.value;
     await changeNodeSelector();
     await RpcService.getCurrentNode().then((value) {

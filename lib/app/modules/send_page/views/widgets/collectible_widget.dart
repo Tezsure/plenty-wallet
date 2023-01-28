@@ -174,6 +174,8 @@ class NFTwidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.aR),
                     child: NFTImage(
                       nftTokenModel: nfTmodel,
+                      memCacheHeight: 250,
+                      memCacheWidth: 250,
                     )
                     // CachedNetworkImage(
                     //   imageUrl: nftArtifactUrl!,

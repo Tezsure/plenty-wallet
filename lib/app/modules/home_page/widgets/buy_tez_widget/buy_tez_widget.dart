@@ -100,7 +100,7 @@ class BuyTezWidget extends StatelessWidget {
                       Text("Buy tez",
                           style: headlineSmall.copyWith(fontSize: 20.arP)),
                       Text(
-                        "with credit card",
+                        "with your card",
                         style: bodySmall,
                       ),
                     ],

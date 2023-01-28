@@ -18,11 +18,11 @@ class TokenAndXtzPriceHandler {
     // double xtzPrice = xtzPriceResponse['tezos']['usd'] as double;
 
     args[0].send({
-      "xtzPrice": await HttpService.performGetRequest(
-        ServiceConfig.xtzPriceApi,
-      ),
-      "tokenPrices":
-          await HttpService.performGetRequest(ServiceConfig.tezToolsApi),
+      "xtzPrice": await HttpService.performGetRequest(ServiceConfig.xtzPriceApi,
+          callSetupTimer: true),
+      "tokenPrices": await HttpService.performGetRequest(
+          ServiceConfig.tezToolsApi,
+          callSetupTimer: true),
     });
   }
 
@@ -47,11 +47,14 @@ class TokenAndXtzPriceHandler {
 
   Future<void> _storeData(Map<String, String> data, postProcess) async {
     if (jsonDecode(data['xtzPrice']!) != null) {
-      postProcess(
-          double.parse(jsonDecode(data['xtzPrice']!)[0]['price'].toString()));
+      postProcess(jsonDecode(data['xtzPrice']!)[0]['price']);
       await ServiceConfig.localStorage.write(
           key: ServiceConfig.xtzPriceStorage,
-          value: jsonDecode(data['xtzPrice']!)[0]['price'].toString());
+          value: jsonDecode(data['xtzPrice']!)[0]['price']['value'].toString());
+      await ServiceConfig.localStorage.write(
+          key: ServiceConfig.dayChangeStorage,
+          value: jsonDecode(data['xtzPrice']!)[0]['price']['change24H']
+              .toString());
     }
     await ServiceConfig.localStorage.write(
         key: ServiceConfig.tokenPricesStorage, value: data['tokenPrices']);

@@ -135,27 +135,28 @@ class BackupWalletView extends GetView<BackupWalletController> {
     );
   }
 
-  Widget infoBottomSheet() {
-    return NaanBottomSheet(
-        blurRadius: 5,
-        gradientStartingOpacity: 1,
-        isDraggableBottomSheet: true,
-        title: 'Introduction to crypto wallet',
-        draggableListBuilder: (_, index) {
-          return RichText(
-              textAlign: TextAlign.start,
-              text: TextSpan(
-                text: '${MockData.walletInfo.keys.elementAt(index)}\n',
-                style: bodyMedium,
-                children: [
-                  TextSpan(
-                    text: "\n${MockData.walletInfo.values.elementAt(index)}\n",
-                    style: bodySmall.copyWith(
-                      color: ColorConst.NeutralVariant.shade60,
-                    ),
-                  )
-                ],
-              ));
-        });
-  }
+  // Widget infoBottomSheet() {
+  //   return NaanBottomSheet(
+  //       blurRadius: 5,
+  //       gradientStartingOpacity: 1,
+  //       isDraggableBottomSheet: true,
+  //       title: 'Introduction to crypto wallet',
+  //       draggableListBuilder: (_, index) {
+  //         return RichText(
+  //             textAlign: TextAlign.start,
+  //             text: TextSpan(
+  //               text: '${MockData.walletInfo.keys.elementAt(index)}\n',
+  //               style: bodyMedium,
+  //               children: [
+  //                 TextSpan(
+  //                   text: "\n${MockData.walletInfo.values.elementAt(index)}\n",
+  //                   style: bodySmall.copyWith(
+  //                     color: ColorConst.NeutralVariant.shade60,
+  //                   ),
+  //                 )
+  //               ],
+  //             ));
+  //       });
+  // }
+
 }

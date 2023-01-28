@@ -107,7 +107,7 @@ class SendPageController extends GetxController {
       // print(opHash);
     } else {
       operationModel.buildParams();
-      // do preApply from start and inject here
+      // do preApply from start and inject here,
       try {
         operationModel.preAppliedResult = await OperationService()
             .preApplyOperation(

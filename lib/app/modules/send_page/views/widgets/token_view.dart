@@ -69,7 +69,8 @@ class TokenView extends StatelessWidget {
                       children: [
                         controller.selectedTextfieldType.value ==
                                 TextfieldType.token
-                            ? GestureDetector(
+                            ? InkWell(
+                                splashColor: Colors.transparent,
                                 onTap: () {
                                   if (!controller
                                       .amountFocusNode.value.hasFocus) {
@@ -180,7 +181,8 @@ class TokenView extends StatelessWidget {
                       children: [
                         controller.selectedTextfieldType.value ==
                                 TextfieldType.usd
-                            ? GestureDetector(
+                            ? InkWell(
+                                splashColor: Colors.transparent,
                                 onTap: () {
                                   controller.amountController.text =
                                       controller.selectedTokenModel != null
@@ -312,7 +314,6 @@ class TokenView extends StatelessWidget {
   }
 
   String formatEnterAmount(String amount) {
-    
     var decimalEnters = amount.substring(amount.indexOf(".") + 1).length;
     if (decimalEnters == 0) return amount;
     return double.parse(amount).toStringAsFixed(

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../utils/colors/colors.dart';
@@ -38,3 +38,4 @@ class LiquidityBakingSlider extends StatelessWidget {
     );
   }
 }
+ */

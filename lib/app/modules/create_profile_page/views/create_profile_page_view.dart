@@ -29,7 +29,6 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
   const CreateProfilePageView({super.key, this.isBottomSheet = false});
   @override
   Widget build(BuildContext context) {
-    log("message:$isBottomSheet");
     isBottomSheet ? Get.put(CreateProfilePageController()) : null;
     var args = ModalRoute.of(context)!.settings.arguments as List;
     controller.previousRoute = args[0] as String;

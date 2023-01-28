@@ -1,3 +1,4 @@
+import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,7 @@ import 'package:naan_wallet/app/data/services/service_models/account_model.dart'
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 
@@ -79,6 +81,9 @@ class ImportWalletPageController extends GetxController
   Future<void> redirectBasedOnImportWalletType([String? pageRoute]) async {
     if (importWalletDataType == ImportWalletDataType.privateKey ||
         importWalletDataType == ImportWalletDataType.watchAddress) {
+      if ((await checkIfAlreadyPresent())) {
+        return;
+      }
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
       var previousRoute = pageRoute ?? Get.previousRoute;
 
@@ -134,6 +139,43 @@ class ImportWalletPageController extends GetxController
               ],
       );
     }
+  }
+
+  Future<bool> checkIfAlreadyPresent() async {
+    UserStorageService userStorageService = UserStorageService();
+
+    List<AccountModel> accounts = [
+      ...(await userStorageService.getAllAccount(watchAccountsList: true)),
+      ...(await userStorageService.getAllAccount()),
+    ];
+    if (importWalletDataType == ImportWalletDataType.watchAddress) {
+      if (accounts.any((element) =>
+          element.publicKeyHash!.toLowerCase() ==
+          phraseText.value.toLowerCase())) {
+        transactionStatusSnackbar(
+          duration: const Duration(seconds: 2),
+          status: TransactionStatus.error,
+          tezAddress: 'Account with same address already exists',
+          transactionAmount: 'Cannot import account',
+        );
+        return true;
+      }
+    } else if (importWalletDataType == ImportWalletDataType.privateKey) {
+      final publicKeyHash = Dartez.getKeysFromSecretKey(phraseText.value)[2];
+      if (accounts.any((element) =>
+          element.publicKeyHash!.toLowerCase() ==
+          publicKeyHash.toLowerCase())) {
+        transactionStatusSnackbar(
+          duration: const Duration(seconds: 2),
+          status: TransactionStatus.error,
+          tezAddress: 'Account with same private key already exists',
+          transactionAmount: 'Cannot import account',
+        );
+        return true;
+      }
+    }
+
+    return false;
   }
 
   Future<AccountModel> getAccountModelIndexAt(int index) async {

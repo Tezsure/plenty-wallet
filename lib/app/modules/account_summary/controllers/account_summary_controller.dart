@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
@@ -38,6 +41,7 @@ class AccountSummaryController extends GetxController {
 
   // ! Token Related Variables
   RxBool isEditable = false.obs; // for token edit mode
+  RxBool isLoading = true.obs;
   RxBool expandTokenList =
       false.obs; // false = show 3 tokens, true = show all tokens
   RxDouble xtzPrice = 0.0.obs; // Current xtz price
@@ -75,51 +79,144 @@ class AccountSummaryController extends GetxController {
         .registerCallback((value) {
       xtzPrice.value = value;
     });
+    Get.find<HomePageController>().userAccounts.listen((event) {
+      fetchAllTokens();
+      _fetchAllNfts();
+    });
     fetchAllTokens();
     _fetchAllNfts();
-    tokensList.value =
-        await DataHandlerService().renderService.getTokenPriceModel();
+
     selectedTokenIndexSet.clear();
     super.onInit();
   }
 
   /// Fetches all the user tokens
   Future<void> fetchAllTokens() async {
-    userTokens.clear();
     if (homePageController.userAccounts.isEmpty) return;
+
+    if ((await RpcService.getCurrentNetworkType()) == NetworkType.mainnet) {
+      String tokens =
+          await DataHandlerService().renderService.getTokenPriceModelString();
+      isLoading.value = true;
+      await UserStorageService()
+          .getUserTokensString(
+              userAddress: selectedAccount.value.publicKeyHash!)
+          .then(
+        (value) async {
+          //userTokens.addAll();
+
+          List<dynamic> data = await compute(
+              tokensProcess,
+              [
+                value,
+                xtzPrice.value,
+                selectedAccount.value.accountDataModel!.xtzBalance!,
+                tokens
+              ],
+              debugLabel: "tokensProcess");
+/*       userTokens,
+      pinnedTokens,
+      hiddenTokens,
+      minTokens,
+      pinnedList,
+      unPinnedList */
+          userTokens.clear();
+          userTokens.addAll(data[0]);
+          userTokens.sort(tokenComparator);
+          userTokens.value = userTokens.value;
+          _pinnedTokens = data[1];
+          _hiddenTokens = data[2];
+          minTokens.value = data[3];
+          pinnedList.value = data[4];
+          unPinnedList.value = data[5];
+          tokensList.value = data[6];
+          pinnedList.refresh();
+          unPinnedList.refresh();
+          isLoading.value = false;
+        },
+      );
+    }
+
+/*     userTokens.sort(tokenComparator);
+    _pinnedTokens = userTokens.indexWhere((element) => !element.isPinned);
+    _hiddenTokens = userTokens.indexWhere((element) => element.isHidden);
+    _pinnedTokens = _pinnedTokens < 0 ? userTokens.length : _pinnedTokens;
+    minTokens.value = min(4, userTokens.length); // setting the default value
+    minTokens.value = max<int>(_pinnedTokens,
+        minTokens.value); // Either show default tokens or pinned tokens
+    pinnedList.value = userTokens.sublist(0, minTokens.value);
+    unPinnedList.value = userTokens.sublist(minTokens.value);
+    pinnedList.refresh();
+    unPinnedList.refresh(); */
+
+    //_tokenSort();
+    // _updateUserTokenList();
+  }
+
+  static List<dynamic> tokensProcess(
+      /* String tokens, double xtzPrice, double xtzBalance */ List<dynamic>
+          args) {
+    List<AccountTokenModel> userTokens = jsonDecode(args[0])
+        .map<AccountTokenModel>((e) => AccountTokenModel.fromJson(e))
+        .toList();
     AccountTokenModel tezos = AccountTokenModel(
       name: "Tezos",
-      balance: homePageController
-          .userAccounts[homePageController.selectedIndex.value]
-          .accountDataModel!
-          .xtzBalance!,
+      balance: args[2],
       contractAddress: "xtz",
       symbol: "tezos",
-      currentPrice: xtzPrice.value,
+      currentPrice: args[1],
       tokenId: "0",
       decimals: 6,
       iconUrl: "assets/tezos_logo.png",
     );
-    if ((await RpcService.getCurrentNetworkType()) == NetworkType.mainnet) {
-      userTokens.addAll(await UserStorageService()
-          .getUserTokens(userAddress: selectedAccount.value.publicKeyHash!));
-    }
-    userTokens.value = userTokens.toSet().toList();
     if (userTokens.isNotEmpty &&
         userTokens.any((element) => element.name!.toLowerCase() == "tezos")) {
       userTokens.map((element) => element.name!.toLowerCase() == "tezos"
           ? element.copyWith(
-              balance: selectedAccount.value.accountDataModel!.xtzBalance!,
-              currentPrice: xtzPrice.value,
+              balance: args[2],
+              currentPrice: args[1],
             )
           : null);
     } else {
-      selectedAccount.value.accountDataModel!.xtzBalance! == 0
-          ? null
-          : userTokens.insert(0, tezos);
+      args[2] == 0 ? null : userTokens.insert(0, tezos);
     }
-    _tokenSort();
-    // _updateUserTokenList();
+    userTokens.sort((a, b) {
+      a.isSelected = false;
+      b.isSelected = false;
+      if (a.isPinned) {
+        return -1;
+      } else if (b.isPinned) {
+        return 1;
+      } else {
+        if (b.isHidden) {
+          return -1;
+        } else if (a.isHidden) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+    });
+    int pinnedTokens = userTokens.indexWhere((element) => !element.isPinned);
+    int hiddenTokens = userTokens.indexWhere((element) => element.isHidden);
+    pinnedTokens = _pinnedTokens < 0 ? userTokens.length : pinnedTokens;
+    int minTokens = min(4, userTokens.length); // setting the default value
+    minTokens = max<int>(
+        pinnedTokens, minTokens); // Either show default tokens or pinned tokens
+    List<AccountTokenModel> pinnedList = userTokens.sublist(0, minTokens);
+    List<AccountTokenModel> unPinnedList = userTokens.sublist(minTokens);
+    List<TokenPriceModel> tokensList = jsonDecode(args[3])["contracts"]
+        .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
+        .toList();
+    return [
+      userTokens,
+      pinnedTokens,
+      hiddenTokens,
+      minTokens,
+      pinnedList,
+      unPinnedList,
+      tokensList
+    ];
   }
 
   /// Fetches the user account NFTs
@@ -127,13 +224,27 @@ class AccountSummaryController extends GetxController {
     userNfts.clear();
     if (selectedAccount.value.publicKeyHash == null) return;
     UserStorageService()
-        .getUserNfts(userAddress: selectedAccount.value.publicKeyHash!)
-        .then((nftList) {
-      for (var i = 0; i < nftList.length; i++) {
+        .getUserNftsString(userAddress: selectedAccount.value.publicKeyHash!)
+        .then((nftList) async {
+      userNfts.value = await compute(getUserNft, nftList,
+          debugLabel: "getUserNft ACCOUNT SUMMARY");
+/*       for (var i = 0; i < nftList.length; i++) {
         userNfts[nftList[i].fa!.contract!] =
             (userNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
-      }
+      } */
     });
+  }
+
+  static Map<String, List<NftTokenModel>> getUserNft(String nfts) {
+    List<NftTokenModel> nftList = jsonDecode(nfts)
+        .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
+        .toList();
+    Map<String, List<NftTokenModel>> userNfts = <String, List<NftTokenModel>>{};
+    for (var i = 0; i < nftList.length; i++) {
+      userNfts[nftList[i].fa!.contract!] =
+          (userNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
+    }
+    return userNfts;
   }
 
   // ! Account Related Functions

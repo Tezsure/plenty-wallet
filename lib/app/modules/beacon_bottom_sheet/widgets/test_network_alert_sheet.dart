@@ -43,14 +43,14 @@ class _TestNetworkBottomSheetState extends State<TestNetworkBottomSheet> {
     final settingController = Get.put(SettingsPageController());
     return Obx(() {
       return NaanBottomSheet(
-        height: 0.5.height,
+        height: 0.47.height,
         bottomSheetWidgets: [
           Container(
-            height: 0.45.height,
+            height: 0.44.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                0.05.vspace,
+                0.02.vspace,
                 SvgPicture.asset(
                   "${PathConst.SETTINGS_PAGE.SVG}node.svg",
                   width: 45.arP,
@@ -124,7 +124,7 @@ class _TestNetworkBottomSheetState extends State<TestNetworkBottomSheet> {
                         primaryColor: Colors.transparent,
                       ),
                     ),
-                    0.016.hspace,
+                    0.024.hspace,
                     Expanded(
                       child: SolidButton(
                         onPressed: networkType.toString() ==

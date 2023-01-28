@@ -39,6 +39,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   RxDouble sliderValue = 0.0.obs;
 
   RxDouble xtzPrice = 0.0.obs;
+  RxDouble dayChange = 0.0.obs;
 
   RxList<AccountModel> userAccounts = <AccountModel>[].obs;
 
@@ -74,6 +75,15 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         .registerCallback((value) {
       xtzPrice.value = value;
       print("xtzPrice: $value");
+      //update();
+    });
+
+    DataHandlerService()
+        .renderService
+        .dayChangeUpdater
+        .registerCallback((value) {
+      dayChange.value = value;
+      print("dayChange: $value");
       //update();
     });
 
