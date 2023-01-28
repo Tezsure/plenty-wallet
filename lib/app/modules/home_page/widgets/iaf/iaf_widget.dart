@@ -41,6 +41,10 @@ class IAFWidget extends StatelessWidget {
               title: "Claim drop",
               subtitle: 'Chose an account to claim your free NFT and tez ',
               onNext: () {
+                if (Get.isRegistered<IAFController>()) {
+                  Get.find<IAFController>()
+                      .setUp(home.userAccounts[home.selectedIndex.value]);
+                }
                 Get.put(
                     IAFController(home.userAccounts[home.selectedIndex.value]));
                 // String url =
@@ -83,6 +87,7 @@ class IAFWidget extends StatelessWidget {
                   child: Image.asset(
                     "${PathConst.HOME_PAGE}iaf-watermark.png",
                     fit: BoxFit.cover,
+                    width: 0.5.width,
                   ),
                 ),
               ),

@@ -31,4 +31,25 @@ class HttpService {
     );
     return response.body;
   }
+
+  static Future<String> performPostRequest(String server,
+      {String endpoint = "",
+      Map<String, String>? headers,
+      Map<String, dynamic>? body}) async {
+    var response = await http
+        .post(
+            Uri.parse(
+              "$server${endpoint.isNotEmpty ? '/$endpoint' : ''}",
+            ),
+            headers: headers,
+            body: body)
+        .timeout(
+      const Duration(seconds: 15),
+      onTimeout: () {
+        throw TimeoutException(
+            "Timeout $server${endpoint.isNotEmpty ? '/$endpoint' : ''}");
+      },
+    );
+    return response.body;
+  }
 }
