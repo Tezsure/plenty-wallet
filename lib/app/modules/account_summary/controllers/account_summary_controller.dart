@@ -307,8 +307,8 @@ class AccountSummaryController extends GetxController {
       }
     }
     selectedAccount.refresh();
-    fetchAllTokens();
-    _fetchAllNfts();
+/*     fetchAllTokens();
+    _fetchAllNfts(); */
     loadUserTransaction();
     Get
       ..back()
