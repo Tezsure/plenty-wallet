@@ -17,14 +17,8 @@ class HttpService {
             ),
             headers: headers)
         .timeout(
-      const Duration(seconds: 15),
+      const Duration(seconds: 10),
       onTimeout: () {
-        if (callSetupTimer) {
-          Future.delayed(const Duration(seconds: 15), () {
-            DataHandlerService().setUpTimer();
-          });
-        }
-
         throw TimeoutException(
             "Timeout $server${endpoint.isNotEmpty ? '/$endpoint' : ''}");
       },
