@@ -42,10 +42,11 @@ class TokenAndXtzPriceHandler {
       ],
       debugName: "xtz & tokenPrices",
     );
-    receivePort.asBroadcastStream().listen((data) async {
+    receivePort.asBroadcastStream().take(1).listen((data) async {
       onDone();
       await _storeData(data, postProcess);
       receivePort.close();
+
       isolate.kill(priority: Isolate.immediate);
     });
   }
