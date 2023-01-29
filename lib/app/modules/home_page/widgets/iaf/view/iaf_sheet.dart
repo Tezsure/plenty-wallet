@@ -35,15 +35,23 @@ class _IAFSheetState extends State<IAFSheet> {
                 32.arP -
                 MediaQuery.of(context).viewInsets.bottom,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 0.02.vspace,
-                Align(
-                  alignment: Alignment.center,
+                Center(
                   child: Text(
-                    "Enter registered email id",
+                    "Claim NFT",
                     textAlign: TextAlign.center,
                     style: titleLarge,
+                  ),
+                ),
+                0.016.vspace,
+                Center(
+                  child: Text(
+                    "Enter the email id you submitted \nfor claiming NFT at India Art Fair.",
+                    textAlign: TextAlign.center,
+                    style: labelMedium.copyWith(color: ColorConst.textGrey1),
                   ),
                 ),
                 0.032.vspace,
@@ -62,8 +70,9 @@ class _IAFSheetState extends State<IAFSheet> {
                     }
                     setState(() {});
                   },
-                  title:
-                      controller.isVerified.value ?? false ? "Claim NFT" : "Verify",
+                  title: controller.isVerified.value ?? false
+                      ? "Claim NFT"
+                      : "Verify",
                 ),
                 const BottomButtonPadding()
               ],
