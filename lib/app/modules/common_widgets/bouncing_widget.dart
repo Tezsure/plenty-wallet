@@ -2,6 +2,8 @@ library flutter_bounce;
 
 import 'package:flutter/material.dart';
 
+import 'text_scale_factor.dart';
+
 class BouncingWidget extends StatefulWidget {
   final Function()? onPressed;
   final Function()? onLongPressed;
@@ -59,15 +61,17 @@ class BouncingWidgetState extends State<BouncingWidget>
   @override
   Widget build(BuildContext context) {
     _scale = 1 - _animate.value;
-    return InkWell(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        onTap: _onTap,
-        onLongPress: _onLongPress,
-        child: Transform.scale(
-          scale: _scale,
-          child: widget.child,
-        ));
+    return OverrideTextScaleFactor(
+      child: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: _onTap,
+          onLongPress: _onLongPress,
+          child: Transform.scale(
+            scale: _scale,
+            child: widget.child,
+          )),
+    );
   }
 
   //This is where the animation works out for us

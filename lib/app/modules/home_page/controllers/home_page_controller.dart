@@ -177,8 +177,8 @@ class BackupWalletBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      gradientStartingOpacity: 1,
-      blurRadius: 5,
+      // gradientStartingOpacity: 1,
+      // blurRadius: 5,
       height: 350.arP,
       bottomSheetWidgets: [
         0.03.vspace,

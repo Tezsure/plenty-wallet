@@ -11,7 +11,16 @@ class IAFService {
         body: {"email": email, "userAddress": address});
 
     if (response.isNotEmpty && jsonDecode(response).length != 0) {
-      return jsonDecode(response)['status'] == "success";
+      if (jsonDecode(response)['status'] == null) {
+        transactionStatusSnackbar(
+          duration: const Duration(seconds: 2),
+          status: TransactionStatus.error,
+          tezAddress: jsonDecode(response)['message'] ?? 'Invalid email',
+          transactionAmount: 'Cannot claim',
+        );
+      } else {
+        return jsonDecode(response)['status'] == "success";
+      }
     }
     return false;
   }

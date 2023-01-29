@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/data/services/service_models/account_model.dart'
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/custom_tab_indicator.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
@@ -39,11 +40,13 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
         ],
       );
     }
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.arP),
-        child: SafeArea(bottom: false, child: _buildBody(context)),
+    return OverrideTextScaleFactor(
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.arP),
+          child: SafeArea(bottom: false, child: _buildBody(context)),
+        ),
       ),
     );
   }

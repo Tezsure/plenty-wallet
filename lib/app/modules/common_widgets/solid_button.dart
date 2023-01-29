@@ -33,7 +33,7 @@ class SolidButton extends StatelessWidget {
       this.onPressed,
       this.onLongPressed,
       this.textColor,
-      this.height = 50,
+      this.height,
       this.width,
       this.rowWidget,
       this.active = true,
@@ -67,8 +67,8 @@ class SolidButton extends StatelessWidget {
             color: !active || (onPressed == null && onLongPressed == null)
                 ? (disabledButtonColor ?? const Color(0xFF1E1C1F))
                 : (primaryColor ?? ColorConst.Primary),
-            borderRadius: BorderRadius.circular(borderRadius ?? 8)),
-        height: height,
+            borderRadius: BorderRadius.circular(borderRadius ?? 8.arP)),
+        height: height ?? 50.arP,
         // elevation: elevation,
         // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: EdgeInsets.zero,
@@ -80,10 +80,10 @@ class SolidButton extends StatelessWidget {
         // shape: RoundedRectangleBorder(
         //     borderRadius: BorderRadius.circular(borderRadius ?? 8)),
         child: Container(
-          height: height,
+          height: height ?? 50.arP,
           width: width ?? double.infinity,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.arP),
             color: Colors.transparent,
             border: Border.all(
               color: borderColor,
@@ -93,10 +93,10 @@ class SolidButton extends StatelessWidget {
           alignment: Alignment.center,
           child: Obx(
             () => isLoading != null && isLoading!.value
-                ? const SizedBox(
-                    width: 30,
-                    height: 30,
-                    child: CircularProgressIndicator(
+                ? SizedBox(
+                    width: 30.arP,
+                    height: 30.arP,
+                    child: const CircularProgressIndicator(
                       color: Colors.white,
                     ),
                   )

@@ -25,18 +25,27 @@ class _IAFSheetState extends State<IAFSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      title: "Enter registered email id",
+      // title: "Enter registered email id",
       height: AppConstant.naanBottomSheetHeight -
           MediaQuery.of(context).viewInsets.bottom,
       bottomSheetWidgets: [
         Obx(() {
           return SizedBox(
             height: AppConstant.naanBottomSheetChildHeight -
-                28.arP -
+                32.arP -
                 MediaQuery.of(context).viewInsets.bottom,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                0.02.vspace,
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Enter registered email id",
+                    textAlign: TextAlign.center,
+                    style: titleLarge,
+                  ),
+                ),
                 0.032.vspace,
                 _buildTextField(),
                 0.018.vspace,

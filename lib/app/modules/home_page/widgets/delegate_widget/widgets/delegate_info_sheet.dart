@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
@@ -22,12 +23,11 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
     ];
     // Get.lazyPut(() => DelegateWidgetController());
     return NaanBottomSheet(
-        mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 16.arP,
-        height: 0.6.height,
+        height: 0.61.height,
         bottomSheetWidgets: [
           SizedBox(
-            height: 0.56.height,
+            height: 0.55.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -93,6 +93,7 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                   },
                   title: "Continue",
                 ),
+                BottomButtonPadding()
               ],
             ),
           ),

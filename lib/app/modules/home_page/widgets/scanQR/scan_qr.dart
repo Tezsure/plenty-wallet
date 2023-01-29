@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/scan_qr_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/connected_dapps_sheet.dart';
@@ -45,45 +46,47 @@ class _ScanQrViewState extends State<ScanQrView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        leading: SizedBox.shrink(),
-        backgroundColor: Colors.transparent,
-      ),
-      // height: 01.height,
-      body: Column(
-        children: <Widget>[
-          Expanded(
-              child: Stack(
-            children: [
-              _buildQrView(context),
-              SafeArea(
-                child: Column(
-                  children: [
-                    // 0.02.vspace,
-                    Container(
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Container(
-                          height: 5,
-                          width: 36,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: ColorConst.NeutralVariant.shade60
-                                .withOpacity(0.3),
+    return OverrideTextScaleFactor(
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          elevation: 0,
+          leading: SizedBox.shrink(),
+          backgroundColor: Colors.transparent,
+        ),
+        // height: 01.height,
+        body: Column(
+          children: <Widget>[
+            Expanded(
+                child: Stack(
+              children: [
+                _buildQrView(context),
+                SafeArea(
+                  child: Column(
+                    children: [
+                      // 0.02.vspace,
+                      Container(
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Container(
+                            height: 5,
+                            width: 36,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: ColorConst.NeutralVariant.shade60
+                                  .withOpacity(0.3),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          )),
-        ],
+              ],
+            )),
+          ],
+        ),
       ),
     );
   }

@@ -459,7 +459,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
       transactionModel.sender!.address!.contains(userAccountAddress)
           ? transactionModel.parameter?.value == null
               ? transactionModel.target?.address ??
-                  transactionModel.newDelegate!.address!
+                  transactionModel.newDelegate?.address ??
+                  ""
               : senderAddress(
                       transactionModel,
                       transactionModel.sender!.address!
