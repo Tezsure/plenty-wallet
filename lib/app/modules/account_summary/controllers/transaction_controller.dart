@@ -121,7 +121,9 @@ class TransactionController extends GetxController {
       tokenInfo = TokenInfo(
         isHashSame: isHashSame == null ? false : tx.hash!.contains(isHashSame),
         token: tx,
-        timeStamp: DateTime.parse(tx.timestamp!),
+        timeStamp: tx.timestamp == null
+            ? DateTime.now()
+            : DateTime.parse(tx.timestamp!),
         isSent: tx.sender!.address!
             .contains(accController.selectedAccount.value.publicKeyHash!),
       );
