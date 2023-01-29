@@ -63,7 +63,7 @@ class _IAFSheetState extends State<IAFSheet> {
                     setState(() {});
                   },
                   title:
-                      controller.isVerified.value ?? false ? "Claim" : "Verify",
+                      controller.isVerified.value ?? false ? "Claim NFT" : "Verify",
                 ),
                 const BottomButtonPadding()
               ],
@@ -143,7 +143,7 @@ class _IAFSheetState extends State<IAFSheet> {
             suffixIcon: Icon(
               Icons.search,
               color: getColor(),
-              size: 22,
+              size: 22.arP,
             ),
             counterStyle: const TextStyle(backgroundColor: Colors.white),
             border: OutlineInputBorder(

@@ -20,7 +20,6 @@ class IAFClaimSuccessSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     HapticFeedback.heavyImpact();
     return NaanBottomSheet(
-        mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 16.arP,
         height: 0.45.height,
         blurRadius: 5,
