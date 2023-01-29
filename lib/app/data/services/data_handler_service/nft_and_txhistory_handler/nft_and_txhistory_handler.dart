@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_render_service.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
@@ -17,40 +18,46 @@ class NftAndTxHistoryHandler {
   NftAndTxHistoryHandler(this.dataHandlerRenderService);
 
   static Future<void> _isolateProcess(List<dynamic> args) async {
-    List<String> accountAddress = args[1][0].toList();
-    List<String> allAccounts = [...accountAddress, ...args[1][1].toList()];
-    String rpc = args[1][2];
+    try {
+      List<String> accountAddress = args[1][0].toList();
+      List<String> allAccounts = [...accountAddress, ...args[1][1].toList()];
+      String rpc = args[1][2];
 
-    // call get nft for batch for 3 accounts in for loop
-    for (int i = 0; i < allAccounts.length; i++) {
+      // call get nft for batch for 3 accounts in for loop
+      for (int i = 0; i < allAccounts.length; i++) {
+        args[0].send([
+          ProcessStatus.inProgress,
+          allAccounts[i],
+          await ObjktNftApiService().getNfts(allAccounts[i])
+        ]);
+      }
+
+      // List<String> accountsNft = await Future.wait(
+      //   [...accountAddress, ...watchAccountAddress].map<Future<String>>(
+      //     (e) => ObjktNftApiService().getNfts(e),
+      //   ),
+      // );
+
+      List<List<TxHistoryModel>> accountsTxHistory =
+          await Future.wait(allAccounts.map<Future<List<TxHistoryModel>>>(
+        (e) => TzktTxHistoryApiService(e, rpc).getTxHistory(),
+      ));
+
+      // send data back
       args[0].send([
-        ProcessStatus.inProgress,
-        allAccounts[i],
-        await ObjktNftApiService().getNfts(allAccounts[i])
+        // account nfts as Map<String(address),List<dynamic>>
+        ProcessStatus.done,
+        // account tx history as Map<String(address),List<TxHistoryModel>>
+        <String, String>{
+          for (int i = 0; i < accountAddress.length; i++)
+            accountAddress[i]: jsonEncode(accountsTxHistory[i])
+        },
       ]);
+    } catch (e) {
+      print(e);
+
+      DataHandlerService().setUpTimer();
     }
-
-    // List<String> accountsNft = await Future.wait(
-    //   [...accountAddress, ...watchAccountAddress].map<Future<String>>(
-    //     (e) => ObjktNftApiService().getNfts(e),
-    //   ),
-    // );
-
-    List<List<TxHistoryModel>> accountsTxHistory =
-        await Future.wait(allAccounts.map<Future<List<TxHistoryModel>>>(
-      (e) => TzktTxHistoryApiService(e, rpc).getTxHistory(),
-    ));
-
-    // send data back
-    args[0].send([
-      // account nfts as Map<String(address),List<dynamic>>
-      ProcessStatus.done,
-      // account tx history as Map<String(address),List<TxHistoryModel>>
-      <String, String>{
-        for (int i = 0; i < accountAddress.length; i++)
-          accountAddress[i]: jsonEncode(accountsTxHistory[i])
-      },
-    ]);
   }
 
   /// Get&Store teztool price apis for tokens price
