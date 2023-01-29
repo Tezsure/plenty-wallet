@@ -135,6 +135,7 @@ class ObjktNftApiService {
           .where((e) => e['holders'].length > 0 && e['token_id'].isNotEmpty)
           .toList());
     } catch (e) {
+      print(" gql error $e");
       return "[]";
     }
   }

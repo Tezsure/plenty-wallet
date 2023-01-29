@@ -50,6 +50,8 @@ class NFTabPage extends GetView<AccountSummaryController> {
                 physics: AppConstant.scrollPhysics,
                 padding: EdgeInsets.only(left: 14.aR, right: 14.aR, top: 14.aR),
                 itemCount: controller.userNfts.length,
+                shrinkWrap: true,
+                addAutomaticKeepAlives: false,
                 itemBuilder: ((context, index) => NftCollectibles(
                       nftList: controller
                           .userNfts[controller.userNfts.keys.toList()[index]]!,
