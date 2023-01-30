@@ -197,11 +197,15 @@ class AccountDataHandler {
             AccountTokenModel updatedToken;
             tokens
                     .where(
-                      (element) => element.contractAddress == e.contractAddress,
+                      (element) =>
+                          element.contractAddress == e.contractAddress &&
+                          element.tokenId == e.tokenId,
                     )
                     .isNotEmpty
                 ? updatedToken = tokens.firstWhere(
-                    (element) => element.contractAddress == e.contractAddress,
+                    (element) =>
+                        element.contractAddress == e.contractAddress &&
+                        element.tokenId == e.tokenId,
                   )
                 : updatedToken = e;
             return updateTokenAddresses.contains(e.contractAddress)
@@ -210,11 +214,11 @@ class AccountDataHandler {
                     currentPrice: updatedToken.currentPrice,
                     decimals: updatedToken.decimals,
                     iconUrl: updatedToken.iconUrl,
-                    name: updatedToken.name,
-                    symbol: updatedToken.symbol,
+                    // name: updatedToken.name,
+                    // symbol: updatedToken.symbol,
                     valueInXtz: updatedToken.valueInXtz,
-                    tokenId: updatedToken.tokenId,
-                    tokenStandardType: updatedToken.tokenStandardType,
+                    // tokenId: updatedToken.tokenId,
+                    // tokenStandardType: updatedToken.tokenStandardType,
                   )
                 : e;
           }).toList(),
