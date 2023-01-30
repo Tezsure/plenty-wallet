@@ -46,7 +46,7 @@ android {
         applicationId "com.naan"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 7
+        versionCode 13
         versionName '2.0.0'
     }
 
