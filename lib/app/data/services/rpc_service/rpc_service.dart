@@ -78,11 +78,24 @@ class RpcService {
       network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
     }
     try {
-      return jsonDecode(await HttpService.performGetRequest(
+      var tokenList = jsonDecode(await HttpService.performGetRequest(
               ServiceConfig.tzktApiForToken(address, network),
               callSetupTimer: true))
           .map<AccountTokenModel>((e) => parseAccountModel(e))
           .toList();
+
+      // Remove duplicate token based on contract address and token id
+      var uniqueTokens = <AccountTokenModel>[];
+      for (var token in tokenList) {
+        if (uniqueTokens
+            .where((element) =>
+                element.contractAddress == token.contractAddress &&
+                element.tokenId == token.tokenId)
+            .isEmpty) {
+          uniqueTokens.add(token);
+        }
+      }
+      return uniqueTokens;
     } catch (e) {
       log(e.toString());
       return [];
