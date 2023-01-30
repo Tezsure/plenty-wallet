@@ -323,189 +323,189 @@ class AccountDataHandler {
     });
   }
 
-  Future<void> _storeData(List data, List<AccountModel> accountList,
-      List<AccountModel> watchAccountModels, var postProcess) async {
-    List<TokenPriceModel> tokenPrices = await dataHandlerRenderService
-        .getTokenPriceModel((data[1] as Map<String, List<AccountTokenModel>>)
-            .values
-            .fold<List<String>>(
-                <String>[],
-                (previousValue, element) => previousValue
-                  ..addAll(
-                      element.map<String>((e) => e.contractAddress).toList()))
-            .toSet()
-            .toList());
+  // Future<void> _storeData(List data, List<AccountModel> accountList,
+  //     List<AccountModel> watchAccountModels, var postProcess) async {
+  //   List<TokenPriceModel> tokenPrices = await dataHandlerRenderService
+  //       .getTokenPriceModel((data[1] as Map<String, List<AccountTokenModel>>)
+  //           .values
+  //           .fold<List<String>>(
+  //               <String>[],
+  //               (previousValue, element) => previousValue
+  //                 ..addAll(
+  //                     element.map<String>((e) => e.contractAddress).toList()))
+  //           .toSet()
+  //           .toList());
 
-    List<String> supportedTokens =
-        tokenPrices.map<String>((e) => e.tokenAddress!).toList();
+  //   List<String> supportedTokens =
+  //       tokenPrices.map<String>((e) => e.tokenAddress!).toList();
 
-    Map<String, List<AccountTokenModel>> unsupportedTokens =
-        (data[1] as Map<String, List<AccountTokenModel>>)
-            .map<String, List<AccountTokenModel>>((key, value) {
-      return MapEntry(
-          key,
-          value
-              .where((element) =>
-                  !supportedTokens.contains(element.contractAddress))
-              .toList());
-    });
+  //   Map<String, List<AccountTokenModel>> unsupportedTokens =
+  //       (data[1] as Map<String, List<AccountTokenModel>>)
+  //           .map<String, List<AccountTokenModel>>((key, value) {
+  //     return MapEntry(
+  //         key,
+  //         value
+  //             .where((element) =>
+  //                 !supportedTokens.contains(element.contractAddress))
+  //             .toList());
+  //   });
 
-    (data[1] as Map<String, List<AccountTokenModel>>).forEach((key, value) {
-      data[1][key] = value
-        ..removeWhere(
-            (element) => !supportedTokens.contains(element.contractAddress));
-    });
+  //   (data[1] as Map<String, List<AccountTokenModel>>).forEach((key, value) {
+  //     data[1][key] = value
+  //       ..removeWhere(
+  //           (element) => !supportedTokens.contains(element.contractAddress));
+  //   });
 
-    data[1] = parseAccountTokenModelUsingTokenPrices(data[1], tokenPrices);
+  //   data[1] = parseAccountTokenModelUsingTokenPrices(data[1], tokenPrices);
 
-    // save account xtz balances
-    accountList = accountList
-        .map<AccountModel>(
-          ((e) => e.copyWith(
-                accountDataModel: e.accountDataModel!.copyWith(
-                  xtzBalance: data[0][e.publicKeyHash!],
-                  tokenXtzBalance: data[0][e.publicKeyHash!] +
-                      (data[1].containsKey(e.publicKeyHash)
-                          ? (data[1][e.publicKeyHash]
-                                  as List<AccountTokenModel>)
-                              .fold<double>(
-                                  0.0,
-                                  (previousValue, element) =>
-                                      previousValue + element.valueInXtz!)
-                          : 0.0),
-                ),
-              )),
-        )
-        .toList();
+  //   // save account xtz balances
+  //   accountList = accountList
+  //       .map<AccountModel>(
+  //         ((e) => e.copyWith(
+  //               accountDataModel: e.accountDataModel!.copyWith(
+  //                 xtzBalance: data[0][e.publicKeyHash!],
+  //                 tokenXtzBalance: data[0][e.publicKeyHash!] +
+  //                     (data[1].containsKey(e.publicKeyHash)
+  //                         ? (data[1][e.publicKeyHash]
+  //                                 as List<AccountTokenModel>)
+  //                             .fold<double>(
+  //                                 0.0,
+  //                                 (previousValue, element) =>
+  //                                     previousValue + element.valueInXtz!)
+  //                         : 0.0),
+  //               ),
+  //             )),
+  //       )
+  //       .toList();
 
-    watchAccountModels = watchAccountModels
-        .map<AccountModel>(
-          ((e) => e.copyWith(
-                accountDataModel: e.accountDataModel!.copyWith(
-                  xtzBalance: data[0][e.publicKeyHash!],
-                  tokenXtzBalance: data[0][e.publicKeyHash!] +
-                      (data[1].containsKey(e.publicKeyHash)
-                          ? (data[1][e.publicKeyHash]
-                                  as List<AccountTokenModel>)
-                              .fold<double>(
-                                  0.0,
-                                  (previousValue, element) =>
-                                      previousValue + element.valueInXtz!)
-                          : 0.0),
-                ),
-              )),
-        )
-        .toList();
+  //   watchAccountModels = watchAccountModels
+  //       .map<AccountModel>(
+  //         ((e) => e.copyWith(
+  //               accountDataModel: e.accountDataModel!.copyWith(
+  //                 xtzBalance: data[0][e.publicKeyHash!],
+  //                 tokenXtzBalance: data[0][e.publicKeyHash!] +
+  //                     (data[1].containsKey(e.publicKeyHash)
+  //                         ? (data[1][e.publicKeyHash]
+  //                                 as List<AccountTokenModel>)
+  //                             .fold<double>(
+  //                                 0.0,
+  //                                 (previousValue, element) =>
+  //                                     previousValue + element.valueInXtz!)
+  //                         : 0.0),
+  //               ),
+  //             )),
+  //       )
+  //       .toList();
 
-    // fetches the stored token list if any and updates the respective token values
-    (data[1] as Map<String, List<AccountTokenModel>>)
-        .forEach((key, value) async {
-      await UserStorageService()
-          .getUserTokens(userAddress: key)
-          .then((tokenList) {
-        if (tokenList.isNotEmpty) {
-          // remove unsupported tokens
-          if (unsupportedTokens.containsKey(key)) {
-            tokenList.removeWhere((element) => unsupportedTokens[key]!
-                .map<String>((e) => e.contractAddress)
-                .toList()
-                .contains(element.contractAddress));
-          }
-          List<String> updateTokenAddresses = value
-              .map<String>((e) => e.contractAddress)
-              .toList(); // get all the token addresses which are updated
-          (data[1] as Map<String, List<AccountTokenModel>>).update(
-            key,
-            (tokens) => tokenList.map<AccountTokenModel>((e) {
-              AccountTokenModel updatedToken;
-              tokens
-                      .where(
-                        (element) =>
-                            element.contractAddress == e.contractAddress,
-                      )
-                      .isNotEmpty
-                  ? updatedToken = tokens.firstWhere(
-                      (element) => element.contractAddress == e.contractAddress,
-                    )
-                  : updatedToken = e;
-              return updateTokenAddresses.contains(e.contractAddress)
-                  ? e.copyWith(
-                      balance: updatedToken.balance,
-                      currentPrice: updatedToken.currentPrice,
-                      decimals: updatedToken.decimals,
-                      iconUrl: updatedToken.iconUrl,
-                      name: updatedToken.name,
-                      symbol: updatedToken.symbol,
-                      valueInXtz: updatedToken.valueInXtz,
-                      tokenId: updatedToken.tokenId,
-                      tokenStandardType: updatedToken.tokenStandardType,
-                    )
-                  : e;
-            }).toList(),
-          );
-        }
-      });
-    });
+  //   // fetches the stored token list if any and updates the respective token values
+  //   (data[1] as Map<String, List<AccountTokenModel>>)
+  //       .forEach((key, value) async {
+  //     await UserStorageService()
+  //         .getUserTokens(userAddress: key)
+  //         .then((tokenList) {
+  //       if (tokenList.isNotEmpty) {
+  //         // remove unsupported tokens
+  //         if (unsupportedTokens.containsKey(key)) {
+  //           tokenList.removeWhere((element) => unsupportedTokens[key]!
+  //               .map<String>((e) => e.contractAddress)
+  //               .toList()
+  //               .contains(element.contractAddress));
+  //         }
+  //         List<String> updateTokenAddresses = value
+  //             .map<String>((e) => e.contractAddress)
+  //             .toList(); // get all the token addresses which are updated
+  //         (data[1] as Map<String, List<AccountTokenModel>>).update(
+  //           key,
+  //           (tokens) => tokenList.map<AccountTokenModel>((e) {
+  //             AccountTokenModel updatedToken;
+  //             tokens
+  //                     .where(
+  //                       (element) =>
+  //                           element.contractAddress == e.contractAddress,
+  //                     )
+  //                     .isNotEmpty
+  //                 ? updatedToken = tokens.firstWhere(
+  //                     (element) => element.contractAddress == e.contractAddress,
+  //                   )
+  //                 : updatedToken = e;
+  //             return updateTokenAddresses.contains(e.contractAddress)
+  //                 ? e.copyWith(
+  //                     balance: updatedToken.balance,
+  //                     currentPrice: updatedToken.currentPrice,
+  //                     decimals: updatedToken.decimals,
+  //                     iconUrl: updatedToken.iconUrl,
+  //                     name: updatedToken.name,
+  //                     symbol: updatedToken.symbol,
+  //                     valueInXtz: updatedToken.valueInXtz,
+  //                     tokenId: updatedToken.tokenId,
+  //                     tokenStandardType: updatedToken.tokenStandardType,
+  //                   )
+  //                 : e;
+  //           }).toList(),
+  //         );
+  //       }
+  //     });
+  //   });
 
-    // update account list before write data into localStorage
-    if (accountList.isNotEmpty || watchAccountModels.isNotEmpty) {
-      if (accountList.isNotEmpty) {
-        accountList.first.isAccountPrimary = true;
-      }
-      await postProcess([...accountList, ...watchAccountModels]);
-    }
+  //   // update account list before write data into localStorage
+  //   if (accountList.isNotEmpty || watchAccountModels.isNotEmpty) {
+  //     if (accountList.isNotEmpty) {
+  //       accountList.first.isAccountPrimary = true;
+  //     }
+  //     await postProcess([...accountList, ...watchAccountModels]);
+  //   }
 
-    // save accounts data
-    await ServiceConfig.localStorage.write(
-        key: ServiceConfig.accountsStorage, value: jsonEncode(accountList));
+  //   // save accounts data
+  //   await ServiceConfig.localStorage.write(
+  //       key: ServiceConfig.accountsStorage, value: jsonEncode(accountList));
 
-    // save watch accounts data
-    await ServiceConfig.localStorage.write(
-        key: ServiceConfig.watchAccountsStorage,
-        value: jsonEncode(watchAccountModels));
+  //   // save watch accounts data
+  //   await ServiceConfig.localStorage.write(
+  //       key: ServiceConfig.watchAccountsStorage,
+  //       value: jsonEncode(watchAccountModels));
 
-    // save all tokens separate based on publicKeyHash of the account
-    for (String key in data[1].keys) {
-      await ServiceConfig.localStorage.write(
-          key: "${ServiceConfig.accountTokensStorage}_$key",
-          value:
-              jsonEncode([...data[1][key], ...(unsupportedTokens[key] ?? [])]));
-    }
-  }
+  //   // save all tokens separate based on publicKeyHash of the account
+  //   for (String key in data[1].keys) {
+  //     await ServiceConfig.localStorage.write(
+  //         key: "${ServiceConfig.accountTokensStorage}_$key",
+  //         value:
+  //             jsonEncode([...data[1][key], ...(unsupportedTokens[key] ?? [])]));
+  //   }
+  // }
 
-  Map<String, List<AccountTokenModel>> parseAccountTokenModelUsingTokenPrices(
-      Map<String, List<AccountTokenModel>> data,
-      List<TokenPriceModel> tokenPrices) {
-    return data.map((key, value) => MapEntry(
-        key,
-        value
-            .map(
-              (e) {
-                var tokenList = tokenPrices
-                    .where((element) =>
-                        e.contractAddress == element.tokenAddress &&
-                        (element.type == "fa2"
-                            ? e.tokenId == element.tokenId
-                            : true))
-                    .toList();
+  // Map<String, List<AccountTokenModel>> parseAccountTokenModelUsingTokenPrices(
+  //     Map<String, List<AccountTokenModel>> data,
+  //     List<TokenPriceModel> tokenPrices) {
+  //   return data.map((key, value) => MapEntry(
+  //       key,
+  //       value
+  //           .map(
+  //             (e) {
+  //               var tokenList = tokenPrices
+  //                   .where((element) =>
+  //                       e.contractAddress == element.tokenAddress &&
+  //                       (element.type == "fa2"
+  //                           ? e.tokenId == element.tokenId
+  //                           : true))
+  //                   .toList();
 
-                if (tokenList.isEmpty) {
-                  return e..name = null;
-                }
-                var token = tokenList.first;
-                e.name = token.name;
-                e.iconUrl = token.thumbnailUri;
-                e.symbol = token.symbol;
-                e.tokenStandardType = token.type == "fa2"
-                    ? TokenStandardType.fa2
-                    : TokenStandardType.fa1;
-                e.valueInXtz = token.currentPrice! * e.balance;
-                e.currentPrice = token.currentPrice;
-                return e;
-              },
-            )
-            .toList()
-            .where((element) => element.name != null)
-            .toList()));
-  }
+  //               if (tokenList.isEmpty) {
+  //                 return e..name = null;
+  //               }
+  //               var token = tokenList.first;
+  //               e.name = token.name;
+  //               e.iconUrl = token.thumbnailUri;
+  //               e.symbol = token.symbol;
+  //               e.tokenStandardType = token.type == "fa2"
+  //                   ? TokenStandardType.fa2
+  //                   : TokenStandardType.fa1;
+  //               e.valueInXtz = token.currentPrice! * e.balance;
+  //               e.currentPrice = token.currentPrice;
+  //               return e;
+  //             },
+  //           )
+  //           .toList()
+  //           .where((element) => element.name != null)
+  //           .toList()));
+  // }
 }

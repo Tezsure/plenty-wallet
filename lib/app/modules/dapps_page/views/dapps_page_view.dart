@@ -237,7 +237,7 @@ class DappsPageView extends GetView<DappsPageController> {
     return ListView.builder(
       itemCount: dapps.length,
       shrinkWrap: true,
-      physics: AppConstant.scrollPhysics,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => DappListItemWidget(
         dapp: dapps[index],
         index: index,

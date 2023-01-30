@@ -20,6 +20,8 @@ import 'app/routes/app_pages.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DartPluginRegistrant.ensureInitialized();
+  PaintingBinding.instance.imageCache.maximumSizeBytes = 1024 * 1024 * 20;
+  PaintingBinding.instance.imageCache.clear();
   Get.put(LifeCycleController(), permanent: true);
   HttpOverrides.global = MyHttpOverrides();
   SystemChrome.setPreferredOrientations([
@@ -95,10 +97,12 @@ class LifeCycleController extends SuperController {
   @override
   void onPaused() {
     closeBackground();
+
     print("onPaused");
   }
 
   closeBackground() {
+    PaintingBinding.instance.imageCache.clear();
     if (DataHandlerService().updateTimer != null) {
       //Get.delete<BeaconService>(force: true);
       DataHandlerService().updateTimer!.cancel();

@@ -16,38 +16,46 @@ class NFTabPage extends GetView<AccountSummaryController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.userNfts.isEmpty
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              0.04.vspace,
-              SvgPicture.asset(
-                "assets/empty_states/empty2.svg",
-                height: 120.aR,
-              ),
-              RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                      text: "No Collections",
-                      style: titleLarge.copyWith(
-                          fontWeight: FontWeight.w700, fontSize: 22.aR),
-                      children: [
-                        TextSpan(
-                            text: "\nExplore new collectibles on objkt",
-                            style: labelMedium.copyWith(
-                                fontSize: 12.aR,
-                                color: ColorConst.NeutralVariant.shade60))
-                      ]))
-            ],
+    return Obx(() => controller.isLoading.value
+        ? const Center(
+            child: CircularProgressIndicator(
+              color: ColorConst.Primary,
+            ),
           )
-        : ListView.builder(
-                    physics: AppConstant.scrollPhysics,
-            padding: EdgeInsets.only(left: 14.aR, right: 14.aR, top: 14.aR),
-            itemCount: controller.userNfts.length,
-            itemBuilder: ((context, index) => NftCollectibles(
-                  nftList: controller
-                      .userNfts[controller.userNfts.keys.toList()[index]]!,
-                )),
-          ));
+        : controller.userNfts.isEmpty
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  0.04.vspace,
+                  SvgPicture.asset(
+                    "assets/empty_states/empty2.svg",
+                    height: 120.aR,
+                  ),
+                  RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                          text: "No Collections",
+                          style: titleLarge.copyWith(
+                              fontWeight: FontWeight.w700, fontSize: 22.aR),
+                          children: [
+                            TextSpan(
+                                text: "\nExplore new collectibles on objkt",
+                                style: labelMedium.copyWith(
+                                    fontSize: 12.aR,
+                                    color: ColorConst.NeutralVariant.shade60))
+                          ]))
+                ],
+              )
+            : ListView.builder(
+                physics: AppConstant.scrollPhysics,
+                padding: EdgeInsets.only(left: 14.aR, right: 14.aR, top: 14.aR),
+                itemCount: controller.userNfts.length,
+                shrinkWrap: true,
+                addAutomaticKeepAlives: false,
+                itemBuilder: ((context, index) => NftCollectibles(
+                      nftList: controller
+                          .userNfts[controller.userNfts.keys.toList()[index]]!,
+                    )),
+              ));
   }
 }

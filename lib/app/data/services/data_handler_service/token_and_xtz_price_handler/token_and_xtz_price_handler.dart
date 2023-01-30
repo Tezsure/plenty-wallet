@@ -4,7 +4,6 @@ import 'dart:isolate';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_render_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 
 /// Fetch, modify and store the token prices and xtz price
 class TokenAndXtzPriceHandler {
@@ -16,13 +15,18 @@ class TokenAndXtzPriceHandler {
     // var xtzPriceResponse = ;
 
     // double xtzPrice = xtzPriceResponse['tezos']['usd'] as double;
-
+    String tokenPrices = "";
+    try {
+      tokenPrices = await HttpService.performGetRequest(
+          ServiceConfig.tezToolsApi,
+          callSetupTimer: true);
+    } catch (e) {
+      print(e);
+    }
     args[0].send({
       "xtzPrice": await HttpService.performGetRequest(ServiceConfig.xtzPriceApi,
           callSetupTimer: true),
-      "tokenPrices": await HttpService.performGetRequest(
-          ServiceConfig.tezToolsApi,
-          callSetupTimer: true),
+      "tokenPrices": tokenPrices,
     });
   }
 
@@ -37,10 +41,11 @@ class TokenAndXtzPriceHandler {
       ],
       debugName: "xtz & tokenPrices",
     );
-    receivePort.asBroadcastStream().listen((data) async {
+    receivePort.asBroadcastStream().take(1).listen((data) async {
       onDone();
       await _storeData(data, postProcess);
       receivePort.close();
+
       isolate.kill(priority: Isolate.immediate);
     });
   }
@@ -56,7 +61,9 @@ class TokenAndXtzPriceHandler {
           value: jsonDecode(data['xtzPrice']!)[0]['price']['change24H']
               .toString());
     }
-    await ServiceConfig.localStorage.write(
-        key: ServiceConfig.tokenPricesStorage, value: data['tokenPrices']);
+    if (data['tokenPrices']!.isNotEmpty) {
+      await ServiceConfig.localStorage.write(
+          key: ServiceConfig.tokenPricesStorage, value: data['tokenPrices']);
+    }
   }
 }
