@@ -82,7 +82,6 @@ class BeaconService extends GetxService {
               }
               break;
             case RequestType.signPayload:
-         
               print("payload request $beaconRequest");
               Get.bottomSheet(const PayloadRequestView(),
                   enterBottomSheetDuration: const Duration(milliseconds: 180),
@@ -143,7 +142,7 @@ class BeaconService extends GetxService {
             }
           }
         }, onError: (err) {
-          print(err.toString());
+          print("beacon ${err.toString()}");
         });
       });
     } catch (e) {

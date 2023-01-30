@@ -59,20 +59,23 @@ class _IAFSheetState extends State<IAFSheet> {
                 0.018.vspace,
                 getBadge(),
                 const Spacer(),
-                SolidButton(
-                  isLoading: controller.isLoading,
-                  active: controller.isButtonEnabled.value,
-                  onPressed: () async {
-                    if (controller.isVerified.value ?? false) {
-                      await controller.claim();
-                    } else {
-                      await controller.verify();
-                    }
-                    setState(() {});
-                  },
-                  title: controller.isVerified.value ?? false
-                      ? "Claim NFT"
-                      : "Verify",
+                Center(
+                  child: SolidButton(
+                    width: 1.width - 64.arP,
+                    isLoading: controller.isLoading,
+                    active: controller.isButtonEnabled.value,
+                    onPressed: () async {
+                      if (controller.isVerified.value ?? false) {
+                        await controller.claim();
+                      } else {
+                        await controller.verify();
+                      }
+                      setState(() {});
+                    },
+                    title: controller.isVerified.value ?? false
+                        ? "Claim NFT"
+                        : "Verify",
+                  ),
                 ),
                 const BottomButtonPadding()
               ],
@@ -129,60 +132,62 @@ class _IAFSheetState extends State<IAFSheet> {
 
   Widget _buildTextField() {
     return Obx(() {
-      return SizedBox(
-        height: 0.06.height,
-        width: 1.width,
-        child: TextFormField(
-          style: const TextStyle(color: Colors.white),
-          onChanged: (input) {
-            if (controller.isVerified.value != null) {
-              controller.isVerified = null.obs;
-              setState(() {});
-            }
-            controller.onChange(input);
-          },
-          controller: controller.emailController,
-          textAlignVertical: TextAlignVertical.top,
-          textAlign: TextAlign.start,
-          cursorColor: ColorConst.Primary,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            suffixIcon: Icon(
-              Icons.search,
-              color: getColor(),
-              size: 22.arP,
+      return Center(
+        child: SizedBox(
+          height: 0.06.height,
+          width: 1.width - 44.arP,
+          child: TextFormField(
+            style: const TextStyle(color: Colors.white),
+            onChanged: (input) {
+              if (controller.isVerified.value != null) {
+                controller.isVerified = null.obs;
+                setState(() {});
+              }
+              controller.onChange(input);
+            },
+            controller: controller.emailController,
+            textAlignVertical: TextAlignVertical.top,
+            textAlign: TextAlign.start,
+            cursorColor: ColorConst.Primary,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              suffixIcon: Icon(
+                Icons.search,
+                color: getColor(),
+                size: 22.arP,
+              ),
+              counterStyle: const TextStyle(backgroundColor: Colors.white),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: controller.isVerified.value == null
+                    ? BorderSide.none
+                    : BorderSide(color: getColor()),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(color: ColorConst.green),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: controller.isVerified.value == null
+                    ? BorderSide.none
+                    : BorderSide(color: getColor()),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: controller.isVerified.value == null
+                    ? BorderSide.none
+                    : BorderSide(color: getColor()),
+              ),
+              hintText: 'example@site.com',
+              hintStyle:
+                  bodyMedium.copyWith(color: ColorConst.NeutralVariant.shade70),
+              labelStyle: labelSmall,
+              // contentPadding:
+              //     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             ),
-            counterStyle: const TextStyle(backgroundColor: Colors.white),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: controller.isVerified.value == null
-                  ? BorderSide.none
-                  : BorderSide(color: getColor()),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: ColorConst.green),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: controller.isVerified.value == null
-                  ? BorderSide.none
-                  : BorderSide(color: getColor()),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: controller.isVerified.value == null
-                  ? BorderSide.none
-                  : BorderSide(color: getColor()),
-            ),
-            hintText: 'example@site.com',
-            hintStyle:
-                bodyMedium.copyWith(color: ColorConst.NeutralVariant.shade70),
-            labelStyle: labelSmall,
-            // contentPadding:
-            //     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           ),
         ),
       );
