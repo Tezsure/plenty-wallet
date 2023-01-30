@@ -93,7 +93,7 @@ class NftAndTxHistoryHandler {
         onDone();
       }
       await _storeData(data);
-      // await postProcess();
+      await postProcess();
     });
   }
 

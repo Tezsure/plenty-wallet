@@ -65,13 +65,6 @@ class AccountSummaryController extends GetxController {
   // ! Global Functions
   @override
   void onInit() async {
-    // if (Get.arguments == null) {
-    // if (Get.find<HomePageController>().userAccounts.isNotEmpty) {
-    // userAccount.value = Get.find<HomePageController>().userAccounts[0];
-    // }
-    // } else {
-    //   userAccount.value = Get.arguments as AccountModel;
-    // }
     DataHandlerService()
         .renderService
         .xtzPriceUpdater
@@ -79,10 +72,15 @@ class AccountSummaryController extends GetxController {
       xtzPrice.value = value;
     });
 
-    homePageController.userAccounts.listen((event) {
-      fetchAllTokens();
+    DataHandlerService().renderService.accountNft.registerCallback((_) {
       _fetchAllNfts();
     });
+
+    homePageController.userAccounts.listen((event) {
+      fetchAllTokens();
+      // _fetchAllNfts();
+    });
+
     fetchAllTokens();
     _fetchAllNfts();
 
@@ -221,7 +219,7 @@ class AccountSummaryController extends GetxController {
 
   /// Fetches the user account NFTs
   Future<void> _fetchAllNfts() async {
-    userNfts.clear();
+    // userNfts.clear();
     if (selectedAccount.value.publicKeyHash == null) return;
     UserStorageService()
         .getUserNftsString(userAddress: selectedAccount.value.publicKeyHash!)

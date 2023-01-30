@@ -91,7 +91,7 @@ class DataHandlerService {
         postProcess: renderService.accountUpdater.updateProcess,
         onDone: () async =>
             await NftAndTxHistoryHandler(renderService).executeProcess(
-          postProcess: () {},
+          postProcess: renderService.accountNft.updateProcess,
           onDone: () {
             setUpTimer();
           },
