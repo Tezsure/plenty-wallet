@@ -180,6 +180,7 @@ class AccountSummaryController extends GetxController {
       decimals: 6,
       iconUrl: "assets/tezos_logo.png",
     );
+    userTokens = [...userTokens.toSet().toList()];
     if (userTokens.isNotEmpty &&
         userTokens.any((element) => element.name!.toLowerCase() == "tezos")) {
       userTokens.map((element) => element.name!.toLowerCase() == "tezos"

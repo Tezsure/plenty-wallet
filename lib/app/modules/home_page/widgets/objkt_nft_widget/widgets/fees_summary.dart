@@ -52,12 +52,12 @@ class FeesSummarySheet extends StatelessWidget {
               ),
               _buildFeeTitle(
                   subtitle:
-                      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. ",
+                      "Gas fee required to get his transaction added to the blockchain",
                   title: "Network fee",
                   trailing: "\$ ${controller.fees["networkFee"]}"),
               _buildFeeTitle(
                   subtitle:
-                      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.  ",
+                      "1% Convinience fee changed by Naan for providing the service.  ",
                   title: "Interface fee",
                   trailing: "\$${controller.fees["interfaceFee"]}"),
             ],

@@ -17,13 +17,17 @@ class DelegateHandler {
   }
 
   Future<String?> checkBaker(String pKH) async {
-    var response = await HttpService.performGetRequest(
-        "https://api.tzstats.com/explorer/account/$pKH");
+    try {
+      var response = await HttpService.performGetRequest(
+          "https://api.tzstats.com/explorer/account/$pKH");
 
-    if (response.isNotEmpty && jsonDecode(response).length != 0) {
-      return jsonDecode(response)['baker'];
+      if (response.isNotEmpty && jsonDecode(response).length != 0) {
+        return jsonDecode(response)['baker'];
+      }
+      return null;
+    } catch (e) {
+      return null;
     }
-    return null;
   }
 
   Future<DelegateBakerModel?> bakerDetail(String pKH) async {
