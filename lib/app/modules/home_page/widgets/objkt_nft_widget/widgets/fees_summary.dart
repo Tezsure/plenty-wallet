@@ -52,12 +52,12 @@ class FeesSummarySheet extends StatelessWidget {
               ),
               _buildFeeTitle(
                   subtitle:
-                      "Gas fee required to get this transaction added to the blockchain",
+                      "Fee required to get the transaction added to the blockchain.",
                   title: "Network fee",
                   trailing: "\$ ${controller.fees["networkFee"]}"),
               _buildFeeTitle(
                   subtitle:
-                      "Convenience fee charged by naan for providing the service. This can also include LP fee, if the router is involved.  ",
+                      "Fee charged by naan.",
                   title: "Interface fee",
                   trailing: "\$${controller.fees["interfaceFee"]}"),
             ],

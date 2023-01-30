@@ -49,7 +49,7 @@ class _IAFSheetState extends State<IAFSheet> {
                 0.016.vspace,
                 Center(
                   child: Text(
-                    "Enter the email id you submitted \nfor claiming NFT at India Art Fair.",
+                    "Enter the email ID you've submitted \nfor claiming the NFT at India Art Fair",
                     textAlign: TextAlign.center,
                     style: labelMedium.copyWith(color: ColorConst.textGrey1),
                   ),
