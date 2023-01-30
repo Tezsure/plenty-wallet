@@ -57,7 +57,7 @@ class FeesSummarySheet extends StatelessWidget {
                   trailing: "\$ ${controller.fees["networkFee"]}"),
               _buildFeeTitle(
                   subtitle:
-                      "1% Convinience fee changed by Naan for providing the service.  ",
+                      "Convinience fee changed by Naan for providing the service. This can also include LP fee, if router is involved.  ",
                   title: "Interface fee",
                   trailing: "\$${controller.fees["interfaceFee"]}"),
             ],
