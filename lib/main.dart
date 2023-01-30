@@ -52,7 +52,7 @@ void main() async {
     //FirebaseCrashlytics.instance.crash();
     runApp(
       GetMaterialApp(
-        title: "Naan",
+        title: "naan",
         theme: ThemeData(
           brightness: Brightness.dark,
           fontFamily: "Poppins",

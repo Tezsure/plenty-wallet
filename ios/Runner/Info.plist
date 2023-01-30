@@ -47,14 +47,14 @@
 		<string>_dartobservatory._tcp</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>Naan requires acess to camera.</string>
+	<string>naan requires acess to camera.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>$(PRODUCT_NAME) uses the local network to discover Cast-enabled devices on your WiFi
 			network.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Naan requires acess to microphone.</string>
+	<string>naan requires acess to microphone.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app requires read and write access to the photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
