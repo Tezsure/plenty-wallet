@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -184,14 +186,27 @@ class ImportWalletPageController extends GetxController
     return account;
   }
 
+  RxBool isLoading = false.obs;
   Future<void> genAndLoadMoreAccounts(int startIndex, int size) async {
     if (startIndex == 0) generatedAccounts.value = <AccountModel>[];
-    // toggleLoaderOverlay(() async {
-    for (var i = startIndex; i < startIndex + size; i++) {
-      generatedAccounts.add(await getAccountModelIndexAt(i));
-      generatedAccounts.value = [...generatedAccounts];
-    }
-    // });
+    isLoading.value = true;
+    final response = await Future.wait<AccountModel>([
+      ...List.generate(
+          size, (index) => getAccountModelIndexAt(startIndex + index)).toList()
+    ]);
+    generatedAccounts.addAll(response);
+    await Future.delayed(Duration(seconds: 2));
+    // for (var i = startIndex; i < startIndex + size; i++) {
+    //   log("1:${DateTime.now().microsecondsSinceEpoch}");
+    //   // if (i == 3) continue;
+    //   generatedAccounts.add(await getAccountModelIndexAt(i));
+    //   log("2:${DateTime.now().microsecondsSinceEpoch}");
+
+    //   // log("$i: ${generatedAccounts[i].publicKeyHash}");
+    // }
+    isLoading.value = false;
+
+    generatedAccounts.value = [...generatedAccounts];
   }
 
   Future<void> toggleLoaderOverlay(Function() asyncFunction) async {

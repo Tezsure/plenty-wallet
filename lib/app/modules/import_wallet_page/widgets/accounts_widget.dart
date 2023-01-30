@@ -50,7 +50,7 @@ class AccountWidget extends StatelessWidget {
                       ),
                       if (controller.generatedAccounts.length < 100)
                         showMoreAccountButton(
-                            controller.generatedAccounts.length - 1),
+                            controller.generatedAccounts.length),
                     ],
                   ),
                 ),
@@ -68,7 +68,7 @@ class AccountWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ListView.builder(
-                    physics: AppConstant.scrollPhysics,
+                            physics: AppConstant.scrollPhysics,
                             itemBuilder: (context, index) => accountWidget(
                                 controller.generatedAccounts[index], index),
                             itemCount: controller.generatedAccounts.length,
@@ -77,7 +77,7 @@ class AccountWidget extends StatelessWidget {
                         ),
                         if (controller.generatedAccounts.length < 100)
                           showMoreAccountButton(
-                              controller.generatedAccounts.length - 1),
+                              controller.generatedAccounts.length),
                       ],
                     ),
                   ),
@@ -89,23 +89,28 @@ class AccountWidget extends StatelessWidget {
   }
 
   Widget showMoreAccountButton(int index) {
-    return GestureDetector(
-      onTap: () {
-        controller.genAndLoadMoreAccounts(index, 3);
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return Container();
+      }
+      return GestureDetector(
+        onTap: () {
+          controller.genAndLoadMoreAccounts(index, 3);
 
-        // controller.showMoreAccounts();
-        controller.isExpanded.value = true;
-      },
-      child: SizedBox(
-        height: 50,
-        child: Center(
-          child: Text(
-            "Show more accounts",
-            style: labelMedium,
+          // controller.showMoreAccounts();
+          controller.isExpanded.value = true;
+        },
+        child: SizedBox(
+          height: 50,
+          child: Center(
+            child: Text(
+              "Show more accounts",
+              style: labelMedium,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   final homeController = Get.put(HomePageController());

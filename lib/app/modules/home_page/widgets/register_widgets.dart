@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accessblity_widget/accessblity_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/buy_tez_widget/buy_tez_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/coming_soon_widget/coming_soon_widget.dart';
@@ -35,10 +36,11 @@ final List<Widget> registeredWidgets = [
     ),
   ),
   homeWidgetsGap,
-  Padding(
-      padding: EdgeInsets.symmetric(horizontal: 22.arP),
-      child: const IAFWidget()),
-  homeWidgetsGap,
+  if (ServiceConfig.isIAFWidgetVisible)
+    Padding(
+        padding: EdgeInsets.symmetric(horizontal: 22.arP),
+        child: const IAFWidget()),
+  if (ServiceConfig.isIAFWidgetVisible) homeWidgetsGap,
   //const TezosPriceWidget(),
   //const MyNFTwidget(),
 

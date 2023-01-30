@@ -9,6 +9,8 @@ class ServiceConfig {
   static String currentSelectedNode = "https://rpc.tzkt.io/mainnet";
   static NetworkType currentNetwork = NetworkType.mainnet;
 
+  static bool isIAFWidgetVisible = false;
+
   /// Teztools api with endpoint for mainnet token prices
   static String tezToolsApi = "https://api.teztools.io/token/prices";
 
