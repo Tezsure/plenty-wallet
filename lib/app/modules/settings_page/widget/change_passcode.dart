@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../utils/colors/colors.dart';
@@ -13,51 +14,54 @@ class ChangePasscode extends GetView<SettingsPageController> {
   const ChangePasscode({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-        padding: const EdgeInsets.symmetric(horizontal: 21),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              0.02.vspace,
-              Align(
-                alignment: Alignment.centerLeft,
-                child: backButton(),
-              ),
-              0.05.vspace,
-              Center(
-                child: SizedBox(
-                  height: 0.27.width,
-                  width: 0.27.width,
-                  child: SvgPicture.asset(
-                    "${PathConst.SVG}naan_logo.svg",
-                    fit: BoxFit.fitHeight,
+    return OverrideTextScaleFactor(
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Container(
+          // decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
+          padding: const EdgeInsets.symmetric(horizontal: 21),
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                0.02.vspace,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: backButton(),
+                ),
+                0.05.vspace,
+                Center(
+                  child: SizedBox(
+                    height: 0.27.width,
+                    width: 0.27.width,
+                    child: SvgPicture.asset(
+                      "${PathConst.SVG}naan_logo.svg",
+                      fit: BoxFit.fitHeight,
+                    ),
                   ),
                 ),
-              ),
-              0.05.vspace,
-              Obx(() => Text(
-                    controller.verifyPassCode.value
-                        ? "Set passcode"
-                        : "Enter passcode",
-                    textAlign: TextAlign.center,
-                    style: titleMedium,
-                  )),
-              0.01.vspace,
-              Text(
-                "Protect your wallet by setting a passcode",
-                style:
-                    bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
-              ),
-              0.05.vspace,
-              AppPassCode(onChanged: (value) {
-                if (value.length == 6) {
-                  controller.changeAppPasscode(value);
-                }
-              })
-            ],
+                0.05.vspace,
+                Obx(() => Text(
+                      controller.verifyPassCode.value
+                          ? "Set passcode"
+                          : "Enter passcode",
+                      textAlign: TextAlign.center,
+                      style: titleMedium,
+                    )),
+                0.01.vspace,
+                Text(
+                  "Protect your wallet by setting a passcode",
+                  style:
+                      bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+                ),
+                0.05.vspace,
+                AppPassCode(onChanged: (value) {
+                  if (value.length == 6) {
+                    controller.changeAppPasscode(value);
+                  }
+                })
+              ],
+            ),
           ),
         ),
       ),
@@ -186,13 +190,13 @@ class _AppPassCode extends State<AppPassCode> {
                       ? Icon(
                           iconData,
                           color: ColorConst.NeutralVariant.shade60,
-                          size: 18.sp,
+                          size: 18.arP,
                         )
                       : Text(
                           value,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 18.0.sp,
+                            fontSize: 18.0.arP,
                           ),
                         ),
             ),

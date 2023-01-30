@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
@@ -9,6 +10,7 @@ import 'package:naan_wallet/app/data/services/service_models/contact_model.dart'
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
+import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 
 /// Handle read and write user data
 class UserStorageService {
@@ -48,9 +50,18 @@ class UserStorageService {
   }
 
   /// update accountList
-  Future<void> updateAccounts(List<AccountModel> accountList) async =>
-      await ServiceConfig.localStorage.write(
-          key: ServiceConfig.accountsStorage, value: jsonEncode(accountList));
+  Future<void> updateAccounts(List<AccountModel> accountList) async {
+    await ServiceConfig.localStorage.write(
+        key: ServiceConfig.accountsStorage,
+        value: jsonEncode(
+          accountList.where((element) => !element.isWatchOnly).toList(),
+        ));
+    await ServiceConfig.localStorage.write(
+        key: ServiceConfig.watchAccountsStorage,
+        value: jsonEncode(
+          accountList.where((element) => element.isWatchOnly).toList(),
+        ));
+  }
 
   /// Get all accounts in storage <br>
   /// If onlyNaanAccount is true then returns the account list which is created on naan<br>
@@ -110,6 +121,11 @@ class UserStorageService {
           .map<AccountTokenModel>((e) => AccountTokenModel.fromJson(e))
           .toList();
 
+  Future<String> getUserTokensString({required String userAddress}) async =>
+      await ServiceConfig.localStorage
+          .read(key: "${ServiceConfig.accountTokensStorage}_$userAddress") ??
+      "[]";
+
   /// update userTokenList
   Future<void> updateUserTokens(
       {required String userAddress,
@@ -145,6 +161,12 @@ class UserStorageService {
           .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
           .toList();
 
+  /// read user nft using user address RETURN STRING
+  Future<String> getUserNftsString({required String userAddress}) async =>
+      await ServiceConfig.localStorage
+          .read(key: "${ServiceConfig.nftStorage}_$userAddress") ??
+      "[]";
+
   Future<void> writeNewAccountSecrets(
           AccountSecretModel accountSecretModel) async =>
       await ServiceConfig.localStorage.write(
@@ -172,7 +194,12 @@ class UserStorageService {
         .read(key: "${ServiceConfig.txHistoryStorage}_$accountAddress");
 
     if (transactionHistory == null) {
-      return await TzktTxHistoryApiService(accountAddress).getTxHistory();
+      return await TzktTxHistoryApiService(
+              accountAddress,
+              ServiceConfig.currentNetwork == NetworkType.mainnet
+                  ? ""
+                  : ServiceConfig.currentSelectedNode)
+          .getTxHistory();
     }
 
     if (lastId == null && limit == null) {
@@ -180,10 +207,18 @@ class UserStorageService {
           .map<TxHistoryModel>((e) => TxHistoryModel.fromJson(e))
           .toList();
     } else if (lastId == null) {
-      transactionHistoryList = await TzktTxHistoryApiService(accountAddress)
+      transactionHistoryList = await TzktTxHistoryApiService(
+              accountAddress,
+              ServiceConfig.currentNetwork == NetworkType.mainnet
+                  ? ""
+                  : ServiceConfig.currentSelectedNode)
           .getTxHistory(limit: limit ?? 20);
     } else {
-      transactionHistoryList = await TzktTxHistoryApiService(accountAddress)
+      transactionHistoryList = await TzktTxHistoryApiService(
+              accountAddress,
+              ServiceConfig.currentNetwork == NetworkType.mainnet
+                  ? ""
+                  : ServiceConfig.currentSelectedNode)
           .getTxHistory(lastId: lastId, limit: limit ?? 20);
     }
 
@@ -193,10 +228,31 @@ class UserStorageService {
   /// create new gallery model and save it in storage
   /// @param galleryModel GalleryModel
   /// @return Future<void>
-  Future<void> writeNewGallery(NftGalleryModel galleryModel) async =>
+  Future<void> writeNewGallery(NftGalleryModel galleryModel) async {
+    List<NftGalleryModel> galleryList = await getAllGallery();
+
+    bool exist = galleryList.any((element) =>
+        element.name!.toLowerCase() == galleryModel.name!.toLowerCase());
+    bool sameAddressesExists = galleryList
+        .where((element) =>
+            element.publicKeyHashs!.length ==
+            galleryModel.publicKeyHashs!.length)
+        .where((element1) => element1.publicKeyHashs!.every((element2) =>
+            galleryModel.publicKeyHashs!.any((element3) =>
+                element3.toLowerCase() == element2.toLowerCase())))
+        .isNotEmpty;
+    if (sameAddressesExists) {
+      throw Exception("Gallery with same address already exist");
+    }
+    if (exist) {
+      throw Exception("Gallery with same name already exist");
+    } else {
+      galleryList.add(galleryModel);
+
       await ServiceConfig.localStorage.write(
-          key: ServiceConfig.galleryStorage,
-          value: jsonEncode((await getAllGallery())..add(galleryModel)));
+          key: ServiceConfig.galleryStorage, value: jsonEncode(galleryList));
+    }
+  }
 
   /// remove  gallery model from storage
   /// @param gallery index

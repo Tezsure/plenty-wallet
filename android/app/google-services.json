@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "86363784686",
+    "project_id": "naan-70b72",
+    "storage_bucket": "naan-70b72.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:86363784686:android:1963196c56b4b4cf387aff",
+        "android_client_info": {
+          "package_name": "com.naan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "86363784686-s4dv0mitl01gv0pcer8sivfd8hucb6ac.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk0IIl4wfzShmkFyVlNwZitjm06IGGnPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "86363784686-s4dv0mitl01gv0pcer8sivfd8hucb6ac.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "86363784686-f70greb7ncg9mndpml3taf8sgdferffb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.naan"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

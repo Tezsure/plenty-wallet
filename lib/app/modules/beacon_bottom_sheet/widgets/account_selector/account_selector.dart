@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -15,6 +17,90 @@ class AccountSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return NaanBottomSheet(
+      title: "Account",
+      height: 0.65.height,
+      bottomSheetWidgets: [
+        SizedBox(
+          height: 0.58.height,
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        Get.back(result: index);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                        ),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: Container(
+                                height: 0.1.width,
+                                width: 0.1.width,
+                                alignment: Alignment.bottomRight,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: accountModels![index].imageType ==
+                                            AccountProfileImageType.assets
+                                        ? AssetImage(accountModels![index]
+                                            .profileImage
+                                            .toString())
+                                        : FileImage(
+                                            File(
+                                              accountModels![index]
+                                                  .profileImage
+                                                  .toString(),
+                                            ),
+                                          ) as ImageProvider,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(accountModels![index].name.toString(),
+                                      style: titleSmall),
+                                  Text(
+                                    "${accountModels![index].accountDataModel!.xtzBalance!} Tez",
+                                    style: bodySmall.copyWith(
+                                        color: ColorConst.grey),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            this.index == index
+                                ? SvgPicture.asset(
+                                    "assets/svg/check_3.svg",
+                                    height: 14.arP,
+                                    width: 14.arP,
+                                  )
+                                : SizedBox(
+                                    height: 14.arP,
+                                    width: 14.arP,
+                                  )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  itemCount: accountModels!.length,
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
     return Container(
       height: 0.65.height,
       width: 1.width,
@@ -36,12 +122,12 @@ class AccountSelector extends StatelessWidget {
             ),
           ),
           0.04.vspace,
-          Text("Switch Accounts", style: titleLarge),
+          Text("Account", style: titleLarge),
           0.04.vspace,
           Expanded(
             child: ListView.builder(
               itemBuilder: (context, index) {
-                return GestureDetector(
+                return InkWell(
                   onTap: () {
                     Get.back(result: index);
                   },
@@ -88,14 +174,16 @@ class AccountSelector extends StatelessWidget {
                           ],
                         ),
                         this.index == index
-                            ? const Expanded(
+                            ? Expanded(
                                 child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.check_circle_outlined,
-                                  color: ColorConst.Primary,
+                                  alignment: Alignment.centerRight,
+                                  child: SvgPicture.asset(
+                                    "assets/svg/check_3.svg",
+                                    height: 14.arP,
+                                    width: 14.arP,
+                                  ),
                                 ),
-                              ))
+                              )
                             : Container()
                       ],
                     ),

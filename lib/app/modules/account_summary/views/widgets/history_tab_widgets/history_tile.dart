@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -23,29 +24,36 @@ class HistoryTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: EdgeInsets.only(left: 16.sp, right: 16.sp, bottom: 10.sp),
+        padding: EdgeInsets.only(left: 16.arP, right: 16.arP, bottom: 10.arP),
         child: Material(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.sp),
+            borderRadius: BorderRadius.circular(8.arP),
           ),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           child: SizedBox(
-            height: 61.sp,
+            height: 61.arP,
             child: Padding(
               padding: EdgeInsets.only(
-                  left: 12.sp, right: 9.sp, top: 10.sp, bottom: 10.sp),
+                  left: 12.arP, right: 9.arP, top: 10.arP, bottom: 10.arP),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    radius: 20.sp,
-                    backgroundColor: ColorConst.NeutralVariant.shade60,
+                    radius: 20.arP,
+                    backgroundColor: Colors.black,
                     child: tokenInfo.imageUrl.startsWith("assets")
-                        ? Image.asset(
-                            tokenInfo.imageUrl,
-                            fit: BoxFit.cover,
-                          )
+                        ? tokenInfo.imageUrl.endsWith(".svg")
+                            ? SvgPicture.asset(
+                                tokenInfo.imageUrl,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                tokenInfo.imageUrl,
+                                cacheHeight: 82,
+                                cacheWidth: 82,
+                                fit: BoxFit.cover,
+                              )
                         : tokenInfo.imageUrl.endsWith(".svg")
                             ? SvgPicture.network(
                                 tokenInfo.imageUrl,
@@ -56,17 +64,22 @@ class HistoryTile extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   border: tokenInfo.isNft
                                       ? Border.all(
-                                          width: 1.5.sp,
+                                          width: 1.5.arP,
                                           color:
                                               ColorConst.NeutralVariant.shade60,
                                         )
                                       : const Border(),
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(tokenInfo.imageUrl
-                                              .startsWith("ipfs")
-                                          ? "https://ipfs.io/ipfs/${tokenInfo.imageUrl.replaceAll("ipfs://", '')}"
-                                          : tokenInfo.imageUrl)),
+                                ),
+                                child: ClipOval(
+                                  child: CachedNetworkImage(
+                                    imageUrl: tokenInfo.imageUrl
+                                            .startsWith("ipfs")
+                                        ? "https://ipfs.io/ipfs/${tokenInfo.imageUrl.replaceAll("ipfs://", '')}"
+                                        : tokenInfo.imageUrl,
+                                    memCacheHeight: 82,
+                                    memCacheWidth: 82,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                   ),
@@ -83,7 +96,7 @@ class HistoryTile extends StatelessWidget {
                               tokenInfo.isSent
                                   ? Icons.arrow_upward
                                   : Icons.arrow_downward,
-                              size: 14.sp,
+                              size: 14.arP,
                               color: ColorConst.NeutralVariant.shade60),
                           Text(tokenInfo.isSent ? ' Sent' : ' Received',
                               style: labelMedium.copyWith(
@@ -92,9 +105,9 @@ class HistoryTile extends StatelessWidget {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 4.sp),
+                        padding: EdgeInsets.only(left: 4.arP),
                         child: SizedBox(
-                          width: 180.sp,
+                          width: 180.arP,
                           child: Text(
                             tokenInfo.name,
                             style: labelLarge.copyWith(
@@ -123,14 +136,19 @@ class HistoryTile extends StatelessWidget {
                             style: labelSmall.copyWith(
                                 color: ColorConst.NeutralVariant.shade60)),
                         Text(
-                          tokenInfo.isSent
-                              ? '- \$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'
-                              : '\$${(tokenInfo.dollarAmount).toStringAsFixed(2)}',
+                          tokenInfo.token!.operationStatus == 'applied'
+                              ? tokenInfo.isSent
+                                  ? '- \$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'
+                                  : '\$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'
+                              : "failed",
                           style: labelLarge.copyWith(
                               fontWeight: FontWeight.w400,
-                              color: tokenInfo.isSent
-                                  ? Colors.white
-                                  : ColorConst.naanCustomColor),
+                              color:
+                                  tokenInfo.token!.operationStatus == 'applied'
+                                      ? tokenInfo.isSent
+                                          ? Colors.white
+                                          : ColorConst.naanCustomColor
+                                      : ColorConst.NaanRed),
                           textAlign: TextAlign.end,
                           overflow: TextOverflow.ellipsis,
                         )

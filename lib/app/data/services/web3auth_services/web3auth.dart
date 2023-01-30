@@ -1,14 +1,17 @@
 import 'dart:collection';
 import 'dart:io';
 
-import 'package:dartez/dartez.dart';
 import 'package:dartez/helper/generateKeys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hex/hex.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/web3auth_services/web3AuthController.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:web3auth_flutter/enums.dart' as web3auth;
 import 'package:web3auth_flutter/input.dart';
 import 'package:web3auth_flutter/output.dart';
@@ -26,7 +29,6 @@ class Web3Auth {
   static Future<void> initPlatformState() async {
     HashMap themeMap = HashMap<String, String>();
     themeMap['primary'] = "#fff000";
-
     Web3AuthOptions web3authOptions = Web3AuthOptions(
       clientId: clientId,
       network: web3auth.Network.mainnet,
@@ -34,7 +36,7 @@ class Web3Auth {
           ? Uri.parse(redirectUriIos)
           : Uri.parse(redirectUriAndroid),
       whiteLabel: WhiteLabelData(
-          dark: true, name: "Web3Auth Social Login", theme: themeMap),
+          dark: true, name: "Naan Wallet Social Login", theme: themeMap),
     );
     await Web3AuthFlutter.init(web3authOptions);
   }
@@ -43,7 +45,10 @@ class Web3Auth {
   static VoidCallback login({required web3auth.Provider socialAppName}) {
     return () async {
       try {
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.SOCIAL_LOGIN,
+            param: {"login_type": socialAppName.name});
         await _socialLogin(socialApp: socialAppName).then((response) async {
+          // AuthService().setWalletBackup(true);
           Get.put(Web3AuthController());
           Web3AuthController controller = Get.find<Web3AuthController>();
           controller.privateKey = GenerateKeys.readKeysWithHint(
@@ -56,6 +61,19 @@ class Web3Auth {
               Routes.BIOMETRIC_PAGE,
             ],
           );
+          Get.rawSnackbar(
+            message:
+                "Successfully logged-in using ${response.userInfo?.typeOfLogin}",
+            shouldIconPulse: true,
+            snackPosition: SnackPosition.BOTTOM,
+            borderRadius: 8.arP,
+            backgroundColor: const Color(0xFF421121),
+            margin: const EdgeInsets.only(
+              bottom: 20,
+            ),
+            maxWidth: 0.9.width,
+            duration: const Duration(seconds: 3),
+          );
         });
       } on UserCancelledException {
         debugPrint("User cancelled.");
@@ -66,22 +84,21 @@ class Web3Auth {
   }
 
   /// Logout the user & redirect to the onboarding page
-  static VoidCallback signOut() {
-    return () async {
-      try {
-        await Web3AuthFlutter.logout()
-            .whenComplete(() => Get.offAllNamed(Routes.ONBOARDING_PAGE));
-      } on UserCancelledException {
-        debugPrint("User cancelled.");
-      } on UnKnownException {
-        debugPrint("Unknown exception occurred");
-      }
-    };
+  static Future<void> signOut() async {
+    try {
+      await initPlatformState();
+      await Web3AuthFlutter.logout();
+    } on UserCancelledException {
+      debugPrint("User cancelled.");
+    } on UnKnownException {
+      debugPrint("Unknown exception occurred");
+    }
   }
 
   /// Authenticate the user with the social app which can be passed as parameter
   static Future<Web3AuthResponse> _socialLogin(
-      {required web3auth.Provider socialApp}) {
+      {required web3auth.Provider socialApp}) async {
+    await initPlatformState();
     LoginParams loginParams = LoginParams(
       loginProvider: socialApp,
       curve: web3auth.Curve.secp256k1,

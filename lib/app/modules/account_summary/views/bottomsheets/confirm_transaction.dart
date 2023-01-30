@@ -89,7 +89,7 @@ class ConfirmTransactionSheet extends StatelessWidget {
               Container(
                 height: 0.1.height,
                 width: 1.width,
-                padding: EdgeInsets.all(8.sp),
+                padding: EdgeInsets.all(8.arP),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.transparent,
@@ -129,7 +129,7 @@ class ConfirmTransactionSheet extends StatelessWidget {
             ),
             0.01.vspace,
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.sp),
+              padding: EdgeInsets.symmetric(vertical: 10.arP),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,9 +148,8 @@ class ConfirmTransactionSheet extends StatelessWidget {
                               padding: EdgeInsets.only(top: 0.01.height),
                               child: GestureDetector(
                                 onTap: () => Get.bottomSheet(
-                                  AccountSelectorSheet(
-                                    selectedAccount: controller.userAccounts[0],
-                                  ),
+                                  AccountSelectorSheet(),
+                                  isScrollControlled: true,
                                   enterBottomSheetDuration:
                                       const Duration(milliseconds: 180),
                                   exitBottomSheetDuration:
@@ -188,7 +187,7 @@ class ConfirmTransactionSheet extends StatelessWidget {
                   false
                       ? const SizedBox()
                       : Padding(
-                          padding: EdgeInsets.all(10.sp),
+                          padding: EdgeInsets.all(10.arP),
                           child: RichText(
                             text: TextSpan(
                               text: 'Balance\n',

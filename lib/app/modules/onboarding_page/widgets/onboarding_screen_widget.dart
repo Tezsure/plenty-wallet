@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
@@ -34,10 +36,11 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
         color: widget.controller.colorList[widget.controller.pageIndex()],
         child: PageView.builder(
             controller: widget.controller.pageController,
-            itemCount: 4,
+            itemCount: widget.controller.onboardingMessages.keys.length,
             scrollDirection: Axis.horizontal,
             onPageChanged: (value) {
               widget.controller.onPageChanged(value);
+              widget.controller.resetTimer();
               setState(() {});
             },
             itemBuilder: (_, index) {
@@ -50,73 +53,92 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                   systemNavigationBarIconBrightness: Brightness.dark,
                   systemNavigationBarColor: widget.controller.colorList[index],
                 ),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 500),
-                  // height: 517.sp,
-                  // width: 390.sp,
-                  color: widget
-                      .controller.colorList[widget.controller.pageIndex()],
-                  child: Stack(
-                    fit: StackFit.loose,
-                    children: [
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: SizedBox(
-                          height: 390.sp,
-                          width: 1.width,
-                          child: Lottie.asset(
-                            widget.controller.onboardingMessages.keys
-                                .elementAt(index),
-                            animate: true,
-                            frameRate: FrameRate(60),
-                            fit: BoxFit.cover,
-                            alignment: Alignment.topCenter,
-                            repeat: true,
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          height: 0.65.height,
-                          width: 1.width,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              stops: const [0.3, 0.5, 1],
-                              colors: [
-                                widget.controller
-                                    .colorList[widget.controller.pageIndex()]
-                                    .withOpacity(1),
-                                widget.controller
-                                    .colorList[widget.controller.pageIndex()]
-                                    .withOpacity(0.9),
-                                widget.controller
-                                    .colorList[widget.controller.pageIndex()]
-                                    .withOpacity(0),
-                              ],
-                              begin: const Alignment(0, 0),
-                              end: const Alignment(0, -0.8),
-                              tileMode: TileMode.clamp,
+                child: GestureDetector(
+                  onHorizontalDragUpdate: (details) {
+                    widget.controller.animateToNextPage();
+                    widget.controller.play();
+                  },
+                  onTapDown: (_) {
+                    widget.controller.pause();
+                  },
+                  onTapUp: (details) {
+                    widget.controller.play();
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    // height: 517.arP,
+                    // width: 390.arP,
+                    color: widget
+                        .controller.colorList[widget.controller.pageIndex()],
+                    child: Stack(
+                      fit: StackFit.loose,
+                      children: [
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: SizedBox(
+                            height: 450.arP,
+                            width: 1.width,
+                            child: Lottie.asset(
+                              widget.controller.onboardingMessages.keys
+                                  .elementAt(index),
+                              animate: true,
+                              frameRate: FrameRate.max,
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                              repeat: true,
                             ),
                           ),
                         ),
-                      ),
-                      Align(
-                        alignment: const Alignment(-0.1, 0.6),
-                        child: Text(
-                          widget.controller.onboardingMessages.values
-                              .elementAt(index),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: 'Space Grotesk',
-                            color: Colors.white,
-                            fontSize: 40.sp,
-                            fontWeight: FontWeight.w400,
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 500),
+                            height: .65.height,
+                            width: 1.width,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                stops: const [0.3, 0.5, 1],
+                                colors: [
+                                  widget.controller
+                                      .colorList[widget.controller.pageIndex()]
+                                      .withOpacity(1),
+                                  widget.controller
+                                      .colorList[widget.controller.pageIndex()]
+                                      .withOpacity(0.9),
+                                  widget.controller
+                                      .colorList[widget.controller.pageIndex()]
+                                      .withOpacity(0),
+                                ],
+                                begin: const Alignment(0, 0),
+                                end: const Alignment(0, -0.8),
+                                tileMode: TileMode.clamp,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        SafeArea(
+                          child: AnimatedContainer(
+                            margin: EdgeInsets.symmetric(horizontal: 32.arP),
+                            padding: EdgeInsets.only(bottom: .2.height),
+                            duration: const Duration(milliseconds: 1000),
+                            color: Colors.transparent,
+                            alignment: Alignment.bottomLeft,
+                            // alignment: const Alignment(-0.1, 0.6),
+                            child: Text(
+                              widget.controller.onboardingMessages.values
+                                  .elementAt(widget.controller.pageIndex()),
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontFamily: 'Space Grotesk',
+                                color: Colors.white,
+                                fontSize: 40.arP,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );

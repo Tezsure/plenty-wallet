@@ -5,6 +5,7 @@ import 'package:beacon_flutter/models/beacon_request.dart';
 import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
@@ -18,16 +19,14 @@ class PayloadRequestController extends GetxController {
 
   final beaconPlugin = Get.find<BeaconService>().beaconPlugin;
 
-  Rx<AccountModel>? accountModel;
+  final accountModel = Rxn<AccountModel>();
 
   @override
   void onInit() async {
-    accountModel = Get.find<HomePageController>()
-        .userAccounts
-        .firstWhere((element) =>
-            element.publicKeyHash == beaconRequest.request!.sourceAddress)
-        .obs;
-    if (accountModel == null) {
+    accountModel.value = Get.find<HomePageController>().userAccounts.firstWhere(
+        (element) =>
+            element.publicKeyHash == beaconRequest.request!.sourceAddress);
+    if (accountModel.value == null) {
       beaconPlugin.signPayloadResponse(
         id: beaconRequest.request!.id!,
         signature: null,
@@ -41,6 +40,11 @@ class PayloadRequestController extends GetxController {
 
   confirm() async {
     try {
+      NaanAnalytics.logEvent(NaanAnalyticsEvents.DAPP_CLICK, param: {
+        "type": beaconRequest.type!,
+        "name": beaconRequest.peer?.name,
+        "address": accountModel.value!.publicKeyHash
+      });
       if (beaconRequest.request?.payload != null) {
         final Map response = await beaconPlugin.signPayloadResponse(
             id: beaconRequest.request!.id!,
@@ -48,13 +52,13 @@ class PayloadRequestController extends GetxController {
                 signer: Dartez.createSigner(
                     Dartez.writeKeyWithHint(
                         (await UserStorageService().readAccountSecrets(
-                                accountModel!.value.publicKeyHash!))!
+                                accountModel.value!.publicKeyHash!))!
                             .secretKey,
-                        accountModel!.value.publicKeyHash!.startsWith("tz2")
+                        accountModel.value!.publicKeyHash!.startsWith("tz2")
                             ? 'spsk'
                             : 'edsk'),
                     signerCurve:
-                        accountModel!.value.publicKeyHash!.startsWith("tz2")
+                        accountModel.value!.publicKeyHash!.startsWith("tz2")
                             ? SignerCurve.SECP256K1
                             : SignerCurve.ED25519),
                 payload: beaconRequest.request!.payload!),

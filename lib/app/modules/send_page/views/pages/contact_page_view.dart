@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/delete_contact_sheet.dart';
-import 'package:naan_wallet/app/modules/send_page/views/widgets/edit_contact_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -16,16 +17,13 @@ class ContactsListView extends GetView<SendPageController> {
   Widget build(BuildContext context) {
     return Container(
       height: 0.8.height,
-      width: 1.width,
       decoration: const BoxDecoration(color: Colors.black),
-      padding: EdgeInsets.symmetric(horizontal: 0.035.width),
       child: Column(
         children: [
           Obx(
             () => Expanded(
               child: ListView(
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
+                physics: AppConstant.scrollPhysics,
                 children: (<Widget>[
                       if (controller.searchText.isNotEmpty)
                         ...[
@@ -54,7 +52,7 @@ class ContactsListView extends GetView<SendPageController> {
                         .toList() +
                     (controller.contacts.isNotEmpty
                         ? <Widget>[
-                            0.033.vspace,
+                            0.02.vspace,
                             Text(
                               'Contacts',
                               style: labelSmall.apply(
@@ -76,98 +74,119 @@ class ContactsListView extends GetView<SendPageController> {
   }
 
   Widget contactWidget(ContactModel contact, {bool isContact = false}) {
-    return InkWell(
-      onTap: () => controller.onContactSelect(contactModel: contact),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: SizedBox(
-          height: 46,
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 23,
-                backgroundColor:
-                    ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                child: Image.asset(
-                  contact.imagePath,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              0.04.hspace,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: SizedBox(
+        height: 46,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InkWell(
+              onTap: () => controller.onContactSelect(contactModel: contact),
+              child: Row(
                 children: [
-                  Text(
-                    contact.name,
-                    style: bodySmall,
+                  CircleAvatar(
+                    radius: 23,
+                    backgroundColor:
+                        ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                    child: Image.asset(
+                      contact.imagePath,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                  Text(
-                    contact.address.tz1Short(),
-                    style: labelSmall.apply(
-                        color: ColorConst.NeutralVariant.shade60),
+                  0.04.hspace,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        contact.name.length >= 38
+                            ? '${contact.name.substring(0, 38)}...'
+                            : contact.name,
+                        style: bodySmall.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        contact.address.tz1Short(),
+                        style: labelSmall.apply(
+                            color: ColorConst.NeutralVariant.shade60),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              const Spacer(),
-              if (isContact)
-                PopupMenuButton(
-                    position: PopupMenuPosition.under,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    color: ColorConst.Neutral.shade20,
-                    itemBuilder: (_) => <PopupMenuEntry>[
-                          CustomPopupMenuItem(
-                            height: 53,
-                            padding: const EdgeInsets.symmetric(horizontal: 11),
-                            onTap: () {
-                              Get.back();
-                              Get.bottomSheet(
-                                EditContactBottomSheet(contactModel: contact),
+            ),
+            const Spacer(),
+            if (isContact)
+              PopupMenuButton(
+                  position: PopupMenuPosition.under,
+                  padding: EdgeInsets.all(0.arP),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  color: const Color(0xFF421121),
+                  itemBuilder: (_) => <PopupMenuEntry>[
+                        CustomPopupMenuItem(
+                          height: 40.arP,
+                          padding: EdgeInsets.symmetric(horizontal: 12.arP),
+                          onTap: () {
+                            Get.back();
+                            Get.bottomSheet(
+                                AddContactBottomSheet(
+                                  contactModel: contact,
+                                  isTransactionContact: false,
+                                  isEditContact: true,
+                                ),
                                 enterBottomSheetDuration:
                                     const Duration(milliseconds: 180),
                                 exitBottomSheetDuration:
                                     const Duration(milliseconds: 150),
-                              );
-                            },
-                            child: Text(
-                              "Edit contact",
-                              style: labelMedium,
+                                isScrollControlled: true);
+                          },
+                          child: Text(
+                            "Edit",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.5.arP,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.5.arP,
                             ),
                           ),
-                          CustomPopupMenuDivider(
-                            height: 1,
-                            color: ColorConst.Neutral.shade50,
-                            padding: const EdgeInsets.symmetric(horizontal: 11),
-                            thickness: 1,
-                          ),
-                          CustomPopupMenuItem(
-                            padding: const EdgeInsets.symmetric(horizontal: 11),
-                            height: 53,
-                            onTap: () {
-                              Get.back();
-                              Get.bottomSheet(
-                                DeleteContactBottomSheet(contactModel: contact),
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                              );
-                            },
-                            child: Text(
-                              "Delete contact",
-                              style: labelMedium.apply(
-                                  color: ColorConst.Error.shade60),
+                        ),
+                        CustomPopupMenuDivider(
+                          height: 1,
+                          color: ColorConst.Neutral.shade50,
+                          padding: const EdgeInsets.symmetric(horizontal: 11),
+                          thickness: 1,
+                        ),
+                        CustomPopupMenuItem(
+                          padding: EdgeInsets.symmetric(horizontal: 12.arP),
+                          height: 40.arP,
+                          onTap: () {
+                            Get.back();
+                            Get.bottomSheet(
+                              DeleteContactBottomSheet(contactModel: contact),
+                              enterBottomSheetDuration:
+                                  const Duration(milliseconds: 180),
+                              exitBottomSheetDuration:
+                                  const Duration(milliseconds: 150),
+                            );
+                          },
+                          child: Text(
+                            "Remove",
+                            style: TextStyle(
+                              color: const Color(0xFFFF5449),
+                              fontSize: 12.5.arP,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.5.arP,
                             ),
                           ),
-                        ],
-                    child: const Icon(
-                      Icons.more_horiz,
-                      color: Colors.white,
-                      size: 16,
-                    ))
-            ],
-          ),
+                        ),
+                      ],
+                  child: const Icon(
+                    Icons.more_horiz,
+                    color: Colors.white,
+                    size: 16,
+                  ))
+          ],
         ),
       ),
     );

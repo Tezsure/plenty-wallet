@@ -1,10 +1,17 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:isolate';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
+import '../../../data/services/service_config/service_config.dart';
 import '../../home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 
 enum NftGalleryFilter { collection, list, thumbnail }
@@ -42,12 +49,17 @@ class NftGalleryController extends GetxController {
   var selectedGalleryFilter = NftGalleryFilter.collection.obs;
 
   @override
-  Future<void> onInit() async {
+  onInit() {
     super.onInit();
     selectedGalleryIndex.value = Get.arguments[0];
     nftGalleryList.value = Get.arguments[1];
     selectedNftGallery.value = nftGalleryList[selectedGalleryIndex.value];
-    await fetchAllNftForGallery();
+  }
+
+  @override
+  onReady() async {
+    super.onReady();
+    fetchAllNftForGallery();
   }
 
   changeSelectedNftGallery(int index) async {
@@ -63,12 +75,17 @@ class NftGalleryController extends GetxController {
     if (searchText.isNotEmpty) {
       List<NftTokenModel> filteredNfts = nftList
           .where((element) =>
-              element.name!.toLowerCase().contains(searchText) ||
-              element.fa!.name!.toLowerCase().contains(searchText) ||
-              (element.creators![0].holder!.alias ??
-                      element.creators![0].holder!.address!.tz1Short())
-                  .toLowerCase()
-                  .contains(searchText))
+              (element.name?.toLowerCase().contains(searchText) ?? false) ||
+              (element.tokenId?.toLowerCase().contains(searchText) ?? false) ||
+              (element.fa?.name?.toLowerCase().contains(searchText) ?? false) ||
+              (element.fa?.contract?.toLowerCase().contains(searchText) ??
+                  false) ||
+              ((element.creators!.isNotEmpty) &&
+                  ((element.creators![0].holder?.alias ??
+                              element.creators![0].holder?.address!.tz1Short())
+                          ?.toLowerCase()
+                          .contains(searchText) ??
+                      false)))
           .toList();
 
       for (var i = 0; i < filteredNfts.length; i++) {
@@ -80,7 +97,8 @@ class NftGalleryController extends GetxController {
   }
 
   Future<void> fetchAllNftForGallery() async {
-    nftList = await selectedNftGallery.value.fetchAllNft();
+    nftList = await fetchAllNft(selectedNftGallery.value.publicKeyHashs);
+
     for (var i = 0; i < nftList.length; i++) {
       galleryNfts[nftList[i].fa!.contract!] =
           (galleryNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
@@ -89,8 +107,8 @@ class NftGalleryController extends GetxController {
 
   Future<void> removeGallery(int galleryIndex) async {
     await UserStorageService().removeGallery(galleryIndex);
-    await fetchAllNftForGallery();
-    await Get.find<NftGalleryWidgetController>().fetchNftGallerys();
+    // await fetchAllNftForGallery();
+    Get.find<NftGalleryWidgetController>().fetchNftGallerys();
     print("nfts left: ${nftGalleryList.length}");
     if (nftGalleryList.isEmpty) {
       Get.back();
@@ -98,7 +116,7 @@ class NftGalleryController extends GetxController {
       selectedGalleryIndex.value = 0;
       selectedNftGallery.value = nftGalleryList[0];
       galleryNfts.value = {};
-      await fetchAllNftForGallery();
+      fetchAllNftForGallery();
     }
 
     Get.back();
@@ -116,4 +134,34 @@ class NftGalleryController extends GetxController {
     galleryNfts.value = {};
     await fetchAllNftForGallery();
   }
+
+/*   static Future<void> _fetchAllNftForGallery(List<dynamic> args) async {
+    Map<String, List<NftTokenModel>> galleryNfts =
+        <String, List<NftTokenModel>>{};
+    for (var i = 0; i < args[0].length; i++) {
+      galleryNfts[args[0][i].fa!.contract!] =
+          (args[1][args[0][i].fa!.contract!] ?? [])..add(args[0][i]);
+    }
+
+    args[2].send(galleryNfts);
+  } */
+
+  static Future<List<NftTokenModel>> fetchAllNft(publicKeyHashs) async {
+    if (publicKeyHashs == null) return [];
+    return <NftTokenModel>[
+      for (var publicKeyHash in publicKeyHashs!)
+        ...(await compute(
+            json,
+            (await ServiceConfig.localStorage
+                    .read(key: "${ServiceConfig.nftStorage}_$publicKeyHash") ??
+                "[]"),
+            debugLabel: "fetchAllNft"))
+    ];
+  }
+}
+
+Future<List<NftTokenModel>> json(x) async {
+  return jsonDecode(x)
+      .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
+      .toList();
 }

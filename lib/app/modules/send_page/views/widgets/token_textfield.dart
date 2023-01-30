@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/state_manager.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/token_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -31,19 +32,24 @@ class TokenSendTextfield extends StatelessWidget {
       onTap: onTap,
       focusNode: focusNode,
       controller: controller,
-      cursorHeight: 28.sp,
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      cursorHeight: 24.arP,
+      textAlignVertical: TextAlignVertical.center,
       textAlign: TextAlign.left,
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      inputFormatters: [ReplaceCommaFormatter()],
       style: headlineMedium.copyWith(
+          fontSize: 28.arP,
+          fontWeight: FontWeight.w600,
+          height: 1.2.arP,
           color: isError != null && isError!.value
               ? ColorConst.NaanRed
               : textfieldType == TextfieldType.token
-                  ? ColorConst.NeutralVariant.shade70
+                  ? ColorConst.NeutralVariant.shade40
                   : ColorConst.NeutralVariant.shade60),
       cursorColor: Colors.white,
       onChanged: onChanged,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.zero,
+        contentPadding: EdgeInsets.only(top: 2.arP),
         floatingLabelAlignment: FloatingLabelAlignment.center,
         isDense: true,
         border: InputBorder.none,
@@ -53,5 +59,39 @@ class TokenSendTextfield extends StatelessWidget {
             headlineMedium.copyWith(color: ColorConst.NeutralVariant.shade30),
       ),
     );
+  }
+}
+
+class ReplaceCommaFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    String newString = newValue.text;
+    if (newValue.text.contains(",")) {
+      if (oldValue.text.contains(".")) {
+        newString = newValue.text.replaceAll(",", "");
+      } else {
+        newString = newValue.text.replaceAll(",", ".");
+      }
+    }
+    //avoid multiple dots
+    if (newString.contains(".")) {
+      final split = newString.split(".");
+      if (split.length > 2) {
+        newString = split[0] + "." + split[1];
+      }
+    }
+/*     final regEx = RegExp(r"^\d*\.?\d*");
+    String newString =
+        (regEx.stringMatch(newValue.text) ?? "").replaceAll(',', '.'); */
+    return TextEditingValue(
+        text: newString,
+        selection: TextSelection.fromPosition(
+          TextPosition(
+            offset: newString.length,
+          ),
+        ));
   }
 }

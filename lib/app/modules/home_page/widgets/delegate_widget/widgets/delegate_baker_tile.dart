@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -5,14 +6,11 @@ import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
-
 import 'delegate_baker.dart';
-import 'delegate_info_sheet.dart';
 
 class DelegateBakerTile extends StatelessWidget {
   final DelegateBakerModel baker;
@@ -28,7 +26,7 @@ class DelegateBakerTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 0.01.height),
       // width: 338,
-      height: 0.12.height,
+      height: 125.arP,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: const Color(0xff958e99).withOpacity(0.2),
@@ -38,30 +36,32 @@ class DelegateBakerTile extends StatelessWidget {
         ),
       ),
       padding: EdgeInsets.symmetric(
-        horizontal: 0.04.width,
+        horizontal: 0.03.width,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          0.005.vspace,
+          0.0075.vspace,
           Row(
             children: [
               CircleAvatar(
                 backgroundColor: Colors.transparent,
                 radius: 20,
                 child: ClipOval(
-                  child: Image.network(
-                    baker.logo ?? "",
+                  child: CachedNetworkImage(
+                    imageUrl: baker.logo ?? "",
                     fit: BoxFit.fill,
                     width: 40,
                     height: 40,
+                    maxWidthDiskCache: 80,
+                    maxHeightDiskCache: 80,
                   ),
                 ),
               ),
               0.02.hspace,
               Text(
-                baker.name ?? "",
+                baker.name ?? baker.address?.tz1Short() ?? "",
                 style: labelMedium,
               ),
               0.015.hspace,
@@ -127,7 +127,8 @@ class DelegateBakerTile extends StatelessWidget {
                   style: labelMedium.copyWith(
                       color: ColorConst.NeutralVariant.shade70),
                   children: [
-                    TextSpan(text: baker.freespaceMin ?? "", style: labelLarge)
+                    TextSpan(
+                        text: baker.freespaceMin ?? "N/A", style: labelLarge)
                   ],
                 ),
               ),
@@ -140,14 +141,16 @@ class DelegateBakerTile extends StatelessWidget {
                       color: ColorConst.NeutralVariant.shade70),
                   children: [
                     TextSpan(
-                        text: '${baker.delegateBakersListResponseYield}%',
+                        text: baker.delegateBakersListResponseYield == null
+                            ? "N/A"
+                            : '${baker.delegateBakersListResponseYield}%',
                         style: labelLarge)
                   ],
                 ),
               ),
             ],
           ),
-          0.005.vspace
+          0.018.vspace,
         ],
       ),
     );

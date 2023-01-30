@@ -5,21 +5,28 @@ import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
-import 'package:naan_wallet/app/data/services/data_handler_service/delegate/delegate_handler.dart';
+import 'package:naan_wallet/app/data/services/delegate_service/delegate_handler.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/delegate_cycle_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_reward_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/account_switch_widget/account_switch_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_info_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_success_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/redelegate_sheet.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
 
 class DelegateWidgetController extends GetxController {
   final TextEditingController textEditingController = TextEditingController();
@@ -45,13 +52,7 @@ class DelegateWidgetController extends GetxController {
           ScrollDirection.forward;
     });
     _delegateHandler = DelegateHandler();
-
-    accountModel = Get.find<HomePageController>().userAccounts[0].obs;
-    if (accountModel == null) {
-      Get.back();
-      Get.snackbar('Error', 'Connect wallet not found',
-          backgroundColor: ColorConst.Error, colorText: Colors.white);
-    }
+    getBakerList();
   }
 
   @override
@@ -76,7 +77,7 @@ class DelegateWidgetController extends GetxController {
     searchedDelegateBakerList.value = delegateBakerList.where((p0) {
       return p0.name!
           .toLowerCase()
-          .contains(textEditingController.text.toLowerCase());
+          .contains(textEditingController.text.toLowerCase().trim());
     }).toList();
 
     searchedDelegateBakerList.sort((p0, p1) {
@@ -86,6 +87,16 @@ class DelegateWidgetController extends GetxController {
 
         case BakerListBy.Rank:
           return (p0.rank ?? 0) - (p1.rank ?? 0);
+        case BakerListBy.Yield:
+          return ((p0.delegateBakersListResponseYield ?? 0) -
+                  (p1.delegateBakersListResponseYield ?? 0))
+              .toInt();
+
+        case BakerListBy.Space:
+          return (p0.freespace ?? 0) - (p1.freespace ?? 0);
+
+        case BakerListBy.Staking:
+          return (p0.freespace ?? 0) - (p1.freespace ?? 0);
       }
     });
   }
@@ -139,25 +150,42 @@ class DelegateWidgetController extends GetxController {
             .secretKey,
         publicKeyHash: accountModel!.value.publicKeyHash!,
       );
-      final signer = await Dartez.createSigner(Dartez.writeKeyWithHint(
-          keyStore.secretKey,
-          keyStore.publicKeyHash.startsWith("tz2") ? 'spsk' : 'edsk'));
-      final result = await Dartez.sendDelegationOperation(
-          ServiceConfig.currentSelectedNode,
-          signer,
-          keyStore,
-          baker.address!,
-          1000);
-      print(result);
+      final signer = Dartez.createSigner(
+          Dartez.writeKeyWithHint(keyStore.secretKey,
+              keyStore.publicKeyHash.startsWith("tz2") ? 'spsk' : 'edsk'),
+          signerCurve: keyStore.publicKeyHash.startsWith("tz2")
+              ? SignerCurve.SECP256K1
+              : SignerCurve.ED25519);
+      await Dartez.sendDelegationOperation(ServiceConfig.currentSelectedNode,
+          signer, keyStore, baker.address!, 1000);
       Future.delayed(
         const Duration(milliseconds: 500),
       ).then((value) {
+        NaanAnalytics.logEvent(
+            NaanAnalyticsEvents.DELEGATE_TRANSACTION_SUBMITTED,
+            param: {
+              NaanAnalytics.address: keyStore.publicKeyHash,
+              "baker_name": baker.name,
+              "baker_address": baker.address,
+            });
         Get.bottomSheet(const DelegateBakerSuccessSheet())
             .whenComplete(() => Get.back());
       });
     } catch (e) {
-      Get.snackbar('Error', e.toString(),
-          backgroundColor: ColorConst.Error, colorText: Colors.white);
+      transactionStatusSnackbar(
+        status: TransactionStatus.error,
+        duration: const Duration(seconds: 2),
+        tezAddress: "Something went wrong",
+        transactionAmount: "Error",
+      );
+      // Get.snackbar(
+      //   'Error',
+      //   "Something went wrong",
+      //   margin: const EdgeInsets.all(20),
+      //   snackPosition: SnackPosition.BOTTOM,
+      //   backgroundColor: ColorConst.Error.withOpacity(0.75),
+      //   colorText: Colors.white,
+      // );
     }
   }
 
@@ -210,9 +238,9 @@ class DelegateWidgetController extends GetxController {
 
       Get.rawSnackbar(
         onTap: (_) {
-          getBakerList();
+          getDelegateRewardList();
         },
-        message: "Failed to load, tap to try gain",
+        message: "Failed to load, tap to try again",
         shouldIconPulse: true,
         backgroundColor: ColorConst.NaanRed,
         snackPosition: SnackPosition.BOTTOM,
@@ -230,6 +258,10 @@ class DelegateWidgetController extends GetxController {
 
   Future<void> getCycleStatus() async {
     try {
+      int limit =
+          (delegateRewardList.first.cycle! - delegateRewardList.last.cycle!) +
+              1;
+      final cycleStatusList = await _delegateHandler.getCycleStatus(limit);
       for (var i = 0; i < delegateRewardList.length; i++) {
         final baker = delegateBakerList.firstWhere(
             (element) =>
@@ -237,8 +269,8 @@ class DelegateWidgetController extends GetxController {
             orElse: () => DelegateBakerModel());
         delegateRewardList[i].bakerDetail = baker;
         delegateRewardList.value = List.from([...delegateRewardList]);
-        final status = (await _delegateHandler
-            .getCycleStatus(delegateRewardList[i].cycle ?? 0));
+        final status = cycleStatusList.firstWhere(
+            (element) => element.index == delegateRewardList[i].cycle);
         if (status == null) {
           continue;
         }
@@ -259,41 +291,105 @@ class DelegateWidgetController extends GetxController {
 
   void getTotalRewards() {
     totalRewards.value = 0;
-    delegateRewardList.forEach((element) {
+    for (var element in delegateRewardList) {
       totalRewards.value = totalRewards.value +
-          ((element.balance / element.activeStake) *
+          ((element.balance /
+                  (element.activeStake == 0.0 ? 1 : element.activeStake)) *
               (element.blockRewards + element.endorsementRewards));
-    });
-    totalRewards.value = (totalRewards / pow(10, 6)) *
-        Get.find<HomePageController>().xtzPrice.value;
+    }
+    totalRewards.value =
+        (totalRewards / 1e6) * Get.find<HomePageController>().xtzPrice.value;
+  }
+
+  Future<String?> getCurrentBakerAddress(String pkh) async {
+    return await _delegateHandler.checkBaker(pkh);
   }
 
   Future<void> checkBaker() async {
     String? bakerAddress;
-    await toggleLoaderOverlay(() async {
-      bakerAddress =
-          await _delegateHandler.checkBaker(accountModel!.value.publicKeyHash!);
-    });
+    if (Get.find<HomePageController>().userAccounts.isEmpty) {
+      return Get.bottomSheet(const DelegateInfoSheet(),
+          enableDrag: true, isScrollControlled: true);
+    }
+
+    Get.put(AccountSummaryController());
+    accountModel = Get.find<HomePageController>()
+        .userAccounts[Get.find<HomePageController>().selectedIndex.value]
+        .obs;
+
+    if (accountModel == null) {
+      return Get.bottomSheet(
+        const AccountSelectorSheet(),
+        isScrollControlled: true,
+        enterBottomSheetDuration: const Duration(milliseconds: 180),
+        exitBottomSheetDuration: const Duration(milliseconds: 150),
+      );
+    }
+    // if (accountModel?.value.publicKeyHash == null) {}
+    // await toggleLoaderOverlay(() async {
+    bakerAddress = accountModel!.value.delegatedBakerAddress;
+    // ;
+    // });
 
     if (bakerAddress == null) {
       Get.bottomSheet(const DelegateInfoSheet(),
           enableDrag: true, isScrollControlled: true);
     } else {
-      DelegateBakerModel delegatedBaker;
+      DelegateBakerModel? delegatedBaker;
       if (delegateBakerList.isEmpty) {
         await toggleLoaderOverlay(getBakerList);
       }
+      NaanAnalytics.logEvent(NaanAnalyticsEvents.REDELEGATE);
       if (delegateBakerList.any((element) => element.address == bakerAddress)) {
         delegatedBaker = delegateBakerList.firstWhere(
           (element) => element.address == bakerAddress,
         );
+
         Get.bottomSheet(
             ReDelegateBottomSheet(
               baker: delegatedBaker,
             ),
             enableDrag: true,
             isScrollControlled: true);
+      } else {
+        await toggleLoaderOverlay(() async {
+          delegatedBaker = (await getBakerDetail(bakerAddress!)) ??
+              DelegateBakerModel(address: bakerAddress);
+          delegateBakerList.add(delegatedBaker!);
+        });
+        Get.bottomSheet(ReDelegateBottomSheet(baker: delegatedBaker!),
+            enableDrag: true, isScrollControlled: true);
       }
+    }
+  }
+
+  Future<DelegateBakerModel?> getBakerDetail(String bakerAddress) async {
+    // try {
+    return await _delegateHandler.bakerDetail(bakerAddress);
+    // } catch (e) {
+    //   print(e.toString());
+    //   return null;
+    // }
+  }
+
+  Future<void> openBakerList() async {
+    if (!(Get.isBottomSheetOpen ?? false)) {
+      Get.put(AccountSummaryController());
+      Get.bottomSheet(
+        AccountSwitch(
+          title: "Delegate",
+          subtitle:
+              "In Tezos, we delegate an account to a baker\nand earn interest on the available Tez in the account.",
+          onNext: () {
+            checkBaker();
+          },
+        ),
+        isScrollControlled: true,
+        enterBottomSheetDuration: const Duration(milliseconds: 180),
+        exitBottomSheetDuration: const Duration(milliseconds: 150),
+      );
+    } else {
+      checkBaker();
     }
   }
 
@@ -314,4 +410,4 @@ class DelegateWidgetController extends GetxController {
   }
 }
 
-enum BakerListBy { Rank, Fees }
+enum BakerListBy { Rank, Yield, Space, Staking, Fees }

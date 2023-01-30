@@ -8,7 +8,9 @@ import 'package:naan_wallet/app/data/services/service_models/token_price_model.d
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/models/token_info.dart';
+import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 
+import '../../../../utils/constants/path_const.dart';
 import '../../../data/services/service_config/service_config.dart';
 import '../../../data/services/service_models/contact_model.dart';
 import '../../../data/services/user_storage_service/user_storage_service.dart';
@@ -49,6 +51,10 @@ class TransactionController extends GetxController {
     _tokenTransactionID.clear();
     paginationController.value.removeListener(() {});
     userTransactionHistory.value = await fetchUserTransactionsHistory();
+    isFilterApplied.value = false;
+    if (Get.isRegistered<HistoryFilterController>()) {
+      Get.find<HistoryFilterController>().clear();
+    }
     defaultTransactionList.addAll(_sortTransaction(userTransactionHistory));
     // Lazy Loading
     paginationController.value.addListener(() async {
@@ -115,9 +121,11 @@ class TransactionController extends GetxController {
       tokenInfo = TokenInfo(
         isHashSame: isHashSame == null ? false : tx.hash!.contains(isHashSame),
         token: tx,
-        timeStamp: DateTime.parse(tx.timestamp!),
+        timeStamp: tx.timestamp == null
+            ? DateTime.now()
+            : DateTime.parse(tx.timestamp!),
         isSent: tx.sender!.address!
-            .contains(accController.userAccount.value.publicKeyHash!),
+            .contains(accController.selectedAccount.value.publicKeyHash!),
       );
       isHashSame = tx.hash!;
       // For tezos transaction
@@ -143,7 +151,8 @@ class TransactionController extends GetxController {
             String amount = tx.fa2TokenAmount;
             tokenInfo = tokenInfo.copyWith(
                 name: token.name!,
-                imageUrl: token.thumbnailUri!,
+                imageUrl:
+                    token.thumbnailUri ?? "${PathConst.EMPTY_STATES}token.svg",
                 tokenSymbol: token.symbol!,
                 tokenAmount: double.parse(amount) / pow(10, token.decimals!),
                 dollarAmount: double.parse(amount) /
@@ -190,7 +199,7 @@ class TransactionController extends GetxController {
   Future<List<TxHistoryModel>> fetchUserTransactionsHistory(
           {String? lastId, int? limit}) async =>
       await UserStorageService().getAccountTransactionHistory(
-          accountAddress: accController.userAccount.value.publicKeyHash!,
+          accountAddress: accController.selectedAccount.value.publicKeyHash!,
           lastId: lastId,
           limit: limit);
 
@@ -212,22 +221,23 @@ class TransactionController extends GetxController {
 
   Future<void> updateSavedContacts() async {
     contacts.value = await UserStorageService().getAllSavedContacts();
+    if (Get.isRegistered<SendPageController>()) {
+      Get.find<SendPageController>().contacts.value = contacts.value;
+    }
   }
 
   ContactModel? getContact(String address) {
     return contacts.firstWhereOrNull((element) => element.address == address);
   }
 
-  void onAddContact(
-    String address,
-    String name,
-  ) {
+  void onAddContact(String address, String name, String? imagePath) {
     contacts.add(ContactModel(
         name: name,
         address: address,
-        imagePath: ServiceConfig.allAssetsProfileImages[Random().nextInt(
-          ServiceConfig.allAssetsProfileImages.length - 1,
-        )]));
+        imagePath: imagePath ??
+            ServiceConfig.allAssetsProfileImages[Random().nextInt(
+              ServiceConfig.allAssetsProfileImages.length - 1,
+            )]));
   }
 }
 

@@ -81,7 +81,7 @@ class OperationService {
         codeFormat: TezosParameterFormat.Micheline,
       );
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -112,8 +112,50 @@ class OperationService {
     );
   }
 
+  Future<Map<String, dynamic>> preApplyContractOrigination(
+      OperationModel operationModel, String rpcNode) async {
+    var transactionSigner = Dartez.createSigner(
+        Dartez.writeKeyWithHint(
+            operationModel.keyStoreModel!.secretKey,
+            operationModel.keyStoreModel!.publicKeyHash.startsWith("tz2")
+                ? 'spsk'
+                : 'edsk'),
+        signerCurve:
+            operationModel.keyStoreModel!.publicKeyHash.startsWith("tz2")
+                ? SignerCurve.SECP256K1
+                : SignerCurve.ED25519);
+    return await Dartez.sendContractOriginationOperation(
+        rpcNode,
+        transactionSigner,
+        operationModel.keyStoreModel!,
+        operationModel.amount == null ? 0 : operationModel.amount!.toInt(),
+        "",
+        120000,
+        1000,
+        100000,
+        operationModel.code!,
+        operationModel.storage!,
+        codeFormat: TezosParameterFormat.Michelson,
+        preapply: true,
+        gasEstimation: true);
+
+/*     return await Dartez.preapplyContractInvocationOperation(
+      rpcNode,
+      transactionSigner,
+      operationModel.keyStoreModel!,
+      [operationModel.receiverContractAddres!],
+      [0],
+      120000,
+      1000,
+      100000,
+      [operationModel.parameters!.entryPoint],
+      [operationModel.parameters!.value],
+      codeFormat: TezosParameterFormat.Michelson,
+    ); */
+  }
+
   Future<String> injectOperation(
       Map<String, dynamic> preAppliedResult, String rpcNode) async {
-    return await Dartez.injectOperation(rpcNode, preAppliedResult);
+    return await Dartez.injectOperation(rpcNode, preAppliedResult['opPair']);
   }
 }

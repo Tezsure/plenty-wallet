@@ -27,6 +27,14 @@ LinearGradient accountBg = LinearGradient(
   ],
 );
 
+LinearGradient appleRed = const LinearGradient(
+  begin: Alignment.centerRight,
+  end: Alignment.centerLeft,
+  colors: [
+    Color(0xffE6406F),
+    Color(0xffFE0618),
+  ],
+);
 LinearGradient appleGreen = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
@@ -40,8 +48,8 @@ LinearGradient appleOrange = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
-    Color(0xffed8b6f),
-    Color(0xffeb7b5b),
+    Color(0xFFFF006E),
+    Color(0xFFFF580C),
   ],
 );
 
@@ -49,8 +57,8 @@ LinearGradient appleYellow = const LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
-    Color(0xfff4be41),
-    Color(0xfff6c543),
+    Color(0xffFFBE0C),
+    Color(0xffE1A61B),
   ],
 );
 
@@ -115,6 +123,7 @@ class ColorConst {
   static const int _NaanRed = 0xFFFF3334;
 
   static const Color textGrey1 = Color(0xff8D8D8D);
+  static const Color lightGrey = Color(0xFFB0A9B3);
   static const Color grey = Color(0xffA4A3A9);
   static const Color blue = Color(0xff3F9AF7);
   static const Color green = Color(0xff7EFF3F);

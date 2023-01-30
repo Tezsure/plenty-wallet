@@ -16,7 +16,6 @@ class LoadingPageController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     var args = Get.arguments as List<dynamic>;
     fromRoute = args[1] as String;
@@ -76,12 +75,13 @@ class LoadingPageController extends GetxController {
         ]);
       } else if (importWalletPageController.importWalletDataType ==
           ImportWalletDataType.mnemonic) {
+        // AuthService().setWalletBackup(true);
+
         // mnemonic accounts
         await Future.wait([
           UserStorageService().writeNewAccount(
             [
               ...importWalletPageController.selectedAccountsTz1,
-              ...importWalletPageController.selectedAccountsTz2
             ],
             false,
             true,

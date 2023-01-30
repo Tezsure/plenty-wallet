@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 /// Displays the token selection page. This page is used to select the token/nft to send.
@@ -38,23 +39,34 @@ class TokenSelector extends StatelessWidget {
               controller!.isNFTPage.value
                   ? controller!.selectedNftModel!.name!
                   : controller!.selectedTokenModel!.symbol!,
-              style: bodySmall.copyWith(color: ColorConst.Primary.shade60),
+              style: TextStyle(
+                color: const Color(0xFF7B757F),
+                fontSize: 13.arP,
+                letterSpacing: 0.4.arP,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             subtitle: Text(
-                controller!.isNFTPage.value
-                    ? controller!.selectedNftModel!.fa!.name!
-                    : '${controller!.selectedTokenModel!.balance.toStringAsFixed(6)} available',
-                style: labelSmall.copyWith(
-                    color: ColorConst.NeutralVariant.shade60)),
+              controller!.isNFTPage.value
+                  ? controller!.selectedNftModel!.fa!.name ?? "N/A"
+                  : '${controller!.selectedTokenModel!.balance.toStringAsFixed(6)} ${controller!.selectedTokenModel!.symbol!.toUpperCase()} available',
+              style: TextStyle(
+                color: const Color(0xFF958E99),
+                fontSize: 12.arP,
+                letterSpacing: 0.5.arP,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
             trailing: Container(
               height: 24,
               width: 24,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  color: ColorConst.Neutral.shade80.withOpacity(0.2)),
+                  color: const Color(0xFF332F37)),
+              // ignore: prefer_const_constructors
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: ColorConst.Primary.shade60,
+                color: ColorConst.textGrey1,
                 size: 12,
               ),
             ),
@@ -68,34 +80,53 @@ class TokenSelector extends StatelessWidget {
       logo = "https://ipfs.io/ipfs/${logo.replaceAll("ipfs://", "")}";
     }
     return CircleAvatar(
-      radius: 22,
+      radius: 22.arP,
       foregroundImage: NetworkImage(logo),
     );
   }
 
   Widget getTokenImage(tokenModel) => CircleAvatar(
-        radius: 22,
+        radius: 22.arP,
         backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-        child: tokenModel.iconUrl!.startsWith("assets")
-            ? Image.asset(
-                tokenModel.iconUrl!,
-                fit: BoxFit.cover,
+        child: tokenModel.iconUrl == null
+            ? Container(
+                decoration: BoxDecoration(
+                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Text(
+                    (tokenModel.name ?? tokenModel.symbol ?? "N/A")
+                        .substring(0, 1)
+                        .toUpperCase(),
+                    style: labelMedium.copyWith(
+                      fontSize: 12.aR,
+                      fontWeight: FontWeight.w400,
+                      color: ColorConst.NeutralVariant.shade60,
+                    ),
+                  ),
+                ),
               )
-            : tokenModel.iconUrl!.endsWith(".svg")
-                ? SvgPicture.network(
+            : tokenModel.iconUrl!.startsWith("assets")
+                ? Image.asset(
                     tokenModel.iconUrl!,
                     fit: BoxFit.cover,
                   )
-                : Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(tokenModel.iconUrl!
-                                  .startsWith("ipfs")
-                              ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
-                              : tokenModel.iconUrl!)),
-                    ),
-                  ),
+                : tokenModel.iconUrl!.endsWith(".svg")
+                    ? SvgPicture.network(
+                        tokenModel.iconUrl!,
+                        fit: BoxFit.cover,
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(tokenModel.iconUrl!
+                                      .startsWith("ipfs")
+                                  ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
+                                  : tokenModel.iconUrl!)),
+                        ),
+                      ),
       );
 }

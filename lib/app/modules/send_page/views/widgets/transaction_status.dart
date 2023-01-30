@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 enum TransactionStatus {
   success(
@@ -18,7 +20,11 @@ enum TransactionStatus {
   failed(
       title: "Failed",
       lottiePath: "${PathConst.SEND_PAGE}lottie/failed.json",
-      color: Color(0xffFF5449));
+      color: Color(0xffFF5449)),
+  error(
+      title: "Failed",
+      lottiePath: "${PathConst.SEND_PAGE}lottie/error.svg",
+      color: Color(0xffF97316));
 
   final String title;
   final String lottiePath;
@@ -34,61 +40,46 @@ SnackbarController transactionStatusSnackbar({
   required TransactionStatus status,
   required String transactionAmount,
   required String tezAddress,
+  bool isBrowser = false,
   Duration duration = const Duration(minutes: 1),
 }) {
   return Get.rawSnackbar(
     backgroundColor: ColorConst.NeutralVariant.shade20,
-    boxShadows: [
-      BoxShadow(
-          color: Colors.white.withOpacity(0.1),
-          blurRadius: 10,
-          spreadRadius: 5,
-          offset: const Offset(0, 4)),
-    ],
+
     icon: Padding(
       padding: EdgeInsets.only(left: 0.04.width),
-      child: LottieBuilder.asset(
-        status.lottiePath,
-        frameRate: FrameRate(60),
-        fit: BoxFit.cover,
-        repeat: status == TransactionStatus.pending ? true : false,
-        height: 40.sp,
-        width: 40.sp,
-      ),
+      child: status.lottiePath.endsWith(".svg")
+          ? SvgPicture.asset(
+              status.lottiePath,
+              fit: BoxFit.contain,
+              height: 40.arP,
+              width: 40.arP,
+            )
+          : LottieBuilder.asset(
+              status.lottiePath,
+              frameRate: FrameRate(60),
+              fit: BoxFit.cover,
+              repeat: status == TransactionStatus.pending ? true : false,
+              height: 40.arP,
+              width: 40.arP,
+            ),
     ),
 
     barBlur: 1,
-    onTap: (val) {},
     borderRadius: 8,
     maxWidth: 8.width,
     isDismissible: true,
-    margin: EdgeInsets.only(bottom: 30.sp, left: 15.sp, right: 15.sp),
+    margin: EdgeInsets.only(
+        bottom: isBrowser ? 80.arP : 30.arP, left: 15.arP, right: 15.arP),
     messageText: Padding(
-      padding: EdgeInsets.only(left: 20.sp),
+      padding: EdgeInsets.only(left: 20.arP),
       child: SizedBox(
         height: 0.05.height,
         child: Stack(
           fit: StackFit.passthrough,
           children: [
-            Align(
-                alignment: const Alignment(1, -2),
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 8.sp),
-                  child: MaterialButton(
-                    padding: EdgeInsets.only(left: 90.sp),
-                    height: 2,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    shape: const CircleBorder(),
-                    onPressed: () {},
-                    child: Icon(
-                      Icons.close,
-                      size: 20,
-                      color: ColorConst.NeutralVariant.shade60,
-                    ),
-                  ),
-                )),
             Padding(
-              padding: EdgeInsets.only(bottom: 8.sp),
+              padding: EdgeInsets.only(bottom: 8.arP),
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(transactionAmount, style: labelMedium)),
@@ -99,39 +90,58 @@ SnackbarController transactionStatusSnackbar({
                 padding: const EdgeInsets.only(bottom: 2.0, top: 2.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      "Sent to $tezAddress",
-                      style: labelSmall.copyWith(
-                        color: ColorConst.NeutralVariant.shade60,
-                      ),
-                    ),
-                    const Spacer(),
-                    TextButton(
-                        style: ButtonStyle(
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            maximumSize: MaterialStateProperty.all<Size>(
-                                const Size(80, 20)),
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                const EdgeInsets.all(0)),
-                            minimumSize: MaterialStateProperty.all<Size>(
-                                const Size(40, 10)),
-                            fixedSize: MaterialStateProperty.all<Size>(
-                                const Size(80, 20)),
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(35))),
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(status.color)),
-                        onPressed: () {},
-                        child: Center(
-                          child: Text(
-                            status.title,
-                            style: labelSmall,
+                    tezAddress.isValidWalletAddress
+                        ? Text(
+                            "Sent to $tezAddress",
+                            style: labelSmall.copyWith(
+                              color: ColorConst.NeutralVariant.shade60,
+                            ),
+                          )
+                        : Padding(
+                            padding: EdgeInsets.only(
+                              top: 5.0.arP,
+                            ),
+                            child: Text(
+                              tezAddress.replaceFirst("Exception", ""),
+                              style: labelSmall.copyWith(
+                                color: ColorConst.NeutralVariant.shade60,
+                              ),
+                            ),
                           ),
-                        )),
+                    const Spacer(),
+                    status == TransactionStatus.error
+                        ? const SizedBox(
+                            width: 40,
+                            height: 20,
+                          )
+                        : TextButton(
+                            style: ButtonStyle(
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                maximumSize: MaterialStateProperty.all<Size>(
+                                    const Size(80, 20)),
+                                padding: MaterialStateProperty.all<EdgeInsets>(
+                                    const EdgeInsets.all(0)),
+                                minimumSize: MaterialStateProperty.all<Size>(
+                                    const Size(40, 10)),
+                                fixedSize: MaterialStateProperty.all<Size>(
+                                    const Size(80, 20)),
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(35))),
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        status.color)),
+                            onPressed: () {},
+                            child: Center(
+                              child: Text(
+                                status.title,
+                                style: labelSmall,
+                              ),
+                            )),
                   ],
                 ),
               ),

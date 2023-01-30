@@ -85,19 +85,19 @@ class AppPages {
       page: () => const OnboardingPageView(),
       binding: OnboardingPageBinding(),
     ),
-    GetPage(
-      name: _Paths.BACKUP_WALLET,
-      page: () => const BackupWalletView(),
-      binding: BackupWalletBinding(),
-    ),
-    GetPage(
-      name: _Paths.VERIFY_PHRASE_PAGE,
-      page: () => const VerifyPhrasePageView(),
-      binding: VerifyPhrasePageBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.BACKUP_WALLET,
+    //   page: () => const BackupWalletView(),
+    //   binding: BackupWalletBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.VERIFY_PHRASE_PAGE,
+    //   page: () => const VerifyPhrasePageView(),
+    //   binding: VerifyPhrasePageBinding(),
+    // ),
     GetPage(
       name: _Paths.IMPORT_WALLET_PAGE,
-      page: () => const ImportWalletPageView(),
+      page: () =>  ImportWalletPageView(),
       binding: ImportWalletPageBinding(),
     ),
     GetPage(
@@ -105,11 +105,11 @@ class AppPages {
       page: () => AccountsWidget(),
       binding: AccountsWidgetBinding(),
     ),
-    GetPage(
-      name: _Paths.SETTINGS_PAGE,
-      page: () => const SettingsPageView(),
-      binding: SettingsPageBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.SETTINGS_PAGE,
+    //   page: () => const SettingsPageView(),
+    //   binding: SettingsPageBinding(),
+    // ),
     GetPage(
       name: _Paths.SEND_PAGE,
       page: () => const SendPage(),
@@ -132,7 +132,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ACCOUNT_SUMMARY,
-      page: () => AccountSummaryView(),
+      page: () => const AccountSummaryView(),
       binding: AccountSummaryBinding(),
     ),
     GetPage(
@@ -140,11 +140,11 @@ class AppPages {
       page: () => const DappBrowserView(),
       binding: DappBrowserBinding(),
     ),
-    GetPage(
-      name: _Paths.PAIR_REQUEST,
-      page: () => const PairRequestView(),
-      binding: PairRequestBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.PAIR_REQUEST,
+    //   page: () => const PairRequestView(),
+    //   binding: PairRequestBinding(),
+    // ),
     GetPage(
       name: _Paths.PAYLOAD_REQUEST,
       page: () => const PayloadRequestView(),

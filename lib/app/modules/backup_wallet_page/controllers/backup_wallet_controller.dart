@@ -11,14 +11,14 @@ class BackupWalletController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    seedPhrase = (Get.arguments as String).split(" ");
+    // seedPhrase = (Get.arguments as String).split(" ");
     super.onInit();
   }
 
   Future<void> paste() async {
     await Clipboard.setData(
       ClipboardData(
-        text: seedPhrase.join().toString(),
+        text: seedPhrase.join(" ").toString(),
       ),
     ).whenComplete(() => phraseCopy.value = true);
   }

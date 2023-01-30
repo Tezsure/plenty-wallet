@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -15,17 +16,17 @@ class TokenAndNftPageView extends GetView<SendPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 0.8.height,
-      width: 1.width,
-      decoration: const BoxDecoration(color: Colors.black),
-      padding: EdgeInsets.symmetric(horizontal: 0.035.width),
+    return SizedBox(
+      height: 0.8.height.arP,
+      // decoration: const BoxDecoration(color: Colors.black),
       child: Column(
         children: [
           Expanded(
             child: Obx(
               () => ListView(
+                padding: EdgeInsets.zero,
                 children: <Widget>[
+                      0.008.vspace,
                       Text(
                         'Tokens',
                         style: labelSmall.apply(
@@ -58,11 +59,13 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                       const SizedBox(
                         height: 16,
                       ),
-                      Text(
-                        'Collectibles',
-                        style: labelSmall.apply(
-                            color: ColorConst.NeutralVariant.shade60),
-                      ),
+                      controller.userNfts.isNotEmpty
+                          ? Text(
+                              'Collectibles',
+                              style: labelSmall.apply(
+                                  color: ColorConst.NeutralVariant.shade60),
+                            )
+                          : Container(),
                       0.008.vspace
                     ] +
                     List.generate(
@@ -108,7 +111,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
         width: controller.isTokensExpanded.value ? 55 : 45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: ColorConst.NeutralVariant.shade30,
+          color: const Color(0xFF1E1C1F),
         ),
         alignment: Alignment.center,
         child: Row(
@@ -117,13 +120,13 @@ class TokenAndNftPageView extends GetView<SendPageController> {
           children: [
             Text(
               controller.isTokensExpanded.value ? 'Less' : 'All',
-              style: labelSmall,
+              style: labelSmall.copyWith(color: const Color(0xFF958E99)),
             ),
             Icon(
               controller.isTokensExpanded.value
                   ? Icons.keyboard_arrow_up
                   : Icons.arrow_forward_ios,
-              color: Colors.white,
+              color: const Color(0xFF958E99),
               size: 10,
             )
           ],
@@ -143,7 +146,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
         width: controller.isCollectibleExpanded.value ? 55 : 45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: ColorConst.NeutralVariant.shade30,
+          color: const Color(0xFF1E1C1F),
         ),
         alignment: Alignment.center,
         child: Row(
@@ -152,14 +155,14 @@ class TokenAndNftPageView extends GetView<SendPageController> {
           children: [
             Text(
               controller.isCollectibleExpanded.value ? 'Less' : 'All',
-              style: labelSmall,
+              style: labelSmall.copyWith(color: const Color(0xFF958E99)),
             ),
             AnimatedRotation(
               turns: controller.isCollectibleExpanded.value ? -0 / 25 : 0,
               duration: const Duration(milliseconds: 300),
               child: const Icon(
                 Icons.arrow_forward_ios,
-                color: Colors.white,
+                color: Color(0xFF958E99),
                 size: 10,
               ),
             )
@@ -182,44 +185,67 @@ class TokenAndNftPageView extends GetView<SendPageController> {
           child: Row(
             children: [
               CircleAvatar(
-                radius: 22,
+                radius: 20.arP,
                 backgroundColor:
                     ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                child: tokenModel.iconUrl!.startsWith("assets")
-                    ? Image.asset(
-                        tokenModel.iconUrl!,
-                        fit: BoxFit.cover,
+                child: tokenModel.iconUrl == null
+                    ? Container(
+                        width: 20.aR,
+                        height: 20.aR,
+                        decoration: BoxDecoration(
+                          color: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            (tokenModel.name ?? tokenModel.symbol ?? "N/A")
+                                .substring(0, 1)
+                                .toUpperCase(),
+                            style: labelMedium.copyWith(
+                              fontSize: 12.aR,
+                              fontWeight: FontWeight.w400,
+                              color: ColorConst.NeutralVariant.shade60,
+                            ),
+                          ),
+                        ),
                       )
-                    : tokenModel.iconUrl!.endsWith(".svg")
-                        ? SvgPicture.network(
+                    : tokenModel.iconUrl!.startsWith("assets")
+                        ? Image.asset(
                             tokenModel.iconUrl!,
                             fit: BoxFit.cover,
                           )
-                        : Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(tokenModel.iconUrl!
-                                          .startsWith("ipfs")
-                                      ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
-                                      : tokenModel.iconUrl!)),
-                            ),
-                            // child: Image.network(
-                            //   ,
-                            //   fit: BoxFit.contain,
-                            // ),
-                          ),
+                        : tokenModel.iconUrl!.endsWith(".svg")
+                            ? SvgPicture.network(
+                                tokenModel.iconUrl!,
+                                fit: BoxFit.cover,
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: CachedNetworkImageProvider(tokenModel
+                                              .iconUrl!
+                                              .startsWith("ipfs")
+                                          ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
+                                          : tokenModel.iconUrl!)),
+                                ),
+                              ),
               ),
               0.03.hspace,
               RichText(
                   textAlign: TextAlign.start,
                   text: TextSpan(
                       text: '${tokenModel.symbol}\n',
-                      style: labelSmall,
+                      style: labelSmall.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                       children: [
                         TextSpan(
-                          text: tokenModel.balance.toStringAsFixed(6),
+                          text: tokenModel.balance
+                              .toStringAsFixed(tokenModel.decimals)
+                              .removeTrailing0,
                           style: labelSmall.apply(
                               color: ColorConst.NeutralVariant.shade60),
                         )
@@ -228,20 +254,26 @@ class TokenAndNftPageView extends GetView<SendPageController> {
               Container(
                 height: 0.03.height,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.2)),
+                  borderRadius: BorderRadius.circular(8),
+                  // color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                ),
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 alignment: Alignment.center,
                 child: Text(
-                  r"$" +
-                      (tokenModel.name == "Tezos"
-                              ? controller.xtzPrice.value
-                              : (tokenModel.currentPrice! *
-                                  controller.xtzPrice.value))
-                          .toStringAsFixed(6)
-                          .removeTrailing0,
+                  (tokenModel.name == "Tezos"
+                          ? tokenModel.balance * controller.xtzPrice.value
+                          : tokenModel.balance *
+                              (tokenModel.currentPrice ??
+                                  0.0 * controller.xtzPrice.value))
+                      // (tokenModel.name == "Tezos"
+                      //         ? controller.xtzPrice.value
+                      //         : (tokenModel.currentPrice! *
+                      //             controller.xtzPrice.value))
+                      .roundUpDollar()
+                      .removeTrailing0,
                   style: labelSmall.apply(
-                      color: ColorConst.NeutralVariant.shade60),
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],

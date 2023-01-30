@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/history_filter_controller.dart';
 
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -23,13 +24,14 @@ class DateSelectionSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => NaanBottomSheet(
-        height: 425.aR,
+        height: 0.5.height,
         bottomSheetHorizontalPadding: 15.aR,
         crossAxisAlignment: CrossAxisAlignment.center,
         bottomSheetWidgets: [
+          0.02.vspace,
           Text(
             'Select Start Date',
-            style: labelMedium.copyWith(fontSize: 12.aR),
+            style: titleSmall.copyWith(letterSpacing: 0.5.arP),
           ),
           SizedBox(
             height: 20.aR,
@@ -77,25 +79,15 @@ class DateSelectionSheet extends StatelessWidget {
     );
   }
 
-  MaterialButton confirmButton() {
-    return MaterialButton(
-        height: 48.aR,
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        padding: EdgeInsets.zero,
-        minWidth: double.infinity,
-        onPressed: () {
-          controller.setDate(DateType.customDate,
-              from: controller.fromDate.value, to: controller.toDate.value);
-          Get.back();
-        },
-        color: ColorConst.Primary,
-        splashColor: ColorConst.Primary.shade60,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        child: Text(
-          "Confirm",
-          style: titleSmall.copyWith(
-              color: ColorConst.Primary.shade90, fontSize: 14.aR),
-        ));
+  Widget confirmButton() {
+    return SolidButton(
+      title: "Confirm",
+      onPressed: () {
+        controller.setDate(DateType.customDate,
+            from: controller.fromDate.value, to: controller.toDate.value);
+        Get.back();
+      },
+    );
   }
 
   Widget dateBox(SelectDateType selectDateType, String date) {

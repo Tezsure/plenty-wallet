@@ -9,13 +9,11 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-import 'redelegate_tile.dart';
-
 class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
   final DelegateBakerModel baker;
   ReDelegateBottomSheet({super.key, required this.baker}) {
     Get.lazyPut(() => DelegateWidgetController());
-    controller.toggleLoaderOverlay(() => controller.getDelegateRewardList());
+    controller.getDelegateRewardList();
   }
 
   @override
@@ -23,7 +21,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
     return Obx(() {
       return NaanBottomSheet(
         height: 0.9.height,
-        bottomSheetHorizontalPadding: 16.sp,
+        bottomSheetHorizontalPadding: 16.arP,
         // decoration: const BoxDecoration(
         //   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
         //   gradient: GradConst.GradientBackground,
@@ -36,7 +34,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
               children: [
                 Container(
                   alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(vertical: 24.sp),
+                  margin: EdgeInsets.only(bottom: 24.arP, top: 18.arP),
                   child: Column(
                     children: [
                       Text(
@@ -51,7 +49,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
                     ],
                   ),
                 ),
-                Text("Delegate to", style: labelLarge),
+                Text("Delegated to", style: labelLarge),
                 0.015.vspace,
                 DelegateBakerTile(
                   baker: baker,
@@ -65,7 +63,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
                       ? Center(
                           child: Text(
                             "Delegation is pending . . .",
-                            style: bodyLarge.copyWith(
+                            style: titleMedium.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: ColorConst.textGrey1),
                           ),

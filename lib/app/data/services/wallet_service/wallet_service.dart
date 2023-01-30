@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
 
 import 'package:dartez/dartez.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
@@ -57,12 +58,15 @@ class WalletService {
     );
     accountModel = AccountModel(
       isNaanAccount: true,
+      isWalletBackedUp: false,
       derivationPathIndex: derivationIndex,
       name: name,
       imageType: imageType,
       profileImage: image,
       publicKeyHash: keyStore[2],
     );
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.CREATE_NEW_ACCOUNT,
+        param: {"address": accountModel.publicKeyHash});
 
     accountModel.accountSecretModel = accountSecretModel;
 
@@ -89,6 +93,7 @@ class WalletService {
       publicKeyHash: keyStore[2],
     );
     accountModel = AccountModel(
+      isWalletBackedUp: true,
       isNaanAccount: false,
       derivationPathIndex: 0,
       name: name,
@@ -98,6 +103,10 @@ class WalletService {
     );
 
     accountModel.accountSecretModel = accountSecretModel;
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.ALREADY_HAVE_ACCOUNT, param: {
+      "address": accountModel.publicKeyHash,
+      "import_type": "private_key"
+    });
 
     // write new account in storage and return the newly created account
     await userStorageService
@@ -116,8 +125,11 @@ class WalletService {
         "m/44'/1729'/$index'/0'", mnemonic,
         signerCurve:
             isTz2Address ? SignerCurve.SECP256K1 : SignerCurve.ED25519);
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.ALREADY_HAVE_ACCOUNT,
+        param: {"address": keyStore[2], "import_type": "mnemonic"});
     return AccountModel(
       isNaanAccount: false,
+      isWalletBackedUp: true,
       derivationPathIndex: index,
       name: "",
       imageType: AccountProfileImageType.assets,
@@ -131,6 +143,7 @@ class WalletService {
         derivationPathIndex: index,
         publicKeyHash: keyStore[2],
       );
+
     // tempAccount.add();
 
     // return tempAccount;
@@ -142,10 +155,13 @@ class WalletService {
     var account = AccountModel(
         isNaanAccount: false,
         isWatchOnly: true,
+        isWalletBackedUp: true,
         name: name,
         imageType: imageType,
         profileImage: image,
         publicKeyHash: pkH);
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.ALREADY_HAVE_ACCOUNT,
+        param: {"address": pkH, "import_type": "watch_address",});
     await UserStorageService().writeNewAccount([account], true);
     return account;
   }

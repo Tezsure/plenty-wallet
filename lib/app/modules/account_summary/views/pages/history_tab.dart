@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -28,7 +29,7 @@ class HistoryPage extends GetView<TransactionController> {
     return Obx(() {
       return CustomScrollView(
         controller: controller.paginationController.value,
-        physics: const BouncingScrollPhysics(),
+        physics: AppConstant.scrollPhysics,
         slivers: [
           SliverToBoxAdapter(
             child: Padding(
@@ -165,26 +166,15 @@ class HistoryPage extends GetView<TransactionController> {
                               return controller
                                       .defaultTransactionList[index].isNft
                                   ? _loadNFTTransaction(index)
-                                  : controller.defaultTransactionList[index]
-                                              .skip ||
-                                          controller
-                                                  .defaultTransactionList[index]
-                                                  .isHashSame ==
-                                              true
-                                      ? const SizedBox()
-                                      : _loadTokenTransaction(
-                                          controller
-                                              .defaultTransactionList[index],
-                                          index,
-                                          controller
-                                              .defaultTransactionList[index]
-                                              .timeStamp!
-                                              .isSameMonth(controller
-                                                  .defaultTransactionList[
-                                                      index == 0
-                                                          ? 0
-                                                          : index - 1]
-                                                  .timeStamp!));
+                                  : _loadTokenTransaction(
+                                      controller.defaultTransactionList[index],
+                                      index,
+                                      controller.defaultTransactionList[index]
+                                          .timeStamp!
+                                          .isSameMonth(controller
+                                              .defaultTransactionList[
+                                                  index == 0 ? 0 : index - 1]
+                                              .timeStamp!));
                             }
                           }
                         },
@@ -235,7 +225,7 @@ class HistoryPage extends GetView<TransactionController> {
           index == 0
               ? Padding(
                   padding:
-                      EdgeInsets.only(top: 24.sp, left: 16.sp, bottom: 16.sp),
+                      EdgeInsets.only(top: 8.arP, left: 16.arP, bottom: 16.arP),
                   child: Text(
                     DateFormat.MMMM()
                         // displaying formatted date
@@ -247,7 +237,7 @@ class HistoryPage extends GetView<TransactionController> {
                   ? const SizedBox()
                   : Padding(
                       padding: EdgeInsets.only(
-                          top: 20.sp, left: 16.sp, bottom: 12.sp),
+                          top: 20.arP, left: 16.arP, bottom: 12.arP),
                       child: Text(
                         DateFormat.MMMM()
                             // displaying formatted date
@@ -261,8 +251,8 @@ class HistoryPage extends GetView<TransactionController> {
             onTap: () => Get.bottomSheet(
               TransactionDetailsBottomSheet(
                 tokenInfo: token,
-                userAccountAddress:
-                    controller.accController.userAccount.value.publicKeyHash!,
+                userAccountAddress: controller
+                    .accController.selectedAccount.value.publicKeyHash!,
                 transactionModel: token.token!,
               ),
               enterBottomSheetDuration: const Duration(milliseconds: 180),
@@ -312,7 +302,7 @@ class HistoryPage extends GetView<TransactionController> {
                     ? const SizedBox()
                     : Padding(
                         padding: EdgeInsets.only(
-                            top: 16.sp, left: 16.sp, bottom: 16.sp),
+                            top: 16.arP, left: 16.arP, bottom: 16.arP),
                         child: Text(
                           DateFormat.MMMM()
                               // displaying formatted date
@@ -330,7 +320,7 @@ class HistoryPage extends GetView<TransactionController> {
                     TransactionDetailsBottomSheet(
                       tokenInfo: controller.defaultTransactionList[index],
                       userAccountAddress: controller
-                          .accController.userAccount.value.publicKeyHash!,
+                          .accController.selectedAccount.value.publicKeyHash!,
                       transactionModel:
                           controller.defaultTransactionList[index].token!,
                     ),

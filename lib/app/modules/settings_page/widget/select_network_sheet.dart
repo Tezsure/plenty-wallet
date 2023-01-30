@@ -1,58 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-class SelectNetworkBottomSheet extends StatelessWidget {
+class SelectNetworkBottomSheet extends StatefulWidget {
   SelectNetworkBottomSheet({Key? key}) : super(key: key);
 
+  @override
+  State<SelectNetworkBottomSheet> createState() =>
+      _SelectNetworkBottomSheetState();
+}
+
+class _SelectNetworkBottomSheetState extends State<SelectNetworkBottomSheet> {
   final SettingsPageController controller = Get.find<SettingsPageController>();
+  late NetworkType selectedNetwork;
+  @override
+  void initState() {
+    selectedNetwork = controller.networkType.value;
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      title: "Network",
       blurRadius: 5,
-      height: 217,
+      height: 360.arP,
+      bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
-        Center(
-          child: Text(
-            'Select Network',
-            style: labelMedium,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        0.03.vspace,
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-          ),
-          child: Obx(
-            () => Column(
-              children: [
-                optionMethod(
-                  value: NetworkType.mainNet,
-                  title: "Main Net",
+        Obx(
+          () => Column(
+            children: [
+              SizedBox(
+                height: 30.aR,
+              ),
+              optionMethod(
+                value: NetworkType.mainnet,
+                title: "Mainnet",
+              ),
+              const Divider(
+                color: Colors.black,
+                height: 1,
+                thickness: 1,
+              ),
+              optionMethod(
+                value: NetworkType.testnet,
+                title: "Testnet",
+              ),
+              SizedBox(
+                height: 30.aR,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.arP),
+                child: SolidButton(
+                  active: selectedNetwork != controller.networkType.value,
+                  onPressed: () {
+                    controller.changeNetwork(selectedNetwork);
+                    Get.back();
+                  },
+                  title: "Apply",
                 ),
-                const Divider(
-                  color: Color(0xff4a454e),
-                  height: 1,
-                  thickness: 1,
-                ),
-                optionMethod(
-                  value: NetworkType.testNet,
-                  title: "Test Net",
-                ),
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ],
@@ -65,7 +82,12 @@ class SelectNetworkBottomSheet extends StatelessWidget {
     required NetworkType value,
   }) {
     return InkWell(
-      onTap: onTap,
+      onTap: onTap ??
+          () {
+            setState(() {
+              selectedNetwork = value;
+            });
+          },
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
       child: SizedBox(
@@ -78,17 +100,12 @@ class SelectNetworkBottomSheet extends StatelessWidget {
               style: labelMedium,
             ),
             const Spacer(),
-            Radio(
-                activeColor: Colors.white,
-                fillColor: MaterialStateColor.resolveWith((state) =>
-                    state.contains(MaterialState.selected)
-                        ? ColorConst.Primary
-                        : Colors.white),
-                value: value,
-                groupValue: controller.networkType.value,
-                onChanged: (NetworkType? type) {
-                  controller.networkType.value = type!;
-                })
+            if (selectedNetwork.index == value.index)
+              SvgPicture.asset(
+                "${PathConst.SVG}check_3.svg",
+                height: 20.arP,
+                fit: BoxFit.contain,
+              ),
           ],
         ),
       ),

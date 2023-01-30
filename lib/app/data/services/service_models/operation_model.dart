@@ -13,15 +13,18 @@ class OperationModel<T> {
   String? receiveAddress;
   double? amount;
   Parameters? parameters;
-  OperationModel({
-    this.counter,
-    this.keyStoreModel,
-    this.preAppliedResult,
-    this.model,
-    this.receiverContractAddres,
-    this.receiveAddress,
-    this.amount,
-  });
+  String? code;
+  String? storage;
+  OperationModel(
+      {this.counter,
+      this.keyStoreModel,
+      this.preAppliedResult,
+      this.model,
+      this.receiverContractAddres,
+      this.receiveAddress,
+      this.amount,
+      this.code,
+      this.storage});
 
   buildParams() {
     if (model is AccountTokenModel &&

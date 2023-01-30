@@ -6,6 +6,8 @@ import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 
 class AccountsWidgetController extends GetxController {
+  final homeController = Get.find<HomePageController>();
+  late PageController pageController;
   final List<String> imagePath = [
     'assets/svg/accounts/account_1.svg',
     'assets/svg/accounts/account_2.svg',
@@ -16,9 +18,20 @@ class AccountsWidgetController extends GetxController {
 
   /// Change the current index to the new index of visible account container
   void onPageChanged(int index) {
-    print("onPageChanged: $index");
+    if (pageController.page != index) {
+      pageController.jumpToPage(
+        index,
+        // duration: const Duration(milliseconds: 100),
+        // curve: Curves.easeIn,
+      );
+    }
+
+    // homeController.selectedIndex.value = index;
+    // if (currIndex.value != index) {
+    // print("onPageChanged: $index");
     currIndex.value = index;
-    update();
+    // }
+    // update();
   }
 
   /// add account functions
@@ -32,13 +45,22 @@ class AccountsWidgetController extends GetxController {
   RxBool isHiddenAccount = false.obs;
 
   RxBool isCreatingNewAccount = false.obs;
-
+  FocusNode accountNameFocus = FocusNode();
   void initAddAccount() {
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
+    accountNameController.text =
+        "Account ${homeController.userAccounts.isEmpty ? 1 : homeController.userAccounts.length + 1}";
+    // set selection at the end of the text
+    accountNameController.selection = TextSelection.fromPosition(
+      TextPosition(offset: accountNameController.text.length),
+    );
+    phrase.value = accountNameController.text.toString();
+    accountNameFocus.requestFocus();
   }
 
   void closeAddAccount() {
     accountNameController.clear();
+    accountNameFocus.unfocus();
   }
 
   void resetCreateNewWallet() {

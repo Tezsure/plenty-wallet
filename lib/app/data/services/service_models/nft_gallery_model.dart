@@ -21,23 +21,20 @@ class NftGalleryModel {
     this.profileImage,
   });
 
+  Random _random = Random();
+
   Future<void> randomNft() async {
     var addresses = await getValidPublicKeyHashes(publicKeyHashs!);
     var nfts = await UserStorageService().getUserNfts(
         userAddress: addresses[addresses.length == 1
             ? 0
             : Random().nextInt(addresses.length - 1)]);
-    if (nfts.isNotEmpty) {
-      nftTokenModel = nfts[Random().nextInt(nfts.length - 1)];
-    } else {
-      nftTokenModel = NftTokenModel(
-        name: 'No NFTs',
-        description: 'No NFTs',
-      );
-    }
-
-    // nftTokenModel = nfts[Random().nextInt(nfts.length - 1)];
-    nfts.clear();
+    int random = _random.nextInt(nfts.length);
+    nftTokenModel = NftTokenModel(
+      name: nfts[random].name,
+      faContract: nfts[random].faContract,
+      tokenId: nfts[random].tokenId,
+    );
   }
 
   Future<List<String>> getValidPublicKeyHashes(
@@ -54,6 +51,7 @@ class NftGalleryModel {
   }
 
   Future<List<NftTokenModel>> fetchAllNft() async {
+    if (publicKeyHashs == null) return [];
     return <NftTokenModel>[
       for (var publicKeyHash in publicKeyHashs!)
         ...(await UserStorageService().getUserNfts(userAddress: publicKeyHash))

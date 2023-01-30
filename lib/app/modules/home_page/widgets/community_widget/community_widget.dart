@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
@@ -48,7 +49,7 @@ class _CommunityProductsWidgetState extends State<CommunityProductsWidget> {
                   });
                 },
                 scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
+                physics: AppConstant.scrollPhysics,
                 itemBuilder: (_, index) => Padding(
                   padding: const EdgeInsets.only(left: 2.0),
                   child: Image.asset(
@@ -69,7 +70,7 @@ class _CommunityProductsWidgetState extends State<CommunityProductsWidget> {
                   itemCount: 5,
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
+                    physics: AppConstant.scrollPhysics,
                   padding: EdgeInsets.zero,
                   itemBuilder: ((context, index) => Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 2.0),

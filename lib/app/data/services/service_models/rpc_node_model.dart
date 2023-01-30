@@ -1,3 +1,5 @@
+import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
+
 class NodeSelectorModel {
   Mainnet? mainnet;
   Testnet? testnet;
@@ -5,80 +7,45 @@ class NodeSelectorModel {
   NodeSelectorModel({this.mainnet, this.testnet});
 
   NodeSelectorModel.fromJson(Map<String, dynamic> json) {
+
     if (json["mainnet"] is Map) {
       mainnet =
           json["mainnet"] == null ? null : Mainnet.fromJson(json["mainnet"]);
     }
+    
 
     if (json["testnet"] is Map) {
       testnet =
           json["testnet"] == null ? null : Testnet.fromJson(json["testnet"]);
     }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (mainnet != null) {
-      data["mainnet"] = mainnet?.toJson();
-    }
-    if (testnet != null) {
-      data["testnet"] = testnet?.toJson();
-    }
-    return data;
-  }
 }
 
 class Testnet {
-  List<String>? name;
-  List<String>? urls;
+  List<NodeModel>? nodes;
 
-  Testnet({this.name, this.urls});
+  Testnet({this.nodes});
 
-  Testnet.fromJson(Map<String, dynamic> json) {
-    if (json["name"] is List) {
-      name = json["name"] == null ? null : List<String>.from(json["name"]);
-    }
-    if (json["urls"] is List) {
-      urls = json["urls"] == null ? null : List<String>.from(json["urls"]);
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (name != null) {
-      data["name"] = name;
-    }
-    if (urls != null) {
-      data["urls"] = urls;
-    }
-    return data;
+  Testnet.fromJson(json) {
+    nodes = json == null
+        ? null
+        : List<NodeModel>.from(json.entries
+            .map((k) => NodeModel(name: k.key, url: k.value))
+            .toList());
   }
 }
 
 class Mainnet {
-  List<String>? name;
-  List<String>? urls;
+  List<NodeModel>? nodes;
 
-  Mainnet({this.name, this.urls});
+  Mainnet({this.nodes});
 
-  Mainnet.fromJson(Map<String, dynamic> json) {
-    if (json["name"] is List) {
-      name = json["name"] == null ? null : List<String>.from(json["name"]);
-    }
-    if (json["urls"] is List) {
-      urls = json["urls"] == null ? null : List<String>.from(json["urls"]);
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (name != null) {
-      data["name"] = name;
-    }
-    if (urls != null) {
-      data["urls"] = urls;
-    }
-    return data;
+  Mainnet.fromJson(json) {
+    nodes = json == null
+        ? null
+        : List<NodeModel>.from(json.entries
+            .map((k) => NodeModel(name: k.key, url: k.value))
+            .toList());
   }
 }
 
@@ -96,14 +63,15 @@ class NodeModel {
     url = json["url"];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (name != null) {
-      data["name"] = name;
-    }
-    if (url != null) {
-      data["url"] = url;
-    }
-    return data;
+  Map<String, String> toJson() {
+    // final Map<String, dynamic> data = <String, dynamic>{};
+    return {name ?? "": url ?? ""};
+    // if (name != null) {
+    //   data["name"] = name;
+    // }
+    // if (url != null) {
+    //   data["url"] = url;
+    // }
+    // return data;
   }
 }

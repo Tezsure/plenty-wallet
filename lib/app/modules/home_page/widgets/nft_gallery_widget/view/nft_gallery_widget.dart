@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
+import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
+
+import '../../../../custom_packages/animated_scroll_indicator/effects/scrolling_dot_effect.dart';
 
 class NftGalleryWidget extends StatefulWidget {
   const NftGalleryWidget({super.key});
@@ -13,7 +20,8 @@ class NftGalleryWidget extends StatefulWidget {
 
 class _NftGalleryWidgetState extends State<NftGalleryWidget> {
   int currIndex = 0;
-  NftGalleryWidgetController controller = Get.put(NftGalleryWidgetController());
+  NftGalleryWidgetController controller =
+      Get.find<NftGalleryWidgetController>();
   Widget _getNoGalleryStateWidget() => InkWell(
         onTap: () => controller.showCreateNewNftGalleryBottomSheet(),
         child: Column(
@@ -23,41 +31,42 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
           children: [
             Container(
               margin: EdgeInsets.only(
-                top: 22.sp,
-                right: 18.3.sp,
+                top: 22.arP,
+                right: 18.3.arP,
               ),
               alignment: Alignment.topRight,
               child: SvgPicture.asset(
                 "assets/nft_page/svg/add_icon.svg",
-                height: 38.33.sp,
+                height: 38.33.arP,
               ),
             ),
             Container(
               margin: EdgeInsets.all(
-                22.sp,
+                22.arP,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Create new gallery",
+                    "Create gallery",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
-                      fontSize: 22.sp,
+                      fontSize: 22.arP,
                     ),
                   ),
                   SizedBox(
-                    height: 4.sp,
+                    height: 4.arP,
                   ),
                   Text(
-                    "Use a gallery to display NFTs from\nmultiple accounts",
+                    "Display NFTs from multiple\naccounts",
                     style: TextStyle(
-                        color: const Color(0xFF958E99),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12.sp,
-                        letterSpacing: .5),
+                      color: const Color(0xFF958E99),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12.arP,
+                      letterSpacing: .5,
+                    ),
                   ),
                 ],
               ),
@@ -66,39 +75,27 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
         ),
       );
 
-  Widget _getGalleryWidget() => GestureDetector(
-        // onTap: () => controller.showCreateNewNftGalleryBottomSheet(),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(22.arP),
-          child: SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: PageView.builder(
-              scrollDirection: Axis.vertical,
-              controller: PageController(
-                viewportFraction: 1,
-                initialPage: 0,
-              ),
-              onPageChanged: (index) {
-                currIndex = index;
-                setState(() {});
-              },
-              physics: const BouncingScrollPhysics(),
-              itemCount: controller.nftGalleryList.length + 1,
-              itemBuilder: (context, index) {
-                var scale = currIndex == index ? 1.0 : 0.8;
+  Widget _getGalleryWidget() => ClipRRect(
+        borderRadius: BorderRadius.circular(22.arP),
+        child: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: PageView.builder(
+            scrollDirection: Axis.vertical,
+            controller: PageController(
+              viewportFraction: 1,
+              initialPage: 0,
+            ),
+            onPageChanged: (index) {
+              currIndex = index;
+              setState(() {});
+            },
+                    physics: AppConstant.scrollPhysics,
+            itemCount: controller.nftGalleryList.length + 1,
+            itemBuilder: (context, index) {
+              var scale = currIndex == index ? 1.0 : 0.8;
 
-                if (controller.nftGalleryList.length == index) {
-                  return TweenAnimationBuilder(
-                      tween: Tween<double>(begin: scale, end: scale),
-                      curve: Curves.easeIn,
-                      builder: (context, value, child) => Transform.scale(
-                            scale: value,
-                            child: child,
-                          ),
-                      duration: const Duration(milliseconds: 350),
-                      child: _getNoGalleryStateWidget());
-                }
+              if (controller.nftGalleryList.length == index) {
                 return TweenAnimationBuilder(
                     tween: Tween<double>(begin: scale, end: scale),
                     curve: Curves.easeIn,
@@ -107,82 +104,155 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                           child: child,
                         ),
                     duration: const Duration(milliseconds: 350),
-                    child: GestureDetector(
-                      onTap: () => controller.openGallery(index),
-                      child: Stack(
-                        children: [
-                          SizedBox(
+                    child: _getNoGalleryStateWidget());
+              }
+              // final String image =
+              //     "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb400";
+              return TweenAnimationBuilder(
+                  tween: Tween<double>(begin: scale, end: scale),
+                  curve: Curves.easeIn,
+                  builder: (context, value, child) => Transform.scale(
+                        scale: value,
+                        child: child,
+                      ),
+                  duration: const Duration(milliseconds: 350),
+                  child: GestureDetector(
+                    onTap: () => controller.openGallery(index),
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          // decoration: BoxDecoration(
+                          //     gradient: applePurple,
+                          //     image: DecorationImage(
+                          //       image: CachedNetworkImageProvider(
+                          //         "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb400",
+                          //       ),
+                          //       fit: BoxFit.cover,
+                          //     )),
+                          child: NFTImage(
+                              nftTokenModel: controller
+                                  .nftGalleryList[index].nftTokenModel!),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Container(
+                            height: 0.2.height,
                             width: double.infinity,
-                            height: double.infinity,
-                            child: Image.network(
-                              "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb288",
-                              fit: BoxFit.cover,
+                            // ignore: prefer_const_constructors
+                            decoration: BoxDecoration(
+                                // ignore: prefer_const_constructors
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    colors: [
+                                  Colors.transparent,
+                                  Colors.grey[900]!.withOpacity(0.6),
+                                  Colors.grey[900]!.withOpacity(0.99),
+                                ])),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Container(
+                            margin: EdgeInsets.all(
+                              22.arP,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  controller.nftGalleryList[index].name!,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 22.arP,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 4.arP,
+                                ),
+                                Text(
+                                  controller.nftGalleryList[index].nftTokenModel
+                                          ?.name ??
+                                      "",
+                                  style: TextStyle(
+                                    color: const Color(0xFF958E99),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12.arP,
+                                    letterSpacing: .5,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Container(
-                              margin: EdgeInsets.all(
-                                22.sp,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    controller.nftGalleryList[index].name!,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 22.sp,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 4.sp,
-                                  ),
-                                  Text(
-                                    controller.nftGalleryList[index]
-                                        .nftTokenModel!.name!,
-                                    style: TextStyle(
-                                      color: const Color(0xFF958E99),
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12.sp,
-                                      letterSpacing: .5,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ));
-              },
-            ),
+                        )
+                      ],
+                    ),
+                  ));
+            },
           ),
         ),
       );
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.red,
-      width: double.infinity,
-      margin: EdgeInsets.only(
-        left: 26.sp,
-        right: 26.sp,
-      ),
-      height: 0.87.width,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(22.arP),
-        color: const Color(0xFF1E1C1F),
-      ),
-      child: Obx(
-        () => controller.nftGalleryList.isEmpty
-            ? _getNoGalleryStateWidget()
-            : _getGalleryWidget(),
-      ),
-    );
+    return Obx(() {
+      return Container(
+        margin: EdgeInsets.only(
+          left: 22.arP,
+          right: 10.arP,
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                // color: Colors.red,
+                width: double.infinity,
+
+                height: 0.87.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(22.arP),
+                  // color: Colors.white,
+                  color: const Color(0xFF1E1C1F),
+                ),
+                child: Obx(
+                  () => controller.nftGalleryList.isEmpty
+                      ? _getNoGalleryStateWidget()
+                      : _getGalleryWidget(),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 8.arP,
+            ),
+            if (controller.nftGalleryList.isNotEmpty)
+              SizedBox(
+                width: 4.arP,
+                child: AnimatedSmoothIndicator(
+                    effect: ScrollingDotsEffect(
+                      dotHeight: 4.arP,
+                      dotWidth: 4.arP,
+                      // expansionFactor: 1.01,
+                      activeDotColor: Colors.white,
+                      dotColor: ColorConst.darkGrey,
+                    ),
+                    curve: Curves.easeIn,
+                    axisDirection: Axis.vertical,
+                    activeIndex: currIndex,
+                    count: controller.nftGalleryList.length + 1),
+              )
+            else
+              SizedBox(
+                width: 4.arP,
+              ),
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -196,8 +266,8 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
       // color: Colors.red,
       width: double.infinity,
       margin: EdgeInsets.only(
-        left: 26.sp,
-        right: 26.sp,
+        left: 26.arP,
+        right: 26.arP,
       ),
       height: 0.87.width,
       decoration: BoxDecoration(
@@ -220,13 +290,13 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
               alignment: Alignment.topRight,
               child: Container(
                 margin: EdgeInsets.only(
-                  top: 22.sp,
-                  right: 18.3.sp,
+                  top: 22.arP,
+                  right: 18.3.arP,
                 ),
                 alignment: Alignment.topRight,
                 child: SvgPicture.asset(
                   "assets/nft_page/svg/add_icon.svg",
-                  height: 38.33.sp,
+                  height: 38.33.arP,
                 ),
               ),
             ),
@@ -234,7 +304,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
               alignment: Alignment.bottomLeft,
               child: Container(
                 margin: EdgeInsets.all(
-                  22.sp,
+                  22.arP,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -245,18 +315,18 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
-                        fontSize: 22.sp,
+                        fontSize: 22.arP,
                       ),
                     ),
                     SizedBox(
-                      height: 4.sp,
+                      height: 4.arP,
                     ),
                     Text(
                       "Use a gallery to display NFTs from\nmultiple accounts",
                       style: TextStyle(
                           color: const Color(0xFF958E99),
                           fontWeight: FontWeight.w400,
-                          fontSize: 12.sp,
+                          fontSize: 12.arP,
                           letterSpacing: .5),
                     ),
                   ],
@@ -328,7 +398,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                               SizedBox(
                                 width: double.infinity,
                                 height: double.infinity,
-                                child: Image.network(
+                                child: CachedNetworkImage(
                                   "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb288",
                                   fit: BoxFit.cover,
                                 ),
@@ -337,7 +407,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                                 alignment: Alignment.bottomLeft,
                                 child: Container(
                                   margin: EdgeInsets.all(
-                                    22.sp,
+                                    22.arP,
                                   ),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -349,11 +419,11 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w700,
-                                          fontSize: 22.sp,
+                                          fontSize: 22.arP,
                                         ),
                                       ),
                                       SizedBox(
-                                        height: 4.sp,
+                                        height: 4.arP,
                                       ),
                                       Text(
                                         controller.nftGalleryList[index]
@@ -361,7 +431,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                                         style: TextStyle(
                                           color: const Color(0xFF958E99),
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 12.sp,
+                                          fontSize: 12.arP,
                                           letterSpacing: .5,
                                         ),
                                       ),

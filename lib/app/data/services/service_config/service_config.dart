@@ -1,12 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
 class ServiceConfig {
-  // TODO: Add support for testnet on all apis
-
   /// Current selected node
-  static String currentSelectedNode =
-      "https://tezos-prod.cryptonomic-infra.tech:443";
+  static String currentSelectedNode = "https://rpc.tzkt.io/mainnet";
+  static NetworkType currentNetwork = NetworkType.mainnet;
+
+  static bool isIAFWidgetVisible = false;
 
   /// Teztools api with endpoint for mainnet token prices
   static String tezToolsApi = "https://api.teztools.io/token/prices";
@@ -15,15 +18,24 @@ class ServiceConfig {
   static String coingeckoApi =
       "https://api.coingecko.com/api/v3/simple/price?ids=tezos&vs_currencies=usd";
 
-  /// Rpc Node Selector
-  static String nodeSelector = "rpc_node/rpc_node.json";
+  static String xtzPriceApi =
+      "https://api.analytics.plenty.network/analytics/tokens/XTZ?historical=false";
 
-  static String tzktApiForToken(String pkh) =>
-      "https://api.tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true";
+  /// Rpc Node Selector
+  static String nodeSelector = "https://cdn.naan.app/rpc-list";
+
+  static String tzktApiForToken(String pkh, String network) =>
+      "https://api.${network}tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true&token.contract.ne=KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS";
 
   static String tzktApiForAccountTxs(String pkh,
-          {int limit = 20, String lastId = "", String sort = "Descending"}) =>
-      "https://api.tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId&sort=$sort";
+      {int limit = 20,
+      String lastId = "",
+      String sort = "Descending",
+      String network = ""}) {
+    return "https://api.${network}tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId&sort=$sort";
+  }
+
+  static String naanApis = "https://cdn.naan.app";
 
   // Main storage keys
   static const String oldStorageName = "tezsure-wallet-storage-v1.0.0";
@@ -44,12 +56,19 @@ class ServiceConfig {
 
   static const String galleryStorage = "${storageName}_nft_gallery_storage";
 
+  //Network
+  static const String networkStorage = "${storageName}_network_type";
+  static const String nodeStorage = "${storageName}_node_network";
+  static const String customRpcStorage = "${storageName}_custom_network";
+
   // auth
   static const String passCodeStorage = "${storageName}_password";
   static const String biometricAuthStorage = "${storageName}_biometricAuth";
+  // static const String walletBackupStorage = "${storageName}_walletBackup";
 
   // xtz price and token price
   static const String xtzPriceStorage = "${storageName}_xtz_price";
+  static const String dayChangeStorage = "${storageName}_24_hr_change";
   static const String tokenPricesStorage = "${storageName}_token_prices";
 
   // nfts storage name append with user address
@@ -60,6 +79,11 @@ class ServiceConfig {
 
   // tx history storage name append with user address
   static const String txHistoryStorage = "${storageName}_tx_history";
+
+  // dapps
+  static const String dappsStorage = "${storageName}_dapps";
+  // dapps banner
+  static const String dappsBannerStorage = "${storageName}_dapps_banner";
 
   // user xtz balances, token balances and nfts
   // static const String accountXtzBalances =
@@ -90,7 +114,12 @@ class ServiceConfig {
 
   /// Clear the local storage
   Future<void> clearStorage() async {
-    await localStorage.deleteAll();
+    await localStorage.deleteAll(
+      // ignore: prefer_const_constructors
+      aOptions: AndroidOptions(
+        encryptedSharedPreferences: true,
+      ),
+    );
   }
 
   static const String cQuery = r'''
@@ -104,7 +133,6 @@ class ServiceConfig {
     }
   }
   ''';
-
   static const String nftQuery = r'''
     query getNFT($address: String!, $token_id: String!) {
       token(where: {token_id: {_eq: $token_id}, fa_contract: {_eq: $address}}) {
@@ -138,7 +166,7 @@ class ServiceConfig {
       quantity
       holder_address
     }
-    events(where: {recipient: {address: {_eq: $address}}, event_type: {}}) {
+    events {
       id
       fa_contract
       price
@@ -149,6 +177,7 @@ class ServiceConfig {
         alias
       }
       event_type
+      marketplace_event_type
       amount
     }
     fa {
@@ -198,7 +227,7 @@ class ServiceConfig {
       quantity
       holder_address
     }
-    events(where: {recipient: {address: {_eq: $address}}, event_type: {}}) {
+    events {
       id
       fa_contract
       price
@@ -209,6 +238,7 @@ class ServiceConfig {
         alias
       }
       event_type
+      marketplace_event_type
       amount
     }
     fa {

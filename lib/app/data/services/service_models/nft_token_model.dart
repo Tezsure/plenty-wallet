@@ -79,6 +79,7 @@ class NftTokenModel {
       json['events'].forEach((v) {
         events!.add(Events.fromJson(v));
       });
+      events!.sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
     }
     fa = json['fa'] != null ? Fa.fromJson(json['fa']) : null;
     metadata = json['metadata'];
@@ -191,6 +192,7 @@ class Events {
   Creator? creator;
   String? eventType;
   int? amount;
+  String? marketplaceEventType;
 
   Events(
       {this.id,
@@ -198,6 +200,7 @@ class Events {
       this.price,
       this.recipientAddress,
       this.timestamp,
+      this.marketplaceEventType,
       this.creator,
       this.eventType,
       this.amount});
@@ -210,7 +213,11 @@ class Events {
     timestamp = json['timestamp'];
     creator =
         json['creator'] != null ? Creator.fromJson(json['creator']) : null;
-    eventType = json['event_type'];
+    eventType = recipientAddress?.contains("burn") ?? false
+        ? "burn"
+        : json['event_type'];
+    marketplaceEventType = json['marketplace_event_type'];
+    eventType = eventType ?? marketplaceEventType;
     amount = json['amount'];
   }
 
@@ -226,6 +233,7 @@ class Events {
     }
     data['event_type'] = eventType;
     data['amount'] = amount;
+    data['marketplace_event_type'] = marketplaceEventType;
     return data;
   }
 }

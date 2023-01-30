@@ -1,10 +1,10 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_reward_model.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -26,7 +26,7 @@ class DelegateRewardsTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
       width: 0.9.width,
-      height: 0.2.height,
+      height: 192.arP,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: const Color(0xff958e99).withOpacity(0.2),
@@ -53,10 +53,12 @@ class DelegateRewardsTile extends StatelessWidget {
                   _buildInfo('Delegated',
                       '${(reward.balance / pow(10, 6)).toStringAsFixed(4)} tez'),
                   0.03.hspace,
-                  _buildInfo('Rewards', '${totalRewards.toStringAsFixed(2)} tez'),
-                  0.03.hspace,
+                  // _buildInfo(
+                  //     'Rewards', '${totalRewards.toStringAsFixed(2)} tez'),
+
                   _buildInfo('Baker fee',
                       '${((reward.bakerDetail?.fee ?? 0) * 100).toStringAsFixed(2)}%'),
+                  0.03.hspace, Spacer()
                 ],
               ),
               0.013.vspace,
@@ -104,11 +106,13 @@ class DelegateRewardsTile extends StatelessWidget {
           backgroundColor: Colors.transparent,
           radius: 20,
           child: ClipOval(
-            child: Image.network(
-              reward.bakerDetail?.logo ?? "",
+            child: CachedNetworkImage(
+              imageUrl: reward.bakerDetail?.logo ?? "",
               fit: BoxFit.fill,
               width: 40,
               height: 40,
+              maxWidthDiskCache: 80,
+              maxHeightDiskCache: 80,
             ),
           ),
         ),
@@ -129,14 +133,36 @@ class DelegateRewardsTile extends StatelessWidget {
                     Clipboard.setData(
                         ClipboardData(text: reward.bakerDetail?.address ?? ""));
                     Get.rawSnackbar(
-                      message: "Copied to clipboard",
-                      shouldIconPulse: true,
+                      maxWidth: 0.45.width,
+                      backgroundColor: Colors.transparent,
                       snackPosition: SnackPosition.BOTTOM,
-                      maxWidth: 0.9.width,
-                      margin: const EdgeInsets.only(
-                        bottom: 20,
+                      snackStyle: SnackStyle.FLOATING,
+                      padding: const EdgeInsets.only(bottom: 60),
+                      messageText: Container(
+                        height: 36,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                            color: ColorConst.Neutral.shade10,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.check_circle_outline_rounded,
+                              size: 14,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Copied to clipboard",
+                              style: labelSmall,
+                            )
+                          ],
+                        ),
                       ),
-                      duration: const Duration(milliseconds: 750),
                     );
                   },
                   icon: SvgPicture.asset(
@@ -176,7 +202,8 @@ class DelegateRewardsTile extends StatelessWidget {
         pow(10, 6));
   }
 
-  double get expectedPayout => (reward.balance / reward.activeStake) * totalRewards;
+  double get expectedPayout =>
+      (reward.balance / reward.activeStake) * totalRewards;
 
   double get netExpectedPayout =>
       (1 - (reward.bakerDetail?.fee ?? 0)) * expectedPayout;

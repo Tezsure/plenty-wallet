@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/transaction_details.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -55,167 +57,312 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 20.sp, sigmaY: 20.sp),
-      child: DraggableScrollableSheet(
-          maxChildSize: 0.95,
-          initialChildSize: 0.9,
-          minChildSize: 0.9,
-          builder: (context, scrollController) {
-            return Container(
-                height: 0.95.height,
-                width: 1.width,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                  color: Colors.black,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    0.02.vspace,
-                    Center(
-                      child: Container(
-                        height: 5.sp,
-                        width: 36.sp,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: ColorConst.NeutralVariant.shade60
-                              .withOpacity(0.3),
+    return NaanBottomSheet(
+      height: AppConstant.naanBottomSheetHeight -
+          MediaQuery.of(context).viewInsets.bottom,
+      bottomSheetHorizontalPadding: 0,
+      bottomSheetWidgets: [
+        SizedBox(
+          height: AppConstant.naanBottomSheetChildHeight -
+              MediaQuery.of(context).viewInsets.bottom,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              0.02.vspace,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 16.arP,
+                      ),
+                      child: SizedBox(
+                        height: 50.arP,
+                        child: TextFormField(
+                          controller: searchController,
+                          textAlignVertical: TextAlignVertical.top,
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(color: Colors.white),
+                          focusNode: focusNode,
+                          onChanged: ((value) {
+                            if (controller.searchDebounceTimer != null) {
+                              controller.searchDebounceTimer!.cancel();
+                            }
+                            controller.searchDebounceTimer = Timer(
+                                const Duration(milliseconds: 250), () async {
+                              searchQuery = value.toLowerCase().trim();
+                              await controller
+                                  .searchTransactionHistory(searchQuery);
+                              setState(() {});
+                            });
+                          }),
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: ColorConst.NeutralVariant.shade60
+                                .withOpacity(0.2),
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: ColorConst.NeutralVariant.shade60,
+                              size: 18.arP,
+                            ),
+                            counterStyle:
+                                const TextStyle(backgroundColor: Colors.white),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none),
+                            hintText: 'Search',
+                            hintStyle: labelMedium.copyWith(
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.25,
+                                color: ColorConst.NeutralVariant.shade70),
+                            labelStyle: labelSmall,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 10.arP, vertical: 20.arP),
+                          ),
                         ),
                       ),
                     ),
-                    0.03.vspace,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Flexible(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 16.sp),
-                            child: SizedBox(
-                              height: 50.sp,
-                              child: TextFormField(
-                                controller: searchController,
-                                textAlignVertical: TextAlignVertical.top,
-                                textAlign: TextAlign.start,
-                                style: const TextStyle(color: Colors.white),
-                                focusNode: focusNode,
-                                onChanged: ((value) {
-                                  if (controller.searchDebounceTimer != null) {
-                                    controller.searchDebounceTimer!.cancel();
-                                  }
-                                  controller.searchDebounceTimer =
-                                      Timer(const Duration(milliseconds: 250),
-                                          () async {
-                                    searchQuery = value.toLowerCase();
-                                    await controller
-                                        .searchTransactionHistory(searchQuery);
-                                    setState(() {});
-                                  });
-                                }),
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: ColorConst.NeutralVariant.shade60
-                                      .withOpacity(0.2),
-                                  prefixIcon: Icon(
-                                    Icons.search,
-                                    color: ColorConst.NeutralVariant.shade60,
-                                    size: 18.sp,
-                                  ),
-                                  counterStyle: const TextStyle(
-                                      backgroundColor: Colors.white),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      borderSide: BorderSide.none),
-                                  hintText: 'Search',
-                                  hintStyle: labelMedium.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.25,
-                                      color: ColorConst.NeutralVariant.shade70),
-                                  labelStyle: labelSmall,
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 10.sp, vertical: 20.sp),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 0.06.height,
-                          width: 0.18.width,
-                          child: TextButton(
-                            style: ButtonStyle(
-                                overlayColor: MaterialStateProperty.all(
-                                    Colors.transparent),
-                                enableFeedback: true,
-                                padding:
-                                    MaterialStateProperty.all(EdgeInsets.zero),
-                                tapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap),
-                            onPressed: () {
-                              setState(() {
-                                searchController.clear();
-                                focusNode.unfocus();
-                                controller.searchTransactionList.clear();
-                              });
+                  ),
+                  Center(
+                    // height: 0.06.height,
+                    // width: 0.18.width,
+                    child: TextButton(
+                      style: ButtonStyle(
+                          overlayColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          enableFeedback: true,
+                          padding: MaterialStateProperty.all(EdgeInsets.zero),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                      onPressed: () {
+                        setState(() {
+                          searchController.clear();
+                          focusNode.unfocus();
+                          controller.searchTransactionList.clear();
+                        });
+                        Get.back();
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: labelMedium.copyWith(color: ColorConst.Primary),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              0.03.vspace,
+              searchController.text.isEmpty ||
+                      controller.searchTransactionList.isEmpty
+                  ? Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 44.arP),
+                        child: Text(
+                            "Try searching for token,\n protocols, and tags",
+                            textAlign: TextAlign.center,
+                            style: labelLarge.copyWith(
+                                letterSpacing: 0.25,
+                                fontWeight: FontWeight.w400,
+                                color: ColorConst.NeutralVariant.shade70)),
+                      ),
+                    )
+                  : Expanded(
+                      child: CustomScrollView(
+                      controller: paginationController,
+                      physics: AppConstant.scrollPhysics,
+                      slivers: [
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              return controller
+                                          .searchTransactionList[index].skip ||
+                                      controller.searchTransactionList[index]
+                                              .isHashSame ==
+                                          true
+                                  ? const SizedBox()
+                                  : tokenLoader(index);
                             },
-                            child: Text(
-                              "Cancel",
-                              style: labelMedium.copyWith(
-                                  color: ColorConst.Primary),
-                            ),
+                            childCount: controller.searchTransactionList.length,
                           ),
                         ),
                       ],
-                    ),
-                    searchController.text.isEmpty ||
-                            controller.searchTransactionList.isEmpty
-                        ? Center(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 44.sp),
-                              child: Text(
-                                  "Try searching for token,\n protocols, and tags",
-                                  textAlign: TextAlign.center,
-                                  style: labelLarge.copyWith(
-                                      letterSpacing: 0.25,
-                                      fontWeight: FontWeight.w400,
-                                      color:
-                                          ColorConst.NeutralVariant.shade70)),
-                            ),
-                          )
-                        : Expanded(
-                            child: CustomScrollView(
-                            controller: paginationController,
-                            physics: const BouncingScrollPhysics(),
-                            slivers: [
-                              SliverList(
-                                delegate: SliverChildBuilderDelegate(
-                                  (context, index) {
-                                    return controller
-                                                .searchTransactionList[index]
-                                                .skip ||
-                                            controller
-                                                    .searchTransactionList[
-                                                        index]
-                                                    .isHashSame ==
-                                                true
-                                        ? const SizedBox()
-                                        : tokenLoader(index);
-                                  },
-                                  childCount:
-                                      controller.searchTransactionList.length,
-                                ),
-                              ),
-                            ],
-                          ))
-                  ],
-                ));
-          }),
+                    ))
+            ],
+          ),
+        )
+      ],
     );
+    // return BackdropFilter(
+    //   filter: ImageFilter.blur(sigmaX: 20.arP, sigmaY: 20.arP),
+    //   child: DraggableScrollableSheet(
+    //       maxChildSize: 0.95,
+    //       initialChildSize: 0.9,
+    //       minChildSize: 0.9,
+    //       builder: (context, scrollController) {
+    //         return Container(
+    //             height: 0.95.height,
+    //             width: 1.width,
+    //             decoration: const BoxDecoration(
+    //               borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+    //               color: Colors.black,
+    //             ),
+    //             child: Column(
+    //               mainAxisAlignment: MainAxisAlignment.start,
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 0.02.vspace,
+    //                 Center(
+    //                   child: Container(
+    //                     height: 5.arP,
+    //                     width: 36.arP,
+    //                     decoration: BoxDecoration(
+    //                       borderRadius: BorderRadius.circular(5),
+    //                       color: ColorConst.NeutralVariant.shade60
+    //                           .withOpacity(0.3),
+    //                     ),
+    //                   ),
+    //                 ),
+    //                 0.03.vspace,
+    //                 Row(
+    //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //                   crossAxisAlignment: CrossAxisAlignment.center,
+    //                   children: [
+    //                     Flexible(
+    //                       child: Padding(
+    //                         padding: EdgeInsets.only(
+    //                           left: 16.arP,
+    //                         ),
+    //                         child: SizedBox(
+    //                           height: 50.arP,
+    //                           child: TextFormField(
+    //                             controller: searchController,
+    //                             textAlignVertical: TextAlignVertical.top,
+    //                             textAlign: TextAlign.start,
+    //                             style: const TextStyle(color: Colors.white),
+    //                             focusNode: focusNode,
+    //                             onChanged: ((value) {
+    //                               if (controller.searchDebounceTimer != null) {
+    //                                 controller.searchDebounceTimer!.cancel();
+    //                               }
+    //                               controller.searchDebounceTimer =
+    //                                   Timer(const Duration(milliseconds: 250),
+    //                                       () async {
+    //                                 searchQuery = value.toLowerCase().trim();
+    //                                 await controller
+    //                                     .searchTransactionHistory(searchQuery);
+    //                                 setState(() {});
+    //                               });
+    //                             }),
+    //                             decoration: InputDecoration(
+    //                               filled: true,
+    //                               fillColor: ColorConst.NeutralVariant.shade60
+    //                                   .withOpacity(0.2),
+    //                               prefixIcon: Icon(
+    //                                 Icons.search,
+    //                                 color: ColorConst.NeutralVariant.shade60,
+    //                                 size: 18.arP,
+    //                               ),
+    //                               counterStyle: const TextStyle(
+    //                                   backgroundColor: Colors.white),
+    //                               border: OutlineInputBorder(
+    //                                 borderRadius: BorderRadius.circular(8),
+    //                                 borderSide: BorderSide.none,
+    //                               ),
+    //                               focusedBorder: OutlineInputBorder(
+    //                                   borderRadius: BorderRadius.circular(8),
+    //                                   borderSide: BorderSide.none),
+    //                               hintText: 'Search',
+    //                               hintStyle: labelMedium.copyWith(
+    //                                   fontWeight: FontWeight.w500,
+    //                                   letterSpacing: 0.25,
+    //                                   color: ColorConst.NeutralVariant.shade70),
+    //                               labelStyle: labelSmall,
+    //                               contentPadding: EdgeInsets.symmetric(
+    //                                   horizontal: 10.arP, vertical: 20.arP),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                     Center(
+    //                       // height: 0.06.height,
+    //                       // width: 0.18.width,
+    //                       child: TextButton(
+    //                         style: ButtonStyle(
+    //                             overlayColor: MaterialStateProperty.all(
+    //                                 Colors.transparent),
+    //                             enableFeedback: true,
+    //                             padding:
+    //                                 MaterialStateProperty.all(EdgeInsets.zero),
+    //                             tapTargetSize:
+    //                                 MaterialTapTargetSize.shrinkWrap),
+    //                         onPressed: () {
+    //                           setState(() {
+    //                             searchController.clear();
+    //                             focusNode.unfocus();
+    //                             controller.searchTransactionList.clear();
+    //                           });
+    //                           Get.back();
+    //                         },
+    //                         child: Text(
+    //                           "Cancel",
+    //                           style: labelMedium.copyWith(
+    //                               color: ColorConst.Primary),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //                 0.03.vspace,
+    //                 searchController.text.isEmpty ||
+    //                         controller.searchTransactionList.isEmpty
+    //                     ? Center(
+    //                         child: Padding(
+    //                           padding: EdgeInsets.only(top: 44.arP),
+    //                           child: Text(
+    //                               "Try searching for token,\n protocols, and tags",
+    //                               textAlign: TextAlign.center,
+    //                               style: labelLarge.copyWith(
+    //                                   letterSpacing: 0.25,
+    //                                   fontWeight: FontWeight.w400,
+    //                                   color:
+    //                                       ColorConst.NeutralVariant.shade70)),
+    //                         ),
+    //                       )
+    //                     : Expanded(
+    //                         child: CustomScrollView(
+    //                         controller: paginationController,
+    //                         physics: const BouncingScrollPhysics(),
+    //                         slivers: [
+    //                           SliverList(
+    //                             delegate: SliverChildBuilderDelegate(
+    //                               (context, index) {
+    //                                 return controller
+    //                                             .searchTransactionList[index]
+    //                                             .skip ||
+    //                                         controller
+    //                                                 .searchTransactionList[
+    //                                                     index]
+    //                                                 .isHashSame ==
+    //                                             true
+    //                                     ? const SizedBox()
+    //                                     : tokenLoader(index);
+    //                               },
+    //                               childCount:
+    //                                   controller.searchTransactionList.length,
+    //                             ),
+    //                           ),
+    //                         ],
+    //                       ))
+    //               ],
+    //             ));
+    //       }),
+    // );
   }
 
   Widget tokenLoader(int index) => Column(
@@ -224,8 +371,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         children: [
           index == 0
               ? Padding(
-                  padding:
-                      EdgeInsets.only(top: 24.sp, left: 16.sp, bottom: 16.sp),
+                  padding: EdgeInsets.only(
+                      top: 24.arP, left: 16.arP, bottom: 16.arP),
                   child: Text(
                     DateFormat.MMMM()
                         // displaying formatted date
@@ -243,7 +390,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   ? const SizedBox()
                   : Padding(
                       padding: EdgeInsets.only(
-                          top: 20.sp, left: 16.sp, bottom: 12.sp),
+                          top: 20.arP, left: 16.arP, bottom: 12.arP),
                       child: Text(
                         DateFormat.MMMM()
                             // displaying formatted date
@@ -260,8 +407,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
             onTap: () => Get.bottomSheet(
               TransactionDetailsBottomSheet(
                 tokenInfo: controller.searchTransactionList[index],
-                userAccountAddress:
-                    controller.accController.userAccount.value.publicKeyHash!,
+                userAccountAddress: controller
+                    .accController.selectedAccount.value.publicKeyHash!,
                 transactionModel:
                     controller.searchTransactionList[index].token!,
               ),

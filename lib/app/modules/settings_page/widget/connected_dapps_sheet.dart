@@ -1,10 +1,12 @@
+import 'package:beacon_flutter/models/p2p_peer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
-import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
-import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -15,65 +17,90 @@ class ConnectedDappBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NaanBottomSheet(
-      blurRadius: 5,
-      height: 0.87.height,
-      bottomSheetHorizontalPadding: 13,
-      bottomSheetWidgets: [
-        Center(
-          child: Text(
-            'Connected Applications',
-            style: titleMedium,
-            textAlign: TextAlign.center,
+    return Obx(
+      () => NaanBottomSheet(
+        blurRadius: 5,
+        height: 0.87.height,
+        isScrollControlled: true,
+        title: controller.dapps.isEmpty ? "" : "Connected apps",
+        bottomSheetHorizontalPadding: 16.arP,
+        bottomSheetWidgets: [
+          SizedBox(
+            height: 20.arP,
           ),
-        ),
-        0.03.vspace,
-        Obx(
-          () => Column(
-            children: List.generate(
-                controller.dapps.length,
-                (index) => dappWidgetMethod(
-                    dappModel: controller.dapps[index], index: index)),
+          Obx(
+            () {
+              if (controller.dapps.isEmpty) {
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 32.arP),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 1.width,
+                      ),
+                      SvgPicture.asset(
+                        "${PathConst.SVG}no_apps.svg",
+                        width: 249.arP,
+                      ),
+                      0.03.vspace,
+                      Text(
+                        "No connected apps",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22.arP,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return Column(
+                children: List.generate(
+                    controller.dapps.length,
+                    (index) => controller.dapps[index].isPaired!
+                        ? dappWidgetMethod(
+                            dappModel: controller.dapps[index], index: index)
+                        : const SizedBox()),
+              );
+            },
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget dappWidgetMethod({
-    required DappModel dappModel,
+    required P2PPeer dappModel,
     required int index,
   }) {
-    return SizedBox(
+    return Container(
+      margin: EdgeInsets.only(bottom: 12.arP),
       width: double.infinity,
-      height: 54,
       child: Row(
         children: [
           CircleAvatar(
             radius: 22,
-            backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+            backgroundColor: dappModel.icon != null
+                ? ColorConst.NeutralVariant.shade60.withOpacity(0.2)
+                : ColorConst.Primary,
+            backgroundImage: CachedNetworkImageProvider(dappModel.icon ?? ""),
+            child: dappModel.icon == null
+                ? Text(
+                    dappModel.name.substring(0, 1).toUpperCase(),
+                    style: titleMedium,
+                  )
+                : Container(),
           ),
           0.045.hspace,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                dappModel.name!,
-                style: labelLarge,
-              ),
-              Text(
-                // ignore: prefer_interpolation_to_compose_strings
-                "Network: " +
-                    (dappModel.networkType == NetworkType.mainNet
-                        ? "Mainnet"
-                        : "Testnet"),
-                style:
-                    labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
-              )
-            ],
+          Text(
+            dappModel.name,
+            style: labelLarge,
           ),
-          Spacer(),
+          const Spacer(),
           IconButton(
             onPressed: () {
               Get.bottomSheet(disconnectDappBottomSheet(index),
@@ -81,7 +108,11 @@ class ConnectedDappBottomSheet extends StatelessWidget {
                   exitBottomSheetDuration: const Duration(milliseconds: 150),
                   barrierColor: Colors.transparent);
             },
-            icon: Icon(Icons.delete_outline_sharp),
+            icon: SvgPicture.asset(
+              "${PathConst.SVG}trash.svg",
+              // color: ColorConst.Neutral.shade100,
+              width: 20.arP,
+            ),
             color: ColorConst.Primary,
           )
         ],
@@ -91,70 +122,57 @@ class ConnectedDappBottomSheet extends StatelessWidget {
 
   Widget disconnectDappBottomSheet(int index) {
     return NaanBottomSheet(
+      title: "Disconnect app",
       blurRadius: 5,
-      height: 247,
+      height: 275,
       bottomSheetWidgets: [
-        Text(
-          'Disconnect DApp',
-          style: labelMedium,
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Text(
-          "You can reconnect to this DApp later",
-          style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+        Center(
+          child: Text(
+            "You can reconnect to this app later",
+            style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+          ),
         ),
         0.03.vspace,
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-          ),
-          child: Column(
-            children: [
-              optionMethod(
-                  child: Text(
-                    "Disconnect",
-                    style: labelMedium.apply(color: ColorConst.Error.shade60),
-                  ),
-                  onTap: () {
-                    controller.dapps.removeAt(index);
-                    Get.back();
-                  }),
-              const Divider(
-                color: Color(0xff4a454e),
-                height: 1,
-                thickness: 1,
-              ),
-              optionMethod(
-                  child: Text(
-                    "Cancel",
-                    style: labelMedium,
-                  ),
-                  onTap: () {
-                    Get.back();
-                  }),
-            ],
-          ),
+        Column(
+          children: [
+            optionMethod(
+                child: Text(
+                  "Disconnect",
+                  style: labelMedium.apply(color: ColorConst.Error.shade60),
+                ),
+                onTap: () {
+                  controller.disconnectDApp(index);
+                  Get.back();
+                }),
+            SizedBox(
+              height: 16.arP,
+            ),
+            optionMethod(
+                child: Text(
+                  "Cancel",
+                  style: labelMedium,
+                ),
+                onTap: () {
+                  Get.back();
+                }),
+          ],
         ),
       ],
     );
   }
 
-  InkWell optionMethod({Widget? child, GestureTapCallback? onTap}) {
+  Widget optionMethod({Widget? child, GestureTapCallback? onTap}) {
     return InkWell(
       onTap: onTap,
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
-      child: SizedBox(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+        ),
         width: double.infinity,
-        height: 54,
+        height: 50.arP,
         child: Center(
           child: child,
         ),

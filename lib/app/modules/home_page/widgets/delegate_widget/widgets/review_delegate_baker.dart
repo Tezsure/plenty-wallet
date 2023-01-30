@@ -27,7 +27,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
     return NaanBottomSheet(
         title: "Review",
         mainAxisAlignment: MainAxisAlignment.end,
-        bottomSheetHorizontalPadding: 16.sp,
+        bottomSheetHorizontalPadding: 16.arP,
         height: 0.52.height,
         blurRadius: 5,
         width: double.infinity,
@@ -40,7 +40,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                 _accountOption(),
                 0.015.vspace,
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.sp),
+                  padding: EdgeInsets.symmetric(vertical: 8.arP),
                   child: const Divider(
                     thickness: .2,
                     color: ColorConst.grey,
@@ -51,40 +51,43 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                   style: labelMedium.copyWith(color: ColorConst.textGrey1),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12.sp),
+                  padding: EdgeInsets.symmetric(vertical: 12.arP),
                   child: DelegateBakerTile(
                     baker: baker,
                   ),
                 ),
                 0.02.vspace,
-                SolidButton(
-                  active: true,
-                  onLongPressed: () {
-                    controller.confirmBioMetric(baker);
-                  },
-                  title: "Hold to Delegate",
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Platform.isAndroid
-                          ? SvgPicture.asset(
-                              "${PathConst.SVG}fingerprint.svg",
-                              color: ColorConst.Neutral.shade100,
-                              width: 15.sp,
-                            )
-                          : SvgPicture.asset(
-                              "${PathConst.SVG}faceid.svg",
-                              color: ColorConst.Neutral.shade100,
-                              width: 20.sp,
-                            ),
-                      0.02.hspace,
-                      Text(
-                        "Hold to Delegate",
-                        style: titleSmall.copyWith(
-                            fontSize: 14.aR,
-                            color: ColorConst.Neutral.shade100),
-                      )
-                    ],
+                Align(
+                  alignment: Alignment.center,
+                  child: SolidButton(
+                    width: 1.width - 64.arP,
+                    active: true,
+                    onLongPressed: () {
+                      controller.confirmBioMetric(baker);
+                    },
+                    title: "Hold to Delegate",
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Platform.isAndroid
+                            ? SvgPicture.asset(
+                                "${PathConst.SVG}fingerprint.svg",
+                                color: Colors.white,
+                                width: 24.arP,
+                              )
+                            : SvgPicture.asset(
+                                "${PathConst.SVG}faceid.svg",
+                                color: Colors.white,
+                                width: 24.arP,
+                              ),
+                        0.02.hspace,
+                        Text(
+                          "Hold to Delegate",
+                          style: titleSmall.copyWith(
+                              fontSize: 14.aR, color: Colors.white),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 0.018.vspace
@@ -137,14 +140,36 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                           text: _homePageController
                               .userAccounts[0].publicKeyHash));
                       Get.rawSnackbar(
-                        message: "Copied to clipboard",
-                        shouldIconPulse: true,
+                        maxWidth: 0.45.width,
+                        backgroundColor: Colors.transparent,
                         snackPosition: SnackPosition.BOTTOM,
-                        maxWidth: 0.9.width,
-                        margin: const EdgeInsets.only(
-                          bottom: 20,
+                        snackStyle: SnackStyle.FLOATING,
+                        padding: const EdgeInsets.only(bottom: 60),
+                        messageText: Container(
+                          height: 36,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                              color: ColorConst.Neutral.shade10,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 14,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "Copied to clipboard",
+                                style: labelSmall,
+                              )
+                            ],
+                          ),
                         ),
-                        duration: const Duration(milliseconds: 750),
                       );
                     },
                     child: SvgPicture.asset(

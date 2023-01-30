@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/flutter_switch.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -45,7 +46,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   Widget editaccountUI() {
     return Expanded(
       child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+                    physics: AppConstant.scrollPhysics,
         child: Builder(builder: (context) {
           return Column(children: [
             Container(
@@ -84,7 +85,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             ),
             0.02.vspace,
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.sp),
+              padding: EdgeInsets.symmetric(horizontal: 30.arP),
               child: Text(
                 _controller.homePageController.userAccounts[widget.accountIndex]
                         .publicKeyHash ??

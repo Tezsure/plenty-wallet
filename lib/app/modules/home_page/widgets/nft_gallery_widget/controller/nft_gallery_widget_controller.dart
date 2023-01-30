@@ -1,5 +1,10 @@
+import 'dart:developer';
+
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
@@ -8,6 +13,7 @@ import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/view/create_new_nft_gallery/create_new_nft_gallery_bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_gallery_view.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 
 class NftGalleryWidgetController extends GetxController {
   List<AccountModel>? accounts;
@@ -27,24 +33,36 @@ class NftGalleryWidgetController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await fetchNftGallerys();
+    fetchNftGallerys();
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
   }
 
   Future<void> fetchNftGallerys() async {
-    List<NftGalleryModel> tempNftGallerys =
-        (await UserStorageService().getAllGallery());
-    for (int i = 0; i < tempNftGallerys.length; i++) {
-      bool noNfts = await checkIfEmpty(tempNftGallerys[i].publicKeyHashs!);
-      if (noNfts) {
-        await tempNftGallerys[i].randomNft();
-      } else {
-        tempNftGallerys.removeAt(i);
-      }
+    try {
+      await UserStorageService().getAllGallery().then((value) async {
+        for (int i = 0; i < value.length; i++) {
+          await value[i].randomNft();
+        }
+        nftGalleryList.value = value;
+      });
+    } catch (e) {
+      log(e.toString());
     }
-    nftGalleryList.value = tempNftGallerys;
+
+    // List<NftGalleryModel> tempNftGallerys =
+    //     (await UserStorageService().getAllGallery());
+    // for (int i = 0; i < tempNftGallerys.length; i++) {
+    //   bool noNfts = await checkIfEmpty(tempNftGallerys[i].publicKeyHashs!);
+    //   if (noNfts) {
+    //     await tempNftGallerys[i].randomNft();
+    //   } else {
+    //     tempNftGallerys.removeAt(i);
+    //   }
+    // }
+    // nftGalleryList.value = tempNftGallerys;
   }
 
+  RxBool isCreating = false.obs;
   //return false if empty
   Future<bool> checkIfEmpty(List<String> publicKeyHashs) async {
     bool noNfts = false;
@@ -56,6 +74,7 @@ class NftGalleryWidgetController extends GetxController {
         break;
       }
     }
+
     return noNfts;
   }
 
@@ -63,9 +82,16 @@ class NftGalleryWidgetController extends GetxController {
     accounts = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
     accountNameFocus = FocusNode();
+
+    accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
+    accountName.value = accountNameController.text;
+    // NaanAnalytics.logEvent(NaanAnalyticsEvents.CREATE_NFT_GALLERY, param: {
+    //   "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
+    // });
     Get.bottomSheet(
       const CreateNewNftGalleryBottomSheet(),
       isScrollControlled: true,
+      ignoreSafeArea: false,
       backgroundColor: Colors.transparent,
       enterBottomSheetDuration: const Duration(milliseconds: 180),
       exitBottomSheetDuration: const Duration(milliseconds: 150),
@@ -75,7 +101,7 @@ class NftGalleryWidgetController extends GetxController {
         accounts = null;
         formIndex.value = 0;
         accountNameFocus.hasFocus ? accountNameFocus.unfocus() : null;
-        accountNameController.text = 'Gallery 1';
+        accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
         selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
         accountName.value = accountNameController.text;
       },
@@ -87,22 +113,28 @@ class NftGalleryWidgetController extends GetxController {
     accounts = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
 
-    accounts!.forEach((element) {
+    for (var element in accounts!) {
       if (nftGallery.publicKeyHashs!.contains(element.publicKeyHash)) {
         selectedAccountIndex[element.publicKeyHash!] = true;
       }
-    });
+    }
     accountNameController.text = nftGallery.name!;
     selectedImagePath.value = nftGallery.profileImage!;
     accountName.value = accountNameController.text;
-
+    // NaanAnalytics.logEvent(NaanAnalyticsEvents.EDIT_NFT_GALLERY, param: {
+    //   "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
+    // });
     accountNameFocus = FocusNode();
+    accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
+    accountName.value = accountNameController.text;
+
     await Get.bottomSheet(
       CreateNewNftGalleryBottomSheet(
         nftGalleryModel: nftGallery,
         galleryIndex: galleryIndex,
       ),
       isScrollControlled: true,
+      ignoreSafeArea: false,
       backgroundColor: Colors.transparent,
       enterBottomSheetDuration: const Duration(milliseconds: 180),
       exitBottomSheetDuration: const Duration(milliseconds: 150),
@@ -112,7 +144,7 @@ class NftGalleryWidgetController extends GetxController {
         accounts = null;
         formIndex.value = 0;
         accountNameFocus.hasFocus ? accountNameFocus.unfocus() : null;
-        accountNameController.text = 'Gallery 1';
+        accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
         selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
         accountName.value = accountNameController.text;
       },
@@ -123,10 +155,28 @@ class NftGalleryWidgetController extends GetxController {
     final List<String> publicKeyHashs = selectedAccountIndex.keys
         .where((String key) => selectedAccountIndex[key] == true)
         .toList();
-
+    isCreating.value = true;
+    Function unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
+    if (nftGalleryList.firstWhereOrNull(
+            (element) => unOrdDeepEq(element.publicKeyHashs, publicKeyHashs)) !=
+        null) {
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: 'Gallery with same Accounts already exists',
+        transactionAmount: 'Cant create gallery',
+      );
+      isCreating.value = false;
+      return;
+    }
     if (!(await checkIfEmpty(publicKeyHashs))) {
-      Get.snackbar('Cant create gallery', 'No NFTs found in selected accounts',
-          backgroundColor: Colors.red, colorText: Colors.white);
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: 'No NFTs found in selected accounts',
+        transactionAmount: 'Cant create gallery',
+      );
+      isCreating.value = false;
       return;
     }
 
@@ -140,7 +190,7 @@ class NftGalleryWidgetController extends GetxController {
         galleryIndex);
 
     await fetchNftGallerys();
-
+    isCreating.value = false;
     Get.back();
   }
 
@@ -149,21 +199,52 @@ class NftGalleryWidgetController extends GetxController {
         .where((String key) => selectedAccountIndex[key] == true)
         .toList();
 
-    if (!(await checkIfEmpty(publicKeyHashs))) {
-      Get.snackbar('Cant create gallery', 'No NFTs found in selected accounts',
-          backgroundColor: Colors.red, colorText: Colors.white);
+    isCreating.value = true;
+    Function unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
+    if (nftGalleryList.firstWhereOrNull(
+            (element) => unOrdDeepEq(element.publicKeyHashs, publicKeyHashs)) !=
+        null) {
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: 'Gallery with same Accounts already exists',
+        transactionAmount: 'Cant create gallery',
+      );
+      isCreating.value = false;
       return;
     }
 
-    await UserStorageService().writeNewGallery(NftGalleryModel(
-      name: accountName.value,
-      publicKeyHashs: publicKeyHashs,
-      profileImage: selectedImagePath.value,
-      imageType: currentSelectedType,
-    ));
+    if (!(await checkIfEmpty(publicKeyHashs))) {
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: 'No NFTs found in selected accounts',
+        transactionAmount: 'Cant create gallery',
+      );
+      isCreating.value = false;
+      return;
+    }
+
+    try {
+      await UserStorageService().writeNewGallery(NftGalleryModel(
+        name: accountName.value,
+        publicKeyHashs: publicKeyHashs,
+        profileImage: selectedImagePath.value,
+        imageType: currentSelectedType,
+      ));
+    } catch (e) {
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: (e as Exception).toString(),
+        transactionAmount: 'Cannot create gallery',
+      );
+      isCreating.value = false;
+      return;
+    }
 
     await fetchNftGallerys();
-
+    isCreating.value = false;
     Get.back();
 
     Get.bottomSheet(
@@ -180,6 +261,9 @@ class NftGalleryWidgetController extends GetxController {
   }
 
   void openGallery(int index) {
+    // NaanAnalytics.logEvent(NaanAnalyticsEvents.MY_GALLERY_CLICK, param: {
+    //   NaanAnalytics.address: nftGalleryList[index].publicKeyHashs?.join(", ")
+    // });
     Get.bottomSheet(
       const NftGalleryView(),
       enterBottomSheetDuration: const Duration(milliseconds: 180),

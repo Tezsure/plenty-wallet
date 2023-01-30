@@ -38,32 +38,22 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      title: "Transaction details",
       blurRadius: 50,
       width: 1.width,
-      height: 420.arP,
+      height: 450.arP,
       titleAlignment: Alignment.center,
       titleStyle: titleMedium,
-      bottomSheetHorizontalPadding: 16.sp,
+      bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
         Center(
-          child: RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-                text: 'Transaction Details\n',
-                style: titleLarge.copyWith(
-                    fontSize: 22.aR, letterSpacing: 0.15.aR, height: 24 / 22),
-                children: [
-                  WidgetSpan(child: 0.02.vspace),
-                  TextSpan(
-                      text: DateFormat('MM/dd/yyyy HH:mm')
-                          // displaying formatted date
-                          .format(DateTime.parse(transactionModel.timestamp!)
-                              .toLocal()),
-                      style: labelMedium.copyWith(
-                          fontSize: 12.aR,
-                          color: ColorConst.NeutralVariant.shade60)),
-                ]),
-          ),
+          child: Text(
+              DateFormat('MM/dd/yyyy HH:mm')
+                  // displaying formatted date
+                  .format(
+                      DateTime.parse(transactionModel.timestamp!).toLocal()),
+              style: labelMedium.copyWith(
+                  fontSize: 12.aR, color: ColorConst.NeutralVariant.shade60)),
         ),
         0.02.vspace,
         Row(
@@ -124,8 +114,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                   child: Text(
                     tokenInfo.isNft ? tokenInfo.tokenSymbol : tokenInfo.name,
                     style: labelLarge.copyWith(
-                      fontSize: 14.aR,
-                    ),
+                        fontSize: 14.aR, fontWeight: FontWeight.normal),
                   ),
                 ),
               ],
@@ -152,20 +141,22 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                 : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: titleMedium.copyWith(
-                            fontSize: 16.aR,
-                            letterSpacing: 0.5.aR,
-                            fontWeight: FontWeight.w400,
+                        style: bodyLarge.copyWith(
                             color: transactionModel.sender!.address!
                                     .contains(userAccountAddress)
                                 ? Colors.white
                                 : ColorConst.naanCustomColor)),
                   ),
                   trailing: Text(
-                    "\$${tokenInfo.dollarAmount.toStringAsFixed(6)}",
+                    tokenInfo.token!.operationStatus != "applied"
+                        ? "failed"
+                        : "\$${tokenInfo.dollarAmount.toStringAsFixed(6)}",
                     style: labelLarge.copyWith(
                         letterSpacing: 0.5.aR,
                         fontWeight: FontWeight.w400,
+                        color: tokenInfo.token!.operationStatus != "applied"
+                            ? ColorConst.NaanRed
+                            : Colors.white,
                         fontSize: 14.aR),
                   )),
             ),
@@ -176,14 +167,21 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
           color: Color(0xff1E1C1F),
         ),
         0.012.vspace,
-        Obx(() {
-          if (controller.contacts.isEmpty) {
-            return contactTile(null);
-          } else {
-            return contactTile(controller.contacts.firstWhereOrNull(
-                (element) => element.address == getSenderAddress()));
-          }
-        }),
+        tokenInfo.token!.operationStatus != "applied" ||
+                getSenderAddress().isEmpty
+            ? const SizedBox()
+            : Obx(() {
+                if (controller.contacts.isEmpty) {
+                  return contactTile(
+                    null,
+                  );
+                } else {
+                  return contactTile(
+                    controller.contacts.firstWhereOrNull(
+                        (element) => element.address == getSenderAddress()),
+                  );
+                }
+              }),
         const Spacer(),
         Center(
           child: GestureDetector(
@@ -220,7 +218,9 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
     );
   }
 
-  Widget contactTile(ContactModel? contact) {
+  Widget contactTile(
+    ContactModel? contact,
+  ) {
     return Row(
       children: [
         CircleAvatar(
@@ -239,7 +239,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'From',
+              "From",
               style: bodySmall.copyWith(
                   fontSize: 12.aR,
                   color: ColorConst.NeutralVariant.shade60,
@@ -279,14 +279,36 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                           .contains(userAccountAddress))!,
                     ));
                     Get.rawSnackbar(
-                      message: "Copied to clipboard",
-                      shouldIconPulse: true,
+                      maxWidth: 0.45.width,
+                      backgroundColor: Colors.transparent,
                       snackPosition: SnackPosition.BOTTOM,
-                      maxWidth: 0.9.width,
-                      margin: EdgeInsets.only(
-                        bottom: 20.sp,
+                      snackStyle: SnackStyle.FLOATING,
+                      padding: const EdgeInsets.only(bottom: 60),
+                      messageText: Container(
+                        height: 36,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                            color: ColorConst.Neutral.shade10,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.check_circle_outline_rounded,
+                              size: 14,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Copied to clipboard",
+                              style: labelSmall,
+                            )
+                          ],
+                        ),
                       ),
-                      duration: const Duration(milliseconds: 700),
                     );
                   },
                   child: SvgPicture.asset(
@@ -317,9 +339,9 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                       if (contact == null &&
                           getSenderAddress().isValidWalletAddress) ...[
                         CustomPopupMenuItem(
-                          height: 30.sp,
-                          width: 120.sp,
-                          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                          height: 30.arP,
+                          width: 120.arP,
+                          padding: EdgeInsets.symmetric(horizontal: 10.arP),
                           onTap: () {
                             Get.bottomSheet(
                               AddContactBottomSheet(
@@ -386,11 +408,11 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                         CustomPopupMenuDivider(
                           height: 1,
                           color: ColorConst.Neutral.shade50,
-                          padding: EdgeInsets.symmetric(horizontal: 0.sp),
+                          padding: EdgeInsets.symmetric(horizontal: 0.arP),
                           thickness: 1,
                         ),
                         CustomPopupMenuItem(
-                          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                          padding: EdgeInsets.symmetric(horizontal: 10.arP),
                           height: 30.aR,
                           width: 100.aR,
                           onTap: () {
@@ -433,21 +455,33 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
     );
   }
 
-  String getSenderAddress() => transactionModel.sender!.address!
-          .contains(userAccountAddress)
-      ? transactionModel.parameter?.value == null
-          ? transactionModel.target!.address!
-          : senderAddress(transactionModel,
-              transactionModel.sender!.address!.contains(userAccountAddress))!
-      : transactionModel.parameter?.value == null
-          ? transactionModel.sender!.address!
-          : senderAddress(transactionModel,
-              transactionModel.sender!.address!.contains(userAccountAddress))!;
+  String getSenderAddress() =>
+      transactionModel.sender!.address!.contains(userAccountAddress)
+          ? transactionModel.parameter?.value == null
+              ? transactionModel.target?.address ??
+                  transactionModel.newDelegate?.address ??
+                  ""
+              : senderAddress(
+                      transactionModel,
+                      transactionModel.sender!.address!
+                          .contains(userAccountAddress)) ??
+                  ""
+          : transactionModel.parameter?.value == null
+              ? transactionModel.sender!.address!
+              : senderAddress(
+                      transactionModel,
+                      transactionModel.sender!.address!
+                          .contains(userAccountAddress)) ??
+                  "";
 
   String? senderAddress(TxHistoryModel model, bool isSent) {
+    if (transactionModel.operationStatus != "applied") return "";
     if (transactionModel.parameter?.value is List) {
       return isSent
-          ? transactionModel.parameter?.value[0]['txs'][0]['to_']
+          ? (transactionModel.parameter?.value[0]?['txs']?[0]?['to_'] ??
+              transactionModel.parameter?.value[0]?['add_operator']
+                  ?['operator'] ??
+              "")
           : transactionModel.parameter?.value[0]['from_'];
     } else if (transactionModel.parameter?.value is Map) {
       return isSent
@@ -463,7 +497,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
     } else {
       return "";
     }
-    return null;
+    return "";
   }
 }
 
@@ -474,14 +508,15 @@ class RemoveContactBottomSheet extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      height: 262.sp,
+      height: 262.arP,
       bottomSheetHorizontalPadding: 32,
       blurRadius: 5,
       crossAxisAlignment: CrossAxisAlignment.center,
       bottomSheetWidgets: [
+        0.01.vspace,
         Text(
           'Delete Contact',
-          style: titleLarge.copyWith(fontSize: 22.sp),
+          style: titleLarge.copyWith(fontSize: 22.arP),
         ),
         0.03.vspace,
         Text(

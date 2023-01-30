@@ -9,12 +9,13 @@ class OnGoingTxStatusHelper {
   TransactionStatus status;
   String transactionAmount;
   String tezAddress;
-
+  bool isBrowser = false;
   OnGoingTxStatusHelper({
     required this.opHash,
     required this.status,
     required this.transactionAmount,
     required this.tezAddress,
+    this.isBrowser = false,
   });
 
   Future<int> getStatus() async {
@@ -23,23 +24,25 @@ class OnGoingTxStatusHelper {
 
     if (response.isNotEmpty && jsonDecode(response).length != 0) {
       var status = jsonDecode(response)[0]['status'];
-      if (status == "failed") {
+      if (status == "failed" ||
+          status == "backtracked" ||
+          status == "skipped") {
         Get.closeAllSnackbars();
         transactionStatusSnackbar(
-          status: TransactionStatus.failed,
-          tezAddress: tezAddress,
-          transactionAmount: transactionAmount,
-          duration: const Duration(seconds: 5),
-        );
+            status: TransactionStatus.failed,
+            tezAddress: tezAddress,
+            transactionAmount: transactionAmount,
+            duration: const Duration(seconds: 5),
+            isBrowser: isBrowser);
         return 1;
       } else if (status == "applied") {
         Get.closeAllSnackbars();
         transactionStatusSnackbar(
-          status: TransactionStatus.success,
-          tezAddress: tezAddress,
-          transactionAmount: transactionAmount,
-          duration: const Duration(seconds: 5),
-        );
+            status: TransactionStatus.success,
+            tezAddress: tezAddress,
+            transactionAmount: transactionAmount,
+            duration: const Duration(seconds: 5),
+            isBrowser: isBrowser);
         return 1;
       }
     }

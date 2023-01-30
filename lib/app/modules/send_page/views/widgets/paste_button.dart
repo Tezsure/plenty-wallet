@@ -15,6 +15,7 @@ class PasteButton extends StatelessWidget {
       onTap: onTap,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SvgPicture.asset(
             "${PathConst.SVG}paste.svg",
@@ -22,7 +23,7 @@ class PasteButton extends StatelessWidget {
             color: ColorConst.Primary,
             height: 16,
           ),
-          0.02.hspace,
+          0.01.hspace,
           Text(
             "Paste",
             style: labelMedium.apply(color: ColorConst.Primary),

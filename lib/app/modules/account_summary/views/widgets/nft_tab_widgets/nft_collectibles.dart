@@ -1,12 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../../send_page/views/widgets/collectible_widget.dart';
-import 'nft_summary_sheet.dart';
+import '../../../../nft_gallery/view/nft_detail_sheet.dart';
 
 class NftCollectibles extends StatefulWidget {
   final List<NftTokenModel> nftList;
@@ -17,7 +19,7 @@ class NftCollectibles extends StatefulWidget {
 }
 
 class _NftCollectiblesState extends State<NftCollectibles> {
-  bool isExpanded = false;
+  bool isExpanded = true;
 
   @override
   Widget build(BuildContext context) {
@@ -25,23 +27,30 @@ class _NftCollectiblesState extends State<NftCollectibles> {
       padding: EdgeInsets.symmetric(vertical: 10.aR),
       child: Column(
         children: [
-          ExpansionTile(
+          NaanExpansionTile(
+            initiallyExpanded: isExpanded,
             tilePadding: EdgeInsets.zero,
             leading: Container(
               height: 40.aR,
               width: 40.aR,
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    widget.nftList.first.fa!.logo!.startsWith("ipfs://")
-                        ? "https://ipfs.io/ipfs/${widget.nftList.first.fa!.logo!.replaceAll("ipfs://", "")}"
-                        : widget.nftList.first.fa!.logo!,
-                  ),
-                ),
                 shape: BoxShape.circle,
                 border: Border.all(
                   width: 1.5.aR,
                   color: ColorConst.NeutralVariant.shade60,
+                ),
+              ),
+              child: ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: widget.nftList.first.fa!.logo?.isEmpty ?? true
+                      ? widget.nftList.first.creators?.isNotEmpty ?? false
+                          ? "https://services.tzkt.io/v1/avatars/${widget.nftList.first.creators?.first.creatorAddress}"
+                          : ""
+                      : widget.nftList.first.fa!.logo!.startsWith("ipfs://")
+                          ? "https://ipfs.io/ipfs/${widget.nftList.first.fa!.logo!.replaceAll("ipfs://", "")}"
+                          : widget.nftList.first.fa!.logo!,
+                  memCacheHeight: 73,
+                  memCacheWidth: 73,
                 ),
               ),
             ),
@@ -49,7 +58,9 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                 setState(() => isExpanded = isExpand),
             trailing: expandButton(isExpanded: isExpanded),
             title: Text(
-              widget.nftList.first.fa!.name!,
+              widget.nftList.first.fa!.name == null
+                  ? widget.nftList.first.name!
+                  : widget.nftList.first.fa!.name!,
               style:
                   labelLarge.copyWith(fontSize: 14.aR, letterSpacing: 0.1.aR),
             ),
@@ -74,7 +85,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                           nfTmodel: widget.nftList[index],
                           onTap: (model) {
                             Get.bottomSheet(
-                              NFTSummaryBottomSheet(
+                              NFTDetailBottomSheet(
                                 onBackTap: Get.back,
                                 nftModel: widget.nftList[index],
                               ),

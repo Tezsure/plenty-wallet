@@ -1,18 +1,31 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
+import 'package:naan_wallet/app/data/services/iaf/iaf_service.dart';
+import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 
 class SplashPageController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-
+    try {
+      await Get.updateLocale(Locale("en", "US"));
+      print("languageCode: ${Get.locale?.languageCode}");
+    } catch (e) {}
+    await Future.delayed(const Duration(milliseconds: 1800));
     // un-comment below line to test onboarding flow multiple time
 
     // await ServiceConfig().clearStorage();
 
+    ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
+        ServiceConfig.currentSelectedNode;
+    ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
+    ServiceConfig.isIAFWidgetVisible = (await IAFService.getWidgetVisibility());
     await DataHandlerService().initDataServices();
 
     var walletAccountsLength =
@@ -20,7 +33,7 @@ class SplashPageController extends GetxController {
     var watchAccountsLength =
         (await UserStorageService().getAllAccount(watchAccountsList: true))
             .length;
-
+    Get.put(NftGalleryWidgetController(), permanent: true);
     if (walletAccountsLength != 0 || watchAccountsLength != 0) {
       bool isPasscodeSet = await AuthService().getIsPassCodeSet();
 
@@ -33,12 +46,15 @@ class SplashPageController extends GetxController {
         ],
       );
     } else {
-      Future.delayed(
-        const Duration(seconds: 3),
-        () => Get.offAndToNamed(
-          Routes.ONBOARDING_PAGE,
-        ),
+      Get.offAndToNamed(
+        Routes.ONBOARDING_PAGE,
       );
+      // Future.delayed(
+      //   const Duration(seconds: 1),
+      //   () => Get.offAndToNamed(
+      //     Routes.ONBOARDING_PAGE,
+      //   ),
+      // );
     }
   }
 }

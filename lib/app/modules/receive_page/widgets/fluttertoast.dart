@@ -143,7 +143,7 @@ class FToast {
     if (context == null) {
       throw ("Error: Context is null, Please call init(context) before showing toast.");
     }
-    Overlay.of(context!)?.insert(_entry!);
+    Overlay.of(context!).insert(_entry!);
 
     _timer = Timer(toastEntry.duration, () {
       _fadeTimer = Timer(toastEntry.fadeDuration, () {

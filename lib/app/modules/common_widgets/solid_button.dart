@@ -4,6 +4,8 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+import 'bouncing_widget.dart';
+
 // ignore: must_be_immutable
 class SolidButton extends StatelessWidget {
   final String title;
@@ -50,52 +52,71 @@ class SolidButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     isLoading ??= false.obs;
-    return MaterialButton(
-      height: height,
-      elevation: elevation,
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      padding: EdgeInsets.zero,
+    return BouncingWidget(
       onPressed: active ? onPressed : null,
-      onLongPress: onLongPressed,
-      disabledColor: disabledButtonColor ?? const Color(0xFF1E1C1F),
-      color: primaryColor ?? ColorConst.Primary,
-      splashColor: ColorConst.Primary.shade60,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 8)),
+      onLongPressed: active ? (onLongPressed ?? onPressed) : null,
+      duration: onLongPressed != null
+          ? const Duration(
+              milliseconds: 800,
+            )
+          : const Duration(
+              milliseconds: 200,
+            ),
       child: Container(
-        height: height ?? 50,
-        width: width ?? double.infinity,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: Colors.transparent,
-          border: Border.all(
-            color: borderColor,
-            width: borderWidth,
+            color: !active || (onPressed == null && onLongPressed == null)
+                ? (disabledButtonColor ?? const Color(0xFF1E1C1F))
+                : (primaryColor ?? ColorConst.Primary),
+            borderRadius: BorderRadius.circular(borderRadius ?? 8.arP)),
+        height: height ?? 50.arP,
+        // elevation: elevation,
+        // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        padding: EdgeInsets.zero,
+        // onPressed: active ? onPressed : null,
+        // onLongPress: onLongPressed,
+        // disabledColor: disabledButtonColor ?? const Color(0xFF1E1C1F),
+        // color: primaryColor ?? ColorConst.Primary,
+        // splashColor: ColorConst.Primary.shade60,
+        // shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(borderRadius ?? 8)),
+        child: Container(
+          height: height ?? 50.arP,
+          width: width ?? double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.arP),
+            color: Colors.transparent,
+            border: Border.all(
+              color: borderColor,
+              width: borderWidth,
+            ),
           ),
-        ),
-        alignment: Alignment.center,
-        child: Obx(
-          () => isLoading != null && isLoading!.value
-              ? const SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
-                )
-              : rowWidget == null
-                  ? child != null
-                      ? (active ? child! : inActiveChild!)
-                      : Text(
-                          title,
-                          style: titleStyle ??
-                              titleSmall.copyWith(
-                                  fontSize: 14.aR,
-                                  color: active
-                                      ? textColor ?? ColorConst.Neutral.shade100
-                                      : ColorConst.NeutralVariant.shade60),
-                        )
-                  : rowWidget!,
+          alignment: Alignment.center,
+          child: Obx(
+            () => isLoading != null && isLoading!.value
+                ? SizedBox(
+                    width: 30.arP,
+                    height: 30.arP,
+                    child: const CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  )
+                : rowWidget == null
+                    ? child != null
+                        ? (active ? child! : inActiveChild!)
+                        : Text(
+                            title,
+                            style: titleStyle ??
+                                titleSmall.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: !active ||
+                                            (onPressed == null &&
+                                                onLongPressed == null)
+                                        ? ColorConst.NeutralVariant.shade60
+                                        : textColor ??
+                                            ColorConst.Neutral.shade100),
+                          )
+                    : rowWidget!,
+          ),
         ),
       ),
     );

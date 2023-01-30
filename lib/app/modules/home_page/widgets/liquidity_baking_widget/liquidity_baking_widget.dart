@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
@@ -36,23 +36,23 @@ class LiquidityBakingWidget extends StatelessWidget {
             textAlign: TextAlign.center,
             text: TextSpan(
                 text: 'Earn ',
-                style: const TextStyle(
+                style: TextStyle(
                     fontWeight: FontWeight.w300,
-                    fontSize: 24,
+                    fontSize: 24.arP,
                     color: Colors.black),
                 children: [
-                  const TextSpan(
+                  TextSpan(
                     text: '31% APR\n',
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 24,
+                        fontSize: 24.arP,
                         color: Colors.black),
                   ),
-                  const TextSpan(
+                  TextSpan(
                     text: 'on your ',
                     style: TextStyle(
                         fontWeight: FontWeight.w300,
-                        fontSize: 24,
+                        fontSize: 24.arP,
                         color: Colors.black),
                   ),
                   WidgetSpan(
@@ -81,7 +81,7 @@ class LiquidityBakingWidget extends StatelessWidget {
                         width: 0.21.width,
                         decoration: BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.circular(25.sp),
+                          borderRadius: BorderRadius.circular(25.arP),
                         ),
                       ),
                     ),
@@ -235,3 +235,4 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+ */

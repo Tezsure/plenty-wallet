@@ -13,7 +13,7 @@ Widget backButton() {
       child: SvgPicture.asset(
         "${PathConst.SVG}arrow_back.svg",
         fit: BoxFit.cover,
-        height: 18.sp,
+        height: 22.arP,
         color: Colors.white,
         alignment: Alignment.centerLeft,
       ),

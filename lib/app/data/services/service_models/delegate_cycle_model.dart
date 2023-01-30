@@ -4,6 +4,9 @@
 
 import 'dart:convert';
 
+List<DelegateCycleStatusModel> delegateCycleListResponseFromJson(String str) =>
+    List<DelegateCycleStatusModel>.from(
+        json.decode(str).map((x) => DelegateCycleStatusModel.fromJson(x)));
 DelegateCycleStatusModel delegateCycleStatusModelFromJson(String str) => DelegateCycleStatusModel.fromJson(json.decode(str));
 
 

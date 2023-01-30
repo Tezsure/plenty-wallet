@@ -2,24 +2,24 @@ import 'dart:convert';
 
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 
 class DataHandlerRenderService {
   late DataVariable<double> xtzPriceUpdater;
+  late DataVariable<double> dayChangeUpdater;
 
   late DataVariable<List<AccountModel>> accountUpdater;
 
   /// specific account nft based if tz1 address provided on registervar or callback
-  late DataVariable<Map<String, List<NftTokenModel>>> accountNft;
+  late DataVariable<int> accountNft;
 
   DataHandlerRenderService() {
     xtzPriceUpdater = DataVariable<double>(updateProcess: _updateXtzPrice);
+    dayChangeUpdater = DataVariable<double>(updateProcess: _updateXtzPrice);
     accountUpdater = DataVariable<List<AccountModel>>(
         updateProcess: _updateAccountXtzBalances);
-    accountNft = DataVariable<Map<String, List<NftTokenModel>>>(
-        updateProcess: _updateNftsAccount);
+    accountNft = DataVariable<int>(updateProcess: _updateNftsAccount);
   }
 
   /// update all the ui registerd values
@@ -30,14 +30,18 @@ class DataHandlerRenderService {
   }
 
   /// read from store and update xtzPrice
-  Future<void> _updateXtzPrice([double? xtzPrice]) async {
+  Future<void> _updateXtzPrice([dynamic xtzPrice]) async {
     if (xtzPrice != null) {
-      xtzPriceUpdater.value = xtzPrice;
+      xtzPriceUpdater.value = double.parse(xtzPrice['value']);
+      dayChangeUpdater.value = double.parse(xtzPrice['change24H'] ?? "0");
       return;
     }
 
     xtzPriceUpdater.value = double.parse(await ServiceConfig.localStorage
             .read(key: ServiceConfig.xtzPriceStorage) ??
+        "0.0");
+    dayChangeUpdater.value = double.parse(await ServiceConfig.localStorage
+            .read(key: ServiceConfig.dayChangeStorage) ??
         "0.0");
   }
 
@@ -47,28 +51,16 @@ class DataHandlerRenderService {
       accountUpdater.value = accounts;
       return;
     }
-    accountUpdater.value = await UserStorageService().getAllAccount();
+
+    accountUpdater.value = [
+      ...(await UserStorageService().getAllAccount()),
+      ...(await UserStorageService().getAllAccount(watchAccountsList: true))
+    ];
   }
 
   /// read from store and update based on tz1 address or all if not provided
   Future<void> _updateNftsAccount([String? address]) async {
-    List<String> addressList = <String>[];
-    if (address == null) {
-      addressList = (await UserStorageService().getAllAccount())
-          .map<String>((e) => e.publicKeyHash!)
-          .toList();
-    } else {
-      addressList.add(address);
-    }
-
-    accountNft.value = <String, List<NftTokenModel>>{
-      for (String tz1 in addressList)
-        tz1: jsonDecode(
-          (await ServiceConfig.localStorage
-                  .read(key: "${ServiceConfig.nftStorage}_$tz1") ??
-              "[]"),
-        ).map<NftTokenModel>((e) => NftTokenModel.fromJson(e)).toList()
-    };
+    accountNft.value = DateTime.now().millisecondsSinceEpoch;
   }
 
   Future<List<TokenPriceModel>> getTokenPriceModel(
@@ -76,13 +68,13 @@ class DataHandlerRenderService {
     String? tokensPrice = await ServiceConfig.localStorage
         .read(key: ServiceConfig.tokenPricesStorage);
     if (tokensPrice != null && contractAddress != null) {
-      return jsonDecode(tokensPrice)
+      return jsonDecode(tokensPrice)['contracts']
           .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
           .toList()
           .where((e) => contractAddress.contains(e.tokenAddress.toString()))
           .toList();
     } else if (tokensPrice != null) {
-      return jsonDecode(tokensPrice)
+      return jsonDecode(tokensPrice)["contracts"]
           .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
           .toList();
     } else {
@@ -90,11 +82,24 @@ class DataHandlerRenderService {
     }
   }
 
+  Future<String> getTokenPriceModelString() async {
+    return (await ServiceConfig.localStorage
+            .read(key: ServiceConfig.tokenPricesStorage)) ??
+        "[]";
+  }
+
+  Future<String?> getTokenPrice() async {
+    String? tokensPrice = await ServiceConfig.localStorage
+        .read(key: ServiceConfig.tokenPricesStorage);
+
+    return tokensPrice;
+  }
+
   Future<List<TokenPriceModel>> getTokenPriceModels() async {
     var tokensPrice = await ServiceConfig.localStorage
         .read(key: ServiceConfig.tokenPricesStorage);
     if (tokensPrice != null) {
-      return jsonDecode(tokensPrice)
+      return jsonDecode(tokensPrice)["contracts"]
           .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
           .toList()
           .toList();
@@ -131,7 +136,7 @@ class DataVariable<T> {
     extraParams == null ? updateProcess() : updateProcess(extraParams);
   }
 
-  void registerVariable(List<AccountModel> rxVar) {
+  void registerVariable(rxVar) {
     registerVariabls.add(rxVar);
     _value = 0;
     updateProcess();

@@ -1,11 +1,19 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/parser.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
+import 'package:naan_wallet/app/modules/veNFT.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
@@ -20,7 +28,7 @@ class CollectibleWidget extends GetView<SendPageController> {
     if (logo.startsWith("ipfs://")) {
       logo = "https://ipfs.io/ipfs/${logo.replaceAll("ipfs://", "")}";
     }
-    name = firstValue.fa!.name!;
+    name = firstValue.fa!.name ?? "N/A";
   }
 
   final int widgetIndex;
@@ -36,7 +44,8 @@ class CollectibleWidget extends GetView<SendPageController> {
         child: Obx(
           () => Column(
             children: [
-              ExpansionTile(
+              NaanExpansionTile(
+                maintainState: true,
                 tilePadding: EdgeInsets.zero,
                 leading: CircleAvatar(
                   radius: 20,
@@ -99,7 +108,7 @@ class CollectibleWidget extends GetView<SendPageController> {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+        // color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
       ),
       alignment: Alignment.center,
       child: Row(
@@ -107,18 +116,21 @@ class CollectibleWidget extends GetView<SendPageController> {
         children: [
           Text(
             collectionNfts.length.toString(),
-            style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
+            style: labelSmall.copyWith(
+              color: Colors.white,
+              fontSize: 12.arP,
+            ),
           ),
-          const SizedBox(
-            width: 2,
+          SizedBox(
+            width: 6.arP,
           ),
           AnimatedRotation(
             duration: const Duration(milliseconds: 300),
             turns: isExpanded ? 1 / 4 : 0,
             child: Icon(
               Icons.arrow_forward_ios,
-              color: ColorConst.NeutralVariant.shade60,
-              size: 10,
+              color: Colors.white,
+              size: 12.arP,
             ),
           )
         ],
@@ -130,10 +142,10 @@ class CollectibleWidget extends GetView<SendPageController> {
 class NFTwidget extends StatelessWidget {
   final NftTokenModel nfTmodel;
   final Function(NftTokenModel) onTap;
-  String? nftArtifactUrl;
+  // String? nftArtifactUrl;
   NFTwidget({super.key, required this.nfTmodel, required this.onTap}) {
-    nftArtifactUrl =
-        "https://assets.objkt.media/file/assets-003/${nfTmodel.faContract}/${nfTmodel.tokenId.toString()}/thumb400";
+    // nftArtifactUrl =
+    //     "https://assets.objkt.media/file/assets-003/${nfTmodel.faContract}/${nfTmodel.tokenId.toString()}/thumb400";
   }
 
   @override
@@ -155,22 +167,30 @@ class NFTwidget extends StatelessWidget {
                 height: 180.aR,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      nftArtifactUrl!,
-                    ),
-                  ),
                   color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(8.aR),
                 ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.aR),
+                    child: NFTImage(
+                      nftTokenModel: nfTmodel,
+                      memCacheHeight: 250,
+                      memCacheWidth: 250,
+                    )
+                    // CachedNetworkImage(
+                    //   imageUrl: nftArtifactUrl!,
+                    //   fit: BoxFit.cover,
+                    //   memCacheWidth: 341,
+                    //   memCacheHeight: 332,
+                    // ),
+                    ),
               ),
             ),
             SizedBox(
               height: 10.aR,
             ),
             Text(
-              nfTmodel.name!,
+              nfTmodel.name ?? "N/A",
               style: labelMedium.copyWith(fontSize: 12.aR),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
@@ -179,8 +199,10 @@ class NFTwidget extends StatelessWidget {
               height: 4.aR,
             ),
             Text(
-              nfTmodel.creators?.first.holder?.alias ??
-                  nfTmodel.creators!.first.holder!.address!.tz1Short(),
+              nfTmodel.creators?.isEmpty ?? true
+                  ? "N/A"
+                  : nfTmodel.creators?.first.holder?.alias ??
+                      nfTmodel.creators!.first.holder!.address!.tz1Short(),
               maxLines: 1,
               style: labelMedium.copyWith(
                   fontSize: 12.aR,

@@ -1,12 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:naan_wallet/app/data/services/extension_service/extension_service.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../../../utils/styles/styles.dart';
 
 class AccountWidget extends StatelessWidget {
@@ -15,7 +19,7 @@ class AccountWidget extends StatelessWidget {
   final ImportWalletPageController controller =
       Get.find<ImportWalletPageController>();
 
-  final Map<String, double> accountBalances = <String, double>{};
+  // final Map<String, double> accountBalances = <String, double>{};
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +44,12 @@ class AccountWidget extends StatelessWidget {
                       Column(
                         children: List.generate(
                           controller.generatedAccounts.length,
-                          (index) => accountWidget(
-                              controller.generatedAccounts[index], index),
+                          (index) => accountWidget(index),
                         ),
                       ),
                       if (controller.generatedAccounts.length < 100)
                         showMoreAccountButton(
-                            controller.generatedAccounts.length - 1),
+                            controller.generatedAccounts.length),
                     ],
                   ),
                 ),
@@ -64,16 +67,16 @@ class AccountWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context, index) => accountWidget(
-                                controller.generatedAccounts[index], index),
+                            physics: AppConstant.scrollPhysics,
+                            itemBuilder: (context, index) =>
+                                accountWidget(index),
                             itemCount: controller.generatedAccounts.length,
                             shrinkWrap: true,
                           ),
                         ),
                         if (controller.generatedAccounts.length < 100)
                           showMoreAccountButton(
-                              controller.generatedAccounts.length - 1),
+                              controller.generatedAccounts.length),
                       ],
                     ),
                   ),
@@ -85,26 +88,48 @@ class AccountWidget extends StatelessWidget {
   }
 
   Widget showMoreAccountButton(int index) {
-    return GestureDetector(
-      onTap: () {
-        controller.genAndLoadMoreAccounts(index, 3);
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return SizedBox(
+          height: 50,
+          width: 50,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircularProgressIndicator(color: ColorConst.Primary),
+          ),
+        );
+      }
+      return GestureDetector(
+        onTap: () {
+          controller.genAndLoadMoreAccounts(index, 3);
 
-        // controller.showMoreAccounts();
-        controller.isExpanded.value = true;
-      },
-      child: SizedBox(
-        height: 50,
-        child: Center(
-          child: Text(
-            "Show more accounts",
-            style: labelMedium,
+          // controller.showMoreAccounts();
+          controller.isExpanded.value = true;
+        },
+        child: SizedBox(
+          height: 50,
+          child: Center(
+            child: Text(
+              "Show more accounts",
+              style: labelMedium,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
-  Widget accountWidget(AccountModel accountModel, index) {
+  final homeController = Get.put(HomePageController());
+  Widget accountWidget(int index) {
+    final AccountModel accountModel = controller.generatedAccounts[index];
+    final bool isSelected = controller.isTz1Selected.value
+        ? controller.selectedAccountsTz1
+            .any((e) => e.publicKeyHash == accountModel.publicKeyHash)
+        : controller.selectedAccountsTz2
+            .any((e) => e.publicKeyHash == accountModel.publicKeyHash);
+    final bool isImported = homeController.userAccounts
+        .any((element) => element.publicKeyHash == accountModel.publicKeyHash);
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: Row(
@@ -130,53 +155,60 @@ class AccountWidget extends StatelessWidget {
                 tz1Shortner(accountModel.publicKeyHash!),
                 style: bodySmall,
               ),
-              accountBalances.containsKey(accountModel.publicKeyHash)
-                  ? Text(
-                      "${accountBalances[accountModel.publicKeyHash]} tez",
+              FutureBuilder<double>(
+                key: Key(accountModel.publicKeyHash!),
+                initialData: 0.0,
+                future: accountModel.getUserBalanceInTezos(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text(
+                      "0.0 tez",
                       style: labelSmall.apply(
                           color: ColorConst.NeutralVariant.shade60),
-                    )
-                  : FutureBuilder<double>(
-                      future: accountModel.getUserBalanceInTezos(),
-                      initialData: 0.0,
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        accountBalances[accountModel.publicKeyHash!] =
-                            snapshot.data;
-                        return Text(
-                          "${snapshot.data} tez",
-                          style: labelSmall.apply(
-                              color: ColorConst.NeutralVariant.shade60),
-                        );
-                      },
-                    ),
+                    );
+                  }
+                  accountModel.accountDataModel =
+                      AccountDataModel(xtzBalance: snapshot.data);
+                  log("${accountModel.publicKeyHash}:${accountModel.accountDataModel?.xtzBalance}");
+                  // accountBalances[accountModel.publicKeyHash!] = snapshot.data;
+                  return Text(
+                    "${accountModel.accountDataModel?.xtzBalance ?? 0.0} tez",
+                    style: labelSmall.apply(
+                        color: ColorConst.NeutralVariant.shade60),
+                  );
+                },
+              ),
             ],
           ),
           const Spacer(),
-          Material(
-            color: Colors.transparent,
-            child: Checkbox(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              value: controller.isTz1Selected.value
-                  ? controller.selectedAccountsTz1.contains(accountModel)
-                  : controller.selectedAccountsTz2.contains(accountModel),
-              onChanged: (value) {
-                if (value!) {
-                  controller.isTz1Selected.value
-                      ? controller.selectedAccountsTz1.add(accountModel)
-                      : controller.selectedAccountsTz2.add(accountModel);
-                } else {
-                  controller.isTz1Selected.value
-                      ? controller.selectedAccountsTz1.remove(accountModel)
-                      : controller.selectedAccountsTz2.remove(accountModel);
-                }
-              },
-              checkColor: Colors.white,
-              fillColor: MaterialStateProperty.all(ColorConst.Primary),
-              side: BorderSide(
-                  color: ColorConst.NeutralVariant.shade30, width: 1),
-            ),
-          )
+          // if (isSelected)
+          isImported
+              ? Text(
+                  "IMPORTED",
+                  style: labelSmall.copyWith(color: ColorConst.Primary),
+                )
+              : IconButton(
+                  onPressed: () {
+                    if (!isSelected) {
+                      controller.isTz1Selected.value
+                          ? controller.selectedAccountsTz1.add(accountModel)
+                          : controller.selectedAccountsTz2.add(accountModel);
+                    } else {
+                      controller.isTz1Selected.value
+                          ? controller.selectedAccountsTz1.remove(accountModel)
+                          : controller.selectedAccountsTz2.remove(accountModel);
+                    }
+                  },
+                  icon: isSelected
+                      ? SvgPicture.asset(
+                          "assets/svg/check_3.svg",
+                          height: 20.arP,
+                          width: 20.arP,
+                        )
+                      : Icon(
+                          Icons.circle_outlined,
+                          color: ColorConst.NeutralVariant.shade30,
+                        )),
         ],
       ),
     );
