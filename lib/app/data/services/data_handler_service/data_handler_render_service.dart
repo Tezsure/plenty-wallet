@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 
@@ -13,15 +12,14 @@ class DataHandlerRenderService {
   late DataVariable<List<AccountModel>> accountUpdater;
 
   /// specific account nft based if tz1 address provided on registervar or callback
-  late DataVariable<Map<String, List<NftTokenModel>>> accountNft;
+  late DataVariable<int> accountNft;
 
   DataHandlerRenderService() {
     xtzPriceUpdater = DataVariable<double>(updateProcess: _updateXtzPrice);
     dayChangeUpdater = DataVariable<double>(updateProcess: _updateXtzPrice);
     accountUpdater = DataVariable<List<AccountModel>>(
         updateProcess: _updateAccountXtzBalances);
-    accountNft = DataVariable<Map<String, List<NftTokenModel>>>(
-        updateProcess: _updateNftsAccount);
+    accountNft = DataVariable<int>(updateProcess: _updateNftsAccount);
   }
 
   /// update all the ui registerd values
@@ -62,23 +60,7 @@ class DataHandlerRenderService {
 
   /// read from store and update based on tz1 address or all if not provided
   Future<void> _updateNftsAccount([String? address]) async {
-    List<String> addressList = <String>[];
-    if (address == null) {
-      addressList = (await UserStorageService().getAllAccount())
-          .map<String>((e) => e.publicKeyHash!)
-          .toList();
-    } else {
-      addressList.add(address);
-    }
-
-    accountNft.value = <String, List<NftTokenModel>>{
-      for (String tz1 in addressList)
-        tz1: jsonDecode(
-          (await ServiceConfig.localStorage
-                  .read(key: "${ServiceConfig.nftStorage}_$tz1") ??
-              "[]"),
-        ).map<NftTokenModel>((e) => NftTokenModel.fromJson(e)).toList()
-    };
+    accountNft.value = DateTime.now().millisecondsSinceEpoch;
   }
 
   Future<List<TokenPriceModel>> getTokenPriceModel(
