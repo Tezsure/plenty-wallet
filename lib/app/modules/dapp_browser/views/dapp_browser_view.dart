@@ -123,7 +123,9 @@ class DappBrowserView extends GetView<DappBrowserController> {
                                 transform: Matrix4.identity()
                                   ..translate(
                                     0.0,
-                                    controller.isScrolling.value ? 220.0.arP : 0,
+                                    controller.isScrolling.value
+                                        ? 220.0.arP
+                                        : 0,
                                   ),
                                 child: SolidButton(
                                   height: 45.arP,
@@ -211,7 +213,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                                     .controller
                                     .beaconPlugin
                                     .pair(pairingRequest: uri);
-    
+
                                 //print("response yo: $response");
                                 // await BeaconPlugin.addPeer(
                                 //   baseData['id'],
@@ -225,7 +227,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                                 print("Erron from beacon $e");
                               }
                             }
-    
+
                             return NavigationActionPolicy.ALLOW;
                           },
                           onLoadStop: (controller, url) async {
@@ -260,7 +262,10 @@ class DappBrowserView extends GetView<DappBrowserController> {
               ),
               Obx(
                 () => controller.progress.value < 1.0
-                    ? LinearProgressIndicator(value: controller.progress.value)
+                    ? LinearProgressIndicator(
+                        value: controller.progress.value,
+                        color: ColorConst.Primary,
+                      )
                     : Container(),
               ),
               Divider(
@@ -276,7 +281,8 @@ class DappBrowserView extends GetView<DappBrowserController> {
                           children: [
                             Expanded(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Obx(
@@ -294,7 +300,8 @@ class DappBrowserView extends GetView<DappBrowserController> {
                                             ),
                                       onPressed: () {
                                         if (controller.canGoBack.value) {
-                                          controller.webViewController?.goBack();
+                                          controller.webViewController
+                                              ?.goBack();
                                         }
                                       },
                                     ),
@@ -326,7 +333,8 @@ class DappBrowserView extends GetView<DappBrowserController> {
                             0.2.hspace,
                             Expanded(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   IconButton(
