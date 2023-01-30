@@ -195,7 +195,7 @@ class ImportWalletPageController extends GetxController
           size, (index) => getAccountModelIndexAt(startIndex + index)).toList()
     ]);
     generatedAccounts.addAll(response);
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     // for (var i = startIndex; i < startIndex + size; i++) {
     //   log("1:${DateTime.now().microsecondsSinceEpoch}");
     //   // if (i == 3) continue;

@@ -19,7 +19,7 @@ class AccountWidget extends StatelessWidget {
   final ImportWalletPageController controller =
       Get.find<ImportWalletPageController>();
 
-  final Map<String, double> accountBalances = <String, double>{};
+  // final Map<String, double> accountBalances = <String, double>{};
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +44,7 @@ class AccountWidget extends StatelessWidget {
                       Column(
                         children: List.generate(
                           controller.generatedAccounts.length,
-                          (index) => accountWidget(
-                              controller.generatedAccounts[index], index),
+                          (index) => accountWidget(index),
                         ),
                       ),
                       if (controller.generatedAccounts.length < 100)
@@ -69,8 +68,8 @@ class AccountWidget extends StatelessWidget {
                         Expanded(
                           child: ListView.builder(
                             physics: AppConstant.scrollPhysics,
-                            itemBuilder: (context, index) => accountWidget(
-                                controller.generatedAccounts[index], index),
+                            itemBuilder: (context, index) =>
+                                accountWidget(index),
                             itemCount: controller.generatedAccounts.length,
                             shrinkWrap: true,
                           ),
@@ -91,7 +90,14 @@ class AccountWidget extends StatelessWidget {
   Widget showMoreAccountButton(int index) {
     return Obx(() {
       if (controller.isLoading.value) {
-        return Container();
+        return SizedBox(
+          height: 50,
+          width: 50,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircularProgressIndicator(color: ColorConst.Primary),
+          ),
+        );
       }
       return GestureDetector(
         onTap: () {
@@ -114,7 +120,8 @@ class AccountWidget extends StatelessWidget {
   }
 
   final homeController = Get.put(HomePageController());
-  Widget accountWidget(AccountModel accountModel, index) {
+  Widget accountWidget(int index) {
+    final AccountModel accountModel = controller.generatedAccounts[index];
     final bool isSelected = controller.isTz1Selected.value
         ? controller.selectedAccountsTz1
             .any((e) => e.publicKeyHash == accountModel.publicKeyHash)
@@ -149,6 +156,8 @@ class AccountWidget extends StatelessWidget {
                 style: bodySmall,
               ),
               FutureBuilder<double>(
+                key: Key(accountModel.publicKeyHash!),
+                initialData: 0.0,
                 future: accountModel.getUserBalanceInTezos(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData) {
@@ -158,9 +167,12 @@ class AccountWidget extends StatelessWidget {
                           color: ColorConst.NeutralVariant.shade60),
                     );
                   }
-                  accountBalances[accountModel.publicKeyHash!] = snapshot.data;
+                  accountModel.accountDataModel =
+                      AccountDataModel(xtzBalance: snapshot.data);
+                  log("${accountModel.publicKeyHash}:${accountModel.accountDataModel?.xtzBalance}");
+                  // accountBalances[accountModel.publicKeyHash!] = snapshot.data;
                   return Text(
-                    "${accountBalances[accountModel.publicKeyHash!]} tez",
+                    "${accountModel.accountDataModel?.xtzBalance ?? 0.0} tez",
                     style: labelSmall.apply(
                         color: ColorConst.NeutralVariant.shade60),
                   );

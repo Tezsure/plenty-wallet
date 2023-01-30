@@ -93,9 +93,10 @@ class AccountSummaryController extends GetxController {
     if (homePageController.userAccounts.isEmpty) return;
 
     if ((await RpcService.getCurrentNetworkType()) == NetworkType.mainnet) {
+      isLoading.value = true;
       String tokens =
           await DataHandlerService().renderService.getTokenPriceModelString();
-      isLoading.value = true;
+
       await UserStorageService()
           .getUserTokensString(
               userAddress: selectedAccount.value.publicKeyHash!)
