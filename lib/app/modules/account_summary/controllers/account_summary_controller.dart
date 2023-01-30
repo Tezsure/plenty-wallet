@@ -95,7 +95,6 @@ class AccountSummaryController extends GetxController {
     if ((await RpcService.getCurrentNetworkType()) == NetworkType.mainnet) {
       String tokens =
           await DataHandlerService().renderService.getTokenPriceModelString();
-      isLoading.value = true;
       await UserStorageService()
           .getUserTokensString(
               userAddress: selectedAccount.value.publicKeyHash!)
@@ -118,6 +117,9 @@ class AccountSummaryController extends GetxController {
       minTokens,
       pinnedList,
       unPinnedList */
+          if (userTokens.value.hashCode != data[0].hashCode) {
+            isLoading.value = true;
+          }
           userTokens.clear();
           userTokens.addAll(data[0]);
           userTokens.sort(tokenComparator);
@@ -267,6 +269,7 @@ class AccountSummaryController extends GetxController {
   /// Changes the current selected account from the account list
   void onAccountTap(int index) {
     if (!_isSelectedAccount(index)) {
+      Get.back();
       Get.find<AccountsWidgetController>().onPageChanged(index);
       // selectedAccountIndex.value = index;
       // selectedAccount.value = homePageController.userAccounts[index];
