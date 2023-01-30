@@ -261,7 +261,7 @@
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 8;
+			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
@@ -269,7 +269,7 @@
 			name = "Run Script";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
 		};
@@ -486,8 +486,8 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				EXCLUDED_ARCHS = "";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				EXCLUDED_ARCHS = "arm64 x86_64";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 x86_64";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -520,7 +520,7 @@
 				CURRENT_PROJECT_VERSION = 0255;
 				DEVELOPMENT_TEAM = VMTQGP3RJR;
 				ENABLE_BITCODE = NO;
-				EXCLUDED_ARCHS = "";
+				EXCLUDED_ARCHS = "arm64 x86_64";
 				"EXCLUDED_ARCHS[sdk=iphoneos*]" = "armv7 x86_64";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64 x86_64";
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -553,7 +553,7 @@
 				CURRENT_PROJECT_VERSION = 0255;
 				DEVELOPMENT_TEAM = VMTQGP3RJR;
 				ENABLE_BITCODE = NO;
-				EXCLUDED_ARCHS = "";
+				EXCLUDED_ARCHS = "arm64 x86_64";
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Naan;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -415,7 +415,7 @@ class TransactionBottomSheet extends StatelessWidget {
                         }),
                     0.02.vspace,
                     SolidButton(
-                      title: 'Share Naan',
+                      title: 'Share naan',
                       textColor: Colors.white,
                       onPressed: () {
                         Share.share(
