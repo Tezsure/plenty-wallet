@@ -121,7 +121,17 @@ class AccountSummaryController extends GetxController {
             isLoading.value = true;
           }
           userTokens.clear();
-          userTokens.addAll(data[0]);
+          var uniqueTokens = <AccountTokenModel>[];
+          for (var token in data[0]) {
+            if (uniqueTokens
+                .where((element) =>
+                    element.contractAddress == token.contractAddress &&
+                    element.tokenId == token.tokenId)
+                .isEmpty) {
+              uniqueTokens.add(token);
+            }
+          }
+          userTokens.addAll(uniqueTokens);
           userTokens.sort(tokenComparator);
           userTokens.value = userTokens.value;
           _pinnedTokens = data[1];
