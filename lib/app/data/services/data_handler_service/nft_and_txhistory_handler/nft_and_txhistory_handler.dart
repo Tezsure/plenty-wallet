@@ -91,9 +91,9 @@ class NftAndTxHistoryHandler {
         receivePort.close();
         isolate.kill(priority: Isolate.immediate);
         onDone();
+        await postProcess();
       }
       await _storeData(data);
-      await postProcess();
     });
   }
 

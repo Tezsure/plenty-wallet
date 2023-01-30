@@ -73,6 +73,7 @@ class AccountSummaryController extends GetxController {
     });
 
     DataHandlerService().renderService.accountNft.registerCallback((_) {
+      print("NFT Updated");
       _fetchAllNfts();
     });
 
