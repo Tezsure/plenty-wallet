@@ -10,8 +10,8 @@ class ImageCacheHandler {
         (Directory.systemTemp.path.endsWith('/') ? '' : '/') +
         url);
     if (file.existsSync()) return file;
-    var res = await http.get(Uri.parse(oriUrl));
-    await file.writeAsBytes(res.bodyBytes);
+
+    await file.writeAsBytes((await http.get(Uri.parse(oriUrl))).bodyBytes);
     return file;
   }
 }

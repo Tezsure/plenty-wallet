@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
@@ -52,49 +53,69 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                   ],
                 ),
               )
-            : CustomScrollView(
-                physics: const BouncingScrollPhysics(),
-                slivers: [
-                    SliverPadding(
-                      padding: EdgeInsets.only(
-                          left: 17.aR, right: 16.aR, top: 24.aR),
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) => _tokenBox(
-                              controller.pinnedList[index], index, true),
-                          childCount: controller.pinnedList.length,
+            : RefreshIndicator(
+                color: ColorConst.Primary,
+                onRefresh: () => controller.fetchAllTokens(),
+                child: CustomScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    slivers: [
+                      SliverPadding(
+                        padding: EdgeInsets.only(
+                          left: 17.aR,
+                          right: 16.aR,
+                          top: 24.aR,
+                        ),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => _tokenBox(
+                                controller.pinnedList[index], index, true),
+                            childCount: controller.pinnedList.length,
+                          ),
                         ),
                       ),
-                    ),
-                    SliverPadding(
-                      padding: EdgeInsets.only(left: 17.aR, right: 16.aR),
-                      sliver: SliverToBoxAdapter(
-                        child: _tokenEditTile(),
+                      SliverPadding(
+                        padding: EdgeInsets.only(left: 17.aR, right: 16.aR),
+                        sliver: SliverToBoxAdapter(
+                          child: _tokenEditTile(),
+                        ),
                       ),
-                    ),
-                    controller.expandTokenList.value
-                        ? SliverPadding(
-                            padding: EdgeInsets.only(
-                              left: 17.aR,
-                              right: 16.aR,
-                            ),
-                            sliver: SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                (context, index) => controller.isEditable.value
-                                    ? _tokenBox(controller.unPinnedList[index],
-                                        index, false)
-                                    : !controller.unPinnedList[index].isHidden
-                                        ? _tokenBox(
-                                            controller.unPinnedList[index],
-                                            index,
-                                            false)
-                                        : const SizedBox(),
-                                childCount: controller.unPinnedList.length,
+                      controller.expandTokenList.value
+                          ? SliverPadding(
+                              padding: EdgeInsets.only(
+                                left: 17.aR,
+                                right: 16.aR,
+                              ),
+                              sliver: SliverList(
+                                delegate: SliverChildBuilderDelegate(
+                                  (context, index) => controller
+                                          .isEditable.value
+                                      ? _tokenBox(
+                                          controller.unPinnedList[index],
+                                          index,
+                                          false)
+                                      : !controller.unPinnedList[index].isHidden
+                                          ? _tokenBox(
+                                              controller.unPinnedList[index],
+                                              index,
+                                              false)
+                                          : const SizedBox(),
+                                  childCount: controller.unPinnedList.length,
+                                ),
+                              ),
+                            )
+                          : SliverToBoxAdapter(
+                              child: Container(
+                                height: controller.pinnedList.length == 1
+                                    ? 340.arP
+                                    : controller.pinnedList.length == 2
+                                        ? 280.arP
+                                        : controller.pinnedList.length == 3
+                                            ? 210.arP
+                                            : 145.arP,
                               ),
                             ),
-                          )
-                        : const SliverToBoxAdapter(),
-                  ]));
+                    ]),
+              ));
   }
 
   Widget _tokenBox(AccountTokenModel token, int index, bool isPinnedList) {
