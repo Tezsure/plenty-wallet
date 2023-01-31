@@ -165,7 +165,7 @@ class TzktTxHistoryApiService {
 
   /// Get transaction history for a given account recent 20 transactions
   Future<List<TxHistoryModel>> getTxHistory(
-      {int limit = 20,
+      {int limit = 1000,
       String lastId = "",
       String? sortBy = "Descending"}) async {
     String network = "";

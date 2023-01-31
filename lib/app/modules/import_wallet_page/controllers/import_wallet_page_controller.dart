@@ -57,15 +57,15 @@ class ImportWalletPageController extends GetxController
     ClipboardData? cdata = await Clipboard.getData(Clipboard.kTextPlain);
     if (cdata != null) {
       checkImportType(cdata.text!);
-      phraseTextController.value.text = cdata.text!;
-      phraseText.value = cdata.text!;
+      phraseTextController.value.text = cdata.text!.trim();
+      phraseText.value = cdata.text!.trim();
     }
   }
 
   /// To assign the phrase text to the phrase text variable
   void onTextChange(String value) {
     checkImportType(value);
-    phraseText.value = value;
+    phraseText.value = value.trim();
   }
 
   /// define based on phraseText.value that if it's mnemonic, private key or watch address
