@@ -279,7 +279,7 @@ class AccountBottomSheet extends StatelessWidget {
         0.03.vspace,
         Expanded(
           child: DefaultTabController(
-            length: 2,
+            length: 3,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -352,6 +352,32 @@ class AccountBottomSheet extends StatelessWidget {
                           ),
                         ),
                       ),
+                      Tab(
+                        child: SizedBox(
+                          width: controller.selectedLegacyAccount.isNotEmpty
+                              ? 84
+                              : 61,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Legacy"),
+                              if (controller.selectedLegacyAccount.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: CircleAvatar(
+                                    radius: 8,
+                                    backgroundColor: ColorConst.Primary,
+                                    child: Text(
+                                        controller.selectedLegacyAccount.length
+                                            .toString(),
+                                        style: labelSmall),
+                                  ),
+                                )
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -359,7 +385,11 @@ class AccountBottomSheet extends StatelessWidget {
                 Expanded(
                   child: TabBarView(
                     physics: const NeverScrollableScrollPhysics(),
-                    children: [AccountWidget(), AccountWidget()],
+                    children: [
+                      AccountWidget(),
+                      AccountWidget(),
+                      AccountWidget()
+                    ],
                   ),
                 )
               ],

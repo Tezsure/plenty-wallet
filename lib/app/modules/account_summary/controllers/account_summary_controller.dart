@@ -89,6 +89,13 @@ class AccountSummaryController extends GetxController {
     selectedTokenIndexSet.clear();
     super.onInit();
   }
+/* 
+  @override
+  void onClose() {
+    super.onClose();
+    DataHandlerService().renderService.accountNft.removeCallback((_) {});
+    print("Closed nft callback");
+  } */
 
   /// Fetches all the user tokens
   Future<void> fetchAllTokens() async {

@@ -24,14 +24,17 @@ class ImportWalletPageController extends GetxController
   Rx<String> phraseText = "".obs; // to store phrase text
   RxList<AccountModel> generatedAccountsTz1 = <AccountModel>[].obs;
   RxList<AccountModel> generatedAccountsTz2 = <AccountModel>[].obs;
-
+  RxList<AccountModel> generatedAccountsLegacy = <AccountModel>[].obs;
   RxBool isTz1Selected = true.obs;
+
+  RxBool isLegacySelected = false.obs;
 
   RxList<AccountModel> get generatedAccounts =>
       isTz1Selected.value ? generatedAccountsTz1 : generatedAccountsTz2;
 
   // accounts imported;
   RxList<AccountModel> selectedAccountsTz1 = <AccountModel>[].obs;
+  RxList<AccountModel> selectedLegacyAccount = <AccountModel>[].obs;
 
   RxList<AccountModel> selectedAccountsTz2 =
       <AccountModel>[].obs; // accounts selected;
@@ -46,9 +49,10 @@ class ImportWalletPageController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    tabController = TabController(length: 2, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
     tabController!.addListener(() {
       isTz1Selected.value = tabController!.index == 0;
+      isLegacySelected.value = tabController!.index == 2;
     });
   }
 
@@ -111,7 +115,8 @@ class ImportWalletPageController extends GetxController
     } else if (importWalletDataType == ImportWalletDataType.mnemonic) {
       var accountLength = (await UserStorageService().getAllAccount()).length;
 
-      var selectedAccounts = selectedAccountsTz1 + selectedAccountsTz2;
+      var selectedAccounts =
+          selectedAccountsTz1 + selectedAccountsTz2 + selectedLegacyAccount;
 
       for (var i = 0; i < selectedAccounts.length; i++) {
         selectedAccounts[i] = selectedAccounts[i]
@@ -186,16 +191,35 @@ class ImportWalletPageController extends GetxController
     return account;
   }
 
+  Future<AccountModel?> genLegacyAccount() async {
+    var account =
+        await WalletService().genLegacy(phraseText.value.trim().toLowerCase());
+    return account;
+  }
+
   RxBool isLoading = false.obs;
   Future<void> genAndLoadMoreAccounts(int startIndex, int size) async {
-    if (startIndex == 0) generatedAccounts.value = <AccountModel>[];
+    if (startIndex == 0) {
+      generatedAccounts.value = <AccountModel>[];
+      generatedAccounts.add((await genLegacyAccount())!);
+    }
+
     isLoading.value = true;
+    await Future.delayed(const Duration(seconds: 1));
+    // for (var i = startIndex; i < startIndex + size; i++) {
+    //   log("1:${DateTime.now().microsecondsSinceEpoch}");
+    //   // if (i == 3) continue;
+    //   generatedAccounts.add(await getAccountModelIndexAt(i));
+    //   log("2:${DateTime.now().microsecondsSinceEpoch}");
+
+    //   // log("$i: ${generatedAccounts[i].publicKeyHash}");
+    // }
     // final response = await Future.wait<AccountModel>([
     //   ...List.generate(
     //       size, (index) => getAccountModelIndexAt(startIndex + index)).toList()
     // ]);
     // generatedAccounts.addAll(response);
-    await Future.delayed(Duration(seconds: 1));
+
     for (var i = startIndex; i < startIndex + size; i++) {
       log("1:${DateTime.now().microsecondsSinceEpoch}");
       final account = await getAccountModelIndexAt(i);
