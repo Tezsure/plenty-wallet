@@ -180,7 +180,7 @@ class ImportWalletPageController extends GetxController
     return false;
   }
 
-  Future<AccountModel> getAccountModelIndexAt(int index) async {
+  Future<AccountModel?> getAccountModelIndexAt(int index) async {
     var account = await WalletService().genAccountFromMnemonic(
         phraseText.value.trim().toLowerCase(), index, !isTz1Selected.value);
     return account;
@@ -190,20 +190,21 @@ class ImportWalletPageController extends GetxController
   Future<void> genAndLoadMoreAccounts(int startIndex, int size) async {
     if (startIndex == 0) generatedAccounts.value = <AccountModel>[];
     isLoading.value = true;
-    final response = await Future.wait<AccountModel>([
-      ...List.generate(
-          size, (index) => getAccountModelIndexAt(startIndex + index)).toList()
-    ]);
-    generatedAccounts.addAll(response);
+    // final response = await Future.wait<AccountModel>([
+    //   ...List.generate(
+    //       size, (index) => getAccountModelIndexAt(startIndex + index)).toList()
+    // ]);
+    // generatedAccounts.addAll(response);
     await Future.delayed(Duration(seconds: 1));
-    // for (var i = startIndex; i < startIndex + size; i++) {
-    //   log("1:${DateTime.now().microsecondsSinceEpoch}");
-    //   // if (i == 3) continue;
-    //   generatedAccounts.add(await getAccountModelIndexAt(i));
-    //   log("2:${DateTime.now().microsecondsSinceEpoch}");
+    for (var i = startIndex; i < startIndex + size; i++) {
+      log("1:${DateTime.now().microsecondsSinceEpoch}");
+      final account = await getAccountModelIndexAt(i);
+      if (account == null) continue;
+      generatedAccounts.add(account);
+      log("2:${DateTime.now().microsecondsSinceEpoch}");
 
-    //   // log("$i: ${generatedAccounts[i].publicKeyHash}");
-    // }
+      // log("$i: ${generatedAccounts[i].publicKeyHash}");
+    }
     isLoading.value = false;
 
     generatedAccounts.value = [...generatedAccounts];
