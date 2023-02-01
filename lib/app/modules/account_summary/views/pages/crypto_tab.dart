@@ -55,7 +55,7 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
               )
             : RefreshIndicator(
                 color: ColorConst.Primary,
-                onRefresh: () => controller.fetchAllTokens(),
+                onRefresh: () => controller.refreshTokens(),
                 child: CustomScrollView(
                     physics: const BouncingScrollPhysics(),
                     slivers: [

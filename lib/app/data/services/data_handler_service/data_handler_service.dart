@@ -98,10 +98,14 @@ class DataHandlerService {
         ),
       ),
     );
-
     if (onGoingTxStatusHelpers.isNotEmpty) {
       await updateOnGoingTxStatus();
     }
+  }
+
+  Future<void> updateTokens() async {
+    await AccountDataHandler(renderService).executeProcess(
+        postProcess: renderService.accountUpdater.updateProcess, onDone: () {});
   }
 
   Future<void> updateOnGoingTxStatus() async {
