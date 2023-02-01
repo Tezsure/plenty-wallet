@@ -42,14 +42,23 @@ class AccountWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       Column(
-                        children: List.generate(
-                          controller.generatedAccounts.length,
-                          (index) => accountWidget(index),
-                        ),
+                        children: controller.isLegacySelected.value
+                            ? List.generate(
+                                controller.generatedAccounts.isEmpty ? 0 : 1,
+                                (index) => accountWidget(index),
+                              )
+                            : List.generate(
+                                controller.generatedAccounts.length - 1,
+                                (index) => accountWidget(index + 1),
+                              ),
                       ),
-                      if (controller.generatedAccounts.length < 100)
-                        showMoreAccountButton(
-                            controller.generatedAccounts.length),
+                      controller.generatedAccounts.length < 100 &&
+                              !controller.isLegacySelected.value
+                          ? showMoreAccountButton(
+                              controller.generatedAccounts.length - 1)
+                          : SizedBox(
+                              height: 10.arP,
+                            ),
                     ],
                   ),
                 ),
@@ -66,17 +75,33 @@ class AccountWidget extends StatelessWidget {
                     child: Column(
                       children: [
                         Expanded(
-                          child: ListView.builder(
-                            physics: AppConstant.scrollPhysics,
-                            itemBuilder: (context, index) =>
-                                accountWidget(index),
-                            itemCount: controller.generatedAccounts.length,
-                            shrinkWrap: true,
-                          ),
+                          child: controller.isLegacySelected.value
+                              ? ListView.builder(
+                                  physics: AppConstant.scrollPhysics,
+                                  itemBuilder: (context, index) =>
+                                      accountWidget(index),
+                                  itemCount:
+                                      controller.generatedAccounts.isEmpty
+                                          ? 0
+                                          : 1,
+                                  shrinkWrap: true,
+                                )
+                              : ListView.builder(
+                                  physics: AppConstant.scrollPhysics,
+                                  itemBuilder: (context, index) =>
+                                      accountWidget(index + 1),
+                                  itemCount:
+                                      controller.generatedAccounts.length - 1,
+                                  shrinkWrap: true,
+                                ),
                         ),
-                        if (controller.generatedAccounts.length < 100)
-                          showMoreAccountButton(
-                              controller.generatedAccounts.length),
+                        controller.generatedAccounts.length < 100 &&
+                                !controller.isLegacySelected.value
+                            ? showMoreAccountButton(
+                                controller.generatedAccounts.length - 1)
+                            : SizedBox(
+                                height: 10.arP,
+                              ),
                       ],
                     ),
                   ),
@@ -122,11 +147,14 @@ class AccountWidget extends StatelessWidget {
   final homeController = Get.put(HomePageController());
   Widget accountWidget(int index) {
     final AccountModel accountModel = controller.generatedAccounts[index];
-    final bool isSelected = controller.isTz1Selected.value
-        ? controller.selectedAccountsTz1
+    final bool isSelected = controller.isLegacySelected.value
+        ? controller.selectedLegacyAccount
             .any((e) => e.publicKeyHash == accountModel.publicKeyHash)
-        : controller.selectedAccountsTz2
-            .any((e) => e.publicKeyHash == accountModel.publicKeyHash);
+        : controller.isTz1Selected.value
+            ? controller.selectedAccountsTz1
+                .any((e) => e.publicKeyHash == accountModel.publicKeyHash)
+            : controller.selectedAccountsTz2
+                .any((e) => e.publicKeyHash == accountModel.publicKeyHash);
     final bool isImported = homeController.userAccounts
         .any((element) => element.publicKeyHash == accountModel.publicKeyHash);
 
@@ -190,13 +218,21 @@ class AccountWidget extends StatelessWidget {
               : IconButton(
                   onPressed: () {
                     if (!isSelected) {
-                      controller.isTz1Selected.value
-                          ? controller.selectedAccountsTz1.add(accountModel)
-                          : controller.selectedAccountsTz2.add(accountModel);
+                      controller.isLegacySelected.value
+                          ? controller.selectedLegacyAccount.add(accountModel)
+                          : controller.isTz1Selected.value
+                              ? controller.selectedAccountsTz1.add(accountModel)
+                              : controller.selectedAccountsTz2
+                                  .add(accountModel);
                     } else {
-                      controller.isTz1Selected.value
-                          ? controller.selectedAccountsTz1.remove(accountModel)
-                          : controller.selectedAccountsTz2.remove(accountModel);
+                      controller.isLegacySelected.value
+                          ? controller.selectedLegacyAccount
+                              .remove(accountModel)
+                          : controller.isTz1Selected.value
+                              ? controller.selectedAccountsTz1
+                                  .remove(accountModel)
+                              : controller.selectedAccountsTz2
+                                  .remove(accountModel);
                     }
                   },
                   icon: isSelected

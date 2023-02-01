@@ -10,6 +10,8 @@ import 'package:naan_wallet/app/data/services/service_models/account_model.dart'
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 
+import '../../../modules/send_page/views/widgets/transaction_status.dart';
+
 class WalletService {
   WalletService();
 
@@ -149,6 +151,43 @@ class WalletService {
     // return tempAccount;
   }
 
+  Future<AccountModel?> genLegacy(String mnemonic) async {
+    // var tempAccount = <AccountModel>[];
+    // "m/44'/1729'/$derivationIndex'/0'"
+    try {
+      var keyStore = Dartez.getKeysFromMnemonic(mnemonic: mnemonic);
+      NaanAnalytics.logEvent(NaanAnalyticsEvents.ALREADY_HAVE_ACCOUNT,
+          param: {"address": keyStore[2], "import_type": "mnemonic"});
+      return AccountModel(
+        isNaanAccount: false,
+        isWalletBackedUp: true,
+        derivationPathIndex: 0,
+        name: "",
+        imageType: AccountProfileImageType.assets,
+        profileImage: ServiceConfig.allAssetsProfileImages[
+            Random().nextInt(ServiceConfig.allAssetsProfileImages.length - 1)],
+        publicKeyHash: keyStore[2],
+      )..accountSecretModel = AccountSecretModel(
+          seedPhrase: mnemonic,
+          secretKey: keyStore[0],
+          publicKey: keyStore[1],
+          derivationPathIndex: 0,
+          publicKeyHash: keyStore[2],
+        );
+    } catch (e) {
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: e.toString(),
+        transactionAmount: 'Something went wrong!',
+      );
+      return null;
+    }
+    // tempAccount.add();
+
+    // return tempAccount;
+  }
+
   /// write new watch address into storage
   Future<AccountModel> importWatchAddress(String pkH, String name,
       AccountProfileImageType imageType, String image) async {
@@ -160,8 +199,10 @@ class WalletService {
         imageType: imageType,
         profileImage: image,
         publicKeyHash: pkH);
-    NaanAnalytics.logEvent(NaanAnalyticsEvents.ALREADY_HAVE_ACCOUNT,
-        param: {"address": pkH, "import_type": "watch_address",});
+    NaanAnalytics.logEvent(NaanAnalyticsEvents.ALREADY_HAVE_ACCOUNT, param: {
+      "address": pkH,
+      "import_type": "watch_address",
+    });
     await UserStorageService().writeNewAccount([account], true);
     return account;
   }
