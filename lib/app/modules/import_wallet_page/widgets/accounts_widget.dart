@@ -31,7 +31,7 @@ class AccountWidget extends StatelessWidget {
               controller.genAndLoadMoreAccounts(0, 3);
             }
             return Visibility(
-                visible: controller.isExpanded.isTrue,
+                visible: controller.generatedAccounts.length > 3,
                 replacement: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
