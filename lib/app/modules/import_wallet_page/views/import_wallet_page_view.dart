@@ -397,11 +397,16 @@ class AccountBottomSheet extends StatelessWidget {
           ),
         ),
         0.03.vspace,
-        SolidButton(
-          onPressed: () {
-            controller.redirectBasedOnImportWalletType();
-          },
-          title: "Import",
+        Obx(
+          () => SolidButton(
+            active: controller.selectedAccountsTz1.isNotEmpty ||
+                controller.selectedAccountsTz2.isNotEmpty ||
+                controller.selectedLegacyAccount.isNotEmpty,
+            onPressed: () {
+              controller.redirectBasedOnImportWalletType();
+            },
+            title: "Import",
+          ),
         ),
         0.05.vspace
       ],

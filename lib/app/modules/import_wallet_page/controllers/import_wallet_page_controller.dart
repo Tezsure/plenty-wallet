@@ -80,7 +80,7 @@ class ImportWalletPageController extends GetxController
                   value.startsWith("tz2") ||
                   value.startsWith("tz3")
               ? ImportWalletDataType.watchAddress
-              : value.split(" ").length == 12
+              : value.split(" ").length == 12 || value.split(" ").length == 24
                   ? ImportWalletDataType.mnemonic
                   : ImportWalletDataType.none;
 

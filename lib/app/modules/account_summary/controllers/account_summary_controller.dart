@@ -245,6 +245,7 @@ class AccountSummaryController extends GetxController {
     UserStorageService()
         .getUserNftsString(userAddress: selectedAccount.value.publicKeyHash!)
         .then((nftList) async {
+      nftList ??= "[]";
       userNfts.value = await compute(getUserNft, nftList,
           debugLabel: "getUserNft ACCOUNT SUMMARY");
 /*       for (var i = 0; i < nftList.length; i++) {

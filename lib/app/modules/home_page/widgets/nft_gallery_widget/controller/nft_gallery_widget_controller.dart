@@ -64,18 +64,22 @@ class NftGalleryWidgetController extends GetxController {
 
   RxBool isCreating = false.obs;
   //return false if empty
-  Future<bool> checkIfEmpty(List<String> publicKeyHashs) async {
-    bool noNfts = false;
+
+  Future<NftState> checkIfEmpty(List<String> publicKeyHashs) async {
+    NftState nftState = NftState.done;
     for (int j = 0; j < publicKeyHashs.length; j++) {
-      if ((await UserStorageService()
-              .getUserNfts(userAddress: publicKeyHashs[j]))
-          .isNotEmpty) {
-        noNfts = true;
+      String? nfts = await UserStorageService()
+          .getUserNftsString(userAddress: publicKeyHashs[j]);
+      if (nfts == null) {
+        nftState = NftState.processing;
+        break;
+      } else if (nfts == "[]") {
+        nftState = NftState.empty;
         break;
       }
     }
 
-    return noNfts;
+    return nftState;
   }
 
   Future<void> showCreateNewNftGalleryBottomSheet() async {
@@ -164,17 +168,27 @@ class NftGalleryWidgetController extends GetxController {
         duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
         tezAddress: 'Gallery with same Accounts already exists',
-        transactionAmount: 'Cant create gallery',
+        transactionAmount: 'Cannot create gallery',
       );
       isCreating.value = false;
       return;
     }
-    if (!(await checkIfEmpty(publicKeyHashs))) {
+    NftState check = await checkIfEmpty(publicKeyHashs);
+    if (check == NftState.empty) {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
         tezAddress: 'No NFTs found in selected accounts',
-        transactionAmount: 'Cant create gallery',
+        transactionAmount: 'Cannot create gallery',
+      );
+      isCreating.value = false;
+      return;
+    } else if (check == NftState.processing) {
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: 'NFTs still under processing',
+        transactionAmount: 'Please wait',
       );
       isCreating.value = false;
       return;
@@ -208,18 +222,28 @@ class NftGalleryWidgetController extends GetxController {
         duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
         tezAddress: 'Gallery with same Accounts already exists',
-        transactionAmount: 'Cant create gallery',
+        transactionAmount: 'Cannot create gallery',
       );
       isCreating.value = false;
       return;
     }
 
-    if (!(await checkIfEmpty(publicKeyHashs))) {
+    NftState check = await checkIfEmpty(publicKeyHashs);
+    if (check == NftState.empty) {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
         tezAddress: 'No NFTs found in selected accounts',
-        transactionAmount: 'Cant create gallery',
+        transactionAmount: 'Cannot create gallery',
+      );
+      isCreating.value = false;
+      return;
+    } else if (check == NftState.processing) {
+      transactionStatusSnackbar(
+        duration: const Duration(seconds: 2),
+        status: TransactionStatus.error,
+        tezAddress: 'NFTs still under processing',
+        transactionAmount: 'Please wait',
       );
       isCreating.value = false;
       return;
