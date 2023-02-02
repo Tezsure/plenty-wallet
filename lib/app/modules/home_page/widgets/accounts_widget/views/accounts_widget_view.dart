@@ -74,7 +74,6 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                           ? Container(
                               width: double.infinity,
                               height: AppConstant.homeWidgetDimension,
-                              padding: EdgeInsets.only(right: 8.arP),
                               child: const AddAccountWidget(),
                             )
                           : Container(

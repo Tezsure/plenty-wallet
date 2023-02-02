@@ -33,9 +33,9 @@ class AddAccountWidget extends StatelessWidget {
         height: AppConstant.homeWidgetDimension,
         padding: EdgeInsets.only(
           left: 20.arP,
-          right: 15.arP,
-          top: 20.arP,
-          bottom: 20.arP,
+          right: 22.arP,
+          top: 22.arP,
+          bottom: 22.arP,
         ),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(22),
@@ -53,11 +53,23 @@ class AddAccountWidget extends StatelessWidget {
             const Spacer(),
             Text(
               'Add account',
-              style: titleLarge,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 22.arP,
+              ),
+            ),
+            SizedBox(
+              height: 4.arP,
             ),
             Text(
               'Manage multiple accounts\neasily',
-              style: bodySmall.copyWith(color: ColorConst.textGrey1),
+              style: TextStyle(
+                color: const Color(0xFF958E99),
+                fontWeight: FontWeight.w400,
+                fontSize: 12.arP,
+                letterSpacing: .5,
+              ),
             ),
           ],
         ),

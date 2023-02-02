@@ -32,7 +32,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
             Container(
               margin: EdgeInsets.only(
                 top: 22.arP,
-                right: 18.3.arP,
+                right: 22.arP,
               ),
               alignment: Alignment.topRight,
               child: SvgPicture.asset(
