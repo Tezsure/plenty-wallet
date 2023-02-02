@@ -90,7 +90,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
               currIndex = index;
               setState(() {});
             },
-                    physics: AppConstant.scrollPhysics,
+            physics: AppConstant.scrollPhysics,
             itemCount: controller.nftGalleryList.length + 1,
             itemBuilder: (context, index) {
               var scale = currIndex == index ? 1.0 : 0.8;
@@ -118,79 +118,82 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                   duration: const Duration(milliseconds: 350),
                   child: GestureDetector(
                     onTap: () => controller.openGallery(index),
-                    child: Stack(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: double.infinity,
-                          // decoration: BoxDecoration(
-                          //     gradient: applePurple,
-                          //     image: DecorationImage(
-                          //       image: CachedNetworkImageProvider(
-                          //         "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb400",
-                          //       ),
-                          //       fit: BoxFit.cover,
-                          //     )),
-                          child: NFTImage(
-                              nftTokenModel: controller
-                                  .nftGalleryList[index].nftTokenModel!),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Container(
-                            height: 0.2.height,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(22),
+                      child: Stack(
+                        children: [
+                          Container(
                             width: double.infinity,
-                            // ignore: prefer_const_constructors
-                            decoration: BoxDecoration(
-                                // ignore: prefer_const_constructors
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    // ignore: prefer_const_literals_to_create_immutables
-                                    colors: [
-                                  Colors.transparent,
-                                  Colors.grey[900]!.withOpacity(0.6),
-                                  Colors.grey[900]!.withOpacity(0.99),
-                                ])),
+                            height: double.infinity,
+                            // decoration: BoxDecoration(
+                            //     gradient: applePurple,
+                            //     image: DecorationImage(
+                            //       image: CachedNetworkImageProvider(
+                            //         "https://assets.objkt.media/file/assets-003/${controller.nftGalleryList[index].nftTokenModel!.faContract}/${controller.nftGalleryList[index].nftTokenModel!.tokenId.toString()}/thumb400",
+                            //       ),
+                            //       fit: BoxFit.cover,
+                            //     )),
+                            child: NFTImage(
+                                nftTokenModel: controller
+                                    .nftGalleryList[index].nftTokenModel!),
                           ),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Container(
-                            margin: EdgeInsets.all(
-                              22.arP,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  controller.nftGalleryList[index].name!,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 22.arP,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 4.arP,
-                                ),
-                                Text(
-                                  controller.nftGalleryList[index].nftTokenModel
-                                          ?.name ??
-                                      "",
-                                  style: TextStyle(
-                                    color: const Color(0xFF958E99),
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12.arP,
-                                    letterSpacing: .5,
-                                  ),
-                                ),
-                              ],
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Container(
+                              height: 0.2.height,
+                              width: double.infinity,
+                              // ignore: prefer_const_constructors
+                              decoration: BoxDecoration(
+                                  // ignore: prefer_const_constructors
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      // ignore: prefer_const_literals_to_create_immutables
+                                      colors: [
+                                    Colors.transparent,
+                                    Colors.grey[900]!.withOpacity(0.6),
+                                    Colors.grey[900]!.withOpacity(0.99),
+                                  ])),
                             ),
                           ),
-                        )
-                      ],
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Container(
+                              margin: EdgeInsets.all(
+                                22.arP,
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    controller.nftGalleryList[index].name!,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 22.arP,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 4.arP,
+                                  ),
+                                  Text(
+                                    controller.nftGalleryList[index]
+                                            .nftTokenModel?.name ??
+                                        "",
+                                    style: TextStyle(
+                                      color: const Color(0xFF958E99),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12.arP,
+                                      letterSpacing: .5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ));
             },

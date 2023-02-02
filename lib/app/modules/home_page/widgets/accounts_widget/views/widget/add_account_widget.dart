@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/contro
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../../utils/colors/colors.dart';
@@ -29,6 +30,7 @@ class AddAccountWidget extends StatelessWidget {
         );
       },
       child: Container(
+        height: AppConstant.homeWidgetDimension,
         padding: EdgeInsets.only(
           left: 20.arP,
           right: 15.arP,

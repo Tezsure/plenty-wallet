@@ -76,14 +76,14 @@ class ContactsListView extends GetView<SendPageController> {
   Widget contactWidget(ContactModel contact, {bool isContact = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
-      child: SizedBox(
-        height: 46,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            InkWell(
-              onTap: () => controller.onContactSelect(contactModel: contact),
-              child: Row(
+      child: InkWell(
+        onTap: () => controller.onContactSelect(contactModel: contact),
+        child: SizedBox(
+          height: 46,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
                   CircleAvatar(
                     radius: 23,
@@ -114,79 +114,79 @@ class ContactsListView extends GetView<SendPageController> {
                   ),
                 ],
               ),
-            ),
-            const Spacer(),
-            if (isContact)
-              PopupMenuButton(
-                  position: PopupMenuPosition.under,
-                  padding: EdgeInsets.all(0.arP),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  color: const Color(0xFF421121),
-                  itemBuilder: (_) => <PopupMenuEntry>[
-                        CustomPopupMenuItem(
-                          height: 40.arP,
-                          padding: EdgeInsets.symmetric(horizontal: 12.arP),
-                          onTap: () {
-                            Get.back();
-                            Get.bottomSheet(
-                                AddContactBottomSheet(
-                                  contactModel: contact,
-                                  isTransactionContact: false,
-                                  isEditContact: true,
-                                ),
+              const Spacer(),
+              if (isContact)
+                PopupMenuButton(
+                    position: PopupMenuPosition.under,
+                    padding: EdgeInsets.all(0.arP),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    color: const Color(0xFF421121),
+                    itemBuilder: (_) => <PopupMenuEntry>[
+                          CustomPopupMenuItem(
+                            height: 40.arP,
+                            padding: EdgeInsets.symmetric(horizontal: 12.arP),
+                            onTap: () {
+                              Get.back();
+                              Get.bottomSheet(
+                                  AddContactBottomSheet(
+                                    contactModel: contact,
+                                    isTransactionContact: false,
+                                    isEditContact: true,
+                                  ),
+                                  enterBottomSheetDuration:
+                                      const Duration(milliseconds: 180),
+                                  exitBottomSheetDuration:
+                                      const Duration(milliseconds: 150),
+                                  isScrollControlled: true);
+                            },
+                            child: Text(
+                              "Edit",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.5.arP,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.5.arP,
+                              ),
+                            ),
+                          ),
+                          CustomPopupMenuDivider(
+                            height: 1,
+                            color: ColorConst.Neutral.shade50,
+                            padding: const EdgeInsets.symmetric(horizontal: 11),
+                            thickness: 1,
+                          ),
+                          CustomPopupMenuItem(
+                            padding: EdgeInsets.symmetric(horizontal: 12.arP),
+                            height: 40.arP,
+                            onTap: () {
+                              Get.back();
+                              Get.bottomSheet(
+                                DeleteContactBottomSheet(contactModel: contact),
                                 enterBottomSheetDuration:
                                     const Duration(milliseconds: 180),
                                 exitBottomSheetDuration:
                                     const Duration(milliseconds: 150),
-                                isScrollControlled: true);
-                          },
-                          child: Text(
-                            "Edit",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.5.arP,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.5.arP,
+                              );
+                            },
+                            child: Text(
+                              "Remove",
+                              style: TextStyle(
+                                color: const Color(0xFFFF5449),
+                                fontSize: 12.5.arP,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.5.arP,
+                              ),
                             ),
                           ),
-                        ),
-                        CustomPopupMenuDivider(
-                          height: 1,
-                          color: ColorConst.Neutral.shade50,
-                          padding: const EdgeInsets.symmetric(horizontal: 11),
-                          thickness: 1,
-                        ),
-                        CustomPopupMenuItem(
-                          padding: EdgeInsets.symmetric(horizontal: 12.arP),
-                          height: 40.arP,
-                          onTap: () {
-                            Get.back();
-                            Get.bottomSheet(
-                              DeleteContactBottomSheet(contactModel: contact),
-                              enterBottomSheetDuration:
-                                  const Duration(milliseconds: 180),
-                              exitBottomSheetDuration:
-                                  const Duration(milliseconds: 150),
-                            );
-                          },
-                          child: Text(
-                            "Remove",
-                            style: TextStyle(
-                              color: const Color(0xFFFF5449),
-                              fontSize: 12.5.arP,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.5.arP,
-                            ),
-                          ),
-                        ),
-                      ],
-                  child: const Icon(
-                    Icons.more_horiz,
-                    color: Colors.white,
-                    size: 16,
-                  ))
-          ],
+                        ],
+                    child: const Icon(
+                      Icons.more_horiz,
+                      color: Colors.white,
+                      size: 16,
+                    ))
+            ],
+          ),
         ),
       ),
     );
