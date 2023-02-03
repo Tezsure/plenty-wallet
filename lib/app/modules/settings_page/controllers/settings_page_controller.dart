@@ -12,6 +12,7 @@ import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart'
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
+import 'package:naan_wallet/app/data/services/patch_sesrvice/patch_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
@@ -84,6 +85,11 @@ class SettingsPageController extends GetxController {
     }
   }
 
+  RxList<AccountModel> oldWallets = <AccountModel>[].obs;
+  Future<void> getOldWalletAccounts() async {
+    oldWallets.value = await PatchService().recoverWalletsFromOldStorage();
+  }
+
   Future<void> getAllConnectedApps() async {
     final peers = await beaconPlugin.getPeers();
     final Map<String, dynamic> requestJson =
@@ -153,6 +159,7 @@ class SettingsPageController extends GetxController {
     isPasscodeSet.value = await AuthService().getIsPassCodeSet();
     getWalletBackupStatus();
     networkType.value = await RpcService.getCurrentNetworkType();
+    getOldWalletAccounts();
     ServiceConfig.currentNetwork = networkType.value;
     await changeNodeSelector();
     await RpcService.getCurrentNode().then((value) {
