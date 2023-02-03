@@ -41,12 +41,13 @@ class PatchService {
                   )));
       }
       if (accountList.isNotEmpty) {
-        Set<AccountModel> accountSet = accountList.toSet();
-        Set<AccountModel> storageAccounts =
-            Get.find<HomePageController>().userAccounts.toSet();
+        List<String?> tz1Addresses = Get.find<HomePageController>()
+            .userAccounts
+            .map((e) => e.publicKeyHash)
+            .toList();
 
-        accountSet.removeAll(storageAccounts);
-        accountList = accountSet.toList();
+        accountList.removeWhere(
+            (element) => tz1Addresses.contains(element.publicKeyHash));
       }
       return accountList;
     }
