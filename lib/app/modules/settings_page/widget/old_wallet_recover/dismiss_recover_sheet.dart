@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart'
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
@@ -96,6 +97,15 @@ class DismissRecoverAccountBottomSheet extends StatelessWidget {
     GestureTapCallback? onTap,
     GestureTapCallback? onLongPress,
   }) {
+    return Center(
+      child: SolidButton(
+        width: 1.width - 64.arP,
+        primaryColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+        onLongPressed: onLongPress,
+        onPressed: onTap,
+        child: child,
+      ),
+    );
     return BouncingWidget(
       onLongPressed: onLongPress,
       onPressed: onTap,

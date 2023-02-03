@@ -12,21 +12,27 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/settings_page/bindings/settings_page_binding.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 class RecoverOldAccountSheet extends StatelessWidget {
   RecoverOldAccountSheet({super.key});
-  final accounts = Get.find<SettingsPageController>().oldWallets;
+  // final accounts = Get.find<SettingsPageController>().oldWallets;
+  final accounts = Get.find<HomePageController>().userAccounts;
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      // isDraggableBottomSheet: true,
+      // itemCount: accounts.length,
+      // draggableListBuilder: (context, index) => accountWidget(accounts[index]),
       bottomSheetWidgets: [
         SizedBox(
           height: 0.43.height,
           child: Column(
             children: [
+              0.016.vspace,
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -39,11 +45,13 @@ class RecoverOldAccountSheet extends StatelessWidget {
               ),
               0.016.vspace,
               SolidButton(
+                width: 1.width - 64.arP,
                 title: 'Recover accounts',
                 onPressed: () {},
               ),
               0.016.vspace,
               SolidButton(
+                width: 1.width - 64.arP,
                 primaryColor: ColorConst.darkGrey,
                 title: 'Cancel',
                 onPressed: () {},
@@ -59,10 +67,8 @@ class RecoverOldAccountSheet extends StatelessWidget {
   }
 
   Widget accountWidget(AccountModel accountModel) {
-    bool isSelected = false;
-    bool isImported = false;
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      margin: EdgeInsets.symmetric(horizontal: 16.arP, vertical: 5.arP),
       child: Row(
         children: [
           Container(
@@ -111,41 +117,6 @@ class RecoverOldAccountSheet extends StatelessWidget {
           ),
           const Spacer(),
           // if (isSelected)
-          isImported
-              ? Text(
-                  "IMPORTED",
-                  style: labelSmall.copyWith(color: ColorConst.Primary),
-                )
-              : IconButton(
-                  onPressed: () {
-                    // if (!isSelected) {
-                    //   controller.isLegacySelected.value
-                    //       ? controller.selectedLegacyAccount.add(accountModel)
-                    //       : controller.isTz1Selected.value
-                    //           ? controller.selectedAccountsTz1.add(accountModel)
-                    //           : controller.selectedAccountsTz2
-                    //               .add(accountModel);
-                    // } else {
-                    //   controller.isLegacySelected.value
-                    //       ? controller.selectedLegacyAccount
-                    //           .remove(accountModel)
-                    //       : controller.isTz1Selected.value
-                    //           ? controller.selectedAccountsTz1
-                    //               .remove(accountModel)
-                    //           : controller.selectedAccountsTz2
-                    //               .remove(accountModel);
-                    // }
-                  },
-                  icon: isSelected
-                      ? SvgPicture.asset(
-                          "assets/svg/check_3.svg",
-                          height: 20.arP,
-                          width: 20.arP,
-                        )
-                      : Icon(
-                          Icons.circle_outlined,
-                          color: ColorConst.NeutralVariant.shade30,
-                        )),
         ],
       ),
     );

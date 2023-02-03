@@ -195,18 +195,18 @@ class TransactionController extends GetxController {
           !_tokenTransactionID.contains(tx.lastid.toString()), tokenInfo);
       _tokenTransactionID.add(tx.lastid.toString());
     }
-    List<TokenInfo> temp = [];
-    for (var i = 0; i < sortedTransactionList.length; i++) {
-      if (sortedTransactionList[i].isHashSame ?? false) {
-        temp.last = temp.last.copyWith(internalOperation: [
-          ...temp.last.internalOperation,
-          sortedTransactionList[i]
-        ]);
-      } else {
-        temp.add(sortedTransactionList[i]);
-      }
-    }
-    sortedTransactionList = [...temp].reversed.toList();
+    // List<TokenInfo> temp = [];
+    // for (var i = 0; i < sortedTransactionList.length; i++) {
+    //   if (sortedTransactionList[i].isHashSame ?? false) {
+    //     temp.last = temp.last.copyWith(internalOperation: [
+    //       ...temp.last.internalOperation,
+    //       sortedTransactionList[i]
+    //     ]);
+    //   } else {
+    //     temp.add(sortedTransactionList[i]);
+    //   }
+    // }
+    // sortedTransactionList = [...temp].reversed.toList();
     return sortedTransactionList;
   }
 

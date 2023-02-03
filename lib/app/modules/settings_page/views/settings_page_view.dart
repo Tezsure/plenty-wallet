@@ -542,7 +542,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
       () {
         // if (_homePageController.userAccounts.isEmpty) return const SizedBox();
 
-        final isBackedUp = controller.oldWallets.isEmpty;
+        // final isBackedUp = controller.oldWallets.isEmpty;
+        final isBackedUp = Get.find<HomePageController>().userAccounts.isEmpty;
         if (isBackedUp) return Container();
         return Container(
           decoration: BoxDecoration(
@@ -568,14 +569,14 @@ class SettingsPageView extends GetView<SettingsPageController> {
                   )
                 ],
               ),
-              0.01.vspace,
+              0.020.vspace,
               Text(
                 "Restore your accounts from your backup and retrieve your valuable digital assets and collectables.",
                 style: labelSmall.apply(
                   color: ColorConst.NeutralVariant.shade70,
                 ),
               ),
-              0.012.vspace,
+              0.022.vspace,
               Row(
                 children: [
                   GestureDetector(
