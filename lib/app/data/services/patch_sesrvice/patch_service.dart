@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 
 class PatchService {
   Future<List<AccountModel>> recoverWalletsFromOldStorage() async {
@@ -37,8 +39,17 @@ class PatchService {
                         .replaceAll("'", ""),
                   )));
       }
+      if (accountList.isNotEmpty) {
+        Set<AccountModel> accountSet = accountList.toSet();
+        Set<AccountModel> storageAccounts =
+            Get.find<HomePageController>().userAccounts.toSet();
+
+        accountSet.removeAll(storageAccounts);
+        accountList = accountSet.toList();
+      }
       return accountList;
     }
+
     return <AccountModel>[];
   }
 
