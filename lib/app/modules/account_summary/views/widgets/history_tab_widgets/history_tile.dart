@@ -137,9 +137,11 @@ class HistoryTile extends StatelessWidget {
                                 color: ColorConst.NeutralVariant.shade60)),
                         Text(
                           tokenInfo.token!.operationStatus == 'applied'
-                              ? tokenInfo.isSent
-                                  ? '- \$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'
-                                  : '\$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'
+                              ? tokenInfo.name == "tez"
+                                  ? tokenInfo.isSent
+                                      ? '- \$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'
+                                      : '\$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'
+                                  : ""
                               : "failed",
                           style: labelLarge.copyWith(
                               fontWeight: FontWeight.w400,

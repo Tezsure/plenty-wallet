@@ -117,9 +117,7 @@ class TransactionController extends GetxController {
     List<TokenInfo> sortedTransactionList = <TokenInfo>[];
     late TokenInfo tokenInfo;
     String? isHashSame;
-    for (var i = transactionList.length - 1; i > 0; i--) {
-      final tx = transactionList[i];
-
+    for (var tx in transactionList) {
       tokenInfo = TokenInfo(
         isHashSame: isHashSame == null ? false : tx.hash!.contains(isHashSame),
         token: tx,
@@ -190,23 +188,10 @@ class TransactionController extends GetxController {
       } else {
         tokenInfo = tokenInfo.copyWith(skip: true);
       }
-
       sortedTransactionList.addIf(
           !_tokenTransactionID.contains(tx.lastid.toString()), tokenInfo);
       _tokenTransactionID.add(tx.lastid.toString());
     }
-    // List<TokenInfo> temp = [];
-    // for (var i = 0; i < sortedTransactionList.length; i++) {
-    //   if (sortedTransactionList[i].isHashSame ?? false) {
-    //     temp.last = temp.last.copyWith(internalOperation: [
-    //       ...temp.last.internalOperation,
-    //       sortedTransactionList[i]
-    //     ]);
-    //   } else {
-    //     temp.add(sortedTransactionList[i]);
-    //   }
-    // }
-    // sortedTransactionList = [...temp].reversed.toList();
     return sortedTransactionList;
   }
 

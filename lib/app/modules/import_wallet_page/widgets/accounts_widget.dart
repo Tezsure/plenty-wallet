@@ -161,6 +161,7 @@ class AccountWidget extends StatelessWidget {
 
     return InkWell(
       onTap: () {
+        if (isImported) return;
         if (!isSelected) {
           controller.isLegacySelected.value
               ? controller.selectedLegacyAccount.add(accountModel)
