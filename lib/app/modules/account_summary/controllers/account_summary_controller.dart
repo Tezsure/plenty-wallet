@@ -58,6 +58,7 @@ class AccountSummaryController extends GetxController {
   RxBool isCollectibleListExpanded =
       false.obs; // false = show 3 collectibles, true = show all collectibles
 
+  int? callbackHash;
   // ! Others
   RxBool isAccountDelegated =
       false.obs; // To check if current account is delegated
@@ -72,10 +73,15 @@ class AccountSummaryController extends GetxController {
       xtzPrice.value = value;
     });
 
-    DataHandlerService().renderService.accountNft.registerCallback((_) {
+    callback(_) {
       print("NFT Updated");
       _fetchAllNfts();
-    });
+    }
+
+    callbackHash = callback.hashCode;
+    //print("acc $callbackHash");
+
+    DataHandlerService().renderService.accountNft.registerCallback(callback);
 
     homePageController.userAccounts.listen((event) {
       fetchAllTokens();
@@ -89,13 +95,14 @@ class AccountSummaryController extends GetxController {
     selectedTokenIndexSet.clear();
     super.onInit();
   }
-/* 
+
   @override
   void onClose() {
     super.onClose();
-    DataHandlerService().renderService.accountNft.removeCallback((_) {});
+
+    DataHandlerService().renderService.accountNft.removeCallback(callbackHash);
     print("Closed nft callback");
-  } */
+  }
 
   /// Fetches all the user tokens
   Future<void> fetchAllTokens() async {
