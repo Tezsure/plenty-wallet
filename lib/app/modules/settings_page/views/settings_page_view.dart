@@ -542,8 +542,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
       () {
         // if (_homePageController.userAccounts.isEmpty) return const SizedBox();
 
-        // final isBackedUp = controller.oldWallets.isEmpty;
-        final isBackedUp = Get.find<HomePageController>().userAccounts.isEmpty;
+        final isBackedUp = controller.oldWallets.isEmpty;
+        // final isBackedUp = Get.find<HomePageController>().userAccounts.isEmpty;
         if (isBackedUp) return Container();
         return Container(
           decoration: BoxDecoration(

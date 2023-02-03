@@ -19,8 +19,8 @@ import 'package:naan_wallet/utils/utils.dart';
 
 class RecoverOldAccountSheet extends StatelessWidget {
   RecoverOldAccountSheet({super.key});
-  // final accounts = Get.find<SettingsPageController>().oldWallets;
-  final accounts = Get.find<HomePageController>().userAccounts;
+  final accounts = Get.find<SettingsPageController>().oldWallets;
+  // final accounts = Get.find<HomePageController>().userAccounts;
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
