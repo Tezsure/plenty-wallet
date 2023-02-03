@@ -59,7 +59,7 @@ void main() async {
           fontFamily: "Poppins",
         ),
         navigatorObservers: [
-          InstabugNavigatorObserver(),
+          //InstabugNavigatorObserver(),
           FirebaseAnalyticsObserver(analytics: NaanAnalytics().getAnalytics()),
         ],
         supportedLocales: const [
