@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/extension_service/account_model_ext_service/account_model_ext_service.dart';
+import 'package:naan_wallet/app/data/services/patch_sesrvice/patch_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
-import 'package:naan_wallet/app/modules/settings_page/bindings/settings_page_binding.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -47,7 +46,23 @@ class RecoverOldAccountSheet extends StatelessWidget {
               SolidButton(
                 width: 1.width - 64.arP,
                 title: 'Recover accounts',
-                onPressed: () {},
+                onPressed: () async {
+                  await UserStorageService()
+                      .writeNewAccount(accounts, false, true);
+                  await PatchService().saveDuplicateEntryForStorage();
+                  if (!(await AuthService().getIsPassCodeSet())) {
+                    Get.toNamed(
+                      Routes.PASSCODE_PAGE,
+                      arguments: [
+                        false,
+                        Routes.BIOMETRIC_PAGE,
+                      ],
+                    );
+                  } else {
+                    Get.back();
+                  }
+                  Get.find<SettingsPageController>().getOldWalletAccounts();
+                },
               ),
               0.016.vspace,
               SolidButton(
@@ -61,7 +76,7 @@ class RecoverOldAccountSheet extends StatelessWidget {
           ),
         ),
       ],
-      height: 0.5.height,
+      height: 0.52.height,
       title: "Recover accounts",
     );
   }
