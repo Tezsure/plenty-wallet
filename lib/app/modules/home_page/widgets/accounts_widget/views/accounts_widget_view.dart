@@ -296,7 +296,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                       children: [
                         Obx(
                           () => Text(
-                            (model.accountDataModel!.totalBalance! *
+                            ((model.accountDataModel!.totalBalance ?? 0) *
                                     homePageController.xtzPrice.value)
                                 .roundUpDollar(),
                             style: headlineLarge,

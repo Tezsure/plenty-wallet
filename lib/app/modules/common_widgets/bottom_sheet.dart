@@ -26,6 +26,7 @@ class NaanBottomSheet extends StatelessWidget {
   final MainAxisAlignment? mainAxisAlignment;
   final bool isScrollControlled;
   final double? initialChildSize;
+  final int? itemCount;
   final double? minChildSize;
   final double? maxChildSize;
   final Widget Function(BuildContext context, int index)? draggableListBuilder;
@@ -49,6 +50,7 @@ class NaanBottomSheet extends StatelessWidget {
     this.action,
     this.leading,
     this.blurRadius,
+    this.itemCount=6,
     this.gradientStartingOpacity,
     this.isDraggableBottomSheet = false,
     this.draggableListBuilder,
@@ -123,7 +125,7 @@ class NaanBottomSheet extends StatelessWidget {
                               shrinkWrap: true,
                               controller: scrollController,
                               physics: AppConstant.scrollPhysics,
-                              itemCount: 6,
+                              itemCount: itemCount,
                               itemBuilder: draggableListBuilder ??
                                   (_, index) => Container(),
                             )),

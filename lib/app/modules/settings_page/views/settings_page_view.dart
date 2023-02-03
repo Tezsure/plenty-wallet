@@ -12,6 +12,8 @@ import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.
 import 'package:naan_wallet/app/modules/settings_page/widget/connected_dapps_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/flutter_switch.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
+import 'package:naan_wallet/app/modules/settings_page/widget/old_wallet_recover/dismiss_recover_sheet.dart';
+import 'package:naan_wallet/app/modules/settings_page/widget/old_wallet_recover/recover_account_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/reset_wallet_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/select_network_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/select_node_sheet.dart';
@@ -54,6 +56,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         //     : _accountOption()),
 
                         _backupOption(),
+                        _oldWalletBackupOption(),
                         if (_homePageController.userAccounts.isNotEmpty)
                           SizedBox(height: 0.05.width),
                         if (_homePageController.userAccounts.isNotEmpty)
@@ -526,6 +529,75 @@ class SettingsPageView extends GetView<SettingsPageController> {
                   style: labelMedium.apply(
                       color: isBackedUp ? Colors.white : ColorConst.Tertiary),
                 ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _oldWalletBackupOption() {
+    return Obx(
+      () {
+        // if (_homePageController.userAccounts.isEmpty) return const SizedBox();
+
+        // final isBackedUp = controller.oldWallets.isEmpty;
+        final isBackedUp = Get.find<HomePageController>().userAccounts.isEmpty;
+        if (isBackedUp) return Container();
+        return Container(
+          decoration: BoxDecoration(
+              color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8)),
+          padding: EdgeInsets.symmetric(
+              horizontal: 0.05.width, vertical: 0.04.width),
+          margin: EdgeInsets.only(
+            top: 0.05.width,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    "${PathConst.SETTINGS_PAGE.SVG}wallet.svg",
+                  ),
+                  0.02.hspace,
+                  Text(
+                    "Action required: old backup found",
+                    style: labelMedium.apply(color: ColorConst.Tertiary),
+                  )
+                ],
+              ),
+              0.020.vspace,
+              Text(
+                "Restore your accounts from your backup and retrieve your valuable digital assets and collectables.",
+                style: labelSmall.apply(
+                  color: ColorConst.NeutralVariant.shade70,
+                ),
+              ),
+              0.022.vspace,
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => Get.bottomSheet(RecoverOldAccountSheet(),
+                        isScrollControlled: true),
+                    child: Text(
+                      "Recover now",
+                      style: labelMedium.apply(color: ColorConst.Tertiary),
+                    ),
+                  ),
+                  0.064.hspace,
+                  GestureDetector(
+                    onTap: () => Get.bottomSheet(
+                        DismissRecoverAccountBottomSheet(),
+                        isScrollControlled: true),
+                    child: Text(
+                      "Dismiss",
+                      style: labelMedium.apply(color: ColorConst.lightGrey),
+                    ),
+                  ),
+                ],
               )
             ],
           ),
