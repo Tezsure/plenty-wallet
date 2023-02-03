@@ -38,8 +38,8 @@ class DiscoverAppsWidget extends StatelessWidget {
                 child: Image.asset(
                   "${PathConst.HOME_PAGE}discover_apps.png",
                   fit: BoxFit.cover,
-                  cacheHeight: 335,
-                  cacheWidth: 709,
+                  // cacheHeight: 335,
+                  // cacheWidth: 709,
                 ),
               ),
               Align(
