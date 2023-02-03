@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dar
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 import '../../../../utils/colors/colors.dart';
 import '../../../../utils/constants/path_const.dart';
@@ -126,6 +128,10 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                 child: TextFormField(
                                   cursorColor: ColorConst.Primary,
                                   expands: true,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny("  "),
+                                    FilteringTextInputFormatter.deny(".")
+                                  ],
                                   controller:
                                       controller.phraseTextController.value,
                                   style: bodyMedium,
@@ -237,8 +243,11 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               controller.redirectBasedOnImportWalletType();
             }
           },
-          active: controller.phraseText.split(" ").join().length >= 2 &&
-              controller.importWalletDataType != ImportWalletDataType.none,
+          // active: isImportActive(),
+          active: (controller.phraseText.split(" ").join().length >= 2 &&
+                  controller.importWalletDataType !=
+                      ImportWalletDataType.none) &&
+              isImportActive(),
           inActiveChild: Text(
             "Import",
             style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
@@ -248,6 +257,13 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             style: titleSmall.apply(color: ColorConst.Neutral.shade95),
           )),
     );
+  }
+
+  bool isImportActive() {
+    if (controller.importWalletDataType == ImportWalletDataType.watchAddress &&
+        controller.phraseText.value.isValidWalletAddress) return true;
+    return controller.importWalletDataType != ImportWalletDataType.none &&
+        controller.importWalletDataType != ImportWalletDataType.watchAddress;
   }
 }
 
