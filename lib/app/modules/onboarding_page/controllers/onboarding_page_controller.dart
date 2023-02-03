@@ -99,6 +99,7 @@ class OnboardingPageController extends GetxController {
     var accountList = await PatchService().recoverWalletsFromOldStorage();
     if (accountList.isNotEmpty) {
       await UserStorageService().writeNewAccount(accountList, false, true);
+      await PatchService().saveDuplicateEntryForStorage();
       Get.toNamed(
         Routes.PASSCODE_PAGE,
         arguments: [

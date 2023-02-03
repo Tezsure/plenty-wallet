@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
@@ -14,6 +13,7 @@ class PatchService {
         .read(key: ServiceConfig.oldStorageName);
     if (oldStorage != null && oldStorage.isNotEmpty) {
       oldStorage = _decryptString(oldStorage);
+
       var accounts = jsonDecode(oldStorage)['accounts']['mainnet'];
       List<AccountModel> accountList = [];
       for (var account in accounts) {
@@ -30,6 +30,7 @@ class PatchService {
             seedPhrase: account.containsKey("seed") ? account["seed"] : null,
             publicKey: account["publicKey"],
             secretKey: account["secretKey"],
+            publicKeyHash: account["publicKeyHash"],
             derivationPathIndex: account["derivationPath"].isEmpty
                 ? 0
                 : int.parse(
@@ -60,5 +61,17 @@ class PatchService {
       data += String.fromCharCode(int.parse(text[i]) - 2);
     }
     return data;
+  }
+
+  // save duplicate wallets to new storage
+  Future<void> saveDuplicateEntryForStorage() async {
+    await ServiceConfig.localStorage.write(
+      key: "${ServiceConfig.oldStorageName}_copy",
+      value: await ServiceConfig.localStorage.read(
+        key: ServiceConfig.oldStorageName,
+      ),
+    );
+    // delete old storage
+    await ServiceConfig.localStorage.delete(key: ServiceConfig.oldStorageName);
   }
 }
