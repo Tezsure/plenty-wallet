@@ -271,6 +271,12 @@ class NftGalleryWidgetController extends GetxController {
     isCreating.value = false;
     Get.back();
 
+    try {
+      Get.find<NftGalleryController>();
+    } catch (_) {
+      Get.put(NftGalleryController());
+    }
+
     Get.bottomSheet(
       const NftGalleryView(),
       enterBottomSheetDuration: const Duration(milliseconds: 180),

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';

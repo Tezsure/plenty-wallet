@@ -131,9 +131,8 @@ class ObjktNftApiService {
         variables: {'address': pkH},
       );
 
-      return jsonEncode(response.data['token']
-          .where((e) => e['holders'].length > 0 && e['token_id'].isNotEmpty)
-          .toList());
+      return jsonEncode(
+          response.data['token'].where((e) => e['token_id'] != "").toList());
     } catch (e) {
       print(" gql error $e");
       return "[]";
