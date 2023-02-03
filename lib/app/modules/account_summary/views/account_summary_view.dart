@@ -181,8 +181,9 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                 0.036.vspace,
                 Obx(() => Center(
                       child: Text(
-                        (controller.selectedAccount.value.accountDataModel!
-                                    .totalBalance! *
+                        ((controller.selectedAccount.value.accountDataModel!
+                                        .totalBalance ??
+                                    0) *
                                 controller.xtzPrice.value)
                             .roundUpDollar(),
                         style: TextStyle(
