@@ -31,22 +31,28 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                     children: [
                         0.02.vspace,
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: CircleAvatar(
-                              radius: 20,
-                              backgroundColor: ColorConst.Primary,
-                              child: Center(
-                                child: Text(
-                                  controller.beaconRequest.request?.appMetadata
-                                          ?.name
-                                          ?.substring(0, 1)
-                                          .toUpperCase() ??
-                                      'U',
-                                  style: titleLarge.copyWith(
-                                      color: Colors.white, height: 1),
-                                ),
+                          padding: EdgeInsets.all(8.0.arP),
+                          child: ClipOval(
+                            // borderRadius: BorderRadius.circular(6),
+                            child: Container(
+                              height: 50.arP, width: 50.arP,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(16.arP),
+
+                              decoration:
+                                  const BoxDecoration(color: ColorConst.Primary),
+                              // radius: 20,
+                              // backgroundColor: ColorConst.Primary,
+                              child: Text(
+                                controller.beaconRequest.request?.appMetadata
+                                        ?.name
+                                        ?.substring(0, 1)
+                                        .toUpperCase() ??
+                                    'U',
+                                maxLines: 1,
+                                textAlign: TextAlign.center,
+                                style: titleLarge.copyWith(
+                                    color: Colors.white, height: 1),
                               ),
                             ),
                           ),
@@ -146,8 +152,8 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Padding(
-                                padding:  EdgeInsets.symmetric(
-                                    horizontal: 24.0.arP),
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 24.0.arP),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -372,6 +378,5 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
     //                       ]),
     //           )),
     //     ));
- 
   }
 }
