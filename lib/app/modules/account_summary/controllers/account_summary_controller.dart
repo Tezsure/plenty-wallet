@@ -63,6 +63,11 @@ class AccountSummaryController extends GetxController {
   RxBool isAccountDelegated =
       false.obs; // To check if current account is delegated
 
+  fetchAllNftscallback(_) {
+    // print("NFT Updated");
+    _fetchAllNfts();
+  }
+
   // ! Global Functions
   @override
   void onInit() async {
@@ -73,15 +78,13 @@ class AccountSummaryController extends GetxController {
       xtzPrice.value = value;
     });
 
-    callback(_) {
-      print("NFT Updated");
-      _fetchAllNfts();
-    }
-
-    callbackHash = callback.hashCode;
+    callbackHash = fetchAllNftscallback.hashCode;
     //print("acc $callbackHash");
 
-    DataHandlerService().renderService.accountNft.registerCallback(callback);
+    DataHandlerService()
+        .renderService
+        .accountNft
+        .registerCallback(fetchAllNftscallback);
 
     homePageController.userAccounts.listen((event) {
       fetchAllTokens();

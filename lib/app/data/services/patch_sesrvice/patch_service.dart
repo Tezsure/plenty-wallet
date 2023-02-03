@@ -8,52 +8,46 @@ import 'package:naan_wallet/app/data/services/service_models/account_model.dart'
 
 class PatchService {
   Future<List<AccountModel>> recoverWalletsFromOldStorage() async {
-    var oldStorage = await const FlutterSecureStorage()
+    var oldStorage = await ServiceConfig.localStorage
         .read(key: ServiceConfig.oldStorageName);
-
     if (oldStorage != null && oldStorage.isNotEmpty) {
-      try {
-        jsonDecode(oldStorage);
-      } catch (e) {
-        try {
-          if (oldStorage.startsWith("[")) {
-            oldStorage = String.fromCharCodes(jsonDecode(oldStorage));
-          }
-        } catch (e) {
-          try {
-            int.parse(oldStorage![0]);
-            oldStorage = "[${oldStorage.replaceAll(" ", ",")}]";
-          } catch (e) {
-            // TODO: Add insta bug here
-          }
-        }
+      oldStorage = _decryptString(oldStorage);
+      var accounts = jsonDecode(oldStorage)['accounts']['mainnet'];
+      List<AccountModel> accountList = [];
+      for (var account in accounts) {
+        accountList.add(AccountModel(
+          name: account["name"],
+          imageType: AccountProfileImageType.assets,
+          profileImage: ServiceConfig.allAssetsProfileImages[
+              Random().nextInt(ServiceConfig.allAssetsProfileImages.length)],
+          publicKeyHash: account["publicKeyHash"],
+          isNaanAccount: account.containsKey("isNaanWallet")
+              ? account["isNaanWallet"]
+              : false,
+        )..accountSecretModel = AccountSecretModel(
+            seedPhrase: account.containsKey("seed") ? account["seed"] : null,
+            publicKey: account["publicKey"],
+            secretKey: account["secretKey"],
+            derivationPathIndex: account["derivationPath"].isEmpty
+                ? 0
+                : int.parse(
+                    account["derivationPath"]
+                        .split("/")[2]
+                        .toString()
+                        .replaceAll("'", ""),
+                  )));
       }
-
-      if (oldStorage != null && oldStorage != "") {
-        var accounts = jsonDecode(oldStorage)['accounts'];
-        List<AccountModel> accountList = [];
-        for (var account in jsonDecode(accounts)) {
-          accountList.add(AccountModel(
-            name: account["name"],
-            imageType: AccountProfileImageType.assets,
-            profileImage: ServiceConfig.allAssetsProfileImages[
-                Random().nextInt(ServiceConfig.allAssetsProfileImages.length)],
-            publicKeyHash: account["publicKeyHash"],
-            isNaanAccount: account["isNaanWallet"],
-          )..accountSecretModel = AccountSecretModel(
-              seedPhrase: account["seed"],
-              publicKey: account["publicKey"],
-              secretKey: account["secretKey"],
-              derivationPathIndex: int.parse(
-                account["derivationPathIndex"]
-                    .split("/")[2]
-                    .toString()
-                    .replaceAll("'", ""),
-              )));
-        }
-        return accountList;
-      }
+      return accountList;
     }
     return <AccountModel>[];
+  }
+
+  String _decryptString(var text) {
+    var data = '';
+    text = text.split(' ');
+    for (var i = 0; (i < text.length); i++) {
+      data += String.fromCharCode(int.parse(text[i]) - 2);
+    }
+    return data;
   }
 }
