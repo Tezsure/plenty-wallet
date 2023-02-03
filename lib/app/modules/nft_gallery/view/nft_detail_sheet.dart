@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart';
@@ -77,18 +78,19 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                   0.02.vspace,
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                height: 5,
-                width: 36,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
-                ),
-              ),
-            ),
+                    0.02.vspace,
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        height: 5,
+                        width: 36,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.3),
+                        ),
+                      ),
+                    ),
                     0.001.vspace,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -387,27 +389,28 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                         thickness: 1,
                       ),
                     ),
-                    ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        foregroundImage: NetworkImage(
-                            "https://services.tzkt.io/v1/avatars/${widget.nftModel!.holders!.first.holderAddress}"),
+                    if (widget.nftModel!.holders?.isNotEmpty ?? false)
+                      ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          foregroundImage: NetworkImage(
+                              "https://services.tzkt.io/v1/avatars/${widget.nftModel!.holders!.first.holderAddress}"),
+                        ),
+                        title: RichText(
+                            textAlign: TextAlign.start,
+                            text: TextSpan(
+                                text: 'Owned By ',
+                                style: labelSmall.copyWith(
+                                    fontSize: 11.aR,
+                                    color: ColorConst.NeutralVariant.shade60),
+                                children: [
+                                  TextSpan(
+                                      text: tz1Shortner(
+                                          "${widget.nftModel!.holders!.first.holderAddress}"),
+                                      style:
+                                          labelMedium.copyWith(fontSize: 12.aR))
+                                ])),
                       ),
-                      title: RichText(
-                          textAlign: TextAlign.start,
-                          text: TextSpan(
-                              text: 'Owned By ',
-                              style: labelSmall.copyWith(
-                                  fontSize: 11.aR,
-                                  color: ColorConst.NeutralVariant.shade60),
-                              children: [
-                                TextSpan(
-                                    text: tz1Shortner(
-                                        "${widget.nftModel!.holders!.first.holderAddress}"),
-                                    style:
-                                        labelMedium.copyWith(fontSize: 12.aR))
-                              ])),
-                    ),
                     _buildTabs(),
                     SizedBox(
                       height: 0.4.height,
