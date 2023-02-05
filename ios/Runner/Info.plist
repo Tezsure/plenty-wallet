@@ -47,7 +47,7 @@
 		<string>_dartobservatory._tcp</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>naan requires acess to camera.</string>
+	<string>naan requires access to camera for scanning QR</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
 	<key>NSLocalNetworkUsageDescription</key>
@@ -56,9 +56,9 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>naan requires acess to microphone.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app requires read and write access to the photo library.</string>
+	<string>This app requires read and write access to the photo library to upload account picture</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
+	<string>This app requires access to the photo library  to upload account picture</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UISceneConfigurations</key>
