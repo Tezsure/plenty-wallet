@@ -27,7 +27,7 @@ class ImagePickerSheet extends StatelessWidget {
   Widget changePhotoBottomSheet() {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 0,
-      height: .275.height,
+      height: .3.height,
       bottomSheetWidgets: [
         Column(
           children: [
