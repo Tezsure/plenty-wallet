@@ -33,13 +33,13 @@ class _IAFSheetState extends State<IAFSheet> {
         Obx(() {
           return SizedBox(
             height: AppConstant.naanBottomSheetChildHeight -
-                32.arP -
+                36.arP -
                 MediaQuery.of(context).viewInsets.bottom,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                0.02.vspace,
+                0.01.vspace,
 
                 // 0.016.vspace,
                 Center(

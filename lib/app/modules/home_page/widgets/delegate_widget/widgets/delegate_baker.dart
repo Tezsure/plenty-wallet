@@ -37,7 +37,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               Column(
                 children: [
                   SizedBox(
-                    height: (isScrollable ? 0.78.height : 1.height) -
+                    height: (isScrollable ? 0.77.height : 1.height) -
                         MediaQuery.of(context).viewInsets.bottom,
                     child: Padding(
                       padding: EdgeInsets.only(
