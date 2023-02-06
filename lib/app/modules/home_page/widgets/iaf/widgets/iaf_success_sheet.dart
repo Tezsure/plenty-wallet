@@ -58,9 +58,10 @@ class IAFClaimSuccessSheet extends StatelessWidget {
                   0.03.vspace,
                   SolidButton(
                     width: 1.width - 64.arP,
-                    borderColor: ColorConst.Primary,
+                    borderColor: ColorConst.Neutral.shade60,
                     active: true,
-                    textColor: ColorConst.Primary,
+                    borderWidth: 1.5,
+                    textColor: ColorConst.Neutral.shade60,
                     primaryColor: Colors.transparent,
                     onPressed: () {
                       Get.back();
