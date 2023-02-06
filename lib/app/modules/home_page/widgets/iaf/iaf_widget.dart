@@ -39,7 +39,7 @@ class IAFWidget extends StatelessWidget {
           Get.bottomSheet(
             AccountSwitch(
               title: "Claim NFT",
-              subtitle: 'Choose an account to claim your free NFT and tez ',
+              subtitle: 'Choose an account to claim your free \nNFT and tez ',
               onNext: () {
                 if (Get.isRegistered<IAFController>()) {
                   Get.find<IAFController>()

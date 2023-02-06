@@ -47,7 +47,7 @@ class _IAFSheetState extends State<IAFSheet> {
                     "Enter the email ID you've submitted \nfor claiming the NFT at India Art Fair",
                     textAlign: TextAlign.center,
                     style: bodySmall.copyWith(
-                      color: ColorConst.grey,
+                      color: ColorConst.NeutralVariant.shade60,
                     ),
                   ),
                 ),
@@ -63,7 +63,7 @@ class _IAFSheetState extends State<IAFSheet> {
                   child: SolidButton(
                     width: 1.width - 64.arP,
                     isLoading: controller.isLoading,
-                    active: controller.isButtonEnabled.value ,
+                    active: controller.isButtonEnabled.value,
                     onPressed: () async {
                       if (controller.isVerified.value ?? false) {
                         await controller.claim();
@@ -191,7 +191,7 @@ class _IAFSheetState extends State<IAFSheet> {
                         width: 1.3.arP,
                       ),
               ),
-              hintText: 'Email',
+              hintText: 'email',
               hintStyle: bodyLarge.copyWith(
                 // ignore: prefer_const_constructors
                 color: Color(

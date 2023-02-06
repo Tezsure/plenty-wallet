@@ -50,7 +50,7 @@ class NaanBottomSheet extends StatelessWidget {
     this.action,
     this.leading,
     this.blurRadius,
-    this.itemCount=6,
+    this.itemCount = 6,
     this.gradientStartingOpacity,
     this.isDraggableBottomSheet = false,
     this.draggableListBuilder,
@@ -161,7 +161,7 @@ class NaanBottomSheet extends StatelessWidget {
       mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
       crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
       children: <Widget>[
-            0.02.vspace,
+            0.01.vspace,
             Align(
               alignment: Alignment.topCenter,
               child: Container(
@@ -177,9 +177,9 @@ class NaanBottomSheet extends StatelessWidget {
               Column(
                 children: [
                   if (action == null && leading == null)
-                    0.02.vspace
+                    0.03.vspace
                   else
-                    0.01.vspace,
+                    0.02.vspace,
                   Row(
                     children: [
                       Expanded(
