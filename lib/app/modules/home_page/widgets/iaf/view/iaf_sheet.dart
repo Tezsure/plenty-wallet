@@ -25,6 +25,7 @@ class _IAFSheetState extends State<IAFSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      bottomSheetHorizontalPadding: 0,
       title: "Claim NFT",
       height: AppConstant.naanBottomSheetHeight -
           MediaQuery.of(context).viewInsets.bottom,
@@ -53,13 +54,16 @@ class _IAFSheetState extends State<IAFSheet> {
                 0.032.vspace,
                 _buildTextField(),
                 0.018.vspace,
-                getBadge(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 22.arP),
+                  child: getBadge(),
+                ),
                 const Spacer(),
                 Center(
                   child: SolidButton(
                     width: 1.width - 64.arP,
                     isLoading: controller.isLoading,
-                    active: controller.isButtonEnabled.value,
+                    active: controller.isButtonEnabled.value ,
                     onPressed: () async {
                       if (controller.isVerified.value ?? false) {
                         await controller.claim();
@@ -70,7 +74,9 @@ class _IAFSheetState extends State<IAFSheet> {
                     },
                     title: controller.isVerified.value ?? false
                         ? "Claim NFT"
-                        : "Verify",
+                        : controller.isVerified.value == null
+                            ? "Verify"
+                            : "Enter valid  email id",
                   ),
                 ),
                 const BottomButtonPadding()
@@ -152,7 +158,7 @@ class _IAFSheetState extends State<IAFSheet> {
               isDense: true,
               counterStyle: const TextStyle(backgroundColor: Colors.white),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12.arP),
                 borderSide: controller.isVerified.value == null
                     ? BorderSide.none
                     : BorderSide(
@@ -161,14 +167,14 @@ class _IAFSheetState extends State<IAFSheet> {
                       ),
               ),
               errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12.arP),
                 borderSide: BorderSide(
                   color: ColorConst.green,
                   width: 1.3.arP,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12.arP),
                 borderSide: controller.isVerified.value == null
                     ? BorderSide.none
                     : BorderSide(
@@ -177,7 +183,7 @@ class _IAFSheetState extends State<IAFSheet> {
                       ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12.arP),
                 borderSide: controller.isVerified.value == null
                     ? BorderSide.none
                     : BorderSide(
@@ -185,7 +191,7 @@ class _IAFSheetState extends State<IAFSheet> {
                         width: 1.3.arP,
                       ),
               ),
-              hintText: 'example@site.com',
+              hintText: 'Email',
               hintStyle: bodyLarge.copyWith(
                 // ignore: prefer_const_constructors
                 color: Color(

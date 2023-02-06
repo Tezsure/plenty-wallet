@@ -25,8 +25,8 @@ class IAFController extends GetxController {
   }
 
   onChange(String value) {
-   
-   
+    isVerified = null.obs;
+
     if (value.isEmail) {
       if (!isButtonEnabled.value) isButtonEnabled.value = true;
     } else {
@@ -57,6 +57,6 @@ class IAFController extends GetxController {
     isLoading.value = false;
 
     log("isVerified:$isVerified");
-    isButtonEnabled.value = true;
+    isButtonEnabled.value = isVerified.value!;
   }
 }
