@@ -45,7 +45,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   bool isExpanded = false;
   // late String imageUrl;
   final _controller = Get.put(AccountSummaryController());
-  String ipfsHost = "https://ipfs.io/ipfs";
+  String ipfsHost = "https://ipfs.gcp.marigold.dev/ipfs";
   bool showButton = true;
   bool showFloating = true;
   bool isScrolling = false;
