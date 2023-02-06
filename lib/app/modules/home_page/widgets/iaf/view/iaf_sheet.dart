@@ -45,7 +45,9 @@ class _IAFSheetState extends State<IAFSheet> {
                   child: Text(
                     "Enter the email ID you've submitted \nfor claiming the NFT at India Art Fair",
                     textAlign: TextAlign.center,
-                    style: labelMedium.copyWith(color: ColorConst.textGrey1),
+                    style: bodySmall.copyWith(
+                      color: ColorConst.grey,
+                    ),
                   ),
                 ),
                 0.032.vspace,
@@ -128,10 +130,10 @@ class _IAFSheetState extends State<IAFSheet> {
     return Obx(() {
       return Center(
         child: SizedBox(
-          height: 0.06.height,
+          // height: 0.06.height,
           width: 1.width - 44.arP,
           child: TextFormField(
-            style: const TextStyle(color: Colors.white),
+            style: bodyLarge.copyWith(color: Colors.white),
             onChanged: (input) {
               if (controller.isVerified.value != null) {
                 controller.isVerified = null.obs;
@@ -147,11 +149,11 @@ class _IAFSheetState extends State<IAFSheet> {
             decoration: InputDecoration(
               filled: true,
               fillColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              suffixIcon: Icon(
-                Icons.search,
-                color: getColor(),
-                size: 22.arP,
-              ),
+              // suffixIcon: Icon(
+              //   Icons.search,
+              //   color: getColor(),
+              //   size: 22.arP,
+              // ),
               counterStyle: const TextStyle(backgroundColor: Colors.white),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -177,7 +179,7 @@ class _IAFSheetState extends State<IAFSheet> {
               ),
               hintText: 'example@site.com',
               hintStyle:
-                  bodyMedium.copyWith(color: ColorConst.NeutralVariant.shade70),
+                  bodyLarge.copyWith(color: ColorConst.NeutralVariant.shade70),
               labelStyle: labelSmall,
               // contentPadding:
               //     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),

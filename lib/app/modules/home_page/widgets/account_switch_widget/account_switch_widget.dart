@@ -60,7 +60,9 @@ class _AccountSwitchState extends State<AccountSwitch> {
                     padding: EdgeInsets.symmetric(horizontal: 32.arP),
                     child: Text(
                       widget.subtitle,
-                      style: labelMedium.copyWith(color: ColorConst.textGrey1),
+                      style: bodySmall.copyWith(
+                      color: ColorConst.grey,
+                    ),
                       textAlign: TextAlign.center,
                     ),
                   ),
