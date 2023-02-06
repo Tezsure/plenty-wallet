@@ -43,11 +43,15 @@ class _IAFSheetState extends State<IAFSheet> {
 
                 // 0.016.vspace,
                 Center(
-                  child: Text(
-                    "Enter the email ID you've submitted \nfor claiming the NFT at India Art Fair",
-                    textAlign: TextAlign.center,
-                    style: bodySmall.copyWith(
-                      color: ColorConst.NeutralVariant.shade60,
+                  child: SizedBox(
+                    width: 1.width - 64.arP,
+                    child: Text(
+                      "Enter the email address used at India Art Fair to claim your free NFT and tez",
+                      textAlign: TextAlign.center,
+                      style: bodySmall.copyWith(
+                        letterSpacing: 0.15.arP,
+                        color: ColorConst.NeutralVariant.shade60,
+                      ),
                     ),
                   ),
                 ),
@@ -76,7 +80,7 @@ class _IAFSheetState extends State<IAFSheet> {
                         ? "Claim NFT"
                         : controller.isVerified.value == null
                             ? "Verify"
-                            : "Enter valid  email id",
+                            : "Enter valid email address",
                   ),
                 ),
                 const BottomButtonPadding()
@@ -92,7 +96,7 @@ class _IAFSheetState extends State<IAFSheet> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.arP, vertical: 6.arP),
       decoration: BoxDecoration(
-          color: Color(0xFF171717),
+          color: const Color(0xFF171717),
           borderRadius: BorderRadius.circular(16.arP)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -114,7 +118,7 @@ class _IAFSheetState extends State<IAFSheet> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.arP, vertical: 6.arP),
       decoration: BoxDecoration(
-          color: Color(0xFF171717),
+          color: const Color(0xFF171717),
           borderRadius: BorderRadius.circular(16.arP)),
       child: Row(
         mainAxisSize: MainAxisSize.min,

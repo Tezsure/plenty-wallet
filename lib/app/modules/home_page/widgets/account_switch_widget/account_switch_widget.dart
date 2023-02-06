@@ -72,7 +72,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                     style: bodySmall.copyWith(color: ColorConst.grey),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(6),
+                    padding: EdgeInsets.all(8.arP),
                     child: InkWell(
                       onTap: () async {
                         final selectedIndex = await Get.bottomSheet(
@@ -224,7 +224,8 @@ class _AccountSwitchState extends State<AccountSwitch> {
                             Expanded(
                               child: SolidButton(
                                 primaryColor: Colors.black,
-                                borderColor: ColorConst.Neutral.shade80,
+                                // borderColor: ColorConst.Primary.shade60,
+                                borderColor: const Color(0xFFE8A2B9),
                                 borderWidth: 1.5,
                                 onPressed: () {
                                   Get.back();
@@ -235,7 +236,11 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                   child: Text(
                                     'Cancel',
                                     style: bodyMedium.copyWith(
-                                        color: ColorConst.Neutral.shade80),
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(
+                                        0xFFE8A2B9,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),

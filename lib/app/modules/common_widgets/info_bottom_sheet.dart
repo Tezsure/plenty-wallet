@@ -26,7 +26,7 @@ class InfoBottomSheet extends StatelessWidget {
             children: [
               0.02.vspace,
               Text(
-                'Introduction to crypto wallet',
+                'Introduction to Crypto',
                 textAlign: TextAlign.center,
                 style: titleLarge,
               ),
