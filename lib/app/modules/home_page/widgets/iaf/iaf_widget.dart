@@ -38,7 +38,7 @@ class IAFWidget extends StatelessWidget {
         } else {
           Get.bottomSheet(
             AccountSwitch(
-              title: "Claim drop",
+              title: "Claim NFT",
               subtitle: 'Choose an account to claim your free NFT and tez ',
               onNext: () {
                 if (Get.isRegistered<IAFController>()) {
@@ -76,8 +76,8 @@ class IAFWidget extends StatelessWidget {
                 child: Image.asset(
                   "${PathConst.HOME_PAGE}iaf.png",
                   fit: BoxFit.cover,
-                  cacheHeight: 335,
-                  cacheWidth: 709,
+                  // cacheHeight: 335,
+                  // cacheWidth: 709,
                 ),
               ),
               Padding(

@@ -137,7 +137,7 @@ class HistoryTile extends StatelessWidget {
                                 color: ColorConst.NeutralVariant.shade60)),
                         Text(
                           tokenInfo.token!.operationStatus == 'applied'
-                              ? tokenInfo.name == "tez"
+                              ? tokenInfo.tokenSymbol == "tez"
                                   ? tokenInfo.isSent
                                       ? '- \$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'
                                       : '\$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'

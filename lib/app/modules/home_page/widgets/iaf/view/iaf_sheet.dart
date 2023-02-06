@@ -25,7 +25,7 @@ class _IAFSheetState extends State<IAFSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      // title: "Enter registered email id",
+      title: "Claim NFT",
       height: AppConstant.naanBottomSheetHeight -
           MediaQuery.of(context).viewInsets.bottom,
       bottomSheetWidgets: [
@@ -39,14 +39,8 @@ class _IAFSheetState extends State<IAFSheet> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 0.02.vspace,
-                Center(
-                  child: Text(
-                    "Claim NFT",
-                    textAlign: TextAlign.center,
-                    style: titleLarge,
-                  ),
-                ),
-                0.016.vspace,
+
+                // 0.016.vspace,
                 Center(
                   child: Text(
                     "Enter the email ID you've submitted \nfor claiming the NFT at India Art Fair",
