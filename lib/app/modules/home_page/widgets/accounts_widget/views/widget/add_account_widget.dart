@@ -153,29 +153,43 @@ Widget addAccountSheet(warning) {
               },
             ),
             0.016.vspace,
-            GestureDetector(
-              onTap: () {
+            SolidButton(
+              width: 1.width - 64.arP,
+              borderWidth: 1.5,
+              borderColor: ColorConst.Neutral.shade80,
+              textColor: ColorConst.Neutral.shade80,
+              primaryColor: Colors.transparent,
+              onPressed: () {
                 Get.back();
 
                 Get.toNamed(Routes.IMPORT_WALLET_PAGE);
               },
-              child: Container(
-                width: 1.width - 64.arP,
-                height: 48,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: ColorConst.Neutral.shade80,
-                    width: 1.50,
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text("I already have an account",
-                    style: titleSmall.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: ColorConst.Neutral.shade80)),
-              ),
+              title: "I already have an account",
             ),
+            // GestureDetector(
+            //   onTap: () {
+            //     Get.back();
+
+            //     Get.toNamed(Routes.IMPORT_WALLET_PAGE);
+            //   },
+            //   child: Container(
+            //     width: 1.width - 64.arP,
+            //     height: 48,
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(8),
+            //       border: Border.all(
+            //         color: ColorConst.Neutral.shade80,
+            //         width: 1.50,
+            //       ),
+            //     ),
+            //     alignment: Alignment.center,
+            //     child: Text("I already have an account",
+            //         style: titleSmall.copyWith(
+            //             fontWeight: FontWeight.w600,
+            //             color: ColorConst.Neutral.shade80)),
+            //   ),
+            // ),
+
             BottomButtonPadding()
           ],
         ),
