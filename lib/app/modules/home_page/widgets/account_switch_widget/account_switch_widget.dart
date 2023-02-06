@@ -41,7 +41,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-        height: 0.4.height,
+        height: 0.38.height,
         bottomSheetHorizontalPadding: 0,
         title: widget.title,
         // width: 1.width,
@@ -51,11 +51,11 @@ class _AccountSwitchState extends State<AccountSwitch> {
         //     color: Colors.black),
         bottomSheetWidgets: [
           Container(
-            height: 0.32.height,
+            height: 0.3.height,
             child: SafeArea(
               child: Column(
                 children: [
-                  0.02.vspace,
+                  0.002.vspace,
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 32.arP),
                     child: Text(
@@ -68,7 +68,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                   ),
                   0.04.vspace,
                   Text(
-                    'Choose Account',
+                    'Choose account',
                     style: bodySmall.copyWith(color: ColorConst.grey),
                   ),
                   Padding(

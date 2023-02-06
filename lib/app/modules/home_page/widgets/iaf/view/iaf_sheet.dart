@@ -191,7 +191,7 @@ class _IAFSheetState extends State<IAFSheet> {
                         width: 1.3.arP,
                       ),
               ),
-              hintText: 'email',
+              hintText: 'Email',
               hintStyle: bodyLarge.copyWith(
                 // ignore: prefer_const_constructors
                 color: Color(
