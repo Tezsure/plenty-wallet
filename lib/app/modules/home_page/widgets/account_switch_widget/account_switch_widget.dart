@@ -224,7 +224,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                             Expanded(
                               child: SolidButton(
                                 primaryColor: Colors.black,
-                                borderColor: ColorConst.Primary.shade60,
+                                borderColor: ColorConst.Neutral.shade80,
                                 borderWidth: 1.5,
                                 onPressed: () {
                                   Get.back();
@@ -235,7 +235,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                   child: Text(
                                     'Cancel',
                                     style: bodyMedium.copyWith(
-                                        color: ColorConst.Primary.shade60),
+                                        color: ColorConst.Neutral.shade80),
                                   ),
                                 ),
                               ),
