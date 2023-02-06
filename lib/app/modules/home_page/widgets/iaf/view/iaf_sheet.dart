@@ -149,37 +149,49 @@ class _IAFSheetState extends State<IAFSheet> {
             decoration: InputDecoration(
               filled: true,
               fillColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              // suffixIcon: Icon(
-              //   Icons.search,
-              //   color: getColor(),
-              //   size: 22.arP,
-              // ),
+              isDense: true,
               counterStyle: const TextStyle(backgroundColor: Colors.white),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: controller.isVerified.value == null
                     ? BorderSide.none
-                    : BorderSide(color: getColor()),
+                    : BorderSide(
+                        color: getColor(),
+                        width: 1.3.arP,
+                      ),
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: ColorConst.green),
+                borderSide: BorderSide(
+                  color: ColorConst.green,
+                  width: 1.3.arP,
+                ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: controller.isVerified.value == null
                     ? BorderSide.none
-                    : BorderSide(color: getColor()),
+                    : BorderSide(
+                        color: getColor(),
+                        width: 1.3.arP,
+                      ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: controller.isVerified.value == null
                     ? BorderSide.none
-                    : BorderSide(color: getColor()),
+                    : BorderSide(
+                        color: getColor(),
+                        width: 1.3.arP,
+                      ),
               ),
               hintText: 'example@site.com',
-              hintStyle:
-                  bodyLarge.copyWith(color: ColorConst.NeutralVariant.shade70),
+              hintStyle: bodyLarge.copyWith(
+                // ignore: prefer_const_constructors
+                color: Color(
+                  0xFF7B757F,
+                ),
+              ),
               labelStyle: labelSmall,
               // contentPadding:
               //     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -192,7 +204,9 @@ class _IAFSheetState extends State<IAFSheet> {
 
   Color getColor() {
     if (controller.isVerified.value == null) {
-      return ColorConst.NeutralVariant.shade60;
+      return const Color(
+        0xFF252525,
+      );
     }
     if (controller.isVerified.value!) return ColorConst.green;
     return ColorConst.Tertiary;
