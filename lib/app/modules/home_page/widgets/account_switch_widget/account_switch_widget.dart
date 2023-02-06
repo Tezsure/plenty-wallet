@@ -240,7 +240,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                 ),
                               ),
                             ),
-                            0.04.hspace,
+                            0.016.hspace,
                             Expanded(
                               child: SolidButton(
                                   title: "Proceed",
