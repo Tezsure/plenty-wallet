@@ -1,13 +1,10 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
-import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 
 class PatchService {
   Future<List<AccountModel>> recoverWalletsFromOldStorage() async {
