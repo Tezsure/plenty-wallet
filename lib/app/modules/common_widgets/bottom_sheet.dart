@@ -177,9 +177,9 @@ class NaanBottomSheet extends StatelessWidget {
               Column(
                 children: [
                   if (action == null && leading == null)
-                    0.03.vspace
+                    0.04.vspace
                   else
-                    0.02.vspace,
+                    0.03.vspace,
                   Row(
                     children: [
                       Expanded(
