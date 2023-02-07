@@ -46,6 +46,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   // late String imageUrl;
   final _controller = Get.put(AccountSummaryController());
   String ipfsHost = "https://ipfs.gcp.marigold.dev/ipfs";
+  String fxHash = "";
   bool showButton = true;
   bool showFloating = true;
   bool isScrolling = false;
@@ -95,19 +96,41 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                       borderRadius: 40.arP,
                       width: 125.arP,
                       primaryColor: ColorConst.Primary,
-                      onPressed: () {
-                        final String? hash = widget.nftModel?.artifactUri
-                            ?.replaceAll("ipfs://", "");
-                        final String img = '$ipfsHost/$hash';
-                        //CommonFunctions.launchURL(img);
-                        Get.bottomSheet(
-                          const DappBrowserView(),
-                          barrierColor: Colors.white.withOpacity(0.09),
-                          settings: RouteSettings(
-                            arguments: img,
-                          ),
-                          isScrollControlled: true,
-                        );
+                      onPressed: () async {
+                        if (isScrolling == false) {
+                          setState(() {
+                            isScrolling = true;
+                          });
+                          String? hash = widget.nftModel?.artifactUri
+                              ?.replaceAll("ipfs://", "");
+                          if (widget.nftModel!.faContract ==
+                                  "KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi" ||
+                              widget.nftModel!.faContract ==
+                                  "KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE") {
+                            ipfsHost = "https://gateway.fxhash2.xyz/ipfs";
+                            if (hash!.contains("fxhash")) {
+                              var x = hash.split("?");
+
+                              hash = "${x[0]}/?${x[1]}";
+                            }
+                          }
+
+                          final String img = '$ipfsHost/$hash';
+                          //CommonFunctions.launchURL(img);
+                          print("yo $img");
+                          await Get.bottomSheet(
+                            const DappBrowserView(),
+                            barrierColor: Colors.white.withOpacity(0.09),
+                            settings: RouteSettings(
+                              arguments: img,
+                            ),
+                            isScrollControlled: true,
+                          );
+                          print("closed");
+                          setState(() {
+                            isScrolling = false;
+                          });
+                        }
                       },
                       child: Center(
                         child: Row(

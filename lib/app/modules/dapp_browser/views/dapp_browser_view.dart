@@ -28,10 +28,10 @@ class DappBrowserView extends GetView<DappBrowserController> {
     final GlobalKey webViewKey = GlobalKey();
     InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
         crossPlatform: InAppWebViewOptions(
-            useShouldOverrideUrlLoading: true,
-            mediaPlaybackRequiresUserGesture: false,
-            allowUniversalAccessFromFileURLs: true,
-            useOnLoadResource: true),
+          useShouldOverrideUrlLoading: true,
+          mediaPlaybackRequiresUserGesture: false,
+          allowUniversalAccessFromFileURLs: true,
+        ),
         android: AndroidInAppWebViewOptions(
           useHybridComposition: true,
         ),
