@@ -143,4 +143,8 @@ class RpcService {
     }
     return url;
   }
+
+  static Future<String> getIpfsUrl() async {
+    return await HttpService.performGetRequest(ServiceConfig.ipfsUrlApi);
+  }
 }
