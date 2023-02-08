@@ -72,13 +72,13 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
       bottomSheetHorizontalPadding: 16.arP,
       height: AppConstant.naanBottomSheetHeight -
           MediaQuery.of(context).viewInsets.bottom,
-      isScrollControlled: true,
+      // isScrollControlled: true,
       title: "Edit Account",
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
               MediaQuery.of(context).viewInsets.bottom -
-              36.arP,
+              70.arP,
           child: Column(children: [
             0.02.vspace,
             _buildAvatar(),

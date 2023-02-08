@@ -51,8 +51,9 @@ class NftGalleryView extends GetView<NftGalleryController> {
   Widget _buildGalleryWithSearch(BuildContext context) {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 0,
-      height: AppConstant.naanBottomSheetHeight -
-          MediaQuery.of(context).viewInsets.bottom,
+      isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight -
+      //     MediaQuery.of(context).viewInsets.bottom,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
@@ -64,9 +65,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 16.arP,
-                  ),
+                  0.02.vspace,
                   _searchAppBarWidget(),
                   SizedBox(
                     height: 25.arP,
@@ -226,7 +225,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
   Widget _buildGalleryWithoutSearch() {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 0,
-      height: AppConstant.naanBottomSheetHeight,
+      isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight,

@@ -113,7 +113,8 @@ class CreateNewNftGalleryBottomSheet
     return NaanBottomSheet(
       title: "Select accounts",
       bottomSheetHorizontalPadding: 0,
-      height: AppConstant.naanBottomSheetHeight,
+      isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight - 40,

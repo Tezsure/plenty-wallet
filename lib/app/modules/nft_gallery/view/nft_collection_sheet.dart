@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dar
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_sheet.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -19,8 +20,9 @@ class NFTCollectionSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      isScrollControlled: true,
       bottomSheetHorizontalPadding: 0,
-      height: .9.height,
+      // height: .9.height,
       bottomSheetWidgets: [
         _getNftListViewWidget(),
       ],
@@ -31,12 +33,13 @@ class NFTCollectionSheet extends StatelessWidget {
     double crossAxisCount = 2.1,
   ]) =>
       Container(
-          height: .8724.height,
+          height: AppConstant.naanBottomSheetChildHeight,
           margin: EdgeInsets.symmetric(
             horizontal: 16.arP,
           ),
           child: Column(
             children: [
+              0.02.vspace,
               _getCollectionDetailsRow(
                 nfts.first,
                 nfts.toList().length,

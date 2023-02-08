@@ -77,7 +77,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
       initialChildSize: 0.95,
-      maxChildSize: 0.96,
+      maxChildSize: 0.95,
       minChildSize: 0.6,
       builder: ((context, scrollController) => Scaffold(
             backgroundColor: Colors.black,
