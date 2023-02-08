@@ -24,7 +24,6 @@ class NFTImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final String nftImageUrl = nftTokenModel.displayUri
                 ?.contains("data:image/svg+xml") ??
             false

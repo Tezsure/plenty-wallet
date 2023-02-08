@@ -131,9 +131,14 @@ class DataVariable<T> {
   }
 
   void registerCallback(callback, [extraParams]) {
+    //print("call ${callback.toString().hashCode}");
     callbacks.add(callback);
     _value = 0;
     extraParams == null ? updateProcess() : updateProcess(extraParams);
+  }
+
+  void removeCallback(hash) {
+    callbacks.removeWhere((callback) => callback.hashCode == hash);
   }
 
   void registerVariable(rxVar) {

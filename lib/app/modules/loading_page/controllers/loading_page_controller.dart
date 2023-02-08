@@ -51,6 +51,7 @@ class LoadingPageController extends GetxController {
           ),
           Future.delayed(const Duration(seconds: 3))
         ]);
+        if (createWalletResult[0] == null) return;
         mnemonic = (createWalletResult[0] as AccountModel)
             .accountSecretModel!
             .seedPhrase!;

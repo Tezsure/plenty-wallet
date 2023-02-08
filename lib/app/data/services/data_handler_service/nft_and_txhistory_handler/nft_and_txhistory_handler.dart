@@ -131,9 +131,8 @@ class ObjktNftApiService {
         variables: {'address': pkH},
       );
 
-      return jsonEncode(response.data['token']
-          .where((e) => e['holders'].length > 0 && e['token_id'].isNotEmpty)
-          .toList());
+      return jsonEncode(
+          response.data['token'].where((e) => e['token_id'] != "").toList());
     } catch (e) {
       print(" gql error $e");
       return "[]";
@@ -165,7 +164,7 @@ class TzktTxHistoryApiService {
 
   /// Get transaction history for a given account recent 20 transactions
   Future<List<TxHistoryModel>> getTxHistory(
-      {int limit = 20,
+      {int limit = 1000,
       String lastId = "",
       String? sortBy = "Descending"}) async {
     String network = "";

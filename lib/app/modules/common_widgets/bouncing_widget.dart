@@ -78,6 +78,7 @@ class BouncingWidgetState extends State<BouncingWidget>
   // Both the animation happens in the same method,
   // but in a duration of time, and our callback is called here as well
   void _onTap() {
+    if (onPressed == null && onLongPressed == null) return;
     //Firing the animation right away
     _animate.forward();
 
@@ -94,6 +95,8 @@ class BouncingWidgetState extends State<BouncingWidget>
   // Both the animation happens in the same method,
   // but in a duration of time, and our callback is called here as well
   void _onLongPress() {
+    if (onPressed == null && onLongPressed == null) return;
+
     //Firing the animation right away
     _animate.forward();
 

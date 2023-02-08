@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -195,61 +193,61 @@ class ServiceConfig {
   ''';
 
   static const String gQuery = r'''
-        query GetNftForUser($address: String!) {
-  token(where: {holders: {holder: {address: {_eq: $address}}, token: {}}, fa_contract: {_neq: "KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS"}}) {
-    artifact_uri
-    description
-    display_uri
-    lowest_ask
-    level
-    mime
-    pk
-    royalties {
-      id
-      decimals
-      amount
-    }
-    supply
-    thumbnail_uri
-    timestamp
-    fa_contract
-    token_id
-    name
-    creators {
-      creator_address
-      token_pk
-      holder {
-        alias
-        address
+    query GetNftForUser($address: String!) {
+      token(where: {holders: {holder_address: {_eq: $address}, token: {}, quantity:{_gt:"0"}}, fa_contract: {_neq: "KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS"}, decimals:{_lte:"0"}}) {
+        artifact_uri
+        description
+        display_uri
+        lowest_ask
+        level
+        mime
+        pk
+        royalties {
+          id
+          decimals
+          amount
+        }
+        supply
+        thumbnail_uri
+        timestamp
+        fa_contract
+        token_id
+        name
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+        holders(where: {holder_address: {_eq: $address}, quantity: {_gt: "0"}}) {
+          quantity
+          holder_address
+        }
+        events {
+          id
+          fa_contract
+          price
+          recipient_address
+          timestamp
+          creator {
+            address
+            alias
+          }
+          event_type
+          marketplace_event_type
+          amount
+        }
+        fa {
+          name
+          collection_type
+          logo
+          floor_price
+          contract
+        }
+        metadata
       }
     }
-    holders(where: {holder_address: {_eq: $address}, quantity: {_gt: "0"}}) {
-      quantity
-      holder_address
-    }
-    events {
-      id
-      fa_contract
-      price
-      recipient_address
-      timestamp
-      creator {
-        address
-        alias
-      }
-      event_type
-      marketplace_event_type
-      amount
-    }
-    fa {
-      name
-      collection_type
-      logo
-      floor_price
-      contract
-    }
-    metadata
-  }
-}
 ''';
 }

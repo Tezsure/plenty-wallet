@@ -70,7 +70,9 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
         Get.back();
       }
     });
-    controller.value.resumeCamera();
+    try {
+      controller.value.resumeCamera();
+    } catch (e) {}
   }
 
   void onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {

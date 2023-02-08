@@ -172,7 +172,7 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
       highlightColor: Colors.transparent,
       child: SizedBox(
         width: double.infinity,
-        height: 58.arP,
+        height: 59.arP,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Row(

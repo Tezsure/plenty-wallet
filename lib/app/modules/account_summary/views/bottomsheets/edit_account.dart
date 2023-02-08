@@ -44,7 +44,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
     _controller.accountNameController.removeListener(() {});
     nameFocusNode.requestFocus();
     _controller.accountNameController.text =
-        _controller.homePageController.userAccounts[widget.accountIndex].name!;
+        _controller.homePageController.userAccounts[widget.accountIndex].name ??
+            "Account";
     _controller.accountNameController.addListener(() {
       setState(() {
         _controller.accountNameController.text.isEmpty

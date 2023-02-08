@@ -18,6 +18,7 @@ class TokenInfo {
   final String? nftTokenId;
   final bool? isHashSame;
   final DateTime? timeStamp;
+  final List<TokenInfo> internalOperation;
 
   TokenInfo({
     this.name = "Tezos",
@@ -29,6 +30,7 @@ class TokenInfo {
     this.tokenAmount = 0,
     this.lastId = "",
     this.token,
+    this.internalOperation = const [],
     this.isDelegated = false,
     this.nftContractAddress,
     this.nftTokenId,
@@ -51,8 +53,9 @@ class TokenInfo {
     bool? isDelegated,
     String? address,
     String? nftTokenId,
-    bool? isHashSame = false,
+    bool? isHashSame,
     DateTime? timeStamp,
+    List<TokenInfo>? internalOperation,
   }) {
     return TokenInfo(
         name: name ?? this.name,
@@ -69,6 +72,7 @@ class TokenInfo {
         nftContractAddress: address ?? nftContractAddress,
         nftTokenId: nftTokenId ?? this.nftTokenId,
         isHashSame: isHashSame ?? this.isHashSame,
+        internalOperation: internalOperation ?? this.internalOperation,
         timeStamp: timeStamp ?? this.timeStamp);
   }
 }
