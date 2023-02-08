@@ -80,6 +80,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
       maxChildSize: 0.96,
       minChildSize: 0.6,
       builder: ((context, scrollController) => Scaffold(
+            backgroundColor: Colors.black,
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: showFloating
