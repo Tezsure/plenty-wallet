@@ -27,9 +27,9 @@ class _IAFSheetState extends State<IAFSheet> {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 0,
-      title: "Claim NFT",
-      height: AppConstant.naanBottomSheetHeight -
-          MediaQuery.of(context).viewInsets.bottom,
+      title: "Claim NFT", isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight -
+      //     MediaQuery.of(context).viewInsets.bottom,
       bottomSheetWidgets: [
         Obx(() {
           return SizedBox(

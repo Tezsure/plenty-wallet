@@ -331,12 +331,14 @@ class CreateNewNftGalleryBottomSheet
         bottomSheetHorizontalPadding: 0,
         title:
             nftGalleryModel != null ? "Edit your gallery" : "Name your gallery",
-        height: AppConstant.naanBottomSheetHeight,
+
+        // height: AppConstant.naanBottomSheetHeight,
         isScrollControlled: true,
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight -
-                MediaQuery.of(context).viewInsets.bottom,
+                MediaQuery.of(context).viewInsets.bottom -
+                64.arP,
             child: Column(
               children: [
                 Obx(

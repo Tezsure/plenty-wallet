@@ -32,8 +32,9 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     if (isBottomSheet) {
       return NaanBottomSheet(
         bottomSheetHorizontalPadding: 16.arP,
-        height: AppConstant.naanBottomSheetHeight -
-            MediaQuery.of(context).viewInsets.bottom,
+        isScrollControlled: true,
+        // height: AppConstant.naanBottomSheetHeight -
+        //     MediaQuery.of(context).viewInsets.bottom,
         bottomSheetWidgets: [
           SizedBox(
               height: AppConstant.naanBottomSheetChildHeight -

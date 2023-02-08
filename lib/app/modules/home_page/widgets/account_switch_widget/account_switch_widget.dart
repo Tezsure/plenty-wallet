@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/widgets/account_selector/account_selector.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
@@ -41,9 +42,10 @@ class _AccountSwitchState extends State<AccountSwitch> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-        height: 0.38.height,
+        // height: 0.38.height,
         bottomSheetHorizontalPadding: 0,
         title: widget.title,
+        isScrollControlled: true,
         // width: 1.width,
 
         // decoration: const BoxDecoration(
@@ -51,7 +53,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
         //     color: Colors.black),
         bottomSheetWidgets: [
           Container(
-            height: 0.27.height,
+            height: 0.3.height,
             child: SafeArea(
               child: Column(
                 children: [
@@ -258,7 +260,8 @@ class _AccountSwitchState extends State<AccountSwitch> {
                         ),
                       )
                     ],
-                  ))
+                  )),
+                  const BottomButtonPadding()
                 ],
               ),
             ),

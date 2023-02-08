@@ -27,50 +27,46 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
         title: "Delegate",
-        mainAxisAlignment: MainAxisAlignment.end,
+        isScrollControlled: true,
+        // mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 0,
-        height: (isScrollable ? 0.85.height : 1.height),
+        // height: (isScrollable ? 0.85.height : 1.height),
         bottomSheetWidgets: [
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Column(
-                children: [
-                  SizedBox(
-                    height: (isScrollable ? 0.77.height : 1.height) -
-                        MediaQuery.of(context).viewInsets.bottom,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        right: 0.05.width,
-                        left: 0.05.width,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: isScrollable
-                            ? CrossAxisAlignment.center
-                            : CrossAxisAlignment.start,
-                        children: [
-                          _buildHeader(),
-                          _buildSearch(),
-                          0.01.vspace,
-                          Padding(
-                            padding:
-                                EdgeInsets.symmetric(vertical: 0.012.height),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child:
-                                  Text("Recommended bakers", style: labelLarge),
-                            ),
-                          ),
-                          _buildBakerList(),
-                        ],
-                      ),
-                    ),
+          SizedBox(
+            height: AppConstant.naanBottomSheetChildHeight -
+                MediaQuery.of(context).viewInsets.bottom -
+                64.arP,
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    right: 0.05.width,
+                    left: 0.05.width,
                   ),
-                ],
-              ),
-              _buildSortByWidget(context)
-            ],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: isScrollable
+                        ? CrossAxisAlignment.center
+                        : CrossAxisAlignment.start,
+                    children: [
+                      _buildHeader(),
+                      _buildSearch(),
+                      0.01.vspace,
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 0.012.height),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text("Recommended bakers", style: labelLarge),
+                        ),
+                      ),
+                      _buildBakerList(),
+                    ],
+                  ),
+                ),
+                _buildSortByWidget(context)
+              ],
+            ),
           ),
         ]);
   }

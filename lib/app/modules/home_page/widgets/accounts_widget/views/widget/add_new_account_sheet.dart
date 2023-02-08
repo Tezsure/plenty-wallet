@@ -75,8 +75,9 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
   Widget _buildAddAccount(BuildContext context) {
     return NaanBottomSheet(
       title: "Name your account",
-      height: AppConstant.naanBottomSheetHeight -
-          MediaQuery.of(context).viewInsets.bottom,
+      isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight -
+      //     MediaQuery.of(context).viewInsets.bottom,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -

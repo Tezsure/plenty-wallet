@@ -70,9 +70,9 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   Widget draggableUI() {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 16.arP,
-      height: AppConstant.naanBottomSheetHeight -
-          MediaQuery.of(context).viewInsets.bottom,
-      // isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight -
+      //     MediaQuery.of(context).viewInsets.bottom,
+      isScrollControlled: true,
       title: "Edit Account",
       bottomSheetWidgets: [
         SizedBox(

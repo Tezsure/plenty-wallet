@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker_tile.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -20,7 +21,8 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
   Widget build(BuildContext context) {
     return Obx(() {
       return NaanBottomSheet(
-        height: 0.9.height,
+        // height: 0.9.height,
+        isScrollControlled: true,
         bottomSheetHorizontalPadding: 16.arP,
         // decoration: const BoxDecoration(
         //   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
@@ -28,7 +30,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
         // ),
         bottomSheetWidgets: [
           SizedBox(
-            height: 0.87.height,
+            height: AppConstant.naanBottomSheetChildHeight,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
