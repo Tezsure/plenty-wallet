@@ -22,8 +22,8 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 0,
-      height: AppConstant.naanBottomSheetHeight - 32.arP,
+      bottomSheetHorizontalPadding: 0, isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight - 32.arP,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight - 32.arP,
