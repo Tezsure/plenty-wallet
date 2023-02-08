@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
@@ -145,12 +146,13 @@ class _IAFSheetState extends State<IAFSheet> {
           child: TextFormField(
             style: bodyLarge.copyWith(color: Colors.white),
             onChanged: (input) {
-              if (controller.isVerified.value != null) {
-                controller.isVerified = null.obs;
-                setState(() {});
-              }
+              // if (controller.isVerified.value != null) {
+              //   controller.isVerified.value = null;
+              //   // setState(() {});
+              // }
               controller.onChange(input);
             },
+            inputFormatters: [FilteringTextInputFormatter.deny(" ")],
             controller: controller.emailController,
             textAlignVertical: TextAlignVertical.top,
             textAlign: TextAlign.start,

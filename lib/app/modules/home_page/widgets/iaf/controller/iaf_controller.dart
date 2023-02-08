@@ -27,11 +27,7 @@ class IAFController extends GetxController {
   onChange(String value) {
     isVerified = null.obs;
 
-    if (value.isEmail) {
-      if (!isButtonEnabled.value) isButtonEnabled.value = true;
-    } else {
-      if (!isButtonEnabled.value) isButtonEnabled.value = false;
-    }
+    isButtonEnabled.value = value.isEmail;
   }
 
   Future<void> verify() async {
