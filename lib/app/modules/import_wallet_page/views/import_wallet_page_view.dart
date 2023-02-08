@@ -130,7 +130,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                   expands: true,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny("  "),
-                                    FilteringTextInputFormatter.deny(".")
+                                    // FilteringTextInputFormatter.deny(".")
                                   ],
                                   controller:
                                       controller.phraseTextController.value,

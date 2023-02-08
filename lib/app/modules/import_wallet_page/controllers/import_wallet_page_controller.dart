@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/data/services/service_models/account_model.dart'
 import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
+import 'package:naan_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
@@ -94,8 +95,20 @@ class ImportWalletPageController extends GetxController
       if (cModels.isNotEmpty) {
         var cModel = cModels[0];
         phraseText.value = cModel.address!;
-        checkImportType(phraseText.value);
+        importWalletDataType = ImportWalletDataType.watchAddress;
+        // checkImportType(phraseText.value);
+        final controller = Get.put(CreateProfilePageController());
+        controller.selectedImagePath.value = cModel.imagePath;
+        controller.accountNameController.value =
+            TextEditingValue(text: cModel.name);
+        controller.currentSelectedType = AccountProfileImageType.assets;
       } else {
+        transactionStatusSnackbar(
+          duration: const Duration(seconds: 2),
+          status: TransactionStatus.error,
+          tezAddress: "Invalid tezos domain.",
+          transactionAmount: 'Cannot import',
+        );
         return;
       }
     }
