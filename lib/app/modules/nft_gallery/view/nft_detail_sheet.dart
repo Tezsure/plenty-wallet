@@ -45,7 +45,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   bool isExpanded = false;
   // late String imageUrl;
   final _controller = Get.put(AccountSummaryController());
-  String ipfsHost = "https://ipfs.gcp.marigold.dev/ipfs";
+  String ipfsHost = ServiceConfig.ipfsUrl;
   String fxHash = "";
   bool showButton = true;
   bool showFloating = true;
@@ -107,7 +107,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                                   "KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi" ||
                               widget.nftModel!.faContract ==
                                   "KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE") {
-                            ipfsHost = "https://gateway.fxhash2.xyz/ipfs";
+                            ipfsHost = ServiceConfig.ipfsUrl;
                             if (hash!.contains("fxhash")) {
                               var x = hash.split("?");
 
@@ -117,7 +117,6 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
 
                           final String img = '$ipfsHost/$hash';
                           //CommonFunctions.launchURL(img);
-                          print("yo $img");
                           await Get.bottomSheet(
                             const DappBrowserView(),
                             barrierColor: Colors.white.withOpacity(0.09),

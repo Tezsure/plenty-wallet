@@ -7,6 +7,8 @@ class ServiceConfig {
   static String currentSelectedNode = "https://rpc.tzkt.io/mainnet";
   static NetworkType currentNetwork = NetworkType.mainnet;
 
+  static String ipfsUrl = "https://ipfs.io/ipfs";
+
   static bool isIAFWidgetVisible = false;
 
   /// Teztools api with endpoint for mainnet token prices
@@ -21,6 +23,9 @@ class ServiceConfig {
 
   /// Rpc Node Selector
   static String nodeSelector = "https://cdn.naan.app/rpc-list";
+
+  static String ipfsUrlApi = "https://cdn.naan.app/ipfs_url";
+
 
   static String tzktApiForToken(String pkh, String network) =>
       "https://api.${network}tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true&token.contract.ne=KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS";
