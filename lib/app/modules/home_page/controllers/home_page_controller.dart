@@ -54,6 +54,20 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
       // print("accountUpdater".toUpperCase());
       // print("${userAccounts.value.hashCode == accounts.hashCode}");
       userAccounts.value = [...(accounts ?? [])];
+      userAccounts.sort((a, b) =>
+          b.importedAt!.millisecondsSinceEpoch -
+          a.importedAt!.millisecondsSinceEpoch);
+      Future.delayed(
+        Duration(milliseconds: 500),
+      ).then((value) {
+        try {
+          Get.put(AccountsWidgetController()).onPageChanged(0);
+          changeSelectedAccount(0);
+        } catch (e) {
+          log(e.toString());
+        }
+      });
+
       try {
         if (userAccounts.where((p0) => !p0.isWatchOnly).isNotEmpty) {
           Future.delayed(const Duration(seconds: 1), () async {
