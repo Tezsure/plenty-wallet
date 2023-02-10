@@ -1234,10 +1234,10 @@ packages:
     dependency: "direct main"
     description:
       name: web3auth_flutter
-      sha256: "7d3220dbd960e14dc0c7c3068b0ddabc5814060862539730838472a88c0910e5"
+      sha256: add7ca4a07830e1f768ae37f5bb79e4aa8ab955e794d169bfb81287d4158ceec
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.3"
+    version: "1.1.0"
   win32:
     dependency: transitive
     description:
