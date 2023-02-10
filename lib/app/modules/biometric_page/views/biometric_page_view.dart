@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -68,8 +69,8 @@ class BiometricPageView extends GetView<BiometricPageController> {
                   },
                 ),
                 0.01.vspace,
-                GestureDetector(
-                  onTap: () {
+                BouncingWidget(
+                  onPressed: () {
                     controller.checkOrWriteNewAndRedirectToNewPage(false);
          
                   },

@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -79,46 +81,10 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         //   ),
                         // ),
                         0.046.vspace,
-                        SolidButton(
-                          width: 1.width - 64.arP,
-                          title: "Create a new account",
-                          titleStyle: titleSmall.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                          onPressed: () {
-                            // arguments true is define for setting a new passcode for wallet
-                            Get.toNamed(
-                              Routes.PASSCODE_PAGE,
-                              arguments: [
-                                false,
-                                Routes.BIOMETRIC_PAGE,
-                              ],
-                            );
-                          },
-                        ),
-    
+                        _buildCreateAccountButton(),
+
                         0.0125.vspace,
-                        GestureDetector(
-                          onTap: () {
-                            Get.toNamed(Routes.IMPORT_WALLET_PAGE);
-                          },
-                          child: Container(
-                            height: 48,
-                            width: 1.width - 64.arP,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: ColorConst.Neutral.shade80,
-                                width: 1.50,
-                              ),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text("I already have an account",
-                                style: titleSmall.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: ColorConst.Neutral.shade80)),
-                          ),
-                        ),
+                        _buildImportAccountButton(),
                         0.025.vspace,
                       ],
                     ),
@@ -130,8 +96,8 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         Expanded(
                             child: Divider(
                           thickness: 1,
-                          color:
-                              ColorConst.NeutralVariant.shade60.withOpacity(0.4),
+                          color: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.4),
                         )),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -146,46 +112,17 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         Expanded(
                             child: Divider(
                           thickness: 1,
-                          color:
-                              ColorConst.NeutralVariant.shade60.withOpacity(0.4),
+                          color: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.4),
                         )),
                       ],
                     ),
                   ),
                   0.035.vspace,
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 32.arP,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        if (Platform.isIOS)
-                          SocialLoginButton(
-                            onTap:
-                                controller.login(socialAppName: Provider.apple),
-                            socialIconPath: "apple.svg",
-                          ),
-                        SocialLoginButton(
-                          onTap: controller.login(socialAppName: Provider.google),
-                          socialIconPath: "google.svg",
-                        ),
-                        SocialLoginButton(
-                          onTap:
-                              controller.login(socialAppName: Provider.facebook),
-                          socialIconPath: "facebook.svg",
-                        ),
-                        SocialLoginButton(
-                          onTap:
-                              controller.login(socialAppName: Provider.twitter),
-                          socialIconPath: "twitter.svg",
-                        ),
-                      ],
-                    ),
-                  ),
+                  _builsSocialLogins(),
                   0.018.vspace,
-                  GestureDetector(
-                    onTap: () {
+                  BouncingWidget(
+                    onPressed: () {
                       NaanAnalytics.logEvent(
                         NaanAnalyticsEvents.SKIP_LOGIN,
                       );
@@ -212,6 +149,89 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
       ),
     );
   }
+
+  SolidButton _buildCreateAccountButton() {
+    return SolidButton(
+      width: 1.width - 64.arP,
+      title: "Create a new account",
+      titleStyle: titleSmall.copyWith(
+        fontWeight: FontWeight.w600,
+      ),
+      onPressed: () {
+        // arguments true is define for setting a new passcode for wallet
+        Get.toNamed(
+          Routes.PASSCODE_PAGE,
+          arguments: [
+            false,
+            Routes.BIOMETRIC_PAGE,
+          ],
+        );
+      },
+    );
+  }
+
+  Padding _builsSocialLogins() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 32.arP,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          if (Platform.isIOS)
+            SocialLoginButton(
+              onTap: controller.login(socialAppName: Provider.apple),
+              socialIconPath: "apple.svg",
+            ),
+          SocialLoginButton(
+            onTap: controller.login(socialAppName: Provider.google),
+            socialIconPath: "google.svg",
+          ),
+          SocialLoginButton(
+            onTap: controller.login(socialAppName: Provider.facebook),
+            socialIconPath: "facebook.svg",
+          ),
+          SocialLoginButton(
+            onTap: controller.login(socialAppName: Provider.twitter),
+            socialIconPath: "twitter.svg",
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImportAccountButton() {
+    return SolidButton(
+      primaryColor: Colors.transparent,
+      onPressed: () {
+        Get.toNamed(Routes.IMPORT_WALLET_PAGE);
+      },
+      title: "I already have an account",
+      borderColor: ColorConst.Neutral.shade80,
+      textColor: ColorConst.Neutral.shade80,
+    );
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(Routes.IMPORT_WALLET_PAGE);
+      },
+      child: Container(
+        height: 48,
+        width: 1.width - 64.arP,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: ColorConst.Neutral.shade80,
+            width: 1.50,
+          ),
+        ),
+        alignment: Alignment.center,
+        child: Text("I already have an account",
+            style: titleSmall.copyWith(
+                fontWeight: FontWeight.w600,
+                color: ColorConst.Neutral.shade80)),
+      ),
+    );
+  }
 }
 
 class SocialLoginButton extends StatelessWidget {
@@ -225,8 +245,9 @@ class SocialLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    return BouncingWidget(
+      onPressed: onTap,
+      // onTap: onTap,
       child: CircleAvatar(
         radius: 0.07.width,
         backgroundColor: Colors.transparent,

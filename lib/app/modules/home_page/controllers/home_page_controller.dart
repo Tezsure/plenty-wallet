@@ -173,7 +173,6 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
 
       // We didn't ask for permission yet or the permission has been denied before but not permanently.
     } else {
-      HapticFeedback.heavyImpact();
       Get.bottomSheet(const ScanQrView(),
           enterBottomSheetDuration: const Duration(milliseconds: 180),
           exitBottomSheetDuration: const Duration(milliseconds: 150),

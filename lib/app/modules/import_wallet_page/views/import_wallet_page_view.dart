@@ -5,8 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
@@ -65,39 +67,49 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           0.03.vspace,
           Row(
             children: [
-              GestureDetector(
-                onTap: () => Get.back(),
-                child: SvgPicture.asset(
-                  "${PathConst.SVG}arrow_back.svg",
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
+              backButton(),
+              // GestureDetector(
+              //   onTap: () => Get.back(),
+              //   child: SvgPicture.asset(
+              //     "${PathConst.SVG}arrow_back.svg",
+              //     fit: BoxFit.scaleDown,
+              //   ),
+              // ),
               const Spacer(),
-              GestureDetector(
-                onTap: () {
+              InfoButton(
+                onPressed: () {
                   Get.bottomSheet(
                     const InfoBottomSheet(),
                     isScrollControlled: true,
                     barrierColor: Colors.white.withOpacity(0.2),
                   );
                 },
-                child: Row(
-                  children: [
-                    Text(
-                      "info",
-                      style: titleMedium.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: ColorConst.NeutralVariant.shade60),
-                    ),
-                    0.01.hspace,
-                    Icon(
-                      Icons.info_outline,
-                      color: ColorConst.NeutralVariant.shade60,
-                      size: 16,
-                    ),
-                  ],
-                ),
-              )
+              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     Get.bottomSheet(
+              //       const InfoBottomSheet(),
+              //       isScrollControlled: true,
+              //       barrierColor: Colors.white.withOpacity(0.2),
+              //     );
+              //   },
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         "info",
+              //         style: titleMedium.copyWith(
+              //             fontWeight: FontWeight.w600,
+              //             color: ColorConst.NeutralVariant.shade60),
+              //       ),
+              //       0.01.hspace,
+              //       Icon(
+              //         Icons.info_outline,
+              //         color: ColorConst.NeutralVariant.shade60,
+              //         size: 16,
+              //       ),
+              //     ],
+              //   ),
+              // )
             ],
           ),
           Expanded(

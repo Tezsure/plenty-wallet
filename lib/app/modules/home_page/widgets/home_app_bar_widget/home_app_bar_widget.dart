@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/views/settings_page_view.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -17,8 +18,8 @@ class HomepageAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          GestureDetector(
-            onTap: () {
+          BouncingWidget(
+            onPressed: () {
               // Get.bottomSheet(
               //   TestNetworkBottomSheet(),
               // );
@@ -44,8 +45,8 @@ class HomepageAppBar extends StatelessWidget {
                 height: 42.arP,
               );
             }
-            return GestureDetector(
-              onTap: () {
+            return BouncingWidget(
+              onPressed: () {
                 Get.find<HomePageController>().openScanner();
               },
               child: Image.asset(

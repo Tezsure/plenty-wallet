@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
@@ -51,8 +52,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                         EdgeInsets.only(left: 16.aR, right: 16.aR, top: 14.aR),
                     child: Row(
                       children: [
-                        GestureDetector(
-                          onTap: () {
+                        BouncingWidget(
+                          onPressed: () {
                             Get.bottomSheet(const AccountSelectorSheet(),
                                 enterBottomSheetDuration:
                                     const Duration(milliseconds: 180),
@@ -112,8 +113,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            InkWell(
-                              onTap: () {
+                            BouncingWidget(
+                              onPressed: () {
                                 Clipboard.setData(ClipboardData(
                                     text: controller
                                         .selectedAccount.value.publicKeyHash));
@@ -162,8 +163,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                             if (!controller.selectedAccount.value.isWatchOnly)
                               0.04.hspace,
                             if (!controller.selectedAccount.value.isWatchOnly)
-                              InkWell(
-                                onTap: () {
+                              BouncingWidget(
+                                onPressed: () {
                                   Get.find<HomePageController>().openScanner();
                                 },
                                 child: SvgPicture.asset(
@@ -786,8 +787,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
   Widget _actionButton(
       {required String imagePath, required String label, Function()? onTap}) {
     bool isEnabled = !(controller.selectedAccount.value.isWatchOnly);
-    return InkWell(
-      onTap: isEnabled ? onTap : null,
+    return BouncingWidget(
+      onPressed: isEnabled ? onTap : null,
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(

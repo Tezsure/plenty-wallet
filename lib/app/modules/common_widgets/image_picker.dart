@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -44,8 +45,8 @@ class ImagePickerSheet extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: onGallerySelect,
+                  BouncingWidget(
+                    onPressed: onGallerySelect,
                     child: Container(
                       // decoration: BoxDecoration(
                       //   borderRadius: BorderRadius.circular(8.aR),
@@ -66,8 +67,8 @@ class ImagePickerSheet extends StatelessWidget {
                     height: 1,
                     thickness: 1,
                   ),
-                  GestureDetector(
-                    onTap: onPickAvatarSelect,
+                  BouncingWidget(
+                    onPressed: onPickAvatarSelect,
                     child: Container(
                       // decoration: BoxDecoration(
                       //   borderRadius: BorderRadius.circular(8.aR),
@@ -90,8 +91,8 @@ class ImagePickerSheet extends StatelessWidget {
                       thickness: 1,
                     ),
                   onRemoveImage != null
-                      ? GestureDetector(
-                          onTap: onRemoveImage,
+                      ? BouncingWidget(
+                          onPressed: onRemoveImage,
                           child: Container(
                             width: double.infinity,
                             height: 51.aR,

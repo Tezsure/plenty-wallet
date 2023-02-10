@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/account_summary_view.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/scrolling_dot_effect.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
@@ -180,8 +181,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   }
 
   Widget accountContainer(AccountModel model, int index) {
-    return InkWell(
-        onTap: () {
+    return BouncingWidget(
+        onPressed: () {
           homePageController.changeSelectedAccount(index);
           Get.bottomSheet(
             const AccountSummaryView(),
@@ -229,8 +230,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                         style: labelMedium,
                       ),
                       Expanded(
-                        child: InkWell(
-                          onTap: () {
+                        child: BouncingWidget(
+                          onPressed: () {
                             Clipboard.setData(
                                 ClipboardData(text: model.publicKeyHash));
                             Get.rawSnackbar(
