@@ -164,13 +164,11 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
   Widget optionMethod({
     required NodeModel model,
   }) {
-    return InkWell(
-      onTap: () {
+    return BouncingWidget(
+      onPressed: () {
         selectedModel = model;
         setState(() {});
       },
-      splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
       child: SizedBox(
         width: double.infinity,
         height: 59.arP,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -59,9 +60,9 @@ class TokenView extends StatelessWidget {
                     children: [
                       controller.selectedTextfieldType.value ==
                               TextfieldType.token
-                          ? InkWell(
-                              splashColor: Colors.transparent,
-                              onTap: () {
+                          ? BouncingWidget(
+                              // splashColor: Colors.transparent,
+                              onPressed: () {
                                 if (!controller
                                     .amountFocusNode.value.hasFocus) {
                                   controller.amountFocusNode.value
@@ -170,9 +171,8 @@ class TokenView extends StatelessWidget {
                       children: [
                         controller.selectedTextfieldType.value ==
                                 TextfieldType.usd
-                            ? InkWell(
-                                splashColor: Colors.transparent,
-                                onTap: () {
+                            ? BouncingWidget(
+                                onPressed: () {
                                   controller.amountController.text =
                                       controller.selectedTokenModel != null
                                           ? (controller.selectedTokenModel!
