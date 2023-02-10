@@ -75,18 +75,22 @@ class ImportWalletPageController extends GetxController
   }
 
   /// define based on phraseText.value that if it's mnemonic, private key or watch address
-  void checkImportType(value) => importWalletDataType =
-      value.startsWith('edsk') || value.startsWith('spsk')
-          ? ImportWalletDataType.privateKey
-          : value.startsWith("tz1") ||
-                  value.startsWith("tz2") ||
-                  value.startsWith("tz3")
-              ? ImportWalletDataType.watchAddress
-              : value.split(" ").length == 12 || value.split(" ").length == 24
-                  ? ImportWalletDataType.mnemonic
-                  : value.endsWith('.tez')
-                      ? ImportWalletDataType.tezDomain
-                      : ImportWalletDataType.none;
+  void checkImportType(String value) {
+    value = value.trim();
+    importWalletDataType =
+        (value.startsWith('edsk') || value.startsWith('spsk')) &&
+                value.split(" ").length == 1
+            ? ImportWalletDataType.privateKey
+            : value.startsWith("tz1") ||
+                    value.startsWith("tz2") ||
+                    value.startsWith("tz3")
+                ? ImportWalletDataType.watchAddress
+                : value.split(" ").length == 12 || value.split(" ").length == 24
+                    ? ImportWalletDataType.mnemonic
+                    : value.endsWith('.tez')
+                        ? ImportWalletDataType.tezDomain
+                        : ImportWalletDataType.none;
+  }
 
   Future<void> redirectBasedOnImportWalletType([String? pageRoute]) async {
     if (importWalletDataType == ImportWalletDataType.tezDomain) {

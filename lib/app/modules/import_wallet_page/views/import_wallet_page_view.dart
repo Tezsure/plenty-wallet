@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -237,39 +239,43 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
 
   Widget importButton() {
     return Obx(
-      () => SolidButton(
-          width: 1.width - 64.arP,
-          onPressed: () async {
-            controller.phraseText.value = controller.phraseText.value.trim();
-            if (controller.importWalletDataType ==
-                ImportWalletDataType.mnemonic) {
-              controller.generatedAccountsTz1.value = <AccountModel>[];
-              controller.generatedAccountsTz2.value = <AccountModel>[];
-              controller.isTz1Selected.value = true;
-              controller.tabController!.animateTo(0);
-              controller.genAndLoadMoreAccounts(0, 3);
-              Get.bottomSheet(
-                AccountBottomSheet(controller: controller),
-                isScrollControlled: true,
-                barrierColor: Colors.white.withOpacity(0.2),
-              );
-            } else {
-              controller.redirectBasedOnImportWalletType();
-            }
-          },
-          // active: isImportActive(),
-          active: (controller.phraseText.split(" ").join().length >= 2 &&
-                  controller.importWalletDataType !=
-                      ImportWalletDataType.none) &&
-              isImportActive(),
-          inActiveChild: Text(
-            "Import",
-            style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
-          ),
-          child: Text(
-            "Import",
-            style: titleSmall.apply(color: ColorConst.Neutral.shade95),
-          )),
+      () {
+        controller.phraseText.value;
+        return SolidButton(
+            width: 1.width - 64.arP,
+            onPressed: () async {
+              controller.phraseText.value = controller.phraseText.value.trim();
+              if (controller.importWalletDataType ==
+                  ImportWalletDataType.mnemonic) {
+                controller.generatedAccountsTz1.value = <AccountModel>[];
+                controller.generatedAccountsTz2.value = <AccountModel>[];
+                controller.isTz1Selected.value = true;
+                controller.tabController!.animateTo(0);
+                controller.genAndLoadMoreAccounts(0, 3);
+                Get.bottomSheet(
+                  AccountBottomSheet(controller: controller),
+                  isScrollControlled: true,
+                  barrierColor: Colors.white.withOpacity(0.2),
+                );
+              } else {
+                controller.redirectBasedOnImportWalletType();
+              }
+            },
+            // active: isImportActive(),
+            active:
+                // (controller.phraseText.trim().split(" ").join().length >= 2 &&
+                //         controller.importWalletDataType !=
+                //             ImportWalletDataType.none) &&
+                isImportActive(),
+            inActiveChild: Text(
+              "Import",
+              style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
+            ),
+            child: Text(
+              "Import",
+              style: titleSmall.apply(color: ColorConst.Neutral.shade95),
+            ));
+      },
     );
   }
 
