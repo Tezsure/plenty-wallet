@@ -25,6 +25,7 @@ PODS:
   - BigInt (5.0.0)
   - bonsoir (1.0.1):
     - Flutter
+  - CryptoSwift (1.5.1)
   - Firebase/Analytics (10.3.0):
     - Firebase/Core
   - Firebase/Core (10.3.0):
@@ -61,9 +62,9 @@ PODS:
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/Logger (~> 7.8)
-  - FirebaseCoreInternal (10.4.0):
+  - FirebaseCoreInternal (10.5.0):
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
-  - FirebaseInstallations (10.4.0):
+  - FirebaseInstallations (10.5.0):
     - FirebaseCore (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
@@ -85,6 +86,7 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - GenericJSON (2.0.2)
   - GoogleAppMeasurement (10.3.0):
     - GoogleAppMeasurement/AdIdSupport (= 10.3.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
@@ -132,6 +134,7 @@ PODS:
   - instabug_flutter (11.6.0):
     - Flutter
     - Instabug (= 11.6.0)
+  - KeychainSwift (20.0.0)
   - local_auth_ios (0.0.1):
     - Flutter
   - MTBBarcodeScanner (5.0.11)
@@ -152,6 +155,7 @@ PODS:
   - qr_code_scanner (0.2.0):
     - Flutter
     - MTBBarcodeScanner
+  - secp256k1.swift (0.1.4)
   - share_plus (0.0.1):
     - Flutter
   - Sodium (0.9.1)
@@ -162,10 +166,17 @@ PODS:
     - Flutter
   - url_launcher_ios (0.0.1):
     - Flutter
-  - Web3Auth (3.5.1)
+  - web3.swift (0.9.3):
+    - BigInt (~> 5.0.0)
+    - GenericJSON (~> 2.0)
+    - secp256k1.swift (~> 0.1)
+  - Web3Auth (5.0.0):
+    - CryptoSwift (~> 1.5.1)
+    - KeychainSwift (~> 20.0.0)
+    - web3.swift (~> 0.9.3)
   - web3auth_flutter (0.1.1):
     - Flutter
-    - Web3Auth (~> 3.5.0)
+    - Web3Auth (~> 5.0.0)
 
 DEPENDENCIES:
   - beacon_flutter (from `.symlinks/plugins/beacon_flutter/ios`)
@@ -202,20 +213,25 @@ SPEC REPOS:
     - BeaconCore
     - BeaconTransportP2PMatrix
     - BigInt
+    - CryptoSwift
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreInternal
     - FirebaseInstallations
     - FMDB
+    - GenericJSON
     - GoogleAppMeasurement
     - GoogleUtilities
     - Instabug
+    - KeychainSwift
     - MTBBarcodeScanner
     - nanopb
     - OrderedSet
     - PromisesObjC
+    - secp256k1.swift
     - Sodium
+    - web3.swift
     - Web3Auth
 
 EXTERNAL SOURCES:
@@ -275,25 +291,28 @@ SPEC CHECKSUMS:
   BeaconTransportP2PMatrix: eb1be2bf6b91964970961980f46298d867b0bdf7
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
   bonsoir: c97724f65041a4068af8ab5f3449ae7f58b725b1
+  CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
   Firebase: f92fc551ead69c94168d36c2b26188263860acd9
   firebase_analytics: 9f3a4cb560a59976b2c48707abae2d4cb94bcb3a
   firebase_core: bf59c32d2e53814f558efa20840c1902fa2fe461
   FirebaseAnalytics: 036232b6a1e2918e5f67572417be1173576245f3
   FirebaseCore: 988754646ab3bd4bdcb740f1bfe26b9f6c0d5f2a
-  FirebaseCoreInternal: e301297f4c15a17489e48ed722d733b1578e0c02
-  FirebaseInstallations: 36b38c733fd37e50857e5e8d74138648f466f18c
+  FirebaseCoreInternal: e463f41bb935cd049505bf7e9a5bdd7dcea90df6
+  FirebaseInstallations: 935bc4abb6f7a035cab7a0c31cb777b2be3dd254
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   flutter_sodium: c84426b4de738514b5b66cfdeb8a06634e72fe0b
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  GenericJSON: 79a840eeb77030962e8cf02a62d36bd413b67626
   GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
   GoogleUtilities: c2bdc4cf2ce786c4d2e6b3bcfd599a25ca78f06f
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   in_app_review: 318597b3a06c22bb46dc454d56828c85f444f99d
   Instabug: bddae5b34c359e97e4aee5ce4d9a71fdba4df652
   instabug_flutter: 8f3ebc607ad1db5880a4da9cdcce8dfe1104247b
+  KeychainSwift: 0ce6a4d13f7228054d1a71bb1b500448fb2ab837
   local_auth_ios: 0d333dde7780f669e66f19d2ff6005f3ea84008d
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
@@ -303,13 +322,15 @@ SPEC CHECKSUMS:
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
+  secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
   Sodium: 23d11554ecd556196d313cf6130d406dfe7ac6da
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
   url_launcher_ios: ae1517e5e344f5544fb090b079e11f399dfbe4d2
-  Web3Auth: 28e08d968ef08236b4c94000845ef40c2413b757
-  web3auth_flutter: d79313b6942fd627cd279e9c1d13232a4345f7f7
+  web3.swift: c6c3bf1f853743f8a7a58d263e5f7e46545e22c7
+  Web3Auth: 3ef09358f409cf6b2b57f3bcc074281ac73681a1
+  web3auth_flutter: c40401ed4bb3aff723349a382ddae9809eeee959
 
 PODFILE CHECKSUM: 23b42f11aeed0a29c4f48d1f8322cb3408a08423
 

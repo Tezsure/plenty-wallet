@@ -228,6 +228,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
       () => SolidButton(
           width: 1.width - 64.arP,
           onPressed: () async {
+            controller.phraseText.value = controller.phraseText.value.trim();
             if (controller.importWalletDataType ==
                 ImportWalletDataType.mnemonic) {
               controller.generatedAccountsTz1.value = <AccountModel>[];

@@ -71,7 +71,7 @@ class ImportWalletPageController extends GetxController
   /// To assign the phrase text to the phrase text variable
   void onTextChange(String value) {
     checkImportType(value);
-    phraseText.value = value.trim();
+    phraseText.value = value;
   }
 
   /// define based on phraseText.value that if it's mnemonic, private key or watch address
