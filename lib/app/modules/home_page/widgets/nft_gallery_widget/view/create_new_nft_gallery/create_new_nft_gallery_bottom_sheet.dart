@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/data/services/service_config/service_config.dart
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/image_picker.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_listview.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
@@ -192,8 +193,9 @@ class CreateNewNftGalleryBottomSheet
     );
   }
 
-  Widget accountItemWidget(int index, AccountModel accountModel) => InkWell(
-        onTap: () {
+  Widget accountItemWidget(int index, AccountModel accountModel) =>
+      BouncingWidget(
+        onPressed: () {
           if (controller.selectedAccountIndex.values
                       .where((element) => element == true)
                       .toList()
@@ -363,8 +365,8 @@ class CreateNewNftGalleryBottomSheet
                               ) as ImageProvider,
                       ),
                     ),
-                    child: GestureDetector(
-                      onTap: () {
+                    child: BouncingWidget(
+                      onPressed: () {
                         Get.bottomSheet(
                           changePhotoBottomSheet(),
                           enterBottomSheetDuration:

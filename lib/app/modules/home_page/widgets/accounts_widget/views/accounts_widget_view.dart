@@ -318,45 +318,22 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  RawMaterialButton(
-                                    constraints: BoxConstraints(
-                                        minWidth: 48.arP, minHeight: 48.arP),
-                                    elevation: 1,
-                                    padding: const EdgeInsets.all(8),
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    enableFeedback: true,
-                                    onPressed: () => Get.bottomSheet(
-                                        const SendPage(),
-                                        enterBottomSheetDuration:
-                                            const Duration(milliseconds: 180),
-                                        exitBottomSheetDuration:
-                                            const Duration(milliseconds: 150),
-                                        isScrollControlled: true,
-                                        settings: RouteSettings(
-                                          arguments: model,
-                                        ),
-                                        barrierColor:
-                                            Colors.white.withOpacity(0.09)),
-                                    fillColor: ColorConst.Primary.shade0,
-                                    shape: const CircleBorder(
-                                        side: BorderSide.none),
-                                    child: Image.asset(
-                                      "${PathConst.HOME_PAGE}send.png",
-                                      width: 22.arP,
-                                      height: 22.arP,
-                                    ),
-                                  ),
+                                  action(
+                                      () => Get.bottomSheet(const SendPage(),
+                                          enterBottomSheetDuration:
+                                              const Duration(milliseconds: 180),
+                                          exitBottomSheetDuration:
+                                              const Duration(milliseconds: 150),
+                                          isScrollControlled: true,
+                                          settings: RouteSettings(
+                                            arguments: model,
+                                          ),
+                                          barrierColor:
+                                              Colors.white.withOpacity(0.09)),
+                                      "${PathConst.HOME_PAGE}send.png"),
                                   0.036.hspace,
-                                  RawMaterialButton(
-                                    enableFeedback: true,
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    padding: const EdgeInsets.all(8),
-                                    constraints: BoxConstraints(
-                                        minWidth: 48.arP, minHeight: 48.arP),
-                                    elevation: 1,
-                                    onPressed: () => Get.bottomSheet(
+                                  action(
+                                    () => Get.bottomSheet(
                                         const ReceivePageView(),
                                         enterBottomSheetDuration:
                                             const Duration(milliseconds: 180),
@@ -368,14 +345,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                         ),
                                         barrierColor:
                                             Colors.white.withOpacity(0.09)),
-                                    fillColor: ColorConst.Primary.shade0,
-                                    shape: const CircleBorder(
-                                        side: BorderSide.none),
-                                    child: Image.asset(
-                                      "${PathConst.HOME_PAGE}qr.png",
-                                      width: 22.arP,
-                                      height: 22.arP,
-                                    ),
+                                    "${PathConst.HOME_PAGE}qr.png",
                                   ),
                                 ],
                               ),
@@ -389,6 +359,24 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             ),
           ],
         ));
+  }
+
+  Widget action(Function() onTap, String icon) {
+    return BouncingWidget(
+      onPressed: onTap,
+      child: Container(
+        padding: EdgeInsets.all(13.arP),
+        width: 48.arP,
+        height: 48.arP,
+        decoration: BoxDecoration(
+            color: ColorConst.Primary.shade0, shape: BoxShape.circle),
+        child: Image.asset(
+          icon,
+          width: 22.arP,
+          height: 22.arP,
+        ),
+      ),
+    );
   }
 }
 

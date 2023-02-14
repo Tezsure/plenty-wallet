@@ -112,8 +112,8 @@ class ImagePickerSheet extends StatelessWidget {
             0.016.vspace,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 32.arP),
-              child: GestureDetector(
-                onTap: () => Get.back(),
+              child: BouncingWidget(
+                onPressed: () => Get.back(),
                 child: Container(
                   height: 51.aR,
                   alignment: Alignment.center,

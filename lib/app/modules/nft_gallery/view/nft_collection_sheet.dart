@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_sheet.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -67,8 +68,8 @@ class NFTCollectionSheet extends StatelessWidget {
                     itemCount: nfts.toList().length,
                     itemBuilder: ((context, i) {
                       var nftTokenModel = nfts[i];
-                      return GestureDetector(
-                        onTap: () {
+                      return BouncingWidget(
+                        onPressed: () {
                           Get.bottomSheet(
                             NFTDetailBottomSheet(
                               onBackTap: Get.back,

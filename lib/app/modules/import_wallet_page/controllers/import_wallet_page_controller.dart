@@ -144,11 +144,13 @@ class ImportWalletPageController extends GetxController
               ],
       );
     } else if (importWalletDataType == ImportWalletDataType.mnemonic) {
-      var accountLength = (await UserStorageService().getAllAccount()).length;
+      var accountLength = ([
+        await UserStorageService().getAllAccount(),
+        await UserStorageService().getAllAccount(watchAccountsList: true)
+      ]).length;
 
       var selectedAccounts =
           selectedAccountsTz1 + selectedAccountsTz2 + selectedLegacyAccount;
-
       for (var i = 0; i < selectedAccounts.length; i++) {
         selectedAccounts[i] = selectedAccounts[i]
           ..name = "Account ${accountLength == 0 ? 1 : accountLength + i}";

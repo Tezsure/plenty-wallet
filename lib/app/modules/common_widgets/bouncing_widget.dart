@@ -45,7 +45,7 @@ class BouncingWidgetState extends State<BouncingWidget>
         duration: const Duration(
             milliseconds: 100), //This is an inital controller duration
         lowerBound: 0,
-        upperBound: 0.2)
+        upperBound: 0.15)
       ..addListener(() {
         setState(() {});
       }); // Can do something in the listener, but not required

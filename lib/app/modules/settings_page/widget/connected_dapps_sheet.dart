@@ -78,45 +78,44 @@ class ConnectedDappBottomSheet extends StatelessWidget {
     required P2PPeer dappModel,
     required int index,
   }) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 12.arP),
-      width: double.infinity,
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 22,
-            backgroundColor: dappModel.icon != null
-                ? ColorConst.NeutralVariant.shade60.withOpacity(0.2)
-                : ColorConst.Primary,
-            backgroundImage: CachedNetworkImageProvider(dappModel.icon ?? ""),
-            child: dappModel.icon == null
-                ? Text(
-                    dappModel.name.substring(0, 1).toUpperCase(),
-                    style: titleMedium,
-                  )
-                : Container(),
-          ),
-          0.045.hspace,
-          Text(
-            dappModel.name,
-            style: labelLarge,
-          ),
-          const Spacer(),
-          IconButton(
-            onPressed: () {
-              Get.bottomSheet(disconnectDappBottomSheet(index),
-                  enterBottomSheetDuration: const Duration(milliseconds: 180),
-                  exitBottomSheetDuration: const Duration(milliseconds: 150),
-                  barrierColor: Colors.transparent);
-            },
-            icon: SvgPicture.asset(
+    return BouncingWidget(
+      onPressed: () {
+        Get.bottomSheet(disconnectDappBottomSheet(index),
+            enterBottomSheetDuration: const Duration(milliseconds: 180),
+            exitBottomSheetDuration: const Duration(milliseconds: 150),
+            barrierColor: Colors.transparent);
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 12.arP),
+        width: double.infinity,
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 22,
+              backgroundColor: dappModel.icon != null
+                  ? ColorConst.NeutralVariant.shade60.withOpacity(0.2)
+                  : ColorConst.Primary,
+              backgroundImage: CachedNetworkImageProvider(dappModel.icon ?? ""),
+              child: dappModel.icon == null
+                  ? Text(
+                      dappModel.name.substring(0, 1).toUpperCase(),
+                      style: titleMedium,
+                    )
+                  : Container(),
+            ),
+            0.045.hspace,
+            Text(
+              dappModel.name,
+              style: labelLarge,
+            ),
+            const Spacer(),
+            SvgPicture.asset(
               "${PathConst.SVG}trash.svg",
               // color: ColorConst.Neutral.shade100,
               width: 20.arP,
             ),
-            color: ColorConst.Primary,
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

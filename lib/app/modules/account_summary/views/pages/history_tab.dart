@@ -82,8 +82,8 @@ class HistoryPage extends GetView<TransactionController> {
                         ),
                       ),
                       0.02.hspace,
-                      GestureDetector(
-                        onTap: () {
+                      BouncingWidget(
+                        onPressed: () {
                           Get.bottomSheet(HistoryFilterSheet(),
                               enterBottomSheetDuration:
                                   const Duration(milliseconds: 180),

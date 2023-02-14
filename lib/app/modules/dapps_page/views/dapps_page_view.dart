@@ -38,7 +38,7 @@ class DappsPageView extends GetView<DappsPageController> {
           color: Colors.black),
       child: Column(
         children: [
-          0.02.vspace,
+          0.01.vspace,
           Align(
             alignment: Alignment.topCenter,
             child: Container(
@@ -337,8 +337,8 @@ class DappListItemWidget extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.arP),
-              InkWell(
-                onTap: () {
+              BouncingWidget(
+                onPressed: () {
                   NaanAnalytics.logEvent(NaanAnalyticsEvents.DAPP_CLICK,
                       param: {
                         "type": "click",
