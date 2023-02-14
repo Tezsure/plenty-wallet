@@ -24,16 +24,16 @@ class NftGalleryModel {
   Random _random = Random();
 
   Future<void> randomNft() async {
-    var addresses = await getValidPublicKeyHashes(publicKeyHashs!);
+/*     var addresses = await getValidPublicKeyHashes(publicKeyHashs!);
     var nfts = await UserStorageService().getUserNfts(
         userAddress: addresses[addresses.length == 1
             ? 0
             : Random().nextInt(addresses.length - 1)]);
-    int random = _random.nextInt(nfts.length);
+    int random = _random.nextInt(nfts.length); */
     nftTokenModel = NftTokenModel(
-      name: nfts[random].name,
-      faContract: nfts[random].faContract,
-      tokenId: nfts[random].tokenId,
+      name: "Random NFT",
+      faContract: "KT1PoKNmnMeuf4ReHSYNwhJdELZkMcYKfL6K",
+      tokenId: "39",
     );
   }
 

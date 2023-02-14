@@ -254,6 +254,13 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         )
                       : NotificationListener<UserScrollNotification>(
                           onNotification: (notification) {
+                            if (notification.metrics.extentAfter <= 20 &&
+                                controller.offsetContract <
+                                    controller.contracts.length &&
+                                !controller.loadingMore) {
+                              controller.fetchAllNftForGallery();
+                            }
+
                             final ScrollDirection direction =
                                 notification.direction;
                             if (direction == ScrollDirection.forward) {
@@ -261,7 +268,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                             } else if (direction == ScrollDirection.reverse) {
                               controller.isScrollingUp.value = true;
                             }
-                            return true;
+                            return false;
                           },
                           child: Obx(
                             () => controller.selectedGalleryFilter.value ==
@@ -440,7 +447,18 @@ class NftGalleryView extends GetView<NftGalleryController> {
             // addAutomaticKeepAlives: false,
             // addRepaintBoundaries: false,
             physics: AppConstant.scrollPhysics,
-            itemBuilder: ((context, index) => Column(
+            itemBuilder: ((context, index) {
+              if (index == nfts.length) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 6.0.arP),
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: ColorConst.Primary,
+                    ),
+                  ),
+                );
+              } else {
+                return Column(
                   children: [
                     SizedBox(
                       height: index == 0 ? 0 : 10.arP,
@@ -574,8 +592,13 @@ class NftGalleryView extends GetView<NftGalleryController> {
                       color: Colors.white.withOpacity(0.4),
                     ),
                   ],
-                )),
-            itemCount: nfts.length,
+                );
+              }
+            }),
+            itemCount: nfts.length +
+                (controller.offsetContract < controller.contracts.length
+                    ? 1
+                    : 0),
           ),
         ),
       );
@@ -637,35 +660,53 @@ class NftGalleryView extends GetView<NftGalleryController> {
   Widget _getCollectionGridViewWidget(Map<String, List<NftTokenModel>> nfts) =>
       Obx(
         () => Expanded(
-          child: Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: 16.arP,
-            ),
-            child: MasonryGridView.count(
-              physics: AppConstant.scrollPhysics,
-              crossAxisCount: Get.width > 768 ? 3 : 2,
-              mainAxisSpacing: 12.arP,
-              // addAutomaticKeepAlives: false,
-              // addRepaintBoundaries: false,
-              shrinkWrap: true,
-              crossAxisSpacing: 12.arP,
-              // cacheExtent: 100.0.arP,
-              itemCount: nfts.length,
-              itemBuilder: (context, index) => Container(
-                width: double.infinity,
-                constraints: const BoxConstraints(minHeight: 1),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF958E99).withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(
-                    12.arP,
+          child: SingleChildScrollView(
+            physics: AppConstant.scrollPhysics,
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 16.arP,
                   ),
+                  child: MasonryGridView.count(
+                      physics: NeverScrollableScrollPhysics(),
+                      crossAxisCount: Get.width > 768 ? 3 : 2,
+                      mainAxisSpacing: 12.arP,
+                      // addAutomaticKeepAlives: false,
+                      // addRepaintBoundaries: false,
+                      shrinkWrap: true,
+                      crossAxisSpacing: 12.arP,
+                      // cacheExtent: 100.0.arP,
+                      itemCount: nfts.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          width: double.infinity,
+                          constraints: const BoxConstraints(minHeight: 1),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF958E99).withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(
+                              12.arP,
+                            ),
+                          ),
+                          child: nfts.isEmpty
+                              ? Container()
+                              : NftCollectionItemWidget(
+                                  nftTokens: nfts.values.toList()[index],
+                                ),
+                        );
+                      }),
                 ),
-                child: nfts.isEmpty
-                    ? Container()
-                    : NftCollectionItemWidget(
-                        nftTokens: nfts.values.toList()[index],
-                      ),
-              ),
+                controller.offsetContract < controller.contracts.length
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(vertical: 6.0.arP),
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: ColorConst.Primary,
+                          ),
+                        ),
+                      )
+                    : const SizedBox()
+              ],
             ),
           ),
         ),

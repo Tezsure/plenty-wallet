@@ -26,7 +26,6 @@ class ServiceConfig {
 
   static String ipfsUrlApi = "https://cdn.naan.app/ipfs_url";
 
-
   static String tzktApiForToken(String pkh, String network) =>
       "https://api.${network}tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true&token.contract.ne=KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS";
 
@@ -252,6 +251,44 @@ class ServiceConfig {
           contract
         }
         metadata
+      }
+    }
+''';
+
+  static const String getContractQuery = r'''
+    query GetContracts($address: String!, $offset: Int) {
+      token(
+        where: {holders: {holder_address: {_eq: $address}, quantity: {_gt: "0"}}, decimals: {_lte: "0"}}
+        distinct_on: fa_contract
+        offset: $offset
+      ) {
+        fa_contract
+      }
+    }
+''';
+
+  static const String getNftsFromContracts = r'''
+    query FetchColl($holders: [String!], $contracts: [String!], $offset: Int) {
+      token(
+        where: {fa_contract : {_in: $contracts}, token_id: {_neq: ""},holders:{holder_address:{_in:$holders}, quantity:{_gt:"0"}}}
+        offset: $offset
+      ) {
+        name
+        pk
+        fa_contract
+        display_uri
+        fa{
+          name
+        }
+        token_id
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
       }
     }
 ''';
