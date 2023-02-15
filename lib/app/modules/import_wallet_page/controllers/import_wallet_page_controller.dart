@@ -145,17 +145,28 @@ class ImportWalletPageController extends GetxController
       );
     } else if (importWalletDataType == ImportWalletDataType.mnemonic) {
       var accountLength = ([
-        await UserStorageService().getAllAccount(),
-        await UserStorageService().getAllAccount(watchAccountsList: true)
-      ]).length;
+            ...(await UserStorageService().getAllAccount()),
+            ...(await UserStorageService()
+                .getAllAccount(watchAccountsList: true))
+          ]).length +
+          1;
 
-      var selectedAccounts =
-          selectedAccountsTz1 + selectedAccountsTz2 + selectedLegacyAccount;
+      var selectedAccounts = [
+        ...selectedAccountsTz1,
+        ...selectedAccountsTz2,
+        ...selectedLegacyAccount
+      ];
+
       for (var i = 0; i < selectedAccounts.length; i++) {
         selectedAccounts[i] = selectedAccounts[i]
-          ..name = "Account ${accountLength == 0 ? 1 : accountLength + i}";
+          ..importedAt = DateTime.now()
+          ..name = "Account ${accountLength + i}";
       }
-      selectedAccounts.value = selectedAccounts.value;
+      selectedAccounts.sort((a, b) =>
+          b.importedAt!.millisecondsSinceEpoch -
+          a.importedAt!.millisecondsSinceEpoch);
+      selectedAccountsTz1.value = selectedAccounts;
+      // selectedAccounts. = selectedAccounts.value;
       Get.back();
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
       var previousRoute = Get.previousRoute;

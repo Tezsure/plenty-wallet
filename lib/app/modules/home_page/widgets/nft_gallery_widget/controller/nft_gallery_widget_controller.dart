@@ -160,19 +160,19 @@ class NftGalleryWidgetController extends GetxController {
         .where((String key) => selectedAccountIndex[key] == true)
         .toList();
     isCreating.value = true;
-    Function unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
-    if (nftGalleryList.firstWhereOrNull(
-            (element) => unOrdDeepEq(element.publicKeyHashs, publicKeyHashs)) !=
-        null) {
-      transactionStatusSnackbar(
-        duration: const Duration(seconds: 2),
-        status: TransactionStatus.error,
-        tezAddress: 'Gallery with same Accounts already exists',
-        transactionAmount: 'Cannot create gallery',
-      );
-      isCreating.value = false;
-      return;
-    }
+    // Function unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
+    // if (nftGalleryList.firstWhereOrNull(
+    //         (element) => unOrdDeepEq(element.publicKeyHashs, publicKeyHashs)) !=
+    //     null) {
+    //   transactionStatusSnackbar(
+    //     duration: const Duration(seconds: 2),
+    //     status: TransactionStatus.error,
+    //     tezAddress: 'Gallery with same Accounts already exists',
+    //     transactionAmount: 'Cannot create gallery',
+    //   );
+    //   isCreating.value = false;
+    //   return;
+    // }
     NftState check = await checkIfEmpty(publicKeyHashs);
     if (check == NftState.empty) {
       transactionStatusSnackbar(
