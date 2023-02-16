@@ -293,6 +293,32 @@ class ServiceConfig {
     }
 ''';
 
+  static const String randomNfts = r'''
+    query FetchColl($holders: [String!], $contracts: [String!], $offset: Int) {
+      token(
+        where: {fa_contract : {_in: $contracts}, token_id: {_neq: ""},holders:{holder_address:{_in:$holders}, quantity:{_gt:"0"}}}
+        limit: 100
+      ) {
+        name
+        pk
+        fa_contract
+        display_uri
+        fa{
+          name
+        }
+        token_id
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+      }
+    }
+''';
+
   static const String getNFTfromPk = r'''
     query GetNftForUser($pk:bigint, $addresses: [String!]) {
       token(where: {pk:{_eq:$pk}}) {

@@ -6,6 +6,9 @@ import 'package:flutter/foundation.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:simple_gql/simple_gql.dart';
+
+import '../service_config/service_config.dart';
 
 class NftGalleryModel {
   String? name;
@@ -21,20 +24,28 @@ class NftGalleryModel {
     this.profileImage,
   });
 
-  Random _random = Random();
-
   Future<void> randomNft() async {
-/*     var addresses = await getValidPublicKeyHashes(publicKeyHashs!);
-    var nfts = await UserStorageService().getUserNfts(
-        userAddress: addresses[addresses.length == 1
-            ? 0
-            : Random().nextInt(addresses.length - 1)]);
-    int random = _random.nextInt(nfts.length); */
-    nftTokenModel = NftTokenModel(
-      name: "Random NFT",
-      faContract: "KT1PoKNmnMeuf4ReHSYNwhJdELZkMcYKfL6K",
-      tokenId: "39",
+    var addresses = await getValidPublicKeyHashes(publicKeyHashs!);
+    String randomAddress = addresses[
+        addresses.length == 1 ? 0 : Random().nextInt(addresses.length)];
+    var nfts =
+        await UserStorageService().getUserNfts(userAddress: randomAddress);
+    int random = Random().nextInt(nfts.length);
+    String randomFa = nfts[random];
+    final response = await GQLClient(
+      'https://data.objkt.com/v3/graphql',
+    ).query(
+      query: ServiceConfig.randomNfts,
+      variables: {
+        'contracts': [randomFa],
+        'holders': [randomAddress],
+      },
     );
+    List<NftTokenModel> nftsData = response.data['token']
+        .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
+        .toList();
+
+    nftTokenModel = nftsData[Random().nextInt(nftsData.length)];
   }
 
   Future<List<String>> getValidPublicKeyHashes(
@@ -48,14 +59,6 @@ class NftGalleryModel {
       }
     }
     return addresses;
-  }
-
-  Future<List<NftTokenModel>> fetchAllNft() async {
-    if (publicKeyHashs == null) return [];
-    return <NftTokenModel>[
-      for (var publicKeyHash in publicKeyHashs!)
-        ...(await UserStorageService().getUserNfts(userAddress: publicKeyHash))
-    ];
   }
 
   NftGalleryModel copyWith({

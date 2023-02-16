@@ -174,7 +174,7 @@ class NftGalleryController extends GetxController {
         'addresses': selectedNftGallery.value.publicKeyHashs,
       },
     );
-    return (await json(response.data['token']))[0];
+    return (json(response.data['token']))[0];
   }
 
   Future<void> editGallery(int galleryIndex) async {
