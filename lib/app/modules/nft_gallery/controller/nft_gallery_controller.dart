@@ -159,6 +159,19 @@ class NftGalleryController extends GetxController {
     Get.back();
   }
 
+  Future<NftTokenModel> getNFT(int pk) async {
+    final response = await GQLClient(
+      'https://data.objkt.com/v3/graphql',
+    ).query(
+      query: ServiceConfig.getNFTfromPk,
+      variables: {
+        'pk': pk,
+        'addresses': selectedNftGallery.value.publicKeyHashs,
+      },
+    );
+    return (await json(response.data['token']))[0];
+  }
+
   Future<void> editGallery(int galleryIndex) async {
     Get.back();
     await Get.find<NftGalleryWidgetController>()
@@ -203,7 +216,7 @@ class NftGalleryController extends GetxController {
             'offset': offset,
           },
         );
-        nfts = [...nfts, ...await json(response.data['token'])];
+        nfts = [...nfts, ...json(response.data['token'])];
         offset += 500;
         if (response.data['token'].length != 500) {
           break;
@@ -224,6 +237,6 @@ class NftGalleryController extends GetxController {
   }
 }
 
-Future<List<NftTokenModel>> json(x) async {
+List<NftTokenModel> json(x) {
   return x.map<NftTokenModel>((e) => NftTokenModel.fromJson(e)).toList();
 }

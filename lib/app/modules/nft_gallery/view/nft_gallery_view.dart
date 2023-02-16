@@ -472,6 +472,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                     ),
                     MasonryGridView.count(
                         shrinkWrap: true,
+                        addAutomaticKeepAlives: false,
+                        addRepaintBoundaries: false,
                         physics: const NeverScrollableScrollPhysics(),
                         crossAxisCount: (Get.width > 768
                                 ? crossAxisCount == 1.1
@@ -490,10 +492,12 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         itemBuilder: ((context, i) {
                           var nftTokenModel = nfts.values.toList()[index][i];
                           return InkWell(
-                            onTap: () => Get.bottomSheet(
+                            onTap: () async => Get.bottomSheet(
                               NFTDetailBottomSheet(
                                 onBackTap: Get.back,
-                                nftModel: nftTokenModel,
+                                pk: nftTokenModel.pk!,
+                                publicKeyHashs: controller
+                                    .selectedNftGallery.value.publicKeyHashs,
                               ),
                               enterBottomSheetDuration:
                                   const Duration(milliseconds: 180),
@@ -672,8 +676,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                       physics: NeverScrollableScrollPhysics(),
                       crossAxisCount: Get.width > 768 ? 3 : 2,
                       mainAxisSpacing: 12.arP,
-                      // addAutomaticKeepAlives: false,
-                      // addRepaintBoundaries: false,
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
                       shrinkWrap: true,
                       crossAxisSpacing: 12.arP,
                       // cacheExtent: 100.0.arP,
@@ -692,6 +696,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                               ? Container()
                               : NftCollectionItemWidget(
                                   nftTokens: nfts.values.toList()[index],
+                                  publicKeyHashes: controller
+                                      .selectedNftGallery.value.publicKeyHashs!,
                                 ),
                         );
                       }),
@@ -1471,9 +1477,11 @@ class RemoveGallerySheet extends StatelessWidget {
 /// Nft collection view item stateless widget
 class NftCollectionItemWidget extends StatelessWidget {
   final List<NftTokenModel> nftTokens;
+  final List<String> publicKeyHashes;
   const NftCollectionItemWidget({
     Key? key,
     required this.nftTokens,
+    required this.publicKeyHashes,
   }) : super(key: key);
 
   @override
@@ -1484,6 +1492,7 @@ class NftCollectionItemWidget extends StatelessWidget {
           Get.bottomSheet(
             NFTCollectionSheet(
               nfts: nftTokens,
+              publicKeyHashs: publicKeyHashes,
             ),
             enterBottomSheetDuration: const Duration(milliseconds: 180),
             exitBottomSheetDuration: const Duration(milliseconds: 150),
@@ -1494,7 +1503,8 @@ class NftCollectionItemWidget extends StatelessWidget {
         Get.bottomSheet(
           NFTDetailBottomSheet(
             onBackTap: Get.back,
-            nftModel: nftTokens[0],
+            pk: nftTokens[0].pk,
+            publicKeyHashs: publicKeyHashes,
           ),
           enterBottomSheetDuration: const Duration(milliseconds: 180),
           exitBottomSheetDuration: const Duration(milliseconds: 150),

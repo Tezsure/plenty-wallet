@@ -292,4 +292,63 @@ class ServiceConfig {
       }
     }
 ''';
+
+  static const String getNFTfromPk = r'''
+    query GetNftForUser($pk:bigint, $addresses: [String!]) {
+      token(where: {pk:{_eq:$pk}}) {
+        artifact_uri
+        description
+        display_uri
+        lowest_ask
+        level
+        mime
+        pk
+        royalties {
+          id
+          decimals
+          amount
+        }
+        supply
+        thumbnail_uri
+        timestamp
+        fa_contract
+        token_id
+        name
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+        holders(where: {holder_address: {_in: $addresses}, quantity: {_gt: "0"}} limit:1) {
+          quantity
+          holder_address
+        }
+        events {
+          id
+          fa_contract
+          price
+          recipient_address
+          timestamp
+          creator {
+            address
+            alias
+          }
+          event_type
+          marketplace_event_type
+          amount
+        }
+        fa {
+          name
+          collection_type
+          logo
+          floor_price
+          contract
+        }
+        metadata
+      }
+    }
+''';
 }
