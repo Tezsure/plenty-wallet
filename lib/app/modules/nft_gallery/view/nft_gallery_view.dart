@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -80,43 +81,52 @@ class NftGalleryView extends GetView<NftGalleryController> {
                             style: bodyMedium.copyWith(color: ColorConst.grey),
                           ),
                         )
-                      : controller.searchNfts.isEmpty
-                          ? Container(
-                              margin: EdgeInsets.only(top: 0.03.height),
-                              child: Column(
-                                children: [
-                                  SvgPicture.asset(
-                                    "assets/nft_page/svg/no_results.svg",
-                                    width: 0.5.width,
-                                  ),
-                                  SizedBox(
-                                    height: 0.02.height,
-                                  ),
-                                  Text(
-                                    "Probably Nothing",
-                                    textAlign: TextAlign.center,
-                                    style: titleLarge,
-                                  ),
-                                  SizedBox(
-                                    height: 0.01.height,
-                                  ),
-                                  Text(
-                                    "We didn’t find any results. Did you \nmisspell your query?",
-                                    textAlign: TextAlign.center,
-                                    style: bodySmall.copyWith(
-                                        color: ColorConst.grey),
-                                  ),
-                                ],
+                      : controller.isSearching.value
+                          ? Padding(
+                              padding: EdgeInsets.only(top: 20.0.arP),
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  color: ColorConst.Primary,
+                                ),
                               ),
                             )
-                          : controller.searchNfts.length == 1 &&
-                                  controller.searchNfts.entries.first.value
-                                          .length ==
-                                      1
-                              ? _getNftListViewWidget(
-                                  1.1, controller.searchNfts)
-                              : _getCollectionGridViewWidget(
-                                  controller.searchNfts),
+                          : controller.searchNfts.isEmpty
+                              ? Container(
+                                  margin: EdgeInsets.only(top: 0.03.height),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "assets/nft_page/svg/no_results.svg",
+                                        width: 0.5.width,
+                                      ),
+                                      SizedBox(
+                                        height: 0.02.height,
+                                      ),
+                                      Text(
+                                        "Probably Nothing",
+                                        textAlign: TextAlign.center,
+                                        style: titleLarge,
+                                      ),
+                                      SizedBox(
+                                        height: 0.01.height,
+                                      ),
+                                      Text(
+                                        "We didn’t find any results. Did you \nmisspell your query?",
+                                        textAlign: TextAlign.center,
+                                        style: bodySmall.copyWith(
+                                            color: ColorConst.grey),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : controller.searchNfts.length == 1 &&
+                                      controller.searchNfts.entries.first.value
+                                              .length ==
+                                          1
+                                  ? _getNftListViewWidget(
+                                      1.1, controller.searchNfts)
+                                  : _getCollectionGridViewWidget(
+                                      controller.searchNfts),
                 ],
               ),
             ],
@@ -600,7 +610,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
               }
             }),
             itemCount: nfts.length +
-                (controller.offsetContract < controller.contracts.length
+                (controller.offsetContract < controller.contracts.length &&
+                        !controller.isSearch.value
                     ? 1
                     : 0),
           ),
@@ -673,7 +684,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                     horizontal: 16.arP,
                   ),
                   child: MasonryGridView.count(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       crossAxisCount: Get.width > 768 ? 3 : 2,
                       mainAxisSpacing: 12.arP,
                       addAutomaticKeepAlives: false,
@@ -702,7 +713,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         );
                       }),
                 ),
-                controller.offsetContract < controller.contracts.length
+                controller.offsetContract < controller.contracts.length &&
+                        !controller.isSearch.value
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: 6.0.arP),
                         child: const Center(
@@ -845,9 +857,14 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           ),
                           child: Center(
                             child: TextField(
-                              onChanged: ((value) =>
+                              onChanged: ((value) {
+                                controller.debounceTimer?.cancel();
+                                controller.debounceTimer = Timer(
+                                    const Duration(milliseconds: 400), () {
                                   controller.searchNftGallery(
-                                      value.toLowerCase().trim())),
+                                      value.toLowerCase().trim());
+                                });
+                              }),
                               autofocus: true,
                               textAlignVertical: TextAlignVertical.center,
                               style: bodyMedium.copyWith(

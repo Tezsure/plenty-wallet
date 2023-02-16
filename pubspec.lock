@@ -1233,10 +1233,11 @@ packages:
   web3auth_flutter:
     dependency: "direct main"
     description:
-      name: web3auth_flutter
-      sha256: add7ca4a07830e1f768ae37f5bb79e4aa8ab955e794d169bfb81287d4158ceec
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "46d2a005636e68df3ea250d906201699a6e02444"
+      url: "https://github.com/Web3Auth/web3auth-flutter-sdk.git"
+    source: git
     version: "1.1.0"
   win32:
     dependency: transitive

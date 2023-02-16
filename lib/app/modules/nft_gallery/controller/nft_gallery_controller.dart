@@ -38,9 +38,11 @@ class NftGalleryController extends GetxController {
 
   RxMap<String, List<NftTokenModel>> searchNfts =
       <String, List<NftTokenModel>>{}.obs;
+  RxBool isSearching = false.obs;
 
   List contracts = [];
   bool loadingMore = false;
+  Timer? debounceTimer;
 
   final List<String> nftTypesChips = [
     "All",
@@ -62,6 +64,12 @@ class NftGalleryController extends GetxController {
   }
 
   @override
+  void onClose() {
+    debounceTimer?.cancel();
+    super.onClose();
+  }
+
+  @override
   onReady() async {
     super.onReady();
     fetchAllNftForGallery();
@@ -77,30 +85,27 @@ class NftGalleryController extends GetxController {
   }
 
   Future<void> searchNftGallery(String searchText) async {
+    if (searchText.length < 3 && searchText.isNotEmpty) return;
+    isSearching.value = true;
     searchNfts.value = {};
     this.searchText.value = searchText;
     if (searchText.isNotEmpty) {
-      List<NftTokenModel> filteredNfts = nftList
-          .where((element) =>
-              (element.name?.toLowerCase().contains(searchText) ?? false) ||
-              (element.tokenId?.toLowerCase().contains(searchText) ?? false) ||
-              (element.fa?.name?.toLowerCase().contains(searchText) ?? false) ||
-              (element.fa?.contract?.toLowerCase().contains(searchText) ??
-                  false) ||
-              ((element.creators!.isNotEmpty) &&
-                  ((element.creators![0].holder?.alias ??
-                              element.creators![0].holder?.address!.tz1Short())
-                          ?.toLowerCase()
-                          .contains(searchText) ??
-                      false)))
-          .toList();
-
+      List<NftTokenModel> filteredNfts = await compute(
+          search,
+          [
+            selectedNftGallery.value.publicKeyHashs!,
+            contracts.toList(),
+            searchText
+          ],
+          debugLabel: "searchNFTs");
       for (var i = 0; i < filteredNfts.length; i++) {
         searchNfts[filteredNfts[i].faContract!] =
             (searchNfts[filteredNfts[i].faContract!] ?? [])
               ..add(filteredNfts[i]);
       }
+      //isSearching.value = false;
     }
+    isSearching.value = false;
   }
 
   Future<void> fetchAllNftForGallery() async {
@@ -224,7 +229,35 @@ class NftGalleryController extends GetxController {
       }
       return nfts;
     }
+  }
 
+  static Future<List<NftTokenModel>> search(
+      /* int offsetContract,
+      List<String> publicKeyHashes, List<String> contracts */
+      List data) async {
+    {
+      int offset = 0;
+      List<NftTokenModel> nfts = [];
+      while (true) {
+        final response = await GQLClient(
+          'https://data.objkt.com/v3/graphql',
+        ).query(
+          query: ServiceConfig.searchQuery,
+          variables: {
+            'contracts': data[1],
+            'holders': data[0],
+            'offset': offset,
+            "query": data[2],
+          },
+        );
+        nfts = [...nfts, ...json(response.data['token'])];
+        offset += 500;
+        if (response.data['token'].length != 500) {
+          break;
+        }
+      }
+      return nfts;
+    }
 /*     return <NftTokenModel>[
       for (var publicKeyHash in publicKeyHashs!)
         ...(await compute(

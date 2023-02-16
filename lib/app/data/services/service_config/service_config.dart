@@ -351,4 +351,31 @@ class ServiceConfig {
       }
     }
 ''';
+
+  static const String searchQuery = r'''
+    query FetchColl($holders: [String!], $contracts: [String!], $offset: Int, $query: String!) {
+      token(
+        where: {fa_contract : {_in: $contracts}, token_id: {_neq: ""},holders:{holder_address:{_in:$holders}, quantity:{_gt:"0"}}, _or: [{ name: {_iregex:$query} }, { fa:{name:{_iregex:$query}} },{fa_contract:{_eq:$query} }, ] }
+        
+        offset: $offset
+      ) {
+        name
+        pk
+        fa_contract
+        display_uri
+        fa{
+          name
+        }
+        token_id
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+      }
+    }
+''';
 }
