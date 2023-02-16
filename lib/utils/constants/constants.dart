@@ -14,7 +14,7 @@ class AppConstant {
   static const ScrollPhysics scrollPhysics =
       BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics());
   static Function() hapticFeedback = () {
-    HapticFeedback.heavyImpact();
+    HapticFeedback.mediumImpact();
   };
   static NftTokenModel? naanCollection;
   static NftTokenModel? tfCollection;
