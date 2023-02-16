@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accessblity_widget/accessblity_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/art_foundation_widget/naan_art_foundation_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/art_foundation_widget/tf_art_foundation_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/buy_tez_widget/buy_tez_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/coming_soon_widget/coming_soon_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/discover_apps_widget/discover_apps_widget.dart';
@@ -64,6 +66,22 @@ final List<Widget> registeredWidgets = [
   Padding(
       padding: EdgeInsets.symmetric(horizontal: 22.arP),
       child: const DiscoverAppsWidget()),
+  homeWidgetsGap,
+
+  Container(
+    padding: EdgeInsets.symmetric(horizontal: 22.arP),
+    height: AppConstant.homeWidgetDimension,
+    child: Row(
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: const [
+        NaanArtFoundationWidget(),
+        Spacer(),
+        TFArtFoundationWidget(),
+      ],
+    ),
+  ),
+  homeWidgetsGap,
+
   const ComingSoonWidget()
 
   // const PublicNFTgalleryWidget(),

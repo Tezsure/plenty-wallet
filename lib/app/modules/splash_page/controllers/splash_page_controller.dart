@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
+import 'package:naan_wallet/app/data/services/foundation_service/art_foundation_handler.dart';
 import 'package:naan_wallet/app/data/services/iaf/iaf_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 
 class SplashPageController extends GetxController {
   @override
@@ -27,6 +29,10 @@ class SplashPageController extends GetxController {
     ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
     ServiceConfig.ipfsUrl = (await RpcService.getIpfsUrl()).trim();
     ServiceConfig.isIAFWidgetVisible = (await IAFService.getWidgetVisibility());
+    AppConstant.naanCollection = (await ArtFoundationHandler.getCollectionNfts(
+        "tz1YNsgF2iJUwuJf1SVNFjNfnzqDAdx6HNP8"));
+    AppConstant.tfCollection = (await ArtFoundationHandler.getCollectionNfts(
+        "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
 
     await DataHandlerService().initDataServices();
 

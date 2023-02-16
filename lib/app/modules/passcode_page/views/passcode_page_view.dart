@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -252,13 +253,13 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
           borderRadius: BorderRadius.all(
             Radius.circular(0.065.width),
           ),
-          child: InkWell(
-            borderRadius: BorderRadius.all(
-              Radius.circular(0.065.width),
-            ),
-            highlightColor: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
-            splashFactory: NoSplash.splashFactory,
-            onTap: iconData != null
+          child: BouncingWidget(
+            // borderRadius: BorderRadius.all(
+            //   Radius.circular(0.065.width),
+            // ),
+            // highlightColor: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
+            // splashFactory: NoSplash.splashFactory,
+            onPressed: iconData != null
                 ? onIconTap
                 : () {
                     if (controller.confirmPasscode.value.length == 6 ||

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/models/token_tx_model.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -13,8 +14,10 @@ class AppConstant {
   static const ScrollPhysics scrollPhysics =
       BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics());
   static Function() hapticFeedback = () {
-    HapticFeedback.selectionClick();
+    HapticFeedback.heavyImpact();
   };
+  static NftTokenModel? naanCollection;
+  static NftTokenModel? tfCollection;
 }
 
 class Dapp {

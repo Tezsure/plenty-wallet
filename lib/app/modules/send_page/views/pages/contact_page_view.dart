@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/delete_contact_sheet.dart';
@@ -262,13 +263,13 @@ class CustomPopupMenuItem extends PopupMenuEntry<Never> {
 
 class _CustomPopupMenuItemState extends State<CustomPopupMenuItem> {
   @override
-  Widget build(BuildContext context) => InkWell(
-        focusColor: Colors.transparent,
-        hoverColor: Colors.transparent,
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        overlayColor: MaterialStateProperty.all(Colors.transparent),
-        onTap: widget.onTap,
+  Widget build(BuildContext context) => BouncingWidget(
+        // focusColor: Colors.transparent,
+        // hoverColor: Colors.transparent,
+        // splashColor: Colors.transparent,
+        // highlightColor: Colors.transparent,
+        // overlayColor: MaterialStateProperty.all(Colors.transparent),
+        onPressed: widget.onTap,
         child: Padding(
           padding: widget.padding,
           child: SizedBox(

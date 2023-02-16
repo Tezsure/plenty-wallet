@@ -196,7 +196,25 @@ class ServiceConfig {
     }
   }
   ''';
+static const String collectionQuery=r'''
+query GetCollectionNFT($address: String!) {
+  token(
+    where: {holders: {holder_address: {_eq: $address}}}
+  ) {
+    artifact_uri
+    description
+    display_uri
+    mime
+    name
+    symbol
+    thumbnail_uri
+    timestamp
+    fa_contract
+    token_id
+  }
+}
 
+''';
   static const String gQuery = r'''
     query GetNftForUser($address: String!) {
       token(where: {holders: {holder_address: {_eq: $address}, token: {}, quantity:{_gt:"0"}}, fa_contract: {_neq: "KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS"}, decimals:{_lte:"0"}}) {
