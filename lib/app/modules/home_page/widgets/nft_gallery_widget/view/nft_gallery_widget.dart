@@ -25,54 +25,61 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
       Get.find<NftGalleryWidgetController>();
   Widget _getNoGalleryStateWidget() => BouncingWidget(
         onPressed: () => controller.showCreateNewNftGalleryBottomSheet(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              margin: EdgeInsets.only(
-                top: 22.arP,
-                right: 22.arP,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(22.arP),
+            // color: Colors.white,
+            color: const Color(0xFF1E1C1F),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                margin: EdgeInsets.only(
+                  top: 22.arP,
+                  right: 22.arP,
+                ),
+                alignment: Alignment.topRight,
+                child: SvgPicture.asset(
+                  "assets/nft_page/svg/add_icon.svg",
+                  height: 38.33.arP,
+                ),
               ),
-              alignment: Alignment.topRight,
-              child: SvgPicture.asset(
-                "assets/nft_page/svg/add_icon.svg",
-                height: 38.33.arP,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.all(
-                22.arP,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Create gallery",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 22.arP,
+              Container(
+                margin: EdgeInsets.all(
+                  22.arP,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Create gallery",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 22.arP,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 4.arP,
-                  ),
-                  Text(
-                    "Display NFTs from multiple\naccounts",
-                    style: TextStyle(
-                      color: const Color(0xFF958E99),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12.arP,
-                      letterSpacing: .5,
+                    SizedBox(
+                      height: 4.arP,
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                    Text(
+                      "Display NFTs from multiple\naccounts",
+                      style: TextStyle(
+                        color: const Color(0xFF958E99),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12.arP,
+                        letterSpacing: .5,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       );
 
@@ -218,11 +225,11 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                 width: double.infinity,
 
                 height: 0.87.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(22.arP),
-                  // color: Colors.white,
-                  color: const Color(0xFF1E1C1F),
-                ),
+                // decoration: BoxDecoration(
+                //   borderRadius: BorderRadius.circular(22.arP),
+                //   // color: Colors.white,
+                //   color: const Color(0xFF1E1C1F),
+                // ),
                 child: Obx(
                   () => controller.nftGalleryList.isEmpty
                       ? _getNoGalleryStateWidget()

@@ -98,7 +98,7 @@ class ImportWalletPageController extends GetxController
           await TezosDomainService().searchUsingText(phraseText.value.trim());
       if (cModels.isNotEmpty) {
         var cModel = cModels[0];
-        phraseText.value = cModel.address!;
+        phraseText.value = cModel.address;
         importWalletDataType = ImportWalletDataType.watchAddress;
         // checkImportType(phraseText.value);
         final controller = Get.put(CreateProfilePageController());

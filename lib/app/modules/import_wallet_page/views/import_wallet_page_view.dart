@@ -347,17 +347,8 @@ class AccountBottomSheet extends StatelessWidget {
                             children: [
                               const Text("Tz1"),
                               if (controller.selectedAccountsTz1.isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: CircleAvatar(
-                                    radius: 8,
-                                    backgroundColor: ColorConst.Primary,
-                                    child: Text(
-                                        controller.selectedAccountsTz1.length
-                                            .toString(),
-                                        style: labelSmall),
-                                  ),
-                                )
+                                _buildCount(
+                                    controller.selectedAccountsTz1.length)
                             ],
                           ),
                         ),
@@ -373,17 +364,8 @@ class AccountBottomSheet extends StatelessWidget {
                             children: [
                               const Text("Tz2"),
                               if (controller.selectedAccountsTz2.isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: CircleAvatar(
-                                    radius: 8,
-                                    backgroundColor: ColorConst.Primary,
-                                    child: Text(
-                                        controller.selectedAccountsTz2.length
-                                            .toString(),
-                                        style: labelSmall),
-                                  ),
-                                )
+                                _buildCount(
+                                    controller.selectedAccountsTz2.length)
                             ],
                           ),
                         ),
@@ -399,17 +381,8 @@ class AccountBottomSheet extends StatelessWidget {
                             children: [
                               const Text("Legacy"),
                               if (controller.selectedLegacyAccount.isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: CircleAvatar(
-                                    radius: 8,
-                                    backgroundColor: ColorConst.Primary,
-                                    child: Text(
-                                        controller.selectedLegacyAccount.length
-                                            .toString(),
-                                        style: labelSmall),
-                                  ),
-                                )
+                                _buildCount(
+                                    controller.selectedLegacyAccount.length)
                             ],
                           ),
                         ),
@@ -446,6 +419,16 @@ class AccountBottomSheet extends StatelessWidget {
         ),
         0.05.vspace
       ],
+    );
+  }
+
+  Widget _buildCount(int count) {
+    return Container(
+      margin: const EdgeInsets.only(left: 8),
+      padding: EdgeInsets.all(4.arP),
+      decoration:
+          const BoxDecoration(color: ColorConst.Primary, shape: BoxShape.circle),
+      child: Text(count.toString(), style: labelSmall),
     );
   }
 }

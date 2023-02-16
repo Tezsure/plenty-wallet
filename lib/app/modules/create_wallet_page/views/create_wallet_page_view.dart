@@ -59,6 +59,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         margin: EdgeInsets.only(top: 25.arP),
                         child: SvgPicture.asset(
                           "${PathConst.SVG}create_wallet_background.svg",
+                          height: 0.4.height,
                           fit: BoxFit.contain,
                         ),
                       ),
