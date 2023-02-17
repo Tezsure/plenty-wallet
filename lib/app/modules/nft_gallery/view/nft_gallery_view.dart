@@ -1541,7 +1541,7 @@ class NftCollectionItemWidget extends StatelessWidget {
           12.arP,
         ),
         decoration: BoxDecoration(
-          color: const Color(0xFF958E99).withOpacity(0.2),
+          color: const Color(0xff1E1C1F),
           borderRadius: BorderRadius.circular(
             12.arP,
           ),
@@ -1565,7 +1565,7 @@ class NftCollectionItemWidget extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: Text(
                 nftTokens[0].fa!.name ??
-                    (nftTokens[0].fa!.contract ?? "").tz1Short(),
+                    (nftTokens[0].faContract ?? "").tz1Short(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

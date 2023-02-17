@@ -98,23 +98,23 @@ class NFTCollectionSheet extends StatelessWidget {
                           ),
                           child: Column(
                             children: [
-                              SizedBox(
+                              Container(
+                                constraints: BoxConstraints(
+                                  minHeight: crossAxisCount == 2.1
+                                      ? 150.arP
+                                      : crossAxisCount == 1.1
+                                          ? 300.arP
+                                          : 1,
+                                ),
                                 width: double.infinity,
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(
                                       8.arP,
                                     ),
                                     child: NFTImage(
-                                      nftTokenModel: nftTokenModel,
-                                      memCacheHeight: 250,
-                                      memCacheWidth: 250,
-                                    )
-                                    // CachedNetworkImage(
-                                    //   imageUrl:
-                                    //       "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
-                                    //   fit: BoxFit.fitWidth,
-                                    // ),
-                                    ),
+                                        memCacheHeight: 250,
+                                        memCacheWidth: 250,
+                                        nftTokenModel: nftTokenModel)),
                               ),
                               SizedBox(
                                 height: 12.arP,
