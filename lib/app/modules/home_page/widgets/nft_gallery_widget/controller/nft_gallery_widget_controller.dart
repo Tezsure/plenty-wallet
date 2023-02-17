@@ -67,6 +67,7 @@ class NftGalleryWidgetController extends GetxController {
 
   Future<NftState> checkIfEmpty(List<String> publicKeyHashs) async {
     NftState nftState = NftState.done;
+    int emptyCount = 0;
     for (int j = 0; j < publicKeyHashs.length; j++) {
       String? nfts = await UserStorageService()
           .getUserNftsString(userAddress: publicKeyHashs[j]);
@@ -74,9 +75,11 @@ class NftGalleryWidgetController extends GetxController {
         nftState = NftState.processing;
         break;
       } else if (nfts == "[]") {
-        nftState = NftState.empty;
-        break;
+        emptyCount++;
       }
+    }
+    if (emptyCount == publicKeyHashs.length) {
+      nftState = NftState.empty;
     }
 
     return nftState;
