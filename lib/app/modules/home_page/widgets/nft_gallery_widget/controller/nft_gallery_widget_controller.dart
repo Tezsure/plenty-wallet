@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
@@ -33,7 +34,9 @@ class NftGalleryWidgetController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    fetchNftGallerys();
+    await DataHandlerService().nftPatch(() {
+      fetchNftGallerys();
+    });
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
   }
 

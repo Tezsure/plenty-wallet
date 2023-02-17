@@ -32,6 +32,7 @@ class SplashPageController extends GetxController {
     ServiceConfig.isIAFWidgetVisible = (await IAFService.getWidgetVisibility());
     AppConstant.naanCollection = (await ArtFoundationHandler.getCollectionNfts(
         "tz1YNsgF2iJUwuJf1SVNFjNfnzqDAdx6HNP8"));
+
     AppConstant.tfCollection = (await ArtFoundationHandler.getCollectionNfts(
         "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
 
@@ -40,31 +41,30 @@ class SplashPageController extends GetxController {
     var watchAccountsLength =
         (await UserStorageService().getAllAccount(watchAccountsList: true))
             .length;
-    await DataHandlerService().nftPatch(() async {
-      Get.put(NftGalleryWidgetController(), permanent: true);
 
-      if (walletAccountsLength != 0 || watchAccountsLength != 0) {
-        bool isPasscodeSet = await AuthService().getIsPassCodeSet();
+    Get.put(NftGalleryWidgetController(), permanent: true);
 
-        /// ask for auth and redirect to home page
-        Get.offAllNamed(
-          Routes.PASSCODE_PAGE,
-          arguments: [
-            isPasscodeSet,
-            Routes.HOME_PAGE,
-          ],
-        );
-      } else {
-        Get.offAndToNamed(
-          Routes.ONBOARDING_PAGE,
-        );
-        // Future.delayed(
-        //   const Duration(seconds: 1),
-        //   () => Get.offAndToNamed(
-        //     Routes.ONBOARDING_PAGE,
-        //   ),
-        // );
-      }
-    });
+    if (walletAccountsLength != 0 || watchAccountsLength != 0) {
+      bool isPasscodeSet = await AuthService().getIsPassCodeSet();
+
+      /// ask for auth and redirect to home page
+      Get.offAllNamed(
+        Routes.PASSCODE_PAGE,
+        arguments: [
+          isPasscodeSet,
+          Routes.HOME_PAGE,
+        ],
+      );
+    } else {
+      Get.offAndToNamed(
+        Routes.ONBOARDING_PAGE,
+      );
+      // Future.delayed(
+      //   const Duration(seconds: 1),
+      //   () => Get.offAndToNamed(
+      //     Routes.ONBOARDING_PAGE,
+      //   ),
+      // );
+    }
   }
 }
