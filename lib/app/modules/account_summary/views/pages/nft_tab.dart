@@ -46,16 +46,39 @@ class NFTabPage extends GetView<AccountSummaryController> {
                           ]))
                 ],
               )
-            : ListView.builder(
-                physics: AppConstant.scrollPhysics,
-                padding: EdgeInsets.only(left: 14.aR, right: 14.aR, top: 14.aR),
-                itemCount: controller.userNfts.length,
-                shrinkWrap: true,
-                addAutomaticKeepAlives: false,
-                itemBuilder: ((context, index) => NftCollectibles(
+            : NotificationListener<UserScrollNotification>(
+                onNotification: (ScrollNotification notification) {
+                  if (notification.metrics.extentAfter <= 10 &&
+                      controller.contractOffset < controller.contracts.length &&
+                      !controller.isLoadingMore) {
+                    controller.fetchAllNfts();
+                  }
+                  return false;
+                },
+                child: ListView.builder(
+                  physics: AppConstant.scrollPhysics,
+                  padding:
+                      EdgeInsets.only(left: 14.aR, right: 14.aR, top: 14.aR),
+                  itemCount: controller.userNfts.length +
+                      (controller.contractOffset < controller.contracts.length
+                          ? 1
+                          : 0),
+                  shrinkWrap: true,
+                  addAutomaticKeepAlives: false,
+                  itemBuilder: ((context, index) {
+                    if (index == controller.userNfts.length) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: ColorConst.Primary,
+                        ),
+                      );
+                    }
+                    return NftCollectibles(
                       nftList: controller
                           .userNfts[controller.userNfts.keys.toList()[index]]!,
-                    )),
-              ));
+                      account: controller.selectedAccount.value.publicKeyHash!,
+                    );
+                  }),
+                )));
   }
 }

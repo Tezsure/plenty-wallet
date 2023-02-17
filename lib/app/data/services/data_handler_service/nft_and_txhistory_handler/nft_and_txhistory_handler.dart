@@ -28,7 +28,7 @@ class NftAndTxHistoryHandler {
         args[0].send([
           ProcessStatus.inProgress,
           allAccounts[i],
-          await ObjktNftApiService().getNfts(allAccounts[i])
+          await ObjktNftApiService().getNftsContract(allAccounts[i])
         ]);
       }
 
@@ -133,6 +133,33 @@ class ObjktNftApiService {
 
       return jsonEncode(
           response.data['token'].where((e) => e['token_id'] != "").toList());
+    } catch (e) {
+      print(" gql error $e");
+      return "[]";
+    }
+  }
+
+  Future<String> getNftsContract(String pkH) async {
+    try {
+      int offset = 0;
+      List<String> contracts = [];
+      while (true) {
+        final response = await GQLClient(
+          'https://data.objkt.com/v3/graphql',
+        ).query(
+          query: ServiceConfig.getContractQuery,
+          variables: {'address': pkH, 'offset': offset},
+        );
+        contracts = [
+          ...contracts,
+          ...response.data['token'].map((e) => e['fa_contract']).toList()
+        ];
+        offset += 500;
+        if (response.data['token'].length != 500) {
+          break;
+        }
+      }
+      return jsonEncode(contracts);
     } catch (e) {
       print(" gql error $e");
       return "[]";
