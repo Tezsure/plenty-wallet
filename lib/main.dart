@@ -13,6 +13,8 @@ import 'package:get/get.dart';
 import 'package:instabug_flutter/instabug_flutter.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
+import 'package:naan_wallet/env.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
@@ -31,6 +33,28 @@ void main() async {
     Zone.current.handleUncaughtError(
         details.exception, details.stack ?? StackTrace.current);
   };
+  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+
+  OneSignal.shared.setAppId(oneSignalAppId);
+
+// The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+  OneSignal.shared
+      .promptUserForPushNotificationPermission(fallbackToSettings: true)
+      .then((accepted) {
+    print("Accepted permission: $accepted");
+  });
+
+  OneSignal.shared.setNotificationWillShowInForegroundHandler(
+      (OSNotificationReceivedEvent event) {
+    // Will be called whenever a notification is received in foreground
+    // Display Notification, pass null param for not displaying the notification
+    event.complete(event.notification);
+  });
+
+  OneSignal.shared
+      .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+    // Will be called whenever a notification is opened/button pressed.
+  });
 
   runZonedGuarded(() async {
     //  debugPaintSizeEnabled = true;
@@ -50,6 +74,8 @@ void main() async {
     //FirebaseCrashlytics.instance.crash();
     await Instabug.start(
         '74da8bcfe330c611f60eaee532e451db', [InvocationEvent.shake]);
+
+    //Remove this method to stop OneSignal Debugging
 
     runApp(
       GetMaterialApp(
