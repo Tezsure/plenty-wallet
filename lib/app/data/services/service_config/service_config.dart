@@ -195,19 +195,14 @@ class ServiceConfig {
     }
   }
   ''';
-static const String collectionQuery=r'''
+  static const String collectionQuery = r'''
 query GetCollectionNFT($address: String!) {
   token(
     where: {holders: {holder_address: {_eq: $address}}}
+    order_by: {timestamp: desc}
+    limit: 50
   ) {
-    artifact_uri
-    description
     display_uri
-    mime
-    name
-    symbol
-    thumbnail_uri
-    timestamp
     fa_contract
     token_id
   }

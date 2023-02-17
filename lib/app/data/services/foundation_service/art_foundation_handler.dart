@@ -19,7 +19,7 @@ class ArtFoundationHandler {
       // final r= jsonEncode(
       //     response.data['token'].where((e) => e['token_id'] != "").toList());
       int length = response.data['token'].length;
-      int index = Random().nextInt(length - 1);
+      int index = Random().nextInt(length);
       return NftTokenModel.fromJson(response.data['token'][index]);
     } catch (e) {
       print(" gql error $e");
