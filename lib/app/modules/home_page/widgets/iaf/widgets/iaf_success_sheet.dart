@@ -58,9 +58,10 @@ class IAFClaimSuccessSheet extends StatelessWidget {
                   0.03.vspace,
                   SolidButton(
                     width: 1.width - 64.arP,
-                    borderColor: ColorConst.Primary,
+                    borderColor: ColorConst.Neutral.shade60,
                     active: true,
-                    textColor: ColorConst.Primary,
+                    borderWidth: 1.5,
+                    textColor: ColorConst.Neutral.shade60,
                     primaryColor: Colors.transparent,
                     onPressed: () {
                       Get.back();
@@ -75,7 +76,7 @@ class IAFClaimSuccessSheet extends StatelessWidget {
                       Share.share(
                           "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}");
                     },
-                    title: "Share Naan",
+                    title: "Share naan",
                   ),
                   0.018.vspace
                 ],

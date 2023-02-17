@@ -73,6 +73,8 @@ class NftTokenModel {
       json['holders'].forEach((v) {
         holders!.add(Holders.fromJson(v));
       });
+    } else {
+      holders = <Holders>[];
     }
     if (json['events'] != null) {
       events = <Events>[];

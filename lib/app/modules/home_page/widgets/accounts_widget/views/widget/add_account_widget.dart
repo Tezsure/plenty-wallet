@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/contro
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../../utils/colors/colors.dart';
@@ -29,11 +30,12 @@ class AddAccountWidget extends StatelessWidget {
         );
       },
       child: Container(
+        height: AppConstant.homeWidgetDimension,
         padding: EdgeInsets.only(
           left: 20.arP,
-          right: 15.arP,
-          top: 20.arP,
-          bottom: 20.arP,
+          right: 22.arP,
+          top: 22.arP,
+          bottom: 22.arP,
         ),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(22),
@@ -51,11 +53,23 @@ class AddAccountWidget extends StatelessWidget {
             const Spacer(),
             Text(
               'Add account',
-              style: titleLarge,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 22.arP,
+              ),
+            ),
+            SizedBox(
+              height: 4.arP,
             ),
             Text(
               'Manage multiple accounts\neasily',
-              style: bodySmall.copyWith(color: ColorConst.textGrey1),
+              style: TextStyle(
+                color: const Color(0xFF958E99),
+                fontWeight: FontWeight.w400,
+                fontSize: 12.arP,
+                letterSpacing: .5,
+              ),
             ),
           ],
         ),
@@ -139,29 +153,43 @@ Widget addAccountSheet(warning) {
               },
             ),
             0.016.vspace,
-            GestureDetector(
-              onTap: () {
+            SolidButton(
+              width: 1.width - 64.arP,
+              borderWidth: 1.5,
+              borderColor: ColorConst.Neutral.shade80,
+              textColor: ColorConst.Neutral.shade80,
+              primaryColor: Colors.transparent,
+              onPressed: () {
                 Get.back();
 
                 Get.toNamed(Routes.IMPORT_WALLET_PAGE);
               },
-              child: Container(
-                width: 1.width - 64.arP,
-                height: 48,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: ColorConst.Neutral.shade80,
-                    width: 1.50,
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text("I already have an account",
-                    style: titleSmall.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: ColorConst.Neutral.shade80)),
-              ),
+              title: "I already have an account",
             ),
+            // GestureDetector(
+            //   onTap: () {
+            //     Get.back();
+
+            //     Get.toNamed(Routes.IMPORT_WALLET_PAGE);
+            //   },
+            //   child: Container(
+            //     width: 1.width - 64.arP,
+            //     height: 48,
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(8),
+            //       border: Border.all(
+            //         color: ColorConst.Neutral.shade80,
+            //         width: 1.50,
+            //       ),
+            //     ),
+            //     alignment: Alignment.center,
+            //     child: Text("I already have an account",
+            //         style: titleSmall.copyWith(
+            //             fontWeight: FontWeight.w600,
+            //             color: ColorConst.Neutral.shade80)),
+            //   ),
+            // ),
+
             BottomButtonPadding()
           ],
         ),

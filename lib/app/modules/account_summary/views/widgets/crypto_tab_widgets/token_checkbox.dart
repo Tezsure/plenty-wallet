@@ -27,6 +27,15 @@ class TokenCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String balance = "0";
+    if (tokenModel.decimals <= 20) {
+      balance = tokenModel.balance
+          .toStringAsFixed(tokenModel.decimals)
+          .removeTrailing0;
+    } else {
+      balance = tokenModel.balance.toString().removeTrailing0;
+    }
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.aR),
       child: GestureDetector(
@@ -83,7 +92,7 @@ class TokenCheckbox extends StatelessWidget {
                             height: 3.arP,
                           ),
                           Text(
-                            "${tokenModel.balance.toStringAsFixed(tokenModel.decimals).removeTrailing0} ${tokenModel.symbol}",
+                            "${balance} ${tokenModel.symbol}",
                             softWrap: false,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,

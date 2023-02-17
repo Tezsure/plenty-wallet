@@ -2,18 +2,20 @@ import 'package:naan_wallet/models/tokens_model.dart';
 
 class MockData {
   static const Map<String, String> walletInfo = {
-    "1. What is Secret Phrase?":
-        "Secret Recovery Phrase is a unique 12-word phrase that is generated when you first set up MetaMask. Your funds are connected to that phrase. If you ever lose your password, your Secret Recovery Phrase allows you to recover your wallet and your funds. Write it down on paper and hide it somewhere, put it in a safety deposit box, or use a secure password manager. Some users even engrave their phrases into metal plates!",
-    "2. Can I switch from my existing wallet app like Temple, Kukai, Airgap,etc.?":
-        "Yes, you can. Every wallet uses a private key to secure its assets which you can import into Naan Wallet. Just look for the 12 word recovery phrase or mnemonic in the settings menu of your current wallet and then use that same 12 word phrase to sign into Coinbase Wallet.",
-    "3. How do I protect against losing access to my funds?":
-        "Yes, you can. Every wallet uses a private key to secure its assets which you can import into Naan Wallet. Just look for the 12 word recovery phrase or mnemonic in the settings menu of your current wallet and then use that same 12 word phrase to sign into Coinbase Wallet.",
-    "4. What is a Private Key?":
-        "A private key, which is typically a string of letters and numbers (and which is not to be shared with anyone). You can think of the private key as a password that unlocks the virtual vault that holds your money. As long as you — and only you — have access to your private key, your funds are safe and can be managed anywhere in the world with an internet connection.",
-    "5. What is a Public Key?":
-        "A string of letters and numbers that a wallet owner sends to people in order to receive cryptocurrencies or NFTs. Like sending someone your email address, a public key can be provided to others that wish to send you cryptocurrencies or NFTs. All public key addresses correspond to a private key that is used to authorize the owner of the public key to spend funds from that wallet address.",
-    "6. What is a Watch Address?":
-        "A Watch Address is basically the receiving address or wallet address. Importing any supported Cryptocurrency address will allow you to view the tokens and collectibles, as well as transactions associated with the said address. When importing your address, you cannot do any transactions with the wallet.",
+    "What is a Secret Phrase?":
+        "A secret phrase, also known as a seed phrase or recovery phrase, is a set of words that acts as a backup for your cryptocurrency wallet. If you lose access to your device or forget your password, you can use the secret phrase to restore your funds. It's important to keep your secret phrase safe and secure as it gives control over your funds to whoever has access to it.",
+    "What is a Private Key?":
+        "A private key is a unique code that is used to access and manage funds in a cryptocurrency account. It's generated from a secret phrase and is required to perform transactions, transfer funds, and access the assets stored in your account. Keep your private key safe and secure, as anyone with access to it can control and use your funds without your permission.",
+    "What's the difference between a Secret Phrase and a Private Key?":
+        "The secret phrase and private key are related to your cryptocurrency account. The secret phrase is used to create the private key, and it helps you access your funds if you lose your device or forget your password. The private key, on the other hand, is used to control and use your funds. It's important to keep both your secret phrase and private key safe and not share them with anyone.",
+    "What is a Public Key?":
+        "A public key is a unique code generated from your private key. It's used to receive funds from other users and is often represented as a string of numbers and letters. A public key can be safely shared with others and is used to identify your wallet for incoming transactions. The public key and private key work together to ensure the secure transfer of funds within a cryptocurrency network.",
+    "Can I switch from my existing wallet app like Temple, Kukai, Airgap, etc.?":
+        "Yes, you can switch from your existing wallet or use multiple wallet apps at the same time by using the same secret phrase or private key. You can import your private key into naan by locating the 12 word (or 24 word) recovery phrase in the settings menu of your current wallet app.",
+    "How do I protect against losing access to my funds?":
+        "To protect your funds, you should keep your secret phrase and private key safe and secure, store multiple backups of your secret phrase (preferably encrypted) in different locations, regularly transfer your funds to new accounts, and stay informed about best practices for keeping your cryptocurrency and NFTs secure.",
+    "What is a Watch Address?":
+        "A watch address is a public address for a cryptocurrency account that you can monitor without having access to the private key that controls it. You can use a watch address to keep track of payments and NFTs received from other users, but you can't use it to make transactions or move funds from the address.",
   };
 
   static const Map<String, String> naanInfoStory = {

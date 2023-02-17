@@ -32,31 +32,33 @@ class TokenSendTextfield extends StatelessWidget {
       onTap: onTap,
       focusNode: focusNode,
       controller: controller,
-      cursorHeight: 24.arP,
+      cursorHeight: 28.arP,
       textAlignVertical: TextAlignVertical.center,
       textAlign: TextAlign.left,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [ReplaceCommaFormatter()],
       style: headlineMedium.copyWith(
-          fontSize: 28.arP,
-          fontWeight: FontWeight.w600,
-          height: 1.2.arP,
+          // fontSize: 28.arP,
+          // fontWeight: FontWeight.w600,
           color: isError != null && isError!.value
               ? ColorConst.NaanRed
               : textfieldType == TextfieldType.token
                   ? ColorConst.NeutralVariant.shade40
                   : ColorConst.NeutralVariant.shade60),
-      cursorColor: Colors.white,
+      cursorColor: ColorConst.Primary,
       onChanged: onChanged,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(top: 2.arP),
+        contentPadding: EdgeInsets.only(top: 0, bottom: -4),
         floatingLabelAlignment: FloatingLabelAlignment.center,
         isDense: true,
         border: InputBorder.none,
+        // border: OutlineInputBorder(),
         hintText: hintText,
         alignLabelWithHint: true,
         hintStyle: hintStyle ??
-            headlineMedium.copyWith(color: ColorConst.NeutralVariant.shade30),
+            headlineMedium.copyWith(
+              color: ColorConst.NeutralVariant.shade30,
+            ),
       ),
     );
   }

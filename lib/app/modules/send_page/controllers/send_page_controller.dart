@@ -30,17 +30,23 @@ class SendPageController extends GetxController {
 
   Rx<TextfieldType> selectedTextfieldType = TextfieldType.token.obs;
   RxString estimatedFee = "0.00181".obs;
+  int? callbackHash;
   @override
   void onInit() {
     super.onInit();
     senderAccountModel = Get.arguments as AccountModel;
+
+    callback(value) {
+      xtzPrice.value = value;
+      fetchAllTokens();
+    }
+
+    callbackHash = callback.hashCode;
+
     DataHandlerService()
         .renderService
         .xtzPriceUpdater
-        .registerCallback((value) {
-      xtzPrice.value = value;
-      fetchAllTokens();
-    });
+        .registerCallback(callback);
     fetchAllNfts();
 
     updateSavedContacts();
@@ -378,6 +384,11 @@ class SendPageController extends GetxController {
     amountController.dispose();
     searchTextController.value.dispose();
     SendPageController().dispose();
+    DataHandlerService()
+        .renderService
+        .xtzPriceUpdater
+        .removeCallback(callbackHash);
+    print("Closed sendflow callback");
     super.onClose();
   }
 }

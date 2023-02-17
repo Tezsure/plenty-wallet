@@ -41,7 +41,7 @@ class OpreationRequestController extends GetxController {
   final fees = "calculating...".obs;
   List<TokenPriceModel> tokenPriceModels = <TokenPriceModel>[];
   RxList<TransferModel> transfers = <TransferModel>[].obs;
-
+  int? callbackHash;
   @override
   void onInit() async {
     try {
@@ -52,29 +52,33 @@ class OpreationRequestController extends GetxController {
           .firstWhereOrNull((element) =>
               element.publicKeyHash == beaconRequest.request!.sourceAddress);
 
+      callback(value) {
+        if (!getXtz) {
+          xtzPrice = value;
+          var amount = (beaconRequest.operationDetails!
+                      .map((e) => e.amount == null ? 0 : int.parse(e.amount!))
+                      .reduce((int value, int element) => value + element) /
+                  pow(10, 6))
+              .toString();
+          dollarPrice.value =
+              dollarPrice.value + (double.parse(amount) * value);
+
+          transfers.add(TransferModel(
+              amount: amount,
+              dollarAmount: (double.parse(amount) * value).toStringAsFixed(2),
+              symbol: "TEZ"));
+        }
+        getXtz = true;
+      }
+
+      callbackHash = callback.hashCode;
+
       if (beaconRequest.operationDetails != null &&
           accountModels.value != null) {
         DataHandlerService()
             .renderService
             .xtzPriceUpdater
-            .registerCallback((value) {
-          if (!getXtz) {
-            xtzPrice = value;
-            var amount = (beaconRequest.operationDetails!
-                        .map((e) => e.amount == null ? 0 : int.parse(e.amount!))
-                        .reduce((int value, int element) => value + element) /
-                    pow(10, 6))
-                .toString();
-            dollarPrice.value =
-                dollarPrice.value + (double.parse(amount) * value);
-
-            transfers.add(TransferModel(
-                amount: amount,
-                dollarAmount: (double.parse(amount) * value).toStringAsFixed(2),
-                symbol: "TEZ"));
-          }
-          getXtz = true;
-        });
+            .registerCallback(callback);
 
         tokenPriceModels =
             await DataHandlerService().renderService.getTokenPriceModels();
@@ -397,5 +401,16 @@ class OpreationRequestController extends GetxController {
     } else {
       return 'https://services.tzkt.io/v1/avatars/$contract';
     }
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+
+    DataHandlerService()
+        .renderService
+        .xtzPriceUpdater
+        .removeCallback(callbackHash);
+    print("Closed operation callback");
   }
 }

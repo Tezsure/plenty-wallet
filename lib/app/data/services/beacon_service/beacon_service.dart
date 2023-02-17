@@ -21,7 +21,7 @@ class BeaconService extends GetxService {
     super.onInit();
 
     print('BeaconService Started');
-    await beaconPlugin.startBeacon(walletName: "Naan");
+    await beaconPlugin.startBeacon(walletName: "naan");
     try {
       Future.delayed(const Duration(seconds: 1), () async {
         beaconPlugin.getBeaconResponse().listen((data) async {

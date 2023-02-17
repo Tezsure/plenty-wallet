@@ -15,6 +15,7 @@ import '../../../data/services/service_config/service_config.dart';
 import '../../../data/services/service_models/contact_model.dart';
 import '../../../data/services/user_storage_service/user_storage_service.dart';
 import 'history_filter_controller.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 class TransactionController extends GetxController {
   final accController = Get.find<AccountSummaryController>();
@@ -150,7 +151,7 @@ class TransactionController extends GetxController {
             TokenPriceModel token = tx.getFa2TokenName;
             String amount = tx.fa2TokenAmount;
             tokenInfo = tokenInfo.copyWith(
-                name: token.name!,
+                name: token.name ?? token.tokenAddress?.tz1Short() ?? "",
                 imageUrl:
                     token.thumbnailUri ?? "${PathConst.EMPTY_STATES}token.svg",
                 tokenSymbol: token.symbol!,
@@ -295,9 +296,15 @@ extension TransactionChecker on TxHistoryModel {
     }
   }
 
-  String get fa1TokenAmount => parameter?.value is Map
-      ? parameter!.value['value']
-      : jsonDecode(parameter!.value)['value'];
+  String get fa1TokenAmount {
+    try {
+      return parameter?.value is Map
+          ? parameter!.value['value']
+          : jsonDecode(parameter!.value)['value'];
+    } catch (e) {
+      return "0";
+    }
+  }
 
   TokenPriceModel get getFa1TokenName => Get.find<AccountSummaryController>()
       .tokensList

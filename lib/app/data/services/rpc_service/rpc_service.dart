@@ -106,13 +106,16 @@ class RpcService {
     if (e['token']['metadata']['0'] != null) {
       e['token']['metadata'] = e['token']['metadata']['0']['metadata'];
     }
-    var balance = (BigInt.parse(e['balance']) /
-            BigInt.parse(1
-                .toStringAsFixed(
-                    int.tryParse(e['token']['metadata']?['decimals'] ?? "0") ??
-                        0)
-                .replaceAll(".", "")))
-        .toDouble();
+    double balance = 0.0;
+    try {
+      balance = (BigInt.parse(e['balance']) /
+              BigInt.parse(1
+                  .toStringAsFixed(int.tryParse(
+                          e['token']['metadata']?['decimals'] ?? "0") ??
+                      0)
+                  .replaceAll(".", "")))
+          .toDouble();
+    } catch (e) {}
     return AccountTokenModel(
         balance: balance,
         name: e['token']['metadata']['name'] ?? 'N/A',
@@ -139,5 +142,9 @@ class RpcService {
       url = "https://cloudflare-ipfs.com/ipfs/${url.replaceAll("ipfs://", "")}";
     }
     return url;
+  }
+
+  static Future<String> getIpfsUrl() async {
+    return await HttpService.performGetRequest(ServiceConfig.ipfsUrlApi);
   }
 }

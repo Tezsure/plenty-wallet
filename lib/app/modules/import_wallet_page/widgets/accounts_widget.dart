@@ -31,7 +31,8 @@ class AccountWidget extends StatelessWidget {
               controller.genAndLoadMoreAccounts(0, 3);
             }
             return Visibility(
-                visible: controller.isExpanded.isTrue,
+                visible: controller.generatedAccounts.length > 4 &&
+                    !controller.isLegacySelected.value,
                 replacement: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
@@ -42,14 +43,23 @@ class AccountWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       Column(
-                        children: List.generate(
-                          controller.generatedAccounts.length,
-                          (index) => accountWidget(index),
-                        ),
+                        children: controller.isLegacySelected.value
+                            ? List.generate(
+                                controller.generatedAccounts.isEmpty ? 0 : 1,
+                                (index) => accountWidget(index),
+                              )
+                            : List.generate(
+                                controller.generatedAccounts.length - 1,
+                                (index) => accountWidget(index + 1),
+                              ),
                       ),
-                      if (controller.generatedAccounts.length < 100)
-                        showMoreAccountButton(
-                            controller.generatedAccounts.length),
+                      controller.generatedAccounts.length < 100 &&
+                              !controller.isLegacySelected.value
+                          ? showMoreAccountButton(
+                              controller.generatedAccounts.length - 1)
+                          : SizedBox(
+                              height: 10.arP,
+                            ),
                     ],
                   ),
                 ),
@@ -66,17 +76,33 @@ class AccountWidget extends StatelessWidget {
                     child: Column(
                       children: [
                         Expanded(
-                          child: ListView.builder(
-                            physics: AppConstant.scrollPhysics,
-                            itemBuilder: (context, index) =>
-                                accountWidget(index),
-                            itemCount: controller.generatedAccounts.length,
-                            shrinkWrap: true,
-                          ),
+                          child: controller.isLegacySelected.value
+                              ? ListView.builder(
+                                  physics: AppConstant.scrollPhysics,
+                                  itemBuilder: (context, index) =>
+                                      accountWidget(index),
+                                  itemCount:
+                                      controller.generatedAccounts.isEmpty
+                                          ? 0
+                                          : 1,
+                                  shrinkWrap: true,
+                                )
+                              : ListView.builder(
+                                  physics: AppConstant.scrollPhysics,
+                                  itemBuilder: (context, index) =>
+                                      accountWidget(index + 1),
+                                  itemCount:
+                                      controller.generatedAccounts.length - 1,
+                                  shrinkWrap: true,
+                                ),
                         ),
-                        if (controller.generatedAccounts.length < 100)
-                          showMoreAccountButton(
-                              controller.generatedAccounts.length),
+                        controller.generatedAccounts.length < 100 &&
+                                !controller.isLegacySelected.value
+                            ? showMoreAccountButton(
+                                controller.generatedAccounts.length - 1)
+                            : SizedBox(
+                                height: 10.arP,
+                              ),
                       ],
                     ),
                   ),
@@ -122,94 +148,124 @@ class AccountWidget extends StatelessWidget {
   final homeController = Get.put(HomePageController());
   Widget accountWidget(int index) {
     final AccountModel accountModel = controller.generatedAccounts[index];
-    final bool isSelected = controller.isTz1Selected.value
-        ? controller.selectedAccountsTz1
+    final bool isSelected = controller.isLegacySelected.value
+        ? controller.selectedLegacyAccount
             .any((e) => e.publicKeyHash == accountModel.publicKeyHash)
-        : controller.selectedAccountsTz2
-            .any((e) => e.publicKeyHash == accountModel.publicKeyHash);
+        : controller.isTz1Selected.value
+            ? controller.selectedAccountsTz1
+                .any((e) => e.publicKeyHash == accountModel.publicKeyHash)
+            : controller.selectedAccountsTz2
+                .any((e) => e.publicKeyHash == accountModel.publicKeyHash);
     final bool isImported = homeController.userAccounts
         .any((element) => element.publicKeyHash == accountModel.publicKeyHash);
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-      child: Row(
-        children: [
-          Container(
-            height: 48,
-            width: 48,
-            alignment: Alignment.bottomRight,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                fit: BoxFit.fitWidth,
-                image: AssetImage(accountModel.profileImage!),
+    return InkWell(
+      onTap: () {
+        if (isImported) return;
+        if (!isSelected) {
+          controller.isLegacySelected.value
+              ? controller.selectedLegacyAccount.add(accountModel)
+              : controller.isTz1Selected.value
+                  ? controller.selectedAccountsTz1.add(accountModel)
+                  : controller.selectedAccountsTz2.add(accountModel);
+        } else {
+          controller.isLegacySelected.value
+              ? controller.selectedLegacyAccount.remove(accountModel)
+              : controller.isTz1Selected.value
+                  ? controller.selectedAccountsTz1.remove(accountModel)
+                  : controller.selectedAccountsTz2.remove(accountModel);
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        child: Row(
+          children: [
+            Container(
+              height: 48,
+              width: 48,
+              alignment: Alignment.bottomRight,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.fitWidth,
+                  image: AssetImage(accountModel.profileImage!),
+                ),
               ),
             ),
-          ),
-          0.05.hspace,
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                tz1Shortner(accountModel.publicKeyHash!),
-                style: bodySmall,
-              ),
-              FutureBuilder<double>(
-                key: Key(accountModel.publicKeyHash!),
-                initialData: 0.0,
-                future: accountModel.getUserBalanceInTezos(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (!snapshot.hasData) {
+            0.05.hspace,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  tz1Shortner(accountModel.publicKeyHash!),
+                  style: bodySmall,
+                ),
+                FutureBuilder<double>(
+                  key: Key(accountModel.publicKeyHash!),
+                  initialData: 0.0,
+                  future: accountModel.getUserBalanceInTezos(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (!snapshot.hasData) {
+                      return Text(
+                        "0.0 tez",
+                        style: labelSmall.apply(
+                            color: ColorConst.NeutralVariant.shade60),
+                      );
+                    }
+                    accountModel.accountDataModel =
+                        AccountDataModel(xtzBalance: snapshot.data);
+                    log("${accountModel.publicKeyHash}:${accountModel.accountDataModel?.xtzBalance}");
+                    // accountBalances[accountModel.publicKeyHash!] = snapshot.data;
                     return Text(
-                      "0.0 tez",
+                      "${accountModel.accountDataModel?.xtzBalance ?? 0.0} tez",
                       style: labelSmall.apply(
                           color: ColorConst.NeutralVariant.shade60),
                     );
-                  }
-                  accountModel.accountDataModel =
-                      AccountDataModel(xtzBalance: snapshot.data);
-                  log("${accountModel.publicKeyHash}:${accountModel.accountDataModel?.xtzBalance}");
-                  // accountBalances[accountModel.publicKeyHash!] = snapshot.data;
-                  return Text(
-                    "${accountModel.accountDataModel?.xtzBalance ?? 0.0} tez",
-                    style: labelSmall.apply(
-                        color: ColorConst.NeutralVariant.shade60),
-                  );
-                },
-              ),
-            ],
-          ),
-          const Spacer(),
-          // if (isSelected)
-          isImported
-              ? Text(
-                  "IMPORTED",
-                  style: labelSmall.copyWith(color: ColorConst.Primary),
-                )
-              : IconButton(
-                  onPressed: () {
-                    if (!isSelected) {
-                      controller.isTz1Selected.value
-                          ? controller.selectedAccountsTz1.add(accountModel)
-                          : controller.selectedAccountsTz2.add(accountModel);
-                    } else {
-                      controller.isTz1Selected.value
-                          ? controller.selectedAccountsTz1.remove(accountModel)
-                          : controller.selectedAccountsTz2.remove(accountModel);
-                    }
                   },
-                  icon: isSelected
-                      ? SvgPicture.asset(
-                          "assets/svg/check_3.svg",
-                          height: 20.arP,
-                          width: 20.arP,
-                        )
-                      : Icon(
-                          Icons.circle_outlined,
-                          color: ColorConst.NeutralVariant.shade30,
-                        )),
-        ],
+                ),
+              ],
+            ),
+            const Spacer(),
+            // if (isSelected)
+            isImported
+                ? Text(
+                    "IMPORTED",
+                    style: labelSmall.copyWith(color: ColorConst.Primary),
+                  )
+                : IconButton(
+                    onPressed: () {
+                      if (!isSelected) {
+                        controller.isLegacySelected.value
+                            ? controller.selectedLegacyAccount.add(accountModel)
+                            : controller.isTz1Selected.value
+                                ? controller.selectedAccountsTz1
+                                    .add(accountModel)
+                                : controller.selectedAccountsTz2
+                                    .add(accountModel);
+                      } else {
+                        controller.isLegacySelected.value
+                            ? controller.selectedLegacyAccount
+                                .remove(accountModel)
+                            : controller.isTz1Selected.value
+                                ? controller.selectedAccountsTz1
+                                    .remove(accountModel)
+                                : controller.selectedAccountsTz2
+                                    .remove(accountModel);
+                      }
+                    },
+                    icon: isSelected
+                        ? SvgPicture.asset(
+                            "assets/svg/check_3.svg",
+                            height: 20.arP,
+                            width: 20.arP,
+                          )
+                        : Icon(
+                            Icons.circle_outlined,
+                            color: ColorConst.NeutralVariant.shade30,
+                          )),
+          ],
+        ),
       ),
     );
   }

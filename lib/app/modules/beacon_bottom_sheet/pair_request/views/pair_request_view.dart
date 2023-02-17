@@ -17,7 +17,9 @@ class PairRequestView extends GetView<PairRequestController> {
   @override
   Widget build(BuildContext context) {
     Get.put(PairRequestController());
-    return NaanBottomSheet(height: 0.42.height, bottomSheetHorizontalPadding: 0,
+    return NaanBottomSheet(
+        height: 0.42.height,
+        bottomSheetHorizontalPadding: 0,
         // width: 1.width,
 
         // decoration: const BoxDecoration(
@@ -41,21 +43,27 @@ class PairRequestView extends GetView<PairRequestController> {
                 // ),
                 0.02.vspace,
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
-                    child: CircleAvatar(
-                      radius: 20,
-                      backgroundColor: ColorConst.Primary,
-                      child: Center(
-                        child: Text(
-                          controller.beaconRequest.request?.appMetadata?.name
-                                  ?.substring(0, 1)
-                                  .toUpperCase() ??
-                              'U',
-                          maxLines: 1,
-                          style: titleLarge.copyWith(color: Colors.white),
-                        ),
+                  padding: EdgeInsets.all(8.0.arP),
+                  child: ClipOval(
+                    // borderRadius: BorderRadius.circular(6),
+                    child: Container(
+                      height: 50.arP, width: 50.arP,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(16.arP),
+
+                      decoration:
+                          const BoxDecoration(color: ColorConst.Primary),
+                      // radius: 20,
+                      // backgroundColor: ColorConst.Primary,
+                      child: Text(
+                        controller.beaconRequest.request?.appMetadata?.name
+                                ?.substring(0, 1)
+                                .toUpperCase() ??
+                            'U',
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        style:
+                            titleLarge.copyWith(color: Colors.white, height: 1),
                       ),
                     ),
                   ),

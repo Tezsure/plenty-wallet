@@ -18,86 +18,79 @@ class AccountSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      isScrollControlled: true,
       title: "Account",
-      height: 0.65.height,
+      // height: 0.65.height,
       bottomSheetWidgets: [
-        SizedBox(
-          height: 0.58.height,
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        Get.back(result: index);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                        ),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: Container(
-                                height: 0.1.width,
-                                width: 0.1.width,
-                                alignment: Alignment.bottomRight,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: accountModels![index].imageType ==
-                                            AccountProfileImageType.assets
-                                        ? AssetImage(accountModels![index]
-                                            .profileImage
-                                            .toString())
-                                        : FileImage(
-                                            File(
-                                              accountModels![index]
-                                                  .profileImage
-                                                  .toString(),
-                                            ),
-                                          ) as ImageProvider,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(accountModels![index].name.toString(),
-                                      style: titleSmall),
-                                  Text(
-                                    "${accountModels![index].accountDataModel!.xtzBalance!} Tez",
-                                    style: bodySmall.copyWith(
-                                        color: ColorConst.grey),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            this.index == index
-                                ? SvgPicture.asset(
-                                    "assets/svg/check_3.svg",
-                                    height: 14.arP,
-                                    width: 14.arP,
-                                  )
-                                : SizedBox(
-                                    height: 14.arP,
-                                    width: 14.arP,
-                                  )
-                          ],
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {
+                Get.back(result: index);
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Container(
+                        height: 0.1.width,
+                        width: 0.1.width,
+                        alignment: Alignment.bottomRight,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: accountModels![index].imageType ==
+                                    AccountProfileImageType.assets
+                                ? AssetImage(accountModels![index]
+                                    .profileImage
+                                    .toString())
+                                : FileImage(
+                                    File(
+                                      accountModels![index]
+                                          .profileImage
+                                          .toString(),
+                                    ),
+                                  ) as ImageProvider,
+                          ),
                         ),
                       ),
-                    );
-                  },
-                  itemCount: accountModels!.length,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(accountModels![index].name.toString(),
+                              style: titleSmall),
+                          Text(
+                            "${accountModels![index].accountDataModel!.xtzBalance!} Tez",
+                            style: bodySmall.copyWith(color: ColorConst.grey),
+                          ),
+                        ],
+                      ),
+                    ),
+                    this.index == index
+                        ? SvgPicture.asset(
+                            "assets/svg/check_3.svg",
+                            height: 14.arP,
+                            width: 14.arP,
+                          )
+                        : SizedBox(
+                            height: 14.arP,
+                            width: 14.arP,
+                          )
+                  ],
                 ),
               ),
-            ],
-          ),
+            );
+          },
+          itemCount: accountModels!.length,
         )
       ],
     );

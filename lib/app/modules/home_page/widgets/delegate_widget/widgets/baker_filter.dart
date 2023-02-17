@@ -23,7 +23,7 @@ class BakerFilterBottomSheet extends GetView<DelegateWidgetController> {
     ];
     Get.lazyPut(() => DelegateWidgetController());
     return NaanBottomSheet(
-      height: 0.4.height,
+      height: 0.42.height,
       title: 'Set baker by :',
       titleAlignment: Alignment.center,
       titleStyle: labelLarge,

@@ -24,14 +24,17 @@ class ImportWalletPageController extends GetxController
   Rx<String> phraseText = "".obs; // to store phrase text
   RxList<AccountModel> generatedAccountsTz1 = <AccountModel>[].obs;
   RxList<AccountModel> generatedAccountsTz2 = <AccountModel>[].obs;
-
+  RxList<AccountModel> generatedAccountsLegacy = <AccountModel>[].obs;
   RxBool isTz1Selected = true.obs;
+
+  RxBool isLegacySelected = false.obs;
 
   RxList<AccountModel> get generatedAccounts =>
       isTz1Selected.value ? generatedAccountsTz1 : generatedAccountsTz2;
 
   // accounts imported;
   RxList<AccountModel> selectedAccountsTz1 = <AccountModel>[].obs;
+  RxList<AccountModel> selectedLegacyAccount = <AccountModel>[].obs;
 
   RxList<AccountModel> selectedAccountsTz2 =
       <AccountModel>[].obs; // accounts selected;
@@ -46,9 +49,10 @@ class ImportWalletPageController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    tabController = TabController(length: 2, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
     tabController!.addListener(() {
       isTz1Selected.value = tabController!.index == 0;
+      isLegacySelected.value = tabController!.index == 2;
     });
   }
 
@@ -57,15 +61,15 @@ class ImportWalletPageController extends GetxController
     ClipboardData? cdata = await Clipboard.getData(Clipboard.kTextPlain);
     if (cdata != null) {
       checkImportType(cdata.text!);
-      phraseTextController.value.text = cdata.text!;
-      phraseText.value = cdata.text!;
+      phraseTextController.value.text = cdata.text!.trim();
+      phraseText.value = cdata.text!.trim();
     }
   }
 
   /// To assign the phrase text to the phrase text variable
   void onTextChange(String value) {
     checkImportType(value);
-    phraseText.value = value;
+    phraseText.value = value.trim();
   }
 
   /// define based on phraseText.value that if it's mnemonic, private key or watch address
@@ -76,7 +80,7 @@ class ImportWalletPageController extends GetxController
                   value.startsWith("tz2") ||
                   value.startsWith("tz3")
               ? ImportWalletDataType.watchAddress
-              : value.split(" ").length == 12
+              : value.split(" ").length == 12 || value.split(" ").length == 24
                   ? ImportWalletDataType.mnemonic
                   : ImportWalletDataType.none;
 
@@ -111,7 +115,8 @@ class ImportWalletPageController extends GetxController
     } else if (importWalletDataType == ImportWalletDataType.mnemonic) {
       var accountLength = (await UserStorageService().getAllAccount()).length;
 
-      var selectedAccounts = selectedAccountsTz1 + selectedAccountsTz2;
+      var selectedAccounts =
+          selectedAccountsTz1 + selectedAccountsTz2 + selectedLegacyAccount;
 
       for (var i = 0; i < selectedAccounts.length; i++) {
         selectedAccounts[i] = selectedAccounts[i]
@@ -180,22 +185,27 @@ class ImportWalletPageController extends GetxController
     return false;
   }
 
-  Future<AccountModel> getAccountModelIndexAt(int index) async {
+  Future<AccountModel?> getAccountModelIndexAt(int index) async {
     var account = await WalletService().genAccountFromMnemonic(
         phraseText.value.trim().toLowerCase(), index, !isTz1Selected.value);
     return account;
   }
 
+  Future<AccountModel?> genLegacyAccount() async {
+    var account =
+        await WalletService().genLegacy(phraseText.value.trim().toLowerCase());
+    return account;
+  }
+
   RxBool isLoading = false.obs;
   Future<void> genAndLoadMoreAccounts(int startIndex, int size) async {
-    if (startIndex == 0) generatedAccounts.value = <AccountModel>[];
+    if (startIndex == 0) {
+      generatedAccounts.value = <AccountModel>[];
+      generatedAccounts.add((await genLegacyAccount())!);
+    }
+
     isLoading.value = true;
-    final response = await Future.wait<AccountModel>([
-      ...List.generate(
-          size, (index) => getAccountModelIndexAt(startIndex + index)).toList()
-    ]);
-    generatedAccounts.addAll(response);
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     // for (var i = startIndex; i < startIndex + size; i++) {
     //   log("1:${DateTime.now().microsecondsSinceEpoch}");
     //   // if (i == 3) continue;
@@ -204,6 +214,21 @@ class ImportWalletPageController extends GetxController
 
     //   // log("$i: ${generatedAccounts[i].publicKeyHash}");
     // }
+    // final response = await Future.wait<AccountModel>([
+    //   ...List.generate(
+    //       size, (index) => getAccountModelIndexAt(startIndex + index)).toList()
+    // ]);
+    // generatedAccounts.addAll(response);
+
+    for (var i = startIndex; i < startIndex + size; i++) {
+      log("1:${DateTime.now().microsecondsSinceEpoch}");
+      final account = await getAccountModelIndexAt(i);
+      if (account == null) continue;
+      generatedAccounts.add(account);
+      log("2:${DateTime.now().microsecondsSinceEpoch}");
+
+      // log("$i: ${generatedAccounts[i].publicKeyHash}");
+    }
     isLoading.value = false;
 
     generatedAccounts.value = [...generatedAccounts];

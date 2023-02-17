@@ -12,7 +12,10 @@ import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dar
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 
+enum NftState { processing, empty, done }
+
 /// Handle read and write user data
+
 class UserStorageService {
   /// Write new account into storage
   /// if isWatchAddress is true then it will get stored in watchAddressList otherwise normal wallet account list
@@ -162,10 +165,9 @@ class UserStorageService {
           .toList();
 
   /// read user nft using user address RETURN STRING
-  Future<String> getUserNftsString({required String userAddress}) async =>
+  Future<String?> getUserNftsString({required String userAddress}) async =>
       await ServiceConfig.localStorage
-          .read(key: "${ServiceConfig.nftStorage}_$userAddress") ??
-      "[]";
+          .read(key: "${ServiceConfig.nftStorage}_$userAddress");
 
   Future<void> writeNewAccountSecrets(
           AccountSecretModel accountSecretModel) async =>

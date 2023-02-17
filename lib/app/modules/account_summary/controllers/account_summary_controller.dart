@@ -58,9 +58,15 @@ class AccountSummaryController extends GetxController {
   RxBool isCollectibleListExpanded =
       false.obs; // false = show 3 collectibles, true = show all collectibles
 
+  int? callbackHash;
   // ! Others
   RxBool isAccountDelegated =
       false.obs; // To check if current account is delegated
+
+  fetchAllNftscallback(_) {
+    // print("NFT Updated");
+    _fetchAllNfts();
+  }
 
   // ! Global Functions
   @override
@@ -72,21 +78,33 @@ class AccountSummaryController extends GetxController {
       xtzPrice.value = value;
     });
 
-    DataHandlerService().renderService.accountNft.registerCallback((_) {
-      print("NFT Updated");
-      _fetchAllNfts();
-    });
+    callbackHash = fetchAllNftscallback.hashCode;
+    //print("acc $callbackHash");
+
+    DataHandlerService()
+        .renderService
+        .accountNft
+        .registerCallback(fetchAllNftscallback);
 
     homePageController.userAccounts.listen((event) {
       fetchAllTokens();
       // _fetchAllNfts();
     });
-
-    fetchAllTokens();
-    _fetchAllNfts();
+    Future.delayed(const Duration(milliseconds: 300), () {
+      fetchAllTokens();
+      _fetchAllNfts();
+    });
 
     selectedTokenIndexSet.clear();
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+
+    DataHandlerService().renderService.accountNft.removeCallback(callbackHash);
+    print("Closed nft callback");
   }
 
   /// Fetches all the user tokens
@@ -119,9 +137,7 @@ class AccountSummaryController extends GetxController {
       minTokens,
       pinnedList,
       unPinnedList */
-          if (userTokens.value.hashCode != data[0].hashCode) {
-            isLoading.value = true;
-          }
+
           userTokens.clear();
           var uniqueTokens = <AccountTokenModel>[];
           for (var token in data[0]) {
@@ -239,6 +255,7 @@ class AccountSummaryController extends GetxController {
     UserStorageService()
         .getUserNftsString(userAddress: selectedAccount.value.publicKeyHash!)
         .then((nftList) async {
+      nftList ??= "[]";
       userNfts.value = await compute(getUserNft, nftList,
           debugLabel: "getUserNft ACCOUNT SUMMARY");
 /*       for (var i = 0; i < nftList.length; i++) {
@@ -284,12 +301,17 @@ class AccountSummaryController extends GetxController {
     if (!_isSelectedAccount(index)) {
       Get.back();
       Get.find<AccountsWidgetController>().onPageChanged(index);
-      // selectedAccountIndex.value = index;
-      // selectedAccount.value = homePageController.userAccounts[index];
+      //selectedAccountIndex.value = index;
+      selectedAccount.value = homePageController.userAccounts[index];
       fetchAllTokens();
       _fetchAllNfts();
       loadUserTransaction();
     }
+  }
+
+  Future<void> refreshTokens() async {
+    await DataHandlerService().updateTokens();
+    await fetchAllTokens();
   }
 
   /// Remove account from the account list

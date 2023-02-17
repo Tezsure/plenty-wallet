@@ -1,18 +1,16 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:isolate';
 import 'dart:ui';
 
 // import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
+import 'package:instabug_flutter/instabug_flutter.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'app/routes/app_pages.dart';
@@ -29,35 +27,39 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+  FlutterError.onError = (FlutterErrorDetails details) {
+    Zone.current.handleUncaughtError(
+        details.exception, details.stack ?? StackTrace.current);
+  };
+
   runZonedGuarded(() async {
     //  debugPaintSizeEnabled = true;
     //  debugInvertOversizedImages = true;
     await Firebase.initializeApp();
-    await FirebaseCrashlytics.instance
-        .setCrashlyticsCollectionEnabled(kReleaseMode);
+/*     await FirebaseCrashlytics.instance
+        .setCrashlyticsCollectionEnabled(kReleaseMode); */
 
     NaanAnalytics().setupAnalytics();
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-    PlatformDispatcher.instance.onError = (error, stack) {
+/*     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError; */
+/*     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance
           .recordError(error, stack, fatal: true, reason: "Platform error");
       return true;
-    };
-    Isolate.current.addErrorListener(RawReceivePort((pair) async {
-      final List<dynamic> errorAndStacktrace = pair;
-      await FirebaseCrashlytics.instance.recordError(
-          errorAndStacktrace.first, errorAndStacktrace.last,
-          fatal: true, reason: "Background isolate error");
-    }).sendPort);
+    }; */
+
     //FirebaseCrashlytics.instance.crash();
+    await Instabug.start(
+        '74da8bcfe330c611f60eaee532e451db', [InvocationEvent.shake]);
+
     runApp(
       GetMaterialApp(
-        title: "Naan",
+        title: "naan",
         theme: ThemeData(
           brightness: Brightness.dark,
           fontFamily: "Poppins",
         ),
         navigatorObservers: [
+          //InstabugNavigatorObserver(),
           FirebaseAnalyticsObserver(analytics: NaanAnalytics().getAnalytics()),
         ],
         supportedLocales: const [
@@ -69,7 +71,7 @@ void main() async {
       ),
     );
   }, (error, stackTrace) {
-    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+    CrashReporting.reportCrash(error, stackTrace);
   });
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
@@ -25,39 +26,43 @@ class _IAFSheetState extends State<IAFSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      // title: "Enter registered email id",
+      bottomSheetHorizontalPadding: 0,
+      title: "Claim NFT",
       height: AppConstant.naanBottomSheetHeight -
           MediaQuery.of(context).viewInsets.bottom,
       bottomSheetWidgets: [
         Obx(() {
           return SizedBox(
             height: AppConstant.naanBottomSheetChildHeight -
-                32.arP -
+                36.arP -
                 MediaQuery.of(context).viewInsets.bottom,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                0.02.vspace,
+                0.001.vspace,
+
+                // 0.016.vspace,
                 Center(
-                  child: Text(
-                    "Claim NFT",
-                    textAlign: TextAlign.center,
-                    style: titleLarge,
-                  ),
-                ),
-                0.016.vspace,
-                Center(
-                  child: Text(
-                    "Enter the email id you submitted \nfor claiming NFT at India Art Fair.",
-                    textAlign: TextAlign.center,
-                    style: labelMedium.copyWith(color: ColorConst.textGrey1),
+                  child: SizedBox(
+                    width: 1.width - 64.arP,
+                    child: Text(
+                      "Enter the email address used at India Art Fair to claim your free NFT and tez",
+                      textAlign: TextAlign.center,
+                      style: bodySmall.copyWith(
+                        letterSpacing: 0.15.arP,
+                        color: ColorConst.NeutralVariant.shade60,
+                      ),
+                    ),
                   ),
                 ),
                 0.032.vspace,
                 _buildTextField(),
                 0.018.vspace,
-                getBadge(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 22.arP),
+                  child: getBadge(),
+                ),
                 const Spacer(),
                 Center(
                   child: SolidButton(
@@ -74,7 +79,9 @@ class _IAFSheetState extends State<IAFSheet> {
                     },
                     title: controller.isVerified.value ?? false
                         ? "Claim NFT"
-                        : "Verify",
+                        : controller.isVerified.value == null
+                            ? "Verify"
+                            : "Enter valid email address",
                   ),
                 ),
                 const BottomButtonPadding()
@@ -90,7 +97,7 @@ class _IAFSheetState extends State<IAFSheet> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.arP, vertical: 6.arP),
       decoration: BoxDecoration(
-          color: Color(0xFF171717),
+          color: const Color(0xFF171717),
           borderRadius: BorderRadius.circular(16.arP)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -112,7 +119,7 @@ class _IAFSheetState extends State<IAFSheet> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.arP, vertical: 6.arP),
       decoration: BoxDecoration(
-          color: Color(0xFF171717),
+          color: const Color(0xFF171717),
           borderRadius: BorderRadius.circular(16.arP)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -134,17 +141,18 @@ class _IAFSheetState extends State<IAFSheet> {
     return Obx(() {
       return Center(
         child: SizedBox(
-          height: 0.06.height,
+          // height: 0.06.height,
           width: 1.width - 44.arP,
           child: TextFormField(
-            style: const TextStyle(color: Colors.white),
+            style: bodyLarge.copyWith(color: Colors.white),
             onChanged: (input) {
-              if (controller.isVerified.value != null) {
-                controller.isVerified = null.obs;
-                setState(() {});
-              }
+              // if (controller.isVerified.value != null) {
+              //   controller.isVerified.value = null;
+              //   // setState(() {});
+              // }
               controller.onChange(input);
             },
+            inputFormatters: [FilteringTextInputFormatter.deny(" ")],
             controller: controller.emailController,
             textAlignVertical: TextAlignVertical.top,
             textAlign: TextAlign.start,
@@ -153,37 +161,49 @@ class _IAFSheetState extends State<IAFSheet> {
             decoration: InputDecoration(
               filled: true,
               fillColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              suffixIcon: Icon(
-                Icons.search,
-                color: getColor(),
-                size: 22.arP,
-              ),
+              isDense: true,
               counterStyle: const TextStyle(backgroundColor: Colors.white),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12.arP),
                 borderSide: controller.isVerified.value == null
                     ? BorderSide.none
-                    : BorderSide(color: getColor()),
+                    : BorderSide(
+                        color: getColor(),
+                        width: 1.3.arP,
+                      ),
               ),
               errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: ColorConst.green),
+                borderRadius: BorderRadius.circular(12.arP),
+                borderSide: BorderSide(
+                  color: ColorConst.green,
+                  width: 1.3.arP,
+                ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12.arP),
                 borderSide: controller.isVerified.value == null
                     ? BorderSide.none
-                    : BorderSide(color: getColor()),
+                    : BorderSide(
+                        color: getColor(),
+                        width: 1.3.arP,
+                      ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12.arP),
                 borderSide: controller.isVerified.value == null
                     ? BorderSide.none
-                    : BorderSide(color: getColor()),
+                    : BorderSide(
+                        color: getColor(),
+                        width: 1.3.arP,
+                      ),
               ),
-              hintText: 'example@site.com',
-              hintStyle:
-                  bodyMedium.copyWith(color: ColorConst.NeutralVariant.shade70),
+              hintText: 'Email',
+              hintStyle: bodyLarge.copyWith(
+                // ignore: prefer_const_constructors
+                color: Color(
+                  0xFF7B757F,
+                ),
+              ),
               labelStyle: labelSmall,
               // contentPadding:
               //     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -196,7 +216,9 @@ class _IAFSheetState extends State<IAFSheet> {
 
   Color getColor() {
     if (controller.isVerified.value == null) {
-      return ColorConst.NeutralVariant.shade60;
+      return const Color(
+        0xFF252525,
+      );
     }
     if (controller.isVerified.value!) return ColorConst.green;
     return ColorConst.Tertiary;
