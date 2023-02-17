@@ -143,6 +143,19 @@ PODS:
     - nanopb/encode (= 2.30909.0)
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
+  - onesignal_flutter (3.5.0):
+    - Flutter
+    - OneSignalXCFramework (= 3.12.3)
+  - OneSignalXCFramework (3.12.3):
+    - OneSignalXCFramework/OneSignalCore (= 3.12.3)
+    - OneSignalXCFramework/OneSignalExtension (= 3.12.3)
+    - OneSignalXCFramework/OneSignalOutcomes (= 3.12.3)
+  - OneSignalXCFramework/OneSignalCore (3.12.3)
+  - OneSignalXCFramework/OneSignalExtension (3.12.3):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalOutcomes
+  - OneSignalXCFramework/OneSignalOutcomes (3.12.3):
+    - OneSignalXCFramework/OneSignalCore
   - OrderedSet (5.0.0)
   - package_info_plus (0.4.5):
     - Flutter
@@ -192,6 +205,8 @@ DEPENDENCIES:
   - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
   - instabug_flutter (from `.symlinks/plugins/instabug_flutter/ios`)
   - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
+  - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
+  - OneSignalXCFramework (< 4.0, >= 3.4.3)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
@@ -227,6 +242,7 @@ SPEC REPOS:
     - KeychainSwift
     - MTBBarcodeScanner
     - nanopb
+    - OneSignalXCFramework
     - OrderedSet
     - PromisesObjC
     - secp256k1.swift
@@ -261,6 +277,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/instabug_flutter/ios"
   local_auth_ios:
     :path: ".symlinks/plugins/local_auth_ios/ios"
+  onesignal_flutter:
+    :path: ".symlinks/plugins/onesignal_flutter/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
@@ -316,6 +334,8 @@ SPEC CHECKSUMS:
   local_auth_ios: 0d333dde7780f669e66f19d2ff6005f3ea84008d
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
+  onesignal_flutter: e01b19b76406d2f303edabe36da8dc747443d679
+  OneSignalXCFramework: 75844c29607ca95e6176f6f21257b4382c7fdbfb
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
@@ -332,6 +352,6 @@ SPEC CHECKSUMS:
   Web3Auth: 3ef09358f409cf6b2b57f3bcc074281ac73681a1
   web3auth_flutter: c40401ed4bb3aff723349a382ddae9809eeee959
 
-PODFILE CHECKSUM: 23b42f11aeed0a29c4f48d1f8322cb3408a08423
+PODFILE CHECKSUM: 014fcfe4947d4ed440fe4493fb3cf5e9482f6707
 
 COCOAPODS: 1.11.3

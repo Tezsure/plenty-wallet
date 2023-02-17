@@ -1,9 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/veNFT.dart';
-import 'package:naan_wallet/utils/cache_image/cache_image.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 // ignore: must_be_immutable
 class NFTImage extends StatelessWidget {
@@ -42,10 +40,11 @@ class NFTImage extends StatelessWidget {
             ), */
 
             memCacheHeight == null && memCacheWidth == null
-                ? Image.network(
-                    "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb400",
+                ? CachedNetworkImage(
+                    imageUrl:
+                        "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb400",
                     fit: boxFit,
-                    loadingBuilder: (context, child, loadingProgress) {
+/*                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress == null) return child;
                       return SizedBox(
                         height: 36.arP,
@@ -59,7 +58,7 @@ class NFTImage extends StatelessWidget {
                           ),
                         ),
                       );
-                    },
+                    }, */
 /*               imageUrl: nftImageUrl,
 //               fit: boxFit,
 //               placeholderFadeInDuration: const Duration(milliseconds: 1),
@@ -74,12 +73,14 @@ class NFTImage extends StatelessWidget {
 //                   // memCacheHeight: memCacheHeight,
 //                   // memCacheWidth: memCacheWidth,
                   )
-                : Image.network(
-                    "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb400",
+                : CachedNetworkImage(
+                    imageUrl:
+                        "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb400",
                     fit: boxFit,
-                    cacheHeight: memCacheHeight,
-                    cacheWidth: memCacheWidth,
-                    loadingBuilder: (context, child, loadingProgress) {
+                    memCacheHeight: memCacheHeight,
+                    memCacheWidth: memCacheWidth,
+
+/*                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress == null) return child;
                       return SizedBox(
                         height: 100.arP,
@@ -93,7 +94,7 @@ class NFTImage extends StatelessWidget {
                           ),
                         ),
                       );
-                    },
+                    }, */
 // /*               imageUrl: nftImageUrl,
 //               fit: boxFit,
 //               placeholderFadeInDuration: const Duration(milliseconds: 1),
