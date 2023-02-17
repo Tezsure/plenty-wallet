@@ -26,6 +26,7 @@ class SplashPageController extends GetxController {
 
     ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
         ServiceConfig.currentSelectedNode;
+    await DataHandlerService().initDataServices();
     ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
     ServiceConfig.ipfsUrl = (await RpcService.getIpfsUrl()).trim();
     ServiceConfig.isIAFWidgetVisible = (await IAFService.getWidgetVisibility());
@@ -34,35 +35,36 @@ class SplashPageController extends GetxController {
     AppConstant.tfCollection = (await ArtFoundationHandler.getCollectionNfts(
         "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
 
-    await DataHandlerService().initDataServices();
-
     var walletAccountsLength =
         (await UserStorageService().getAllAccount()).length;
     var watchAccountsLength =
         (await UserStorageService().getAllAccount(watchAccountsList: true))
             .length;
-    Get.put(NftGalleryWidgetController(), permanent: true);
-    if (walletAccountsLength != 0 || watchAccountsLength != 0) {
-      bool isPasscodeSet = await AuthService().getIsPassCodeSet();
+    await DataHandlerService().nftPatch(() async {
+      Get.put(NftGalleryWidgetController(), permanent: true);
 
-      /// ask for auth and redirect to home page
-      Get.offAllNamed(
-        Routes.PASSCODE_PAGE,
-        arguments: [
-          isPasscodeSet,
-          Routes.HOME_PAGE,
-        ],
-      );
-    } else {
-      Get.offAndToNamed(
-        Routes.ONBOARDING_PAGE,
-      );
-      // Future.delayed(
-      //   const Duration(seconds: 1),
-      //   () => Get.offAndToNamed(
-      //     Routes.ONBOARDING_PAGE,
-      //   ),
-      // );
-    }
+      if (walletAccountsLength != 0 || watchAccountsLength != 0) {
+        bool isPasscodeSet = await AuthService().getIsPassCodeSet();
+
+        /// ask for auth and redirect to home page
+        Get.offAllNamed(
+          Routes.PASSCODE_PAGE,
+          arguments: [
+            isPasscodeSet,
+            Routes.HOME_PAGE,
+          ],
+        );
+      } else {
+        Get.offAndToNamed(
+          Routes.ONBOARDING_PAGE,
+        );
+        // Future.delayed(
+        //   const Duration(seconds: 1),
+        //   () => Get.offAndToNamed(
+        //     Routes.ONBOARDING_PAGE,
+        //   ),
+        // );
+      }
+    });
   }
 }

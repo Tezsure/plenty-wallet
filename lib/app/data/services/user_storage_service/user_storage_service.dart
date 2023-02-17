@@ -66,6 +66,23 @@ class UserStorageService {
         ));
   }
 
+  /// update accountList
+  Future<void> nftPatch() async {
+    await ServiceConfig.localStorage
+        .write(key: ServiceConfig.nftPatch, value: jsonEncode(true));
+  }
+
+  Future<bool> nftPatchRead() async {
+    try {
+      return (await ServiceConfig.localStorage.read(
+            key: ServiceConfig.nftPatch,
+          )) ==
+          "true";
+    } catch (e) {
+      return false;
+    }
+  }
+
   /// Get all accounts in storage <br>
   /// If onlyNaanAccount is true then returns the account list which is created on naan<br>
   /// Else returns all the available accounts in storage<br>

@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/data/services/data_handler_service/token_and_xtz
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
+import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 
 import 'data_handler_render_service.dart';
 
@@ -35,10 +36,32 @@ class DataHandlerService {
   /// isDataFetching
   bool _isDataFetching = false;
 
+  nftPatch(Function onDone) async {
+    try {
+      if (!(await UserStorageService().nftPatchRead())) {
+        await NftAndTxHistoryHandler(renderService).executeProcess(
+          postProcess: renderService.accountNft.updateProcess,
+          onDone: () async {
+            await UserStorageService().nftPatch();
+            onDone();
+          },
+        );
+      } else {
+        onDone();
+      }
+    } catch (e) {
+      print(e);
+      onDone();
+    }
+  }
+
   /// init all data services which runs in isolate and store user specific data in to local storage
   Future<void> initDataServices() async {
     // first time if data exists in storage readand render
     await renderService.updateUi();
+
+    //ServiceConfig.localStorage.delete(key: ServiceConfig.nftPatch);
+
     setUpTimer();
 
     // update the values&store using isolates

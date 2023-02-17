@@ -50,6 +50,8 @@ class ServiceConfig {
   static const String accountTokensStorage =
       "${storageName}_account_tokens_storage";
 
+  static const String nftPatch = "${storageName}_nft_patch";
+
   /// append with publicKeyHash while saving or reading
   static const String accountsSecretStorage =
       "${storageName}_account_secret_storage";
