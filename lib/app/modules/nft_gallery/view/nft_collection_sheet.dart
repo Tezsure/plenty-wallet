@@ -15,7 +15,9 @@ import 'package:naan_wallet/utils/utils.dart';
 
 class NFTCollectionSheet extends StatelessWidget {
   final List<NftTokenModel> nfts;
-  const NFTCollectionSheet({super.key, this.nfts = const []});
+  final List<String> publicKeyHashs;
+  const NFTCollectionSheet(
+      {super.key, this.nfts = const [], this.publicKeyHashs = const []});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,6 @@ class NFTCollectionSheet extends StatelessWidget {
                         .toInt(),
                     mainAxisSpacing: 12.arP,
                     crossAxisSpacing: 12.arP,
-                    cacheExtent: 0.0,
                     itemCount: nfts.toList().length,
                     itemBuilder: ((context, i) {
                       var nftTokenModel = nfts[i];
@@ -72,7 +73,8 @@ class NFTCollectionSheet extends StatelessWidget {
                           Get.bottomSheet(
                             NFTDetailBottomSheet(
                               onBackTap: Get.back,
-                              nftModel: nftTokenModel,
+                              pk: nftTokenModel.pk,
+                              publicKeyHashs: publicKeyHashs,
                             ),
                             enterBottomSheetDuration:
                                 const Duration(milliseconds: 180),
@@ -103,6 +105,8 @@ class NFTCollectionSheet extends StatelessWidget {
                                     ),
                                     child: NFTImage(
                                       nftTokenModel: nftTokenModel,
+                                      memCacheHeight: 250,
+                                      memCacheWidth: 250,
                                     )
                                     // CachedNetworkImage(
                                     //   imageUrl:

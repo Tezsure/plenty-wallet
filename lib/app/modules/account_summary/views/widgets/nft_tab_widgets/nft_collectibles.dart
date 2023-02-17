@@ -12,7 +12,9 @@ import '../../../../nft_gallery/view/nft_detail_sheet.dart';
 
 class NftCollectibles extends StatefulWidget {
   final List<NftTokenModel> nftList;
-  const NftCollectibles({required this.nftList, super.key});
+  final String account;
+  const NftCollectibles(
+      {required this.nftList, required this.account, super.key});
 
   @override
   State<NftCollectibles> createState() => _NftCollectiblesState();
@@ -87,14 +89,15 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                             Get.bottomSheet(
                               NFTDetailBottomSheet(
                                 onBackTap: Get.back,
-                                nftModel: widget.nftList[index],
+                                pk: widget.nftList[index].pk,
+                                publicKeyHashs: [widget.account],
                               ),
                               enterBottomSheetDuration:
                                   const Duration(milliseconds: 180),
                               exitBottomSheetDuration:
                                   const Duration(milliseconds: 150),
                               isScrollControlled: true,
-                            );
+                            ); //todo: uncomment this when NFTDetailBottomSheet is ready
                           },
                         )),
                   )),

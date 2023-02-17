@@ -156,13 +156,11 @@ class UserStorageService {
   }
 
   /// read user nft using user address
-  Future<List<NftTokenModel>> getUserNfts(
-          {required String userAddress}) async =>
-      jsonDecode(await ServiceConfig.localStorage
+  Future<List> getUserNfts({required String userAddress}) async =>
+      jsonDecode((await ServiceConfig.localStorage
                   .read(key: "${ServiceConfig.nftStorage}_$userAddress") ??
               "[]")
-          .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
-          .toList();
+          .toString());
 
   /// read user nft using user address RETURN STRING
   Future<String?> getUserNftsString({required String userAddress}) async =>

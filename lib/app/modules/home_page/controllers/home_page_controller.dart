@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
@@ -46,7 +47,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   @override
   void onInit() async {
     super.onInit();
-
+    Get.put(BeaconService(), permanent: true);
     DataHandlerService()
         .renderService
         .accountUpdater

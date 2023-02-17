@@ -26,7 +26,6 @@ class ServiceConfig {
 
   static String ipfsUrlApi = "https://cdn.naan.app/ipfs_url";
 
-
   static String tzktApiForToken(String pkh, String network) =>
       "https://api.${network}tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true&token.contract.ne=KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS";
 
@@ -252,6 +251,156 @@ class ServiceConfig {
           contract
         }
         metadata
+      }
+    }
+''';
+
+  static const String getContractQuery = r'''
+    query GetContracts($address: String!, $offset: Int) {
+      token(
+        where: {holders: {holder_address: {_eq: $address}, quantity: {_gt: "0"}}, decimals: {_lte: "0"}}
+        distinct_on: fa_contract
+        offset: $offset
+      ) {
+        fa_contract
+      }
+    }
+''';
+
+  static const String getNftsFromContracts = r'''
+    query FetchColl($holders: [String!], $contracts: [String!], $offset: Int) {
+      token(
+        where: {fa_contract : {_in: $contracts}, token_id: {_neq: ""},holders:{holder_address:{_in:$holders}, quantity:{_gt:"0"}}}
+        offset: $offset
+      ) {
+        name
+        pk
+        fa_contract
+        display_uri
+        fa{
+          name
+        }
+        token_id
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+      }
+    }
+''';
+
+  static const String randomNfts = r'''
+    query FetchColl($holders: [String!], $contracts: [String!], $offset: Int) {
+      token(
+        where: {fa_contract : {_in: $contracts}, token_id: {_neq: ""},holders:{holder_address:{_in:$holders}, quantity:{_gt:"0"}}}
+        limit: 100
+      ) {
+        name
+        pk
+        fa_contract
+        display_uri
+        fa{
+          name
+        }
+        token_id
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+      }
+    }
+''';
+
+  static const String getNFTfromPk = r'''
+    query GetNftForUser($pk:bigint, $addresses: [String!]) {
+      token(where: {pk:{_eq:$pk}}) {
+        artifact_uri
+        description
+        display_uri
+        lowest_ask
+        level
+        mime
+        pk
+        royalties {
+          id
+          decimals
+          amount
+        }
+        supply
+        thumbnail_uri
+        timestamp
+        fa_contract
+        token_id
+        name
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+        holders(where: {holder_address: {_in: $addresses}, quantity: {_gt: "0"}} limit:1) {
+          quantity
+          holder_address
+        }
+        events {
+          id
+          fa_contract
+          price
+          recipient_address
+          timestamp
+          creator {
+            address
+            alias
+          }
+          event_type
+          marketplace_event_type
+          amount
+        }
+        fa {
+          name
+          collection_type
+          logo
+          floor_price
+          contract
+        }
+        metadata
+      }
+    }
+''';
+
+  static const String searchQuery = r'''
+    query FetchColl($holders: [String!], $contracts: [String!], $offset: Int, $query: String!) {
+      token(
+        where: {fa_contract : {_in: $contracts}, token_id: {_neq: ""},holders:{holder_address:{_in:$holders}, quantity:{_gt:"0"}}, _or: [{ name: {_iregex:$query} }, { fa:{name:{_iregex:$query}} },{fa_contract:{_eq:$query} }, ] }
+        
+        offset: $offset
+      ) {
+        name
+        pk
+        fa_contract
+        display_uri
+        fa{
+          name
+        }
+        token_id
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
       }
     }
 ''';
