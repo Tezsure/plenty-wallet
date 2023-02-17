@@ -79,7 +79,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                             )
                           : Container(
                               decoration: BoxDecoration(
-                                color: const Color(0xff958E99).withOpacity(0.2),
+                                // color: const Color(0xff958E99).withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(22.arP),
                               ),
                               width: double.infinity,
