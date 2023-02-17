@@ -14,7 +14,8 @@ class InfoBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      height: AppConstant.naanBottomSheetHeight,
+      isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight,
       blurRadius: 5,
       // isDraggableBottomSheet: true,
       // title: 'Introduction to crypto wallet',

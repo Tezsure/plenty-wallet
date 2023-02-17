@@ -7,8 +7,10 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
+import 'package:naan_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
@@ -69,22 +71,51 @@ class ImportWalletPageController extends GetxController
   /// To assign the phrase text to the phrase text variable
   void onTextChange(String value) {
     checkImportType(value);
-    phraseText.value = value.trim();
+    phraseText.value = value;
   }
 
   /// define based on phraseText.value that if it's mnemonic, private key or watch address
-  void checkImportType(value) => importWalletDataType =
-      value.startsWith('edsk') || value.startsWith('spsk')
-          ? ImportWalletDataType.privateKey
-          : value.startsWith("tz1") ||
-                  value.startsWith("tz2") ||
-                  value.startsWith("tz3")
-              ? ImportWalletDataType.watchAddress
-              : value.split(" ").length == 12 || value.split(" ").length == 24
-                  ? ImportWalletDataType.mnemonic
-                  : ImportWalletDataType.none;
+  void checkImportType(String value) {
+    value = value.trim();
+    importWalletDataType =
+        (value.startsWith('edsk') || value.startsWith('spsk')) &&
+                value.split(" ").length == 1
+            ? ImportWalletDataType.privateKey
+            : value.startsWith("tz1") ||
+                    value.startsWith("tz2") ||
+                    value.startsWith("tz3")
+                ? ImportWalletDataType.watchAddress
+                : value.split(" ").length == 12 || value.split(" ").length == 24
+                    ? ImportWalletDataType.mnemonic
+                    : value.endsWith('.tez')
+                        ? ImportWalletDataType.tezDomain
+                        : ImportWalletDataType.none;
+  }
 
   Future<void> redirectBasedOnImportWalletType([String? pageRoute]) async {
+    if (importWalletDataType == ImportWalletDataType.tezDomain) {
+      var cModels =
+          await TezosDomainService().searchUsingText(phraseText.value.trim());
+      if (cModels.isNotEmpty) {
+        var cModel = cModels[0];
+        phraseText.value = cModel.address;
+        importWalletDataType = ImportWalletDataType.watchAddress;
+        // checkImportType(phraseText.value);
+        final controller = Get.put(CreateProfilePageController());
+        controller.selectedImagePath.value = cModel.imagePath;
+        controller.accountNameController.value =
+            TextEditingValue(text: cModel.name);
+        controller.currentSelectedType = AccountProfileImageType.assets;
+      } else {
+        transactionStatusSnackbar(
+          duration: const Duration(seconds: 2),
+          status: TransactionStatus.error,
+          tezAddress: "Invalid tezos domain.",
+          transactionAmount: 'Cannot import',
+        );
+        return;
+      }
+    }
     if (importWalletDataType == ImportWalletDataType.privateKey ||
         importWalletDataType == ImportWalletDataType.watchAddress) {
       if ((await checkIfAlreadyPresent())) {
@@ -113,16 +144,29 @@ class ImportWalletPageController extends GetxController
               ],
       );
     } else if (importWalletDataType == ImportWalletDataType.mnemonic) {
-      var accountLength = (await UserStorageService().getAllAccount()).length;
+      var accountLength = ([
+            ...(await UserStorageService().getAllAccount()),
+            ...(await UserStorageService()
+                .getAllAccount(watchAccountsList: true))
+          ]).length +
+          1;
 
-      var selectedAccounts =
-          selectedAccountsTz1 + selectedAccountsTz2 + selectedLegacyAccount;
+      var selectedAccounts = [
+        ...selectedAccountsTz1,
+        ...selectedAccountsTz2,
+        ...selectedLegacyAccount
+      ];
 
       for (var i = 0; i < selectedAccounts.length; i++) {
         selectedAccounts[i] = selectedAccounts[i]
-          ..name = "Account ${accountLength == 0 ? 1 : accountLength + i}";
+          ..importedAt = DateTime.now()
+          ..name = "Account ${accountLength + i}";
       }
-      selectedAccounts.value = selectedAccounts.value;
+      selectedAccounts.sort((a, b) =>
+          b.importedAt!.millisecondsSinceEpoch -
+          a.importedAt!.millisecondsSinceEpoch);
+      selectedAccountsTz1.value = selectedAccounts;
+      // selectedAccounts. = selectedAccounts.value;
       Get.back();
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
       var previousRoute = Get.previousRoute;

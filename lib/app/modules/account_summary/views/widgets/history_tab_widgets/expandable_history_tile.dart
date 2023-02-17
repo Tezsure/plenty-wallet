@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -66,8 +67,8 @@ class ExpandableHistoryTile extends StatelessWidget {
             )
           ],
         ),
-        title: GestureDetector(
-          onTap: onTap,
+        title: BouncingWidget(
+          onPressed: onTap,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

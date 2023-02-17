@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
@@ -16,14 +17,15 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../account_switch_widget/account_switch_widget.dart';
 
-class ObjktNftWidget extends StatelessWidget {
-  const ObjktNftWidget({Key? key}) : super(key: key);
+class TFArtFoundationWidget extends StatelessWidget {
+  const TFArtFoundationWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        String url = "https://objkt.com";
+        String url =
+            "https://tezos.foundation/tezos-foundation-permanent-art-collection/digital-art-gallery-by-misan-harriman/";
         // Get.to(BuyNFTPage(), arguments: url);
         Get.bottomSheet(
           const DappBrowserView(),
@@ -36,37 +38,39 @@ class ObjktNftWidget extends StatelessWidget {
       },
       child: HomeWidgetFrame(
         child: Container(
-          decoration: BoxDecoration(color: Colors.white
-              // gradient: purpleGradient,
-              // borderRadius: BorderRadius.circular(22.arP),
-              ),
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 24.arP),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(22.arP),
-                    child: Image.asset(
-                      "${PathConst.HOME_PAGE}buy_nft.png",
-                      // cacheHeight: 217,
-                      // cacheWidth: 158,
-                    ),
-                  ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(22.arP),
+                child: NFTImage(
+                  nftTokenModel: AppConstant.tfCollection!,
                 ),
               ),
               Align(
-                alignment: Alignment.topLeft,
+                alignment: Alignment.topRight,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 16.arP, vertical: 22.arP),
-                  child: Text("objkt.com",
-                      style: bodySmall.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0.6.arP)),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 16.arP, vertical: 16.arP),
+                    child: _buildIcon()),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  height: AppConstant.homeWidgetDimension / 2,
+                  width: double.infinity,
+                  // ignore: prefer_const_constructors
+                  decoration: BoxDecoration(
+                      // ignore: prefer_const_constructors
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          // ignore: prefer_const_literals_to_create_immutables
+                          colors: [
+                        Colors.transparent,
+                        Colors.grey[900]!.withOpacity(0.6),
+                        Colors.grey[900]!.withOpacity(0.99),
+                      ])),
                 ),
               ),
               Align(
@@ -77,13 +81,8 @@ class ObjktNftWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("Buy NFTs",
-                          style: headlineSmall.copyWith(
-                              color: Colors.black, fontSize: 20.arP)),
-                      Text("using your card",
-                          style: bodySmall.copyWith(
-                            color: Colors.black,
-                          )),
+                      Text("TF Permanent", style: labelMedium),
+                      Text("Art Collection", style: labelMedium),
                     ],
                   ),
                 ),
@@ -92,6 +91,17 @@ class ObjktNftWidget extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildIcon() {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.black, borderRadius: BorderRadius.circular(8.arP)),
+      padding: EdgeInsets.all(8.arP),
+      height: 33.arP,
+      width: 33.arP,
+      child: Image.asset("${PathConst.HOME_PAGE}tf_icon.png"),
     );
   }
 }

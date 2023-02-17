@@ -5,6 +5,7 @@ import 'package:naan_wallet/app/data/services/create_profile_service/create_prof
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
@@ -61,8 +62,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                       _controller.showUpdatedProfilePhoto(widget.accountIndex),
                 ),
               ),
-              child: GestureDetector(
-                onTap: () {
+              child: BouncingWidget(
+                onPressed: () {
                   Get.bottomSheet(changePhotoBottomSheet(),
                           enterBottomSheetDuration:
                               const Duration(milliseconds: 180),
@@ -147,8 +148,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               crossAxisSpacing: 0.06.width,
               children: List.generate(
                 ServiceConfig.allAssetsProfileImages.length,
-                (index) => GestureDetector(
-                  onTap: () {
+                (index) => BouncingWidget(
+                  onPressed: () {
                     setState(() {
                       _controller.editUserProfilePhoto(
                           imageType: AccountProfileImageType.assets,
@@ -256,8 +257,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
           ),
           child: Column(
             children: [
-              GestureDetector(
-                onTap: () async {
+              BouncingWidget(
+                onPressed: () async {
                   String imagePath =
                       await CreateProfileService().pickANewImageFromGallery();
                   if (imagePath.isNotEmpty) {
@@ -284,8 +285,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                 height: 1,
                 thickness: 1,
               ),
-              GestureDetector(
-                onTap: () async {
+              BouncingWidget(
+                onPressed: () async {
                   String imagePath = await CreateProfileService().takeAPhoto();
 
                   if (imagePath.isNotEmpty) {
@@ -312,8 +313,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                 height: 1,
                 thickness: 1,
               ),
-              GestureDetector(
-                onTap: () {
+              BouncingWidget(
+                onPressed: () {
                   _controller.editUserProfilePhoto(
                       imageType: AccountProfileImageType.assets,
                       imagePath: ServiceConfig.allAssetsProfileImages[0],

@@ -4,6 +4,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 
 class AuthService {
   /// set new passcode for user to enter the app
@@ -82,6 +83,7 @@ class AuthService {
       if (bioResult == null || !bioResult) {
         return false;
       }
+      AppConstant.hapticFeedback();
       return true;
     } else {
       var isValid = await Get.toNamed('/passcode-page', arguments: [
@@ -90,6 +92,8 @@ class AuthService {
       if (isValid == null || !isValid) {
         return false;
       }
+      AppConstant.hapticFeedback();
+
       return true;
     }
   }

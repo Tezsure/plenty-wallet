@@ -71,7 +71,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
         child: Center(
           child: Column(
             children: [
-              0.02.vspace,
+              0.01.vspace,
               Align(
                 alignment: Alignment.topCenter,
                 child: Container(

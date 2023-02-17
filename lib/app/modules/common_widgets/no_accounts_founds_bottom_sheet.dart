@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
@@ -22,8 +23,8 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 0,
-      height: AppConstant.naanBottomSheetHeight - 32.arP,
+      bottomSheetHorizontalPadding: 0, isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight - 32.arP,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight - 32.arP,
@@ -95,8 +96,8 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
                 },
               ),
               0.016.vspace,
-              GestureDetector(
-                onTap: () {
+              BouncingWidget(
+                onPressed: () {
                   Get.back();
                   Get.toNamed(Routes.IMPORT_WALLET_PAGE);
                 },

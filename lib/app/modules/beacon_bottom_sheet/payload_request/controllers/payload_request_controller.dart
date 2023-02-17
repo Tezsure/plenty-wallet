@@ -13,6 +13,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/utils/colors/colors.dart';
 
 import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
+import 'package:naan_wallet/utils/constants/constants.dart';
 
 class PayloadRequestController extends GetxController {
   final BeaconRequest beaconRequest = Get.arguments;
@@ -68,6 +69,7 @@ class PayloadRequestController extends GetxController {
             json.decode(response['success'].toString()) as bool;
 
         if (success) {
+          AppConstant.hapticFeedback();
           if (Get.isSnackbarOpen == true) {
             Get.close(1);
           } else {

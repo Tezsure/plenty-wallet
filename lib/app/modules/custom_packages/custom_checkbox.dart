@@ -4,6 +4,7 @@ library custom_check_box;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 
 class CustomCheckBox extends StatefulWidget {
   final bool value;
@@ -135,8 +136,8 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => widget.onChanged(!_checked),
+    return BouncingWidget(
+      onPressed: () => widget.onChanged(!_checked),
       child: _buildIcon(),
     );
 

@@ -58,8 +58,9 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      height: AppConstant.naanBottomSheetHeight -
-          MediaQuery.of(context).viewInsets.bottom,
+      isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight -
+      //     MediaQuery.of(context).viewInsets.bottom,
       bottomSheetHorizontalPadding: 0,
       bottomSheetWidgets: [
         SizedBox(

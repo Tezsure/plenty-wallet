@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../utils/colors/colors.dart';
@@ -18,8 +19,8 @@ class EditButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    return BouncingWidget(
+      onPressed: onTap,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 12.aR),
         height: 30.aR,

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -38,8 +39,8 @@ class TokenCheckbox extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.aR),
-      child: GestureDetector(
-        onTap: onCheckboxTap,
+      child: BouncingWidget(
+        onPressed: onCheckboxTap,
         child: SizedBox(
           height: 50.aR,
           child: Column(

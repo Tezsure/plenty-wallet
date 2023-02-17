@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
@@ -52,8 +53,9 @@ class NftGalleryView extends GetView<NftGalleryController> {
   Widget _buildGalleryWithSearch(BuildContext context) {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 0,
-      height: AppConstant.naanBottomSheetHeight -
-          MediaQuery.of(context).viewInsets.bottom,
+      isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight -
+      //     MediaQuery.of(context).viewInsets.bottom,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
@@ -65,9 +67,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 16.arP,
-                  ),
+                  0.02.vspace,
                   _searchAppBarWidget(),
                   SizedBox(
                     height: 25.arP,
@@ -236,7 +236,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
   Widget _buildGalleryWithoutSearch() {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 0,
-      height: AppConstant.naanBottomSheetHeight,
+      isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight,
@@ -431,8 +432,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
         ),
       );
 
-  Widget menuIcon(asset, NftGalleryFilter filter) => InkWell(
-        onTap: () {
+  Widget menuIcon(asset, NftGalleryFilter filter) => BouncingWidget(
+        onPressed: () {
           controller.selectedGalleryFilter.value = filter;
         },
         child: SvgPicture.asset(asset,
@@ -501,8 +502,13 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         itemCount: nfts.values.toList()[index].length,
                         itemBuilder: ((context, i) {
                           var nftTokenModel = nfts.values.toList()[index][i];
+<<<<<<< HEAD
+                          return BouncingWidget(
+                            onPressed: () => Get.bottomSheet(
+=======
                           return InkWell(
                             onTap: () async => Get.bottomSheet(
+>>>>>>> 9adc0b45fe430f5f08a3501792f043bb18ef5b8a
                               NFTDetailBottomSheet(
                                 onBackTap: Get.back,
                                 pk: nftTokenModel.pk!,
@@ -680,6 +686,37 @@ class NftGalleryView extends GetView<NftGalleryController> {
   Widget _getCollectionGridViewWidget(Map<String, List<NftTokenModel>> nfts) =>
       Obx(
         () => Expanded(
+<<<<<<< HEAD
+          child: Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: 16.arP,
+            ),
+            child: MasonryGridView.count(
+              physics: AppConstant.scrollPhysics,
+              crossAxisCount: Get.width > 768 ? 3 : 2,
+              mainAxisSpacing: 12.arP,
+              // addAutomaticKeepAlives: false,
+              // addRepaintBoundaries: false,
+              shrinkWrap: true,
+              crossAxisSpacing: 12.arP,
+              // cacheExtent: 100.0.arP,
+              itemCount: nfts.length,
+              itemBuilder: (context, index) => Container(
+                width: double.infinity,
+                constraints: const BoxConstraints(minHeight: 1),
+                // decoration: BoxDecoration(
+                //   color: const Color(0xFF958E99).withOpacity(0.2),
+                //   borderRadius: BorderRadius.circular(
+                //     12.arP,
+                //   ),
+                // ),
+                child: nfts.isEmpty
+                    ? Container()
+                    : NftCollectionItemWidget(
+                        nftTokens: nfts.values.toList()[index],
+                      ),
+              ),
+=======
           child: SingleChildScrollView(
             physics: AppConstant.scrollPhysics,
             child: Column(
@@ -730,6 +767,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                       )
                     : const SizedBox()
               ],
+>>>>>>> 9adc0b45fe430f5f08a3501792f043bb18ef5b8a
             ),
           ),
         ),
@@ -783,8 +821,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            InkWell(
-              onTap: () async {
+            BouncingWidget(
+              onPressed: () async {
                 await Get.bottomSheet(
                   _selectGallery(controller.selectedGalleryIndex.value),
                   isScrollControlled: true,
@@ -829,8 +867,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
               ),
             ),
             Expanded(child: Container()),
-            InkWell(
-              onTap: () {
+            BouncingWidget(
+              onPressed: () {
                 controller.isSearch.value = true;
               },
               child: Icon(
@@ -895,8 +933,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
+                      BouncingWidget(
+                        onPressed: () {
                           controller.isSearch.value = false;
                           controller.searchText.value = "";
                           controller.searchNfts.clear();
@@ -939,8 +977,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return index == controller.nftGalleryList.length
-                        ? InkWell(
-                            onTap: () async {
+                        ? BouncingWidget(
+                            onPressed: () async {
                               Get.back(closeOverlays: true);
                               Get.back(closeOverlays: true);
 
@@ -970,8 +1008,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                               ),
                             ),
                           )
-                        : InkWell(
-                            onTap: () async {
+                        : BouncingWidget(
+                            onPressed: () async {
                               if (!controller.isEditing.value) {
                                 controller.changeSelectedNftGallery(index);
                                 Get.back(result: index);
@@ -1508,8 +1546,8 @@ class NftCollectionItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
+    return BouncingWidget(
+      onPressed: () {
         if (nftTokens.length != 1) {
           Get.bottomSheet(
             NFTCollectionSheet(
@@ -1538,6 +1576,12 @@ class NftCollectionItemWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(
           12.arP,
+        ),
+        decoration: BoxDecoration(
+          color: const Color(0xFF958E99).withOpacity(0.2),
+          borderRadius: BorderRadius.circular(
+            12.arP,
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
