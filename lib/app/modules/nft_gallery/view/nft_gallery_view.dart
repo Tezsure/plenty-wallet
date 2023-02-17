@@ -502,13 +502,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         itemCount: nfts.values.toList()[index].length,
                         itemBuilder: ((context, i) {
                           var nftTokenModel = nfts.values.toList()[index][i];
-<<<<<<< HEAD
                           return BouncingWidget(
                             onPressed: () => Get.bottomSheet(
-=======
-                          return InkWell(
-                            onTap: () async => Get.bottomSheet(
->>>>>>> 9adc0b45fe430f5f08a3501792f043bb18ef5b8a
                               NFTDetailBottomSheet(
                                 onBackTap: Get.back,
                                 pk: nftTokenModel.pk!,
@@ -686,37 +681,6 @@ class NftGalleryView extends GetView<NftGalleryController> {
   Widget _getCollectionGridViewWidget(Map<String, List<NftTokenModel>> nfts) =>
       Obx(
         () => Expanded(
-<<<<<<< HEAD
-          child: Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: 16.arP,
-            ),
-            child: MasonryGridView.count(
-              physics: AppConstant.scrollPhysics,
-              crossAxisCount: Get.width > 768 ? 3 : 2,
-              mainAxisSpacing: 12.arP,
-              // addAutomaticKeepAlives: false,
-              // addRepaintBoundaries: false,
-              shrinkWrap: true,
-              crossAxisSpacing: 12.arP,
-              // cacheExtent: 100.0.arP,
-              itemCount: nfts.length,
-              itemBuilder: (context, index) => Container(
-                width: double.infinity,
-                constraints: const BoxConstraints(minHeight: 1),
-                // decoration: BoxDecoration(
-                //   color: const Color(0xFF958E99).withOpacity(0.2),
-                //   borderRadius: BorderRadius.circular(
-                //     12.arP,
-                //   ),
-                // ),
-                child: nfts.isEmpty
-                    ? Container()
-                    : NftCollectionItemWidget(
-                        nftTokens: nfts.values.toList()[index],
-                      ),
-              ),
-=======
           child: SingleChildScrollView(
             physics: AppConstant.scrollPhysics,
             child: Column(
@@ -767,7 +731,6 @@ class NftGalleryView extends GetView<NftGalleryController> {
                       )
                     : const SizedBox()
               ],
->>>>>>> 9adc0b45fe430f5f08a3501792f043bb18ef5b8a
             ),
           ),
         ),
