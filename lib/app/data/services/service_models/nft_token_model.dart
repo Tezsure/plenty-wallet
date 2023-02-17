@@ -21,26 +21,27 @@ class NftTokenModel {
   Fa? fa;
   String? metadata;
 
-  NftTokenModel(
-      {this.artifactUri,
-      this.description,
-      this.displayUri,
-      this.lowestAsk,
-      this.level,
-      this.mime,
-      this.pk,
-      this.royalties,
-      this.supply,
-      this.thumbnailUri,
-      this.timestamp,
-      this.faContract,
-      this.tokenId,
-      this.name,
-      this.creators,
-      this.holders,
-      this.events,
-      this.fa,
-      this.metadata});
+  NftTokenModel({
+    this.artifactUri,
+    this.description,
+    this.displayUri,
+    this.lowestAsk,
+    this.level,
+    this.mime,
+    this.pk,
+    this.royalties,
+    this.supply,
+    this.thumbnailUri,
+    this.timestamp,
+    this.faContract,
+    this.tokenId,
+    this.name,
+    this.creators,
+    this.holders,
+    this.events,
+    this.fa,
+    this.metadata,
+  });
 
   NftTokenModel.fromJson(Map<String, dynamic> json) {
     artifactUri = json['artifact_uri'];

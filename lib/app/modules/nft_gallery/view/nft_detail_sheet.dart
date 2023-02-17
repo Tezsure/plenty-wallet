@@ -12,6 +12,7 @@ import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dar
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart';
 import 'package:naan_wallet/app/modules/custom_packages/readmore/readmore.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/custom_tab_indicator.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/cast_devices.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -22,6 +23,7 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/app/modules/custom_packages/timeago/timeago.dart'
     as timeago;
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_gql/simple_gql.dart';
 
 import '../../../../utils/constants/path_const.dart';
 import '../../../../utils/utils.dart';
@@ -30,11 +32,13 @@ import '../../dapp_browser/views/dapp_browser_view.dart';
 
 class NFTDetailBottomSheet extends StatefulWidget {
   final GestureTapCallback? onBackTap;
-  final NftTokenModel? nftModel;
+  final int? pk;
+  final List<String>? publicKeyHashs;
   const NFTDetailBottomSheet({
     super.key,
     this.onBackTap,
-    this.nftModel,
+    this.pk,
+    this.publicKeyHashs,
   });
 
   @override
@@ -44,14 +48,33 @@ class NFTDetailBottomSheet extends StatefulWidget {
 class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   bool isExpanded = false;
   // late String imageUrl;
-  final _controller = Get.put(AccountSummaryController());
+  final _controller = Get.find<HomePageController>();
   String ipfsHost = ServiceConfig.ipfsUrl;
   String fxHash = "";
   bool showButton = true;
   bool showFloating = true;
   bool isScrolling = false;
+  NftTokenModel? nftModel;
+
+  getNFT() async {
+    final response = await GQLClient(
+      'https://data.objkt.com/v3/graphql',
+    ).query(
+      query: ServiceConfig.getNFTfromPk,
+      variables: {
+        'pk': widget.pk,
+        'addresses': widget.publicKeyHashs,
+      },
+    );
+
+    setState(() {
+      nftModel = NftTokenModel.fromJson(response.data['token'][0]);
+    });
+  }
+
   @override
   void initState() {
+    getNFT();
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
@@ -59,17 +82,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
         });
       }
     });
-/*     Timer.periodic(const Duration(milliseconds: 1000), (c) {
-      if (isScrolling == true) {
-        setState(() {
-          isScrolling = false;
-        });
-      }
-    }); */
-    // imageUrl = widget.nftModel!.artifactUri?.contains("data:image/svg+xml") ??
-    //         false
-    //     ? (widget.nftModel!.artifactUri ?? "")
-    //     : "https://assets.objkt.media/file/assets-003/${widget.nftModel!.faContract}/${widget.nftModel!.tokenId.toString()}/thumb400";
+
     super.initState();
   }
 
@@ -83,7 +96,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
             backgroundColor: Colors.black,
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: showFloating
+            floatingActionButton: nftModel != null && showFloating
                 ? AnimatedContainer(
                     curve: Curves.fastOutSlowIn,
                     duration: const Duration(milliseconds: 350),
@@ -102,11 +115,11 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                           setState(() {
                             isScrolling = true;
                           });
-                          String? hash = widget.nftModel?.artifactUri
-                              ?.replaceAll("ipfs://", "");
-                          if (widget.nftModel!.faContract ==
+                          String? hash =
+                              nftModel?.artifactUri?.replaceAll("ipfs://", "");
+                          if (nftModel!.faContract ==
                                   "KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi" ||
-                              widget.nftModel!.faContract ==
+                              nftModel!.faContract ==
                                   "KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE") {
                             ipfsHost = ServiceConfig.ipfsUrl;
                             if (hash!.contains("fxhash")) {
@@ -192,342 +205,382 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                           ),
                         ),
                         0.001.vspace,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                                onPressed: widget.onBackTap,
-                                icon: Icon(
-                                  Icons.arrow_back_ios_new,
-                                  color: Colors.white,
-                                  size: 16.aR,
-                                )),
-                            const Spacer(),
-                            IconButton(
-                                onPressed: () {
-                                  Share.share(
-                                      'https://objkt.com/asset/${widget.nftModel!.fa!.contract}/${widget.nftModel!.tokenId}');
-                                },
-                                padding: EdgeInsets.zero,
-                                visualDensity: VisualDensity.compact,
-                                icon: Icon(
-                                  Icons.share,
-                                  color: Colors.white,
-                                  size: 16.aR,
-                                )),
-                            // IconButton(
-                            //     onPressed: () {
-                            //       Get.bottomSheet(const CastDevicesSheet());
-                            //     },
-                            //     padding: EdgeInsets.zero,
-                            //     visualDensity: VisualDensity.compact,
-                            //     icon: Icon(
-                            //       Icons.cast_rounded,
-                            //       color: Colors.white,
-                            //       size: 16.aR,
-                            //     )),
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 0.02.height),
-                          height: 0.5.height,
-                          width: 1.width,
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.to(FullScreenView(
-                                  child: NFTImage(
-                                nftTokenModel: widget.nftModel!,
-                                boxFit: BoxFit.contain,
-                              )));
-                            },
-                            child: Stack(
-                              children: [
-                                Positioned.fill(
-                                  child: SizedBox(
+                        nftModel == null
+                            ? Padding(
+                                padding: EdgeInsets.only(top: 450.arP),
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                      color: ColorConst.Primary),
+                                ),
+                              )
+                            : Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      IconButton(
+                                          onPressed: widget.onBackTap,
+                                          icon: Icon(
+                                            Icons.arrow_back_ios_new,
+                                            color: Colors.white,
+                                            size: 16.aR,
+                                          )),
+                                      const Spacer(),
+                                      IconButton(
+                                          onPressed: () {
+                                            Share.share(
+                                                'https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}');
+                                          },
+                                          padding: EdgeInsets.zero,
+                                          visualDensity: VisualDensity.compact,
+                                          icon: Icon(
+                                            Icons.share,
+                                            color: Colors.white,
+                                            size: 16.aR,
+                                          )),
+                                      // IconButton(
+                                      //     onPressed: () {
+                                      //       Get.bottomSheet(const CastDevicesSheet());
+                                      //     },
+                                      //     padding: EdgeInsets.zero,
+                                      //     visualDensity: VisualDensity.compact,
+                                      //     icon: Icon(
+                                      //       Icons.cast_rounded,
+                                      //       color: Colors.white,
+                                      //       size: 16.aR,
+                                      //     )),
+                                    ],
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 0.02.height),
                                     height: 0.5.height,
                                     width: 1.width,
-                                    child: NFTImage(
-                                        nftTokenModel: widget.nftModel!),
-                                  ),
-                                ),
-                                Visibility(
-                                  visible: showButton,
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          right: 10.aR, bottom: 22.aR),
-                                      height: 36.aR,
-                                      width: 36.aR,
-                                      decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
-                                      child: Transform.rotate(
-                                        angle: pi / 180 * 135,
-                                        child: Icon(
-                                          Icons.code_outlined,
-                                          size: 20.aR,
-                                          color: Colors.white,
-                                        ),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.to(FullScreenView(
+                                            child: NFTImage(
+                                          nftTokenModel: nftModel!,
+                                          boxFit: BoxFit.contain,
+                                        )));
+                                      },
+                                      child: Stack(
+                                        children: [
+                                          Positioned.fill(
+                                            child: SizedBox(
+                                              height: 0.5.height,
+                                              width: 1.width,
+                                              child: NFTImage(
+                                                  nftTokenModel: nftModel!),
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible: showButton,
+                                            child: Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                    right: 10.aR,
+                                                    bottom: 22.aR),
+                                                height: 36.aR,
+                                                width: 36.aR,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.black,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8)),
+                                                child: Transform.rotate(
+                                                  angle: pi / 180 * 135,
+                                                  child: Icon(
+                                                    Icons.code_outlined,
+                                                    size: 20.aR,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 16.aR, right: 13.aR),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text:
-                                          '${widget.nftModel!.fa!.name ?? "N/A"}\n',
-                                      style: TextStyle(
-                                        fontSize: 12.arP,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xFF958E99),
-                                        letterSpacing: 0.5.arP,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: '${widget.nftModel!.name}\n',
-                                      style: TextStyle(
-                                          fontSize: 16.arP,
-                                          fontWeight: FontWeight.w600,
-                                          color: const Color(0xFFFFFFFF),
-                                          letterSpacing: 0.5.arP,
-                                          height: 1.5),
-                                    ),
-                                    /*         TextSpan(
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 16.aR, right: 13.aR),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text:
+                                                    '${nftModel!.fa!.name ?? "N/A"}\n',
+                                                style: TextStyle(
+                                                  fontSize: 12.arP,
+                                                  fontWeight: FontWeight.w400,
+                                                  color:
+                                                      const Color(0xFF958E99),
+                                                  letterSpacing: 0.5.arP,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: '${nftModel!.name}\n',
+                                                style: TextStyle(
+                                                    fontSize: 16.arP,
+                                                    fontWeight: FontWeight.w600,
+                                                    color:
+                                                        const Color(0xFFFFFFFF),
+                                                    letterSpacing: 0.5.arP,
+                                                    height: 1.5),
+                                              ),
+                                              /*         TextSpan(
                                         text: "  ",
                                         style: TextStyle(
                                           fontSize: 5.arP,
                                         )), */
-                                    WidgetSpan(child: 0.03.vspace),
-                                    WidgetSpan(
-                                      child: ReadMoreText(
-                                        widget.nftModel!.description == null
-                                            ? ""
-                                            : '${widget.nftModel!.description}',
-                                        trimLines: 2,
-                                        lessStyle: bodySmall.copyWith(
-                                            fontSize: 12.aR,
-                                            color: ColorConst.Primary),
-                                        style: TextStyle(
-                                            fontSize: 12.arP,
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xFF958E99),
-                                            letterSpacing: 0.5.arP,
-                                            height: 1.6),
-                                        colorClickableText: ColorConst.Primary,
-                                        trimMode: TrimMode.Line,
-                                        trimCollapsedText: ' Show more',
-                                        trimExpandedText: ' Show less',
-                                        moreStyle: bodySmall.copyWith(
-                                            fontSize: 12.aR,
-                                            color: ColorConst.Primary),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              0.02.vspace,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  RichText(
-                                      textAlign: TextAlign.center,
-                                      text: TextSpan(
-                                          text:
-                                              '${widget.nftModel!.holders!.fold<int>(
-                                            0,
-                                            (previousValue, element) =>
-                                                element.quantity! +
-                                                previousValue,
-                                          )}\n',
-                                          style: labelLarge,
-                                          children: [
-                                            TextSpan(
-                                                text: 'Owned',
-                                                style: labelSmall.copyWith(
-                                                    fontSize: 11.aR,
-                                                    color: ColorConst
-                                                        .NeutralVariant
-                                                        .shade70))
-                                          ])),
-                                  RichText(
-                                      textAlign: TextAlign.center,
-                                      text: TextSpan(
-                                          text:
-                                              '${widget.nftModel!.holders!.length}\n',
-                                          style: labelLarge,
-                                          children: [
-                                            TextSpan(
-                                                text: 'Owners',
-                                                style: labelSmall.copyWith(
-                                                    fontSize: 11.aR,
-                                                    color: ColorConst
-                                                        .NeutralVariant
-                                                        .shade70))
-                                          ])),
-                                  RichText(
-                                      textAlign: TextAlign.center,
-                                      text: TextSpan(
-                                          text: '${widget.nftModel!.supply}\n',
-                                          style: labelLarge.copyWith(
-                                              fontSize: 14.aR),
-                                          children: [
-                                            TextSpan(
-                                                text: 'Editions',
-                                                style: labelSmall.copyWith(
-                                                    color: ColorConst
-                                                        .NeutralVariant
-                                                        .shade70))
-                                          ])),
-                                ],
-                              ),
-                              Center(
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: 0.02.height),
-                                  height: 100.aR,
-                                  width: 1.width,
-                                  padding: EdgeInsets.all(8.aR),
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    border: Border.all(
-                                        color: ColorConst.NeutralVariant.shade60
-                                            .withOpacity(0.2)),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.aR),
-                                    child: RichText(
-                                        textAlign: TextAlign.start,
-                                        text: TextSpan(
-                                            text: 'Current Price\n',
-                                            style: labelSmall.copyWith(
-                                                color: ColorConst
-                                                    .NeutralVariant.shade60),
-                                            children: [
-                                              TextSpan(
-                                                  text: widget.nftModel!
-                                                              .lowestAsk ==
-                                                          null
-                                                      ? "0 "
-                                                      : "${(widget.nftModel!.lowestAsk / 1e6)} ",
-                                                  style: headlineSmall.copyWith(
-                                                      fontSize: 24.aR)),
+                                              WidgetSpan(child: 0.03.vspace),
                                               WidgetSpan(
-                                                  child: SvgPicture.asset(
-                                                '${PathConst.HOME_PAGE}svg/xtz.svg',
-                                                height: 20.aR,
-                                              )),
-                                              TextSpan(
-                                                  text: widget.nftModel
-                                                                  ?.lowestAsk ==
-                                                              0 ||
-                                                          widget.nftModel
-                                                                  ?.lowestAsk ==
-                                                              null
-                                                      ? '\n0'
-                                                      : '\n\$${((widget.nftModel?.lowestAsk / 1e6) * _controller.xtzPrice.value).toStringAsFixed(2)}',
+                                                child: ReadMoreText(
+                                                  nftModel!.description == null
+                                                      ? ""
+                                                      : '${nftModel!.description}',
+                                                  trimLines: 2,
+                                                  lessStyle: bodySmall.copyWith(
+                                                      fontSize: 12.aR,
+                                                      color:
+                                                          ColorConst.Primary),
+                                                  style: TextStyle(
+                                                      fontSize: 12.arP,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: const Color(
+                                                          0xFF958E99),
+                                                      letterSpacing: 0.5.arP,
+                                                      height: 1.6),
+                                                  colorClickableText:
+                                                      ColorConst.Primary,
+                                                  trimMode: TrimMode.Line,
+                                                  trimCollapsedText:
+                                                      ' Show more',
+                                                  trimExpandedText:
+                                                      ' Show less',
+                                                  moreStyle: bodySmall.copyWith(
+                                                      fontSize: 12.aR,
+                                                      color:
+                                                          ColorConst.Primary),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        0.02.vspace,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            RichText(
+                                                textAlign: TextAlign.center,
+                                                text: TextSpan(
+                                                    text:
+                                                        '${nftModel!.holders!.fold<int>(
+                                                      0,
+                                                      (previousValue,
+                                                              element) =>
+                                                          element.quantity! +
+                                                          previousValue,
+                                                    )}\n',
+                                                    style: labelLarge,
+                                                    children: [
+                                                      TextSpan(
+                                                          text: 'Owned',
+                                                          style: labelSmall.copyWith(
+                                                              fontSize: 11.aR,
+                                                              color: ColorConst
+                                                                  .NeutralVariant
+                                                                  .shade70))
+                                                    ])),
+                                            RichText(
+                                                textAlign: TextAlign.center,
+                                                text: TextSpan(
+                                                    text:
+                                                        '${nftModel!.holders!.length}\n',
+                                                    style: labelLarge,
+                                                    children: [
+                                                      TextSpan(
+                                                          text: 'Owners',
+                                                          style: labelSmall.copyWith(
+                                                              fontSize: 11.aR,
+                                                              color: ColorConst
+                                                                  .NeutralVariant
+                                                                  .shade70))
+                                                    ])),
+                                            RichText(
+                                                textAlign: TextAlign.center,
+                                                text: TextSpan(
+                                                    text:
+                                                        '${nftModel!.supply}\n',
+                                                    style: labelLarge.copyWith(
+                                                        fontSize: 14.aR),
+                                                    children: [
+                                                      TextSpan(
+                                                          text: 'Editions',
+                                                          style: labelSmall.copyWith(
+                                                              color: ColorConst
+                                                                  .NeutralVariant
+                                                                  .shade70))
+                                                    ])),
+                                          ],
+                                        ),
+                                        Center(
+                                          child: Container(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 0.02.height),
+                                            height: 100.aR,
+                                            width: 1.width,
+                                            padding: EdgeInsets.all(8.aR),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              border: Border.all(
+                                                  color: ColorConst
+                                                      .NeutralVariant.shade60
+                                                      .withOpacity(0.2)),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.aR),
+                                              child: RichText(
+                                                  textAlign: TextAlign.start,
+                                                  text: TextSpan(
+                                                      text: 'Current Price\n',
+                                                      style: labelSmall.copyWith(
+                                                          color: ColorConst
+                                                              .NeutralVariant
+                                                              .shade60),
+                                                      children: [
+                                                        TextSpan(
+                                                            text: nftModel!
+                                                                        .lowestAsk ==
+                                                                    null
+                                                                ? "0 "
+                                                                : "${(nftModel!.lowestAsk / 1e6)} ",
+                                                            style: headlineSmall
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        24.aR)),
+                                                        WidgetSpan(
+                                                            child: SvgPicture
+                                                                .asset(
+                                                          '${PathConst.HOME_PAGE}svg/xtz.svg',
+                                                          height: 20.aR,
+                                                        )),
+                                                        TextSpan(
+                                                            text: nftModel?.lowestAsk ==
+                                                                        0 ||
+                                                                    nftModel?.lowestAsk ==
+                                                                        null
+                                                                ? '\n0'
+                                                                : '\n\$${((nftModel?.lowestAsk / 1e6) * _controller.xtzPrice.value).toStringAsFixed(2)}',
+                                                            style: labelSmall.copyWith(
+                                                                fontSize: 11.aR,
+                                                                color: ColorConst
+                                                                    .NeutralVariant
+                                                                    .shade60)),
+                                                      ])),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  ListView.builder(
+                                      padding: EdgeInsets.zero,
+                                      itemCount:
+                                          nftModel?.creators?.length ?? 0,
+                                      shrinkWrap: true,
+                                      primary: false,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      controller: scrollController,
+                                      itemBuilder: ((context, index) {
+                                        var creator =
+                                            "https://services.tzkt.io/v1/avatars/${nftModel!.creators![index].creatorAddress}";
+                                        return ListTile(
+                                          leading: CircleAvatar(
+                                            backgroundColor: Colors.white,
+                                            child: ClipOval(
+                                              child: CachedNetworkImage(
+                                                imageUrl: creator,
+                                              ),
+                                            ),
+                                          ),
+                                          title: RichText(
+                                              textAlign: TextAlign.start,
+                                              text: TextSpan(
+                                                  text: 'Created By ',
                                                   style: labelSmall.copyWith(
                                                       fontSize: 11.aR,
                                                       color: ColorConst
                                                           .NeutralVariant
-                                                          .shade60)),
-                                            ])),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        ListView.builder(
-                            padding: EdgeInsets.zero,
-                            itemCount: widget.nftModel?.creators?.length ?? 0,
-                            shrinkWrap: true,
-                            primary: false,
-                            physics: const NeverScrollableScrollPhysics(),
-                            controller: scrollController,
-                            itemBuilder: ((context, index) {
-                              var creator =
-                                  "https://services.tzkt.io/v1/avatars/${widget.nftModel!.creators![index].creatorAddress}";
-                              return ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  child: ClipOval(
-                                    child: CachedNetworkImage(
-                                      imageUrl: creator,
+                                                          .shade60),
+                                                  children: [
+                                                    TextSpan(
+                                                        text: tz1Shortner(
+                                                            "${nftModel!.creators![index].creatorAddress}"),
+                                                        style: labelMedium
+                                                            .copyWith(
+                                                                fontSize:
+                                                                    12.aR))
+                                                  ])),
+                                        );
+                                      })),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 16.arP),
+                                    child: const Divider(
+                                      color: ColorConst.darkGrey,
+                                      thickness: 1,
                                     ),
                                   ),
-                                ),
-                                title: RichText(
-                                    textAlign: TextAlign.start,
-                                    text: TextSpan(
-                                        text: 'Created By ',
-                                        style: labelSmall.copyWith(
-                                            fontSize: 11.aR,
-                                            color: ColorConst
-                                                .NeutralVariant.shade60),
-                                        children: [
-                                          TextSpan(
-                                              text: tz1Shortner(
-                                                  "${widget.nftModel!.creators![index].creatorAddress}"),
-                                              style: labelMedium.copyWith(
-                                                  fontSize: 12.aR))
-                                        ])),
-                              );
-                            })),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.arP),
-                          child: const Divider(
-                            color: ColorConst.darkGrey,
-                            thickness: 1,
-                          ),
-                        ),
-                        if (widget.nftModel!.holders?.isNotEmpty ?? false)
-                          ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              foregroundImage: NetworkImage(
-                                  "https://services.tzkt.io/v1/avatars/${widget.nftModel!.holders!.first.holderAddress}"),
-                            ),
-                            title: RichText(
-                                textAlign: TextAlign.start,
-                                text: TextSpan(
-                                    text: 'Owned By ',
-                                    style: labelSmall.copyWith(
-                                        fontSize: 11.aR,
-                                        color:
-                                            ColorConst.NeutralVariant.shade60),
-                                    children: [
-                                      TextSpan(
-                                          text: tz1Shortner(
-                                              "${widget.nftModel!.holders!.first.holderAddress}"),
-                                          style: labelMedium.copyWith(
-                                              fontSize: 12.aR))
-                                    ])),
-                          ),
-                        _buildTabs(),
-                        SizedBox(
-                          height: 0.4.height,
-                          child: TabBarView(children: [
-                            _buildDetailsTab(scrollController),
-                            // Sliver List Builder
-                            _buildActivityTab(scrollController),
-                          ]),
-                        ),
+                                  if (nftModel!.holders?.isNotEmpty ?? false)
+                                    ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        foregroundImage: NetworkImage(
+                                            "https://services.tzkt.io/v1/avatars/${nftModel!.holders!.first.holderAddress}"),
+                                      ),
+                                      title: RichText(
+                                          textAlign: TextAlign.start,
+                                          text: TextSpan(
+                                              text: 'Owned By ',
+                                              style: labelSmall.copyWith(
+                                                  fontSize: 11.aR,
+                                                  color: ColorConst
+                                                      .NeutralVariant.shade60),
+                                              children: [
+                                                TextSpan(
+                                                    text: tz1Shortner(
+                                                        "${nftModel!.holders!.first.holderAddress}"),
+                                                    style: labelMedium.copyWith(
+                                                        fontSize: 12.aR))
+                                              ])),
+                                    ),
+                                  _buildTabs(),
+                                  SizedBox(
+                                    height: 0.4.height,
+                                    child: TabBarView(children: [
+                                      _buildDetailsTab(scrollController),
+                                      // Sliver List Builder
+                                      _buildActivityTab(scrollController),
+                                    ]),
+                                  ),
+                                ],
+                              ),
                       ],
                     ),
                   ),
@@ -591,42 +644,38 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                   // dense: true,
                   leading: CircleAvatar(
                     backgroundColor: Colors.transparent,
-                    child: SvgPicture.asset(
-                        icon(widget.nftModel!.events![index]),
+                    child: SvgPicture.asset(icon(nftModel!.events![index]),
                         fit: BoxFit.contain),
                   ),
                   title: Text(
-                    widget.nftModel!.events![index].marketplaceEventType
+                    nftModel!.events![index].marketplaceEventType
                             ?.split("_")
                             .join(" ")
                             .capitalizeFirst ??
-                        widget.nftModel!.events![index].eventType
-                            ?.capitalizeFirst ??
+                        nftModel!.events![index].eventType?.capitalizeFirst ??
                         "Sale",
                     style: labelMedium.copyWith(fontSize: 12.aR),
                   ),
-                  subtitle:
-                      widget.nftModel!.events![index].recipientAddress == null
-                          ? null
-                          : Text(
-                              'to ${tz1Shortner('${widget.nftModel!.events![index].recipientAddress}')}',
-                              style: bodySmall.copyWith(
-                                  fontSize: 12.aR,
-                                  color: ColorConst.NeutralVariant.shade60),
-                            ),
+                  subtitle: nftModel!.events![index].recipientAddress == null
+                      ? null
+                      : Text(
+                          'to ${tz1Shortner('${nftModel!.events![index].recipientAddress}')}',
+                          style: bodySmall.copyWith(
+                              fontSize: 12.aR,
+                              color: ColorConst.NeutralVariant.shade60),
+                        ),
                   //           ),
-                  trailing: widget.nftModel!.events![index].price == null
+                  trailing: nftModel!.events![index].price == null
                       ? Text(
                           timeago.format(DateTime.parse(
-                              widget.nftModel!.events![index].timestamp!)),
+                              nftModel!.events![index].timestamp!)),
                           style: labelSmall.copyWith(
                               color: ColorConst.NeutralVariant.shade60),
                         )
                       : RichText(
                           textAlign: TextAlign.end,
                           text: TextSpan(
-                            text:
-                                '${(widget.nftModel!.events![index].price / 1e6)} ',
+                            text: '${(nftModel!.events![index].price / 1e6)} ',
                             style: labelSmall.copyWith(fontSize: 11.aR),
                             children: [
                               WidgetSpan(
@@ -639,7 +688,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                               ),
                               TextSpan(
                                 text:
-                                    '\n${timeago.format(DateTime.parse(widget.nftModel!.events![index].timestamp!))}',
+                                    '\n${timeago.format(DateTime.parse(nftModel!.events![index].timestamp!))}',
                                 style: labelSmall.copyWith(
                                     fontSize: 11.aR,
                                     color: ColorConst.NeutralVariant.shade60),
@@ -650,7 +699,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                 ),
               ),
             ),
-            childCount: widget.nftModel!.events!.length,
+            childCount: nftModel!.events!.length,
           ),
         ),
       ],
@@ -679,18 +728,18 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   }
 
   Widget _buildDetailsTab(ScrollController scrollController) {
-    final royality = widget.nftModel?.royalties?.isEmpty ?? true
+    final royality = nftModel?.royalties?.isEmpty ?? true
         ? 0
-        : ((widget.nftModel?.royalties?.last.decimals ?? 0) /
-                (widget.nftModel?.royalties?.last.amount ?? 1)) *
+        : ((nftModel?.royalties?.last.decimals ?? 0) /
+                (nftModel?.royalties?.last.amount ?? 1)) *
             100;
-    var logo = widget.nftModel!.fa!.logo!;
+    var logo = nftModel!.fa!.logo!;
     if (logo.startsWith("ipfs://")) {
       logo = "https://ipfs.io/ipfs/${logo.replaceAll("ipfs://", "")}";
     }
-    if (logo.isEmpty && (widget.nftModel!.creators?.isNotEmpty ?? false)) {
+    if (logo.isEmpty && (nftModel!.creators?.isNotEmpty ?? false)) {
       logo =
-          "https://services.tzkt.io/v1/avatars/${widget.nftModel!.creators!.first.creatorAddress}";
+          "https://services.tzkt.io/v1/avatars/${nftModel!.creators!.first.creatorAddress}";
     }
     return SingleChildScrollView(
       controller: scrollController,
@@ -727,14 +776,14 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                               )),
                           0.04.hspace,
                           Text(
-                            widget.nftModel!.fa!.name ?? "N/A",
+                            nftModel!.fa!.name ?? "N/A",
                             style: labelSmall.copyWith(fontSize: 11.aR),
                           ),
                         ],
                       ),
                       0.01.vspace,
                       Text(
-                        widget.nftModel?.description ?? "N/A",
+                        nftModel?.description ?? "N/A",
                         style: bodySmall.copyWith(
                             fontSize: 12.aR,
                             color: ColorConst.NeutralVariant.shade60),
@@ -765,7 +814,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                   children: [
                     Text("Token ID", style: bodySmall),
                     Text(
-                      widget.nftModel?.tokenId ?? "",
+                      nftModel?.tokenId ?? "",
                       style: bodySmall.copyWith(color: ColorConst.textGrey1),
                     )
                   ],
@@ -782,14 +831,14 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                   ],
                 ),
                 .008.vspace,
-                widget.nftModel!.timestamp != null
+                nftModel!.timestamp != null
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Minted", style: bodySmall),
                           Text(
-                            DateFormat("MMM dd,yyyy").format(
-                                DateTime.parse(widget.nftModel!.timestamp!)),
+                            DateFormat("MMM dd,yyyy")
+                                .format(DateTime.parse(nftModel!.timestamp!)),
                             style:
                                 bodySmall.copyWith(color: ColorConst.textGrey1),
                           )
@@ -804,8 +853,8 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                     const Spacer(),
                     InkWell(
                         onTap: () {
-                          final String? hash = widget.nftModel?.artifactUri
-                              ?.replaceAll("ipfs://", "");
+                          final String? hash =
+                              nftModel?.artifactUri?.replaceAll("ipfs://", "");
                           final String img =
                               'https://assets.objkt.media/file/assets-003/$hash/artifact';
                           CommonFunctions.launchURL(img);
@@ -828,8 +877,8 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                     0.05.hspace,
                     InkWell(
                         onTap: () {
-                          final String? hash = widget.nftModel?.artifactUri
-                              ?.replaceAll("ipfs://", "");
+                          final String? hash =
+                              nftModel?.artifactUri?.replaceAll("ipfs://", "");
                           final String img = '$ipfsHost/$hash';
                           CommonFunctions.launchURL(img);
                         },
@@ -858,8 +907,8 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                     const Spacer(),
                     InkWell(
                         onTap: () {
-                          final String? hash = widget.nftModel?.metadata
-                              ?.replaceAll("ipfs://", "");
+                          final String? hash =
+                              nftModel?.metadata?.replaceAll("ipfs://", "");
                           final String img = '$ipfsHost/$hash';
                           CommonFunctions.launchURL(img);
                         },
@@ -888,15 +937,15 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                     const Spacer(),
                     InkWell(
                         onTap: () {
-                          final String? hash = widget.nftModel?.faContract
-                              ?.replaceAll("ipfs://", "");
+                          final String? hash =
+                              nftModel?.faContract?.replaceAll("ipfs://", "");
                           final String url = 'https://tzkt.io/$hash';
                           CommonFunctions.launchURL(url);
                         },
                         child: Row(
                           children: [
                             Text(
-                              widget.nftModel?.faContract?.tz1Short() ?? "",
+                              nftModel?.faContract?.tz1Short() ?? "",
                               style: labelMedium.copyWith(
                                   color: ColorConst.Primary),
                             ),
