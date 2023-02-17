@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../utils/colors/colors.dart';
@@ -47,8 +48,8 @@ class TokenEditTile extends GetView<AccountSummaryController> {
           visible: isEditable ?? false,
           replacement: showEditButton!
               ? const SizedBox()
-              : GestureDetector(
-                  onTap: viewAll,
+              : BouncingWidget(
+                  onPressed: viewAll,
                   child: AnimatedContainer(
                     margin: EdgeInsets.symmetric(vertical: 12.aR),
                     duration: const Duration(milliseconds: 200),
@@ -110,8 +111,8 @@ class TokenEditTile extends GetView<AccountSummaryController> {
         ),
         const Spacer(),
         expandedTokenList || showEditButton!
-            ? GestureDetector(
-                onTap: onEditTap,
+            ? BouncingWidget(
+                onPressed: onEditTap,
                 child: AnimatedContainer(
                   margin: EdgeInsets.symmetric(vertical: 12.aR),
                   duration: const Duration(milliseconds: 200),

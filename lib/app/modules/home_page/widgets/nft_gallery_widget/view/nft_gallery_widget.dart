@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
@@ -22,56 +23,63 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
   int currIndex = 0;
   NftGalleryWidgetController controller =
       Get.find<NftGalleryWidgetController>();
-  Widget _getNoGalleryStateWidget() => InkWell(
-        onTap: () => controller.showCreateNewNftGalleryBottomSheet(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              margin: EdgeInsets.only(
-                top: 22.arP,
-                right: 22.arP,
+  Widget _getNoGalleryStateWidget() => BouncingWidget(
+        onPressed: () => controller.showCreateNewNftGalleryBottomSheet(),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(22.arP),
+            // color: Colors.white,
+            color: const Color(0xFF1E1C1F),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                margin: EdgeInsets.only(
+                  top: 22.arP,
+                  right: 22.arP,
+                ),
+                alignment: Alignment.topRight,
+                child: SvgPicture.asset(
+                  "assets/nft_page/svg/add_icon.svg",
+                  height: 38.33.arP,
+                ),
               ),
-              alignment: Alignment.topRight,
-              child: SvgPicture.asset(
-                "assets/nft_page/svg/add_icon.svg",
-                height: 38.33.arP,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.all(
-                22.arP,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Create gallery",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 22.arP,
+              Container(
+                margin: EdgeInsets.all(
+                  22.arP,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Create gallery",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 22.arP,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 4.arP,
-                  ),
-                  Text(
-                    "Display NFTs from multiple\naccounts",
-                    style: TextStyle(
-                      color: const Color(0xFF958E99),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12.arP,
-                      letterSpacing: .5,
+                    SizedBox(
+                      height: 4.arP,
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                    Text(
+                      "Display NFTs from multiple\naccounts",
+                      style: TextStyle(
+                        color: const Color(0xFF958E99),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12.arP,
+                        letterSpacing: .5,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       );
 
@@ -116,8 +124,8 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                         child: child,
                       ),
                   duration: const Duration(milliseconds: 350),
-                  child: GestureDetector(
-                    onTap: () => controller.openGallery(index),
+                  child: BouncingWidget(
+                    onPressed: () => controller.openGallery(index),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(22),
                       child: Stack(
@@ -217,11 +225,11 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
                 width: double.infinity,
 
                 height: 0.87.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(22.arP),
-                  // color: Colors.white,
-                  color: const Color(0xFF1E1C1F),
-                ),
+                // decoration: BoxDecoration(
+                //   borderRadius: BorderRadius.circular(22.arP),
+                //   // color: Colors.white,
+                //   color: const Color(0xFF1E1C1F),
+                // ),
                 child: Obx(
                   () => controller.nftGalleryList.isEmpty
                       ? _getNoGalleryStateWidget()

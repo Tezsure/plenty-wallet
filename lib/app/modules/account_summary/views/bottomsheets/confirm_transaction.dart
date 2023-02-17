@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -146,8 +147,8 @@ class ConfirmTransactionSheet extends StatelessWidget {
                           child: SizedBox(
                             child: Padding(
                               padding: EdgeInsets.only(top: 0.01.height),
-                              child: GestureDetector(
-                                onTap: () => Get.bottomSheet(
+                              child: BouncingWidget(
+                                onPressed: () => Get.bottomSheet(
                                   AccountSelectorSheet(),
                                   isScrollControlled: true,
                                   enterBottomSheetDuration:

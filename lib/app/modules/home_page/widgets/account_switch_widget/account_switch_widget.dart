@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/widgets/account_selector/account_selector.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
@@ -35,7 +37,8 @@ class _AccountSwitchState extends State<AccountSwitch> {
   void initState() {
     super.initState();
     if (controller.userAccounts[controller.selectedIndex.value].isWatchOnly) {
-      controller.selectedIndex.value = 0;
+      controller.selectedIndex.value =
+          controller.userAccounts.indexWhere((element) => !element.isWatchOnly);
     }
   }
 
@@ -75,12 +78,12 @@ class _AccountSwitchState extends State<AccountSwitch> {
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.arP),
-                    child: InkWell(
-                      onTap: () async {
+                    child: BouncingWidget(
+                      onPressed: () async {
                         final selectedIndex = await Get.bottomSheet(
                           AccountSelector(
                             accountModels: controller.userAccounts
-                                .where((e) => e.isWatchOnly == false)
+                                .where((e) => !e.isWatchOnly)
                                 .toList(),
                             index: controller
                                     .userAccounts[

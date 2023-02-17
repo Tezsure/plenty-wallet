@@ -18,7 +18,7 @@ class BuyNftSuccessSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HapticFeedback.heavyImpact();
+    AppConstant.hapticFeedback();
     return NaanBottomSheet(
         mainAxisAlignment: MainAxisAlignment.start,
         bottomSheetHorizontalPadding: 32.arP,

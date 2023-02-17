@@ -71,22 +71,26 @@ class ImportWalletPageController extends GetxController
   /// To assign the phrase text to the phrase text variable
   void onTextChange(String value) {
     checkImportType(value);
-    phraseText.value = value.trim();
+    phraseText.value = value;
   }
 
   /// define based on phraseText.value that if it's mnemonic, private key or watch address
-  void checkImportType(value) => importWalletDataType =
-      value.startsWith('edsk') || value.startsWith('spsk')
-          ? ImportWalletDataType.privateKey
-          : value.startsWith("tz1") ||
-                  value.startsWith("tz2") ||
-                  value.startsWith("tz3")
-              ? ImportWalletDataType.watchAddress
-              : value.split(" ").length == 12 || value.split(" ").length == 24
-                  ? ImportWalletDataType.mnemonic
-                  : value.endsWith('.tez')
-                      ? ImportWalletDataType.tezDomain
-                      : ImportWalletDataType.none;
+  void checkImportType(String value) {
+    value = value.trim();
+    importWalletDataType =
+        (value.startsWith('edsk') || value.startsWith('spsk')) &&
+                value.split(" ").length == 1
+            ? ImportWalletDataType.privateKey
+            : value.startsWith("tz1") ||
+                    value.startsWith("tz2") ||
+                    value.startsWith("tz3")
+                ? ImportWalletDataType.watchAddress
+                : value.split(" ").length == 12 || value.split(" ").length == 24
+                    ? ImportWalletDataType.mnemonic
+                    : value.endsWith('.tez')
+                        ? ImportWalletDataType.tezDomain
+                        : ImportWalletDataType.none;
+  }
 
   Future<void> redirectBasedOnImportWalletType([String? pageRoute]) async {
     if (importWalletDataType == ImportWalletDataType.tezDomain) {
@@ -94,7 +98,7 @@ class ImportWalletPageController extends GetxController
           await TezosDomainService().searchUsingText(phraseText.value.trim());
       if (cModels.isNotEmpty) {
         var cModel = cModels[0];
-        phraseText.value = cModel.address!;
+        phraseText.value = cModel.address;
         importWalletDataType = ImportWalletDataType.watchAddress;
         // checkImportType(phraseText.value);
         final controller = Get.put(CreateProfilePageController());
@@ -140,16 +144,29 @@ class ImportWalletPageController extends GetxController
               ],
       );
     } else if (importWalletDataType == ImportWalletDataType.mnemonic) {
-      var accountLength = (await UserStorageService().getAllAccount()).length;
+      var accountLength = ([
+            ...(await UserStorageService().getAllAccount()),
+            ...(await UserStorageService()
+                .getAllAccount(watchAccountsList: true))
+          ]).length +
+          1;
 
-      var selectedAccounts =
-          selectedAccountsTz1 + selectedAccountsTz2 + selectedLegacyAccount;
+      var selectedAccounts = [
+        ...selectedAccountsTz1,
+        ...selectedAccountsTz2,
+        ...selectedLegacyAccount
+      ];
 
       for (var i = 0; i < selectedAccounts.length; i++) {
         selectedAccounts[i] = selectedAccounts[i]
-          ..name = "Account ${accountLength == 0 ? 1 : accountLength + i}";
+          ..importedAt = DateTime.now()
+          ..name = "Account ${accountLength + i}";
       }
-      selectedAccounts.value = selectedAccounts.value;
+      selectedAccounts.sort((a, b) =>
+          b.importedAt!.millisecondsSinceEpoch -
+          a.importedAt!.millisecondsSinceEpoch);
+      selectedAccountsTz1.value = selectedAccounts;
+      // selectedAccounts. = selectedAccounts.value;
       Get.back();
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
       var previousRoute = Get.previousRoute;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
@@ -81,15 +82,13 @@ class _SelectNetworkBottomSheetState extends State<SelectNetworkBottomSheet> {
     GestureTapCallback? onTap,
     required NetworkType value,
   }) {
-    return InkWell(
-      onTap: onTap ??
+    return BouncingWidget(
+      onPressed: onTap ??
           () {
             setState(() {
               selectedNetwork = value;
             });
           },
-      splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
       child: SizedBox(
         width: double.infinity,
         height: 54,

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/rpc_node_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
@@ -163,13 +164,11 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
   Widget optionMethod({
     required NodeModel model,
   }) {
-    return InkWell(
-      onTap: () {
+    return BouncingWidget(
+      onPressed: () {
         selectedModel = model;
         setState(() {});
       },
-      splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
       child: SizedBox(
         width: double.infinity,
         height: 59.arP,
@@ -255,10 +254,8 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
   }
 
   Widget optionDelete({Widget? child, GestureTapCallback? onTap}) {
-    return InkWell(
-      onTap: onTap,
-      splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
+    return BouncingWidget(
+      onPressed: onTap,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -112,8 +113,8 @@ class ReviewNFTSheet extends StatelessWidget {
   }
 
   Widget _buildFees() {
-    return GestureDetector(
-      onTap: () {
+    return BouncingWidget(
+      onPressed: () {
         controller.openFeeSummary();
       },
       child: Row(

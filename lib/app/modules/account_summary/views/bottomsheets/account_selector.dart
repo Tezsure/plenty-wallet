@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
@@ -104,12 +105,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                               child: Padding(
                                 padding: EdgeInsets.only(
                                     top: 8.aR, left: 16.aR, right: 16.aR),
-                                child: InkWell(
-                                  splashColor: Colors.transparent,
-                                  overlayColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.transparent),
-                                  onTap: () {
+                                child: BouncingWidget(
+                                  onPressed: () {
                                     // setState(() {
                                     print("==============");
                                     print(index);
@@ -358,8 +355,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                   alignment: Alignment.bottomCenter,
                   child: Column(children: [
                     0.014.vspace,
-                    Obx(() => InkWell(
-                          onTap: (() {
+                    Obx(() => BouncingWidget(
+                          onPressed: (() {
                             if (_controller.isAccountEditable.isFalse) {
                               Get.bottomSheet(AddNewAccountBottomSheet(),
                                       enterBottomSheetDuration:
@@ -398,8 +395,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                           ),
                         )),
                     0.028.vspace,
-                    Obx(() => InkWell(
-                          onTap: () {
+                    Obx(() => BouncingWidget(
+                          onPressed: () {
                             if (_controller.isAccountEditable.isFalse) {
                               Get.bottomSheet(
                                   ImportWalletPageView(

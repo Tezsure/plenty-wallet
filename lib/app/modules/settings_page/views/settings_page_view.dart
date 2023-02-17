@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
@@ -275,10 +276,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
     GestureTapCallback? onTap,
     Widget? trailing,
   }) {
-    return InkWell(
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      onTap: onTap,
+    return BouncingWidget(
+      onPressed: onTap,
       child: SizedBox(
         height: 54,
         child: Row(
@@ -347,8 +346,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
   }
 
   Widget _accountOption() {
-    return GestureDetector(
-      onTap: () {
+    return BouncingWidget(
+      onPressed: () {
         Get.bottomSheet(
           ManageAccountsBottomSheet(),
           enterBottomSheetDuration: const Duration(milliseconds: 180),
@@ -409,8 +408,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
   }
 
   Widget _connectedAppsOption() {
-    return GestureDetector(
-      onTap: () {
+    return BouncingWidget(
+      onPressed: () {
         Get.bottomSheet(
           ConnectedDappBottomSheet(),
           enterBottomSheetDuration: const Duration(milliseconds: 180),
@@ -443,8 +442,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
   }
 
   Widget _resetOption() {
-    return GestureDetector(
-      onTap: () {
+    return BouncingWidget(
+      onPressed: () {
         Get.bottomSheet(
           const ResetWalletBottomSheet(),
           enterBottomSheetDuration: const Duration(milliseconds: 180),
@@ -522,8 +521,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
               const SizedBox(
                 height: 12,
               ),
-              GestureDetector(
-                onTap: () => controller.checkWalletBackup(),
+              BouncingWidget(
+                onPressed: () => controller.checkWalletBackup(),
                 child: Text(
                   isBackedUp ? "View my recovery phrase" : "Backup now",
                   style: labelMedium.apply(
@@ -579,8 +578,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
               0.022.vspace,
               Row(
                 children: [
-                  GestureDetector(
-                    onTap: () => Get.bottomSheet(RecoverOldAccountSheet(),
+                  BouncingWidget(
+                    onPressed: () => Get.bottomSheet(RecoverOldAccountSheet(),
                         isScrollControlled: true),
                     child: Text(
                       "Recover now",
@@ -588,8 +587,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
                     ),
                   ),
                   0.064.hspace,
-                  GestureDetector(
-                    onTap: () => Get.bottomSheet(
+                  BouncingWidget(
+                    onPressed: () => Get.bottomSheet(
                         DismissRecoverAccountBottomSheet(),
                         isScrollControlled: true),
                     child: Text(

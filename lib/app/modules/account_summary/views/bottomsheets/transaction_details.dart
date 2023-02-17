@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/data/services/service_models/contact_model.dart'
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
@@ -184,8 +185,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
               }),
         const Spacer(),
         Center(
-          child: GestureDetector(
-            onTap: () {
+          child: BouncingWidget(
+            onPressed: () {
               CommonFunctions.launchURL(
                   "https://tzkt.io/${transactionModel.hash!}");
             },
@@ -258,8 +259,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                       fontSize: 14.aR, letterSpacing: 0.5.aR),
                 ),
                 0.02.hspace,
-                GestureDetector(
-                  onTap: () {
+                BouncingWidget(
+                  onPressed: () {
                     Clipboard.setData(ClipboardData(
                       text: contact != null
                           ? contact.address

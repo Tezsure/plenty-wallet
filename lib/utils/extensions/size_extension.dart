@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -12,9 +13,11 @@ extension SizeExtension on num {
 
   double get spH => this * (Get.height / 6) / 100;
 
-  double get arP => this * (Get.size.aspectRatio * (Platform.isIOS ? 2 : 2));
+  double get arP {
+    return this * (Get.size.aspectRatio * (Get.size.height < 540 ? 1 : 2));
+  }
 
-  double get aR => this * (Get.size.aspectRatio * 2);
+  double get aR => arP;
 
   SizedBox get vspace => SizedBox(
         height: height.arP.toDouble(),

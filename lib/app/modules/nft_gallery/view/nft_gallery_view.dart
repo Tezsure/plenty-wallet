@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
@@ -431,8 +432,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
         ),
       );
 
-  Widget menuIcon(asset, NftGalleryFilter filter) => InkWell(
-        onTap: () {
+  Widget menuIcon(asset, NftGalleryFilter filter) => BouncingWidget(
+        onPressed: () {
           controller.selectedGalleryFilter.value = filter;
         },
         child: SvgPicture.asset(asset,
@@ -501,8 +502,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                         itemCount: nfts.values.toList()[index].length,
                         itemBuilder: ((context, i) {
                           var nftTokenModel = nfts.values.toList()[index][i];
-                          return InkWell(
-                            onTap: () async => Get.bottomSheet(
+                          return BouncingWidget(
+                            onPressed: () => Get.bottomSheet(
                               NFTDetailBottomSheet(
                                 onBackTap: Get.back,
                                 pk: nftTokenModel.pk!,
@@ -783,8 +784,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            InkWell(
-              onTap: () async {
+            BouncingWidget(
+              onPressed: () async {
                 await Get.bottomSheet(
                   _selectGallery(controller.selectedGalleryIndex.value),
                   isScrollControlled: true,
@@ -829,8 +830,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
               ),
             ),
             Expanded(child: Container()),
-            InkWell(
-              onTap: () {
+            BouncingWidget(
+              onPressed: () {
                 controller.isSearch.value = true;
               },
               child: Icon(
@@ -895,8 +896,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
+                      BouncingWidget(
+                        onPressed: () {
                           controller.isSearch.value = false;
                           controller.searchText.value = "";
                           controller.searchNfts.clear();
@@ -939,8 +940,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return index == controller.nftGalleryList.length
-                        ? InkWell(
-                            onTap: () async {
+                        ? BouncingWidget(
+                            onPressed: () async {
                               Get.back(closeOverlays: true);
                               Get.back(closeOverlays: true);
 
@@ -970,8 +971,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                               ),
                             ),
                           )
-                        : InkWell(
-                            onTap: () async {
+                        : BouncingWidget(
+                            onPressed: () async {
                               if (!controller.isEditing.value) {
                                 controller.changeSelectedNftGallery(index);
                                 Get.back(result: index);
@@ -1508,8 +1509,8 @@ class NftCollectionItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
+    return BouncingWidget(
+      onPressed: () {
         if (nftTokens.length != 1) {
           Get.bottomSheet(
             NFTCollectionSheet(
@@ -1538,6 +1539,12 @@ class NftCollectionItemWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(
           12.arP,
+        ),
+        decoration: BoxDecoration(
+          color: const Color(0xFF958E99).withOpacity(0.2),
+          borderRadius: BorderRadius.circular(
+            12.arP,
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

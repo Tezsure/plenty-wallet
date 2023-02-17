@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/app/modules/common_widgets/list_tile.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -22,7 +24,7 @@ class TokenView extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           child: Obx(
-            () => ListTile(
+            () => NaanListTile(
               minVerticalPadding: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.arP)),
@@ -59,9 +61,9 @@ class TokenView extends StatelessWidget {
                     children: [
                       controller.selectedTextfieldType.value ==
                               TextfieldType.token
-                          ? InkWell(
-                              splashColor: Colors.transparent,
-                              onTap: () {
+                          ? BouncingWidget(
+                              // splashColor: Colors.transparent,
+                              onPressed: () {
                                 if (!controller
                                     .amountFocusNode.value.hasFocus) {
                                   controller.amountFocusNode.value
@@ -170,9 +172,8 @@ class TokenView extends StatelessWidget {
                       children: [
                         controller.selectedTextfieldType.value ==
                                 TextfieldType.usd
-                            ? InkWell(
-                                splashColor: Colors.transparent,
-                                onTap: () {
+                            ? BouncingWidget(
+                                onPressed: () {
                                   controller.amountController.text =
                                       controller.selectedTokenModel != null
                                           ? (controller.selectedTokenModel!

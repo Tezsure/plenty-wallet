@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -77,8 +78,8 @@ class _PickAvatarState extends State<PickAvatar> {
                   crossAxisSpacing: 0.06.width,
                   children: List.generate(
                     ServiceConfig.allAssetsProfileImages.length,
-                    (index) => GestureDetector(
-                      onTap: () {
+                    (index) => BouncingWidget(
+                      onPressed: () {
                         imageType = AccountProfileImageType.assets;
                         selectedAvatar =
                             ServiceConfig.allAssetsProfileImages[index];

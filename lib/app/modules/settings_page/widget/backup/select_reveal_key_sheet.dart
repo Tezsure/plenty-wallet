@@ -5,6 +5,7 @@ import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/backup_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/select_reveal_controller.dart';
@@ -163,10 +164,8 @@ class _SelectToRevealKeyBottomSheetState
 
   Widget revealOptionMethod(
       {Widget? child, GestureTapCallback? onTap, String? icon}) {
-    return InkWell(
-      onTap: onTap,
-      splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
+    return BouncingWidget(
+      onPressed: onTap,
       child: Container(
         width: 0.65.width,
         alignment: Alignment.center,

@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -74,7 +75,7 @@ class DappBottomSheet extends StatelessWidget {
                     Align(
                       alignment: Alignment.topCenter,
                       child: Container(
-                        margin: EdgeInsets.only(top: 0.02.height),
+                        margin: EdgeInsets.only(top: 0.01.height),
                         height: 5,
                         width: 36,
                         decoration: BoxDecoration(
@@ -215,8 +216,9 @@ class DappBottomSheet extends StatelessWidget {
   }
 
   Widget _getSocialButton(String image, String url) {
-    return GestureDetector(
-      onTap: () => launchUrlString(url, mode: LaunchMode.externalApplication),
+    return BouncingWidget(
+      onPressed: () =>
+          launchUrlString(url, mode: LaunchMode.externalApplication),
       child: Container(
         height: 40.arP,
         width: 64.arP,

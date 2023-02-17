@@ -43,7 +43,7 @@ class SolidButton extends StatelessWidget {
       this.primaryColor,
       this.elevation = 2,
       this.borderColor = Colors.transparent,
-      this.borderWidth = 0,
+      this.borderWidth = 01.5,
       this.isLoading,
       this.titleStyle,
       this.borderRadius})

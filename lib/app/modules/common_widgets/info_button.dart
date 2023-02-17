@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -9,22 +10,21 @@ class InfoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
+    return BouncingWidget(
+      onPressed: onPressed,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'info',
-            style: bodySmall.copyWith(
-                color: ColorConst.NeutralVariant.shade60,
-                fontWeight: FontWeight.bold),
+            "info",
+            style: titleMedium.copyWith(
+                fontWeight: FontWeight.w600,
+                color: ColorConst.NeutralVariant.shade60),
           ),
-          0.010.hspace,
+          0.01.hspace,
           Icon(
             Icons.info_outline,
-            size: 16,
             color: ColorConst.NeutralVariant.shade60,
+            size: 16,
           ),
         ],
       ),
