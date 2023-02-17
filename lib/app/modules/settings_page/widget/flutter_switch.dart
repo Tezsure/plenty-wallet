@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 
 class FlutterSwitch extends StatefulWidget {
   /// Creates a material design switch.
@@ -326,8 +327,8 @@ class FlutterSwitchState extends State<FlutterSwitch>
         return SizedBox(
           width: widget.width,
           child: Align(
-            child: GestureDetector(
-              onTap: () {
+            child: BouncingWidget(
+              onPressed: () {
                 if (!widget.disabled) {
                   if (widget.value) {
                     _animationController.forward();

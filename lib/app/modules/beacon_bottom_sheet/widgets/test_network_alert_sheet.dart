@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/select_network_sheet.dart';
@@ -74,8 +75,8 @@ class _TestNetworkBottomSheetState extends State<TestNetworkBottomSheet> {
                   style: labelMedium.copyWith(color: ColorConst.textGrey1),
                 ),
                 0.008.vspace,
-                InkWell(
-                  onTap: () async {
+                BouncingWidget(
+                  onPressed: () async {
                     await Get.bottomSheet(
                       SelectNetworkBottomSheet(),
                       enterBottomSheetDuration:

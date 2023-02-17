@@ -18,6 +18,7 @@ import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dar
 import 'package:naan_wallet/app/data/services/service_models/operation_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/list_tile.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -50,7 +51,7 @@ class TransactionBottomSheet extends StatelessWidget {
       titleStyle: titleMedium,
       bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
-        ListTile(
+        NaanListTile(
           contentPadding: EdgeInsets.zero,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -109,7 +110,7 @@ class TransactionBottomSheet extends StatelessWidget {
         SizedBox(
           height: 0.02.height,
         ),
-        ListTile(
+        NaanListTile(
             onTap: () {
               Clipboard.setData(
                 ClipboardData(

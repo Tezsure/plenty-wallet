@@ -21,6 +21,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widge
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/review_nft.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/modules/wert/views/wert_browser_view.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:simple_gql/simple_gql.dart';
 
 class BuyNFTController extends GetxController {

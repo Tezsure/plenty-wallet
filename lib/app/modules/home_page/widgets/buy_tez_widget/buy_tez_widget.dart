@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom_sheet.dart';
 
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
@@ -24,8 +25,8 @@ class BuyTezWidget extends StatelessWidget {
   BuyTezWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return BouncingWidget(
+      onPressed: () {
         Get.put(AccountSummaryController());
         HomePageController home = Get.find<HomePageController>();
         if (home.userAccounts

@@ -7,8 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
@@ -67,39 +69,49 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           0.03.vspace,
           Row(
             children: [
-              GestureDetector(
-                onTap: () => Get.back(),
-                child: SvgPicture.asset(
-                  "${PathConst.SVG}arrow_back.svg",
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
+              backButton(),
+              // GestureDetector(
+              //   onTap: () => Get.back(),
+              //   child: SvgPicture.asset(
+              //     "${PathConst.SVG}arrow_back.svg",
+              //     fit: BoxFit.scaleDown,
+              //   ),
+              // ),
               const Spacer(),
-              GestureDetector(
-                onTap: () {
+              InfoButton(
+                onPressed: () {
                   Get.bottomSheet(
                     const InfoBottomSheet(),
                     isScrollControlled: true,
                     barrierColor: Colors.white.withOpacity(0.2),
                   );
                 },
-                child: Row(
-                  children: [
-                    Text(
-                      "info",
-                      style: titleMedium.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: ColorConst.NeutralVariant.shade60),
-                    ),
-                    0.01.hspace,
-                    Icon(
-                      Icons.info_outline,
-                      color: ColorConst.NeutralVariant.shade60,
-                      size: 16,
-                    ),
-                  ],
-                ),
-              )
+              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     Get.bottomSheet(
+              //       const InfoBottomSheet(),
+              //       isScrollControlled: true,
+              //       barrierColor: Colors.white.withOpacity(0.2),
+              //     );
+              //   },
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         "info",
+              //         style: titleMedium.copyWith(
+              //             fontWeight: FontWeight.w600,
+              //             color: ColorConst.NeutralVariant.shade60),
+              //       ),
+              //       0.01.hspace,
+              //       Icon(
+              //         Icons.info_outline,
+              //         color: ColorConst.NeutralVariant.shade60,
+              //         size: 16,
+              //       ),
+              //     ],
+              //   ),
+              // )
             ],
           ),
           Expanded(
@@ -335,17 +347,8 @@ class AccountBottomSheet extends StatelessWidget {
                             children: [
                               const Text("Tz1"),
                               if (controller.selectedAccountsTz1.isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: CircleAvatar(
-                                    radius: 8,
-                                    backgroundColor: ColorConst.Primary,
-                                    child: Text(
-                                        controller.selectedAccountsTz1.length
-                                            .toString(),
-                                        style: labelSmall),
-                                  ),
-                                )
+                                _buildCount(
+                                    controller.selectedAccountsTz1.length)
                             ],
                           ),
                         ),
@@ -361,17 +364,8 @@ class AccountBottomSheet extends StatelessWidget {
                             children: [
                               const Text("Tz2"),
                               if (controller.selectedAccountsTz2.isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: CircleAvatar(
-                                    radius: 8,
-                                    backgroundColor: ColorConst.Primary,
-                                    child: Text(
-                                        controller.selectedAccountsTz2.length
-                                            .toString(),
-                                        style: labelSmall),
-                                  ),
-                                )
+                                _buildCount(
+                                    controller.selectedAccountsTz2.length)
                             ],
                           ),
                         ),
@@ -387,17 +381,8 @@ class AccountBottomSheet extends StatelessWidget {
                             children: [
                               const Text("Legacy"),
                               if (controller.selectedLegacyAccount.isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: CircleAvatar(
-                                    radius: 8,
-                                    backgroundColor: ColorConst.Primary,
-                                    child: Text(
-                                        controller.selectedLegacyAccount.length
-                                            .toString(),
-                                        style: labelSmall),
-                                  ),
-                                )
+                                _buildCount(
+                                    controller.selectedLegacyAccount.length)
                             ],
                           ),
                         ),
@@ -434,6 +419,16 @@ class AccountBottomSheet extends StatelessWidget {
         ),
         0.05.vspace
       ],
+    );
+  }
+
+  Widget _buildCount(int count) {
+    return Container(
+      margin: const EdgeInsets.only(left: 8),
+      padding: EdgeInsets.all(4.arP),
+      decoration:
+          const BoxDecoration(color: ColorConst.Primary, shape: BoxShape.circle),
+      child: Text(count.toString(), style: labelSmall),
     );
   }
 }

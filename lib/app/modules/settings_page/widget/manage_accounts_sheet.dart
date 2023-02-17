@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
@@ -261,8 +262,8 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
   }
 
   Widget reorderButton() {
-    return GestureDetector(
-      onTap: () {
+    return BouncingWidget(
+      onPressed: () {
         controller.isRearranging.value = !controller.isRearranging.value;
       },
       child: Container(
@@ -341,11 +342,9 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
     );
   }
 
-  InkWell optionMethod({Widget? child, GestureTapCallback? onTap}) {
-    return InkWell(
-      onTap: onTap,
-      splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
+  Widget optionMethod({Widget? child, GestureTapCallback? onTap}) {
+    return BouncingWidget(
+      onPressed: onTap,
       child: SizedBox(
         width: double.infinity,
         height: 54,
@@ -426,8 +425,8 @@ class CustomPopupMenuItem extends PopupMenuEntry<Never> {
 
 class _CustomPopupMenuItemState extends State<CustomPopupMenuItem> {
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: widget.onTap,
+  Widget build(BuildContext context) => BouncingWidget(
+        onPressed: widget.onTap,
         child: Padding(
           padding: widget.padding,
           child: SizedBox(

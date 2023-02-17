@@ -19,7 +19,7 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => DelegateWidgetController());
-    HapticFeedback.heavyImpact();
+    AppConstant.hapticFeedback();
     return NaanBottomSheet(
         mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 16.arP,

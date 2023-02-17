@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -43,6 +44,7 @@ SnackbarController transactionStatusSnackbar({
   bool isBrowser = false,
   Duration duration = const Duration(minutes: 1),
 }) {
+  AppConstant.hapticFeedback();
   return Get.rawSnackbar(
     backgroundColor: ColorConst.NeutralVariant.shade20,
 

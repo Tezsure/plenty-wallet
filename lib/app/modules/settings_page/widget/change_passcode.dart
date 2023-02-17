@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -158,13 +159,8 @@ class _AppPassCode extends State<AppPassCode> {
           borderRadius: BorderRadius.all(
             Radius.circular(0.065.width),
           ),
-          child: InkWell(
-            borderRadius: BorderRadius.all(
-              Radius.circular(0.065.width),
-            ),
-            highlightColor: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
-            splashFactory: NoSplash.splashFactory,
-            onTap: iconData != null
+          child: BouncingWidget(
+            onPressed: iconData != null
                 ? onIconTap
                 : () {
                     if (_controller.enteredPassCode.value.length < 6) {

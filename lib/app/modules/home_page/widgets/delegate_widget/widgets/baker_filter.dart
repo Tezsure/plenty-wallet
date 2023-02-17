@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -52,13 +53,11 @@ class BakerFilterBottomSheet extends GetView<DelegateWidgetController> {
                           elevation: 0,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(0)),
-                          child: InkWell(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(0)),
-                            onTap: () {
+                          child: BouncingWidget(
+                            onPressed: () {
                               controller.selectFilter(status[index]);
                             },
-                            splashColor: Colors.transparent,
+                            // splashColor: Colors.transparent,
                             child: Container(
                               width: double.infinity,
                               height: 51,

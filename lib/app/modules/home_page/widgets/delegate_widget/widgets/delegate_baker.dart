@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker_tile.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/review_delegate_baker.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
@@ -111,8 +112,8 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
   }
 
   Widget _buildBakerItem(DelegateBakerModel baker) {
-    return GestureDetector(
-      onTap: () => Get.bottomSheet(ReviewDelegateSelectBaker(
+    return BouncingWidget(
+      onPressed: () => Get.bottomSheet(ReviewDelegateSelectBaker(
         baker: baker,
       )),
       child: DelegateBakerTile(baker: baker),

@@ -17,6 +17,7 @@ class AccountModel {
   AccountSecretModel? accountSecretModel;
   bool? isAccountPrimary = false;
   bool? isAccountHidden = false;
+  DateTime? importedAt = DateTime.now();
 
   AccountModel(
       {this.name,
@@ -29,6 +30,7 @@ class AccountModel {
       this.tezosDomainName,
       this.isWatchOnly = false,
       this.accountDataModel,
+      this.importedAt,
       this.isAccountPrimary = false,
       this.isAccountHidden = false,
       this.isWalletBackedUp = false}) {
@@ -46,6 +48,7 @@ class AccountModel {
       String? tezosDomainName,
       bool? isWatchOnly,
       bool? isWalletBackedUp,
+      DateTime? importedAt,
       AccountDataModel? accountDataModel,
       bool? isAccountPrimary = false,
       bool? isAccountHidden = false}) {
@@ -62,6 +65,7 @@ class AccountModel {
       accountDataModel: accountDataModel ?? this.accountDataModel,
       isAccountPrimary: isAccountPrimary ?? this.isAccountPrimary,
       isAccountHidden: isAccountHidden ?? this.isAccountHidden,
+      importedAt: importedAt ?? this.importedAt,
       delegatedBakerAddress:
           delegatedBakerAddress ?? this.delegatedBakerAddress,
     );
@@ -82,6 +86,7 @@ class AccountModel {
       'isAccountHidden': isAccountHidden,
       'delegatedBakerAddress': delegatedBakerAddress,
       'isWalletBackedUp': isWalletBackedUp,
+      'importedAt': importedAt?.millisecondsSinceEpoch,
     };
   }
 
@@ -114,6 +119,9 @@ class AccountModel {
       isAccountPrimary: map['isAccountPrimary'] ?? false,
       isAccountHidden: map['isAccountHidden'] ?? false,
       isWalletBackedUp: map['isWalletBackedUp'] ?? false,
+      importedAt: map['importedAt'] == null
+          ? DateTime.now()
+          : DateTime.fromMillisecondsSinceEpoch(map['importedAt']),
     );
   }
 
@@ -124,7 +132,7 @@ class AccountModel {
 
   @override
   String toString() {
-    return 'AccountModel(name: $name, derivationPathIndex: $derivationPathIndex, publicKeyHash: $publicKeyHash, imageType: $imageType, profileImage: $profileImage, isNaanAccount: $isNaanAccount, tezosDomainName: $tezosDomainName, isWatchOnly: $isWatchOnly, accountDataModel: $accountDataModel, isAccountPrimary: $isAccountPrimary, isAccountHidden: $isAccountHidden delegatedBakerAddress:$delegatedBakerAddress, isWalletBackedUp:$isWalletBackedUp)';
+    return 'AccountModel(name: $name, derivationPathIndex: $derivationPathIndex, publicKeyHash: $publicKeyHash, imageType: $imageType, profileImage: $profileImage, isNaanAccount: $isNaanAccount, tezosDomainName: $tezosDomainName, isWatchOnly: $isWatchOnly, accountDataModel: $accountDataModel, isAccountPrimary: $isAccountPrimary, isAccountHidden: $isAccountHidden delegatedBakerAddress:$delegatedBakerAddress, isWalletBackedUp:$isWalletBackedUp importedAt:${importedAt?.millisecondsSinceEpoch} )';
   }
 
   @override
