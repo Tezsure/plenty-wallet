@@ -8,7 +8,9 @@ import 'package:get/get.dart';
 import 'package:hex/hex.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
+import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/web3auth_services/web3AuthController.dart';
+import 'package:naan_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -54,12 +56,25 @@ class Web3Auth {
           controller.privateKey = GenerateKeys.readKeysWithHint(
               Uint8List.fromList(HEX.decoder.convert(response.privKey!)),
               GenerateKeys.keyPrefixes[PrefixEnum.spsk]!);
+          ImportWalletPageController importWalletPageController =
+              Get.put(ImportWalletPageController());
+          importWalletPageController.importWalletDataType =
+              ImportWalletDataType.privateKey;
+          importWalletPageController.phraseText.value =
+              controller.privateKey ?? "";
+          var isPassCodeSet = await AuthService().getIsPassCodeSet();
+          var previousRoute = Get.previousRoute;
+
           Get.toNamed(
-            Routes.PASSCODE_PAGE,
-            arguments: [
-              false,
-              Routes.BIOMETRIC_PAGE,
-            ],
+            isPassCodeSet ? Routes.CREATE_PROFILE_PAGE : Routes.PASSCODE_PAGE,
+            arguments: isPassCodeSet
+                ? [
+                    previousRoute,
+                  ]
+                : [
+                    false,
+                    Routes.BIOMETRIC_PAGE,
+                  ],
           );
           Get.rawSnackbar(
             message:
