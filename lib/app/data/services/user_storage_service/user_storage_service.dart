@@ -83,6 +83,22 @@ class UserStorageService {
     }
   }
 
+  static Future<bool> getBetaTagAgree() async {
+    try {
+      return (await ServiceConfig.localStorage.read(
+            key: ServiceConfig.betaTagStorage,
+          )) ==
+          "true";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static Future<void> betaTagAgree() async {
+    await ServiceConfig.localStorage
+        .write(key: ServiceConfig.betaTagStorage, value: "true");
+  }
+
   /// Get all accounts in storage <br>
   /// If onlyNaanAccount is true then returns the account list which is created on naan<br>
   /// Else returns all the available accounts in storage<br>

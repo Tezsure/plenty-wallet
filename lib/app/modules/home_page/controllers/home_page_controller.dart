@@ -9,9 +9,11 @@ import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart'
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/beta_tag_widget/beta_tag_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/scan_qr.dart';
@@ -111,7 +113,15 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   @override
   void onReady() async {
     super.onReady();
-
+    await UserStorageService.getBetaTagAgree().then((value) async {
+      if (!value) {
+        await Get.bottomSheet(
+          BetaTagSheet(),
+          barrierColor: Colors.white.withOpacity(0.09),
+          isScrollControlled: true,
+        );
+      }
+    });
     if (Get.arguments != null &&
         Get.arguments.length == 2 &&
         Get.arguments[1].toString().isNotEmpty) {
@@ -140,8 +150,8 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
     sliderValue.value = value;
   }
 
-  void showBackUpWalletBottomSheet(String seedPhrase) {
-    Get.bottomSheet(
+  Future<void> showBackUpWalletBottomSheet(String seedPhrase) async {
+    await Get.bottomSheet(
       BackupWalletBottomSheet(seedPhrase: seedPhrase),
       enterBottomSheetDuration: const Duration(milliseconds: 180),
       exitBottomSheetDuration: const Duration(milliseconds: 150),
