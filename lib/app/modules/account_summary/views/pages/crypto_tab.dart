@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/data/services/service_models/account_token_model
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../utils/colors/colors.dart';
 import '../../../../../utils/styles/styles.dart';
@@ -18,11 +19,7 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => controller.isLoading.value
-        ? const Center(
-            child: CircularProgressIndicator(
-              color: ColorConst.Primary,
-            ),
-          )
+        ? TokensSkeleton()
         : controller.userTokens.isEmpty
             ? SingleChildScrollView(
                 physics: AppConstant.scrollPhysics,
@@ -143,4 +140,102 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
         onPinTap: controller.onPinToken,
         onHideTap: controller.onHideToken,
       );
+}
+
+class TokensSkeleton extends StatelessWidget {
+  const TokensSkeleton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: 24.aR,
+        ),
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return Padding(
+              padding:
+                  EdgeInsets.only(left: 17.aR, right: 16.aR, bottom: 20.arP),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    child: Shimmer.fromColors(
+                      baseColor: const Color(0xff474548),
+                      highlightColor: const Color(0xFF958E99).withOpacity(0.2),
+                      child: CircleAvatar(
+                        radius: 20.arP,
+                        backgroundColor: Colors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 22.arP,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                              height: 14.arP,
+                              width: 100.arP,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.arP),
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10.arP,
+                        ),
+                        SizedBox(
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                              height: 14.arP,
+                              width: 60.arP,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.arP),
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    child: Shimmer.fromColors(
+                      baseColor: const Color(0xff474548),
+                      highlightColor: const Color(0xFF958E99).withOpacity(0.2),
+                      child: Container(
+                        height: 14.arP,
+                        width: 30.arP,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.arP),
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          itemCount: 5,
+        ),
+      ),
+    );
+  }
 }

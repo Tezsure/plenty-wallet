@@ -7,6 +7,7 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../utils/styles/styles.dart';
 import '../../../../custom_packages/custom_checkbox.dart';
@@ -194,6 +195,17 @@ class TokenCheckbox extends StatelessWidget {
                         imageUrl: tokenModel.iconUrl!.startsWith("ipfs")
                             ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
                             : tokenModel.iconUrl!,
+                        placeholder: (context, url) => SizedBox(
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                                decoration: const BoxDecoration(
+                              color: Color(0xff474548),
+                            )),
+                          ),
+                        ),
                         fit: BoxFit.cover,
                         memCacheHeight: 73,
                         memCacheWidth: 73,

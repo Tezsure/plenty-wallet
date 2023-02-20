@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -6,6 +7,7 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../widgets/nft_tab_widgets/nft_collectibles.dart';
 
@@ -16,12 +18,8 @@ class NFTabPage extends GetView<AccountSummaryController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.isLoading.value
-        ? const Center(
-            child: CircularProgressIndicator(
-              color: ColorConst.Primary,
-            ),
-          )
+    return Obx(() => controller.nftLoading.value
+        ? NftSkeleton()
         : controller.userNfts.isEmpty
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -67,9 +65,12 @@ class NFTabPage extends GetView<AccountSummaryController> {
                   addAutomaticKeepAlives: false,
                   itemBuilder: ((context, index) {
                     if (index == controller.userNfts.length) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: ColorConst.Primary,
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 30.arP),
+                        child: const Center(
+                          child: CupertinoActivityIndicator(
+                            color: ColorConst.Primary,
+                          ),
                         ),
                       );
                     }
@@ -80,5 +81,86 @@ class NFTabPage extends GetView<AccountSummaryController> {
                     );
                   }),
                 )));
+  }
+}
+
+class NftSkeleton extends StatelessWidget {
+  const NftSkeleton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: 24.aR,
+        ),
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return Padding(
+              padding:
+                  EdgeInsets.only(left: 17.aR, right: 16.aR, bottom: 20.arP),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    child: Shimmer.fromColors(
+                      baseColor: const Color(0xff474548),
+                      highlightColor: const Color(0xFF958E99).withOpacity(0.2),
+                      child: CircleAvatar(
+                        radius: 20.arP,
+                        backgroundColor: Colors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 22.arP,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                              height: 14.arP,
+                              width: 100.arP,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.arP),
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    child: Shimmer.fromColors(
+                      baseColor: const Color(0xff474548),
+                      highlightColor: const Color(0xFF958E99).withOpacity(0.2),
+                      child: Container(
+                        height: 14.arP,
+                        width: 20.arP,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.arP),
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          itemCount: 5,
+        ),
+      ),
+    );
   }
 }

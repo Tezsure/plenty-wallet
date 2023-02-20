@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -29,6 +30,7 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'nft_collection_sheet.dart';
 
@@ -82,14 +84,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           ),
                         )
                       : controller.isSearching.value
-                          ? Padding(
-                              padding: EdgeInsets.only(top: 20.0.arP),
-                              child: const Center(
-                                child: CircularProgressIndicator(
-                                  color: ColorConst.Primary,
-                                ),
-                              ),
-                            )
+                          ? NftGallerySkeleton()
                           : controller.searchNfts.isEmpty
                               ? Container(
                                   margin: EdgeInsets.only(top: 0.03.height),
@@ -256,13 +251,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                     height: 24.arP,
                   ),
                   controller.galleryNfts.isEmpty
-                      ? const Expanded(
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              color: ColorConst.Primary,
-                            ),
-                          ),
-                        )
+                      ? NftGallerySkeleton()
                       : NotificationListener<UserScrollNotification>(
                           onNotification: (notification) {
                             if (notification.metrics.extentAfter <= 20 &&
@@ -463,7 +452,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                 return Padding(
                   padding: EdgeInsets.symmetric(vertical: 6.0.arP),
                   child: const Center(
-                    child: CircularProgressIndicator(
+                    child: CupertinoActivityIndicator(
                       color: ColorConst.Primary,
                     ),
                   ),
@@ -532,11 +521,25 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                 children: [
                                   Container(
                                     constraints: BoxConstraints(
-                                      minHeight: crossAxisCount == 2.1
+                                      minHeight: (Get.width > 768
+                                                      ? crossAxisCount == 1.1
+                                                          ? 2
+                                                          : 3
+                                                      : crossAxisCount == 2.1 &&
+                                                              nfts.values
+                                                                      .toList()[
+                                                                          index]
+                                                                      .length ==
+                                                                  1
+                                                          ? 1
+                                                          : crossAxisCount ==
+                                                                  1.1
+                                                              ? 1
+                                                              : 2)
+                                                  .toInt() ==
+                                              2
                                           ? 150.arP
-                                          : crossAxisCount == 1.1
-                                              ? 300.arP
-                                              : 1,
+                                          : 350.arP,
                                     ),
                                     width: double.infinity,
                                     child: ClipRRect(
@@ -721,10 +724,10 @@ class NftGalleryView extends GetView<NftGalleryController> {
                 ),
                 controller.offsetContract < controller.contracts.length &&
                         !controller.isSearch.value
-                    ? Padding(
-                        padding: EdgeInsets.symmetric(vertical: 6.0.arP),
-                        child: const Center(
-                          child: CircularProgressIndicator(
+                    ? Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 30.arP),
+                          child: const CupertinoActivityIndicator(
                             color: ColorConst.Primary,
                           ),
                         ),
@@ -1428,6 +1431,143 @@ class NftGalleryView extends GetView<NftGalleryController> {
   }
 }
 
+class NftGallerySkeleton extends StatelessWidget {
+  NftGallerySkeleton({
+    super.key,
+  });
+  List<double> skeletonHeights = <double>[
+    158.arP,
+    90.arP,
+    150.arP,
+    90.arP,
+    180.arP,
+    200.arP,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 16.arP,
+        ),
+        child: MasonryGridView.count(
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: Get.width > 768 ? 3 : 2,
+            mainAxisSpacing: 12.arP,
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
+            shrinkWrap: true,
+            crossAxisSpacing: 12.arP,
+            // cacheExtent: 100.0.arP,
+            itemCount: 6,
+            itemBuilder: (context, index) {
+              return Container(
+                width: double.infinity,
+                constraints: const BoxConstraints(minHeight: 1),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF958E99).withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(
+                    12.arP,
+                  ),
+                ),
+                child: Container(
+                  padding: EdgeInsets.all(
+                    12.arP,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xff1E1C1F),
+                    borderRadius: BorderRadius.circular(
+                      12.arP,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: skeletonHeights[index],
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                                decoration: BoxDecoration(
+                              color: const Color(0xff474548),
+                              borderRadius: BorderRadius.circular(
+                                8.arP,
+                              ),
+                            )),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12.arP,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          width: 135.arP,
+                          height: 16.arP,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              50.arP,
+                            ),
+                          ),
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                                decoration: BoxDecoration(
+                              color: const Color(0xff474548),
+                              borderRadius: BorderRadius.circular(
+                                50.arP,
+                              ),
+                            )),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4.arP,
+                      ),
+                      // created by text
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          width: 105.arP,
+                          height: 16.arP,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              50.arP,
+                            ),
+                          ),
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                                decoration: BoxDecoration(
+                              color: const Color(0xff474548),
+                              borderRadius: BorderRadius.circular(
+                                50.arP,
+                              ),
+                            )),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+      ),
+    );
+  }
+}
+
 class RemoveGallerySheet extends StatelessWidget {
   const RemoveGallerySheet({
     super.key,
@@ -1585,8 +1725,37 @@ class NftCollectionItemWidget extends StatelessWidget {
               child: Text(
                 nftTokens[0].creators!.isEmpty
                     ? "N/A"
-                    : nftTokens[0].creators![0].holder!.alias ??
-                        nftTokens[0].creators![0].holder!.address!.tz1Short(),
+                    : nftTokens.length > 1
+                        ? (nftTokens[0].creators![0].holder!.alias ??
+                                        nftTokens[0]
+                                            .creators![0]
+                                            .holder!
+                                            .address!
+                                            .tz1Short())
+                                    .toString() ==
+                                (nftTokens[nftTokens.length - 1]
+                                            .creators![0]
+                                            .holder!
+                                            .alias ??
+                                        nftTokens[nftTokens.length - 1]
+                                            .creators![0]
+                                            .holder!
+                                            .address!
+                                            .tz1Short())
+                                    .toString()
+                            ? nftTokens[0].creators![0].holder!.alias ??
+                                nftTokens[0]
+                                    .creators![0]
+                                    .holder!
+                                    .address!
+                                    .tz1Short()
+                            : "Various artists"
+                        : nftTokens[0].creators![0].holder!.alias ??
+                            nftTokens[0]
+                                .creators![0]
+                                .holder!
+                                .address!
+                                .tz1Short(),
                 style: TextStyle(
                   color: const Color(0xFF958E99),
                   fontSize: 10.arP,

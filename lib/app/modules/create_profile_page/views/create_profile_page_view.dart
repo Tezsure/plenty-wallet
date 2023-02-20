@@ -40,7 +40,6 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
         maxChildSize: isBottomSheet ? 0.95 : 1,
         builder: (context, scrollController) => Scaffold(
           appBar: AppBar(
-            leading: backButton(),
             backgroundColor: Colors.black,
           ),
           body: Container(
@@ -169,9 +168,10 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                             Text(
                               "Start using naan",
                               style: titleSmall.copyWith(
-                                  color: !controller.isContiuneButtonEnable.value
-                                      ? ColorConst.textGrey1
-                                      : Colors.white,
+                                  color:
+                                      !controller.isContiuneButtonEnable.value
+                                          ? ColorConst.textGrey1
+                                          : Colors.white,
                                   fontWeight: FontWeight.w600),
                             ),
                           ],
@@ -190,9 +190,10 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                             Text(
                               "Start using naan",
                               style: titleSmall.copyWith(
-                                  color: !controller.isContiuneButtonEnable.value
-                                      ? ColorConst.textGrey1
-                                      : Colors.white,
+                                  color:
+                                      !controller.isContiuneButtonEnable.value
+                                          ? ColorConst.textGrey1
+                                          : Colors.white,
                                   fontWeight: FontWeight.w600),
                             ),
                           ],

@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart'
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../send_page/views/widgets/collectible_widget.dart';
 import '../../../../nft_gallery/view/nft_detail_sheet.dart';
@@ -26,7 +27,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.aR),
+      padding: EdgeInsets.symmetric(vertical: 6.aR),
       child: Column(
         children: [
           NaanExpansionTile(
@@ -54,6 +55,16 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                           : widget.nftList.first.fa!.logo!,
                   memCacheHeight: 73,
                   memCacheWidth: 73,
+                  placeholder: (context, url) => SizedBox(
+                    child: Shimmer.fromColors(
+                      baseColor: const Color(0xff474548),
+                      highlightColor: const Color(0xFF958E99).withOpacity(0.2),
+                      child: Container(
+                          decoration: const BoxDecoration(
+                        color: Color(0xff474548),
+                      )),
+                    ),
+                  ),
                 ),
               ),
             ),
