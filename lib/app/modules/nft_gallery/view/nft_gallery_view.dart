@@ -1447,118 +1447,123 @@ class NftGallerySkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: MasonryGridView.count(
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: Get.width > 768 ? 3 : 2,
-          mainAxisSpacing: 12.arP,
-          addAutomaticKeepAlives: false,
-          addRepaintBoundaries: false,
-          shrinkWrap: true,
-          crossAxisSpacing: 12.arP,
-          // cacheExtent: 100.0.arP,
-          itemCount: 6,
-          itemBuilder: (context, index) {
-            return Container(
-              width: double.infinity,
-              constraints: const BoxConstraints(minHeight: 1),
-              decoration: BoxDecoration(
-                color: const Color(0xFF958E99).withOpacity(0.2),
-                borderRadius: BorderRadius.circular(
-                  12.arP,
-                ),
-              ),
-              child: Container(
-                padding: EdgeInsets.all(
-                  12.arP,
-                ),
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 16.arP,
+        ),
+        child: MasonryGridView.count(
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: Get.width > 768 ? 3 : 2,
+            mainAxisSpacing: 12.arP,
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
+            shrinkWrap: true,
+            crossAxisSpacing: 12.arP,
+            // cacheExtent: 100.0.arP,
+            itemCount: 6,
+            itemBuilder: (context, index) {
+              return Container(
+                width: double.infinity,
+                constraints: const BoxConstraints(minHeight: 1),
                 decoration: BoxDecoration(
-                  color: const Color(0xff1E1C1F),
+                  color: const Color(0xFF958E99).withOpacity(0.2),
                   borderRadius: BorderRadius.circular(
                     12.arP,
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: SizedBox(
+                child: Container(
+                  padding: EdgeInsets.all(
+                    12.arP,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xff1E1C1F),
+                    borderRadius: BorderRadius.circular(
+                      12.arP,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
                         width: double.infinity,
-                        height: skeletonHeights[index],
-                        child: Shimmer.fromColors(
-                          baseColor: const Color(0xff474548),
-                          highlightColor:
-                              const Color(0xFF958E99).withOpacity(0.2),
-                          child: Container(
-                              decoration: BoxDecoration(
-                            color: const Color(0xff474548),
-                            borderRadius: BorderRadius.circular(
-                              8.arP,
-                            ),
-                          )),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 12.arP,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        width: 135.arP,
-                        height: 16.arP,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            50.arP,
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: skeletonHeights[index],
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                                decoration: BoxDecoration(
+                              color: const Color(0xff474548),
+                              borderRadius: BorderRadius.circular(
+                                8.arP,
+                              ),
+                            )),
                           ),
                         ),
-                        child: Shimmer.fromColors(
-                          baseColor: const Color(0xff474548),
-                          highlightColor:
-                              const Color(0xFF958E99).withOpacity(0.2),
-                          child: Container(
-                              decoration: BoxDecoration(
-                            color: const Color(0xff474548),
+                      ),
+                      SizedBox(
+                        height: 12.arP,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          width: 135.arP,
+                          height: 16.arP,
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
                               50.arP,
                             ),
-                          )),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 4.arP,
-                    ),
-                    // created by text
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        width: 105.arP,
-                        height: 16.arP,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            50.arP,
+                          ),
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                                decoration: BoxDecoration(
+                              color: const Color(0xff474548),
+                              borderRadius: BorderRadius.circular(
+                                50.arP,
+                              ),
+                            )),
                           ),
                         ),
-                        child: Shimmer.fromColors(
-                          baseColor: const Color(0xff474548),
-                          highlightColor:
-                              const Color(0xFF958E99).withOpacity(0.2),
-                          child: Container(
-                              decoration: BoxDecoration(
-                            color: const Color(0xff474548),
+                      ),
+                      SizedBox(
+                        height: 4.arP,
+                      ),
+                      // created by text
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          width: 105.arP,
+                          height: 16.arP,
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
                               50.arP,
                             ),
-                          )),
+                          ),
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                                decoration: BoxDecoration(
+                              color: const Color(0xff474548),
+                              borderRadius: BorderRadius.circular(
+                                50.arP,
+                              ),
+                            )),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+      ),
     );
   }
 }
