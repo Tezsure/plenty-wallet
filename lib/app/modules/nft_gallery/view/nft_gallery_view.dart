@@ -1733,8 +1733,11 @@ class NftCollectionItemWidget extends StatelessWidget {
                                             .address!
                                             .tz1Short())
                                     .toString() ==
-                                (nftTokens[1].creators![0].holder!.alias ??
-                                        nftTokens[1]
+                                (nftTokens[nftTokens.length - 1]
+                                            .creators![0]
+                                            .holder!
+                                            .alias ??
+                                        nftTokens[nftTokens.length - 1]
                                             .creators![0]
                                             .holder!
                                             .address!
