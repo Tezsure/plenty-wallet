@@ -34,7 +34,7 @@ class BuyTezWidget extends StatelessWidget {
             .toList()
             .isEmpty) {
           Get.bottomSheet(
-            const NoAccountsFoundBottomSheet(),
+             NoAccountsFoundBottomSheet(),
             isScrollControlled: true,
             enterBottomSheetDuration: const Duration(milliseconds: 180),
             exitBottomSheetDuration: const Duration(milliseconds: 150),
