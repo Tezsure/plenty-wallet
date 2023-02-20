@@ -266,11 +266,11 @@ class AccountSummaryController extends GetxController {
           nftsIsolate,
           [
             [selectedAccount.value.publicKeyHash!],
-            contracts.skip(contractOffset).take(4).toList(),
+            contracts.skip(contractOffset).take(6).toList(),
             userNfts.value
           ],
           debugLabel: "getUserNft ACCOUNT SUMMARY");
-      contractOffset += 4;
+      contractOffset += 6;
       isLoadingMore = false;
 /*       for (var i = 0; i < nftList.length; i++) {
         userNfts[nftList[i].fa!.contract!] =

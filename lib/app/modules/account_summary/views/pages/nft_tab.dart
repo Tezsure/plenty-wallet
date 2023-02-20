@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -17,8 +18,9 @@ class NFTabPage extends GetView<AccountSummaryController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => controller.isLoading.value
-        ? const Center(
-            child: CircularProgressIndicator(
+        ? Center(
+            child: CupertinoActivityIndicator(
+              radius: 15.arP,
               color: ColorConst.Primary,
             ),
           )
@@ -67,9 +69,12 @@ class NFTabPage extends GetView<AccountSummaryController> {
                   addAutomaticKeepAlives: false,
                   itemBuilder: ((context, index) {
                     if (index == controller.userNfts.length) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: ColorConst.Primary,
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 30.arP),
+                        child: const Center(
+                          child: CupertinoActivityIndicator(
+                            color: ColorConst.Primary,
+                          ),
                         ),
                       );
                     }
