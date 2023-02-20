@@ -63,6 +63,7 @@ class AccountSummaryController extends GetxController {
   int contractOffset = 0;
   int? callbackHash;
   bool isLoadingMore = false;
+  RxBool nftLoading = false.obs;
   // ! Others
   RxBool isAccountDelegated =
       false.obs; // To check if current account is delegated
@@ -257,6 +258,9 @@ class AccountSummaryController extends GetxController {
     // userNfts.clear();
     if (selectedAccount.value.publicKeyHash == null) return;
     isLoadingMore = true;
+    if (contractOffset == 0) {
+      nftLoading.value = true;
+    }
     UserStorageService()
         .getUserNftsString(userAddress: selectedAccount.value.publicKeyHash!)
         .then((nftList) async {
@@ -272,6 +276,8 @@ class AccountSummaryController extends GetxController {
           debugLabel: "getUserNft ACCOUNT SUMMARY");
       contractOffset += 6;
       isLoadingMore = false;
+      nftLoading.value = false;
+
 /*       for (var i = 0; i < nftList.length; i++) {
         userNfts[nftList[i].fa!.contract!] =
             (userNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
