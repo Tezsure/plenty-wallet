@@ -162,54 +162,59 @@ class CreateNewNftGalleryBottomSheet
                       ),
                     )
                   : Container(),
-              BouncingWidget(
-                onPressed: () async {
-                  String pkh = await Get.bottomSheet(
-                      ImportWalletPageView(
-                        isBottomSheet: true,
-                        isWatchAddress: true,
-                      ),
-                      isScrollControlled: true);
-                  controller.accounts.value =
-                      await UserStorageService().getAllAccount() +
-                          (await UserStorageService()
-                              .getAllAccount(watchAccountsList: true));
+              controller.selectedAccountIndex.values
+                      .where((element) => element == true)
+                      .toList()
+                      .isEmpty
+                  ? BouncingWidget(
+                      onPressed: () async {
+                        String pkh = await Get.bottomSheet(
+                            ImportWalletPageView(
+                              isBottomSheet: true,
+                              isWatchAddress: true,
+                            ),
+                            isScrollControlled: true);
+                        controller.accounts.value =
+                            await UserStorageService().getAllAccount() +
+                                (await UserStorageService()
+                                    .getAllAccount(watchAccountsList: true));
 
-                  controller.selectedAccountIndex[pkh] = controller
-                              .selectedAccountIndex.values
-                              .where((element) => element == true)
-                              .toList()
-                              .length !=
-                          5
-                      ? true
-                      : false;
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: 16.arP,
-                    left: 16.arP,
-                    right: 16.arP,
-                  ),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "${PathConst.EMPTY_STATES}plus.png",
-                        height: 16.aR,
-                        fit: BoxFit.contain,
-                        scale: 1,
+                        controller.selectedAccountIndex[pkh] = controller
+                                    .selectedAccountIndex.values
+                                    .where((element) => element == true)
+                                    .toList()
+                                    .length !=
+                                5
+                            ? true
+                            : false;
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 16.arP,
+                          left: 16.arP,
+                          right: 16.arP,
+                        ),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              "${PathConst.EMPTY_STATES}plus.png",
+                              height: 16.aR,
+                              fit: BoxFit.contain,
+                              scale: 1,
+                            ),
+                            0.02.hspace,
+                            Text(
+                              "Add a watch address",
+                              style: labelLarge.copyWith(
+                                  fontSize: 14.aR,
+                                  color: ColorConst.Primary,
+                                  fontWeight: FontWeight.w600),
+                            )
+                          ],
+                        ),
                       ),
-                      0.02.hspace,
-                      Text(
-                        "Add a watch address",
-                        style: labelLarge.copyWith(
-                            fontSize: 14.aR,
-                            color: ColorConst.Primary,
-                            fontWeight: FontWeight.w600),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+                    )
+                  : Container(),
               Container(
                 margin: EdgeInsets.only(
                   left: 16.arP + 16.arP,
