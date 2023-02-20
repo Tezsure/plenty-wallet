@@ -109,7 +109,7 @@ class CreateNewNftGalleryBottomSheet
   /// Select account widget for creating new gallery
   Widget selectAccountWidget() {
     if (controller.accounts?.isEmpty ?? true) {
-      return const NoAccountsFoundBottomSheet();
+      return NoAccountsFoundBottomSheet();
     }
     return NaanBottomSheet(
       title: "Select accounts",

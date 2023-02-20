@@ -1,85 +1,71 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-import 'package:naan_wallet/app/modules/common_widgets/social_login_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/create_wallet_page/controllers/create_wallet_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
-import 'package:naan_wallet/utils/constants/path_const.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:web3auth_flutter/enums.dart';
 
-class NoAccountsFoundBottomSheet extends StatelessWidget {
-  NoAccountsFoundBottomSheet({Key? key}) : super(key: key);
-  final controller = Get.put(CreateWalletPageController());
+import '../../../../../create_wallet_page/views/create_wallet_page_view.dart';
+import 'add_new_account_sheet.dart';
 
+class AddAccountSheet extends StatefulWidget {
+  final String? warning;
+  const AddAccountSheet({super.key, required this.warning});
+
+  @override
+  State<AddAccountSheet> createState() => _AddAccountSheetState();
+}
+
+class _AddAccountSheetState extends State<AddAccountSheet> {
+  final controller = Get.put(CreateWalletPageController());
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 0, isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight - 32.arP,
+      bottomSheetHorizontalPadding: 0,
+      height: 450.arP,
+      title: widget.warning ?? 'Add account',
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight - 32.arP,
+          height: 8.arP,
+        ),
+        Center(
+          child: Text(
+            'Create or import an account',
+            style: TextStyle(
+                fontSize: 12.arP,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xFF958E99),
+                letterSpacing: 0.4.arP),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Spacer(),
+        SizedBox(
+          height: 10.arP,
+        ),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            // color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Spacer(),
-              Expanded(
-                flex: 3,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    // mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        "${PathConst.EMPTY_STATES}no_accounts.svg",
-                        height: 175.arP,
-                        width: 175.arP,
-                      ),
-                      0.05.vspace,
-                      Text(
-                        "No accounts found",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          decoration: TextDecoration.none,
-                          fontSize: 22.arP,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 12.arP,
-                      ),
-                      Text(
-                        "Create or import new account to proceed",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: const Color(0xFF958E99),
-                          decoration: TextDecoration.none,
-                          fontSize: 12.arP,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 0.4.arP,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              SizedBox(
+                height: 10.arP,
               ),
-              Spacer(),
               SolidButton(
                 width: 1.width - 64.arP,
                 title: "Create a new account",
@@ -115,9 +101,12 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
                 title: "I already have an account",
               ),
               0.035.vspace,
+
               _buildDivider(),
               0.035.vspace,
               _builsSocialLogins(),
+
+
               BottomButtonPadding()
             ],
           ),

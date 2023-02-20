@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_account_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/views/import_wallet_page_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
@@ -358,17 +359,25 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                     Obx(() => BouncingWidget(
                           onPressed: (() {
                             if (_controller.isAccountEditable.isFalse) {
-                              Get.bottomSheet(AddNewAccountBottomSheet(),
-                                      enterBottomSheetDuration:
-                                          const Duration(milliseconds: 180),
-                                      exitBottomSheetDuration:
-                                          const Duration(milliseconds: 150),
-                                      barrierColor: Colors.transparent,
-                                      isScrollControlled: true)
-                                  .whenComplete(() {
-                                Get.find<AccountsWidgetController>()
-                                    .resetCreateNewWallet();
-                              });
+                              Get.bottomSheet(
+                                const AddAccountSheet(warning: null),
+                                enterBottomSheetDuration:
+                                    const Duration(milliseconds: 180),
+                                exitBottomSheetDuration:
+                                    const Duration(milliseconds: 150),
+                                barrierColor: Colors.transparent,
+                              );
+                              // Get.bottomSheet(AddNewAccountBottomSheet(),
+                              //         enterBottomSheetDuration:
+                              //             const Duration(milliseconds: 180),
+                              //         exitBottomSheetDuration:
+                              //             const Duration(milliseconds: 150),
+                              //         barrierColor: Colors.transparent,
+                              //         isScrollControlled: true)
+                              //     .whenComplete(() {
+                              //   Get.find<AccountsWidgetController>()
+                              //       .resetCreateNewWallet();
+                              // });
                             }
                           }),
                           child: Row(
@@ -383,7 +392,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                               ),
                               0.02.hspace,
                               Text(
-                                "Create a new account",
+                                "Add account",
                                 style: labelLarge.copyWith(
                                     fontSize: 14.aR,
                                     color: _controller.isAccountEditable.isFalse
@@ -395,45 +404,45 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                           ),
                         )),
                     0.028.vspace,
-                    Obx(() => BouncingWidget(
-                          onPressed: () {
-                            if (_controller.isAccountEditable.isFalse) {
-                              Get.bottomSheet(
-                                  ImportWalletPageView(
-                                    isBottomSheet: true,
-                                  ),
-                                  isScrollControlled: true);
-                              // Get.bottomSheet(const ImportWalletPageView(),
-                              //     isScrollControlled: true,
-                              //     useRootNavigator: true,
-                              //     enableDrag: true,
-                              //     settings: const RouteSettings(
-                              //         arguments: Routes.ACCOUNT_SUMMARY));
-                            }
-                          },
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                _controller.isAccountEditable.isFalse
-                                    ? "${PathConst.EMPTY_STATES}union.png"
-                                    : "${PathConst.EMPTY_STATES}union_faded.png",
-                                height: 16.aR,
-                                fit: BoxFit.contain,
-                                scale: 1,
-                              ),
-                              0.02.hspace,
-                              Text(
-                                "Add an existing account",
-                                style: labelLarge.copyWith(
-                                    fontSize: 14.aR,
-                                    color: _controller.isAccountEditable.isFalse
-                                        ? ColorConst.Primary
-                                        : ColorConst.NeutralVariant.shade60,
-                                    fontWeight: FontWeight.w600),
-                              )
-                            ],
-                          ),
-                        ))
+                    // Obx(() => BouncingWidget(
+                    //       onPressed: () {
+                    //         if (_controller.isAccountEditable.isFalse) {
+                    //           Get.bottomSheet(
+                    //               ImportWalletPageView(
+                    //                 isBottomSheet: true,
+                    //               ),
+                    //               isScrollControlled: true);
+                    //           // Get.bottomSheet(const ImportWalletPageView(),
+                    //           //     isScrollControlled: true,
+                    //           //     useRootNavigator: true,
+                    //           //     enableDrag: true,
+                    //           //     settings: const RouteSettings(
+                    //           //         arguments: Routes.ACCOUNT_SUMMARY));
+                    //         }
+                    //       },
+                    //       child: Row(
+                    //         children: [
+                    //           Image.asset(
+                    //             _controller.isAccountEditable.isFalse
+                    //                 ? "${PathConst.EMPTY_STATES}union.png"
+                    //                 : "${PathConst.EMPTY_STATES}union_faded.png",
+                    //             height: 16.aR,
+                    //             fit: BoxFit.contain,
+                    //             scale: 1,
+                    //           ),
+                    //           0.02.hspace,
+                    //           Text(
+                    //             "Add an existing account",
+                    //             style: labelLarge.copyWith(
+                    //                 fontSize: 14.aR,
+                    //                 color: _controller.isAccountEditable.isFalse
+                    //                     ? ColorConst.Primary
+                    //                     : ColorConst.NeutralVariant.shade60,
+                    //                 fontWeight: FontWeight.w600),
+                    //           )
+                    //         ],
+                    //       ),
+                    //     ))
                   ]),
                 ),
               ),
