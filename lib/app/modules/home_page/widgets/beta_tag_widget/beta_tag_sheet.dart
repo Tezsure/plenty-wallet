@@ -11,8 +11,24 @@ import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-class BetaTagSheet extends StatelessWidget {
+class BetaTagSheet extends StatefulWidget {
   BetaTagSheet({super.key});
+
+  @override
+  State<BetaTagSheet> createState() => _BetaTagSheetState();
+}
+
+class _BetaTagSheetState extends State<BetaTagSheet> {
+  bool hasAgreed = false;
+  @override
+  void initState() {
+    UserStorageService.getBetaTagAgree().then((value) {
+      hasAgreed = value;
+      setState(() {});
+    });
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +41,7 @@ class BetaTagSheet extends StatelessWidget {
       isScrollControlled: true,
       bottomSheetWidgets: [
         SizedBox(
-          height: 0.68.height,
+          height: hasAgreed ? 0.58.height : 0.68.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -74,15 +90,16 @@ class BetaTagSheet extends StatelessWidget {
               SizedBox(
                 height: 40.arP,
               ),
-              SolidButton(
-                active: true,
-                width: 1.width - 64.arP,
-                onPressed: () {
-                  UserStorageService.betaTagAgree();
-                  Get.back();
-                },
-                title: "Agree",
-              ),
+              if (!hasAgreed)
+                SolidButton(
+                  active: true,
+                  width: 1.width - 64.arP,
+                  onPressed: () {
+                    UserStorageService.betaTagAgree();
+                    Get.back();
+                  },
+                  title: "Agree",
+                ),
               BottomButtonPadding()
             ],
           ),
