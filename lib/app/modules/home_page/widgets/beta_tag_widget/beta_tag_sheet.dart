@@ -17,9 +17,9 @@ class BetaTagSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> infos = [
-      "Your experience may not be perfect and you may encounter issues or unexpected behavior",
-      "You will report any issues or feedback you have to help us improve the product.",
-      "We may use your feedback and usage data to improve the product and for research and development purposes."
+      "You may encounter issues or unexpected behavior. We appreciate your patience and understanding.",
+      "Please report any issues or feedback to help us improve the app. Your feedback is essential!",
+      "We may use your feedback and usage data for research and development purposes."
     ];
     return NaanBottomSheet(
       isScrollControlled: true,
@@ -37,7 +37,7 @@ class BetaTagSheet extends StatelessWidget {
               ),
               0.02.vspace,
               Text(
-                  "By using the beta version of our product, you understand and agree that:",
+                  "Welcome to the naan beta! By using the beta version of our product, you agree that:",
                   style: labelMedium.copyWith(
                       color: ColorConst.textGrey1,
                       fontWeight: FontWeight.normal)),
