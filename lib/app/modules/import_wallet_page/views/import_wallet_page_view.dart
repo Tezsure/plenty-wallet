@@ -254,41 +254,43 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
       () {
         controller.phraseText.value;
         return SolidButton(
-            width: 1.width - 64.arP,
-            onPressed: () async {
-              controller.phraseText.value = controller.phraseText.value.trim();
-              if (controller.importWalletDataType ==
-                      ImportWalletDataType.mnemonic &&
-                  !isWatchAddress) {
-                controller.generatedAccountsTz1.value = <AccountModel>[];
-                controller.generatedAccountsTz2.value = <AccountModel>[];
-                controller.isTz1Selected.value = true;
-                controller.tabController!.animateTo(0);
-                controller.genAndLoadMoreAccounts(0, 3);
-                Get.bottomSheet(
-                  AccountBottomSheet(controller: controller),
-                  isScrollControlled: true,
-                  barrierColor: Colors.white.withOpacity(0.2),
-                );
-              } else {
-                controller.redirectBasedOnImportWalletType(
-                    Routes.NFT_GALLERY_CREATE, isWatchAddress);
-              }
-            },
-            // active: isImportActive(),
-            active:
-                // (controller.phraseText.trim().split(" ").join().length >= 2 &&
-                //         controller.importWalletDataType !=
-                //             ImportWalletDataType.none) &&
-                isImportActive(isWatchAddress),
-            inActiveChild: Text(
-              "Import",
-              style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
-            ),
-            child: Text(
-              "Import",
-              style: titleSmall.apply(color: ColorConst.Neutral.shade95),
-            ));
+          title: "Import",
+          width: 1.width - 64.arP,
+          onPressed: () async {
+            controller.phraseText.value = controller.phraseText.value.trim();
+            if (controller.importWalletDataType ==
+                    ImportWalletDataType.mnemonic &&
+                !isWatchAddress) {
+              controller.generatedAccountsTz1.value = <AccountModel>[];
+              controller.generatedAccountsTz2.value = <AccountModel>[];
+              controller.isTz1Selected.value = true;
+              controller.tabController!.animateTo(0);
+              controller.genAndLoadMoreAccounts(0, 3);
+              Get.bottomSheet(
+                AccountBottomSheet(controller: controller),
+                isScrollControlled: true,
+                barrierColor: Colors.white.withOpacity(0.2),
+              );
+            } else {
+              controller.redirectBasedOnImportWalletType(
+                  Routes.NFT_GALLERY_CREATE, isWatchAddress);
+            }
+          },
+          // active: isImportActive(),
+          active:
+              // (controller.phraseText.trim().split(" ").join().length >= 2 &&
+              //         controller.importWalletDataType !=
+              //             ImportWalletDataType.none) &&
+              isImportActive(isWatchAddress),
+          // inActiveChild: Text(
+          //   "Import",
+          //   style: titleSmall,
+          // ),
+          // child: Text(
+          //   "Import",
+          //   style: titleSmall,
+          // )
+        );
       },
     );
   }

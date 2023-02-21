@@ -178,7 +178,10 @@ class NFTCollectionSheet extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        backButton(),
+        SizedBox(
+          width: 22.arP,
+        ),
+        // backButton(),
         Expanded(
           child: Align(
             alignment: Alignment.center,

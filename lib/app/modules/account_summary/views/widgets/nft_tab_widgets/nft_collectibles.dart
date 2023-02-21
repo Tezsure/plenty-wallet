@@ -27,7 +27,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 6.aR),
+      padding: EdgeInsets.symmetric(vertical: 0.aR),
       child: Column(
         children: [
           NaanExpansionTile(
