@@ -145,7 +145,10 @@ class SendReviewPage extends StatelessWidget {
                           height: 4,
                         ),
                         Obx(
-                          () => Text('\$${controller.estimatedFee.value}',
+                          () => Text(
+                              double.parse(controller.estimatedFee.value) == 0
+                                  ? "calculating..."
+                                  : '\$${double.parse(controller.estimatedFee.value).toStringAsFixed(6)}',
                               style: labelMedium),
                         ),
                       ],

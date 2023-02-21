@@ -8,6 +8,7 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../../data/services/service_config/service_config.dart';
 import '../../../../send_page/views/widgets/collectible_widget.dart';
 import '../../../../nft_gallery/view/nft_detail_sheet.dart';
 
@@ -51,7 +52,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                           ? "https://services.tzkt.io/v1/avatars/${widget.nftList.first.creators?.first.creatorAddress}"
                           : ""
                       : widget.nftList.first.fa!.logo!.startsWith("ipfs://")
-                          ? "https://ipfs.io/ipfs/${widget.nftList.first.fa!.logo!.replaceAll("ipfs://", "")}"
+                          ? "${ServiceConfig.ipfsUrl}/${widget.nftList.first.fa!.logo!.replaceAll("ipfs://", "")}"
                           : widget.nftList.first.fa!.logo!,
                   memCacheHeight: 73,
                   memCacheWidth: 73,
