@@ -7,8 +7,10 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class InfoBottomSheet extends StatelessWidget {
+  final bool isWatchAddress;
   const InfoBottomSheet({
     Key? key,
+    this.isWatchAddress = false,
   }) : super(key: key);
 
   @override
@@ -27,7 +29,7 @@ class InfoBottomSheet extends StatelessWidget {
             children: [
               0.02.vspace,
               Text(
-                'Introduction to Crypto',
+                isWatchAddress ? 'Watch addresses' : 'Introduction to Crypto',
                 textAlign: TextAlign.center,
                 style: titleLarge,
               ),
@@ -47,20 +49,22 @@ class InfoBottomSheet extends StatelessWidget {
                       shrinkWrap: true,
                       // controller: scrollController,
                       physics: AppConstant.scrollPhysics,
-                      itemCount: 6,
+                      itemCount: isWatchAddress ? 4 : 6,
                       itemBuilder: (_, index) {
                         return Padding(
                           padding: EdgeInsets.only(right: 16.arP),
                           child: RichText(
                               textAlign: TextAlign.start,
                               text: TextSpan(
-                                text:
-                                    '${MockData.walletInfo.keys.elementAt(index)}\n',
+                                text: isWatchAddress
+                                    ? '${MockData.watchAddress.keys.elementAt(index)}\n'
+                                    : '${MockData.walletInfo.keys.elementAt(index)}\n',
                                 style: titleSmall,
                                 children: [
                                   TextSpan(
-                                    text:
-                                        "\n${MockData.walletInfo.values.elementAt(index)}\n",
+                                    text: isWatchAddress
+                                        ? "\n${MockData.watchAddress.values.elementAt(index)}\n"
+                                        : "\n${MockData.walletInfo.values.elementAt(index)}\n",
                                     style: bodySmall.copyWith(
                                       color: ColorConst.NeutralVariant.shade60,
                                     ),

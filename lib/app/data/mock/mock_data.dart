@@ -18,6 +18,17 @@ class MockData {
         "A watch address is a public address for a cryptocurrency account that you can monitor without having access to the private key that controls it. You can use a watch address to keep track of payments and NFTs received from other users, but you can't use it to make transactions or move funds from the address.",
   };
 
+  static const Map<String, String> watchAddress = {
+    "What is a watch address?":
+        "A watch address is an address that a user adds to their wallet in order to monitor incoming transactions. This is a useful feature because it allows users to keep track of the transactions that are being sent to specific addresses without actually having control over the private key associated with that address.",
+    "What is Tezos domain address?":
+        "A Tezos domain address, also known as a \"TZ domain,\" is a human-readable name that can be used as a replacement for a Tezos wallet address. Instead of having to use a long string of characters to represent the address, a user can use a simple name that is easier to remember and share",
+    "What is a tz1 or tz2 address?":
+        "In the Tezos blockchain, a tz1 or tz2 address is a type of address used to represent a user's public key hash. Both tz1 and tz2 addresses are valid Tezos addresses and can be used to send and receive Tezos tokens, delegate tokens for staking, and interact with smart contracts on the Tezos blockchain.",
+    "Can I add my ledger account as a watch address?":
+        "Adding your Ledger account as a watch address allows you to monitor the balance and transaction history of the account without having to connect your Ledger device or enter your private key. Once you have added your Ledger account as a watch address, you should be able to view the account balance and transaction history in the wallet. However, you will not be able to send or receive cryptocurrency from the account using the wallet unless you connect your Ledger device and enter your private key.",
+  };
+
   static const Map<String, String> naanInfoStory = {
     "Importing wallet": "assets/home_page/info_story/story_1.svg",
     "Add funds": "assets/home_page/info_story/story_2.svg",

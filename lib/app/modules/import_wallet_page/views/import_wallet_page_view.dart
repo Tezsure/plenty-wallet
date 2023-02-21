@@ -88,7 +88,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               InfoButton(
                 onPressed: () {
                   Get.bottomSheet(
-                    const InfoBottomSheet(),
+                    InfoBottomSheet(isWatchAddress: isWatchAddress),
                     isScrollControlled: true,
                     barrierColor: Colors.white.withOpacity(0.2),
                   );
