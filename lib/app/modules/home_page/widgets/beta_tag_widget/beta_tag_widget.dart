@@ -15,11 +15,30 @@ import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../account_switch_widget/account_switch_widget.dart';
 
-class BetaTagWidget extends StatelessWidget {
+class BetaTagWidget extends StatefulWidget {
   BetaTagWidget({Key? key}) : super(key: key);
+
+  @override
+  State<BetaTagWidget> createState() => _BetaTagWidgetState();
+}
+
+class _BetaTagWidgetState extends State<BetaTagWidget> {
+  String version = "0.0";
+  @override
+  void initState() {
+    PackageInfo.fromPlatform().then((packageInfo) {
+      String appName = packageInfo.appName;
+      String packageName = packageInfo.packageName;
+      version = packageInfo.version;
+      String buildNumber = packageInfo.buildNumber;
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +76,7 @@ class BetaTagWidget extends StatelessWidget {
                       Text("naan version",
                           style: bodySmall.copyWith(
                               color: ColorConst.NeutralVariant.shade40)),
-                      Text("2.00 (beta)", style: labelMedium),
+                      Text("$version (beta)", style: labelMedium),
                     ],
                   ),
                 ),
