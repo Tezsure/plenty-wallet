@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widget.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/custom_tab_indicator.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -27,8 +28,12 @@ import '../controllers/import_wallet_page_controller.dart';
 
 class ImportWalletPageView extends GetView<ImportWalletPageController> {
   bool isBottomSheet;
-  ImportWalletPageView({Key? key, this.isBottomSheet = false})
-      : super(key: key);
+  bool isWatchAddress;
+  ImportWalletPageView({
+    Key? key,
+    this.isBottomSheet = false,
+    this.isWatchAddress = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +48,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           SizedBox(
               height: AppConstant.naanBottomSheetChildHeight -
                   MediaQuery.of(context).viewInsets.bottom,
-              child: _buildBody(context))
+              child: _buildBody(context,
+                  isWatchAddress: isWatchAddress, isBottomSheet: isBottomSheet))
         ],
       );
     }
@@ -58,7 +64,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context,
+      {bool isWatchAddress = false, bool isBottomSheet = false}) {
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -69,7 +76,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           0.03.vspace,
           Row(
             children: [
-              backButton(),
+              !isBottomSheet ? backButton() : const SizedBox(),
               // GestureDetector(
               //   onTap: () => Get.back(),
               //   child: SvgPicture.asset(
@@ -117,11 +124,13 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           Expanded(
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: isWatchAddress
+                    ? CrossAxisAlignment.center
+                    : CrossAxisAlignment.start,
                 children: [
                   0.05.vspace,
                   Text(
-                    "Import account",
+                    isWatchAddress ? "Add a watch address" : "Import account",
                     style: titleLarge,
                   ),
                   0.023.vspace,
@@ -159,8 +168,9 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                       contentPadding: const EdgeInsets.all(0),
                                       hintStyle: bodyMedium.apply(
                                           color: Colors.white.withOpacity(0.2)),
-                                      hintText:
-                                          "Paste your secret phrase, private key\nor watch address",
+                                      hintText: isWatchAddress
+                                          ? "Enter wallet address or tezos domain "
+                                          : "Paste your secret phrase, private key\nor watch address",
                                       border: InputBorder.none),
                                 ),
                               ),
@@ -200,7 +210,9 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               () => controller.phraseText.isEmpty ||
                       controller.phraseText.value == ""
                   ? pasteButton()
-                  : importButton(),
+                  : importButton(
+                      isWatchAddress: isWatchAddress,
+                    ),
             ),
           ),
           const BottomButtonPadding()
@@ -237,7 +249,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     );
   }
 
-  Widget importButton() {
+  Widget importButton({bool isWatchAddress = false}) {
     return Obx(
       () {
         controller.phraseText.value;
@@ -246,7 +258,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             onPressed: () async {
               controller.phraseText.value = controller.phraseText.value.trim();
               if (controller.importWalletDataType ==
-                  ImportWalletDataType.mnemonic) {
+                      ImportWalletDataType.mnemonic &&
+                  !isWatchAddress) {
                 controller.generatedAccountsTz1.value = <AccountModel>[];
                 controller.generatedAccountsTz2.value = <AccountModel>[];
                 controller.isTz1Selected.value = true;
@@ -258,7 +271,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                   barrierColor: Colors.white.withOpacity(0.2),
                 );
               } else {
-                controller.redirectBasedOnImportWalletType();
+                controller.redirectBasedOnImportWalletType(
+                    Routes.NFT_GALLERY_CREATE, isWatchAddress);
               }
             },
             // active: isImportActive(),
@@ -266,7 +280,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                 // (controller.phraseText.trim().split(" ").join().length >= 2 &&
                 //         controller.importWalletDataType !=
                 //             ImportWalletDataType.none) &&
-                isImportActive(),
+                isImportActive(isWatchAddress),
             inActiveChild: Text(
               "Import",
               style: titleSmall.apply(color: ColorConst.NeutralVariant.shade60),
@@ -279,7 +293,17 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     );
   }
 
-  bool isImportActive() {
+  bool isImportActive(bool isWatchAddress) {
+    if (isWatchAddress) {
+      if ((controller.importWalletDataType ==
+                  ImportWalletDataType.watchAddress &&
+              controller.phraseText.value.isValidWalletAddress) ||
+          controller.importWalletDataType == ImportWalletDataType.tezDomain) {
+        return true;
+      } else {
+        return false;
+      }
+    }
     if (controller.importWalletDataType == ImportWalletDataType.watchAddress &&
         controller.phraseText.value.isValidWalletAddress) return true;
     return controller.importWalletDataType != ImportWalletDataType.none &&
@@ -426,8 +450,8 @@ class AccountBottomSheet extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 8),
       padding: EdgeInsets.all(4.arP),
-      decoration:
-          const BoxDecoration(color: ColorConst.Primary, shape: BoxShape.circle),
+      decoration: const BoxDecoration(
+          color: ColorConst.Primary, shape: BoxShape.circle),
       child: Text(count.toString(), style: labelSmall),
     );
   }

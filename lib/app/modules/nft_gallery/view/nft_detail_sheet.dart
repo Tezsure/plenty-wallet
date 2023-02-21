@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
@@ -208,8 +209,9 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                         nftModel == null
                             ? Padding(
                                 padding: EdgeInsets.only(top: 450.arP),
-                                child: const Center(
-                                  child: CircularProgressIndicator(
+                                child: Center(
+                                  child: CupertinoActivityIndicator(
+                                      radius: 15.arP,
                                       color: ColorConst.Primary),
                                 ),
                               )

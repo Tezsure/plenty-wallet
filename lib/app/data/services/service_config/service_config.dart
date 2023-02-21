@@ -294,6 +294,7 @@ query GetCollectionNFT($address: String!) {
         display_uri
         fa{
           name
+          logo
         }
         token_id
         creators {

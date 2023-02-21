@@ -92,7 +92,40 @@ class ImportWalletPageController extends GetxController
                         : ImportWalletDataType.none;
   }
 
-  Future<void> redirectBasedOnImportWalletType([String? pageRoute]) async {
+  Future<void> redirectBasedOnImportWalletType(
+      [String? pageRoute, bool isWatchAddress = false]) async {
+    if (isWatchAddress) {
+      if (importWalletDataType == ImportWalletDataType.tezDomain) {
+        var cModels =
+            await TezosDomainService().searchUsingText(phraseText.value.trim());
+        if (cModels.isNotEmpty) {
+          var cModel = cModels[0];
+          phraseText.value = cModel.address;
+          importWalletDataType = ImportWalletDataType.watchAddress;
+          // checkImportType(phraseText.value);
+          final controller = Get.put(CreateProfilePageController());
+          controller.selectedImagePath.value = cModel.imagePath;
+          controller.accountNameController.value =
+              TextEditingValue(text: cModel.name);
+          controller.currentSelectedType = AccountProfileImageType.assets;
+        } else {
+          transactionStatusSnackbar(
+            duration: const Duration(seconds: 2),
+            status: TransactionStatus.error,
+            tezAddress: "Invalid tezos domain.",
+            transactionAmount: 'Cannot import',
+          );
+          return;
+        }
+      }
+      if (importWalletDataType == ImportWalletDataType.watchAddress) {
+        if ((await checkIfAlreadyPresent())) {
+          return;
+        }
+
+        return Get.toNamed(Routes.CREATE_PROFILE_PAGE, arguments: [pageRoute]);
+      }
+    }
     if (importWalletDataType == ImportWalletDataType.tezDomain) {
       var cModels =
           await TezosDomainService().searchUsingText(phraseText.value.trim());

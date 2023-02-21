@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/veNFT.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:shimmer/shimmer.dart';
 
 // ignore: must_be_immutable
 class NFTImage extends StatelessWidget {
@@ -79,7 +81,20 @@ class NFTImage extends StatelessWidget {
                     fit: boxFit,
                     memCacheHeight: memCacheHeight,
                     memCacheWidth: memCacheWidth,
-
+                    placeholder: (context, url) => SizedBox(
+                      child: Shimmer.fromColors(
+                        baseColor: const Color(0xff474548),
+                        highlightColor:
+                            const Color(0xFF958E99).withOpacity(0.2),
+                        child: Container(
+                            decoration: BoxDecoration(
+                          color: const Color(0xff474548),
+                          borderRadius: BorderRadius.circular(
+                            8.arP,
+                          ),
+                        )),
+                      ),
+                    ),
 /*                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress == null) return child;
                       return SizedBox(

@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
+import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/image_picker.dart';
@@ -20,10 +21,13 @@ import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/custom_packages/custom_checkbox.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/app/modules/import_wallet_page/views/import_wallet_page_view.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:get/get.dart';
 
@@ -140,19 +144,74 @@ class CreateNewNftGalleryBottomSheet
               SizedBox(
                 height: 12.arP,
               ),
-              controller.accounts != null
-                  ? Expanded(
-                      flex: 1,
-                      child: NaanListView(
-                        listViewEdgeInsets: EdgeInsets.only(
+              controller.accounts.isNotEmpty
+                  ? Obx(
+                      () => Expanded(
+                        flex: 1,
+                        child: NaanListView(
+                          listViewEdgeInsets: EdgeInsets.only(
+                            left: 16.arP,
+                            right: 16.arP,
+                          ),
+                          itemBuilder: (context, index) => accountItemWidget(
+                              index, controller.accounts[index]),
+                          itemCount: controller.accounts.length,
+                          topSpacing: 18.spH,
+                          bottomSpacing: 18.spH,
+                        ),
+                      ),
+                    )
+                  : Container(),
+              controller.selectedAccountIndex.values
+                      .where((element) => element == true)
+                      .toList()
+                      .isEmpty
+                  ? BouncingWidget(
+                      onPressed: () async {
+                        String pkh = await Get.bottomSheet(
+                            ImportWalletPageView(
+                              isBottomSheet: true,
+                              isWatchAddress: true,
+                            ),
+                            isScrollControlled: true);
+                        controller.accounts.value =
+                            await UserStorageService().getAllAccount() +
+                                (await UserStorageService()
+                                    .getAllAccount(watchAccountsList: true));
+
+                        controller.selectedAccountIndex[pkh] = controller
+                                    .selectedAccountIndex.values
+                                    .where((element) => element == true)
+                                    .toList()
+                                    .length !=
+                                5
+                            ? true
+                            : false;
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 16.arP,
                           left: 16.arP,
                           right: 16.arP,
                         ),
-                        itemBuilder: (context, index) => accountItemWidget(
-                            index, controller.accounts![index]),
-                        itemCount: controller.accounts!.length,
-                        topSpacing: 18.spH,
-                        bottomSpacing: 18.spH,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              "${PathConst.EMPTY_STATES}plus.png",
+                              height: 16.aR,
+                              fit: BoxFit.contain,
+                              scale: 1,
+                            ),
+                            0.02.hspace,
+                            Text(
+                              "Add a watch address",
+                              style: labelLarge.copyWith(
+                                  fontSize: 14.aR,
+                                  color: ColorConst.Primary,
+                                  fontWeight: FontWeight.w600),
+                            )
+                          ],
+                        ),
                       ),
                     )
                   : Container(),
@@ -161,7 +220,7 @@ class CreateNewNftGalleryBottomSheet
                   left: 16.arP + 16.arP,
                   right: 16.arP + 16.arP,
                   bottom: 40.arP,
-                  top: 30.spH,
+                  top: 30.arP,
                 ),
                 child: Obx(
                   () => SolidButton(

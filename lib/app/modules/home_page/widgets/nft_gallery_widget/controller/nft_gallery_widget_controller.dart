@@ -17,7 +17,7 @@ import 'package:naan_wallet/app/modules/nft_gallery/view/nft_gallery_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 
 class NftGalleryWidgetController extends GetxController {
-  List<AccountModel>? accounts;
+  RxList<AccountModel> accounts = <AccountModel>[].obs;
   RxInt index = 0.obs;
   RxMap<String, bool> selectedAccountIndex = <String, bool>{}.obs;
 
@@ -89,7 +89,7 @@ class NftGalleryWidgetController extends GetxController {
   }
 
   Future<void> showCreateNewNftGalleryBottomSheet() async {
-    accounts = await UserStorageService().getAllAccount() +
+    accounts.value = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
     accountNameFocus = FocusNode();
 
@@ -108,7 +108,7 @@ class NftGalleryWidgetController extends GetxController {
     ).then(
       (_) async {
         selectedAccountIndex = <String, bool>{}.obs;
-        accounts = null;
+        accounts.value = [];
         formIndex.value = 0;
         accountNameFocus.hasFocus ? accountNameFocus.unfocus() : null;
         accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
@@ -120,10 +120,10 @@ class NftGalleryWidgetController extends GetxController {
 
   Future<void> showEditNewNftGalleryBottomSheet(
       NftGalleryModel nftGallery, int galleryIndex) async {
-    accounts = await UserStorageService().getAllAccount() +
+    accounts.value = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
 
-    for (var element in accounts!) {
+    for (var element in accounts) {
       if (nftGallery.publicKeyHashs!.contains(element.publicKeyHash)) {
         selectedAccountIndex[element.publicKeyHash!] = true;
       }
@@ -151,7 +151,7 @@ class NftGalleryWidgetController extends GetxController {
     ).then(
       (_) async {
         selectedAccountIndex = <String, bool>{}.obs;
-        accounts = null;
+        accounts.value = [];
         formIndex.value = 0;
         accountNameFocus.hasFocus ? accountNameFocus.unfocus() : null;
         accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
