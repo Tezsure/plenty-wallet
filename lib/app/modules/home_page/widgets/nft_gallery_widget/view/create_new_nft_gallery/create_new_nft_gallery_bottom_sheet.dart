@@ -234,7 +234,11 @@ class CreateNewNftGalleryBottomSheet
                         : false,
                     borderRadius: 8.arP,
                     titleStyle: TextStyle(
-                      color: Colors.white,
+                      color: controller.selectedAccountIndex.isNotEmpty &&
+                              controller.selectedAccountIndex.values
+                                  .contains(true)
+                          ? Colors.white
+                          : const Color(0xff958E99),
                       fontSize: 14.arP,
                       fontWeight: FontWeight.w600,
                     ),
@@ -407,7 +411,7 @@ class CreateNewNftGalleryBottomSheet
                     height: 104.arP,
                     width: 104.arP,
                     margin: EdgeInsets.only(
-                      top: 69.7.arP,
+                      top: 34.2.arP,
                     ),
                     alignment: Alignment.bottomRight,
                     decoration: BoxDecoration(
@@ -480,7 +484,7 @@ class CreateNewNftGalleryBottomSheet
                     margin: EdgeInsets.only(
                       left: 16.arP + 16.arP,
                       right: 16.arP + 16.arP,
-                      bottom: 40.arP,
+                      bottom: 35.arP,
                       top: 30.spH,
                     ),
                     child: Obx(() {

@@ -1803,11 +1803,12 @@ class NftCollectionItemWidget extends StatelessWidget {
     }
     if (nftTokens.length > images.length) {
       images.last = Stack(
+        alignment: Alignment.center,
         children: [
           images.last,
           Container(
-            width: width,
-            height: width,
+            width: width + 0.4.arP,
+            height: width + 0.4.arP,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.8),
               borderRadius: BorderRadius.circular(

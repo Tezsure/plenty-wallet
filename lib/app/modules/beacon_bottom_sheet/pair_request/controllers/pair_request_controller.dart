@@ -13,15 +13,29 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 
 class PairRequestController extends GetxController {
   final BeaconRequest beaconRequest = Get.arguments;
-
-  final RxList<AccountModel> accountModels = Get.find<HomePageController>()
-      .userAccounts
-      .where((p0) => p0.isWatchOnly == false)
-      .toList()
-      .obs;
+  final HomePageController homePageController = Get.find<HomePageController>();
+  final RxList<AccountModel> accountModels = <AccountModel>[].obs;
 
   final beaconPlugin = Get.find<BeaconService>().beaconPlugin;
   final selectedAccount = 0.obs;
+
+  @override
+  onInit() {
+    super.onInit();
+    accountModels.value = homePageController.userAccounts
+        .where((p0) => p0.isWatchOnly == false)
+        .toList();
+    if (homePageController
+        .userAccounts[homePageController.selectedIndex.value].isWatchOnly) {
+      selectedAccount.value = 0;
+    } else {
+      selectedAccount.value = accountModels.indexWhere((element) =>
+          element.publicKeyHash ==
+          homePageController
+              .userAccounts[homePageController.selectedIndex.value]
+              .publicKeyHash);
+    }
+  }
 
   changeAccount() async {
     final selectedIndex = await Get.bottomSheet(
