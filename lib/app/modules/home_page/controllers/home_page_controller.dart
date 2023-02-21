@@ -54,23 +54,41 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         .renderService
         .accountUpdater
         .registerCallback((accounts) async {
+    List<AccountModel>  account = (accounts ?? (<AccountModel>[])) as List<AccountModel>;
       // print("accountUpdater".toUpperCase());
       // print("${userAccounts.value.hashCode == accounts.hashCode}");
-      userAccounts.value = [...(accounts ?? [])];
-      userAccounts.sort((a, b) =>
-          b.importedAt!.millisecondsSinceEpoch -
-          a.importedAt!.millisecondsSinceEpoch);
-      Future.delayed(
-        Duration(milliseconds: 500),
-      ).then((value) {
-        try {
-          Get.put(AccountsWidgetController()).onPageChanged(0);
-          changeSelectedAccount(0);
-        } catch (e) {
-          log(e.toString());
-        }
-      });
-
+      if ((account.length) != userAccounts.length) {
+        // userAccounts.value = [...(accounts ?? [])];
+        account.sort((a, b) =>
+            b.importedAt!.millisecondsSinceEpoch -
+            a.importedAt!.millisecondsSinceEpoch);
+        List temp = [];
+        account.forEach((element) {
+          if (!element.isWatchOnly) {
+            temp.add(element);
+          }
+        });
+        account.forEach((element) {
+          if (element.isWatchOnly) {
+            temp.add(element);
+          }
+        });
+        int index = temp.indexWhere((element) {
+          return !userAccounts.any(
+              (element2) => element2.publicKeyHash == element.publicKeyHash);
+        });
+        userAccounts.value = [...temp];
+        Future.delayed(
+          Duration(milliseconds: 500),
+        ).then((value) {
+          try {
+            Get.put(AccountsWidgetController()).onPageChanged(index);
+            changeSelectedAccount(index);
+          } catch (e) {
+            log(e.toString());
+          }
+        });
+      }
       try {
         if (userAccounts.where((p0) => !p0.isWatchOnly).isNotEmpty) {
           Future.delayed(const Duration(seconds: 1), () async {

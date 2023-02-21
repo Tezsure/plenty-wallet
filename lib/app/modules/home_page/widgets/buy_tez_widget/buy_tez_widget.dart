@@ -36,8 +36,9 @@ class BuyTezWidget extends StatelessWidget {
           Get.bottomSheet(
             NoAccountsFoundBottomSheet(),
             isScrollControlled: true,
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
+            barrierColor: Colors.white.withOpacity(0.09),
+            // enterBottomSheetDuration: const Duration(milliseconds: 180),
+            // exitBottomSheetDuration: const Duration(milliseconds: 150),
           );
           return;
         } else {
@@ -65,8 +66,9 @@ class BuyTezWidget extends StatelessWidget {
               },
             ),
             isScrollControlled: true,
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
+            barrierColor: Colors.white.withOpacity(0.09),
+            // enterBottomSheetDuration: const Duration(milliseconds: 180),
+            // exitBottomSheetDuration: const Duration(milliseconds: 150),
           );
         }
       },

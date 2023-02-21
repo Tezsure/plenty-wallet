@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
@@ -31,20 +32,13 @@ class PasscodePageView extends GetView<PasscodePageController> {
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-          leading: Get.previousRoute.toString() == "/splash-page"
+          leading: Get.previousRoute.toString() != "/splash-page"
               ? Container()
               : Align(
                   alignment: Alignment.centerLeft,
-                  child: GestureDetector(
-                    onTap: () => Get.back(),
-                    child: CircleAvatar(
-                      radius: 0.045.width,
-                      backgroundColor: Colors.transparent,
-                      child: SvgPicture.asset(
-                        "${PathConst.SVG}arrow_back.svg",
-                        fit: BoxFit.scaleDown,
-                      ),
-                    ),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 16.arP),
+                    child: backButton(),
                   ),
                 ),
           backgroundColor: Colors.transparent,
