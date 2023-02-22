@@ -82,7 +82,7 @@ class LoadingPageController extends GetxController {
         await Future.wait([
           UserStorageService().writeNewAccount(
             [
-              ...importWalletPageController.selectedAccountsTz1,
+              ...importWalletPageController.selectedAccounts,
             ],
             false,
             true,

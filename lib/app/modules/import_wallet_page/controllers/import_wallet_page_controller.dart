@@ -92,6 +92,7 @@ class ImportWalletPageController extends GetxController
                         : ImportWalletDataType.none;
   }
 
+  List<AccountModel> selectedAccounts = [];
   Future<void> redirectBasedOnImportWalletType(
       [String? pageRoute, bool isWatchAddress = false]) async {
     if (isWatchAddress) {
@@ -184,7 +185,7 @@ class ImportWalletPageController extends GetxController
           ]).length +
           1;
 
-      var selectedAccounts = [
+      selectedAccounts = [
         ...selectedAccountsTz1,
         ...selectedAccountsTz2,
         ...selectedLegacyAccount
@@ -198,7 +199,7 @@ class ImportWalletPageController extends GetxController
       selectedAccounts.sort((a, b) =>
           b.importedAt!.millisecondsSinceEpoch -
           a.importedAt!.millisecondsSinceEpoch);
-      selectedAccountsTz1.value = selectedAccounts;
+      // selectedAccountsTz1.value = selectedAccounts;
       // selectedAccounts. = selectedAccounts.value;
       Get.back();
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
