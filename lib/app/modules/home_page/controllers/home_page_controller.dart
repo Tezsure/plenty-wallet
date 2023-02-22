@@ -60,8 +60,8 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
       if ((account.length) != userAccounts.length) {
         // userAccounts.value = [...(accounts ?? [])];
         account.sort((a, b) =>
-            b.importedAt!.millisecondsSinceEpoch -
-            a.importedAt!.millisecondsSinceEpoch);
+            a.importedAt!.millisecondsSinceEpoch -
+            b.importedAt!.millisecondsSinceEpoch);
         List temp = [];
         account.forEach((element) {
           if (!element.isWatchOnly) {
