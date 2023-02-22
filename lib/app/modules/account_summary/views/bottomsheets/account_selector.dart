@@ -63,18 +63,15 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       title: 'Accounts',
-      action: Obx(() => TextButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  Colors.transparent,
-                ),
-                overlayColor:
-                    MaterialStateProperty.all<Color>(Colors.transparent)),
+      action: Obx(() => BouncingWidget(
             onPressed: _controller.editAccount,
-            child: Text(
-              _controller.isAccountEditable.value ? "Done" : "Edit",
-              style: labelMedium.copyWith(
-                  color: ColorConst.Primary, fontSize: 12.aR),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.arP),
+              child: Text(
+                _controller.isAccountEditable.value ? "Done" : "Edit",
+                style: labelMedium.copyWith(
+                    color: ColorConst.Primary, fontSize: 12.aR),
+              ),
             ),
           )),
       bottomSheetHorizontalPadding: 0,
@@ -87,6 +84,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              0.016.vspace,
               Obx(
                 () => Expanded(
                   child: _controller.homePageController.userAccounts.isEmpty

@@ -923,7 +923,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
   Widget _selectGallery(int galleryIndex) {
     return Obx(() {
       return NaanBottomSheet(
-        action: TextButton(
+        action: BouncingWidget(
           onPressed: () {
             controller.isEditing.value = !controller.isEditing.value;
           },
@@ -931,12 +931,13 @@ class NftGalleryView extends GetView<NftGalleryController> {
               style: bodySmall.copyWith(
                   fontWeight: FontWeight.w600, color: ColorConst.Primary)),
         ),
-        height: 0.6.height,
+        // height: 0.6.height,
+        isScrollControlled: true,
         bottomSheetHorizontalPadding: 0.arP,
         title: "Galleries",
         bottomSheetWidgets: [
           SizedBox(
-            height: 0.5.height,
+            height: 0.52.height,
             child: Column(
               children: [
                 ListView.builder(

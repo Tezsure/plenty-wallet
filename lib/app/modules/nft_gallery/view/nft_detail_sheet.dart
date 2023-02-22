@@ -11,6 +11,8 @@ import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart';
 import 'package:naan_wallet/app/modules/custom_packages/readmore/readmore.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
@@ -18,6 +20,7 @@ import 'package:naan_wallet/app/modules/import_wallet_page/widgets/custom_tab_in
 import 'package:naan_wallet/app/modules/nft_gallery/view/cast_devices.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -217,42 +220,42 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                               )
                             : Column(
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      IconButton(
-                                          onPressed: widget.onBackTap,
-                                          icon: Icon(
-                                            Icons.arrow_back_ios_new,
-                                            color: Colors.white,
-                                            size: 16.aR,
-                                          )),
-                                      const Spacer(),
-                                      IconButton(
-                                          onPressed: () {
-                                            Share.share(
-                                                'https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}');
-                                          },
-                                          padding: EdgeInsets.zero,
-                                          visualDensity: VisualDensity.compact,
-                                          icon: Icon(
-                                            Icons.share,
-                                            color: Colors.white,
-                                            size: 16.aR,
-                                          )),
-                                      // IconButton(
-                                      //     onPressed: () {
-                                      //       Get.bottomSheet(const CastDevicesSheet());
-                                      //     },
-                                      //     padding: EdgeInsets.zero,
-                                      //     visualDensity: VisualDensity.compact,
-                                      //     icon: Icon(
-                                      //       Icons.cast_rounded,
-                                      //       color: Colors.white,
-                                      //       size: 16.aR,
-                                      //     )),
-                                    ],
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 16.arP, vertical: 8.arP),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        backButton(),
+                                        const Spacer(),
+                                        BouncingWidget(
+                                            onPressed: () {
+                                              Share.share(
+                                                  'https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}');
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                Icons.share,
+                                                color: Colors.white,
+                                                size: 16.aR,
+                                              ),
+                                            )),
+                                        // IconButton(
+                                        //     onPressed: () {
+                                        //       Get.bottomSheet(const CastDevicesSheet());
+                                        //     },
+                                        //     padding: EdgeInsets.zero,
+                                        //     visualDensity: VisualDensity.compact,
+                                        //     icon: Icon(
+                                        //       Icons.cast_rounded,
+                                        //       color: Colors.white,
+                                        //       size: 16.aR,
+                                        //     )),
+                                      ],
+                                    ),
                                   ),
                                   Container(
                                     margin: EdgeInsets.symmetric(
@@ -261,6 +264,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                                     width: 1.width,
                                     child: GestureDetector(
                                       onTap: () {
+                                        AppConstant.hapticFeedback();
                                         Get.to(FullScreenView(
                                             child: NFTImage(
                                           nftTokenModel: nftModel!,
@@ -763,6 +767,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                 Padding(
                   padding: EdgeInsets.only(left: 16.arP, right: 13.arP),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -853,8 +858,8 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                   children: [
                     Text("Artifact", style: bodySmall),
                     const Spacer(),
-                    InkWell(
-                        onTap: () {
+                    BouncingWidget(
+                        onPressed: () {
                           final String? hash =
                               nftModel?.artifactUri?.replaceAll("ipfs://", "");
                           final String img =
@@ -877,8 +882,8 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                           ],
                         )),
                     0.05.hspace,
-                    InkWell(
-                        onTap: () {
+                    BouncingWidget(
+                        onPressed: () {
                           final String? hash =
                               nftModel?.artifactUri?.replaceAll("ipfs://", "");
                           final String img = '$ipfsHost/$hash';
@@ -907,8 +912,8 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                   children: [
                     Text("MetaData", style: bodySmall),
                     const Spacer(),
-                    InkWell(
-                        onTap: () {
+                    BouncingWidget(
+                        onPressed: () {
                           final String? hash =
                               nftModel?.metadata?.replaceAll("ipfs://", "");
                           final String img = '$ipfsHost/$hash';
@@ -999,22 +1004,9 @@ class FullScreenView extends StatelessWidget {
           SafeArea(
             child: Align(
               alignment: Alignment.topLeft,
-              child: MaterialButton(
-                padding: const EdgeInsets.all(15),
-                elevation: 0,
-                color: Colors.black12,
-                highlightElevation: 0,
-                minWidth: double.minPositive,
-                height: double.minPositive,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                onPressed: Get.back,
-                child: Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white,
-                  size: 25.aR,
-                ),
+              child: Padding(
+                padding: EdgeInsets.all(16.arP),
+                child: backButton(),
               ),
             ),
           ),

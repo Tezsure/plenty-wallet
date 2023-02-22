@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -285,9 +286,9 @@ class ReviewNFTSheet extends StatelessWidget {
                   ? const SizedBox(
                       height: 20,
                       width: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                      ),
+                      child: CupertinoActivityIndicator(
+                            color: Colors.white,
+                          ),
                     )
                   : Row(
                       mainAxisSize: MainAxisSize.min,

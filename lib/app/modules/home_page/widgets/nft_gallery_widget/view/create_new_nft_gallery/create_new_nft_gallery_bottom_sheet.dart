@@ -255,7 +255,11 @@ class CreateNewNftGalleryBottomSheet
             ),
           ),
           Spacer(),
-          _importWatchAddressButton(),
+          SolidButton(
+            width: 1.width - 64.arP,
+            onPressed: _onImportAccount,
+            title: "Add a watch address",
+          ),
           BottomButtonPadding()
         ],
       ),
@@ -264,25 +268,7 @@ class CreateNewNftGalleryBottomSheet
 
   BouncingWidget _importWatchAddressButton() {
     return BouncingWidget(
-      onPressed: () async {
-        String pkh = await Get.bottomSheet(
-            ImportWalletPageView(
-              isBottomSheet: true,
-              isWatchAddress: true,
-            ),
-            isScrollControlled: true);
-        controller.accounts.value = await UserStorageService().getAllAccount() +
-            (await UserStorageService().getAllAccount(watchAccountsList: true));
-
-        controller.selectedAccountIndex[pkh] = controller
-                    .selectedAccountIndex.values
-                    .where((element) => element == true)
-                    .toList()
-                    .length !=
-                5
-            ? true
-            : false;
-      },
+      onPressed: _onImportAccount,
       child: Padding(
         padding: EdgeInsets.only(
           top: 16.arP,
@@ -309,6 +295,26 @@ class CreateNewNftGalleryBottomSheet
         ),
       ),
     );
+  }
+
+  _onImportAccount() async {
+    String pkh = await Get.bottomSheet(
+        ImportWalletPageView(
+          isBottomSheet: true,
+          isWatchAddress: true,
+        ),
+        isScrollControlled: true);
+    controller.accounts.value = await UserStorageService().getAllAccount() +
+        (await UserStorageService().getAllAccount(watchAccountsList: true));
+
+    controller.selectedAccountIndex[pkh] = controller
+                .selectedAccountIndex.values
+                .where((element) => element == true)
+                .toList()
+                .length !=
+            5
+        ? true
+        : false;
   }
 
   Widget accountItemWidget(int index, AccountModel accountModel) =>

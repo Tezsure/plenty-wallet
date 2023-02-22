@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -224,107 +225,109 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 )
-                                              : Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 24.0),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Expanded(
-                                                          child: SolidButton(
-                                                        borderColor:
-                                                            const Color(
-                                                                0xFFE8A2B9),
-                                                        title: "Cancel",
-                                                        primaryColor:
-                                                            Colors.transparent,
-                                                        onPressed: () {
-                                                          controller.reject();
-                                                        },
-                                                        textColor: const Color(
+                                              : 
+                                           Padding(
+                                              padding: const EdgeInsets
+                                                      .symmetric(
+                                                  horizontal: 24.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                mainAxisSize:
+                                                    MainAxisSize.max,
+                                                children: [
+                                                  Expanded(
+                                                      child: SolidButton(
+                                                    borderColor:
+                                                        const Color(
                                                             0xFFE8A2B9),
-                                                      )),
-                                                      0.04.hspace,
-                                                      Expanded(
-                                                          child: TextButton(
-                                                        style: ButtonStyle(
-                                                            shape: MaterialStateProperty.all(
-                                                                RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8))),
-                                                            backgroundColor:
-                                                                MaterialStateProperty
-                                                                    .all(ColorConst
-                                                                        .Primary)),
-                                                        onPressed: () {
-                                                          if (controller
-                                                              .error.value
-                                                              .trim()
-                                                              .isEmpty) {
-                                                            controller
-                                                                .confirm();
-                                                          }
-                                                        },
-                                                        child: Obx(
-                                                          () => (Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical: 4,
-                                                                    horizontal:
-                                                                        20),
-                                                            child: controller
-                                                                    .operation
-                                                                    .isEmpty
-                                                                ? const SizedBox(
-                                                                    height: 20,
-                                                                    width: 20,
-                                                                    child:
-                                                                        CircularProgressIndicator(
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ),
+                                                    title: "Cancel",
+                                                    primaryColor:
+                                                        Colors.transparent,
+                                                    onPressed: () {
+                                                      controller.reject();
+                                                    },
+                                                    textColor: const Color(
+                                                        0xFFE8A2B9),
+                                                  )),
+                                                  0.04.hspace,
+                                                  Expanded(
+                                                      child: TextButton(
+                                                    style: ButtonStyle(
+                                                        shape: MaterialStateProperty.all(
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius.circular(
+                                                                        8))),
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(ColorConst
+                                                                    .Primary)),
+                                                    onPressed: () {
+                                                      if (controller
+                                                          .error.value
+                                                          .trim()
+                                                          .isEmpty) {
+                                                        controller
+                                                            .confirm();
+                                                      }
+                                                    },
+                                                    child: Obx(
+                                                      () => (Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 4,
+                                                                horizontal:
+                                                                    20),
+                                                        child: controller
+                                                                .operation
+                                                                .isEmpty
+                                                            ? const SizedBox(
+                                                                height: 20,
+                                                                width: 20,
+                                                                child:
+                                                                    CupertinoActivityIndicator(
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              )
+                                                            : !controller
+                                                                    .isBiometric
+                                                                    .value
+                                                                ? Text(
+                                                                    'Confirm',
+                                                                    style: titleSmall.copyWith(
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        color: ColorConst.Neutral.shade100),
                                                                   )
-                                                                : !controller
-                                                                        .isBiometric
-                                                                        .value
-                                                                    ? Text(
+                                                                : Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment.spaceAround,
+                                                                    children: [
+                                                                      Platform.isAndroid
+                                                                          ? SvgPicture.asset("${PathConst.SETTINGS_PAGE.SVG}fingerprint.svg")
+                                                                          : SvgPicture.asset(
+                                                                              "${PathConst.SVG}faceid.svg",
+                                                                              width: 25,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                      Text(
                                                                         'Confirm',
-                                                                        style: titleSmall.copyWith(
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                            color: ColorConst.Neutral.shade100),
-                                                                      )
-                                                                    : Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceAround,
-                                                                        children: [
-                                                                          Platform.isAndroid
-                                                                              ? SvgPicture.asset("${PathConst.SETTINGS_PAGE.SVG}fingerprint.svg")
-                                                                              : SvgPicture.asset(
-                                                                                  "${PathConst.SVG}faceid.svg",
-                                                                                  width: 25,
-                                                                                  color: Colors.white,
-                                                                                ),
-                                                                          Text(
-                                                                            'Confirm',
-                                                                            style:
-                                                                                titleSmall.copyWith(fontWeight: FontWeight.w600, color: ColorConst.Neutral.shade100),
-                                                                          ),
-                                                                        ],
+                                                                        style:
+                                                                            titleSmall.copyWith(fontWeight: FontWeight.w600, color: ColorConst.Neutral.shade100),
                                                                       ),
-                                                          )),
-                                                        ),
+                                                                    ],
+                                                                  ),
                                                       )),
-                                                    ],
-                                                  ),
-                                                ),
+                                                    ),
+                                                  )),
+                                                ],
+                                              ),
+                                            ),
+
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 12, horizontal: 24),
@@ -381,358 +384,70 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
         )
       ],
     );
-    return Container(
-      height: 0.7.height,
-      width: 1.width,
-      padding: EdgeInsets.only(
-        bottom: Platform.isIOS ? 0.05.height : 0.02.height,
-      ),
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-          color: Colors.black),
-      child: Obx(
-        (() => Container(
-              child: controller.accountModels.value == null
-                  ? const SizedBox()
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+  }
+
+  Widget _builButtons() {
+    return Row(
+      children: [
+        Expanded(
+          child: SolidButton(
+            onPressed: () {
+              controller.reject();
+            },
+            borderWidth: 1,
+            borderColor: ColorConst.Neutral.shade80,
+            textColor: ColorConst.Neutral.shade80,
+            title: "Cancel",
+            primaryColor: Colors.transparent,
+          ),
+        ),
+        0.024.hspace,
+        Expanded(
+          child: Obx(
+            () => SolidButton(
+              title: "Confirm",
+              onPressed: () {
+                if (controller.error.value.trim().isEmpty) {
+                  controller.confirm();
+                }
+              },
+              child: controller.operation.isEmpty
+                  ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CupertinoActivityIndicator(
+                        color: Colors.white,
+                      ),
+                    )
+                  : Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                          0.005.vspace,
-                          Container(
-                            height: 5,
-                            width: 36,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: ColorConst.NeutralVariant.shade60
-                                  .withOpacity(0.3),
-                            ),
-                          ),
-                          0.02.vspace,
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundColor: ColorConst.Primary,
-                                child: Center(
-                                  child: Text(
-                                    controller.beaconRequest.request
-                                            ?.appMetadata?.name
-                                            ?.substring(0, 1)
-                                            .toUpperCase() ??
-                                        'U',
-                                    style: titleLarge.copyWith(
-                                        color: Colors.white),
-                                  ),
+                        SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: Platform.isAndroid
+                              ? SvgPicture.asset(
+                                  "${PathConst.SVG}fingerprint.svg",
+                                  color: ColorConst.Neutral.shade100,
+                                )
+                              : SvgPicture.asset(
+                                  "${PathConst.SVG}faceid.svg",
+                                  color: ColorConst.Neutral.shade100,
                                 ),
-                              ),
-                            ),
-                          ),
-                          Text(
-                            controller
-                                    .beaconRequest.request?.appMetadata?.name ??
-                                'Unknown',
-                            style: titleMedium.copyWith(color: ColorConst.grey),
-                          ),
-                          0.01.vspace,
-                          Text(
-                            'Confirm Transaction',
-                            style: titleMedium.copyWith(fontSize: 18),
-                          ),
-                          Expanded(
-                            child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Obx(() => (Text(
-                                        "\$ ${controller.dollarPrice.value.toStringAsFixed(2)}",
-                                        style:
-                                            titleLarge.copyWith(fontSize: 32),
-                                      ))),
-                                  0.005.vspace,
-                                  Obx(() => Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: controller.transfers
-                                          .map((element) => Row(
-                                                children: [
-                                                  element.symbol == "TEZ"
-                                                      ? Image.asset(
-                                                          'assets/tezos_logo.png',
-                                                          height: 25,
-                                                          width: 25,
-                                                        )
-                                                      : CachedNetworkImage(
-                                                          imageUrl: element
-                                                              .thumbnailUri!,
-                                                          height: 25,
-                                                          width: 25,
-                                                        ),
-                                                  0.02.hspace,
-                                                  Text(
-                                                    "${element.amount.toString()} ${element.symbol}",
-                                                    style: bodyMedium.copyWith(
-                                                        color: ColorConst.grey,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  controller.transfers.last
-                                                              .symbol !=
-                                                          element.symbol
-                                                      ? Row(
-                                                          children: [
-                                                            0.03.hspace,
-                                                            Container(
-                                                              height: 25,
-                                                              width: 1,
-                                                              decoration:
-                                                                  const BoxDecoration(
-                                                                color:
-                                                                    ColorConst
-                                                                        .grey,
-                                                              ),
-                                                            ),
-                                                            0.03.hspace,
-                                                          ],
-                                                        )
-                                                      : Container(),
-                                                ],
-                                              ))
-                                          .toList())),
-                                ]),
-                          ),
-                          Text(
-                            'Account',
-                            style: bodySmall.copyWith(color: ColorConst.grey),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4),
-                            child: Container(
-                              height: 42,
-                              width: 0.5.width,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: ColorConst.grey,
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(30),
-                                color: ColorConst.darkGrey,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Container(
-                                      height: 0.06.width,
-                                      width: 0.06.width,
-                                      alignment: Alignment.bottomRight,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: controller.accountModels.value!
-                                                      .imageType ==
-                                                  AccountProfileImageType.assets
-                                              ? AssetImage(controller
-                                                  .accountModels
-                                                  .value!
-                                                  .profileImage
-                                                  .toString())
-                                              : FileImage(
-                                                  File(controller.accountModels
-                                                      .value!.profileImage
-                                                      .toString()),
-                                                ) as ImageProvider,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                      controller.accountModels.value!.name
-                                          .toString(),
-                                      style: titleSmall.copyWith(
-                                          fontWeight: FontWeight.w500)),
-                                ],
-                              ),
-                            ),
-                          ),
-                          0.03.vspace,
-                          Expanded(
-                              child: Obx(() => Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      controller.error.value.trim().isNotEmpty
-                                          ? Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 12,
-                                                      horizontal: 24),
-                                              child: Text(
-                                                'Transaction is likely to fail: ${controller.error.value.length > 100 ? controller.error.value.replaceRange(100, controller.error.value.length, '...') : controller.error.value}',
-                                                style: bodyMedium.copyWith(
-                                                    color: ColorConst.NaanRed),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            )
-                                          : Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 24.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Expanded(
-                                                      child: SolidButton(
-                                                    borderColor:
-                                                        const Color(0xFFE8A2B9),
-                                                    title: "Cancel",
-                                                    primaryColor:
-                                                        Colors.transparent,
-                                                    onPressed: () {
-                                                      controller.reject();
-                                                    },
-                                                    textColor:
-                                                        const Color(0xFFE8A2B9),
-                                                  )),
-                                                  0.04.hspace,
-                                                  Expanded(
-                                                      child: TextButton(
-                                                    style: ButtonStyle(
-                                                        shape: MaterialStateProperty.all(
-                                                            RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8))),
-                                                        backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all(ColorConst
-                                                                    .Primary)),
-                                                    onPressed: () {
-                                                      if (controller.error.value
-                                                          .trim()
-                                                          .isEmpty) {
-                                                        controller.confirm();
-                                                      }
-                                                    },
-                                                    child: Obx(
-                                                      () => (Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 4,
-                                                                horizontal: 20),
-                                                        child: controller
-                                                                .operation
-                                                                .isEmpty
-                                                            ? const SizedBox(
-                                                                height: 20,
-                                                                width: 20,
-                                                                child:
-                                                                    CircularProgressIndicator(
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              )
-                                                            : !controller
-                                                                    .isBiometric
-                                                                    .value
-                                                                ? Text(
-                                                                    'Confirm',
-                                                                    style: titleSmall.copyWith(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w600,
-                                                                        color: ColorConst
-                                                                            .Neutral
-                                                                            .shade100),
-                                                                  )
-                                                                : Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceAround,
-                                                                    children: [
-                                                                      Platform
-                                                                              .isAndroid
-                                                                          ? SvgPicture.asset(
-                                                                              "${PathConst.SETTINGS_PAGE.SVG}fingerprint.svg")
-                                                                          : SvgPicture
-                                                                              .asset(
-                                                                              "${PathConst.SVG}faceid.svg",
-                                                                              width: 25,
-                                                                              color: Colors.white,
-                                                                            ),
-                                                                      Text(
-                                                                        'Confirm',
-                                                                        style: titleSmall.copyWith(
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                            color: ColorConst.Neutral.shade100),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                      )),
-                                                    ),
-                                                  )),
-                                                ],
-                                              ),
-                                            ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 12, horizontal: 24),
-                                        child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Estimated Fees',
-                                                    style: bodySmall.copyWith(
-                                                        color: ColorConst.grey),
-                                                  ),
-                                                  Obx(() => (Text(
-                                                        '\$ ${controller.fees.value}',
-                                                        style: bodyMedium,
-                                                      ))),
-                                                ],
-                                              ),
-                                              Obx(() => Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        'Balance',
-                                                        style:
-                                                            bodySmall.copyWith(
-                                                                color:
-                                                                    ColorConst
-                                                                        .grey),
-                                                      ),
-                                                      Text(
-                                                        '${controller.accountModels.value!.accountDataModel!.xtzBalance} Tez',
-                                                        style: bodyMedium,
-                                                      ),
-                                                    ],
-                                                  )),
-                                            ]),
-                                      )
-                                    ],
-                                  )))
-                        ]),
-            )),
-      ),
+                        ),
+                        0.02.hspace,
+                        Text(
+                          "Confirm",
+                          style: titleSmall.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: ColorConst.Neutral.shade100),
+                        )
+                      ],
+                    ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

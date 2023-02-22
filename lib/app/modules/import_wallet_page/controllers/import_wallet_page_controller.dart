@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dartez/dartez.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -319,9 +320,9 @@ class ImportWalletPageController extends GetxController
           height: 50,
           width: 50,
           child: Center(
-              child: CircularProgressIndicator(
-            color: ColorConst.Primary,
-          )),
+              child: CupertinoActivityIndicator(
+                            color: ColorConst.Primary,
+                          )),
         ));
     // if (Get.isOverlaysOpen) {
     //   Get.back();

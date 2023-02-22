@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -271,7 +272,9 @@ class HistoryPage extends GetView<TransactionController> {
         builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
           if (!snapshot.hasData) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CupertinoActivityIndicator(
+                color: ColorConst.Primary,
+              ),
             );
           } else if (snapshot.data!.name == null) {
             return Container();

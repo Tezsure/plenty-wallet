@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -136,7 +137,9 @@ class _PrivateKeyPageState extends State<PrivateKeyPage> {
                       ),
                     );
                   } else {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CupertinoActivityIndicator(
+                            color: ColorConst.Primary,
+                          ));
                   }
                 }),
           ]),

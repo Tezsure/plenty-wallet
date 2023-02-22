@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -139,9 +140,9 @@ class SecretPhrasePage extends StatelessWidget {
                 );
               } else {
                 return const Center(
-                  child: CircularProgressIndicator(
-                    color: ColorConst.Primary,
-                  ),
+                  child: CupertinoActivityIndicator(
+                            color: ColorConst.Primary,
+                          ),
                 );
               }
             })
