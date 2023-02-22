@@ -927,9 +927,12 @@ class NftGalleryView extends GetView<NftGalleryController> {
           onPressed: () {
             controller.isEditing.value = !controller.isEditing.value;
           },
-          child: Text(controller.isEditing.value ? "Cancel" : "Edit",
-              style: bodySmall.copyWith(
-                  fontWeight: FontWeight.w600, color: ColorConst.Primary)),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.arP),
+            child: Text(controller.isEditing.value ? "Cancel" : "Edit",
+                style: bodySmall.copyWith(
+                    fontWeight: FontWeight.w600, color: ColorConst.Primary)),
+          ),
         ),
         // height: 0.6.height,
         isScrollControlled: true,

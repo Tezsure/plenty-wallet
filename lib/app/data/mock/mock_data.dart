@@ -20,13 +20,13 @@ class MockData {
 
   static const Map<String, String> watchAddress = {
     "What is a watch address?":
-        "A watch address is an address that a user adds to their wallet in order to monitor incoming transactions. This is a useful feature because it allows users to keep track of the transactions that are being sent to specific addresses without actually having control over the private key associated with that address.",
+        "A watch address is like adding someone to your friends list on social media. It lets you see all their online activity but you can't post anything on their account. Similarly, adding a watch address to your wallet lets you see all the transactions happening with that address, but you can't make any transactions from it. This is useful because all transactions on the blockchain are public, so you can see your friend's NFTs and collectibles just by knowing their watch address.",
     "What is Tezos domain address?":
-        "A Tezos domain address, also known as a \"TZ domain,\" is a human-readable name that can be used as a replacement for a Tezos wallet address. Instead of having to use a long string of characters to represent the address, a user can use a simple name that is easier to remember and share",
+        "A Tezos domain address, also called a \"TZ domain,\" is a name that is easier to remember and share than a long string of characters that represent a Tezos wallet address. For example, instead of using tz1Uox91evyMrCvQ5dabegEDCekNiKMdz12K, you can create an alias like \"john.tez\". This name can replace the long string of characters to represent the address. You can register a Tezos domain address on https://tezos.domains",
     "What is a tz1 or tz2 address?":
-        "In the Tezos blockchain, a tz1 or tz2 address is a type of address used to represent a user's public key hash. Both tz1 and tz2 addresses are valid Tezos addresses and can be used to send and receive Tezos tokens, delegate tokens for staking, and interact with smart contracts on the Tezos blockchain.",
-    "Can I add my ledger account as a watch address?":
-        "Adding your Ledger account as a watch address allows you to monitor the balance and transaction history of the account without having to connect your Ledger device or enter your private key. Once you have added your Ledger account as a watch address, you should be able to view the account balance and transaction history in the wallet. However, you will not be able to send or receive cryptocurrency from the account using the wallet unless you connect your Ledger device and enter your private key.",
+        "In Tezos, a tz1 or tz2 address is a type of address used to represent a user's account ID. It's like having a username that everyone can see. You can use these addresses to send and receive Tezos tokens, delegate tokens for staking, and interact with smart contracts on the Tezos blockchain. So, it's an important way to identify your account and do things with your Tezos tokens.",
+    "Can I add a Tezos address from my Nano Ledger as a watch address?":
+        "Yes! You can add your Ledger account as a watch address in naan. This means you can see your NFTs, collectibles, and transaction history without connecting your Ledger device or entering your private key. It's like looking at your account balance without having to log in. You can also add other cold storage addresses as watch addresses. But remember, you can't send or receive cryptocurrency from the account.",
   };
 
   static const Map<String, String> naanInfoStory = {
