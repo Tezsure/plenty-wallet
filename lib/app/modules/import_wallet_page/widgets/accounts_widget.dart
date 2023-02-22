@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -122,7 +123,9 @@ class AccountWidget extends StatelessWidget {
           width: 50,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CircularProgressIndicator(color: ColorConst.Primary),
+            child: CupertinoActivityIndicator(
+                            color: ColorConst.Primary,
+                          ),
           ),
         );
       }

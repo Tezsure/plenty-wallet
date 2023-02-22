@@ -22,6 +22,8 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'dart:math';
 
+import 'package:naan_wallet/utils/constants/constants.dart';
+
 class OpreationRequestController extends GetxController {
   final BeaconRequest beaconRequest = Get.arguments;
 
@@ -176,6 +178,7 @@ class OpreationRequestController extends GetxController {
 
   confirm() async {
     try {
+      AppConstant.hapticFeedback();
       AuthService authService = AuthService();
       bool isBioEnabled = await authService.getBiometricAuth();
 

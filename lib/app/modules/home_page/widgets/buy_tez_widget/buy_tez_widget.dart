@@ -36,7 +36,6 @@ class BuyTezWidget extends StatelessWidget {
           Get.bottomSheet(
             NoAccountsFoundBottomSheet(),
             isScrollControlled: true,
-            barrierColor: Colors.white.withOpacity(0.09),
             // enterBottomSheetDuration: const Duration(milliseconds: 180),
             // exitBottomSheetDuration: const Duration(milliseconds: 150),
           );
@@ -57,7 +56,6 @@ class BuyTezWidget extends StatelessWidget {
                     "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
                 Get.bottomSheet(
                   const DappBrowserView(),
-                  barrierColor: Colors.white.withOpacity(0.09),
                   settings: RouteSettings(
                     arguments: url,
                   ),
@@ -66,7 +64,6 @@ class BuyTezWidget extends StatelessWidget {
               },
             ),
             isScrollControlled: true,
-            barrierColor: Colors.white.withOpacity(0.09),
             // enterBottomSheetDuration: const Duration(milliseconds: 180),
             // exitBottomSheetDuration: const Duration(milliseconds: 150),
           );

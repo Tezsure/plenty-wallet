@@ -33,22 +33,22 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
   @override
   Widget build(BuildContext context) {
     List<String> infos = [
-      "You may encounter issues or unexpected behavior. We appreciate your patience and understanding.",
-      "Please report any issues or feedback to help us improve the app. Your feedback is essential!",
-      "We may use your feedback and usage data for research and development purposes."
+      "You may encounter issues or unexpected behavior.\nWe appreciate your patience and understanding.",
+      "Please report any issues or feedback to help us\nimprove the app. Your feedback is essential!",
+      "We may use your feedback and usage data for\nresearch and development purposes."
     ];
     return NaanBottomSheet(
       isScrollControlled: true,
       bottomSheetWidgets: [
         SizedBox(
-          height: hasAgreed ? 0.58.height : 0.68.height,
+          height: hasAgreed ? 0.558.height : 0.61.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // 0.028.vspace,
               _buildIcon(),
               Text(
-                "Our App is in Beta",
+                "Your naan is in Beta",
                 style: headlineSmall,
               ),
               0.02.vspace,
@@ -62,7 +62,8 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
                   infos.length,
                   (index) => Padding(
                         padding: EdgeInsets.symmetric(
-                            vertical: 10.arP, horizontal: 14.arP),
+                          vertical: 10.arP,
+                        ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,

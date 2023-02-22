@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dartez/dartez.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -92,6 +93,7 @@ class ImportWalletPageController extends GetxController
                         : ImportWalletDataType.none;
   }
 
+  List<AccountModel> selectedAccounts = [];
   Future<void> redirectBasedOnImportWalletType(
       [String? pageRoute, bool isWatchAddress = false]) async {
     if (isWatchAddress) {
@@ -184,7 +186,7 @@ class ImportWalletPageController extends GetxController
           ]).length +
           1;
 
-      var selectedAccounts = [
+      selectedAccounts = [
         ...selectedAccountsTz1,
         ...selectedAccountsTz2,
         ...selectedLegacyAccount
@@ -198,7 +200,7 @@ class ImportWalletPageController extends GetxController
       selectedAccounts.sort((a, b) =>
           b.importedAt!.millisecondsSinceEpoch -
           a.importedAt!.millisecondsSinceEpoch);
-      selectedAccountsTz1.value = selectedAccounts;
+      // selectedAccountsTz1.value = selectedAccounts;
       // selectedAccounts. = selectedAccounts.value;
       Get.back();
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
@@ -318,9 +320,9 @@ class ImportWalletPageController extends GetxController
           height: 50,
           width: 50,
           child: Center(
-              child: CircularProgressIndicator(
-            color: ColorConst.Primary,
-          )),
+              child: CupertinoActivityIndicator(
+                            color: ColorConst.Primary,
+                          )),
         ));
     // if (Get.isOverlaysOpen) {
     //   Get.back();
