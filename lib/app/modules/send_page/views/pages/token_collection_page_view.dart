@@ -180,7 +180,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: BouncingWidget(
-        onPressed: onTap,
+        onPressed: tokenModel.balance != 0 ? onTap : () {},
         child: SizedBox(
           height: 0.06.height,
           child: Row(
