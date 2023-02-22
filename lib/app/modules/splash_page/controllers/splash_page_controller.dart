@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
@@ -10,6 +12,8 @@ import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
+
+import '../../../data/services/rpc_service/http_service.dart';
 
 class SplashPageController extends GetxController {
   @override
@@ -30,6 +34,8 @@ class SplashPageController extends GetxController {
     ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
     ServiceConfig.ipfsUrl = (await RpcService.getIpfsUrl()).trim();
     ServiceConfig.isIAFWidgetVisible = (await IAFService.getWidgetVisibility());
+    ServiceConfig.isTezQuakeWidgetVisible =
+        (await getWidgetVisibility('tezquakeaid-widget-visiable'));
     AppConstant.naanCollection = (await ArtFoundationHandler.getCollectionNfts(
         "tz1YNsgF2iJUwuJf1SVNFjNfnzqDAdx6HNP8"));
 
@@ -65,6 +71,20 @@ class SplashPageController extends GetxController {
       //     Routes.ONBOARDING_PAGE,
       //   ),
       // );
+    }
+  }
+
+  static Future<bool> getWidgetVisibility(String id) async {
+    try {
+      var response = await HttpService.performGetRequest(
+          "https://cdn.naan.app/widgets_visibility");
+
+      if (response.isNotEmpty && jsonDecode(response).length != 0) {
+        return jsonDecode(response)[id] == 1;
+      }
+      return false;
+    } catch (e) {
+      return false;
     }
   }
 }

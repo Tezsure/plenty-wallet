@@ -89,6 +89,14 @@ LinearGradient blueGradient = const LinearGradient(
   ],
 );
 
+LinearGradient blueGradientLight = const LinearGradient(
+  begin: Alignment.topRight,
+  end: Alignment.bottomLeft,
+  colors: [
+    Color(0xff206DFF),
+    Color(0xff0E61FF),
+  ],
+);
 LinearGradient purpleGradient = const LinearGradient(
   begin: Alignment.topRight,
   end: Alignment.bottomLeft,
