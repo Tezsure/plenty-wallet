@@ -11,6 +11,8 @@ class ServiceConfig {
 
   static bool isIAFWidgetVisible = false;
 
+  static bool isTezQuakeWidgetVisible = false;
+
   /// Teztools api with endpoint for mainnet token prices
   static String tezToolsApi = "https://api.teztools.io/token/prices";
 

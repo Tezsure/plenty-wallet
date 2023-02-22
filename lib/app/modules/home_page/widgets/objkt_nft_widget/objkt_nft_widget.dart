@@ -32,6 +32,8 @@ class ObjktNftWidget extends StatelessWidget {
             arguments: url,
           ),
           isScrollControlled: true,
+          enterBottomSheetDuration: const Duration(milliseconds: 180),
+          exitBottomSheetDuration: const Duration(milliseconds: 150),
         );
       },
       child: HomeWidgetFrame(
