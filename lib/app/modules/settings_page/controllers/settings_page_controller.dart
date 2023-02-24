@@ -21,6 +21,7 @@ import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:web3auth_flutter/enums.dart';
@@ -364,7 +365,7 @@ class SettingsPageController extends GetxController {
   void switchFingerprint(bool value) => fingerprint.value = value;
   void checkWalletBackup() async {
     if (isWalletBackup.value) {
-      Get.bottomSheet(BackupPage(), isScrollControlled: true);
+      CommonFunctions.bottomSheet(BackupPage(), );
     } else {
       final seedPhrase = await UserStorageService()
           .readAccountSecrets(homePageController.userAccounts
@@ -373,14 +374,11 @@ class SettingsPageController extends GetxController {
           .then((value) {
         return value?.seedPhrase ?? "";
       });
-      Get.bottomSheet(
+      CommonFunctions.bottomSheet(
               BackupWalletView(
                 seedPhrase: seedPhrase,
               ),
-              barrierColor: Colors.transparent,
-              enterBottomSheetDuration: const Duration(milliseconds: 180),
-              exitBottomSheetDuration: const Duration(milliseconds: 150),
-              isScrollControlled: true)
+            )
           .whenComplete(getWalletBackupStatus);
     }
   }

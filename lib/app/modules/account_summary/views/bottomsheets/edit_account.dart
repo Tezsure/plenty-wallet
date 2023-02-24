@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/common_widgets/pick_an_avatar.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -333,12 +334,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
       ),
       child: BouncingWidget(
         onPressed: () {
-          Get.bottomSheet(
-            changePhotoBottomSheet(),
-            barrierColor: Colors.transparent,
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-          ).whenComplete(() {
+          CommonFunctions.bottomSheet(changePhotoBottomSheet())
+              .whenComplete(() {
             setState(() {});
           });
         },
@@ -376,11 +373,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             ),
             child: BouncingWidget(
               onPressed: () {
-                Get.bottomSheet(
+                CommonFunctions.bottomSheet(
                   changePhotoBottomSheet(),
-                  barrierColor: Colors.transparent,
-                  enterBottomSheetDuration: const Duration(milliseconds: 180),
-                  exitBottomSheetDuration: const Duration(milliseconds: 150),
                 ).whenComplete(() {
                   setState(() {});
                 });
@@ -473,11 +467,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
         }
       },
       onPickAvatarSelect: () async {
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           avatarPicker(),
-          isScrollControlled: true,
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
         );
       },
       onRemoveImage: _controller.homePageController

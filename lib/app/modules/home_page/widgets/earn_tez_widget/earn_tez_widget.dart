@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -27,11 +28,8 @@ class EarnTezWidget extends StatelessWidget {
             .where((element) => element.isWatchOnly == false)
             .toList()
             .isEmpty) {
-          Get.bottomSheet(
-             NoAccountsFoundBottomSheet(),
-            isScrollControlled: true,
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
+          CommonFunctions.bottomSheet(
+            NoAccountsFoundBottomSheet(),
           );
           return;
         }

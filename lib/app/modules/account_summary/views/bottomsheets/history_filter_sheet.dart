@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -308,12 +309,7 @@ class HistoryFilterSheet extends StatelessWidget {
     return Obx(
       () => BouncingWidget(
         onPressed: () {
-          Get.bottomSheet(
-            DateSelectionSheet(),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            barrierColor: Colors.transparent,
-          );
+          CommonFunctions.bottomSheet(DateSelectionSheet());
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12.aR),

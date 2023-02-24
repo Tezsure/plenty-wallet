@@ -5,6 +5,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/styles/styles.dart';
@@ -148,13 +149,8 @@ class ConfirmTransactionSheet extends StatelessWidget {
                             child: Padding(
                               padding: EdgeInsets.only(top: 0.01.height),
                               child: BouncingWidget(
-                                onPressed: () => Get.bottomSheet(
+                                onPressed: () => CommonFunctions.bottomSheet(
                                   AccountSelectorSheet(),
-                                  isScrollControlled: true,
-                                  enterBottomSheetDuration:
-                                      const Duration(milliseconds: 180),
-                                  exitBottomSheetDuration:
-                                      const Duration(milliseconds: 150),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,

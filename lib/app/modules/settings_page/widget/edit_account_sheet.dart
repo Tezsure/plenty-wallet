@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/flutter_switch.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -47,7 +48,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   Widget editaccountUI() {
     return Expanded(
       child: SingleChildScrollView(
-                    physics: AppConstant.scrollPhysics,
+        physics: AppConstant.scrollPhysics,
         child: Builder(builder: (context) {
           return Column(children: [
             Container(
@@ -64,13 +65,9 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               ),
               child: BouncingWidget(
                 onPressed: () {
-                  Get.bottomSheet(changePhotoBottomSheet(),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          barrierColor: Colors.transparent)
-                      .whenComplete(() {
+                  CommonFunctions.bottomSheet(
+                    changePhotoBottomSheet(),
+                  ).whenComplete(() {
                     setState(() {});
                   });
                 },

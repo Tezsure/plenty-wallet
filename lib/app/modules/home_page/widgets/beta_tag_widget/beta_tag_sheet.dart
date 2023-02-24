@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -41,7 +43,7 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
       isScrollControlled: true,
       bottomSheetWidgets: [
         SizedBox(
-          height: hasAgreed ? 0.558.height : 0.61.height,
+          height: hasAgreed ? 0.6.height : 0.69.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -52,11 +54,14 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
                 style: headlineSmall,
               ),
               0.02.vspace,
-              Text(
-                  "Welcome to the naan beta! By using the beta version of our product, you agree that:",
-                  style: labelMedium.copyWith(
-                      color: ColorConst.textGrey1,
-                      fontWeight: FontWeight.normal)),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                    "Welcome to the naan beta! By using the beta version of our product, you agree that:",
+                    style: labelMedium.copyWith(
+                        color: ColorConst.textGrey1,
+                        fontWeight: FontWeight.normal)),
+              ),
               0.02.vspace,
               ...List.generate(
                   infos.length,
@@ -96,6 +101,15 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
                   active: true,
                   width: 1.width - 64.arP,
                   onPressed: () {
+                    final address =
+                        Get.find<HomePageController>().userAccounts.isEmpty
+                            ? null
+                            : Get.find<HomePageController>()
+                                .userAccounts
+                                .first
+                                .publicKeyHash;
+                    NaanAnalytics.logEvent(NaanAnalyticsEvents.TF_COLLECTION,
+                        param: {NaanAnalytics.address: address});
                     UserStorageService.betaTagAgree();
                     Get.back();
                   },

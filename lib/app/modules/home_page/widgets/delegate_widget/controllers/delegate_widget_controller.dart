@@ -26,6 +26,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widget
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
 
@@ -108,9 +109,8 @@ class DelegateWidgetController extends GetxController {
       bool isBioEnabled = await authService.getBiometricAuth();
 
       if (isBioEnabled) {
-        final bioResult = await Get.bottomSheet(const BiometricView(),
-            barrierColor: Colors.white.withOpacity(0.09),
-            isScrollControlled: true,
+        final bioResult = await CommonFunctions.bottomSheet(
+            const BiometricView(),
             settings: RouteSettings(arguments: isBioEnabled));
         if (bioResult == null) {
           return;
@@ -169,7 +169,7 @@ class DelegateWidgetController extends GetxController {
               "baker_name": baker.name,
               "baker_address": baker.address,
             });
-        Get.bottomSheet(const DelegateBakerSuccessSheet())
+        CommonFunctions.bottomSheet(const DelegateBakerSuccessSheet())
             .whenComplete(() => Get.back());
       });
     } catch (e) {
@@ -309,8 +309,9 @@ class DelegateWidgetController extends GetxController {
   Future<void> checkBaker() async {
     String? bakerAddress;
     if (Get.find<HomePageController>().userAccounts.isEmpty) {
-      return Get.bottomSheet(const DelegateInfoSheet(),
-          enableDrag: true, isScrollControlled: true);
+      return CommonFunctions.bottomSheet(
+        const DelegateInfoSheet(),
+      );
     }
 
     Get.put(AccountSummaryController());
@@ -319,11 +320,8 @@ class DelegateWidgetController extends GetxController {
         .obs;
 
     if (accountModel == null) {
-      return Get.bottomSheet(
+      return CommonFunctions.bottomSheet(
         const AccountSelectorSheet(),
-        isScrollControlled: true,
-        enterBottomSheetDuration: const Duration(milliseconds: 180),
-        exitBottomSheetDuration: const Duration(milliseconds: 150),
       );
     }
     // if (accountModel?.value.publicKeyHash == null) {}
@@ -333,8 +331,9 @@ class DelegateWidgetController extends GetxController {
     // });
 
     if (bakerAddress == null) {
-      Get.bottomSheet(const DelegateInfoSheet(),
-          enableDrag: true, isScrollControlled: true);
+      CommonFunctions.bottomSheet(
+        const DelegateInfoSheet(),
+      );
     } else {
       DelegateBakerModel? delegatedBaker;
       if (delegateBakerList.isEmpty) {
@@ -346,20 +345,20 @@ class DelegateWidgetController extends GetxController {
           (element) => element.address == bakerAddress,
         );
 
-        Get.bottomSheet(
-            ReDelegateBottomSheet(
-              baker: delegatedBaker,
-            ),
-            enableDrag: true,
-            isScrollControlled: true);
+        CommonFunctions.bottomSheet(
+          ReDelegateBottomSheet(
+            baker: delegatedBaker,
+          ),
+        );
       } else {
         await toggleLoaderOverlay(() async {
           delegatedBaker = (await getBakerDetail(bakerAddress!)) ??
               DelegateBakerModel(address: bakerAddress);
           delegateBakerList.add(delegatedBaker!);
         });
-        Get.bottomSheet(ReDelegateBottomSheet(baker: delegatedBaker!),
-            enableDrag: true, isScrollControlled: true);
+        CommonFunctions.bottomSheet(
+          ReDelegateBottomSheet(baker: delegatedBaker!),
+        );
       }
     }
   }
@@ -376,7 +375,7 @@ class DelegateWidgetController extends GetxController {
   Future<void> openBakerList() async {
     if (!(Get.isBottomSheetOpen ?? false)) {
       Get.put(AccountSummaryController());
-      Get.bottomSheet(
+      CommonFunctions.bottomSheet(
         AccountSwitch(
           title: "Delegate",
           subtitle:
@@ -385,9 +384,6 @@ class DelegateWidgetController extends GetxController {
             checkBaker();
           },
         ),
-        isScrollControlled: true,
-        enterBottomSheetDuration: const Duration(milliseconds: 180),
-        exitBottomSheetDuration: const Duration(milliseconds: 150),
       );
     } else {
       checkBaker();
@@ -402,8 +398,8 @@ class DelegateWidgetController extends GetxController {
           width: 50,
           child: Center(
               child: CupertinoActivityIndicator(
-                            color: ColorConst.Primary,
-                          )),
+            color: ColorConst.Primary,
+          )),
         ));
     // if (Get.isOverlaysOpen) {
     //   Get.back();

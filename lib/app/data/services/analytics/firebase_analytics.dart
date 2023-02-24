@@ -100,4 +100,8 @@ class NaanAnalyticsEvents {
   // //done
   // static const String REMOVE_NFT_GALLERY = "remove_nft_gallery";
   static const String DAPP_CLICK = "dapp_click";
+  static const String NAAN_COLLECTION = "naan_collection";
+  static const String TF_COLLECTION = "tf_collection";
+  static const String TEZ_QUAKE = "tez_quake";
+  static const String BETA_AGREE = "beta_agree";
 }

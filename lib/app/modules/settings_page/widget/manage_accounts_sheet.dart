@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/edit_account_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -78,7 +79,7 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
                                     _homePageController.userAccounts.length,
                                 onReorder: controller.reorderUserAccountsList)
                             : ListView.builder(
-                    physics: AppConstant.scrollPhysics,
+                                physics: AppConstant.scrollPhysics,
                                 controller: controller.scrollcontroller.value,
                                 itemBuilder: (context, index) => accountWIdget(
                                     index,
@@ -187,16 +188,11 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
                             padding: const EdgeInsets.symmetric(horizontal: 11),
                             onTap: () {
                               Get.back();
-                              Get.bottomSheet(
-                                  EditAccountBottomSheet(
-                                    accountIndex: index,
-                                  ),
-                                  enterBottomSheetDuration:
-                                      const Duration(milliseconds: 180),
-                                  exitBottomSheetDuration:
-                                      const Duration(milliseconds: 150),
-                                  barrierColor: Colors.transparent,
-                                  isScrollControlled: true);
+                              CommonFunctions.bottomSheet(
+                                EditAccountBottomSheet(
+                                  accountIndex: index,
+                                ),
+                              );
                             },
                             child: Text(
                               "Edit profile",
@@ -213,13 +209,8 @@ class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
                             padding: const EdgeInsets.symmetric(horizontal: 11),
                             height: 51,
                             onTap: () {
-                              Get.bottomSheet(
+                              CommonFunctions.bottomSheet(
                                 removeAccountBottomSheet(index),
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                                barrierColor: Colors.transparent,
                               );
                             },
                             child: Text(

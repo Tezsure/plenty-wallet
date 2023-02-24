@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -54,12 +55,9 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                       children: [
                         BouncingWidget(
                           onPressed: () {
-                            Get.bottomSheet(const AccountSelectorSheet(),
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                                isScrollControlled: true);
+                            CommonFunctions.bottomSheet(
+                              const AccountSelectorSheet(),
+                            );
                           },
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,9 +76,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                 text: TextSpan(
                                     text:
                                         controller.selectedAccount.value.name!,
-                                    style: labelMedium.copyWith(
-                                        fontSize: 12.aR,
-                                        fontWeight: FontWeight.w600),
+                                    style: labelMedium,
                                     children: [
                                       WidgetSpan(
                                           child: SizedBox(
@@ -97,10 +93,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                       TextSpan(
                                         text:
                                             "\n${(controller.selectedAccount.value.publicKeyHash!).tz1Short()}",
-                                        style: labelMedium.copyWith(
-                                            fontSize: 12.aR,
+                                        style: bodySmall.copyWith(
                                             height: 0,
-                                            fontWeight: FontWeight.w400,
                                             color: ColorConst
                                                 .NeutralVariant.shade60),
                                       )
@@ -209,14 +203,11 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                   "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
 
                               print(url);
-                              Get.bottomSheet(
-                                const DappBrowserView(),
-                                barrierColor: Colors.white.withOpacity(0.09),
-                                settings: RouteSettings(
-                                  arguments: url,
-                                ),
-                                isScrollControlled: true,
-                              );
+                              CommonFunctions.bottomSheet(
+                                  const DappBrowserView(),
+                                  settings: RouteSettings(
+                                    arguments: url,
+                                  ));
                             },
                             imagePath: '${PathConst.SVG}plus.svg',
                             label: 'Buy'),
@@ -234,29 +225,23 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                         _actionButton(
                           imagePath: '${PathConst.SVG}arrow_up.svg',
                           label: 'Send',
-                          onTap: (() => Get.bottomSheet(const SendPage(),
-                              enterBottomSheetDuration:
-                                  const Duration(milliseconds: 180),
-                              exitBottomSheetDuration:
-                                  const Duration(milliseconds: 150),
-                              settings: RouteSettings(
-                                  arguments: controller.selectedAccount.value),
-                              isScrollControlled: true,
-                              barrierColor: Colors.white.withOpacity(0.09))),
+                          onTap: (() => CommonFunctions.bottomSheet(
+                                const SendPage(),
+                                settings: RouteSettings(
+                                    arguments:
+                                        controller.selectedAccount.value),
+                              )),
                         ),
                         0.04.hspace,
                         _actionButton(
                           imagePath: '${PathConst.SVG}arrow_down.svg',
                           label: 'Receive',
-                          onTap: (() => Get.bottomSheet(const ReceivePageView(),
-                              enterBottomSheetDuration:
-                                  const Duration(milliseconds: 180),
-                              exitBottomSheetDuration:
-                                  const Duration(milliseconds: 150),
-                              settings: RouteSettings(
-                                  arguments: controller.selectedAccount.value),
-                              isScrollControlled: true,
-                              barrierColor: Colors.white.withOpacity(0.09))),
+                          onTap: (() => CommonFunctions.bottomSheet(
+                                const ReceivePageView(),
+                                settings: RouteSettings(
+                                    arguments:
+                                        controller.selectedAccount.value),
+                              )),
                         ),
                       ],
                     ),

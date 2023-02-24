@@ -15,6 +15,7 @@ import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/pick_an_avatar.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -109,14 +110,8 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
                     ),
                     child: GestureDetector(
                       onTap: () {
-                        Get.bottomSheet(
+                        CommonFunctions.bottomSheet(
                           changePhotoBottomSheet(),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          barrierColor: Colors.white.withOpacity(0.01),
-                          isScrollControlled: true,
                         );
                       },
                       child: CircleAvatar(
@@ -354,10 +349,9 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
         }
       },
       onPickAvatarSelect: () async {
-        Get.bottomSheet(avatarPicker(),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            isScrollControlled: true);
+        CommonFunctions.bottomSheet(
+          avatarPicker(),
+        );
       },
     );
     // return BackdropFilter(

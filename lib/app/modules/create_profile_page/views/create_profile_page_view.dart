@@ -20,6 +20,7 @@ import 'package:naan_wallet/app/modules/create_profile_page/views/avatar_picker_
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -94,12 +95,8 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  Get.bottomSheet(
+                  CommonFunctions.bottomSheet(
                     changePhotoBottomSheet(),
-                    enterBottomSheetDuration: const Duration(milliseconds: 180),
-                    exitBottomSheetDuration: const Duration(milliseconds: 150),
-                    barrierColor: Colors.white.withOpacity(0.01),
-                    isScrollControlled: true,
                   );
                 },
                 child: CircleAvatar(
@@ -227,11 +224,8 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
         }
       },
       onPickAvatarSelect: () async {
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           avatarPicker(),
-          isScrollControlled: true,
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
         );
         // Get.to(const AvatarPickerView());
       },

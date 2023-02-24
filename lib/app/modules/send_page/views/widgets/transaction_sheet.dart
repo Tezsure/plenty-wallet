@@ -22,6 +22,7 @@ import 'package:naan_wallet/app/modules/common_widgets/list_tile.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -338,7 +339,7 @@ class TransactionBottomSheet extends StatelessWidget {
                     "name": controller.selectedTokenModel?.name ??
                         controller.selectedNftModel?.name
                   });
-              Get.bottomSheet(
+              CommonFunctions.bottomSheet(
                 NaanBottomSheet(
                   height: 380.arP,
                   bottomSheetWidgets: [
@@ -425,8 +426,6 @@ class TransactionBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-                enterBottomSheetDuration: const Duration(milliseconds: 180),
-                exitBottomSheetDuration: const Duration(milliseconds: 150),
               );
             },
             child: Row(
@@ -446,8 +445,8 @@ class TransactionBottomSheet extends StatelessWidget {
                 0.02.hspace,
                 Text(
                   "Hold to Send",
-                  style: titleSmall.copyWith(
-                      fontSize: 14.aR, color: ColorConst.Neutral.shade100),
+                  style:
+                      titleSmall.copyWith(color: ColorConst.Neutral.shade100),
                 )
               ],
             ),

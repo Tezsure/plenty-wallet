@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/backup_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/select_reveal_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -45,16 +46,8 @@ class _SelectToRevealKeyBottomSheetState
           children: [
             backButton(),
             InfoButton(
-                onPressed: () => Get.bottomSheet(
+                onPressed: () => CommonFunctions.bottomSheet(
                       InfoBottomSheet(),
-                      enterBottomSheetDuration:
-                          const Duration(milliseconds: 180),
-                      exitBottomSheetDuration:
-                          const Duration(milliseconds: 150),
-                      enableDrag: true,
-                      isDismissible: true,
-                      isScrollControlled: true,
-                      barrierColor: const Color.fromARGB(09, 255, 255, 255),
                     )),
           ],
         ),
@@ -103,17 +96,11 @@ class _SelectToRevealKeyBottomSheetState
 
                         // controller.timer;
                         final controller = Get.put(BackupPageController());
-                        Get.bottomSheet(
-                                SecretPhrasePage(
-                                  pkHash: widget.accountModel.publicKeyHash!,
-                                ),
-                                barrierColor: Colors.transparent,
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                                isScrollControlled: true)
-                            .then((_) => controller.timer.cancel());
+                        CommonFunctions.bottomSheet(
+                          SecretPhrasePage(
+                            pkHash: widget.accountModel.publicKeyHash!,
+                          ),
+                        ).then((_) => controller.timer.cancel());
                       }),
                 0.02.vspace,
                 if (_controller.privateKeyReveal.value)
@@ -131,17 +118,11 @@ class _SelectToRevealKeyBottomSheetState
 
                         // controller.timer;
                         final controller = Get.put(BackupPageController());
-                        Get.bottomSheet(
-                                PrivateKeyPage(
-                                  pkh: widget.accountModel.publicKeyHash!,
-                                ),
-                                barrierColor: Colors.transparent,
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                                isScrollControlled: true)
-                            .then((_) => controller.timer.cancel());
+                        CommonFunctions.bottomSheet(
+                          PrivateKeyPage(
+                            pkh: widget.accountModel.publicKeyHash!,
+                          ),
+                        ).then((_) => controller.timer.cancel());
                       }),
                 // revealOptionMethod(
                 //     child: Text(

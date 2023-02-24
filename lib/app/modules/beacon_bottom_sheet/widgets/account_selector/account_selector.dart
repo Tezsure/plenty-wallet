@@ -39,10 +39,10 @@ class AccountSelector extends StatelessWidget {
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 20),
+                      padding: EdgeInsets.only(right: 20.arP),
                       child: Container(
-                        height: 0.1.width,
-                        width: 0.1.width,
+                        height: 60.arP,
+                        width: 60.arP,
                         alignment: Alignment.bottomRight,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -96,101 +96,6 @@ class AccountSelector extends StatelessWidget {
         ),
         const BottomButtonPadding()
       ],
-    );
-    return Container(
-      height: 0.65.height,
-      width: 1.width,
-      padding: EdgeInsets.only(
-        bottom: Platform.isIOS ? 0.05.height : 0.02.height,
-      ),
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-          color: Colors.black),
-      child: Column(
-        children: [
-          0.005.vspace,
-          Container(
-            height: 5,
-            width: 36,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
-            ),
-          ),
-          0.04.vspace,
-          Text("Account", style: titleLarge),
-          0.04.vspace,
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    Get.back(result: index);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: Container(
-                            height: 0.1.width,
-                            width: 0.1.width,
-                            alignment: Alignment.bottomRight,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: accountModels![index].imageType ==
-                                        AccountProfileImageType.assets
-                                    ? AssetImage(accountModels![index]
-                                        .profileImage
-                                        .toString())
-                                    : FileImage(
-                                        File(
-                                          accountModels![index]
-                                              .profileImage
-                                              .toString(),
-                                        ),
-                                      ) as ImageProvider,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(accountModels![index].name.toString(),
-                                style: titleSmall),
-                            Text(
-                              "${accountModels![index].accountDataModel!.xtzBalance!.toStringAsFixed(2)} Tez",
-                              style: bodySmall.copyWith(color: ColorConst.grey),
-                            ),
-                          ],
-                        ),
-                        this.index == index
-                            ? Expanded(
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: SvgPicture.asset(
-                                    "assets/svg/check_3.svg",
-                                    height: 14.arP,
-                                    width: 14.arP,
-                                  ),
-                                ),
-                              )
-                            : Container()
-                      ],
-                    ),
-                  ),
-                );
-              },
-              itemCount: accountModels!.length,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

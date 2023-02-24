@@ -124,8 +124,8 @@ class AccountWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: CupertinoActivityIndicator(
-                            color: ColorConst.Primary,
-                          ),
+              color: ColorConst.Primary,
+            ),
           ),
         );
       }
@@ -185,8 +185,8 @@ class AccountWidget extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              height: 48,
-              width: 48,
+              height: 48.arP,
+              width: 48.arP,
               alignment: Alignment.bottomRight,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -267,6 +267,7 @@ class AccountWidget extends StatelessWidget {
                         : Icon(
                             Icons.circle_outlined,
                             color: ColorConst.NeutralVariant.shade30,
+                            size: 20.arP,
                           )),
           ],
         ),

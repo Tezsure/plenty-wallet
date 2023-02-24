@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
@@ -10,6 +11,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/choose_payment_method.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -24,16 +26,19 @@ class TFArtFoundationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
+        final address = Get.find<HomePageController>().userAccounts.isEmpty
+            ? null
+            : Get.find<HomePageController>().userAccounts.first.publicKeyHash;
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.TF_COLLECTION,
+            param: {NaanAnalytics.address: address});
         String url =
             "https://tezos.foundation/tezos-foundation-permanent-art-collection/digital-art-gallery-by-misan-harriman/";
         // Get.to(BuyNFTPage(), arguments: url);
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           const DappBrowserView(),
-          barrierColor: Colors.white.withOpacity(0.09),
           settings: RouteSettings(
             arguments: url,
           ),
-          isScrollControlled: true,
         );
       },
       child: HomeWidgetFrame(
@@ -68,6 +73,7 @@ class TFArtFoundationWidget extends StatelessWidget {
                           // ignore: prefer_const_literals_to_create_immutables
                           colors: [
                         Colors.transparent,
+                        Colors.grey[900]!.withOpacity(0.3),
                         Colors.grey[900]!.withOpacity(0.6),
                         Colors.grey[900]!.withOpacity(0.99),
                       ])),

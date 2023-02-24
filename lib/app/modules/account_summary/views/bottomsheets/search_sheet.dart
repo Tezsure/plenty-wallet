@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/transaction_details.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -405,7 +406,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
           HistoryTile(
             tokenInfo: controller.searchTransactionList[index],
             xtzPrice: controller.accController.xtzPrice.value,
-            onTap: () => Get.bottomSheet(
+            onTap: () => CommonFunctions.bottomSheet(
               TransactionDetailsBottomSheet(
                 tokenInfo: controller.searchTransactionList[index],
                 userAccountAddress: controller
@@ -413,8 +414,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                 transactionModel:
                     controller.searchTransactionList[index].token!,
               ),
-              enterBottomSheetDuration: const Duration(milliseconds: 180),
-              exitBottomSheetDuration: const Duration(milliseconds: 150),
             ),
           ),
         ],

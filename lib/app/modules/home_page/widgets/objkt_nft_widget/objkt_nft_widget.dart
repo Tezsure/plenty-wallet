@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/choose_payment_method.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -25,15 +26,11 @@ class ObjktNftWidget extends StatelessWidget {
       onPressed: () {
         String url = "https://objkt.com";
         // Get.to(BuyNFTPage(), arguments: url);
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           const DappBrowserView(),
-          barrierColor: Colors.white.withOpacity(0.09),
           settings: RouteSettings(
             arguments: url,
           ),
-          isScrollControlled: true,
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
         );
       },
       child: HomeWidgetFrame(

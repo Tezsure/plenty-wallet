@@ -14,6 +14,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/account_switch_widget/
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_account_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -33,15 +34,14 @@ class BuyTezWidget extends StatelessWidget {
             .where((element) => element.isWatchOnly == false)
             .toList()
             .isEmpty) {
-          Get.bottomSheet(
+          CommonFunctions.bottomSheet(
             NoAccountsFoundBottomSheet(),
-            isScrollControlled: true,
             // enterBottomSheetDuration: const Duration(milliseconds: 180),
             // exitBottomSheetDuration: const Duration(milliseconds: 150),
           );
           return;
         } else {
-          Get.bottomSheet(
+          CommonFunctions.bottomSheet(
             AccountSwitch(
               title: "Buy tez",
               subtitle:
@@ -54,18 +54,14 @@ class BuyTezWidget extends StatelessWidget {
                     });
                 String url =
                     "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
-                Get.bottomSheet(
+                CommonFunctions.bottomSheet(
                   const DappBrowserView(),
                   settings: RouteSettings(
                     arguments: url,
                   ),
-                  isScrollControlled: true,
                 );
               },
             ),
-            isScrollControlled: true,
-            // enterBottomSheetDuration: const Duration(milliseconds: 180),
-            // exitBottomSheetDuration: const Duration(milliseconds: 150),
           );
         }
       },

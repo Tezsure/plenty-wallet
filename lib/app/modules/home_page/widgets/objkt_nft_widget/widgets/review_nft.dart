@@ -200,8 +200,9 @@ class ReviewNFTSheet extends StatelessWidget {
         ),
         0.008.vspace,
         Obx(() => Container(
-              height: 42.arP,
-              padding: EdgeInsets.symmetric(horizontal: 20.arP),
+              // height: 42.arP,
+              padding:
+                  EdgeInsets.symmetric(horizontal: 20.arP, vertical: 10.arP),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: ColorConst.grey,
@@ -217,8 +218,8 @@ class ReviewNFTSheet extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(right: 16.0.arP),
                     child: Container(
-                      height: 0.06.width,
-                      width: 0.06.width,
+                      height: 40.arP,
+                      width: 40.arP,
                       alignment: Alignment.bottomRight,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -287,15 +288,15 @@ class ReviewNFTSheet extends StatelessWidget {
                       height: 20,
                       width: 20,
                       child: CupertinoActivityIndicator(
-                            color: Colors.white,
-                          ),
+                        color: Colors.white,
+                      ),
                     )
                   : Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(
-                          height: 20,
-                          width: 20,
+                          height: 20.arP,
+                          width: 20.arP,
                           child: Platform.isAndroid
                               ? SvgPicture.asset(
                                   "${PathConst.SVG}fingerprint.svg",

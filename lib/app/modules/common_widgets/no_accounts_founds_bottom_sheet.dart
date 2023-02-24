@@ -15,6 +15,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -88,13 +89,8 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
                 ),
                 onPressed: () {
                   Get.back();
-                  Get.bottomSheet(AddNewAccountBottomSheet(),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          barrierColor: Colors.transparent,
-                          isScrollControlled: true)
+                  CommonFunctions.bottomSheet(AddNewAccountBottomSheet(),
+                         )
                       .whenComplete(() {
                     Get.find<AccountsWidgetController>().resetCreateNewWallet();
                   });
