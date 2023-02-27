@@ -17,62 +17,62 @@ import '../../../data/services/rpc_service/http_service.dart';
 
 class SplashPageController extends GetxController {
   @override
-  Future<void> onInit() async {
-    super.onInit();
-    try {
-      await Get.updateLocale(Locale("en", "US"));
-      print("languageCode: ${Get.locale?.languageCode}");
-    } catch (e) {}
-    await Future.delayed(const Duration(milliseconds: 1800));
-    // un-comment below line to test onboarding flow multiple time
+  // Future<void> onInit() async {
+  //   super.onInit();
+  //   try {
+  //     await Get.updateLocale(Locale("en", "US"));
+  //     print("languageCode: ${Get.locale?.languageCode}");
+  //   } catch (e) {}
+  //   await Future.delayed(const Duration(milliseconds: 1800));
+  //   // un-comment below line to test onboarding flow multiple time
 
-    // await ServiceConfig().clearStorage();
+  //   // await ServiceConfig().clearStorage();
 
-    ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
-        ServiceConfig.currentSelectedNode;
-    await DataHandlerService().initDataServices();
-    ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
-    ServiceConfig.ipfsUrl = (await RpcService.getIpfsUrl()).trim();
-    ServiceConfig.isIAFWidgetVisible = (await IAFService.getWidgetVisibility());
-    ServiceConfig.isTezQuakeWidgetVisible =
-        (await getWidgetVisibility('tezquakeaid-widget-visiable'));
-    AppConstant.naanCollection = (await ArtFoundationHandler.getCollectionNfts(
-        "tz1YNsgF2iJUwuJf1SVNFjNfnzqDAdx6HNP8"));
+  //   ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
+  //       ServiceConfig.currentSelectedNode;
+  //   await DataHandlerService().initDataServices();
+  //   ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
+  //   ServiceConfig.ipfsUrl = (await RpcService.getIpfsUrl()).trim();
+  //   ServiceConfig.isIAFWidgetVisible = (await IAFService.getWidgetVisibility());
+  //   ServiceConfig.isTezQuakeWidgetVisible =
+  //       (await getWidgetVisibility('tezquakeaid-widget-visiable'));
+  //   AppConstant.naanCollection = (await ArtFoundationHandler.getCollectionNfts(
+  //       "tz1YNsgF2iJUwuJf1SVNFjNfnzqDAdx6HNP8"));
 
-    AppConstant.tfCollection = (await ArtFoundationHandler.getCollectionNfts(
-        "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
+  //   AppConstant.tfCollection = (await ArtFoundationHandler.getCollectionNfts(
+  //       "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
 
-    var walletAccountsLength =
-        (await UserStorageService().getAllAccount()).length;
-    var watchAccountsLength =
-        (await UserStorageService().getAllAccount(watchAccountsList: true))
-            .length;
+  //   var walletAccountsLength =
+  //       (await UserStorageService().getAllAccount()).length;
+  //   var watchAccountsLength =
+  //       (await UserStorageService().getAllAccount(watchAccountsList: true))
+  //           .length;
 
-    Get.put(NftGalleryWidgetController(), permanent: true);
+  //   Get.put(NftGalleryWidgetController(), permanent: true);
 
-    if (walletAccountsLength != 0 || watchAccountsLength != 0) {
-      bool isPasscodeSet = await AuthService().getIsPassCodeSet();
+  //   if (walletAccountsLength != 0 || watchAccountsLength != 0) {
+  //     bool isPasscodeSet = await AuthService().getIsPassCodeSet();
 
-      /// ask for auth and redirect to home page
-      Get.offAllNamed(
-        Routes.PASSCODE_PAGE,
-        arguments: [
-          isPasscodeSet,
-          Routes.HOME_PAGE,
-        ],
-      );
-    } else {
-      Get.offAndToNamed(
-        Routes.ONBOARDING_PAGE,
-      );
-      // Future.delayed(
-      //   const Duration(seconds: 1),
-      //   () => Get.offAndToNamed(
-      //     Routes.ONBOARDING_PAGE,
-      //   ),
-      // );
-    }
-  }
+  //     /// ask for auth and redirect to home page
+  //     Get.offAllNamed(
+  //       Routes.PASSCODE_PAGE,
+  //       arguments: [
+  //         isPasscodeSet,
+  //         Routes.HOME_PAGE,
+  //       ],
+  //     );
+  //   } else {
+  //     Get.offAndToNamed(
+  //       Routes.ONBOARDING_PAGE,
+  //     );
+  //     // Future.delayed(
+  //     //   const Duration(seconds: 1),
+  //     //   () => Get.offAndToNamed(
+  //     //     Routes.ONBOARDING_PAGE,
+  //     //   ),
+  //     // );
+  //   }
+  // }
 
   static Future<bool> getWidgetVisibility(String id) async {
     try {
