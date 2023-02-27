@@ -56,75 +56,71 @@ class NftGalleryView extends GetView<NftGalleryController> {
   Widget _buildGalleryWithSearch(BuildContext context) {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 0,
-      isScrollControlled: true,
+      // isScrollControlled: true,
       // height: AppConstant.naanBottomSheetHeight -
       //     MediaQuery.of(context).viewInsets.bottom,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
               MediaQuery.of(context).viewInsets.bottom,
-          child: Stack(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  0.02.vspace,
-                  _searchAppBarWidget(),
-                  SizedBox(
-                    height: 25.arP,
-                  ),
-                  controller.searchText.value.isEmpty
-                      ? Container(
-                          margin: EdgeInsets.only(top: 0.03.height),
-                          child: Text(
-                            "Try searching for an artist, \ncollection name or NFT name",
-                            textAlign: TextAlign.center,
-                            style: bodyMedium.copyWith(color: ColorConst.grey),
-                          ),
-                        )
-                      : controller.isSearching.value
-                          ? NftGallerySkeleton()
-                          : controller.searchNfts.isEmpty
-                              ? Container(
-                                  margin: EdgeInsets.only(top: 0.03.height),
-                                  child: Column(
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/nft_page/svg/no_results.svg",
-                                        width: 0.5.width,
-                                      ),
-                                      SizedBox(
-                                        height: 0.02.height,
-                                      ),
-                                      Text(
-                                        "Probably Nothing",
-                                        textAlign: TextAlign.center,
-                                        style: titleLarge,
-                                      ),
-                                      SizedBox(
-                                        height: 0.01.height,
-                                      ),
-                                      Text(
-                                        "We didn’t find any results. Did you \nmisspell your query?",
-                                        textAlign: TextAlign.center,
-                                        style: bodySmall.copyWith(
-                                            color: ColorConst.grey),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : controller.searchNfts.length == 1 &&
-                                      controller.searchNfts.entries.first.value
-                                              .length ==
-                                          1
-                                  ? _getNftListViewWidget(
-                                      1.1, controller.searchNfts)
-                                  : _getCollectionGridViewWidget(
-                                      controller.searchNfts),
-                ],
+              0.02.vspace,
+              _searchAppBarWidget(),
+              SizedBox(
+                height: 25.arP,
               ),
+              controller.searchText.value.isEmpty
+                  ? Container(
+                      margin: EdgeInsets.only(top: 0.03.height),
+                      child: Text(
+                        "Try searching for an artist, \ncollection name or NFT name",
+                        textAlign: TextAlign.center,
+                        style: bodyMedium.copyWith(color: ColorConst.grey),
+                      ),
+                    )
+                  : controller.isSearching.value
+                      ? NftGallerySkeleton()
+                      : controller.searchNfts.isEmpty
+                          ? Container(
+                              margin: EdgeInsets.only(top: 0.03.height),
+                              child: Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/nft_page/svg/no_results.svg",
+                                    width: 0.5.width,
+                                  ),
+                                  SizedBox(
+                                    height: 0.02.height,
+                                  ),
+                                  Text(
+                                    "Probably Nothing",
+                                    textAlign: TextAlign.center,
+                                    style: titleLarge,
+                                  ),
+                                  SizedBox(
+                                    height: 0.01.height,
+                                  ),
+                                  Text(
+                                    "We didn’t find any results. Did you \nmisspell your query?",
+                                    textAlign: TextAlign.center,
+                                    style: bodySmall.copyWith(
+                                        color: ColorConst.grey),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : controller.searchNfts.length == 1 &&
+                                  controller.searchNfts.entries.first.value
+                                          .length ==
+                                      1
+                              ? _getNftListViewWidget(
+                                  1.1, controller.searchNfts)
+                              : _getCollectionGridViewWidget(
+                                  controller.searchNfts),
             ],
           ),
         ),
@@ -922,14 +918,14 @@ class NftGalleryView extends GetView<NftGalleryController> {
           },
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.arP),
-            child: Text(controller.isEditing.value ? "Cancel" : "Edit",
+            child: Text(controller.isEditing.value ? "Done" : "Edit",
                 style: bodySmall.copyWith(
                     fontWeight: FontWeight.w600, color: ColorConst.Primary)),
           ),
         ),
         // height: 0.6.height,
         isScrollControlled: true,
-        bottomSheetHorizontalPadding: 0.arP,
+        // bottomSheetHorizontalPadding: 0.arP,
         title: "Galleries",
         bottomSheetWidgets: [
           SizedBox(
@@ -1092,13 +1088,14 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                         // NaanAnalytics.logEvent(
                                                         //     NaanAnalyticsEvents
                                                         //         .REMOVE_NFT_GALLERY);
-                                                        CommonFunctions.bottomSheet(
-                                                            RemoveGallerySheet(
-                                                                controller:
-                                                                    controller,
-                                                                galleryIndex:
-                                                                    index),
-                                                          );
+                                                        CommonFunctions
+                                                            .bottomSheet(
+                                                          RemoveGallerySheet(
+                                                              controller:
+                                                                  controller,
+                                                              galleryIndex:
+                                                                  index),
+                                                        );
                                                       },
                                                       child: Text(
                                                         "Remove",

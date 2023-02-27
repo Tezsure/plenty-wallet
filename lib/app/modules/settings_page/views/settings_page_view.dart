@@ -301,7 +301,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
       child: Row(
         children: [
           SizedBox(
-            width: 0.165.width,
+            width: 20.arP,
             child: Align(
               alignment: Alignment.centerLeft,
               child: Platform.isAndroid
@@ -314,6 +314,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                     ),
             ),
           ),
+          0.04.hspace,
           Text(
             "Sign in with ${Platform.isAndroid ? "Biometrics" : "Face ID"}",
             style: labelMedium,

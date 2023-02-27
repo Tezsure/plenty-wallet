@@ -721,6 +721,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  modal_bottom_sheet:
+    dependency: "direct main"
+    description:
+      path: "packages/modal_bottom_sheet/modal_bottom_sheet"
+      relative: true
+    source: path
+    version: "3.0.0-pre"
   octo_image:
     dependency: transitive
     description:
@@ -1312,5 +1319,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.0 <3.0.0"
-  flutter: ">=3.3.0"
+  dart: ">=2.19.0 <4.0.0"
+  flutter: ">=3.7.0"

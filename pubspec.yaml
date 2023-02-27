@@ -49,6 +49,8 @@ dependencies:
   collection:
   instabug_flutter:
   onesignal_flutter: ^3.5.0
+  modal_bottom_sheet: 
+    path: packages/modal_bottom_sheet/modal_bottom_sheet
 
   # Firebase
 

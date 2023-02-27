@@ -460,7 +460,7 @@ class CreateNewNftGalleryBottomSheet
             nftGalleryModel != null ? "Edit your gallery" : "Name your gallery",
 
         // height: AppConstant.naanBottomSheetHeight,
-        isScrollControlled: true,
+        // isScrollControlled: true,
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight -
@@ -540,22 +540,17 @@ class CreateNewNftGalleryBottomSheet
                     margin: EdgeInsets.only(
                       left: 16.arP + 16.arP,
                       right: 16.arP + 16.arP,
-                      bottom: 35.arP,
-                      top: 30.arP,
+                      // bottom: 35.arP,
+                      // top: 30.arP,
                     ),
                     child: Obx(() {
                       return SolidButton(
                         isLoading: controller.isCreating,
                         title: "Done",
-                        height: 50.arP,
+                        // height: 50.arP,
                         active: controller.accountName.isNotEmpty &&
                             controller.accountName.value.length > 2,
-                        borderRadius: 8.arP,
-                        titleStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.arP,
-                          fontWeight: FontWeight.w600,
-                        ),
+
                         onPressed: () async {
                           if (nftGalleryModel == null) {
                             await controller.addNewNftGallery();

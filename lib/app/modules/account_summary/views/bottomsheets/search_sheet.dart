@@ -59,7 +59,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      isScrollControlled: true,
+      height: AppConstant.naanBottomSheetHeight,
+      // isScrollControlled: true,
       // height: AppConstant.naanBottomSheetHeight -
       //     MediaQuery.of(context).viewInsets.bottom,
       bottomSheetHorizontalPadding: 0,
@@ -84,6 +85,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                       child: SizedBox(
                         height: 50.arP,
                         child: TextFormField(
+                          autofocus: true,
+                          cursorColor: ColorConst.Primary,
                           controller: searchController,
                           textAlignVertical: TextAlignVertical.top,
                           textAlign: TextAlign.start,

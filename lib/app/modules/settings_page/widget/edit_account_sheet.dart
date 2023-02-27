@@ -38,8 +38,9 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      isScrollControlled: true,
       height: 0.87.height,
-      bottomSheetHorizontalPadding: 32,
+      // bottomSheetHorizontalPadding: 32,
       crossAxisAlignment: CrossAxisAlignment.center,
       bottomSheetWidgets: [editaccountUI()],
     );
@@ -231,8 +232,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
 
   Widget changePhotoBottomSheet() {
     return NaanBottomSheet(
-      height: 296,
-      bottomSheetHorizontalPadding: 32,
+      height: 296.arP,
+      // bottomSheetHorizontalPadding: 32,
       bottomSheetWidgets: [
         Align(
           alignment: Alignment.centerLeft,

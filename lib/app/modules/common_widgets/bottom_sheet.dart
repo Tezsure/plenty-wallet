@@ -181,7 +181,7 @@ class NaanBottomSheet extends StatelessWidget {
                       Expanded(
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: leading ?? SizedBox.shrink(),
+                          child: leading ?? const SizedBox.shrink(),
                         ),
                       ),
                       Expanded(
@@ -198,7 +198,7 @@ class NaanBottomSheet extends StatelessWidget {
                       Expanded(
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child: action ?? SizedBox.shrink(),
+                          child: action ?? const SizedBox.shrink(),
                         ),
                       ),
                     ],

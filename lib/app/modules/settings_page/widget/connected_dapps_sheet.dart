@@ -91,7 +91,13 @@ class ConnectedDappBottomSheet extends StatelessWidget {
               backgroundColor: dappModel.icon != null
                   ? ColorConst.NeutralVariant.shade60.withOpacity(0.2)
                   : ColorConst.Primary,
-              backgroundImage: CachedNetworkImageProvider(dappModel.icon ?? ""),
+              backgroundImage: Image.network(
+                dappModel.icon ?? "",
+                errorBuilder: (context, error, stackTrace) => Text(
+                  dappModel.name.substring(0, 1).toUpperCase(),
+                  style: titleMedium,
+                ),
+              ).image,
               child: dappModel.icon == null
                   ? Text(
                       dappModel.name.substring(0, 1).toUpperCase(),

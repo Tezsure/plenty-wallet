@@ -9,7 +9,7 @@ class AppConstant {
   static const String defaultUrl = 'https://dapps-naan.netlify.app/';
   static const String naanWebsite = 'https://naan.app/';
   static double homeWidgetDimension = ((0.5 * Get.width) - 33.arP);
-  // static double naanBottomSheetHeight = 0.89.height;
+  static double naanBottomSheetHeight = 0.89.height;
   static double naanBottomSheetChildHeight = 0.87.height;
   static const ScrollPhysics scrollPhysics =
       BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics());

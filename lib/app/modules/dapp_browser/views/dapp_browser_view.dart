@@ -59,9 +59,9 @@ class DappBrowserView extends GetView<DappBrowserController> {
       child: Container(
         height: 0.95.height,
         width: 1.width,
-        margin: EdgeInsets.only(
-          top: 0.05.height,
-        ),
+        // margin: EdgeInsets.only(
+        //   top: 0.05.height,
+        // ),
         padding: EdgeInsets.only(
           bottom: Platform.isIOS ? 0.03.height : 0.01.height,
         ),

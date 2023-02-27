@@ -45,7 +45,7 @@ abstract class _Paths {
   // static const SETTINGS_PAGE = '/settings-page';
   static const SEND_PAGE = '/send-page';
   static const RECEIVE_PAGE = '/receive-page';
-  static const SPLASH_PAGE = '/splash-page';
+  static const SPLASH_PAGE = '/';
   static const LOADING_PAGE = '/loading-page';
   static const ACCOUNT_SUMMARY = '/account-summary';
   static const DAPP_BROWSER = '/dapp-browser';
