@@ -24,7 +24,7 @@ class DeleteContactBottomSheet extends StatelessWidget {
     return NaanBottomSheet(
       title: 'Delete contact',
       bottomSheetHorizontalPadding: 32.arP,
-      height: 275,
+      height: 275.arP,
       bottomSheetWidgets: [
         0.01.vspace,
         Center(

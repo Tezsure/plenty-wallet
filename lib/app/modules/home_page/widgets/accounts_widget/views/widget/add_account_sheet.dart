@@ -31,7 +31,7 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 0,
-      height: 440.arP,
+      height: 0.44.height,
       title: widget.warning ?? 'Add account',
       bottomSheetWidgets: [
         SizedBox(

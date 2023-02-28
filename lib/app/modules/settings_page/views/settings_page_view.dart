@@ -38,11 +38,11 @@ class SettingsPageView extends GetView<SettingsPageController> {
     Get.put(SettingsPageController());
     return NaanBottomSheet(
         title: "Settings",
-        height: .89.height,
-        bottomSheetHorizontalPadding: 16.arP,
+        height: AppConstant.naanBottomSheetHeight,
+        // bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
           SizedBox(
-            height: 0.81.height,
+            height: AppConstant.naanBottomSheetChildHeight,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -244,7 +244,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         Container(
           decoration: BoxDecoration(
               color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8)),
+              borderRadius: BorderRadius.circular(8.arP)),
           child: ListView.separated(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -301,7 +301,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
       child: Row(
         children: [
           SizedBox(
-            width: 0.165.width,
+            width: 20.arP,
             child: Align(
               alignment: Alignment.centerLeft,
               child: Platform.isAndroid
@@ -314,6 +314,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                     ),
             ),
           ),
+          0.04.hspace,
           Text(
             "Sign in with ${Platform.isAndroid ? "Biometrics" : "Face ID"}",
             style: labelMedium,
@@ -350,7 +351,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
       child: Container(
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(8)),
+            borderRadius: BorderRadius.circular(8.arP)),
         height: 71,
         padding: EdgeInsets.symmetric(horizontal: 0.05.width),
         child: Row(
@@ -407,7 +408,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
       child: Container(
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(8)),
+            borderRadius: BorderRadius.circular(8.arP)),
         // height: 54,
         padding: EdgeInsets.symmetric(horizontal: 0.05.width, vertical: 16.arP),
         child: Row(
@@ -440,8 +441,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
       child: Container(
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(8)),
-        height: 54,
+            borderRadius: BorderRadius.circular(8.arP)),
+        height: 54.arP,
         padding: EdgeInsets.symmetric(horizontal: 0.05.width),
         child: Row(
           children: [
@@ -450,7 +451,10 @@ class SettingsPageView extends GetView<SettingsPageController> {
               style: labelMedium.apply(color: ColorConst.Error.shade60),
             ),
             const Spacer(),
-            SvgPicture.asset("${PathConst.SETTINGS_PAGE.SVG}logout.svg")
+            SvgPicture.asset(
+              "${PathConst.SETTINGS_PAGE.SVG}logout.svg",
+              height: 20.arP,
+            )
           ],
         ),
       ),
@@ -467,7 +471,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         return Container(
           decoration: BoxDecoration(
               color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8)),
+              borderRadius: BorderRadius.circular(8.arP)),
           padding: EdgeInsets.symmetric(
               horizontal: 0.05.width, vertical: 0.04.width),
           margin: EdgeInsets.only(
@@ -534,7 +538,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         return Container(
           decoration: BoxDecoration(
               color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8)),
+              borderRadius: BorderRadius.circular(8.arP)),
           padding: EdgeInsets.symmetric(
               horizontal: 0.05.width, vertical: 0.04.width),
           margin: EdgeInsets.only(

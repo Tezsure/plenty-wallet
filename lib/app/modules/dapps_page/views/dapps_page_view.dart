@@ -26,16 +26,12 @@ class DappsPageView extends GetView<DappsPageController> {
   Widget build(BuildContext context) {
     Get.put(DappsPageController());
     return Container(
-      height: 0.95.height,
+      height: Get.size.height < 600 || Get.size.height > 1100
+          ? 0.9.height
+          : AppConstant.naanBottomSheetHeight,
       width: 1.width,
-      margin: EdgeInsets.only(
-        top: 0.05.height,
-      ),
-      padding: EdgeInsets.only(
-          // bottom: Platform.isIOS ? 0.05.height : 0.02.height,
-          ),
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(10.arP)),
           color: Colors.black),
       child: Column(
         children: [
@@ -43,10 +39,10 @@ class DappsPageView extends GetView<DappsPageController> {
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              height: 5,
-              width: 36,
+              height: 5.arP,
+              width: 36.arP,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(5.arP),
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
               ),
             ),
@@ -215,7 +211,7 @@ class DappsPageView extends GetView<DappsPageController> {
                 child: Text(
                   controller.dappBanners[index].description!,
                   style: TextStyle(
-                    fontSize: 14.arP,
+                    fontSize: 14.txtArp,
                     color: const Color(0xFFFFFFFF),
                     letterSpacing: 0.27.arP,
                     fontWeight: FontWeight.w400,
@@ -303,7 +299,7 @@ class DappListItemWidget extends StatelessWidget {
                     Text(
                       dapp.name!,
                       style: TextStyle(
-                        fontSize: 14.arP,
+                        fontSize: 14.txtArp,
                         color: const Color(0xFFFFFFFF),
                         fontWeight: FontWeight.w700,
                       ),
@@ -314,7 +310,7 @@ class DappListItemWidget extends StatelessWidget {
                       dapp.description!,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 12.arP,
+                        fontSize: 12.txtArp,
                         color: const Color(0xFF958E99),
                         letterSpacing: 0.27.arP,
                         fontWeight: FontWeight.w400,

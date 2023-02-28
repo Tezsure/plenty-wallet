@@ -82,8 +82,8 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                       ),
                     ) +
                     [
-                      const SizedBox(
-                        height: 8,
+                       SizedBox(
+                        height: 8.arP,
                       ),
                       if (controller.userNfts.length > 3)
                         Align(

@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -22,6 +23,8 @@ class PasscodePageView extends GetView<PasscodePageController> {
     controller.isToVerifyPassCode.value = args[0] as bool;
     if (args.length == 2) {
       controller.nextPageRoute = args[1] as String;
+    } else {
+      controller.nextPageRoute = null;
     }
 
     if (controller.isToVerifyPassCode.value) {
@@ -32,7 +35,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-          leading: Get.previousRoute.toString() != "/splash-page"
+          leading: Get.previousRoute.toString() != Routes.SPLASH_PAGE
               ? Container()
               : Align(
                   alignment: Alignment.centerLeft,

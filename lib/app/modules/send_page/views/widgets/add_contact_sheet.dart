@@ -63,10 +63,10 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
     Get.put(TransactionController());
     return NaanBottomSheet(
       title: widget.isEditContact ? "Edit Contact" : 'Add Contact',
-      isScrollControlled: true,
+      // isScrollControlled: true,
       // height: AppConstant.naanBottomSheetHeight -
       //     MediaQuery.of(context).viewInsets.bottom,
-      bottomSheetHorizontalPadding: 32.arP,
+      // bottomSheetHorizontalPadding: 32.arP,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
@@ -114,6 +114,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
               ),
               0.02.vspace,
               NaanTextfield(
+                autofocus: true,
                 height: 52.aR,
                 hint: 'Enter contact name',
                 hintTextSyle: bodyMedium.copyWith(
@@ -191,8 +192,9 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
         Get.back();
       }
     }, onPickAvatarSelect: () async {
-      CommonFunctions.bottomSheet(avatarPicker(),
-          );
+      CommonFunctions.bottomSheet(
+        avatarPicker(),
+      );
     });
     // return BackdropFilter(
     //   filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),

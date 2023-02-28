@@ -11,9 +11,11 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:instabug_flutter/instabug_flutter.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/env.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app/routes/app_pages.dart';
 
@@ -79,22 +81,33 @@ void main() async {
 
     runApp(
       GetMaterialApp(
-        title: "naan",
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          fontFamily: "Poppins",
-        ),
-        navigatorObservers: [
-          //InstabugNavigatorObserver(),
-          FirebaseAnalyticsObserver(analytics: NaanAnalytics().getAnalytics()),
-        ],
-        supportedLocales: const [
-          Locale("en", "US"),
-        ],
-        debugShowCheckedModeBanner: false,
-        initialRoute: AppPages.INITIAL,
-        getPages: AppPages.routes,
-      ),
+          title: "naan",
+          theme: ThemeData(
+            brightness: Brightness.dark,
+            fontFamily: "Poppins",
+          ),
+          navigatorObservers: [
+            //InstabugNavigatorObserver(),
+            FirebaseAnalyticsObserver(
+                analytics: NaanAnalytics().getAnalytics()),
+          ],
+          supportedLocales: const [
+            Locale("en", "US"),
+          ],
+          debugShowCheckedModeBanner: false,
+          initialRoute: AppPages.INITIAL,
+
+          // getPages: AppPages.routes,
+          onGenerateRoute: (settings) {
+            final page = AppPages.routes.firstWhere(
+                (e) => e.name.toLowerCase() == settings.name!.toLowerCase());
+            page.binding?.dependencies();
+
+            return MaterialWithModalsPageRoute(
+                settings: settings,
+                builder: (context) => CupertinoScaffold(
+                    topRadius: Radius.circular(24.arP), body: page.page()));
+          }),
     );
   }, (error, stackTrace) {
     CrashReporting.reportCrash(error, stackTrace);

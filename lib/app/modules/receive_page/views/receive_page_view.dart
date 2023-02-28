@@ -24,51 +24,55 @@ class ReceivePageView extends GetView<ReceivePageController> {
     final ReceivePageController controller = Get.put(ReceivePageController());
     return NaanBottomSheet(
       isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight,
+      height: AppConstant.naanBottomSheetHeight,
       title: "Receive",
       bottomSheetWidgets: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(),
-            0.01.vspace,
-            Text(
-              'You can receive tez or any other Tezos\nbased assets on this address by\nsharing this QR code.',
-              textAlign: TextAlign.center,
-              style: bodySmall.copyWith(
-                  fontSize: 12.aR, color: ColorConst.NeutralVariant.shade60),
-            ),
-            0.05.vspace,
-            qrCode(),
-            0.047.vspace,
-            BouncingWidget(
-              onPressed: () {
-                controller.copyAddress(controller.userAccount!.publicKeyHash!);
-              },
-              child: Column(
-                children: [
-                  Text(
-                    controller.userAccount!.name!,
-                    style: titleLarge.copyWith(fontSize: 22.aR),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 8.arP),
-                    child: Text(
-                      tz1Shortner(
-                        controller.userAccount!.publicKeyHash!,
-                      ),
-                      style: bodySmall.apply(
-                          color: ColorConst.NeutralVariant.shade60),
-                    ),
-                  ),
-                ],
+        SizedBox(
+          height: AppConstant.naanBottomSheetChildHeight,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(),
+              0.01.vspace,
+              Text(
+                'You can receive tez or any other Tezos\nbased assets on this address by\nsharing this QR code.',
+                textAlign: TextAlign.center,
+                style: bodySmall.copyWith(
+                    fontSize: 12.aR, color: ColorConst.NeutralVariant.shade60),
               ),
-            ),
-            0.04.vspace,
-            shareButton(),
-            0.1.vspace,
-            BottomButtonPadding()
-          ],
+              0.05.vspace,
+              qrCode(),
+              0.047.vspace,
+              BouncingWidget(
+                onPressed: () {
+                  controller
+                      .copyAddress(controller.userAccount!.publicKeyHash!);
+                },
+                child: Column(
+                  children: [
+                    Text(
+                      controller.userAccount!.name!,
+                      style: titleLarge.copyWith(fontSize: 22.aR),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.arP),
+                      child: Text(
+                        tz1Shortner(
+                          controller.userAccount!.publicKeyHash!,
+                        ),
+                        style: bodySmall.apply(
+                            color: ColorConst.NeutralVariant.shade60),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              0.04.vspace,
+              shareButton(),
+              0.1.vspace,
+              BottomButtonPadding()
+            ],
+          ),
         ),
       ],
     );

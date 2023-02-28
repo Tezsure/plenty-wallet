@@ -119,13 +119,13 @@ class CreateNewNftGalleryBottomSheet
     // }
     return NaanBottomSheet(
       title: controller.accounts.isEmpty ? "" : "Select accounts",
-      bottomSheetHorizontalPadding: 0,
-      isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight,
+      // bottomSheetHorizontalPadding: 0,
+      // isScrollControlled: true,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         Obx(() {
           return SizedBox(
-            height: AppConstant.naanBottomSheetChildHeight - 40,
+            height: AppConstant.naanBottomSheetChildHeight,
             child: controller.accounts.isEmpty
                 ? noAccountsWidget()
                 : _accountSelectorList(),
@@ -162,10 +162,7 @@ class CreateNewNftGalleryBottomSheet
                 () => Expanded(
                   flex: 1,
                   child: NaanListView(
-                    listViewEdgeInsets: EdgeInsets.only(
-                      left: 16.arP,
-                      right: 16.arP,
-                    ),
+                    listViewEdgeInsets: EdgeInsets.zero,
                     itemBuilder: (context, index) =>
                         accountItemWidget(index, controller.accounts[index]),
                     itemCount: controller.accounts.length,
@@ -224,7 +221,7 @@ class CreateNewNftGalleryBottomSheet
         // mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Spacer(),
+          const Spacer(),
           SvgPicture.asset(
             "${PathConst.EMPTY_STATES}no_accounts.svg",
             height: 175.arP,
@@ -255,13 +252,9 @@ class CreateNewNftGalleryBottomSheet
               letterSpacing: 0.4.arP,
             ),
           ),
-          Spacer(),
-          SolidButton(
-            width: 1.width - 64.arP,
-            onPressed: _onImportAccount,
-            title: "Add a watch address",
-          ),
-          BottomButtonPadding()
+          const Spacer(),
+          _importWatchAddressButton(),
+          const BottomButtonPadding()
         ],
       ),
     );
@@ -455,17 +448,16 @@ class CreateNewNftGalleryBottomSheet
   /// Create gallery profile widget
 
   Widget createGalleryProfileWidget(BuildContext context) => NaanBottomSheet(
-        bottomSheetHorizontalPadding: 0,
+        // bottomSheetHorizontalPadding: 0,
         title:
             nftGalleryModel != null ? "Edit your gallery" : "Name your gallery",
 
-        // height: AppConstant.naanBottomSheetHeight,
-        isScrollControlled: true,
+        height: AppConstant.naanBottomSheetHeight,
+        // isScrollControlled: true,
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight -
-                MediaQuery.of(context).viewInsets.bottom -
-                64.arP,
+                MediaQuery.of(context).viewInsets.bottom,
             child: Column(
               children: [
                 Obx(
@@ -513,49 +505,39 @@ class CreateNewNftGalleryBottomSheet
                 SizedBox(
                   height: 25.arP,
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 32.arP,
+                NaanTextfield(
+                  height: 50.arP,
+                  maxLen: 15,
+                  hint: "Account Name",
+                  focusNode: controller.accountNameFocus,
+                  controller: controller.accountNameController,
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.txtArp,
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 0.25.arP,
                   ),
-                  child: NaanTextfield(
-                    // height: 52,
-                    maxLen: 15,
-                    hint: "Account Name",
-                    focusNode: controller.accountNameFocus,
-                    controller: controller.accountNameController,
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.arP,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.25.arP,
-                    ),
-                    onTextChange: (String value) =>
-                        controller.accountName.value = value,
-                  ),
+                  onTextChange: (String value) =>
+                      controller.accountName.value = value,
                 ),
-                Spacer(),
+                const Spacer(),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     margin: EdgeInsets.only(
-                      left: 16.arP + 16.arP,
-                      right: 16.arP + 16.arP,
-                      bottom: 35.arP,
-                      top: 30.arP,
+                      left: 16.arP,
+                      right: 16.arP,
+                      // bottom: 35.arP,
+                      // top: 30.arP,
                     ),
                     child: Obx(() {
                       return SolidButton(
                         isLoading: controller.isCreating,
                         title: "Done",
-                        height: 50.arP,
+                        // height: 50.arP,
                         active: controller.accountName.isNotEmpty &&
                             controller.accountName.value.length > 2,
-                        borderRadius: 8.arP,
-                        titleStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.arP,
-                          fontWeight: FontWeight.w600,
-                        ),
+
                         onPressed: () async {
                           if (nftGalleryModel == null) {
                             await controller.addNewNftGallery();
@@ -567,7 +549,7 @@ class CreateNewNftGalleryBottomSheet
                     }),
                   ),
                 ),
-                BottomButtonPadding()
+                const BottomButtonPadding()
               ],
             ),
           ),

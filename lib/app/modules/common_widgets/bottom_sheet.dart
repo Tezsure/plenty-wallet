@@ -134,9 +134,9 @@ class NaanBottomSheet extends StatelessWidget {
           : SafeArea(
               bottom: false,
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10)),
+                        BorderRadius.vertical(top: Radius.circular(10.arP)),
                     color: Colors.black),
                 width: width ?? 1.width,
                 height: height,
@@ -161,10 +161,10 @@ class NaanBottomSheet extends StatelessWidget {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                height: 5,
-                width: 36,
+                height: 5.arP,
+                width: 36.arP,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(5.arP),
                   color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
                 ),
               ),
@@ -181,7 +181,7 @@ class NaanBottomSheet extends StatelessWidget {
                       Expanded(
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: leading ?? SizedBox.shrink(),
+                          child: leading ?? const SizedBox.shrink(),
                         ),
                       ),
                       Expanded(
@@ -198,7 +198,7 @@ class NaanBottomSheet extends StatelessWidget {
                       Expanded(
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child: action ?? SizedBox.shrink(),
+                          child: action ?? const SizedBox.shrink(),
                         ),
                       ),
                     ],

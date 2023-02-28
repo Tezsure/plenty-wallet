@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -21,11 +22,13 @@ class ConnectedDappBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => NaanBottomSheet(
-        blurRadius: 5,
-        height: 0.87.height,
-        isScrollControlled: true,
+        // blurRadius: 5,
+        height: controller.dapps.isEmpty
+            ? AppConstant.naanBottomSheetChildHeight / 1.5
+            : AppConstant.naanBottomSheetHeight,
+        // isScrollControlled: true,
         title: controller.dapps.isEmpty ? "" : "Connected apps",
-        bottomSheetHorizontalPadding: 16.arP,
+        // bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
           SizedBox(
             height: 20.arP,
@@ -91,7 +94,13 @@ class ConnectedDappBottomSheet extends StatelessWidget {
               backgroundColor: dappModel.icon != null
                   ? ColorConst.NeutralVariant.shade60.withOpacity(0.2)
                   : ColorConst.Primary,
-              backgroundImage: CachedNetworkImageProvider(dappModel.icon ?? ""),
+              backgroundImage: Image.network(
+                dappModel.icon ?? "",
+                errorBuilder: (context, error, stackTrace) => Text(
+                  dappModel.name.substring(0, 1).toUpperCase(),
+                  style: titleMedium,
+                ),
+              ).image,
               child: dappModel.icon == null
                   ? Text(
                       dappModel.name.substring(0, 1).toUpperCase(),

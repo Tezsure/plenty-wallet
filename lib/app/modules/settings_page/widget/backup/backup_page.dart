@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/select_reveal_key_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -25,37 +26,16 @@ class BackupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-        isScrollControlled: true,
-        // height: 0.9.height,
+        // isScrollControlled: true,
+        height: AppConstant.naanBottomSheetHeight,
         title: "Backup",
         leading: backButton(),
-        bottomSheetHorizontalPadding: 16.arP,
+        // bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
           SizedBox(
-            height: 0.85.height,
+            height: AppConstant.naanBottomSheetChildHeight,
             child: Column(
               children: [
-                // 0.015.vspace,
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: Align(
-                //           alignment: Alignment.centerLeft, child: backButton()),
-                //     ),
-                //     Expanded(
-                //       child: Container(
-                //         alignment: Alignment.center,
-                //         child: Text(
-                //           "Backup",
-                //           maxLines: 1,
-                //           style: titleLarge,
-                //           textAlign: TextAlign.center,
-                //         ),
-                //       ),
-                //     ),
-                //     const Spacer()
-                //   ],
-                // ),
                 0.02.vspace,
                 Expanded(
                   child: Obx(

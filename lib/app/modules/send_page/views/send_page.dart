@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/pages/contact_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/pages/token_collection_page_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -38,7 +39,7 @@ class SendPage extends GetView<SendPageController> {
       child: NaanBottomSheet(
         title: 'Send',
         // isScrollControlled: true,
-        height: 0.9.height - MediaQuery.of(context).viewInsets.bottom.arP,
+        height: AppConstant.naanBottomSheetHeight,
         bottomSheetHorizontalPadding: 16.arP,
         // margin: EdgeInsets.only(top: 27.arP),
         // decoration: const BoxDecoration(
@@ -48,8 +49,9 @@ class SendPage extends GetView<SendPageController> {
         bottomSheetWidgets: [
           searchBar(),
           SizedBox(
-            height:
-                (0.72.height - MediaQuery.of(context).viewInsets.bottom.arP),
+            height: (AppConstant.naanBottomSheetChildHeight -
+                0.12.height -
+                MediaQuery.of(context).viewInsets.bottom.arP),
             child: Obx(() => IndexedStack(
                   index: controller.selectedPageIndex.value,
                   sizing: StackFit.loose,

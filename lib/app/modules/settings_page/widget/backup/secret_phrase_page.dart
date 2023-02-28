@@ -17,6 +17,7 @@ import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -36,108 +37,117 @@ class SecretPhrasePage extends StatelessWidget {
     NaanAnalytics.logEvent(NaanAnalyticsEvents.VIEW_SEED_PHRASE,
         param: {NaanAnalytics.address: pkHash});
     return NaanBottomSheet(
-      isScrollControlled: true,
-      height: 0.9.height,
-      bottomSheetHorizontalPadding: 16.arP,
+      title: "",
+      leading: backButton(),
+      action: InfoButton(
+          onPressed: () => CommonFunctions.bottomSheet(
+                const InfoBottomSheet(),
+              )),
+      // isScrollControlled: true,
+      height: AppConstant.naanBottomSheetHeight,
+      // bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
-        FutureBuilder<AccountSecretModel?>(
-            future: UserStorageService().readAccountSecrets(pkHash),
-            builder: (context, snapshotData) {
-              if (snapshotData.hasData) {
-                final data = snapshotData.data?.seedPhrase?.split(" ");
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        backButton(),
-                        InfoButton(
-                          onPressed: () => CommonFunctions.bottomSheet(
-                            const InfoBottomSheet(),
+        SizedBox(
+          height: AppConstant.naanBottomSheetChildHeight,
+          child: FutureBuilder<AccountSecretModel?>(
+              future: UserStorageService().readAccountSecrets(pkHash),
+              builder: (context, snapshotData) {
+                if (snapshotData.hasData) {
+                  final data = snapshotData.data?.seedPhrase?.split(" ");
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     backButton(),
+                      //     InfoButton(
+                      //       onPressed: () => CommonFunctions.bottomSheet(
+                      //         const InfoBottomSheet(),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      0.02.vspace,
+                      Text(
+                        'Your Secret Phrase',
+                        style: titleLarge,
+                      ),
+                      0.012.vspace,
+                      Text(
+                        'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.',
+                        textAlign: TextAlign.center,
+                        style: bodySmall.copyWith(
+                            color: ColorConst.NeutralVariant.shade60),
+                      ),
+                      0.04.vspace,
+                      Obx(() => CopyButton(
+                          isCopied: _settingsController.copyToClipboard.value,
+                          onPressed: () => _settingsController
+                              .paste(data?.join(" ").toString()))),
+                      0.020.vspace,
+                      GridView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          itemCount: data?.length,
+                          padding: const EdgeInsets.symmetric(horizontal: 57),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 130 / 40,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 12,
                           ),
-                        ),
-                      ],
+                          itemBuilder: (_, index) {
+                            return PhraseContainer(
+                                index: index, phrase: data![index]);
+                          }),
+                      0.07.vspace,
+                      Text(
+                        'Derivation path',
+                        textAlign: TextAlign.center,
+                        style: labelMedium.copyWith(
+                            color: ColorConst.NeutralVariant.shade60),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        "m/44'/1729'/${snapshotData.data?.derivationPathIndex}/0'",
+                        textAlign: TextAlign.center,
+                        style: labelMedium,
+                      ),
+                      0.03.vspace,
+                      Obx(() {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'This screen will auto close in ',
+                              textAlign: TextAlign.center,
+                              style: labelSmall.copyWith(
+                                  color: ColorConst.NeutralVariant.shade60),
+                            ),
+                            Text(
+                              '${_backupController.timeLeft.value} seconds',
+                              textAlign: TextAlign.center,
+                              style: labelSmall,
+                            )
+                          ],
+                        );
+                      }),
+                    ],
+                  );
+                } else {
+                  return const Center(
+                    child: CupertinoActivityIndicator(
+                      color: ColorConst.Primary,
                     ),
-                    0.036.vspace,
-                    Text(
-                      'Your Secret Phrase',
-                      style: titleLarge,
-                    ),
-                    0.012.vspace,
-                    Text(
-                      'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.',
-                      textAlign: TextAlign.center,
-                      style: bodySmall.copyWith(
-                          color: ColorConst.NeutralVariant.shade60),
-                    ),
-                    0.04.vspace,
-                    Obx(() => CopyButton(
-                        isCopied: _settingsController.copyToClipboard.value,
-                        onPressed: () => _settingsController
-                            .paste(data?.join(" ").toString()))),
-                    0.020.vspace,
-                    GridView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: data?.length,
-                        padding: const EdgeInsets.symmetric(horizontal: 57),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 130 / 40,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 12,
-                        ),
-                        itemBuilder: (_, index) {
-                          return PhraseContainer(
-                              index: index, phrase: data![index]);
-                        }),
-                    0.07.vspace,
-                    Text(
-                      'Derivation path',
-                      textAlign: TextAlign.center,
-                      style: labelMedium.copyWith(
-                          color: ColorConst.NeutralVariant.shade60),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      "m/44'/1729'/${snapshotData.data?.derivationPathIndex}/0'",
-                      textAlign: TextAlign.center,
-                      style: labelMedium,
-                    ),
-                    0.03.vspace,
-                    Obx(() {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'This screen will auto close in ',
-                            textAlign: TextAlign.center,
-                            style: labelSmall.copyWith(
-                                color: ColorConst.NeutralVariant.shade60),
-                          ),
-                          Text(
-                            '${_backupController.timeLeft.value} seconds',
-                            textAlign: TextAlign.center,
-                            style: labelSmall,
-                          )
-                        ],
-                      );
-                    }),
-                  ],
-                );
-              } else {
-                return const Center(
-                  child: CupertinoActivityIndicator(
-                            color: ColorConst.Primary,
-                          ),
-                );
-              }
-            })
+                  );
+                }
+              }),
+        )
       ],
     );
     // return SafeArea(
