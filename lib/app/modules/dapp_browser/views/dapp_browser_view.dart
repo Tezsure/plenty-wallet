@@ -58,9 +58,8 @@ class DappBrowserView extends GetView<DappBrowserController> {
 
     return OverrideTextScaleFactor(
       child: Container(
-        height:  Get.size.height < 600 || Get.size.height > 1100
-            ? 0.9.height
-            : AppConstant.naanBottomSheetChildHeight,
+        height: 0.9.height,
+
         // width: 1.width,
         // margin: EdgeInsets.only(
         //   top: 0.05.height,
@@ -68,7 +67,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
         padding: EdgeInsets.only(
           bottom: Platform.isIOS ? 0.03.height : 0.01.height,
         ),
-        decoration:  BoxDecoration(
+        decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(10.arP)),
             color: Colors.black),
         child: Center(

@@ -46,6 +46,7 @@ class AccountSummaryController extends GetxController {
   RxBool expandTokenList =
       false.obs; // false = show 3 tokens, true = show all tokens
   RxDouble xtzPrice = 0.0.obs; // Current xtz price
+
   RxList<AccountTokenModel> userTokens =
       <AccountTokenModel>[].obs; // List of user tokens
   SplayTreeSet<int> selectedTokenIndexSet =
@@ -215,11 +216,9 @@ class AccountSummaryController extends GetxController {
       args[2] == 0 ? null : userTokens.insert(0, tezos);
     }
     userTokens.sort((a, b) {
-      a.isSelected = false;
-      b.isSelected = false;
-      if (a.isPinned) {
+      if (a.isPinned || a.name?.toLowerCase() == 'tezos') {
         return -1;
-      } else if (b.isPinned) {
+      } else if (b.isPinned || b.name?.toLowerCase() == 'tezos') {
         return 1;
       } else {
         if (b.isHidden) {
@@ -227,7 +226,15 @@ class AccountSummaryController extends GetxController {
         } else if (a.isHidden) {
           return 1;
         } else {
-          return 0;
+          if (a.balance * (a.currentPrice ?? 0 * args[1]) >
+              b.balance * (b.currentPrice ?? 0 * args[1])) {
+            return -1;
+          } else if (a.balance * (a.currentPrice ?? 0 * args[1]) <
+              b.balance * (b.currentPrice ?? 0 * args[1])) {
+            return 1;
+          } else {
+            return 0;
+          }
         }
       }
     });
@@ -432,9 +439,10 @@ class AccountSummaryController extends GetxController {
   Comparator<AccountTokenModel> tokenComparator = (a, b) {
     a.isSelected = false;
     b.isSelected = false;
-    if (a.isPinned) {
+    HomePageController homePageController = Get.find<HomePageController>();
+    if (a.isPinned || a.name?.toLowerCase() == 'tezos') {
       return -1;
-    } else if (b.isPinned) {
+    } else if (b.isPinned || b.name?.toLowerCase() == 'tezos') {
       return 1;
     } else {
       if (b.isHidden) {
@@ -442,7 +450,19 @@ class AccountSummaryController extends GetxController {
       } else if (a.isHidden) {
         return 1;
       } else {
-        return 0;
+        if (a.balance *
+                (a.currentPrice ?? 0 * homePageController.xtzPrice.value) >
+            b.balance *
+                (b.currentPrice ?? 0 * homePageController.xtzPrice.value)) {
+          return -1;
+        } else if (a.balance *
+                (a.currentPrice ?? 0 * homePageController.xtzPrice.value) <
+            b.balance *
+                (b.currentPrice ?? 0 * homePageController.xtzPrice.value)) {
+          return 1;
+        } else {
+          return 0;
+        }
       }
     }
   };
