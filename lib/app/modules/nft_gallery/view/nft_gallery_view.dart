@@ -43,13 +43,10 @@ class NftGalleryView extends GetView<NftGalleryController> {
   Widget build(BuildContext context) {
     Get.put(NftGalleryController());
 
-    return SafeArea(
-      bottom: false,
-      child: Obx(
-        () => !controller.isSearch.value
-            ? _buildGalleryWithoutSearch()
-            : _buildGalleryWithSearch(context),
-      ),
+    return Obx(
+      () => !controller.isSearch.value
+          ? _buildGalleryWithoutSearch()
+          : _buildGalleryWithSearch(context),
     );
   }
 
@@ -57,12 +54,12 @@ class NftGalleryView extends GetView<NftGalleryController> {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 0,
       // isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight -
-      //     MediaQuery.of(context).viewInsets.bottom,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
-              MediaQuery.of(context).viewInsets.bottom,
+              MediaQuery.of(context).viewInsets.bottom +
+              63.arP,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
@@ -228,11 +225,11 @@ class NftGalleryView extends GetView<NftGalleryController> {
   Widget _buildGalleryWithoutSearch() {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 0,
-      isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight,
+      // isScrollControlled: true,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight,
+          height: AppConstant.naanBottomSheetChildHeight + 62.arP,
           child: Stack(
             children: [
               Column(
@@ -240,9 +237,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 12.arP,
-                  ),
+                  0.02.vspace,
                   _appBarWidget(),
                   SizedBox(
                     height: 24.arP,

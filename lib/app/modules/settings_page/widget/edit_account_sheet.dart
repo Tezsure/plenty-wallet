@@ -38,8 +38,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      isScrollControlled: true,
-      height: 0.87.height,
+      // isScrollControlled: true,
+      height: AppConstant.naanBottomSheetHeight,
       // bottomSheetHorizontalPadding: 32,
       crossAxisAlignment: CrossAxisAlignment.center,
       bottomSheetWidgets: [editaccountUI()],

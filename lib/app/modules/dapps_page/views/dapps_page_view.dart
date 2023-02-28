@@ -26,16 +26,10 @@ class DappsPageView extends GetView<DappsPageController> {
   Widget build(BuildContext context) {
     Get.put(DappsPageController());
     return Container(
-      height: 0.95.height,
+      height: AppConstant.naanBottomSheetHeight,
       width: 1.width,
-      margin: EdgeInsets.only(
-        top: 0.05.height,
-      ),
-      padding: EdgeInsets.only(
-          // bottom: Platform.isIOS ? 0.05.height : 0.02.height,
-          ),
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(10.arP)),
           color: Colors.black),
       child: Column(
         children: [

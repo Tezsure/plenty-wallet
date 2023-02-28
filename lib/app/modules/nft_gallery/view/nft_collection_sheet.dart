@@ -24,9 +24,9 @@ class NFTCollectionSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      isScrollControlled: true,
-      bottomSheetHorizontalPadding: 0,
-      // height: .9.height,
+      // isScrollControlled: true,
+      // bottomSheetHorizontalPadding: 0,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         _getNftListViewWidget(),
       ],
@@ -36,11 +36,11 @@ class NFTCollectionSheet extends StatelessWidget {
   Widget _getNftListViewWidget([
     double crossAxisCount = 2.1,
   ]) =>
-      Container(
+      SizedBox(
           height: AppConstant.naanBottomSheetChildHeight,
-          margin: EdgeInsets.symmetric(
-            horizontal: 16.arP,
-          ),
+          // margin: EdgeInsets.symmetric(
+          //   horizontal: 16.arP,
+          // ),
           child: Column(
             children: [
               0.02.vspace,
@@ -185,7 +185,7 @@ class NFTCollectionSheet extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Container(
+                SizedBox(
                   width: 32.arP,
                   height: 32.arP,
                   child: ClipOval(

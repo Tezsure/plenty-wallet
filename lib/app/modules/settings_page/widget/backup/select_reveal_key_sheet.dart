@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/settings_page/controllers/backup_page_co
 import 'package:naan_wallet/app/modules/settings_page/controllers/select_reveal_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -36,22 +37,27 @@ class _SelectToRevealKeyBottomSheetState
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      isScrollControlled: true,
-      blurRadius: 5,
-      height: 0.9.height,
-      bottomSheetHorizontalPadding: 24,
+      // isScrollControlled: true,
+      title: "",
+      action: InfoButton(
+          onPressed: () => CommonFunctions.bottomSheet(
+                InfoBottomSheet(),
+              )),
+      leading: backButton(),
+      height: AppConstant.naanBottomSheetHeight,
+      // bottomSheetHorizontalPadding: 24,
       bottomSheetWidgets: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            backButton(),
-            InfoButton(
-                onPressed: () => CommonFunctions.bottomSheet(
-                      InfoBottomSheet(),
-                    )),
-          ],
-        ),
-        0.17.arP.vspace,
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     backButton(),
+        //     InfoButton(
+        //         onPressed: () => CommonFunctions.bottomSheet(
+        //               InfoBottomSheet(),
+        //             )),
+        //   ],
+        // ),
+        0.02.vspace,
         Center(
           child: SvgPicture.asset(
             "${PathConst.SETTINGS_PAGE.SVG}backup_success.svg",

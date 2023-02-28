@@ -41,14 +41,14 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     Get.put(ImportWalletPageController());
     if (isBottomSheet) {
       return NaanBottomSheet(
-        bottomSheetHorizontalPadding: 16.arP,
-        isScrollControlled: true,
-        // height: AppConstant.naanBottomSheetHeight -
-        //     MediaQuery.of(context).viewInsets.bottom,
+        // bottomSheetHorizontalPadding: 16.arP,
+        // isScrollControlled: true,
+        height: AppConstant.naanBottomSheetHeight,
         bottomSheetWidgets: [
           SizedBox(
               height: AppConstant.naanBottomSheetChildHeight -
-                  MediaQuery.of(context).viewInsets.bottom,
+                  MediaQuery.of(context).viewInsets.bottom +
+                  63.arP,
               child: _buildBody(context,
                   isWatchAddress: isWatchAddress, isBottomSheet: isBottomSheet))
         ],
@@ -74,7 +74,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          0.03.vspace,
+          0.02.vspace,
           Row(
             children: [
               !isBottomSheet ? backButton() : const SizedBox(),

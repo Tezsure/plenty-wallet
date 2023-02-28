@@ -38,11 +38,11 @@ class SettingsPageView extends GetView<SettingsPageController> {
     Get.put(SettingsPageController());
     return NaanBottomSheet(
         title: "Settings",
-        height: .89.height,
-        bottomSheetHorizontalPadding: 16.arP,
+        height: AppConstant.naanBottomSheetHeight,
+        // bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
           SizedBox(
-            height: 0.81.height,
+            height: AppConstant.naanBottomSheetChildHeight,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

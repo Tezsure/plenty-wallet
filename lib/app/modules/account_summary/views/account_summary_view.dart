@@ -35,12 +35,12 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
     Get.put((AccountSummaryController()));
     Get.put(TransactionController());
     return NaanBottomSheet(
-      isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight,
+      // isScrollControlled: true,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetHorizontalPadding: 0,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight,
+          height: AppConstant.naanBottomSheetChildHeight + 63.arP,
           child: DefaultTabController(
             length: 3,
             child: Column(

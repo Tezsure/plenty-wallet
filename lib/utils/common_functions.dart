@@ -26,29 +26,29 @@ class CommonFunctions {
     RouteSettings? settings,
   }) {
     return showCupertinoModalBottomSheet(
-        context: Get.context!,
-        builder: (context) => Material(
-              child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), child: child),
-            ),
-        settings: settings,
-        bounce: true,
-        // : true,
-        // barrierColor: Colors.black.withOpacity(0.6),
-        elevation: 5,
-        topRadius: Radius.circular(24.arP),
-        backgroundColor: ColorConst.darkGrey,
-        overlayStyle: SystemUiOverlayStyle.light,
-        shadow: BoxShadow(
-          color: Colors.black.withOpacity(0.5),
-          spreadRadius: 0,
-          blurRadius: 10,
-          offset: const Offset(0, 0), // changes position of shadow
-        ),
-        transitionBackgroundColor: Color(0xff2D2447),
-        useRootNavigator: true
-        // enterBottomSheetDuration: const Duration(milliseconds: 180),
-        // exitBottomSheetDuration: const Duration(milliseconds: 150),
-        );
+      context: Get.context!,
+      builder: (context) => Material(
+        child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), child: child),
+      ),
+      settings: settings,
+      bounce: true,
+      // : true,
+      // barrierColor: Colors.black.withOpacity(0.6),
+      elevation: 5,
+      topRadius: Radius.circular(24.arP),
+      backgroundColor: ColorConst.darkGrey,
+      overlayStyle: SystemUiOverlayStyle.light,
+      shadow: BoxShadow(
+        color: Colors.black.withOpacity(0.5),
+        spreadRadius: 5,
+        blurRadius: 10,
+        // offset: const Offset(0, 0), // changes position of shadow
+      ),
+      transitionBackgroundColor: Color(0xff2D2447),
+      // useRootNavigator: true
+      // enterBottomSheetDuration: const Duration(milliseconds: 180),
+      // exitBottomSheetDuration: const Duration(milliseconds: 150),
+    );
   }
 }

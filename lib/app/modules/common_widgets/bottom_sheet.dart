@@ -134,9 +134,9 @@ class NaanBottomSheet extends StatelessWidget {
           : SafeArea(
               bottom: false,
               child: Container(
-                decoration: const BoxDecoration(
+                decoration:  BoxDecoration(
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10)),
+                        BorderRadius.vertical(top: Radius.circular(10.arP)),
                     color: Colors.black),
                 width: width ?? 1.width,
                 height: height,

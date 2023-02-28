@@ -21,11 +21,11 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
     Get.lazyPut(() => DelegateWidgetController());
     AppConstant.hapticFeedback();
     return NaanBottomSheet(
-        mainAxisAlignment: MainAxisAlignment.end,
-        bottomSheetHorizontalPadding: 16.arP,
+        // mainAxisAlignment: MainAxisAlignment.end,
+        // bottomSheetHorizontalPadding: 16.arP,
         height: 0.45.height,
-        blurRadius: 5,
-        width: double.infinity,
+        // blurRadius: 5,
+        // width: double.infinity,
         bottomSheetWidgets: [
           SafeArea(
             child: Container(

@@ -13,6 +13,7 @@ import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -57,8 +58,8 @@ class DappBrowserView extends GetView<DappBrowserController> {
 
     return OverrideTextScaleFactor(
       child: Container(
-        height: 0.95.height,
-        width: 1.width,
+        height: AppConstant.naanBottomSheetChildHeight,
+        // width: 1.width,
         // margin: EdgeInsets.only(
         //   top: 0.05.height,
         // ),

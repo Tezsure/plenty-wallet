@@ -23,7 +23,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
       return NaanBottomSheet(
         // height: 0.9.height,
         isScrollControlled: true,
-        bottomSheetHorizontalPadding: 16.arP,
+        // bottomSheetHorizontalPadding: 16.arP,
         // decoration: const BoxDecoration(
         //   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
         //   gradient: GradConst.GradientBackground,

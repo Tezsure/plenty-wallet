@@ -24,7 +24,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
     final ReceivePageController controller = Get.put(ReceivePageController());
     return NaanBottomSheet(
       isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight,
+      height: AppConstant.naanBottomSheetHeight,
       title: "Receive",
       bottomSheetWidgets: [
         Column(

@@ -16,9 +16,10 @@ class InfoBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight,
-      blurRadius: 5,
+      // isScrollControlled: true,
+      height: AppConstant.naanBottomSheetHeight,
+      title: isWatchAddress ? 'Watch addresses' : 'Introduction to Crypto',
+      // blurRadius: 5,
       // isDraggableBottomSheet: true,
       // title: 'Introduction to crypto wallet',
       bottomSheetWidgets: [
@@ -27,12 +28,12 @@ class InfoBottomSheet extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              0.02.vspace,
-              Text(
-                isWatchAddress ? 'Watch addresses' : 'Introduction to Crypto',
-                textAlign: TextAlign.center,
-                style: titleLarge,
-              ),
+              // 0.02.vspace,
+              // Text(
+              //   isWatchAddress ? 'Watch addresses' : 'Introduction to Crypto',
+              //   textAlign: TextAlign.center,
+              //   style: titleLarge,
+              // ),
               0.02.vspace,
               Expanded(
                 child: RawScrollbar(

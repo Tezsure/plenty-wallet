@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/app/data/services/create_profile_service/create_profile_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/image_picker.dart';
 
@@ -76,13 +77,11 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
   Widget _buildAddAccount(BuildContext context) {
     return NaanBottomSheet(
       title: "Name your account",
-      isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight -
-      //     MediaQuery.of(context).viewInsets.bottom,
+      // isScrollControlled: true,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
-              28.arP -
               MediaQuery.of(context).viewInsets.bottom,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,7 +179,7 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
                       ],
                     ),
                   )),
-              0.05.vspace
+              BottomButtonPadding()
             ],
           ),
         )

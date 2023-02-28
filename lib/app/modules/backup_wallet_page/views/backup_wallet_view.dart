@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/copy_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
@@ -31,29 +32,23 @@ class BackupWalletView extends GetView<BackupWalletController> {
   Widget build(BuildContext context) {
     Get.put(BackupWalletController());
     controller.seedPhrase = seedPhrase.split(" ");
-    return SafeArea(
-      bottom: false,
-      top: true,
-      child: NaanBottomSheet(
-          height: AppConstant.naanBottomSheetChildHeight,
-          bottomSheetHorizontalPadding: 16.arP,
-          bottomSheetWidgets: [
-            Column(
+    return NaanBottomSheet(
+        height: AppConstant.naanBottomSheetHeight,
+        title: "",
+        leading: backButton(),
+        action: InfoButton(
+            onPressed: () => CommonFunctions.bottomSheet(
+                  const InfoBottomSheet(),
+                )),
+        // bottomSheetHorizontalPadding: 16.arP,
+        bottomSheetWidgets: [
+          SizedBox(
+            height: AppConstant.naanBottomSheetChildHeight,
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    backButton(),
-                    InfoButton(
-                      onPressed: () => CommonFunctions.bottomSheet(
-                        const InfoBottomSheet(),
-                      ),
-                    ),
-                  ],
-                ),
-                0.036.vspace,
+                0.02.vspace,
                 Text(
                   'Your Secret Phrase',
                   style: titleLarge,
@@ -79,13 +74,12 @@ class BackupWalletView extends GetView<BackupWalletController> {
                     shrinkWrap: true,
                     primary: false,
                     itemCount: controller.seedPhrase.length,
-                    padding: const EdgeInsets.symmetric(horizontal: 57),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    padding: EdgeInsets.symmetric(horizontal: 30.arP),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 130 / 40,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 12,
+                      childAspectRatio: (130 / 40).arP,
+                      crossAxisSpacing: 20.arP,
+                      mainAxisSpacing: 12.arP,
                     ),
                     itemBuilder: (_, index) {
                       return PhraseContainer(
@@ -93,17 +87,17 @@ class BackupWalletView extends GetView<BackupWalletController> {
                         phrase: controller.seedPhrase[index],
                       );
                     }),
-                0.07.vspace,
+                Spacer(),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.arP),
                   child: SolidButton(
                     active: true,
                     onPressed: () {
                       CommonFunctions.bottomSheet(
-                          VerifyPhrasePageView(
-                            seedPhrase: controller.seedPhrase.join(" "),
-                          ),
-                         );
+                        VerifyPhrasePageView(
+                          seedPhrase: controller.seedPhrase.join(" "),
+                        ),
+                      );
                     },
                     title: "I have saved these words",
                     child: Row(
@@ -123,10 +117,11 @@ class BackupWalletView extends GetView<BackupWalletController> {
                     ),
                   ),
                 ),
+                BottomButtonPadding()
               ],
             ),
-          ]),
-    );
+          ),
+        ]);
   }
 
   // Widget infoBottomSheet() {
