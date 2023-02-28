@@ -12,6 +12,7 @@ import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
@@ -80,7 +81,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                     padding: EdgeInsets.all(8.arP),
                     child: BouncingWidget(
                       onPressed: () async {
-                        final selectedIndex = await Get.bottomSheet(
+                        final selectedIndex = await CommonFunctions.bottomSheet(
                           AccountSelector(
                             accountModels: controller.userAccounts
                                 .where((e) => !e.isWatchOnly)
@@ -92,19 +93,13 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                 ? 0
                                 : controller.selectedIndex.value,
                           ),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          barrierColor: Colors.white.withOpacity(0.09),
-                          isScrollControlled: true,
                         );
                         if (selectedIndex != null) {
                           controller.selectedIndex.value = selectedIndex;
                         }
                       },
                       child: Obx(() => Container(
-                            height: 42.arP,
+                            // height: 42.arP,
                             // width: 0.45.width,
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -119,9 +114,10 @@ class _AccountSwitchState extends State<AccountSwitch> {
                               right: 32.arP,
                             ),
                             padding: EdgeInsets.only(
-                              left: 16.arP,
-                              right: 16.arP,
-                            ),
+                                left: 16.arP,
+                                right: 16.arP,
+                                top: 8.arP,
+                                bottom: 8.arP),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -129,8 +125,8 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: Container(
-                                    height: 0.06.width,
-                                    width: 0.06.width,
+                                    height: 40.arP,
+                                    width: 40.arP,
                                     alignment: Alignment.bottomRight,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,

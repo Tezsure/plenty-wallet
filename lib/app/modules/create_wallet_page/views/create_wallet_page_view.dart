@@ -125,34 +125,32 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
 
   SizedBox _buildDivider() {
     return SizedBox(
-                  width: 1.width,
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Divider(
-                        thickness: 1,
-                        color: ColorConst.NeutralVariant.shade60
-                            .withOpacity(0.4),
-                      )),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(
-                          "Or login with",
-                          style: bodySmall.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: ColorConst.NeutralVariant.shade60,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                          child: Divider(
-                        thickness: 1,
-                        color: ColorConst.NeutralVariant.shade60
-                            .withOpacity(0.4),
-                      )),
-                    ],
-                  ),
-                );
+      width: 1.width,
+      child: Row(
+        children: [
+          Expanded(
+              child: Divider(
+            thickness: 1,
+            color: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
+          )),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              "Or login with",
+              style: bodySmall.copyWith(
+                fontWeight: FontWeight.w600,
+                color: ColorConst.NeutralVariant.shade60,
+              ),
+            ),
+          ),
+          Expanded(
+              child: Divider(
+            thickness: 1,
+            color: ColorConst.NeutralVariant.shade60.withOpacity(0.4),
+          )),
+        ],
+      ),
+    );
   }
 
   SolidButton _buildCreateAccountButton() {
@@ -254,7 +252,7 @@ class SocialLoginButton extends StatelessWidget {
       onPressed: onTap,
       // onTap: onTap,
       child: CircleAvatar(
-        radius: 0.07.width,
+        radius: 1.width / 18,
         backgroundColor: Colors.transparent,
         child: SvgPicture.asset("${PathConst.SVG}$socialIconPath"),
       ),

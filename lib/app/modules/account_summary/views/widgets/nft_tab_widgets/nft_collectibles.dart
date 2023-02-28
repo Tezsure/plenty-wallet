@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:shimmer/shimmer.dart';
@@ -99,17 +100,12 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                     itemBuilder: ((context, index) => NFTwidget(
                           nfTmodel: widget.nftList[index],
                           onTap: (model) {
-                            Get.bottomSheet(
+                            CommonFunctions.bottomSheet(
                               NFTDetailBottomSheet(
                                 onBackTap: Get.back,
                                 pk: widget.nftList[index].pk,
                                 publicKeyHashs: [widget.account],
                               ),
-                              enterBottomSheetDuration:
-                                  const Duration(milliseconds: 180),
-                              exitBottomSheetDuration:
-                                  const Duration(milliseconds: 150),
-                              isScrollControlled: true,
                             ); //todo: uncomment this when NFTDetailBottomSheet is ready
                           },
                         )),

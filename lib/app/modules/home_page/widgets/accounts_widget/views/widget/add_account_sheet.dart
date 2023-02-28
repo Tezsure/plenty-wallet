@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/modules/create_wallet_page/controllers/create_wa
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:web3auth_flutter/enums.dart';
@@ -74,14 +75,9 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
                 ),
                 onPressed: () {
                   Get.back();
-                  Get.bottomSheet(AddNewAccountBottomSheet(),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          barrierColor: Colors.transparent,
-                          isScrollControlled: true)
-                      .whenComplete(() {
+                  CommonFunctions.bottomSheet(
+                    AddNewAccountBottomSheet(),
+                  ).whenComplete(() {
                     Get.find<AccountsWidgetController>().resetCreateNewWallet();
                   });
                 },

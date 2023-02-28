@@ -25,6 +25,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dar
 import 'package:naan_wallet/app/modules/import_wallet_page/views/import_wallet_page_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -168,8 +169,8 @@ class CreateNewNftGalleryBottomSheet
                     itemBuilder: (context, index) =>
                         accountItemWidget(index, controller.accounts[index]),
                     itemCount: controller.accounts.length,
-                    topSpacing: 18.spH,
-                    bottomSpacing: 18.spH,
+                    topSpacing: 18.arP,
+                    bottomSpacing: 18.arP,
                   ),
                 ),
               )
@@ -298,12 +299,12 @@ class CreateNewNftGalleryBottomSheet
   }
 
   _onImportAccount() async {
-    String pkh = await Get.bottomSheet(
-        ImportWalletPageView(
-          isBottomSheet: true,
-          isWatchAddress: true,
-        ),
-        isScrollControlled: true);
+    String pkh = await CommonFunctions.bottomSheet(
+      ImportWalletPageView(
+        isBottomSheet: true,
+        isWatchAddress: true,
+      ),
+    );
     controller.accounts.value = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
 
@@ -348,7 +349,7 @@ class CreateNewNftGalleryBottomSheet
         },
         child: Container(
           margin: EdgeInsets.only(
-            bottom: 8.spH,
+            bottom: 8.arP,
           ),
           padding: EdgeInsets.only(
             top: 4.arP,
@@ -383,7 +384,7 @@ class CreateNewNftGalleryBottomSheet
                         letterSpacing: 0.4.arP,
                       ),
                     ),
-                    SizedBox(height: 2.spH),
+                    SizedBox(height: 2.arP),
                     Text(
                       accountModel.publicKeyHash!.tz1Short(),
                       style: TextStyle(
@@ -491,14 +492,8 @@ class CreateNewNftGalleryBottomSheet
                     ),
                     child: BouncingWidget(
                       onPressed: () {
-                        Get.bottomSheet(
+                        CommonFunctions.bottomSheet(
                           changePhotoBottomSheet(),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          barrierColor: Colors.white.withOpacity(0.01),
-                          isScrollControlled: true,
                         );
                       },
                       child: CircleAvatar(
@@ -546,7 +541,7 @@ class CreateNewNftGalleryBottomSheet
                       left: 16.arP + 16.arP,
                       right: 16.arP + 16.arP,
                       bottom: 35.arP,
-                      top: 30.spH,
+                      top: 30.arP,
                     ),
                     child: Obx(() {
                       return SolidButton(
@@ -590,11 +585,8 @@ class CreateNewNftGalleryBottomSheet
         }
       },
       onPickAvatarSelect: () async {
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           avatarPicker(),
-          isScrollControlled: true,
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
         );
       },
       onRemoveImage: controller.currentSelectedType ==

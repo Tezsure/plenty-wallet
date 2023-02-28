@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -45,14 +46,8 @@ class HistoryPage extends GetView<TransactionController> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       BouncingWidget(
-                        onPressed: (() => Get.bottomSheet(
-                              const SearchBottomSheet(),
-                              isScrollControlled: true,
-                              enterBottomSheetDuration:
-                                  const Duration(milliseconds: 180),
-                              exitBottomSheetDuration:
-                                  const Duration(milliseconds: 150),
-                            )),
+                        onPressed: (() => CommonFunctions.bottomSheet(
+                            const SearchBottomSheet())),
                         child: Container(
                           height: 0.06.height,
                           width: 0.8.width,
@@ -85,12 +80,7 @@ class HistoryPage extends GetView<TransactionController> {
                       0.02.hspace,
                       BouncingWidget(
                         onPressed: () {
-                          Get.bottomSheet(HistoryFilterSheet(),
-                              enterBottomSheetDuration:
-                                  const Duration(milliseconds: 180),
-                              exitBottomSheetDuration:
-                                  const Duration(milliseconds: 150),
-                              isScrollControlled: true);
+                          CommonFunctions.bottomSheet(HistoryFilterSheet());
                         },
                         child: SvgPicture.asset(
                           controller.isFilterApplied.value
@@ -250,15 +240,13 @@ class HistoryPage extends GetView<TransactionController> {
           HistoryTile(
             tokenInfo: token,
             xtzPrice: controller.accController.xtzPrice.value,
-            onTap: () => Get.bottomSheet(
+            onTap: () => CommonFunctions.bottomSheet(
               TransactionDetailsBottomSheet(
                 tokenInfo: token,
                 userAccountAddress: controller
                     .accController.selectedAccount.value.publicKeyHash!,
                 transactionModel: token.token!,
               ),
-              enterBottomSheetDuration: const Duration(milliseconds: 180),
-              exitBottomSheetDuration: const Duration(milliseconds: 150),
             ),
           ),
         ],
@@ -320,7 +308,7 @@ class HistoryPage extends GetView<TransactionController> {
                 HistoryTile(
                   tokenInfo: controller.defaultTransactionList[index],
                   xtzPrice: controller.accController.xtzPrice.value,
-                  onTap: () => Get.bottomSheet(
+                  onTap: () => CommonFunctions.bottomSheet(
                     TransactionDetailsBottomSheet(
                       tokenInfo: controller.defaultTransactionList[index],
                       userAccountAddress: controller
@@ -328,8 +316,6 @@ class HistoryPage extends GetView<TransactionController> {
                       transactionModel:
                           controller.defaultTransactionList[index].token!,
                     ),
-                    enterBottomSheetDuration: const Duration(milliseconds: 180),
-                    exitBottomSheetDuration: const Duration(milliseconds: 150),
                   ),
                 ),
               ],

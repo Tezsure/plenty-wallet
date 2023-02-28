@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/beta_tag_widget/beta_t
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/choose_payment_method.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -44,10 +45,8 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           BetaTagSheet(),
-          barrierColor: Colors.white.withOpacity(0.09),
-          isScrollControlled: true,
         );
       },
       child: HomeWidgetFrame(

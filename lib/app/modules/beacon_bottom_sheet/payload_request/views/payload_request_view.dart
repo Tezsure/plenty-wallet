@@ -99,7 +99,7 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                         Padding(
                           padding: const EdgeInsets.all(4),
                           child: Container(
-                            height: 42,
+                            // height: 42,
                             width: 0.5.width,
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -113,10 +113,10 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
+                                  padding:  EdgeInsets.only(right: 8.0. arP, top: 8.arP, bottom: 8.arP),
                                   child: Container(
-                                    height: 0.06.width,
-                                    width: 0.06.width,
+                                    height: 40.arP,
+                      width: 40.arP,
                                     alignment: Alignment.bottomRight,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,

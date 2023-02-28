@@ -163,8 +163,8 @@ class _PassCodeWidgetState extends State<PassCodeWidget> {
               children: List.generate(
                 6,
                 (index) => Container(
-                  height: 22,
-                  width: 22,
+                  height: 22.arP,
+                  width: 22.arP,
                   decoration: BoxDecoration(
                     color: controller.confirmPasscode.value.length == 6 ||
                             controller.isToVerifyPassCode.value

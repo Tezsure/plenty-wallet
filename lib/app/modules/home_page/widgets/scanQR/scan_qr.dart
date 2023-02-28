@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/scan_qr_controller
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/connected_dapps_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -119,10 +120,8 @@ class _ScanQrViewState extends State<ScanQrView> {
           SafeArea(
             child: GestureDetector(
               onTap: () {
-                Get.bottomSheet(
+                CommonFunctions.bottomSheet(
                   ConnectedDappBottomSheet(),
-                  enterBottomSheetDuration: const Duration(milliseconds: 180),
-                  exitBottomSheetDuration: const Duration(milliseconds: 150),
                 );
               },
               child: Container(

@@ -17,6 +17,7 @@ import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widg
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/custom_tab_indicator.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -87,10 +88,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               const Spacer(),
               InfoButton(
                 onPressed: () {
-                  Get.bottomSheet(
+                  CommonFunctions.bottomSheet(
                     InfoBottomSheet(isWatchAddress: isWatchAddress),
-                    isScrollControlled: true,
-                    barrierColor: Colors.white.withOpacity(0.2),
                   );
                 },
               ),
@@ -266,10 +265,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               controller.isTz1Selected.value = true;
               controller.tabController!.animateTo(0);
               controller.genAndLoadMoreAccounts(0, 3);
-              Get.bottomSheet(
+              CommonFunctions.bottomSheet(
                 AccountBottomSheet(controller: controller),
-                isScrollControlled: true,
-                barrierColor: Colors.white.withOpacity(0.2),
               );
             } else {
               controller.redirectBasedOnImportWalletType(
@@ -382,8 +379,8 @@ class AccountBottomSheet extends StatelessWidget {
                       Tab(
                         child: SizedBox(
                           width: controller.selectedAccountsTz2.isNotEmpty
-                              ? 84
-                              : 61,
+                              ? 84.arP
+                              : 61.arP,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,

@@ -68,8 +68,9 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                   .every((element) => element.isWatchOnly))
                                 _settingOption(
                                   onTap: () {
-                                    Get.bottomSheet(BackupPage(),
-                                        isScrollControlled: true);
+                                    CommonFunctions.bottomSheet(
+                                      BackupPage(),
+                                    );
                                   },
                                   title: "Backup",
                                   svgPath:
@@ -101,12 +102,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
                               title: "Network",
                               svgPath: "${PathConst.SETTINGS_PAGE.SVG}node.svg",
                               onTap: () {
-                                Get.bottomSheet(
+                                CommonFunctions.bottomSheet(
                                   SelectNetworkBottomSheet(),
-                                  enterBottomSheetDuration:
-                                      const Duration(milliseconds: 180),
-                                  exitBottomSheetDuration:
-                                      const Duration(milliseconds: 150),
                                 );
                               },
                               trailing: Row(
@@ -135,14 +132,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                 svgPath:
                                     "${PathConst.SETTINGS_PAGE.SVG}node.svg",
                                 onTap: () {
-                                  Get.bottomSheet(
+                                  CommonFunctions.bottomSheet(
                                     SelectNodeBottomSheet(),
-                                    enterBottomSheetDuration:
-                                        const Duration(milliseconds: 180),
-                                    exitBottomSheetDuration:
-                                        const Duration(milliseconds: 150),
-                                    barrierColor: Colors.transparent,
-                                    isScrollControlled: true,
                                   );
                                 },
                                 trailing: Row(
@@ -278,16 +269,20 @@ class SettingsPageView extends GetView<SettingsPageController> {
   }) {
     return BouncingWidget(
       onPressed: onTap,
-      child: SizedBox(
-        height: 54,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 16.arP),
+        // height: 54.arP,
         child: Row(
           children: [
             SizedBox(
-              width: 0.165.width,
+              height: 20.arP,
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: SvgPicture.asset(svgPath)),
+                  child: SvgPicture.asset(
+                    svgPath,
+                  )),
             ),
+            0.04.hspace,
             Text(
               title,
               style: labelMedium,
@@ -348,13 +343,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
   Widget _accountOption() {
     return BouncingWidget(
       onPressed: () {
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           ManageAccountsBottomSheet(),
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
-          isScrollControlled: true,
-          barrierColor: ColorConst.Primary.withOpacity(0.2),
-          enableDrag: true,
         );
       },
       child: Container(
@@ -410,27 +400,26 @@ class SettingsPageView extends GetView<SettingsPageController> {
   Widget _connectedAppsOption() {
     return BouncingWidget(
       onPressed: () {
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           ConnectedDappBottomSheet(),
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
         );
       },
       child: Container(
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
             borderRadius: BorderRadius.circular(8)),
-        height: 54,
-        padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+        // height: 54,
+        padding: EdgeInsets.symmetric(horizontal: 0.05.width, vertical: 16.arP),
         child: Row(
           children: [
             SizedBox(
-              width: 0.165.width,
+              height: 20.arP,
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: SvgPicture.asset(
                       "${PathConst.SETTINGS_PAGE.SVG}connected_apps.svg")),
             ),
+            0.04.hspace,
             Text(
               "Connected apps",
               style: labelMedium,
@@ -444,10 +433,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
   Widget _resetOption() {
     return BouncingWidget(
       onPressed: () {
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           const ResetWalletBottomSheet(),
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
         );
       },
       child: Container(
@@ -579,8 +566,9 @@ class SettingsPageView extends GetView<SettingsPageController> {
               Row(
                 children: [
                   BouncingWidget(
-                    onPressed: () => Get.bottomSheet(RecoverOldAccountSheet(),
-                        isScrollControlled: true),
+                    onPressed: () => CommonFunctions.bottomSheet(
+                      RecoverOldAccountSheet(),
+                    ),
                     child: Text(
                       "Recover now",
                       style: labelMedium.apply(color: ColorConst.Tertiary),
@@ -588,9 +576,9 @@ class SettingsPageView extends GetView<SettingsPageController> {
                   ),
                   0.064.hspace,
                   BouncingWidget(
-                    onPressed: () => Get.bottomSheet(
-                        DismissRecoverAccountBottomSheet(),
-                        isScrollControlled: true),
+                    onPressed: () => CommonFunctions.bottomSheet(
+                      DismissRecoverAccountBottomSheet(),
+                    ),
                     child: Text(
                       "Dismiss",
                       style: labelMedium.apply(color: ColorConst.lightGrey),

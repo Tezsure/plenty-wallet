@@ -45,6 +45,7 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
               color: ColorConst.lightGrey, fontWeight: FontWeight.w400),
           backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
+        0.025.vspace,
 
         NaanTextfield(
           onTextChange: (_) {

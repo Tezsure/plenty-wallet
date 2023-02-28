@@ -25,6 +25,7 @@ class TokenView extends StatelessWidget {
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           child: Obx(
             () => NaanListTile(
+              dense: true,
               minVerticalPadding: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.arP)),
@@ -117,7 +118,8 @@ class TokenView extends StatelessWidget {
         Material(
           borderRadius: BorderRadius.circular(8),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-          child: Obx(() => ListTile(
+          child: Obx(() => NaanListTile(
+                dense: true,
                 minVerticalPadding: 0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.arP)),

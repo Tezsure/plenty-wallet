@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/add_RPC_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -68,10 +69,8 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
             textColor: ColorConst.Primary,
             primaryColor: Colors.transparent,
             onPressed: () {
-              Get.bottomSheet(
+              CommonFunctions.bottomSheet(
                 AddRPCbottomSheet(),
-                enterBottomSheetDuration: const Duration(milliseconds: 180),
-                exitBottomSheetDuration: const Duration(milliseconds: 150),
               );
             },
             title: "Add custom RPC",
@@ -139,7 +138,7 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
               ),
             ),
             confirmDismiss: (_) async {
-              return await Get.bottomSheet(
+              return await CommonFunctions.bottomSheet(
                       deleteNodeBottomSheet(controller.customNodes[index]))
                   .then((value) => value != null);
             },
@@ -169,40 +168,36 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
         selectedModel = model;
         setState(() {});
       },
-      child: SizedBox(
-        width: double.infinity,
-        height: 59.arP,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    model.name!,
-                    style: labelMedium,
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 12.0.arP, horizontal: 16.arP),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  model.name!,
+                  style: labelMedium,
+                ),
+                // const Spacer(),
+                Text(
+                  model.url!,
+                  style: labelSmall.apply(
+                    color: ColorConst.NeutralVariant.shade60,
                   ),
-                  const Spacer(),
-                  Text(
-                    model.url!,
-                    style: labelSmall.apply(
-                      color: ColorConst.NeutralVariant.shade60,
-                    ),
+                )
+              ],
+            ),
+            const Spacer(),
+            selectedModel.url == model.url
+                ? SvgPicture.asset(
+                    "${PathConst.SVG}check_3.svg",
+                    // color: ColorConst.Primary,
+                    height: 16.6.arP,
+                    fit: BoxFit.contain,
                   )
-                ],
-              ),
-              const Spacer(),
-              selectedModel.url == model.url
-                  ? SvgPicture.asset(
-                      "${PathConst.SVG}check_3.svg",
-                      // color: ColorConst.Primary,
-                      height: 16.6.arP,
-                      fit: BoxFit.contain,
-                    )
-                  : Container()
-            ],
-          ),
+                : Container()
+          ],
         ),
       ),
     );

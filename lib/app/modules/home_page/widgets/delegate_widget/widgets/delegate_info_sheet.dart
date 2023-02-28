@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -41,7 +42,6 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                   "Earn 5% APR on your tez",
                   style: titleLarge,
                 ),
-
                 0.03.vspace,
                 ...List.generate(
                     infos.length,
@@ -82,12 +82,11 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                     // if (Get.isBottomSheetOpen ?? false) {
                     Get.back();
                     // }
-                    Get.bottomSheet(
-                        DelegateSelectBaker(
-                          isScrollable: true,
-                        ),
-                        enableDrag: true,
-                        isScrollControlled: true);
+                    CommonFunctions.bottomSheet(
+                      DelegateSelectBaker(
+                        isScrollable: true,
+                      ),
+                    );
                   },
                   title: "Continue",
                 ),

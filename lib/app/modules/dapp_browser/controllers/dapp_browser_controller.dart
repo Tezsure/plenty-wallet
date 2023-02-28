@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 
 import 'package:simple_gql/simple_gql.dart';
 
@@ -44,7 +45,7 @@ class DappBrowserController extends GetxController {
 
   void naanBuy(String url) {
     //Get.put(AccountSummaryController());
-    Get.bottomSheet(
+    CommonFunctions.bottomSheet(
       AccountSwitch(
         title: "Buy NFT",
         subtitle:
@@ -99,7 +100,7 @@ class DappBrowserController extends GetxController {
             }
           } */
 
-          Get.bottomSheet(
+          CommonFunctions.bottomSheet(
             ChoosePaymentMethod(),
             settings: RouteSettings(
               arguments: url,
@@ -107,9 +108,6 @@ class DappBrowserController extends GetxController {
           );
         },
       ),
-      isScrollControlled: true,
-      enterBottomSheetDuration: const Duration(milliseconds: 180),
-      exitBottomSheetDuration: const Duration(milliseconds: 150),
     );
   }
 

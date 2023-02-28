@@ -26,7 +26,7 @@ class DelegateRewardsTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
       width: 0.9.width,
-      height: 192.arP,
+      // height: 192.arP,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: const Color(0xff958e99).withOpacity(0.2),

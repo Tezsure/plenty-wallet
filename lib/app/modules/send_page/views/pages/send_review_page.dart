@@ -5,6 +5,7 @@ import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -95,14 +96,10 @@ class SendReviewPage extends StatelessWidget {
                                       double.parse(
                                               controller.amountText.value) >
                                           0)
-                              ? Get.bottomSheet(
+                              ? CommonFunctions.bottomSheet(
                                   TransactionBottomSheet(
                                     controller: controller,
                                   ),
-                                  enterBottomSheetDuration:
-                                      const Duration(milliseconds: 180),
-                                  exitBottomSheetDuration:
-                                      const Duration(milliseconds: 150),
                                 )
                               : null,
                           primaryColor: controller.isNFTPage.value

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/views/settings_page_view.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -23,8 +24,8 @@ class HomepageAppBar extends StatelessWidget {
               // Get.bottomSheet(
               //   TestNetworkBottomSheet(),
               // );
-              Get.bottomSheet(const SettingsPageView(),
-                  isScrollControlled: true);
+              CommonFunctions.bottomSheet(const SettingsPageView(),
+               );
             },
             child: Image.asset(
               "${PathConst.HOME_PAGE}menu.png",

@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controll
 import 'package:naan_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/delete_contact_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -76,18 +77,18 @@ class ContactsListView extends GetView<SendPageController> {
 
   Widget contactWidget(ContactModel contact, {bool isContact = false}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(vertical: 5.arP),
       child: InkWell(
         onTap: () => controller.onContactSelect(contactModel: contact),
         child: SizedBox(
-          height: 46,
+          // height: 46,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   CircleAvatar(
-                    radius: 23,
+                    radius: 23.arP,
                     backgroundColor:
                         ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                     child: Image.asset(
@@ -129,17 +130,13 @@ class ContactsListView extends GetView<SendPageController> {
                             padding: EdgeInsets.symmetric(horizontal: 12.arP),
                             onTap: () {
                               Get.back();
-                              Get.bottomSheet(
-                                  AddContactBottomSheet(
-                                    contactModel: contact,
-                                    isTransactionContact: false,
-                                    isEditContact: true,
-                                  ),
-                                  enterBottomSheetDuration:
-                                      const Duration(milliseconds: 180),
-                                  exitBottomSheetDuration:
-                                      const Duration(milliseconds: 150),
-                                  isScrollControlled: true);
+                              CommonFunctions.bottomSheet(
+                                AddContactBottomSheet(
+                                  contactModel: contact,
+                                  isTransactionContact: false,
+                                  isEditContact: true,
+                                ),
+                              );
                             },
                             child: Text(
                               "Edit",
@@ -162,12 +159,8 @@ class ContactsListView extends GetView<SendPageController> {
                             height: 40.arP,
                             onTap: () {
                               Get.back();
-                              Get.bottomSheet(
+                              CommonFunctions.bottomSheet(
                                 DeleteContactBottomSheet(contactModel: contact),
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
                               );
                             },
                             child: Text(

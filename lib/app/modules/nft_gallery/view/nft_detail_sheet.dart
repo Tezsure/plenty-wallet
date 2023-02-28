@@ -135,13 +135,11 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
 
                           final String img = '$ipfsHost/$hash';
                           //CommonFunctions.launchURL(img);
-                          await Get.bottomSheet(
+                          await CommonFunctions.bottomSheet(
                             const DappBrowserView(),
-                            barrierColor: Colors.white.withOpacity(0.09),
                             settings: RouteSettings(
                               arguments: img,
                             ),
-                            isScrollControlled: true,
                           );
                           print("closed");
                           setState(() {

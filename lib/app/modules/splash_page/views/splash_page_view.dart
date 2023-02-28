@@ -13,20 +13,21 @@ class SplashPageView extends GetView<SplashPageController> {
     controller;
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: SizedBox(
-          width: 1.width,
-          child: Lottie.asset(
-            "assets/onboarding_page/lottie/splash.json",
-            animate: true,
-            frameRate: FrameRate.max,
-            fit: BoxFit.cover,
-            // ignore: avoid_print
-            onWarning: (p) => print(p),
-            alignment: Alignment.topCenter,
-            repeat: false,
+      body: Column(
+        children: [
+          Expanded(
+            child: Lottie.asset(
+              "assets/onboarding_page/lottie/splash.json",
+              animate: true,
+              frameRate: FrameRate.max,
+
+              // ignore: avoid_print
+              onWarning: (p) => print(p),
+              // alignment: Alignment.center,
+              repeat: false,
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

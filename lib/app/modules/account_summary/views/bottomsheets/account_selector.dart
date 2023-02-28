@@ -12,6 +12,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/views/import_wallet_page_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -210,22 +211,11 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                           left: 12.arP,
                                                           bottom: 5.arP),
                                                       onTap: () {
-                                                        Get.bottomSheet(
+                                                        CommonFunctions
+                                                            .bottomSheet(
                                                           EditAccountBottomSheet(
                                                             accountIndex: index,
                                                           ),
-                                                          enterBottomSheetDuration:
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      180),
-                                                          exitBottomSheetDuration:
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      150),
-                                                          isScrollControlled:
-                                                              true,
-                                                          barrierColor: Colors
-                                                              .transparent,
                                                         );
                                                       },
                                                       child: Text(
@@ -260,7 +250,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                         width: 140.aR,
                                                         height: 30.aR,
                                                         onTap: () {
-                                                          Get.bottomSheet(
+                                                          CommonFunctions
+                                                              .bottomSheet(
                                                             removeAccountBottomSheet(
                                                               index,
                                                               accountName: _controller
@@ -277,16 +268,6 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                                         index);
                                                               },
                                                             ),
-                                                            enterBottomSheetDuration:
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        180),
-                                                            exitBottomSheetDuration:
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        150),
-                                                            barrierColor: Colors
-                                                                .transparent,
                                                           );
                                                         },
                                                         child: Text(
@@ -357,13 +338,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                     Obx(() => BouncingWidget(
                           onPressed: (() {
                             if (_controller.isAccountEditable.isFalse) {
-                              Get.bottomSheet(
+                              CommonFunctions.bottomSheet(
                                 const AddAccountSheet(warning: null),
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                                barrierColor: Colors.transparent,
                               );
                               // Get.bottomSheet(AddNewAccountBottomSheet(),
                               //         enterBottomSheetDuration:

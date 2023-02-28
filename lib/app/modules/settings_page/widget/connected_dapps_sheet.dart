@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -49,11 +50,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
                       0.03.vspace,
                       Text(
                         "No connected apps",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22.arP,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: titleLarge,
                       ),
                     ],
                   ),
@@ -80,10 +77,9 @@ class ConnectedDappBottomSheet extends StatelessWidget {
   }) {
     return BouncingWidget(
       onPressed: () {
-        Get.bottomSheet(disconnectDappBottomSheet(index),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            barrierColor: Colors.transparent);
+        CommonFunctions.bottomSheet(
+          disconnectDappBottomSheet(index),
+        );
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 12.arP),

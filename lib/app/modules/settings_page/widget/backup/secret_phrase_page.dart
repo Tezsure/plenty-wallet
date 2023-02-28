@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/modules/settings_page/controllers/backup_page_co
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -53,17 +54,8 @@ class SecretPhrasePage extends StatelessWidget {
                       children: [
                         backButton(),
                         InfoButton(
-                          onPressed: () => Get.bottomSheet(
+                          onPressed: () => CommonFunctions.bottomSheet(
                             const InfoBottomSheet(),
-                            enterBottomSheetDuration:
-                                const Duration(milliseconds: 180),
-                            exitBottomSheetDuration:
-                                const Duration(milliseconds: 150),
-                            enableDrag: true,
-                            isDismissible: true,
-                            isScrollControlled: true,
-                            barrierColor:
-                                const Color.fromARGB(09, 255, 255, 255),
                           ),
                         ),
                       ],

@@ -24,6 +24,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/con
 import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -503,18 +504,13 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           itemBuilder: ((context, i) {
                             var nftTokenModel = nfts.values.toList()[index][i];
                             return BouncingWidget(
-                              onPressed: () => Get.bottomSheet(
+                              onPressed: () => CommonFunctions.bottomSheet(
                                 NFTDetailBottomSheet(
                                   onBackTap: Get.back,
                                   pk: nftTokenModel.pk!,
                                   publicKeyHashs: controller
                                       .selectedNftGallery.value.publicKeyHashs,
                                 ),
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                                isScrollControlled: true,
                               ),
                               child: Container(
                                 width: double.infinity,
@@ -816,11 +812,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
           children: [
             BouncingWidget(
               onPressed: () async {
-                await Get.bottomSheet(
+                await CommonFunctions.bottomSheet(
                   _selectGallery(controller.selectedGalleryIndex.value),
-                  isScrollControlled: true,
-                  enterBottomSheetDuration: const Duration(milliseconds: 180),
-                  exitBottomSheetDuration: const Duration(milliseconds: 150),
                 );
                 controller.isEditing.value = false;
               },
@@ -1126,22 +1119,14 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                         // NaanAnalytics.logEvent(
                                                         //     NaanAnalyticsEvents
                                                         //         .REMOVE_NFT_GALLERY);
-                                                        Get.bottomSheet(
-                                                            RemoveGallerySheet(
-                                                                controller:
-                                                                    controller,
-                                                                galleryIndex:
-                                                                    index),
-                                                            enterBottomSheetDuration:
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        180),
-                                                            exitBottomSheetDuration:
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        150),
-                                                            isScrollControlled:
-                                                                true);
+                                                        CommonFunctions
+                                                            .bottomSheet(
+                                                          RemoveGallerySheet(
+                                                              controller:
+                                                                  controller,
+                                                              galleryIndex:
+                                                                  index),
+                                                        );
                                                       },
                                                       child: Text(
                                                         "Remove",
@@ -1683,26 +1668,20 @@ class NftCollectionItemWidget extends StatelessWidget {
     return BouncingWidget(
       onPressed: () {
         if (nftTokens.length != 1) {
-          Get.bottomSheet(
+          CommonFunctions.bottomSheet(
             NFTCollectionSheet(
               nfts: nftTokens,
               publicKeyHashs: publicKeyHashes,
             ),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            isScrollControlled: true,
           );
           return;
         }
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           NFTDetailBottomSheet(
             onBackTap: Get.back,
             pk: nftTokens[0].pk,
             publicKeyHashs: publicKeyHashes,
           ),
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
-          isScrollControlled: true,
         );
         // Get.bottomSheet(NFtDetailView(nft: nftTokens[0]),
         //   isScrollControlled: true);

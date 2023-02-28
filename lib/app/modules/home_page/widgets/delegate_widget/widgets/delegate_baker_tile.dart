@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -26,7 +28,7 @@ class DelegateBakerTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 0.01.height),
       // width: 338,
-      height: 125.arP,
+      // height: 125.arP,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: const Color(0xff958e99).withOpacity(0.2),
@@ -70,11 +72,11 @@ class DelegateBakerTile extends StatelessWidget {
                   iconSize: 16.aR,
                   padding: EdgeInsets.zero,
                   onPressed: () {
-                    Get.bottomSheet(const DappBrowserView(),
-                        barrierColor: Colors.white.withOpacity(0.09),
-                        settings: RouteSettings(
-                            arguments: 'https://tzkt.io/${baker.address}'),
-                        isScrollControlled: true);
+                    CommonFunctions.bottomSheet(
+                      const DappBrowserView(),
+                      settings: RouteSettings(
+                          arguments: 'https://tzkt.io/${baker.address}'),
+                    );
                   },
                   icon: SvgPicture.asset(
                     '${PathConst.SETTINGS_PAGE}svg/external-link.svg',
@@ -84,26 +86,31 @@ class DelegateBakerTile extends StatelessWidget {
                   )),
               const Spacer(),
               if (redelegate)
-                SolidButton(
-                  title: "Redelegate",
-                  onPressed: () {
-                    Get.back();
-                    Get.bottomSheet(
+                BouncingWidget(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: ColorConst.Primary,
+                          borderRadius: BorderRadius.circular(24.arP)),
+                      child: Text(
+                        "Redelegate",
+                        style: labelSmall.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 4.arP, horizontal: 8.arP),
+                    ),
+                    onPressed: () {
+                      Get.back();
+                      CommonFunctions.bottomSheet(
                         DelegateSelectBaker(
                           delegatedBaker: baker,
                           isScrollable: true,
                         ),
-                        enableDrag: true,
-                        isScrollControlled: true);
-                  },
-                  borderRadius: 24,
-                  height: 25,
-                  titleStyle: labelSmall.copyWith(fontWeight: FontWeight.bold),
-                  width: 100,
-                )
+                      );
+                    }),
             ],
           ),
-          const Spacer(),
+          0.024.vspace,
+          // const Spacer(),
           Row(
             children: [
               RichText(

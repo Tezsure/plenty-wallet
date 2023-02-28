@@ -48,7 +48,8 @@ class SendPage extends GetView<SendPageController> {
         bottomSheetWidgets: [
           searchBar(),
           SizedBox(
-            height: (0.8.height - MediaQuery.of(context).viewInsets.bottom).arP,
+            height:
+                (0.72.height - MediaQuery.of(context).viewInsets.bottom.arP),
             child: Obx(() => IndexedStack(
                   index: controller.selectedPageIndex.value,
                   sizing: StackFit.loose,

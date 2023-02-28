@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicato
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -184,12 +185,9 @@ class _AccountsWidgetState extends State<AccountsWidget> {
     return BouncingWidget(
         onPressed: () {
           homePageController.changeSelectedAccount(index);
-          Get.bottomSheet(
+          CommonFunctions.bottomSheet(
             const AccountSummaryView(),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
             settings: RouteSettings(arguments: model),
-            isScrollControlled: true,
           );
         },
         child: Stack(
@@ -211,7 +209,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                         width: 16.arP,
                         height: 16.arP,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white, width: 1),
+                          border: Border.all(color: Colors.white, width: 1.arP),
                           borderRadius: BorderRadius.circular(4.arP),
                           image: DecorationImage(
                             image: model.imageType ==
@@ -241,9 +239,9 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                               snackStyle: SnackStyle.FLOATING,
                               padding: const EdgeInsets.only(bottom: 60),
                               messageText: Container(
-                                height: 36,
+                                height: 36.arP,
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                    EdgeInsets.symmetric(horizontal: 10.arP),
                                 decoration: BoxDecoration(
                                     color: ColorConst.Neutral.shade10,
                                     borderRadius: BorderRadius.circular(8)),
@@ -251,13 +249,13 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(
+                                    Icon(
                                       Icons.check_circle_outline_rounded,
-                                      size: 14,
+                                      size: 14.arP,
                                       color: Colors.white,
                                     ),
-                                    const SizedBox(
-                                      width: 5,
+                                    SizedBox(
+                                      width: 5.arP,
                                     ),
                                     Text(
                                       "Copied ${tz1Shortner(model.publicKeyHash!)}",
@@ -319,32 +317,21 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   action(
-                                      () => Get.bottomSheet(const SendPage(),
-                                          enterBottomSheetDuration:
-                                              const Duration(milliseconds: 180),
-                                          exitBottomSheetDuration:
-                                              const Duration(milliseconds: 150),
-                                          isScrollControlled: true,
-                                          settings: RouteSettings(
-                                            arguments: model,
+                                      () => CommonFunctions.bottomSheet(
+                                            const SendPage(),
+                                            settings: RouteSettings(
+                                              arguments: model,
+                                            ),
                                           ),
-                                          barrierColor:
-                                              Colors.white.withOpacity(0.09)),
                                       "${PathConst.HOME_PAGE}send.png"),
                                   0.036.hspace,
                                   action(
-                                    () => Get.bottomSheet(
-                                        const ReceivePageView(),
-                                        enterBottomSheetDuration:
-                                            const Duration(milliseconds: 180),
-                                        exitBottomSheetDuration:
-                                            const Duration(milliseconds: 150),
-                                        isScrollControlled: true,
-                                        settings: RouteSettings(
-                                          arguments: model,
-                                        ),
-                                        barrierColor:
-                                            Colors.white.withOpacity(0.09)),
+                                    () => CommonFunctions.bottomSheet(
+                                      const ReceivePageView(),
+                                      settings: RouteSettings(
+                                        arguments: model,
+                                      ),
+                                    ),
                                     "${PathConst.HOME_PAGE}qr.png",
                                   ),
                                 ],

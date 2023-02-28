@@ -113,7 +113,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
 
   Widget _buildBakerItem(DelegateBakerModel baker) {
     return BouncingWidget(
-      onPressed: () => Get.bottomSheet(ReviewDelegateSelectBaker(
+      onPressed: () => CommonFunctions.bottomSheet(ReviewDelegateSelectBaker(
         baker: baker,
       )),
       child: DelegateBakerTile(baker: baker),
@@ -134,7 +134,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
             child: Padding(
               padding: EdgeInsets.only(bottom: 48.arP),
               child: GestureDetector(
-                onTap: () => Get.bottomSheet(const BakerFilterBottomSheet()),
+                onTap: () => CommonFunctions.bottomSheet(const BakerFilterBottomSheet()),
                 child: Container(
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.white, width: .3),
