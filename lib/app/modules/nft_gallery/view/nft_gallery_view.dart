@@ -446,6 +446,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
             controller.fetchAllNftForGallery();
           },
           color: ColorConst.Primary,
+          backgroundColor: Colors.transparent,
           child: Container(
             margin: EdgeInsets.symmetric(
               horizontal: 16.arP,
@@ -705,6 +706,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
               controller.nftList.clear();
               controller.fetchAllNftForGallery();
             },
+            backgroundColor: Colors.transparent,
             color: ColorConst.Primary,
             child: SingleChildScrollView(
               physics: AppConstant.scrollPhysics,
