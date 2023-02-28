@@ -20,10 +20,11 @@ class SplashPageView extends GetView<SplashPageController> {
               "assets/onboarding_page/lottie/splash.json",
               animate: true,
               frameRate: FrameRate.max,
+              width: 1.width, height: 1.width,
 
               // ignore: avoid_print
               onWarning: (p) => print(p),
-              // alignment: Alignment.center,
+              alignment: Alignment.center,
               repeat: false,
             ),
           ),
