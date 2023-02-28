@@ -47,82 +47,77 @@ class CollectibleWidget extends GetView<SendPageController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2),
+        padding: EdgeInsets.symmetric(vertical: 2.arP),
         child: Obx(
-          () => Column(
-            children: [
-              NaanExpansionTile(
-                maintainState: true,
-                tilePadding: EdgeInsets.zero,
-                leading: Container(
-                  height: 40.aR,
-                  width: 40.aR,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      width: 1.5.aR,
-                      color: ColorConst.NeutralVariant.shade60,
-                    ),
-                  ),
-                  child: ClipOval(
-                    child: CachedNetworkImage(
-                      imageUrl: logo,
-                      memCacheHeight: 73,
-                      memCacheWidth: 73,
-                      placeholder: (context, url) => SizedBox(
-                        child: Shimmer.fromColors(
-                          baseColor: const Color(0xff474548),
-                          highlightColor:
-                              const Color(0xFF958E99).withOpacity(0.2),
-                          child: Container(
-                              decoration: const BoxDecoration(
-                            color: Color(0xff474548),
-                          )),
-                        ),
-                      ),
-                    ),
-                  ),
+          () => NaanExpansionTile(
+            maintainState: true,
+            tilePadding: EdgeInsets.zero,
+            leading: Container(
+              height: 40.aR,
+              width: 40.aR,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  width: 1.5.aR,
+                  color: ColorConst.NeutralVariant.shade60,
                 ),
-                onExpansionChanged: (isExpand) =>
-                    controller.setExpandNFTCollectible(widgetIndex),
-                trailing: SizedBox(
-                  height: 0.03.height,
-                  width: 0.14.width,
-                  child: _expandButton(
-                    isExpanded: controller.expandNFTCollectible.value &&
-                        widgetIndex == controller.expandedIndex.value,
-                  ),
-                ),
-                title: Text(
-                  name,
-                  style: labelLarge,
-                ),
-                children: [
-                  SizedBox(
-                      height: 0.31.height * (collectionNfts.length / 2).ceil(),
-                      width: 1.width,
-                      child: GridView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: collectionNfts.length,
-                        shrinkWrap: false,
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 0.5.width,
-                            mainAxisExtent: 0.31.height,
-                            childAspectRatio: 1,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10),
-                        itemBuilder: ((context, index) => NFTwidget(
-                              nfTmodel: collectionNfts[index],
-                              onTap: (NftTokenModel nftTokenModel) => controller
-                                ..onNFTClick(nftTokenModel)
-                                ..setSelectedPageIndex(
-                                    index: 2, isKeyboardRequested: false),
-                            )),
+              ),
+              child: ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: logo,
+                  memCacheHeight: 73,
+                  memCacheWidth: 73,
+                  placeholder: (context, url) => SizedBox(
+                    child: Shimmer.fromColors(
+                      baseColor: const Color(0xff474548),
+                      highlightColor: const Color(0xFF958E99).withOpacity(0.2),
+                      child: Container(
+                          decoration: const BoxDecoration(
+                        color: Color(0xff474548),
                       )),
-                  const SizedBox(
-                    height: 16,
+                    ),
                   ),
-                ],
+                ),
+              ),
+            ),
+            onExpansionChanged: (isExpand) =>
+                controller.setExpandNFTCollectible(widgetIndex),
+            trailing: SizedBox(
+              height: 0.03.height,
+              width: 0.14.width,
+              child: _expandButton(
+                isExpanded: controller.expandNFTCollectible.value &&
+                    widgetIndex == controller.expandedIndex.value,
+              ),
+            ),
+            title: Text(
+              name,
+              style: labelLarge,
+            ),
+            children: [
+              SizedBox(
+                  height: 0.31.height * (collectionNfts.length / 2).ceil(),
+                  width: 1.width,
+                  child: GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: collectionNfts.length,
+                    shrinkWrap: false,
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 0.5.width,
+                        mainAxisExtent: 0.31.height,
+                        childAspectRatio: 1,
+                        crossAxisSpacing: 10.arP,
+                        mainAxisSpacing: 10.arP),
+                    itemBuilder: ((context, index) => NFTwidget(
+                          nfTmodel: collectionNfts[index],
+                          onTap: (NftTokenModel nftTokenModel) => controller
+                            ..onNFTClick(nftTokenModel)
+                            ..setSelectedPageIndex(
+                                index: 2, isKeyboardRequested: false),
+                        )),
+                  )),
+              SizedBox(
+                height: 16.arP,
               ),
             ],
           ),
@@ -131,10 +126,10 @@ class CollectibleWidget extends GetView<SendPageController> {
 
   Widget _expandButton({required bool isExpanded}) {
     return Container(
-      height: 24,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      height: 24.arP,
+      padding: EdgeInsets.symmetric(horizontal: 12.arP),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8.arP),
         // color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
       ),
       alignment: Alignment.center,
@@ -145,7 +140,7 @@ class CollectibleWidget extends GetView<SendPageController> {
             collectionNfts.length.toString(),
             style: labelSmall.copyWith(
               color: Colors.white,
-              fontSize: 12.arP,
+              fontSize: 12.txtArp,
             ),
           ),
           SizedBox(

@@ -23,6 +23,8 @@ class PasscodePageView extends GetView<PasscodePageController> {
     controller.isToVerifyPassCode.value = args[0] as bool;
     if (args.length == 2) {
       controller.nextPageRoute = args[1] as String;
+    } else {
+      controller.nextPageRoute = null;
     }
 
     if (controller.isToVerifyPassCode.value) {

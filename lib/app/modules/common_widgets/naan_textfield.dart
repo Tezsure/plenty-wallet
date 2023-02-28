@@ -43,7 +43,7 @@ class NaanTextfield extends StatelessWidget {
       autofocus: autofocus ?? false,
       controller: controller,
       cursorColor: ColorConst.Primary,
-      style: bodyMedium.copyWith(fontSize: 14.aR),
+      style: bodyMedium,
       textAlign: TextAlign.start,
       maxLength: maxLen ?? 1000,
       textAlignVertical: TextAlignVertical.center,
@@ -55,18 +55,17 @@ class NaanTextfield extends StatelessWidget {
         fillColor: backgroundColor ?? Colors.white.withOpacity(0.1),
         filled: true,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.arP),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.arP),
             borderSide: BorderSide.none),
         contentPadding:
             EdgeInsets.symmetric(horizontal: 10.arP, vertical: 20.arP),
         // contentPadding: EdgeInsets.zero,
         hintStyle: hintTextSyle ??
-            bodyMedium.copyWith(
-                fontSize: 14.aR, color: Colors.white.withOpacity(0.2)),
+            bodyMedium.copyWith(color: Colors.white.withOpacity(0.2)),
         hintText: hint,
       ),
     );
@@ -83,10 +82,10 @@ class NaanTextFormfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(8.arP),
       color: Colors.white.withOpacity(0.2),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        padding:  EdgeInsets.symmetric(horizontal: 12.arP),
         child: SizedBox(
           width: double.infinity,
           height: height,

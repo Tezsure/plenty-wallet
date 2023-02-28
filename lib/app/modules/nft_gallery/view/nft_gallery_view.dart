@@ -59,7 +59,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
               MediaQuery.of(context).viewInsets.bottom +
-              63.arP,
+              60.7.arP,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
@@ -229,7 +229,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
       height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight + 62.arP,
+          height: AppConstant.naanBottomSheetChildHeight + 60.7.arP,
           child: Stack(
             children: [
               Column(
@@ -836,7 +836,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
           SizedBox(
               width: 1.width,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 16.0.arP),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
@@ -850,6 +850,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           ),
                           child: Center(
                             child: TextField(
+                              cursorColor: ColorConst.Primary,
                               onChanged: ((value) {
                                 controller.debounceTimer?.cancel();
                                 controller.debounceTimer = Timer(
@@ -1748,7 +1749,8 @@ class NftCollectionItemWidget extends StatelessWidget {
     List<Widget> images = [];
     // ignore: no_leading_underscores_for_local_identifiers
     List<NftTokenModel> _nftTokens = nftTokens.take(4).toList();
-    final width = (0.25 - 0.072).width;
+    final width = (0.25 - 0.06).width;
+    double ratio = Get.width > 768 ? 1.5 : 1;
     for (var i = 0; i < _nftTokens.length; i++) {
       images.add(
         SizedBox(
@@ -1756,11 +1758,11 @@ class NftCollectionItemWidget extends StatelessWidget {
               ? double.infinity
               : _nftTokens.length == 3 && i == 0
                   ? double.infinity
-                  : width,
+                  : width / ratio,
           // : Get.width > 768
           //     ? 88.arP
           //     : 73.arP,
-          height: _nftTokens.length == 1 ? 160.arP : width,
+          height: _nftTokens.length == 1 ? 160.arP : width / ratio,
           child: ClipRRect(
               borderRadius: BorderRadius.circular(
                 8.arP,
@@ -1781,8 +1783,8 @@ class NftCollectionItemWidget extends StatelessWidget {
         children: [
           images.last,
           Container(
-            width: width + 0.4.arP,
-            height: width + 0.4.arP,
+            width: (width / ratio) + 0.4.arP,
+            height: (width / ratio) + 0.4.arP,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.8),
               borderRadius: BorderRadius.circular(
@@ -1794,7 +1796,7 @@ class NftCollectionItemWidget extends StatelessWidget {
                 "+${nftTokens.length - images.length}",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 12.arP,
+                  fontSize: 12.txtArp,
                   fontWeight: FontWeight.w600,
                 ),
               ),

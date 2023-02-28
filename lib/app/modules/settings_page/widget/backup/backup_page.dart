@@ -30,7 +30,7 @@ class BackupPage extends StatelessWidget {
         height: AppConstant.naanBottomSheetHeight,
         title: "Backup",
         leading: backButton(),
-        bottomSheetHorizontalPadding: 16.arP,
+        // bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight,

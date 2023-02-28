@@ -244,7 +244,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         Container(
           decoration: BoxDecoration(
               color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8)),
+              borderRadius: BorderRadius.circular(8.arP)),
           child: ListView.separated(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -351,7 +351,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
       child: Container(
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(8)),
+            borderRadius: BorderRadius.circular(8.arP)),
         height: 71,
         padding: EdgeInsets.symmetric(horizontal: 0.05.width),
         child: Row(
@@ -408,7 +408,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
       child: Container(
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(8)),
+            borderRadius: BorderRadius.circular(8.arP)),
         // height: 54,
         padding: EdgeInsets.symmetric(horizontal: 0.05.width, vertical: 16.arP),
         child: Row(
@@ -441,8 +441,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
       child: Container(
         decoration: BoxDecoration(
             color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(8)),
-        height: 54,
+            borderRadius: BorderRadius.circular(8.arP)),
+        height: 54.arP,
         padding: EdgeInsets.symmetric(horizontal: 0.05.width),
         child: Row(
           children: [
@@ -451,7 +451,10 @@ class SettingsPageView extends GetView<SettingsPageController> {
               style: labelMedium.apply(color: ColorConst.Error.shade60),
             ),
             const Spacer(),
-            SvgPicture.asset("${PathConst.SETTINGS_PAGE.SVG}logout.svg")
+            SvgPicture.asset(
+              "${PathConst.SETTINGS_PAGE.SVG}logout.svg",
+              height: 20.arP,
+            )
           ],
         ),
       ),
@@ -468,7 +471,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         return Container(
           decoration: BoxDecoration(
               color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8)),
+              borderRadius: BorderRadius.circular(8.arP)),
           padding: EdgeInsets.symmetric(
               horizontal: 0.05.width, vertical: 0.04.width),
           margin: EdgeInsets.only(
@@ -535,7 +538,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         return Container(
           decoration: BoxDecoration(
               color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8)),
+              borderRadius: BorderRadius.circular(8.arP)),
           padding: EdgeInsets.symmetric(
               horizontal: 0.05.width, vertical: 0.04.width),
           margin: EdgeInsets.only(

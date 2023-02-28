@@ -58,7 +58,9 @@ class DappBrowserView extends GetView<DappBrowserController> {
 
     return OverrideTextScaleFactor(
       child: Container(
-        height: AppConstant.naanBottomSheetChildHeight,
+        height:  Get.size.height < 600 || Get.size.height > 1100
+            ? 0.9.height
+            : AppConstant.naanBottomSheetChildHeight,
         // width: 1.width,
         // margin: EdgeInsets.only(
         //   top: 0.05.height,
@@ -66,8 +68,8 @@ class DappBrowserView extends GetView<DappBrowserController> {
         padding: EdgeInsets.only(
           bottom: Platform.isIOS ? 0.03.height : 0.01.height,
         ),
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+        decoration:  BoxDecoration(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10.arP)),
             color: Colors.black),
         child: Center(
           child: Column(
@@ -76,10 +78,10 @@ class DappBrowserView extends GetView<DappBrowserController> {
               Align(
                 alignment: Alignment.topCenter,
                 child: Container(
-                  height: 5,
-                  width: 36,
+                  height: 5.arP,
+                  width: 36.arP,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(5.arP),
                     color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
                   ),
                 ),
@@ -91,8 +93,8 @@ class DappBrowserView extends GetView<DappBrowserController> {
                       children: [
                         Image.asset(
                           "assets/dapp_browser/lock.png",
-                          height: 12,
-                          width: 12,
+                          height: 12.arP,
+                          width: 12.arP,
                         ),
                         0.01.hspace,
                         Text(

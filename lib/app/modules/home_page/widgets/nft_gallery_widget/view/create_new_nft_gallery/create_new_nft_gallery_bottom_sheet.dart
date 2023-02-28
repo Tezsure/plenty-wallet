@@ -506,14 +506,14 @@ class CreateNewNftGalleryBottomSheet
                   height: 25.arP,
                 ),
                 NaanTextfield(
-                  // height: 52,
+                  height: 50.arP,
                   maxLen: 15,
                   hint: "Account Name",
                   focusNode: controller.accountNameFocus,
                   controller: controller.accountNameController,
                   textStyle: TextStyle(
                     color: Colors.white,
-                    fontSize: 14.arP,
+                    fontSize: 14.txtArp,
                     fontWeight: FontWeight.w400,
                     letterSpacing: 0.25.arP,
                   ),

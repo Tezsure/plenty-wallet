@@ -10,7 +10,7 @@ class AppConstant {
   static const String naanWebsite = 'https://naan.app/';
   static double homeWidgetDimension = ((0.5 * Get.width) - 33.arP);
   static double naanBottomSheetHeight = 0.89.height;
-  static double naanBottomSheetChildHeight = 0.81.height;
+  static double naanBottomSheetChildHeight = 0.809.height;
   static const ScrollPhysics scrollPhysics =
       BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics());
   static Function() hapticFeedback = () {

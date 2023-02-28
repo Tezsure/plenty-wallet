@@ -42,7 +42,7 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
                 setState(() {});
               },
               controller: _name,
-              height: 52,
+              height: 50.arP,
               hint: "My custom network",
               hintTextSyle: labelLarge.copyWith(
                   color: ColorConst.lightGrey, fontWeight: FontWeight.w400),
@@ -55,7 +55,7 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
                 setState(() {});
               },
               controller: _url,
-              height: 52,
+              height: 50.arP,
               hint: "http://localhost:4444",
               hintTextSyle: labelLarge.copyWith(
                   color: ColorConst.lightGrey, fontWeight: FontWeight.w400),

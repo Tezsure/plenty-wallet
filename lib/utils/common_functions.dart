@@ -34,7 +34,7 @@ class CommonFunctions {
       settings: settings,
       bounce: true,
       // : true,
-      // barrierColor: Colors.black.withOpacity(0.6),
+      barrierColor: Colors.black.withOpacity(0.6),
       elevation: 5,
       topRadius: Radius.circular(24.arP),
       backgroundColor: ColorConst.darkGrey,
@@ -45,7 +45,7 @@ class CommonFunctions {
         blurRadius: 10,
         // offset: const Offset(0, 0), // changes position of shadow
       ),
-      transitionBackgroundColor: Color(0xff2D2447),
+      transitionBackgroundColor: Colors.white.withOpacity(.2),
       // useRootNavigator: true
       // enterBottomSheetDuration: const Duration(milliseconds: 180),
       // exitBottomSheetDuration: const Duration(milliseconds: 150),

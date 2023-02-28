@@ -14,8 +14,8 @@ extension SizeExtension on num {
   double get spH => this * (Get.height / 6) / 100;
 
   double get arP {
-    log(Get.size.height.toString());
-    log(Get.pixelRatio.toString());
+    // log(Get.size.height.toString());
+    // log(Get.pixelRatio.toString());
     double ratio = 1;
     if (Get.size.height < 600) {
       ratio = 1;
@@ -26,7 +26,9 @@ extension SizeExtension on num {
     }
     return this * (Get.size.aspectRatio * ratio);
   }
-double get txtArp=>(Get.size.height > 1100)?(this * (Get.size.aspectRatio * 2)):arP;
+
+  double get txtArp =>
+      (Get.size.height > 1100) ? (this * (Get.size.aspectRatio * 2)) : arP;
   double get aR => arP;
 
   SizedBox get vspace => SizedBox(

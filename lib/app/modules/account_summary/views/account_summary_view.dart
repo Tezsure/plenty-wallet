@@ -40,7 +40,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
       bottomSheetHorizontalPadding: 0,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight + 63.arP,
+          height: AppConstant.naanBottomSheetChildHeight + 60.7.arP,
           child: DefaultTabController(
             length: 3,
             child: Column(
