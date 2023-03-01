@@ -26,9 +26,7 @@ class DappsPageView extends GetView<DappsPageController> {
   Widget build(BuildContext context) {
     Get.put(DappsPageController());
     return Container(
-      height: Get.size.height < 600 || Get.size.height > 1100
-          ? 0.9.height
-          : AppConstant.naanBottomSheetHeight,
+      height: 0.9.height,
       width: 1.width,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(10.arP)),

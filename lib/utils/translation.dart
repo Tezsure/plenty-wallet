@@ -1,0 +1,160 @@
+import 'package:get/get.dart';
+
+class Messages extends Translations {
+  set keys(Map<String, Map<String, String>> key) {
+    keys = key;
+  }
+
+  @override
+  Map<String, Map<String, String>> get keys => {
+        'en_US': {
+          'not_now': "Not now",
+          "login_with": "Or login with",
+          "already_have_account": "I already have an account",
+          "create_new_account": "Create a new account",
+          "add_watch_address": "Add a watch address",
+          "import_account": "Import account",
+          "clear": "Clear",
+          "paste": "Paste",
+          "select_address": "Select addresses",
+          "multiple_addresses_can_be_selected":
+              "Multiple addresses can be selected",
+          "Legacy": "Legacy",
+          "info": "info",
+          "Enter wallet address or tezos domain":
+              "Enter wallet address or tezos domain",
+          "Paste your secret phrase, private key\nor watch address":
+              "Paste your secret phrase, private key\nor watch address",
+          "Copied": "Copied",
+          'Buy': 'Buy',
+          'Earn': 'Earn',
+          'Send': 'Send',
+          'Receive': 'Receive',
+          'Accounts': 'Accounts',
+          "Done": "Done",
+          "Edit": "Edit",
+          "Watching": "Watching",
+          "Remove": "Remove",
+          "Add account": "Add account",
+          "Next": "Next",
+          "No accounts found": "No accounts found",
+          "Create or import new account to proceed":
+              "Create or import new account to proceed",
+          'Remove Account': 'Remove Account',
+          'Do you want to remove': 'Do you want to remove',
+          'from your account list?': 'from your account list?',
+          "Cancel": "Cancel",
+          'Select Start Date': 'Select Start Date',
+          "to": "to",
+          "Confirm": "Confirm",
+          "Edit Account": "Edit Account",
+          "Account Name": "Account Name",
+          "Save Changes": "Save Changes",
+          'Account with same name already exists':
+              'Account with same name already exists',
+          'Cannot save account changes': 'Cannot save account changes',
+          "Asset type": "Asset type",
+          "Tokens": "Tokens",
+          "NFTs": "NFTs",
+          "Transaction type": "Transaction type",
+          "Delegation": "Delegation",
+          "Date": "Date",
+          "Today": "Today",
+          "Current Month": "Current Month",
+          "Last 3 Months": "Last 3 Months",
+          "Apply": "Apply",
+          "Select Date Range": "Select Date Range",
+          "Clear": "Clear",
+          'Search': 'Search',
+          "Try searching for token,\n protocols, and tags":
+              "Try searching for token,\n protocols, and tags",
+          "Received": "Received",
+          'Sent': 'Sent',
+          'view on tzkt.io': 'view on tzkt.io',
+          "From": "From",
+          "Copied to clipboard": "Copied to clipboard",
+          "Add to contacts": "Add to contacts",
+          'Delete Contact': 'Delete Contact',
+          'from your contacts?': 'from your contacts?',
+          "Remove contact": "Remove contact",
+          "No token found": "No token found",
+          "Buy or Transfer token from another\n wallet or elsewhere":
+              "Buy or Transfer token from another\n wallet or elsewhere",
+          'No more results': 'No more results',
+          "No transactions": "No transactions",
+          "Your crypto and NFT activity will appear\nhere once you start using your wallet":
+              "Your crypto and NFT activity will appear\nhere once you start using your wallet",
+          "No Collections": "No Collections",
+          "Explore new collectibles on objkt":
+              "Explore new collectibles on objkt",
+          'Pin': 'Pin',
+          'Unpin': 'Unpin',
+          'Hide': 'Hide',
+          'Unhide': 'Unhide',
+          'Less': 'Less',
+          'All': 'All',
+          "Show more": "Show more",
+          'Your Secret Phrase': 'Your Secret Phrase',
+          'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.':
+              'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.',
+          'Copied to your clipboard !': 'Copied to your clipboard !',
+          "I’ve saved these words": "I’ve saved these words",
+          'Confirm Using Your': 'Confirm Using Your',
+          'Touch the fingerprint sensor': 'Touch the fingerprint sensor',
+          "Come to front camera": "Come to front camera",
+          'Use passcode': 'Use passcode',
+          'Confirm Transaction': 'Confirm Transaction',
+          'Account': 'Account',
+          "Transaction is likely to fail": "Transaction is likely to fail",
+          'Balance': 'Balance',
+          'Wants to connect to your account':
+              'Wants to connect to your account',
+          "Connect": "Connect",
+          'Message Signature Request': 'Message Signature Request',
+          'Message': 'Message',
+          "Sign": "Sign",
+          "Connection Failed": "Connection Failed",
+          "Your app network is not the same as the network required by the dApp":
+              "Your app network is not the same as the network required by the dApp",
+          "Network": "Network",
+          "Proceed": "Proceed",
+          "Enable biometric unlock": "Enable biometric unlock",
+          "Enable Face ID": "Enable Face ID",
+          "Access your naan with your": "Access your naan with your",
+          "Enable": "Enable",
+          "Skip": "Skip",
+          'copy to clipboard': 'copy to clipboard',
+          'copied!': 'copied!',
+          "Choose from library": "Choose from library",
+          "Pick an avatar": "Pick an avatar",
+          "Remove photo": "Remove photo",
+          "Or create account with": "Or create account with",
+          "Name your account": "Name your account",
+          "Start using naan": "Start using naan",
+          "Buy tez": "Buy tez",
+          'Launch': 'Launch',
+          'Backup your account': 'Backup your account',
+          'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.':
+              'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.',
+          "Backup wallet ( ~1 min )": "Backup wallet ( ~1 min )",
+          "I will risk it": "I will risk it",
+          'Choose account': 'Choose account',
+          "Buy NFT": "Buy NFT",
+          'This module will be powered by wert.io and you will be using wert’s interface.':
+              'This module will be powered by wert.io and you will be using wert’s interface.',
+          "In Tezos, we delegate an account to a baker\nand earn interest on the available Tez in the account.":
+              "In Tezos, we delegate an account to a baker\nand earn interest on the available Tez in the account.",
+          "Claim NFT": "Claim NFT",
+          'Choose an account to claim your free \nNFT and tez':
+              'Choose an account to claim your free \nNFT and tez',
+          'Create or import an account': 'Create or import an account',
+          "Create a new account": "Create a new account",
+          "I already have an account": "I already have an account",
+          'Manage multiple accounts\neasily':
+              'Manage multiple accounts\neasily',
+          "naan Official": "naan Official",
+          "Art Collection": "Art Collection",
+          "TF Permanent": "TF Permanent"
+        }
+      };
+}

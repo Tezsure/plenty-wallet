@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:instabug_flutter/instabug_flutter.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/env.dart';
@@ -97,17 +96,18 @@ void main() async {
           debugShowCheckedModeBanner: false,
           initialRoute: AppPages.INITIAL,
 
-          // getPages: AppPages.routes,
-          onGenerateRoute: (settings) {
-            final page = AppPages.routes.firstWhere(
-                (e) => e.name.toLowerCase() == settings.name!.toLowerCase());
-            page.binding?.dependencies();
+          getPages: AppPages.routes,
+          // onGenerateRoute: (settings) {
+          //   final page = AppPages.routes.firstWhere(
+          //       (e) => e.name.toLowerCase() == settings.name!.toLowerCase());
+          //   page.binding?.dependencies();
 
-            return MaterialWithModalsPageRoute(
-                settings: settings,
-                builder: (context) => CupertinoScaffold(
-                    topRadius: Radius.circular(24.arP), body: page.page()));
-          }),
+          //   return MaterialWithModalsPageRoute(
+          //       settings: settings,
+          //       builder: (context) => CupertinoScaffold(
+          //           topRadius: Radius.circular(24.arP), body: page.page()));
+          // },
+          ),
     );
   }, (error, stackTrace) {
     CrashReporting.reportCrash(error, stackTrace);

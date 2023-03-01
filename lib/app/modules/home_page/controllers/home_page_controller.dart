@@ -32,7 +32,8 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../widgets/scanQR/permission_sheet.dart';
 
-class HomePageController extends GetxController with WidgetsBindingObserver {
+class HomePageController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   // RxBool showBottomSheet = false.obs;
   RxInt selectedIndex = 0.obs;
 
@@ -46,9 +47,23 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   RxDouble dayChange = 0.0.obs;
 
   RxList<AccountModel> userAccounts = <AccountModel>[].obs;
-
+  late AnimationController animate;
+  late RxDouble scale;
+  int bottomSheetsOpen = 0;
   @override
   void onInit() async {
+    bottomSheetsOpen = 0;
+    animate = AnimationController(
+        vsync: this,
+        duration:
+            Duration(milliseconds: 350), //This is an inital controller duration
+        lowerBound: 0,
+        upperBound: 0.15)
+      ..addListener(() {
+        scale.value = 1 - animate.value;
+      });
+    scale = (1 - animate.value).obs;
+    log(scale.value.toString());
     super.onInit();
     Get.put(BeaconService(), permanent: true);
     DataHandlerService()
@@ -104,6 +119,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         log(e.toString());
       }
     });
+
     // .registerVariable(userAccounts);
 
     DataHandlerService()
@@ -128,6 +144,14 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
     //   print("Nft data");
     //   print(jsonEncode(data));
     // });
+  }
+
+  Future<void> animateForward() async {
+    animate.forward();
+  }
+
+  Future<void> animateReverse() async {
+    animate.reverse();
   }
 
   @override

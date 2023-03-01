@@ -12,22 +12,32 @@ import '../widgets/register_widgets.dart';
 
 class HomePageView extends GetView<HomePageController>
     with WidgetsBindingObserver {
-  const HomePageView({super.key});
+  HomePageView({super.key});
 
   @override
   Widget build(BuildContext context) {
     controller;
-    return OverrideTextScaleFactor(
-      child: Stack(
-        children: [
-          AnnotatedRegion(
+
+    return Obx(() {
+      return Transform.scale(
+        scale: controller.scale.value,
+        child: OverrideTextScaleFactor(
+          child: AnnotatedRegion(
             value: SystemUiOverlayStyle(
-              systemNavigationBarColor: ColorConst.Primary.shade0,
-            ),
+                // systemNavigationBarColor: ColorConst.Primary.shade0
+                //     .withOpacity(controller.scale.value == 1.00 ? 1 : 0.5),
+                ),
             child: Scaffold(
+                backgroundColor: Colors.transparent,
                 body: Container(
                     width: 1.width,
-                    color: Colors.black,
+                    decoration: BoxDecoration(
+                        color: controller.scale.value == 1.00
+                            ? Colors.black.withOpacity(controller.scale.value)
+                            : ColorConst.darkGrey,
+                        borderRadius: controller.scale.value == 1.00
+                            ? null
+                            : BorderRadius.circular(24.arP)),
                     child: SafeArea(
                       bottom: false,
                       child: Stack(
@@ -65,21 +75,24 @@ class HomePageView extends GetView<HomePageController>
                                   ),
                             ],
                           ),
-                          Container(
-                              height: 100.arP,
-                              width: 1.width,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  stops: const [0.2, 0.7, 0.9],
-                                  colors: [
-                                    ColorConst.Primary.shade0,
-                                    ColorConst.Primary.shade0.withOpacity(0.5),
-                                    ColorConst.Primary.shade0.withOpacity(0.0),
-                                  ],
-                                ),
-                              )),
+                          if (controller.scale.value == 1.00)
+                            Container(
+                                height: 100.arP,
+                                width: 1.width,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    stops: const [0.2, 0.7, 0.9],
+                                    colors: [
+                                      ColorConst.Primary.shade0,
+                                      ColorConst.Primary.shade0
+                                          .withOpacity(0.5),
+                                      ColorConst.Primary.shade0
+                                          .withOpacity(0.0),
+                                    ],
+                                  ),
+                                )),
                           // ignore: prefer_const_constructors
                           Positioned(
                             top: 0,
@@ -91,8 +104,8 @@ class HomePageView extends GetView<HomePageController>
                       ),
                     ))),
           ),
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 }
