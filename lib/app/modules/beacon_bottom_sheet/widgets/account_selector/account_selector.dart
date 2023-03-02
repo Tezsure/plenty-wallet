@@ -39,10 +39,10 @@ class AccountSelector extends StatelessWidget {
                 child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(right: 20.arP),
+                      padding: EdgeInsets.only(right: 16.arP),
                       child: Container(
-                        height: 60.arP,
-                        width: 60.arP,
+                        height: 44.arP,
+                        width: 44.arP,
                         alignment: Alignment.bottomRight,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,

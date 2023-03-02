@@ -7,7 +7,9 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/pages/contact_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/pages/token_collection_page_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -23,10 +25,13 @@ import 'widgets/paste_button.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 class SendPage extends GetView<SendPageController> {
-  const SendPage({super.key});
+  final String? lastPageName;
+  const SendPage({super.key, this.lastPageName});
 
   @override
   Widget build(BuildContext context) {
+    print(
+        "Get.find<HomePageController>().bottomSheetsOpen:${Get.find<HomePageController>().bottomSheetsOpen}");
     Get.put(SendPageController());
     return WillPopScope(
       onWillPop: () async {
@@ -38,9 +43,16 @@ class SendPage extends GetView<SendPageController> {
       },
       child: NaanBottomSheet(
         title: 'Send',
+        leading: lastPageName != null
+            ? backButton(
+                ontap: () => Navigator.pop(context), lastPageName: lastPageName)
+            : null,
+        action: closeButton(),
+        showTopBar: false,
         // isScrollControlled: true,
-        height: AppConstant.naanBottomSheetHeight,
-        bottomSheetHorizontalPadding: 16.arP,
+        height: AppConstant.naanBottomSheetHeight -
+            MediaQuery.of(context).viewInsets.bottom,
+        // bottomSheetHorizontalPadding: 16.arP,
         // margin: EdgeInsets.only(top: 27.arP),
         // decoration: const BoxDecoration(
         //     borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
@@ -51,7 +63,7 @@ class SendPage extends GetView<SendPageController> {
           SizedBox(
             height: (AppConstant.naanBottomSheetChildHeight -
                 0.12.height -
-                MediaQuery.of(context).viewInsets.bottom.arP),
+                MediaQuery.of(context).viewInsets.bottom),
             child: Obx(() => IndexedStack(
                   index: controller.selectedPageIndex.value,
                   sizing: StackFit.loose,

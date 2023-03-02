@@ -30,6 +30,7 @@ class NaanBottomSheet extends StatelessWidget {
   final double? minChildSize;
   final double? maxChildSize;
   final Widget Function(BuildContext context, int index)? draggableListBuilder;
+  final bool showTopBar;
 
   /// Create a bottom sheet of non-draggable and draggable type.
   ///
@@ -42,6 +43,7 @@ class NaanBottomSheet extends StatelessWidget {
     super.key,
     this.height,
     this.width,
+    this.showTopBar = true,
     this.initialChildSize,
     this.minChildSize,
     this.maxChildSize,
@@ -102,7 +104,7 @@ class NaanBottomSheet extends StatelessWidget {
                       child: Text(
                         title ?? "",
                         textAlign: TextAlign.start,
-                        style: titleStyle ?? titleLarge,
+                        style: titleStyle ?? titleMedium,
                       ),
                     ),
                     0.020.vspace,
@@ -152,72 +154,83 @@ class NaanBottomSheet extends StatelessWidget {
     );
   }
 
-  Column isScrollControlledUI() {
-    return Column(
-      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
-      crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
-      children: <Widget>[
-            0.01.vspace,
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                height: 5.arP,
-                width: 36.arP,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.arP),
-                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
-                ),
-              ),
-            ),
-            if (title != null) ...[
-              Column(
-                children: [
-                  // if (action == null && leading == null)
-                  0.04.vspace,
-                  // else
-                  //   0.03.vspace,
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: leading ?? const SizedBox.shrink(),
+  Widget isScrollControlledUI() {
+    return SafeArea(
+      bottom: false,
+      child: Column(
+        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+        crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
+        children: <Widget>[
+              if (showTopBar)
+                Column(
+                  children: [
+                    0.01.vspace,
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        height: 5.arP,
+                        width: 36.arP,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.arP),
+                          color: ColorConst.NeutralVariant.shade60
+                              .withOpacity(0.3),
                         ),
                       ),
-                      Expanded(
-                        flex: 4,
-                        child: Align(
-                          alignment: titleAlignment ?? Alignment.center,
-                          child: Text(
-                            title!,
-                            textAlign: TextAlign.center,
-                            style: titleStyle ?? titleLarge,
+                    ),
+                  ],
+                ),
+
+              if (title != null) ...[
+                Column(
+                  children: [
+                    // if (showTopBar)
+                    // if (action == null && leading == null)
+                    0.02.vspace,
+                    // else
+                    //   0.03.vspace,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: leading ?? const SizedBox.shrink(),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: action ?? const SizedBox.shrink(),
+                        Expanded(
+                          // flex: 4,
+                          child: Align(
+                            alignment: titleAlignment ?? Alignment.center,
+                            child: Text(
+                              title!,
+                              textAlign: TextAlign.center,
+                              style: titleStyle ?? titleMedium,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              )
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: action ?? const SizedBox.shrink(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                )
 
-              // Align(
-              //   alignment: titleAlignment ?? Alignment.center,
-              //   child: Text(
-              //     title!,
-              //     textAlign: TextAlign.start,
-              //     style: titleStyle ?? titleLarge,
-              //   ),
-              // ),
-            ],
-            // 0.010.vspace,
-          ] +
-          (bottomSheetWidgets ?? const []),
+                // Align(
+                //   alignment: titleAlignment ?? Alignment.center,
+                //   child: Text(
+                //     title!,
+                //     textAlign: TextAlign.start,
+                //     style: titleStyle ?? titleLarge,
+                //   ),
+                // ),
+              ],
+              // 0.010.vspace,
+            ] +
+            (bottomSheetWidgets ?? const []),
+      ),
     );
   }
 }

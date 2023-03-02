@@ -125,8 +125,8 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: Container(
-                                    height: 40.arP,
-                                    width: 40.arP,
+                                    height: 24.arP,
+                                    width: 24.arP,
                                     alignment: Alignment.bottomRight,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,

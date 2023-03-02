@@ -18,13 +18,14 @@ class ContactsListView extends GetView<SendPageController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 0.8.height,
+      height: 0.8.height - MediaQuery.of(context).viewInsets.bottom,
       decoration: const BoxDecoration(color: Colors.black),
       child: Column(
         children: [
           Obx(
             () => Expanded(
               child: ListView(
+                padding: EdgeInsets.zero,
                 physics: AppConstant.scrollPhysics,
                 children: (<Widget>[
                       if (controller.searchText.isNotEmpty)

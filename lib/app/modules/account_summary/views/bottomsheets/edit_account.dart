@@ -430,7 +430,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               }),
           0.04.vspace,
           SolidButton(
-            height: 40.arP,
+            // height: 40.arP,
             primaryColor:
                 _controller.accountNameController.value.text.isNotEmpty
                     ? ColorConst.Primary
