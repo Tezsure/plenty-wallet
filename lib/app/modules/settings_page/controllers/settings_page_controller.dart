@@ -6,6 +6,7 @@ import 'package:beacon_flutter/models/connected_peers.dart';
 import 'package:beacon_flutter/models/p2p_peer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
@@ -25,7 +26,6 @@ import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:web3auth_flutter/enums.dart';
-
 import '../../../data/services/enums/enums.dart';
 import '../../../data/services/service_config/service_config.dart';
 import '../../../data/services/service_models/account_model.dart';
@@ -189,7 +189,7 @@ class SettingsPageController extends GetxController {
   }
 
   /// Change Network
-  Future<void> changeNetwork(NetworkType value) async {
+  Future<void> changeNetwork(NetworkType value, BuildContext context) async {
     NaanAnalytics.logEvent(NaanAnalyticsEvents.CHANGE_NETWORK,
         param: {"name": value.name});
     await RpcService.setNetworkType(value);
@@ -199,7 +199,10 @@ class SettingsPageController extends GetxController {
     final node = networkType.value.index == NetworkType.mainnet.index
         ? nodeModel.value.mainnet!.nodes!.first
         : nodeModel.value.testnet!.nodes!.first;
-    changeNode(node);
+    await changeNode(node);
+    await Get.deleteAll(force: true);
+    Phoenix.rebirth(Get.context!);
+    Get.reset();
   }
 
   /// Change Node
@@ -365,7 +368,9 @@ class SettingsPageController extends GetxController {
   void switchFingerprint(bool value) => fingerprint.value = value;
   void checkWalletBackup() async {
     if (isWalletBackup.value) {
-      CommonFunctions.bottomSheet(BackupPage(), );
+      CommonFunctions.bottomSheet(
+        BackupPage(),
+      );
     } else {
       final seedPhrase = await UserStorageService()
           .readAccountSecrets(homePageController.userAccounts
@@ -375,11 +380,10 @@ class SettingsPageController extends GetxController {
         return value?.seedPhrase ?? "";
       });
       CommonFunctions.bottomSheet(
-              BackupWalletView(
-                seedPhrase: seedPhrase,
-              ),
-            )
-          .whenComplete(getWalletBackupStatus);
+        BackupWalletView(
+          seedPhrase: seedPhrase,
+        ),
+      ).whenComplete(getWalletBackupStatus);
     }
   }
 

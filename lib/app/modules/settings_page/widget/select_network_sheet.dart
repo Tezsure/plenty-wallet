@@ -64,7 +64,7 @@ class _SelectNetworkBottomSheetState extends State<SelectNetworkBottomSheet> {
                 child: SolidButton(
                   active: selectedNetwork != controller.networkType.value,
                   onPressed: () {
-                    controller.changeNetwork(selectedNetwork);
+                    controller.changeNetwork(selectedNetwork, context);
                     Get.back();
                   },
                   title: "Apply",

@@ -117,26 +117,24 @@ class AccountSummaryController extends GetxController {
   Future<void> fetchAllTokens() async {
     if (homePageController.userAccounts.isEmpty) return;
 
-    if ((await RpcService.getCurrentNetworkType()) == NetworkType.mainnet) {
-      isLoading.value = true;
-      String tokens =
-          await DataHandlerService().renderService.getTokenPriceModelString();
-      await UserStorageService()
-          .getUserTokensString(
-              userAddress: selectedAccount.value.publicKeyHash!)
-          .then(
-        (value) async {
-          //userTokens.addAll();
+    isLoading.value = true;
+    String tokens =
+        await DataHandlerService().renderService.getTokenPriceModelString();
+    await UserStorageService()
+        .getUserTokensString(userAddress: selectedAccount.value.publicKeyHash!)
+        .then(
+      (value) async {
+        //userTokens.addAll();
 
-          List<dynamic> data = await compute(
-              tokensProcess,
-              [
-                value,
-                xtzPrice.value,
-                selectedAccount.value.accountDataModel!.xtzBalance!,
-                tokens
-              ],
-              debugLabel: "tokensProcess");
+        List<dynamic> data = await compute(
+            tokensProcess,
+            [
+              value,
+              xtzPrice.value,
+              selectedAccount.value.accountDataModel!.xtzBalance!,
+              tokens
+            ],
+            debugLabel: "tokensProcess");
 /*       userTokens,
       pinnedTokens,
       hiddenTokens,
@@ -144,17 +142,18 @@ class AccountSummaryController extends GetxController {
       pinnedList,
       unPinnedList */
 
-          userTokens.clear();
-          var uniqueTokens = <AccountTokenModel>[];
-          for (var token in data[0]) {
-            if (uniqueTokens
-                .where((element) =>
-                    element.contractAddress == token.contractAddress &&
-                    element.tokenId == token.tokenId)
-                .isEmpty) {
-              uniqueTokens.add(token);
-            }
+        userTokens.clear();
+        var uniqueTokens = <AccountTokenModel>[];
+        for (var token in data[0]) {
+          if (uniqueTokens
+              .where((element) =>
+                  element.contractAddress == token.contractAddress &&
+                  element.tokenId == token.tokenId)
+              .isEmpty) {
+            uniqueTokens.add(token);
           }
+        }
+        if ((ServiceConfig.currentNetwork) == NetworkType.mainnet) {
           userTokens.addAll(uniqueTokens);
           userTokens.sort(tokenComparator);
           userTokens.value = userTokens.value;
@@ -167,9 +166,27 @@ class AccountSummaryController extends GetxController {
           pinnedList.refresh();
           unPinnedList.refresh();
           isLoading.value = false;
-        },
-      );
-    }
+        } else {
+          userTokens.addAll(uniqueTokens);
+          userTokens.sort(tokenComparator);
+          userTokens.removeWhere((element) =>
+              element.name == null || element.name!.toLowerCase() != "tezos");
+          userTokens.value = userTokens.value;
+          _pinnedTokens = 1;
+          _hiddenTokens = 0;
+          //minTokens.value = data[3];
+          pinnedList.value = data[4];
+          pinnedList.removeWhere((element) =>
+              element.name == null || element.name!.toLowerCase() != "tezos");
+          unPinnedList.value = [];
+          tokensList.value = data[6];
+
+          pinnedList.refresh();
+          unPinnedList.refresh();
+          isLoading.value = false;
+        }
+      },
+    );
 
 /*     userTokens.sort(tokenComparator);
     _pinnedTokens = userTokens.indexWhere((element) => !element.isPinned);
@@ -193,6 +210,10 @@ class AccountSummaryController extends GetxController {
     List<AccountTokenModel> userTokens = jsonDecode(args[0])
         .map<AccountTokenModel>((e) => AccountTokenModel.fromJson(e))
         .toList();
+
+    userTokens.removeWhere((element) =>
+        element.name != null && element.name!.toLowerCase() == "tezos");
+
     AccountTokenModel tezos = AccountTokenModel(
       name: "Tezos",
       balance: args[2],
@@ -204,17 +225,7 @@ class AccountSummaryController extends GetxController {
       iconUrl: "assets/tezos_logo.png",
     );
     // userTokens = [...userTokens.toSet().toList()];
-    if (userTokens.isNotEmpty &&
-        userTokens.any((element) => element.name!.toLowerCase() == "tezos")) {
-      userTokens.map((element) => element.name!.toLowerCase() == "tezos"
-          ? element.copyWith(
-              balance: args[2],
-              currentPrice: args[1],
-            )
-          : null);
-    } else {
-      args[2] == 0 ? null : userTokens.insert(0, tezos);
-    }
+    userTokens.insert(0, tezos);
     userTokens.sort((a, b) {
       if (a.isPinned || a.name?.toLowerCase() == 'tezos') {
         return -1;
@@ -263,7 +274,8 @@ class AccountSummaryController extends GetxController {
   /// Fetches the user account NFTs
   Future<void> fetchAllNfts() async {
     // userNfts.clear();
-    if (selectedAccount.value.publicKeyHash == null) return;
+    if (selectedAccount.value.publicKeyHash == null ||
+        ServiceConfig.currentNetwork == NetworkType.testnet) return;
     isLoadingMore = true;
     if (contractOffset == 0) {
       nftLoading.value = true;

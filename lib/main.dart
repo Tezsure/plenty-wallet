@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import 'package:get/get.dart';
 import 'package:instabug_flutter/instabug_flutter.dart';
@@ -80,34 +81,36 @@ void main() async {
     //Remove this method to stop OneSignal Debugging
 
     runApp(
-      GetMaterialApp(
-          title: "naan",
-          theme: ThemeData(
-            brightness: Brightness.dark,
-            fontFamily: "Poppins",
-          ),
-          navigatorObservers: [
-            //InstabugNavigatorObserver(),
-            FirebaseAnalyticsObserver(
-                analytics: NaanAnalytics().getAnalytics()),
-          ],
-          supportedLocales: const [
-            Locale("en", "US"),
-          ],
-          debugShowCheckedModeBanner: false,
-          initialRoute: AppPages.INITIAL,
+      Phoenix(
+        child: GetMaterialApp(
+            title: "naan",
+            theme: ThemeData(
+              brightness: Brightness.dark,
+              fontFamily: "Poppins",
+            ),
+            navigatorObservers: [
+              //InstabugNavigatorObserver(),
+              FirebaseAnalyticsObserver(
+                  analytics: NaanAnalytics().getAnalytics()),
+            ],
+            supportedLocales: const [
+              Locale("en", "US"),
+            ],
+            debugShowCheckedModeBanner: false,
+            initialRoute: AppPages.INITIAL,
 
-          // getPages: AppPages.routes,
-          onGenerateRoute: (settings) {
-            final page = AppPages.routes.firstWhere(
-                (e) => e.name.toLowerCase() == settings.name!.toLowerCase());
-            page.binding?.dependencies();
+            // getPages: AppPages.routes,
+            onGenerateRoute: (settings) {
+              final page = AppPages.routes.firstWhere(
+                  (e) => e.name.toLowerCase() == settings.name!.toLowerCase());
+              page.binding?.dependencies();
 
-            return MaterialWithModalsPageRoute(
-                settings: settings,
-                builder: (context) => CupertinoScaffold(
-                    topRadius: Radius.circular(24.arP), body: page.page()));
-          }),
+              return MaterialWithModalsPageRoute(
+                  settings: settings,
+                  builder: (context) => CupertinoScaffold(
+                      topRadius: Radius.circular(24.arP), body: page.page()));
+            }),
+      ),
     );
   }, (error, stackTrace) {
     CrashReporting.reportCrash(error, stackTrace);
