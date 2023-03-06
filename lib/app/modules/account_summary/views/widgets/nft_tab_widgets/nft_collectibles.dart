@@ -100,13 +100,22 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                     itemBuilder: ((context, index) => NFTwidget(
                           nfTmodel: widget.nftList[index],
                           onTap: (model) {
-                            CommonFunctions.bottomSheet(
-                              NFTDetailBottomSheet(
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => NFTDetailBottomSheet(
+                                prevPage: "Back",
                                 onBackTap: Get.back,
                                 pk: widget.nftList[index].pk,
                                 publicKeyHashs: [widget.account],
                               ),
-                            ); //todo: uncomment this when NFTDetailBottomSheet is ready
+                            ));
+                            // CommonFunctions.bottomSheet(
+                            //   NFTDetailBottomSheet(
+                            //     prevPage: "Back",
+                            //     onBackTap: Get.back,
+                            //     pk: widget.nftList[index].pk,
+                            //     publicKeyHashs: [widget.account],
+                            //   ),
+                            // );
                           },
                         )),
                   )),

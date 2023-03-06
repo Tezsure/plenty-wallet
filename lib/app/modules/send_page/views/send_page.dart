@@ -30,8 +30,6 @@ class SendPage extends GetView<SendPageController> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        "Get.find<HomePageController>().bottomSheetsOpen:${Get.find<HomePageController>().bottomSheetsOpen}");
     Get.put(SendPageController());
     return WillPopScope(
       onWillPop: () async {
@@ -42,13 +40,20 @@ class SendPage extends GetView<SendPageController> {
         return Future.value(false);
       },
       child: NaanBottomSheet(
-        title: 'Send',
+        title: lastPageName == null ? 'Send' : null,
         leading: lastPageName != null
             ? backButton(
-                ontap: () => Navigator.pop(context), lastPageName: lastPageName)
+                ontap: () {
+                  if (controller.selectedPageIndex.value == 0) {
+                    Navigator.pop(context);
+                  } else {
+                    controller.selectedPageIndex.value -= 1;
+                  }
+                },
+                lastPageName: lastPageName)
             : null,
-        action: closeButton(),
-        showTopBar: false,
+     
+        prevPageName: lastPageName,
         // isScrollControlled: true,
         height: AppConstant.naanBottomSheetHeight -
             MediaQuery.of(context).viewInsets.bottom,
@@ -59,11 +64,27 @@ class SendPage extends GetView<SendPageController> {
         //     color: Colors.black),
 
         bottomSheetWidgets: [
+          if (lastPageName != null)
+            BottomSheetHeading(
+              title: "Send",
+
+              leading: lastPageName != null
+                  ? backButton(
+                      ontap: () {
+                        if (controller.selectedPageIndex.value == 0) {
+                          Navigator.pop(context);
+                        } else {
+                          controller.selectedPageIndex.value -= 1;
+                        }
+                      },
+                      lastPageName: lastPageName)
+                  : null,
+            ),
           searchBar(),
           SizedBox(
             height: (AppConstant.naanBottomSheetChildHeight -
-                0.12.height -
-                MediaQuery.of(context).viewInsets.bottom),
+                MediaQuery.of(context).viewInsets.bottom -
+                32.arP),
             child: Obx(() => IndexedStack(
                   index: controller.selectedPageIndex.value,
                   sizing: StackFit.loose,

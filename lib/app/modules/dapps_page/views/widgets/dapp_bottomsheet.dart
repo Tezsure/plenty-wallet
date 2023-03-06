@@ -50,9 +50,8 @@ class DappBottomSheet extends StatelessWidget {
                           fit: BoxFit.cover,
                           width: double.infinity,
                         )
-                      : CachedNetworkImage(
-                          imageUrl:
-                              "${ServiceConfig.naanApis}/images/${dappModel.backgroundImage!}",
+                      : Image.network(
+                          "${ServiceConfig.naanApis}/images/${dappModel.backgroundImage!}",
                           fit: BoxFit.cover,
                           width: double.infinity,
                         ),
@@ -79,8 +78,8 @@ class DappBottomSheet extends StatelessWidget {
                       width: 36,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: ColorConst.NeutralVariant.shade60
-                            .withOpacity(0.3),
+                        color:
+                            ColorConst.NeutralVariant.shade60.withOpacity(0.3),
                       ),
                     ),
                   ),

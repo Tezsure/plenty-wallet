@@ -363,9 +363,11 @@ class SettingsPageController extends GetxController {
   }
 
   void switchFingerprint(bool value) => fingerprint.value = value;
-  void checkWalletBackup() async {
+  void checkWalletBackup(BuildContext context, String? prevPage) async {
     if (isWalletBackup.value) {
-      CommonFunctions.bottomSheet(BackupPage(), );
+      CommonFunctions.bottomSheet(
+        BackupPage(),
+      );
     } else {
       final seedPhrase = await UserStorageService()
           .readAccountSecrets(homePageController.userAccounts
@@ -374,12 +376,24 @@ class SettingsPageController extends GetxController {
           .then((value) {
         return value?.seedPhrase ?? "";
       });
-      CommonFunctions.bottomSheet(
-              BackupWalletView(
+      if (prevPage != null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BackupWalletView(
+                prevPage: prevPage,
                 seedPhrase: seedPhrase,
               ),
-            )
-          .whenComplete(getWalletBackupStatus);
+            )).whenComplete(getWalletBackupStatus);
+      } else {
+        Get.back();
+        CommonFunctions.bottomSheet(
+          BackupWalletView(
+            prevPage: null,
+            seedPhrase: seedPhrase,
+          ),
+        ).whenComplete(getWalletBackupStatus);
+      }
     }
   }
 

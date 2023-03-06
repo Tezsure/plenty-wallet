@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
+import 'package:naan_wallet/utils/bottom_sheet_manager.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -10,9 +11,28 @@ import '../controllers/home_page_controller.dart';
 import '../widgets/home_app_bar_widget/home_app_bar_widget.dart';
 import '../widgets/register_widgets.dart';
 
-class HomePageView extends GetView<HomePageController>
-    with WidgetsBindingObserver {
+class HomePageView extends StatefulWidget {
   HomePageView({super.key});
+
+  @override
+  State<HomePageView> createState() => _HomePageViewState();
+}
+
+class _HomePageViewState extends State<HomePageView> {
+  late HomePageController controller;
+  @override
+  void initState() {
+    Get.create(() => HomePageController());
+    controller = Get.put(HomePageController());
+    BottomSheetManager.addSheet(controller);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    BottomSheetManager.deleteSheet(controller);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -39,9 +39,11 @@ class NFTDetailBottomSheet extends StatefulWidget {
   final GestureTapCallback? onBackTap;
   final int? pk;
   final List<String>? publicKeyHashs;
+  final String? prevPage;
   const NFTDetailBottomSheet({
     super.key,
     this.onBackTap,
+    this.prevPage,
     this.pk,
     this.publicKeyHashs,
   });
@@ -94,26 +96,36 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      prevPageName: widget.prevPage,
       bottomSheetHorizontalPadding: 0,
-      height: AppConstant.naanBottomSheetHeight,
+      height: AppConstant.naanBottomSheetHeight - 4.arP,
       leading: Padding(
         padding: EdgeInsets.only(left: 8.arP),
-        child: backButton(),
+        child: backButton(
+            ontap: () {
+              Navigator.pop(context);
+            },
+            lastPageName: widget.prevPage),
       ),
       title: "",
-      action: BouncingWidget(
-          onPressed: () {
-            Share.share(
-                'https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}');
-          },
-          child: Padding(
-            padding: EdgeInsets.only(right: 16.arP),
-            child: Icon(
-              Icons.share,
-              color: Colors.white,
-              size: 16.aR,
-            ),
-          )),
+      action: Row(
+        children: [
+          BouncingWidget(
+              onPressed: () {
+                Share.share(
+                    'https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}');
+              },
+              child: Padding(
+                padding: EdgeInsets.only(right: 16.arP),
+                child: Icon(
+                  Icons.share,
+                  color: Colors.white,
+                  size: 16.aR,
+                ),
+              )),
+          closeButton()
+        ],
+      ),
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight,

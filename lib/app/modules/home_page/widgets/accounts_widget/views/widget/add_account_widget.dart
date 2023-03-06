@@ -43,6 +43,9 @@ class AddAccountWidget extends StatelessWidget {
           bottom: 22.arP,
         ),
         decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.black,
+            ),
             borderRadius: BorderRadius.circular(22),
             color: ColorConst.darkGrey),
         child: Column(

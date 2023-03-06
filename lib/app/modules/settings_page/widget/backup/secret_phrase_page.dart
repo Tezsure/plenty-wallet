@@ -27,25 +27,24 @@ import 'package:naan_wallet/app/data/mock/mock_data.dart';
 import '../../../common_widgets/info_bottom_sheet.dart';
 
 class SecretPhrasePage extends StatelessWidget {
+  final String? prevPage;
   final String pkHash;
   static final _settingsController = Get.find<SettingsPageController>();
   static final _backupController = Get.find<BackupPageController>();
-  const SecretPhrasePage({super.key, required this.pkHash});
+  const SecretPhrasePage({super.key, required this.pkHash, this.prevPage});
   @override
   Widget build(BuildContext context) {
     _backupController.setup();
     NaanAnalytics.logEvent(NaanAnalyticsEvents.VIEW_SEED_PHRASE,
         param: {NaanAnalytics.address: pkHash});
     return NaanBottomSheet(
-      title: "",
-      leading: backButton(),
-      action: InfoButton(
-          onPressed: () => CommonFunctions.bottomSheet(
-                const InfoBottomSheet(),
-              )),
+      title: "Secret Phrase",
+      leading: backButton(
+          ontap: () => Navigator.pop(context), lastPageName: prevPage),
+      prevPageName: prevPage,
       // isScrollControlled: true,
-      height: AppConstant.naanBottomSheetHeight,
-      // bottomSheetHorizontalPadding: 16.arP,
+      height: AppConstant.naanBottomSheetHeight - 64.arP,
+      bottomSheetHorizontalPadding: 0,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight,
@@ -69,12 +68,8 @@ class SecretPhrasePage extends StatelessWidget {
                       //     ),
                       //   ],
                       // ),
-                      0.02.vspace,
-                      Text(
-                        'Your Secret Phrase',
-                        style: titleLarge,
-                      ),
-                      0.012.vspace,
+                      0.04.vspace,
+
                       Text(
                         'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.',
                         textAlign: TextAlign.center,

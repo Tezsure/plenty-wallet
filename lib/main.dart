@@ -80,34 +80,33 @@ void main() async {
 
     runApp(
       GetMaterialApp(
-          title: "naan",
-          theme: ThemeData(
-            brightness: Brightness.dark,
-            fontFamily: "Poppins",
-          ),
-          navigatorObservers: [
-            //InstabugNavigatorObserver(),
-            FirebaseAnalyticsObserver(
-                analytics: NaanAnalytics().getAnalytics()),
-          ],
-          supportedLocales: const [
-            Locale("en", "US"),
-          ],
-          debugShowCheckedModeBanner: false,
-          initialRoute: AppPages.INITIAL,
+        title: "naan",
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          fontFamily: "Poppins",
+        ),
+        navigatorObservers: [
+          //InstabugNavigatorObserver(),
+          FirebaseAnalyticsObserver(analytics: NaanAnalytics().getAnalytics()),
+        ],
+        supportedLocales: const [
+          Locale("en", "US"),
+        ],
+        debugShowCheckedModeBanner: false,
+        initialRoute: AppPages.INITIAL,
 
-          getPages: AppPages.routes,
-          // onGenerateRoute: (settings) {
-          //   final page = AppPages.routes.firstWhere(
-          //       (e) => e.name.toLowerCase() == settings.name!.toLowerCase());
-          //   page.binding?.dependencies();
+        getPages: AppPages.routes,
+        // onGenerateRoute: (settings) {
+        //   final page = AppPages.routes.firstWhere(
+        //       (e) => e.name.toLowerCase() == settings.name!.toLowerCase());
+        //   page.binding?.dependencies();
 
-          //   return MaterialWithModalsPageRoute(
-          //       settings: settings,
-          //       builder: (context) => CupertinoScaffold(
-          //           topRadius: Radius.circular(24.arP), body: page.page()));
-          // },
-          ),
+        //   return MaterialWithModalsPageRoute(
+        //       settings: settings,
+        //       builder: (context) => CupertinoScaffold(
+        //           topRadius: Radius.circular(24.arP), body: page.page()));
+        // },
+      ),
     );
   }, (error, stackTrace) {
     CrashReporting.reportCrash(error, stackTrace);

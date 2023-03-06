@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
@@ -17,21 +18,46 @@ import 'package:share_plus/share_plus.dart';
 import '../controllers/receive_page_controller.dart';
 
 class ReceivePageView extends GetView<ReceivePageController> {
-  const ReceivePageView({super.key});
+  final String? lastPageName;
+  const ReceivePageView({
+    super.key,
+    this.lastPageName,
+  });
 
   @override
   Widget build(BuildContext context) {
     final ReceivePageController controller = Get.put(ReceivePageController());
     return NaanBottomSheet(
       isScrollControlled: true,
+      leading: lastPageName != null
+          ? backButton(
+              ontap: () {
+                Navigator.pop(context);
+              },
+              lastPageName: lastPageName)
+          : null,
+      prevPageName: lastPageName,
+
       height: AppConstant.naanBottomSheetHeight,
-      title: "Receive",
+      title: lastPageName == null ? "Receive" : null,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              if (lastPageName != null)
+                BottomSheetHeading(
+                  title: "Receive",
+    
+                  leading: lastPageName != null
+                      ? backButton(
+                          ontap: () {
+                            Navigator.pop(context);
+                          },
+                          lastPageName: lastPageName)
+                      : null,
+                ),
               Row(),
               0.01.vspace,
               Text(

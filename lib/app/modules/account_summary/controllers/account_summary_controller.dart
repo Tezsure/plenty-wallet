@@ -14,6 +14,7 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
+import 'package:naan_wallet/utils/bottom_sheet_manager.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:simple_gql/simple_gql.dart';
 
@@ -74,6 +75,7 @@ class AccountSummaryController extends GetxController {
   } */
 
   // ! Global Functions
+
   @override
   void onInit() async {
     DataHandlerService()

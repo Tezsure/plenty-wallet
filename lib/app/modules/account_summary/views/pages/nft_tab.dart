@@ -23,6 +23,7 @@ class NFTabPage extends GetView<AccountSummaryController> {
         : controller.userNfts.isEmpty
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   0.04.vspace,
                   SvgPicture.asset(
@@ -44,56 +45,53 @@ class NFTabPage extends GetView<AccountSummaryController> {
                           ]))
                 ],
               )
-            : Expanded(
-                child: RefreshIndicator(
-                  color: ColorConst.Primary,
-                  backgroundColor: Colors.transparent,
-                  onRefresh: () async {
-                    controller.contractOffset = 0;
-                    controller.contracts.clear();
-                    controller.userNfts.clear();
-                    controller.fetchAllNfts();
+            : RefreshIndicator(
+                color: ColorConst.Primary,
+                backgroundColor: Colors.transparent,
+                onRefresh: () async {
+                  controller.contractOffset = 0;
+                  controller.contracts.clear();
+                  controller.userNfts.clear();
+                  controller.fetchAllNfts();
+                },
+                child: NotificationListener<UserScrollNotification>(
+                  onNotification: (ScrollNotification notification) {
+                    if (notification.metrics.extentAfter <= 10 &&
+                        controller.contractOffset <
+                            controller.contracts.length &&
+                        !controller.isLoadingMore) {
+                      controller.fetchAllNfts();
+                    }
+                    return false;
                   },
-                  child: NotificationListener<UserScrollNotification>(
-                    onNotification: (ScrollNotification notification) {
-                      if (notification.metrics.extentAfter <= 10 &&
-                          controller.contractOffset <
-                              controller.contracts.length &&
-                          !controller.isLoadingMore) {
-                        controller.fetchAllNfts();
-                      }
-                      return false;
-                    },
-                    child: ListView.builder(
-                      physics: AppConstant.scrollPhysics,
-                      padding: EdgeInsets.only(
-                          left: 14.aR, right: 14.aR, top: 14.aR),
-                      itemCount: controller.userNfts.length +
-                          (controller.contractOffset <
-                                  controller.contracts.length
-                              ? 1
-                              : 0),
-                      shrinkWrap: true,
-                      addAutomaticKeepAlives: false,
-                      itemBuilder: ((context, index) {
-                        if (index == controller.userNfts.length) {
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: 30.arP),
-                            child: const Center(
-                              child: CupertinoActivityIndicator(
-                                color: ColorConst.Primary,
-                              ),
+                  child: ListView.builder(
+                    physics: AppConstant.scrollPhysics,
+                    padding:
+                        EdgeInsets.only(left: 14.aR, right: 14.aR, top: 14.aR),
+                    itemCount: controller.userNfts.length +
+                        (controller.contractOffset < controller.contracts.length
+                            ? 1
+                            : 0),
+                    shrinkWrap: true,
+                    addAutomaticKeepAlives: false,
+                    itemBuilder: ((context, index) {
+                      if (index == controller.userNfts.length) {
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 30.arP),
+                          child: const Center(
+                            child: CupertinoActivityIndicator(
+                              color: ColorConst.Primary,
                             ),
-                          );
-                        }
-                        return NftCollectibles(
-                          nftList: controller.userNfts[
-                              controller.userNfts.keys.toList()[index]]!,
-                          account:
-                              controller.selectedAccount.value.publicKeyHash!,
+                          ),
                         );
-                      }),
-                    ),
+                      }
+                      return NftCollectibles(
+                        nftList: controller.userNfts[
+                            controller.userNfts.keys.toList()[index]]!,
+                        account:
+                            controller.selectedAccount.value.publicKeyHash!,
+                      );
+                    }),
                   ),
                 ),
               ));

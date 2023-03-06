@@ -19,6 +19,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/con
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/scan_qr.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/utils/bottom_sheet_manager.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -32,8 +33,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../widgets/scanQR/permission_sheet.dart';
 
-class HomePageController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class HomePageController extends AnimateBottomsheetController {
   // RxBool showBottomSheet = false.obs;
   RxInt selectedIndex = 0.obs;
 
@@ -47,23 +47,9 @@ class HomePageController extends GetxController
   RxDouble dayChange = 0.0.obs;
 
   RxList<AccountModel> userAccounts = <AccountModel>[].obs;
-  late AnimationController animate;
-  late RxDouble scale;
-  int bottomSheetsOpen = 0;
   @override
   void onInit() async {
-    bottomSheetsOpen = 0;
-    animate = AnimationController(
-        vsync: this,
-        duration:
-            Duration(milliseconds: 350), //This is an inital controller duration
-        lowerBound: 0,
-        upperBound: 0.15)
-      ..addListener(() {
-        scale.value = 1 - animate.value;
-      });
-    scale = (1 - animate.value).obs;
-    log(scale.value.toString());
+
     super.onInit();
     Get.put(BeaconService(), permanent: true);
     DataHandlerService()
@@ -146,14 +132,6 @@ class HomePageController extends GetxController
     // });
   }
 
-  Future<void> animateForward() async {
-    animate.forward();
-  }
-
-  Future<void> animateReverse() async {
-    animate.reverse();
-  }
-
   @override
   void onReady() async {
     super.onReady();
@@ -223,6 +201,19 @@ class HomePageController extends GetxController
         const ScanQrView(),
       );
     }
+  }
+
+  @override
+  void animateForward() {
+    animate.forward();
+    // TODO: implement animateForward
+  }
+
+  @override
+  void animateReverse() {
+    animate.reverse();
+
+    // TODO: implement animateReverse
   } // void onIndicatorTapped(int index) => selectedIndex.value = index;
 }
 
