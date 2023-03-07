@@ -28,101 +28,97 @@ class _NftCollectiblesState extends State<NftCollectibles> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 0.aR),
-      child: Column(
-        children: [
-          NaanExpansionTile(
-            maintainState: true,
-            initiallyExpanded: isExpanded,
-            tilePadding: EdgeInsets.zero,
-            leading: Container(
-              height: 40.aR,
-              width: 40.aR,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  width: 1.5.aR,
-                  color: ColorConst.NeutralVariant.shade60,
-                ),
+    return Column(
+      children: [
+        NaanExpansionTile(
+          maintainState: true,
+          initiallyExpanded: isExpanded,
+          tilePadding: EdgeInsets.zero,
+          leading: Container(
+            height: 40.aR,
+            width: 40.aR,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                width: 1.5.aR,
+                color: ColorConst.NeutralVariant.shade60,
               ),
-              child: ClipOval(
-                child: CachedNetworkImage(
-                  imageUrl: widget.nftList.first.fa!.logo?.isEmpty ?? true
-                      ? widget.nftList.first.creators?.isNotEmpty ?? false
-                          ? "https://services.tzkt.io/v1/avatars/${widget.nftList.first.creators?.first.creatorAddress}"
-                          : ""
-                      : widget.nftList.first.fa!.logo!.startsWith("ipfs://")
-                          ? "${ServiceConfig.ipfsUrl}/${widget.nftList.first.fa!.logo!.replaceAll("ipfs://", "")}"
-                          : widget.nftList.first.fa!.logo!,
-                  memCacheHeight: 73,
-                  memCacheWidth: 73,
-                  placeholder: (context, url) => SizedBox(
-                    child: Shimmer.fromColors(
-                      baseColor: const Color(0xff474548),
-                      highlightColor: const Color(0xFF958E99).withOpacity(0.2),
-                      child: Container(
-                          decoration: const BoxDecoration(
-                        color: Color(0xff474548),
-                      )),
-                    ),
+            ),
+            child: ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: widget.nftList.first.fa!.logo?.isEmpty ?? true
+                    ? widget.nftList.first.creators?.isNotEmpty ?? false
+                        ? "https://services.tzkt.io/v1/avatars/${widget.nftList.first.creators?.first.creatorAddress}"
+                        : ""
+                    : widget.nftList.first.fa!.logo!.startsWith("ipfs://")
+                        ? "${ServiceConfig.ipfsUrl}/${widget.nftList.first.fa!.logo!.replaceAll("ipfs://", "")}"
+                        : widget.nftList.first.fa!.logo!,
+                memCacheHeight: 73,
+                memCacheWidth: 73,
+                placeholder: (context, url) => SizedBox(
+                  child: Shimmer.fromColors(
+                    baseColor: const Color(0xff474548),
+                    highlightColor: const Color(0xFF958E99).withOpacity(0.2),
+                    child: Container(
+                        decoration: const BoxDecoration(
+                      color: Color(0xff474548),
+                    )),
                   ),
                 ),
               ),
             ),
-            onExpansionChanged: (isExpand) =>
-                setState(() => isExpanded = isExpand),
-            trailing: expandButton(isExpanded: isExpanded),
-            title: Text(
-              widget.nftList.first.fa!.name == null
-                  ? widget.nftList.first.name!
-                  : widget.nftList.first.fa!.name!,
-              style:
-                  labelLarge.copyWith(fontSize: 14.aR, letterSpacing: 0.1.aR),
-            ),
-            children: [
-              SizedBox(
-                height: 16.aR,
-              ),
-              SizedBox(
-                  height: 260.aR * (widget.nftList.length / 2).ceil(),
-                  width: 1.width,
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.nftList.length,
-                    shrinkWrap: false,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 300.arP,
-                        mainAxisExtent: 250.aR,
-                        childAspectRatio: 1,
-                        crossAxisSpacing: 10.aR,
-                        mainAxisSpacing: 10.aR),
-                    itemBuilder: ((context, index) => NFTwidget(
-                          nfTmodel: widget.nftList[index],
-                          onTap: (model) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => NFTDetailBottomSheet(
-                                prevPage: "Back",
-                                onBackTap: Get.back,
-                                pk: widget.nftList[index].pk,
-                                publicKeyHashs: [widget.account],
-                              ),
-                            ));
-                            // CommonFunctions.bottomSheet(
-                            //   NFTDetailBottomSheet(
-                            //     prevPage: "Back",
-                            //     onBackTap: Get.back,
-                            //     pk: widget.nftList[index].pk,
-                            //     publicKeyHashs: [widget.account],
-                            //   ),
-                            // );
-                          },
-                        )),
-                  )),
-            ],
           ),
-        ],
-      ),
+          onExpansionChanged: (isExpand) =>
+              setState(() => isExpanded = isExpand),
+          trailing: expandButton(isExpanded: isExpanded),
+          title: Text(
+            widget.nftList.first.fa!.name == null
+                ? widget.nftList.first.name!
+                : widget.nftList.first.fa!.name!,
+            style: labelLarge.copyWith(fontSize: 14.aR, letterSpacing: 0.1.aR),
+          ),
+          children: [
+            SizedBox(
+              height: 16.aR,
+            ),
+            SizedBox(
+                // height: 260.aR * (widget.nftList.length / 2).ceil(),
+                width: 1.width,
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: widget.nftList.length,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 300.arP,
+                      mainAxisExtent: 250.aR,
+                      childAspectRatio: 1,
+                      crossAxisSpacing: 10.aR,
+                      mainAxisSpacing: 10.aR),
+                  itemBuilder: ((context, index) => NFTwidget(
+                        nfTmodel: widget.nftList[index],
+                        onTap: (model) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => NFTDetailBottomSheet(
+                              prevPage: "Back",
+                              onBackTap: Get.back,
+                              pk: widget.nftList[index].pk,
+                              publicKeyHashs: [widget.account],
+                            ),
+                          ));
+                          // CommonFunctions.bottomSheet(
+                          //   NFTDetailBottomSheet(
+                          //     prevPage: "Back",
+                          //     onBackTap: Get.back,
+                          //     pk: widget.nftList[index].pk,
+                          //     publicKeyHashs: [widget.account],
+                          //   ),
+                          // );
+                        },
+                      )),
+                )),
+          ],
+        ),
+      ],
     );
   }
 

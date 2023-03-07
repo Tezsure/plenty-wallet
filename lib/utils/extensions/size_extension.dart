@@ -20,15 +20,14 @@ extension SizeExtension on num {
     if (Get.size.height < 600) {
       ratio = 1;
     } else if (Get.size.height > 1100) {
-      ratio = 1.3;
+      ratio = 1.35;
     } else {
       ratio = 2;
     }
     return this * (Get.size.aspectRatio * ratio);
   }
 
-  double get txtArp =>
-      (Get.size.height > 1100) ? (this * (Get.size.aspectRatio * 2)) : arP;
+  double get txtArp => arP;
   double get aR => arP;
 
   SizedBox get vspace => SizedBox(

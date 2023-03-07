@@ -68,7 +68,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
           child: backButton(
               ontap: () => Navigator.pop(context), lastPageName: "Accounts"),
         ),
-        title: "",
+        // title: "",
         height: AppConstant.naanBottomSheetHeight,
         // isScrollControlled: true,
         // height: AppConstant.naanBottomSheetHeight -
@@ -87,7 +87,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   padding: EdgeInsets.symmetric(horizontal: 16.arP),
                   child: BottomSheetHeading(
                     title: "",
-    
                     leading: backButton(
                         ontap: () {
                           Navigator.pop(context);

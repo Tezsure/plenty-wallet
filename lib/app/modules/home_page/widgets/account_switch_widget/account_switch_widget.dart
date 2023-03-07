@@ -51,7 +51,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
         // bottomSheetHorizontalPadding: 0,
         title: widget.title,
         isScrollControlled: true,
-     
+
         // width: 1.width,
 
         // decoration: const BoxDecoration(
@@ -226,7 +226,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                       Expanded(
                           child: Column(
                         mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,

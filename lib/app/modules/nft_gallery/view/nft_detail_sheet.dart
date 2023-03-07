@@ -297,11 +297,19 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                               child: GestureDetector(
                                 onTap: () {
                                   AppConstant.hapticFeedback();
-                                  Get.to(FullScreenView(
-                                      child: NFTImage(
-                                    nftTokenModel: nftModel!,
-                                    boxFit: BoxFit.contain,
-                                  )));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => FullScreenView(
+                                                  child: NFTImage(
+                                                nftTokenModel: nftModel!,
+                                                boxFit: BoxFit.contain,
+                                              ))));
+                                  // Get.to(FullScreenView(
+                                  //     child: NFTImage(
+                                  //   nftTokenModel: nftModel!,
+                                  //   boxFit: BoxFit.contain,
+                                  // )));
                                 },
                                 child: Stack(
                                   children: [
@@ -987,40 +995,49 @@ class FullScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
-        alignment: Alignment.topLeft,
-        children: [
-          Stack(
-            children: [
-              AnimatedPositioned(
-                duration: const Duration(milliseconds: 333),
-                curve: Curves.fastOutSlowIn,
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: InteractiveViewer(
-                  panEnabled: true,
-                  minScale: 0.5,
-                  maxScale: 4,
-                  child: child,
+    return NaanBottomSheet(
+        title: "",
+        prevPageName: "Back",
+        bottomSheetHorizontalPadding: 0,
+        height: AppConstant.naanBottomSheetHeight,
+        action: Padding(
+          padding: EdgeInsets.only(right: 16.arP),
+          child: closeButton(),
+        ),
+        leading: Padding(
+          padding: EdgeInsets.only(left: 16.arP),
+          child: backButton(
+              ontap: () => Navigator.pop(context), lastPageName: "Back"),
+        ),
+        bottomSheetWidgets: [
+          SizedBox(
+            height: AppConstant.naanBottomSheetHeight,
+            child: Column(
+              // alignment: Alignment.topLeft,
+              children: [
+                Expanded(
+                  child: Stack(
+                    children: [
+                      AnimatedPositioned(
+                        duration: const Duration(milliseconds: 333),
+                        curve: Curves.fastOutSlowIn,
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: InteractiveViewer(
+                          panEnabled: true,
+                          minScale: 0.5,
+                          maxScale: 4,
+                          child: child,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          SafeArea(
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: EdgeInsets.all(16.arP),
-                child: backButton(),
-              ),
+              ],
             ),
           ),
-        ],
-      ),
-    );
+        ]);
   }
 }
