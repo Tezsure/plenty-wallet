@@ -19,6 +19,7 @@ class InfoBottomSheet extends StatelessWidget {
     return NaanBottomSheet(
       // isScrollControlled: true,
       height: AppConstant.naanBottomSheetHeight,
+      titleAlignment: Alignment.centerLeft,
       title: isWatchAddress ? 'Watch addresses' : 'Introduction to Crypto',
       // blurRadius: 5,
       // isDraggableBottomSheet: true,

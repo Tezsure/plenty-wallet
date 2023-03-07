@@ -53,7 +53,7 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
         SizedBox(
           height: widget.prevPage == null
               ? null
-              : AppConstant.naanBottomSheetHeight,
+              : AppConstant.naanBottomSheetChildHeight,
           child: Column(
             children: [
               0.02.vspace,

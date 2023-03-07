@@ -71,10 +71,10 @@ class _ScanQrViewState extends State<ScanQrView> {
                         child: Align(
                           alignment: Alignment.topCenter,
                           child: Container(
-                            height: 5,
-                            width: 36,
+                            height: 5.arP,
+                            width: 36.arP,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
+                              borderRadius: BorderRadius.circular(5.arP),
                               color: ColorConst.NeutralVariant.shade60,
                             ),
                           ),

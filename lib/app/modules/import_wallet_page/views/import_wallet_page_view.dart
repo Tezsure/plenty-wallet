@@ -86,13 +86,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               //   ),
               // ),
               const Spacer(),
-              InfoButton(
-                onPressed: () {
-                  CommonFunctions.bottomSheet(
-                    InfoBottomSheet(isWatchAddress: isWatchAddress),
-                  );
-                },
-              ),
+              isBottomSheet ? closeButton() : const SizedBox(),
+
               // GestureDetector(
               //   onTap: () {
               //     Get.bottomSheet(
@@ -118,6 +113,19 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               //     ],
               //   ),
               // )
+            ],
+          ),
+          0.02.vspace,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              InfoButton(
+                onPressed: () {
+                  CommonFunctions.bottomSheet(
+                    InfoBottomSheet(isWatchAddress: isWatchAddress),
+                  );
+                },
+              ),
             ],
           ),
           Expanded(

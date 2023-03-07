@@ -52,7 +52,7 @@ class SendPage extends GetView<SendPageController> {
                 },
                 lastPageName: lastPageName)
             : null,
-     
+
         prevPageName: lastPageName,
         // isScrollControlled: true,
         height: AppConstant.naanBottomSheetHeight -
@@ -67,7 +67,6 @@ class SendPage extends GetView<SendPageController> {
           if (lastPageName != null)
             BottomSheetHeading(
               title: "Send",
-
               leading: lastPageName != null
                   ? backButton(
                       ontap: () {

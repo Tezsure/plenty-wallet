@@ -113,7 +113,7 @@ class _SelectNetworkBottomSheetState extends State<SelectNetworkBottomSheet> {
           },
       child: SizedBox(
         width: double.infinity,
-        height: 54,
+        height: 54.arP,
         child: Row(
           children: [
             Text(

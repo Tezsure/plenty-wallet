@@ -100,7 +100,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
       bottomSheetHorizontalPadding: 0,
       height: AppConstant.naanBottomSheetHeight - 4.arP,
       leading: Padding(
-        padding: EdgeInsets.only(left: 8.arP),
+        padding: EdgeInsets.only(left: 16.arP),
         child: backButton(
             ontap: () {
               Navigator.pop(context);
@@ -108,23 +108,27 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
             lastPageName: widget.prevPage),
       ),
       title: "",
-      action: Row(
-        children: [
-          BouncingWidget(
-              onPressed: () {
-                Share.share(
-                    'https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}');
-              },
-              child: Padding(
-                padding: EdgeInsets.only(right: 16.arP),
-                child: Icon(
-                  Icons.share,
-                  color: Colors.white,
-                  size: 16.aR,
-                ),
-              )),
-          closeButton()
-        ],
+      action: Padding(
+        padding: EdgeInsets.only(right: 16.arP),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            BouncingWidget(
+                onPressed: () {
+                  Share.share(
+                      'https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}');
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(right: 16.arP),
+                  child: Icon(
+                    Icons.share,
+                    color: Colors.white,
+                    size: 16.aR,
+                  ),
+                )),
+            closeButton()
+          ],
+        ),
       ),
       bottomSheetWidgets: [
         SizedBox(
@@ -986,6 +990,7 @@ class FullScreenView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
+        alignment: Alignment.topLeft,
         children: [
           Stack(
             children: [

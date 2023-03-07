@@ -922,6 +922,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                 color: Colors.white,
                               ),
                               decoration: InputDecoration(
+                                isDense: true,
                                 prefixIcon: Icon(
                                   Icons.search_rounded,
                                   color: const Color(0xFFB0A9B3),
@@ -998,8 +999,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                   .showCreateNewNftGalleryBottomSheet();
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 20),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 20.arP, horizontal: 16.arP),
                               child: Row(
                                 children: [
                                   Image.asset(
@@ -1028,13 +1029,13 @@ class NftGalleryView extends GetView<NftGalleryController> {
                               }
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 20),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.arP, horizontal: 16.arP),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 20),
+                                    padding: EdgeInsets.only(right: 20.arP),
                                     child: Container(
                                       height: 32.arP,
                                       width: 32.arP,
@@ -1082,7 +1083,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            8)),
+                                                            8.arP)),
                                                 color: const Color(0xff421121),
                                                 padding: EdgeInsets.zero,
                                                 itemBuilder: (_) {
