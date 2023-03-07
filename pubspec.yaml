@@ -82,6 +82,7 @@ flutter:
     - assets/home_page/images/
     #settings page
     - assets/settings_page/
+    - assets/settings_page/currencies/
     - assets/settings_page/svg/
     #onboarding page
     - assets/onboarding_page/

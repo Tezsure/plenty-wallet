@@ -12,6 +12,7 @@ import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 class TezosPriceWidget extends StatelessWidget {
   TezosPriceWidget({Key? key}) : super(key: key);
@@ -50,8 +51,14 @@ class TezosPriceWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "\$${homePageController.xtzPrice.value.toStringAsFixed(2)}",
-                        style: headlineSmall,
+                        ServiceConfig.currency == Currency.tez
+                            ? "\$${homePageController.xtzPrice.value.toStringAsFixed(2)}"
+                            : homePageController.xtzPrice.value
+                                .roundUpDollar(1),
+                        style: headlineSmall.copyWith(
+                            fontSize: ServiceConfig.currency == Currency.inr
+                                ? 20.arP
+                                : 24.arP),
                       ),
                       Expanded(
                         child: Align(

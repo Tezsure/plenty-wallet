@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -11,67 +12,81 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-class SelectNetworkBottomSheet extends StatefulWidget {
-  SelectNetworkBottomSheet({Key? key}) : super(key: key);
+class SelectCurrencyBottomSheet extends StatefulWidget {
+  SelectCurrencyBottomSheet({Key? key}) : super(key: key);
 
   @override
-  State<SelectNetworkBottomSheet> createState() =>
-      _SelectNetworkBottomSheetState();
+  State<SelectCurrencyBottomSheet> createState() =>
+      _SelectCurrencyBottomSheetState();
 }
 
-class _SelectNetworkBottomSheetState extends State<SelectNetworkBottomSheet> {
+class _SelectCurrencyBottomSheetState extends State<SelectCurrencyBottomSheet> {
   final SettingsPageController controller = Get.find<SettingsPageController>();
-  late NetworkType selectedNetwork;
+  late String selectedCurrency;
   @override
   void initState() {
-    selectedNetwork = controller.networkType.value;
-    // TODO: implement initState
+    selectedCurrency = controller.selectedCurrency.value;
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      title: "Network",
+      title: "Currency",
       blurRadius: 5,
-      height: 360.arP,
+      height: 0.95.height,
       bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
-        Obx(
-          () => Column(
-            children: [
-              SizedBox(
-                height: 30.aR,
-              ),
-              optionMethod(
-                value: NetworkType.mainnet,
-                title: "Mainnet",
-              ),
-              const Divider(
-                color: Colors.black,
-                height: 1,
-                thickness: 1,
-              ),
-              optionMethod(
-                value: NetworkType.testnet,
-                title: "Testnet",
-              ),
-              SizedBox(
-                height: 30.aR,
-              ),
-              Padding(
+        Column(
+          children: [
+            SizedBox(
+              height: 30.aR,
+            ),
+            optionMethod(
+              value: "tez",
+              title: "Tezos (Tez)",
+            ),
+            const Divider(
+              color: Colors.black,
+              height: 1,
+              thickness: 1,
+            ),
+            optionMethod(
+              value: "usd",
+              title: "United States Dollar (USD)",
+            ),
+            const Divider(
+              color: Colors.black,
+              height: 1,
+              thickness: 1,
+            ),
+            optionMethod(
+              value: "inr",
+              title: "Indian Rupee(INR)",
+            ),
+            const Divider(
+              color: Colors.black,
+              height: 1,
+              thickness: 1,
+            ),
+            optionMethod(
+              value: "eur",
+              title: "Euro (EUR)",
+            ),
+
+/*               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.arP),
                 child: SolidButton(
                   active: selectedNetwork != controller.networkType.value,
                   onPressed: () {
-                    controller.changeNetwork(selectedNetwork);
+                    controller.changeNetwork(selectedNetwork, context);
                     Get.back();
                   },
                   title: "Apply",
                 ),
-              )
-            ],
-          ),
+              ) */
+          ],
         ),
       ],
     );
@@ -80,26 +95,36 @@ class _SelectNetworkBottomSheetState extends State<SelectNetworkBottomSheet> {
   Widget optionMethod({
     required String title,
     GestureTapCallback? onTap,
-    required NetworkType value,
+    required String value,
   }) {
     return BouncingWidget(
       onPressed: onTap ??
           () {
             setState(() {
-              selectedNetwork = value;
+              selectedCurrency = value;
             });
+            controller.changeCurrency(value);
+            Get.back();
           },
       child: SizedBox(
         width: double.infinity,
         height: 54,
         child: Row(
           children: [
+            Image.asset(
+              "${PathConst.SETTINGS_PAGE}currencies/$value.png",
+              height: 40.arP,
+              fit: BoxFit.contain,
+            ),
+            SizedBox(
+              width: 20.arP,
+            ),
             Text(
               title,
               style: labelMedium,
             ),
             const Spacer(),
-            if (selectedNetwork.index == value.index)
+            if (selectedCurrency.toLowerCase() == value.toLowerCase())
               SvgPicture.asset(
                 "${PathConst.SVG}check_3.svg",
                 height: 20.arP,

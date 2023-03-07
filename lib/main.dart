@@ -84,6 +84,7 @@ void main() async {
       Phoenix(
         child: GetMaterialApp(
             title: "naan",
+            locale: Get.deviceLocale,
             theme: ThemeData(
               brightness: Brightness.dark,
               fontFamily: "Poppins",
@@ -95,6 +96,7 @@ void main() async {
             ],
             supportedLocales: const [
               Locale("en", "US"),
+              Locale("en", "IN"),
             ],
             debugShowCheckedModeBanner: false,
             initialRoute: AppPages.INITIAL,
@@ -163,6 +165,7 @@ class LifeCycleController extends SuperController {
 
       return;
     }
+    DataHandlerService().currencyPrices();
     DataHandlerService().setUpTimer();
     print("onResumed");
   }

@@ -113,7 +113,7 @@ class TokenCheckbox extends StatelessWidget {
                               ? tokenModel.balance * xtzPrice
                               : tokenModel.balance *
                                   (tokenModel.currentPrice ?? 0.0 * xtzPrice))
-                          .roundUpDollar()
+                          .roundUpDollar(xtzPrice)
                           .removeTrailing0,
                       style: labelMedium.copyWith(
                         fontSize: 12.aR,

@@ -64,6 +64,8 @@ class SettingsPageController extends GetxController {
   RxBool supportBiometric = true.obs;
   RxBool isPasscodeSet = true.obs;
 
+  RxString selectedCurrency = ServiceConfig.currency.name.obs;
+
   final InAppReview inAppReview = InAppReview.instance;
 
   /// To change the app passcode and verify the passcode if fails, redirects to verify passcode screen otherwise changes the passcode
@@ -162,6 +164,7 @@ class SettingsPageController extends GetxController {
     networkType.value = await RpcService.getCurrentNetworkType();
     getOldWalletAccounts();
     ServiceConfig.currentNetwork = networkType.value;
+
     await changeNodeSelector();
     await RpcService.getCurrentNode().then((value) {
       if (value == null) {
@@ -189,7 +192,7 @@ class SettingsPageController extends GetxController {
   }
 
   /// Change Network
-  Future<void> changeNetwork(NetworkType value, BuildContext context) async {
+  Future<void> changeNetwork(NetworkType value) async {
     NaanAnalytics.logEvent(NaanAnalyticsEvents.CHANGE_NETWORK,
         param: {"name": value.name});
     await RpcService.setNetworkType(value);
@@ -203,6 +206,17 @@ class SettingsPageController extends GetxController {
     await Get.deleteAll(force: true);
     Phoenix.rebirth(Get.context!);
     Get.reset();
+  }
+
+  /// Change Currency
+  Future<void> changeCurrency(String currency) async {
+    await UserStorageService.writeCurrency(currency);
+
+    selectedCurrency.value = currency;
+    ServiceConfig.currency = Currency.values.byName(currency);
+/*     await Get.deleteAll(force: true);
+    Phoenix.rebirth(Get.context!);
+    Get.reset(); */
   }
 
   /// Change Node

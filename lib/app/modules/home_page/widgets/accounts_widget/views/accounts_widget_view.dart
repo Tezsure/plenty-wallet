@@ -305,7 +305,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                         : model.accountDataModel?.xtzBalance ??
                                             0) *
                                     homePageController.xtzPrice.value)
-                                .roundUpDollar(),
+                                .roundUpDollar(
+                                    homePageController.xtzPrice.value),
                             style: headlineLarge,
                           ),
                         ),

@@ -187,7 +187,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                             .accountDataModel!.xtzBalance ??
                                         0) *
                                 controller.xtzPrice.value)
-                            .roundUpDollar(),
+                            .roundUpDollar(controller.xtzPrice.value),
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 30.aR,
