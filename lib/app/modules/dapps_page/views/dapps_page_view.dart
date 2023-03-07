@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
@@ -27,11 +28,16 @@ class DappsPageView extends GetView<DappsPageController> {
   Widget build(BuildContext context) {
     Get.put(DappsPageController());
     return NaanBottomSheet(
+      title: "",
+      action: Padding(
+        padding: EdgeInsets.only(right: 16.arP),
+        child: closeButton(),
+      ),
       height: AppConstant.naanBottomSheetHeight,
       bottomSheetHorizontalPadding: 0,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetHeight - 14.arP,
+          height: AppConstant.naanBottomSheetHeight - 56.arP,
           child: Column(
             children: [
               0.02.vspace,

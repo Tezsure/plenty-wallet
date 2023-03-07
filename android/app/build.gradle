@@ -74,6 +74,7 @@ android {
 
     packagingOptions {
         pickFirst '**/*.so'
+        resources.excludes.add("META-INF/*")
     }
 }
 

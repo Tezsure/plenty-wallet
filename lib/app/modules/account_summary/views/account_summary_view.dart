@@ -51,345 +51,357 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                   16.arP,
               child: Navigator(onGenerateRoute: (context2) {
                 return MaterialPageRoute(builder: (context) {
-                  return DefaultTabController(
-                    length: 3,
-                    child: SizedBox(
-                      height: AppConstant.naanBottomSheetHeight -
-                          MediaQuery.of(context).viewInsets.bottom,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.arP),
-                            child: const BottomSheetHeading(
-                              title: "Accounts",
+                  return Builder(builder: (context) {
+                    return DefaultTabController(
+                      length: 3,
+                      child: SizedBox(
+                        height: AppConstant.naanBottomSheetHeight -
+                            MediaQuery.of(context).viewInsets.bottom,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.arP),
+                              child: const BottomSheetHeading(
+                                title: "Accounts",
+                              ),
                             ),
-                          ),
-                          0.01.vspace,
-                          Obx(
-                            () => Padding(
-                              padding: EdgeInsets.only(
-                                  left: 16.aR, right: 16.aR, top: 14.aR),
-                              child: Row(
-                                children: [
-                                  BouncingWidget(
-                                    onPressed: () {
-                                      CommonFunctions.bottomSheet(
-                                        const AccountSelectorSheet(),
-                                      );
-                                    },
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        0.01.hspace,
-                                        CustomImageWidget(
-                                          imageType: controller
-                                              .selectedAccount.value.imageType!,
-                                          imagePath: controller.selectedAccount
-                                              .value.profileImage!,
-                                          imageRadius: 18.aR,
-                                        ),
-                                        0.03.hspace,
-                                        RichText(
-                                          text: TextSpan(
-                                              text: controller
-                                                  .selectedAccount.value.name!,
-                                              style: labelMedium,
-                                              children: [
-                                                WidgetSpan(
-                                                    child: SizedBox(
-                                                  width: 2.arP,
-                                                )),
-                                                WidgetSpan(
-                                                  alignment:
-                                                      PlaceholderAlignment
-                                                          .bottom,
-                                                  child: Icon(
-                                                    Icons
-                                                        .keyboard_arrow_down_rounded,
-                                                    size: 20.aR,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text:
-                                                      "\n${(controller.selectedAccount.value.publicKeyHash!).tz1Short()}",
-                                                  style: bodySmall.copyWith(
-                                                      height: 0,
-                                                      color: ColorConst
-                                                          .NeutralVariant
-                                                          .shade60),
-                                                )
-                                              ]),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      BouncingWidget(
-                                        onPressed: () {
-                                          Clipboard.setData(ClipboardData(
-                                              text: controller.selectedAccount
-                                                  .value.publicKeyHash));
-                                          Get.rawSnackbar(
-                                            maxWidth: 0.45.width,
-                                            backgroundColor: Colors.transparent,
-                                            snackPosition: SnackPosition.BOTTOM,
-                                            snackStyle: SnackStyle.FLOATING,
-                                            padding: const EdgeInsets.only(
-                                                bottom: 60),
-                                            messageText: Container(
-                                              height: 36,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                  color: ColorConst
-                                                      .Neutral.shade10,
-                                                  borderRadius:
-                                                      BorderRadius.circular(8)),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                            0.01.vspace,
+                            Obx(
+                              () => Padding(
+                                padding: EdgeInsets.only(
+                                    left: 16.aR, right: 16.aR, top: 14.aR),
+                                child: Row(
+                                  children: [
+                                    BouncingWidget(
+                                      onPressed: () {
+                                        CommonFunctions.bottomSheet(
+                                          const AccountSelectorSheet(),
+                                        );
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          0.01.hspace,
+                                          CustomImageWidget(
+                                            imageType: controller
+                                                .selectedAccount
+                                                .value
+                                                .imageType!,
+                                            imagePath: controller
+                                                .selectedAccount
+                                                .value
+                                                .profileImage!,
+                                            imageRadius: 18.aR,
+                                          ),
+                                          0.03.hspace,
+                                          RichText(
+                                            text: TextSpan(
+                                                text: controller.selectedAccount
+                                                    .value.name!,
+                                                style: labelMedium,
                                                 children: [
-                                                  const Icon(
-                                                    Icons
-                                                        .check_circle_outline_rounded,
-                                                    size: 14,
-                                                    color: Colors.white,
+                                                  WidgetSpan(
+                                                      child: SizedBox(
+                                                    width: 2.arP,
+                                                  )),
+                                                  WidgetSpan(
+                                                    alignment:
+                                                        PlaceholderAlignment
+                                                            .bottom,
+                                                    child: Icon(
+                                                      Icons
+                                                          .keyboard_arrow_down_rounded,
+                                                      size: 20.aR,
+                                                      color: Colors.white,
+                                                    ),
                                                   ),
-                                                  const SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                    "Copied ${tz1Shortner(controller.selectedAccount.value.publicKeyHash!)}",
-                                                    style: labelSmall,
+                                                  TextSpan(
+                                                    text:
+                                                        "\n${(controller.selectedAccount.value.publicKeyHash!).tz1Short()}",
+                                                    style: bodySmall.copyWith(
+                                                        height: 0,
+                                                        color: ColorConst
+                                                            .NeutralVariant
+                                                            .shade60),
                                                   )
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: SvgPicture.asset(
-                                          '${PathConst.SVG}copy.svg',
-                                          color: Colors.white,
-                                          fit: BoxFit.contain,
-                                          height: 24.aR,
-                                        ),
+                                                ]),
+                                          ),
+                                        ],
                                       ),
-                                      if (!controller
-                                          .selectedAccount.value.isWatchOnly)
-                                        0.04.hspace,
-                                      if (!controller
-                                          .selectedAccount.value.isWatchOnly)
+                                    ),
+                                    const Spacer(),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
                                         BouncingWidget(
                                           onPressed: () {
-                                            Get.find<HomePageController>()
-                                                .openScanner();
+                                            Clipboard.setData(ClipboardData(
+                                                text: controller.selectedAccount
+                                                    .value.publicKeyHash));
+                                            Get.rawSnackbar(
+                                              maxWidth: 0.45.width,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM,
+                                              snackStyle: SnackStyle.FLOATING,
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 60),
+                                              messageText: Container(
+                                                height: 36,
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                decoration: BoxDecoration(
+                                                    color: ColorConst
+                                                        .Neutral.shade10,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8)),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    const Icon(
+                                                      Icons
+                                                          .check_circle_outline_rounded,
+                                                      size: 14,
+                                                      color: Colors.white,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      "Copied ${tz1Shortner(controller.selectedAccount.value.publicKeyHash!)}",
+                                                      style: labelSmall,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            );
                                           },
                                           child: SvgPicture.asset(
-                                            '${PathConst.SVG}scanVector.svg',
+                                            '${PathConst.SVG}copy.svg',
+                                            color: Colors.white,
                                             fit: BoxFit.contain,
                                             height: 24.aR,
-                                            color: Colors.white,
                                           ),
                                         ),
-                                    ],
-                                  ),
-                                ],
+                                        if (!controller
+                                            .selectedAccount.value.isWatchOnly)
+                                          0.04.hspace,
+                                        if (!controller
+                                            .selectedAccount.value.isWatchOnly)
+                                          BouncingWidget(
+                                            onPressed: () {
+                                              Get.find<HomePageController>()
+                                                  .openScanner();
+                                            },
+                                            child: SvgPicture.asset(
+                                              '${PathConst.SVG}scanVector.svg',
+                                              fit: BoxFit.contain,
+                                              height: 24.aR,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          0.036.vspace,
-                          Obx(() => Center(
-                                child: Text(
-                                  ((controller
-                                                  .selectedAccount
-                                                  .value
-                                                  .accountDataModel!
-                                                  .totalBalance ??
-                                              0) *
-                                          controller.xtzPrice.value)
-                                      .roundUpDollar(),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 30.aR,
-                                    color: Colors.white,
+                            0.036.vspace,
+                            Obx(() => Center(
+                                  child: Text(
+                                    ((controller
+                                                    .selectedAccount
+                                                    .value
+                                                    .accountDataModel!
+                                                    .totalBalance ??
+                                                0) *
+                                            controller.xtzPrice.value)
+                                        .roundUpDollar(),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 30.aR,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
-                              )),
-                          0.03.vspace,
-                          Obx(() {
-                            return Padding(
-                              padding:
-                                  EdgeInsets.only(left: 17.arP, right: 16.arP),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  _actionButton(
-                                      onTap: () {
-                                        String url =
-                                            "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
+                                )),
+                            0.03.vspace,
+                            Obx(() {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    left: 17.arP, right: 16.arP),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    _actionButton(
+                                        onTap: () {
+                                          String url =
+                                              "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
 
-                                        print(url);
-                                        CommonFunctions.bottomSheet(
-                                            const DappBrowserView(),
-                                            settings: RouteSettings(
-                                              arguments: url,
-                                            ));
-                                      },
-                                      imagePath: '${PathConst.SVG}plus.svg',
-                                      label: 'Buy'),
-                                  0.04.hspace,
-                                  _actionButton(
+                                          print(url);
+                                          CommonFunctions.bottomSheet(
+                                              const DappBrowserView(),
+                                              settings: RouteSettings(
+                                                arguments: url,
+                                              ));
+                                        },
+                                        imagePath: '${PathConst.SVG}plus.svg',
+                                        label: 'Buy'),
+                                    0.04.hspace,
+                                    _actionButton(
+                                        onTap: () {
+                                          NaanAnalytics.logEvent(
+                                              NaanAnalyticsEvents
+                                                  .DELEGATE_FROM_WALLET);
+                                          Get.put(DelegateWidgetController())
+                                              .openBakerList();
+                                        },
+                                        imagePath:
+                                            '${PathConst.SVG}dollar_sign.svg',
+                                        label: 'Earn'),
+                                    0.04.hspace,
+                                    _actionButton(
+                                      imagePath: '${PathConst.SVG}arrow_up.svg',
+                                      label: 'Send',
                                       onTap: () {
-                                        NaanAnalytics.logEvent(
-                                            NaanAnalyticsEvents
-                                                .DELEGATE_FROM_WALLET);
-                                        Get.put(DelegateWidgetController())
-                                            .openBakerList();
+                                        return Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                settings: RouteSettings(
+                                                    arguments: controller
+                                                        .selectedAccount.value),
+                                                builder: (context) =>
+                                                    const SendPage(
+                                                      lastPageName: "Accounts",
+                                                    )));
+                                        return CommonFunctions.bottomSheet(
+                                          const SendPage(),
+                                          settings: RouteSettings(
+                                              arguments: controller
+                                                  .selectedAccount.value),
+                                        );
                                       },
+                                    ),
+                                    0.04.hspace,
+                                    _actionButton(
                                       imagePath:
-                                          '${PathConst.SVG}dollar_sign.svg',
-                                      label: 'Earn'),
-                                  0.04.hspace,
-                                  _actionButton(
-                                    imagePath: '${PathConst.SVG}arrow_up.svg',
-                                    label: 'Send',
-                                    onTap: () {
-                                      return Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              settings: RouteSettings(
-                                                  arguments: controller
-                                                      .selectedAccount.value),
-                                              builder: (context) =>
-                                                  const SendPage(
-                                                    lastPageName: "Accounts",
-                                                  )));
-                                      return CommonFunctions.bottomSheet(
-                                        const SendPage(),
-                                        settings: RouteSettings(
-                                            arguments: controller
-                                                .selectedAccount.value),
-                                      );
-                                    },
+                                          '${PathConst.SVG}arrow_down.svg',
+                                      label: 'Receive',
+                                      onTap: (() {
+                                        return Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                settings: RouteSettings(
+                                                    arguments: controller
+                                                        .selectedAccount.value),
+                                                builder: (context) =>
+                                                    const ReceivePageView(
+                                                      lastPageName: "Accounts",
+                                                    )));
+                                        return CommonFunctions.bottomSheet(
+                                          const ReceivePageView(),
+                                          settings: RouteSettings(
+                                              arguments: controller
+                                                  .selectedAccount.value),
+                                        );
+                                      }),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                            0.02.vspace,
+                            Divider(
+                              height: 0.arP,
+                              color: ColorConst.NeutralVariant.shade20,
+                              endIndent: 16.aR,
+                              indent: 16.aR,
+                            ),
+                            0.02.vspace,
+                            SizedBox(
+                              height: 50.aR,
+                              width: 1.width,
+                              child: TabBar(
+                                  onTap: (value) async {
+                                    value == 2
+                                        ? controller.loadUserTransaction()
+                                        : null;
+                                  },
+                                  isScrollable: true,
+                                  labelColor: ColorConst.Primary.shade95,
+                                  indicatorColor: ColorConst.Primary,
+                                  indicatorSize: TabBarIndicatorSize.tab,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.aR),
+                                  labelPadding: EdgeInsets.symmetric(
+                                    horizontal: 6.aR,
                                   ),
-                                  0.04.hspace,
-                                  _actionButton(
-                                    imagePath: '${PathConst.SVG}arrow_down.svg',
-                                    label: 'Receive',
-                                    onTap: (() {
-                                      return Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              settings: RouteSettings(
-                                                  arguments: controller
-                                                      .selectedAccount.value),
-                                              builder: (context) =>
-                                                  const ReceivePageView(
-                                                    lastPageName: "Accounts",
-                                                  )));
-                                      return CommonFunctions.bottomSheet(
-                                        const ReceivePageView(),
-                                        settings: RouteSettings(
-                                            arguments: controller
-                                                .selectedAccount.value),
-                                      );
-                                    }),
+                                  indicatorWeight: 4.aR,
+                                  enableFeedback: true,
+                                  indicator: MaterialIndicator(
+                                    color: ColorConst.Primary,
+                                    height: 4.aR,
+                                    topLeftRadius: 4.aR,
+                                    topRightRadius: 4.aR,
+                                    strokeWidth: 4.aR,
                                   ),
+                                  labelStyle: labelLarge.copyWith(
+                                      fontSize: 14.aR, letterSpacing: 0.1.aR),
+                                  unselectedLabelColor:
+                                      ColorConst.NeutralVariant.shade60,
+                                  tabs: [
+                                    SizedBox(
+                                      width: 70.arP,
+                                      child: Tab(
+                                        height: 30.arP,
+                                        text: "Crypto",
+                                        iconMargin: EdgeInsets.zero,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 70.arP,
+                                      child: Tab(
+                                        height: 30.arP,
+                                        text: "NFTs",
+                                        iconMargin: EdgeInsets.zero,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 70.arP,
+                                      child: Tab(
+                                        height: 30.arP,
+                                        text: "History",
+                                        iconMargin: EdgeInsets.zero,
+                                      ),
+                                    ),
+                                  ]),
+                            ),
+                            const Expanded(
+                              child: TabBarView(
+                                physics: NeverScrollableScrollPhysics(),
+                                children: [
+                                  CryptoTabPage(),
+                                  NFTabPage(),
+                                  HistoryPage(),
                                 ],
                               ),
-                            );
-                          }),
-                          0.02.vspace,
-                          Divider(
-                            height: 0.arP,
-                            color: ColorConst.NeutralVariant.shade20,
-                            endIndent: 16.aR,
-                            indent: 16.aR,
-                          ),
-                          0.02.vspace,
-                          SizedBox(
-                            height: 50.aR,
-                            width: 1.width,
-                            child: TabBar(
-                                onTap: (value) async {
-                                  value == 2
-                                      ? controller.loadUserTransaction()
-                                      : null;
-                                },
-                                isScrollable: true,
-                                labelColor: ColorConst.Primary.shade95,
-                                indicatorColor: ColorConst.Primary,
-                                indicatorSize: TabBarIndicatorSize.tab,
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 15.aR),
-                                labelPadding: EdgeInsets.symmetric(
-                                  horizontal: 6.aR,
-                                ),
-                                indicatorWeight: 4.aR,
-                                enableFeedback: true,
-                                indicator: MaterialIndicator(
-                                  color: ColorConst.Primary,
-                                  height: 4.aR,
-                                  topLeftRadius: 4.aR,
-                                  topRightRadius: 4.aR,
-                                  strokeWidth: 4.aR,
-                                ),
-                                labelStyle: labelLarge.copyWith(
-                                    fontSize: 14.aR, letterSpacing: 0.1.aR),
-                                unselectedLabelColor:
-                                    ColorConst.NeutralVariant.shade60,
-                                tabs: [
-                                  SizedBox(
-                                    width: 70.arP,
-                                    child: Tab(
-                                      height: 30.arP,
-                                      text: "Crypto",
-                                      iconMargin: EdgeInsets.zero,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 70.arP,
-                                    child: Tab(
-                                      height: 30.arP,
-                                      text: "NFTs",
-                                      iconMargin: EdgeInsets.zero,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 70.arP,
-                                    child: Tab(
-                                      height: 30.arP,
-                                      text: "History",
-                                      iconMargin: EdgeInsets.zero,
-                                    ),
-                                  ),
-                                ]),
-                          ),
-                          const Expanded(
-                            child: TabBarView(
-                              physics: NeverScrollableScrollPhysics(),
-                              children: [
-                                CryptoTabPage(),
-                                NFTabPage(),
-                                HistoryPage(),
-                              ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  });
                 });
               }))
         ]);
