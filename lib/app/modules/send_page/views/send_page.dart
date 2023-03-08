@@ -55,8 +55,7 @@ class SendPage extends GetView<SendPageController> {
 
         prevPageName: lastPageName,
         // isScrollControlled: true,
-        height: AppConstant.naanBottomSheetHeight -
-            MediaQuery.of(context).viewInsets.bottom,
+        height: AppConstant.naanBottomSheetHeight ,
         // bottomSheetHorizontalPadding: 16.arP,
         // margin: EdgeInsets.only(top: 27.arP),
         // decoration: const BoxDecoration(

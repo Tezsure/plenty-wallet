@@ -40,8 +40,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
       return NaanBottomSheet(
         bottomSheetHorizontalPadding: 16.arP,
         // isScrollControlled: true,
-        height: AppConstant.naanBottomSheetHeight -
-            MediaQuery.of(context).viewInsets.bottom,
+        height: AppConstant.naanBottomSheetHeight ,
         bottomSheetWidgets: [
           SizedBox(
               height: AppConstant.naanBottomSheetChildHeight -

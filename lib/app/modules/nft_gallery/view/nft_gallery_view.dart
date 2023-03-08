@@ -55,8 +55,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
       return NaanBottomSheet(
         bottomSheetHorizontalPadding: 0,
         // isScrollControlled: true,
-        height: AppConstant.naanBottomSheetHeight -
-            MediaQuery.of(context).viewInsets.bottom,
+        height: AppConstant.naanBottomSheetHeight ,
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight -
@@ -236,8 +235,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 0,
       // isScrollControlled: true,
-      height: AppConstant.naanBottomSheetHeight -
-          MediaQuery.of(context).viewInsets.bottom,
+      height: AppConstant.naanBottomSheetHeight ,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight + 60.7.arP,

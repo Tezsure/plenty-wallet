@@ -82,7 +82,7 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
 
   @override
   void initState() {
-    Get.create(() => NaanBottomsheetController());
+    Get.create(() => NaanBottomsheetController(), permanent: false);
     controller = Get.put(NaanBottomsheetController());
     if (widget.prevPageName == null) BottomSheetManager.addSheet(controller);
     super.initState();
@@ -91,6 +91,7 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
   @override
   void dispose() {
     if (widget.prevPageName == null) BottomSheetManager.deleteSheet(controller);
+    Get.delete<NaanBottomsheetController>();
     super.dispose();
   }
 

@@ -27,16 +27,18 @@ abstract class AnimateBottomsheetController extends GetxController
 class BottomSheetManager {
   static List<AnimateBottomsheetController> sheets = [];
   static void addSheet(AnimateBottomsheetController child) {
-    if (sheets.isNotEmpty) {
-      (sheets.last).animateForward();
-    }
+    // if (sheets.isNotEmpty) {
+    //   (sheets.last).animateForward();
+    // }
     sheets.add(child);
   }
 
   static void deleteSheet(AnimateBottomsheetController child) {
+   
     sheets.remove(child);
-    if (sheets.isNotEmpty) {
-      (sheets.last).animateReverse();
-    }
+
+    // if (sheets.isNotEmpty) {
+    //   (sheets.last).animateReverse();
+    // }
   }
 }

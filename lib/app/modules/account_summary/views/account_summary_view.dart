@@ -31,8 +31,6 @@ import 'pages/crypto_tab.dart';
 import 'pages/history_tab.dart';
 import 'pages/nft_tab.dart';
 
-mixin AccountSummary on GetView {}
-
 class AccountSummaryView extends GetView<AccountSummaryController> {
   AccountSummaryView({super.key});
 
@@ -41,22 +39,18 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
     Get.put((AccountSummaryController()));
     Get.put(TransactionController());
     return NaanBottomSheet(
-        height: AppConstant.naanBottomSheetHeight -
-            MediaQuery.of(context).viewInsets.bottom,
+        height: AppConstant.naanBottomSheetHeight,
         bottomSheetHorizontalPadding: 0,
         bottomSheetWidgets: [
           SizedBox(
-              height: AppConstant.naanBottomSheetHeight -
-                  MediaQuery.of(context).viewInsets.bottom -
-                  16.arP,
+              height: AppConstant.naanBottomSheetHeight - 16.arP,
               child: Navigator(onGenerateRoute: (context2) {
                 return MaterialPageRoute(builder: (context) {
                   return Builder(builder: (context) {
                     return DefaultTabController(
                       length: 3,
                       child: SizedBox(
-                        height: AppConstant.naanBottomSheetHeight -
-                            MediaQuery.of(context).viewInsets.bottom,
+                        height: AppConstant.naanBottomSheetHeight,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,

@@ -395,10 +395,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_plugin_android_lifecycle
-      sha256: "4bef634684b2c7f3468c77c766c831229af829a0cd2d4ee6c1b99558bd14e5d2"
+      sha256: c224ac897bed083dabf11f238dd11a239809b446740be0c2044608c50029ffdf
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.8"
+    version: "2.0.9"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -533,10 +533,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_android
-      sha256: "845f793834d5d3af887ce39e3c97186996928cd43c8350a23e5499268398cc16"
+      sha256: ca14b663fecbe7f5ddda83782abfb2e1dd2a23d6da49b6ed344bf8cf3871225a
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.5+8"
+    version: "0.8.5+9"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -645,26 +645,26 @@ packages:
     dependency: "direct main"
     description:
       name: local_auth
-      sha256: "1625a217c599db02044df992509eb52584cfdaa8219958d516b74f644ef2c626"
+      sha256: "0cf238be2bfa51a6c9e7e9cfc11c05ea39f2a3a4d3e5bb255d0ebc917da24401"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.6"
   local_auth_android:
     dependency: transitive
     description:
       name: local_auth_android
-      sha256: "9106024549f411fea2543630582ae7937fcb97ce197755a6d985b23b980410c7"
+      sha256: "6e97e997530f7bfcc696cc0ed84a019209719dd6e854675da81803d02f10d8fc"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.19"
+    version: "1.0.20"
   local_auth_ios:
     dependency: transitive
     description:
       name: local_auth_ios
-      sha256: "14e7822264fbb6842240e09ff32a60e2ca2b1c3207de8adf2f56c149cccd49fd"
+      sha256: b4b7a02eec2bd8ffea78026658264e7a720c841cca7732dfa27e36af2f727dd8
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.13"
+    version: "1.1.0"
   local_auth_platform_interface:
     dependency: transitive
     description:
@@ -724,10 +724,9 @@ packages:
   modal_bottom_sheet:
     dependency: "direct main"
     description:
-      name: modal_bottom_sheet
-      sha256: "3bba63c62d35c931bce7f8ae23a47f9a05836d8cb3c11122ada64e0b2f3d718f"
-      url: "https://pub.dev"
-    source: hosted
+      path: "package/modal_bottom_sheet/modal_bottom_sheet"
+      relative: true
+    source: path
     version: "3.0.0-pre"
   octo_image:
     dependency: transitive
@@ -1005,10 +1004,10 @@ packages:
     dependency: transitive
     description:
       name: sec
-      sha256: "78e2ed80b8782fe03496ff3c626d5f6139efbe00c577327c613ad8540ea4b14a"
+      sha256: "8bbd56df884502192a441b5f5d667265498f2f8728a282beccd9db79e215f379"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "1.1.0"
   secp256k1:
     dependency: transitive
     description:
@@ -1283,10 +1282,10 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "46d2a005636e68df3ea250d906201699a6e02444"
+      resolved-ref: "61bd73bd0542277c5d980eec74cb03fdc183ffb4"
       url: "https://github.com/Web3Auth/web3auth-flutter-sdk.git"
     source: git
-    version: "1.1.0"
+    version: "1.2.0"
   win32:
     dependency: transitive
     description:

@@ -30,51 +30,54 @@ class CommonFunctions {
     Widget child, {
     RouteSettings? settings,
   }) async {
-    CupertinoPageScaffold;
-    return await Get.bottomSheet(
-      child,
-      settings: settings,
-      isScrollControlled: true,
-      barrierColor: Colors.black.withOpacity(0.5),
-      backgroundColor: Colors.transparent,
-      enterBottomSheetDuration: const Duration(milliseconds: 180),
-      exitBottomSheetDuration: const Duration(milliseconds: 150),
-    ).then((value) {
-      return value;
-    });
-    // return await showCupertinoModalBottomSheet(
-    //   context: Get.context!,
-    //   builder: (context) => Material(
-    //     child: BackdropFilter(
-    //         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), child: child),
-    //   ),
+    // return await Get.bottomSheet(
+    //   child,
     //   settings: settings,
-    //   bounce: true,
-    //   // : true,
-    //   // barrierColor: Colors.black.withOpacity(0.6),
-    //   elevation: 5,
-    //   topRadius: Radius.circular(24.arP),
-    //   // backgroundColor: ColorConst.darkGrey,
-    //   overlayStyle: SystemUiOverlayStyle.light,
-    //   // shadow: BoxShadow(
-    //   //   color: Colors.black.withOpacity(0.5),
-    //   //   spreadRadius: 5,
-    //   //   blurRadius: 10,
-    //   //   // offset: const Offset(0, 0), // changes position of shadow
-    //   // ),
-    //   // transitionBackgroundColor: Colors.white.withOpacity(.2),
-    //   // useRootNavigator: true
-    //   // enterBottomSheetDuration: const Duration(milliseconds: 180),
-    //   // exitBottomSheetDuration: const Duration(milliseconds: 150),
+    //   isScrollControlled: true,
+    //   barrierColor: Colors.black.withOpacity(0.5),
+    //   backgroundColor: Colors.transparent,
+    //   enterBottomSheetDuration: const Duration(milliseconds: 180),
+    //   exitBottomSheetDuration: const Duration(milliseconds: 150),
     // ).then((value) {
-    //   if (Get.isRegistered<HomePageController>()) {
-    //     if (Get.find<HomePageController>().bottomSheetsOpen == 1) {
-    //       Get.find<HomePageController>().animateReverse();
-    //     }
-    //     Get.find<HomePageController>().bottomSheetsOpen =
-    //         Get.find<HomePageController>().bottomSheetsOpen - 1;
-    //   }
     //   return value;
     // });
+    return await showCupertinoModalBottomSheet(
+            context: Get.context!,
+            navigatorState: Get.global(null).currentState!,
+            onCreate: (route) {
+              RouterReportManager.reportCurrentRoute(route);
+            },
+            onDispose: (route) {
+              RouterReportManager.reportRouteDispose(route);
+            },
+            builder: (context) => Material(
+                  child: child,
+                ),
+            settings: settings,
+            bounce: false,
+            // : true,
+            // barrierColor: Colors.black.withOpacity(0.6),
+            // elevation: 5,
+            // topRadius: Radius.circular(24.arP),
+            // backgroundColor: ColorConst.darkGrey,
+            overlayStyle: SystemUiOverlayStyle.light,
+            // transitionBackgroundColor: ColorConst.darkGrey,
+            // backgroundColor: Colors.black54,
+            // barrierColor: ColorConst.darkGrey.withOpacity(.8),
+            backgroundColor: Colors.transparent
+            // shadow: BoxShadow(
+            //   color: Colors.black.withOpacity(0.2),
+            //   spreadRadius: 50,
+            //   blurRadius: 50,
+            //   // offset: const Offset(0, 0), // changes position of shadow
+            // ),
+            // transitionBackgroundColor: Colors.white.withOpacity(.2),
+            // useRootNavigator: true
+            // enterBottomSheetDuration: const Duration(milliseconds: 180),
+            // exitBottomSheetDuration: const Duration(milliseconds: 150),
+            )
+        .then((value) {
+      return value;
+    });
   }
 }
