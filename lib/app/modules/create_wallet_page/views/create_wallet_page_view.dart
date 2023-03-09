@@ -106,7 +106,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                       width: double.infinity,
                       alignment: Alignment.center,
                       child: Text(
-                        "Not now",
+                        "Not now".tr,
                         style: titleSmall.copyWith(
                             fontWeight: FontWeight.w600,
                             color: ColorConst.NeutralVariant.shade60),
@@ -136,7 +136,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              "Or login with",
+              "Or login with".tr,
               style: bodySmall.copyWith(
                 fontWeight: FontWeight.w600,
                 color: ColorConst.NeutralVariant.shade60,
@@ -212,27 +212,6 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
       title: "I already have an account",
       borderColor: ColorConst.Neutral.shade80,
       textColor: ColorConst.Neutral.shade80,
-    );
-    return GestureDetector(
-      onTap: () {
-        Get.toNamed(Routes.IMPORT_WALLET_PAGE);
-      },
-      child: Container(
-        height: 48,
-        width: 1.width - 64.arP,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: ColorConst.Neutral.shade80,
-            width: 1.50,
-          ),
-        ),
-        alignment: Alignment.center,
-        child: Text("I already have an account",
-            style: titleSmall.copyWith(
-                fontWeight: FontWeight.w600,
-                color: ColorConst.Neutral.shade80)),
-      ),
     );
   }
 }

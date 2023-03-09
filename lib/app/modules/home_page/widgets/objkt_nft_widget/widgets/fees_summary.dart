@@ -92,12 +92,12 @@ class FeesSummarySheet extends StatelessWidget {
           Row(
             children: [
               Text(
-                title,
+                title.tr,
                 style: labelMedium.copyWith(color: ColorConst.textGrey1),
               ),
               const Spacer(),
               Text(
-                trailing,
+                trailing.tr,
                 style: labelMedium,
               ),
             ],
@@ -106,7 +106,7 @@ class FeesSummarySheet extends StatelessWidget {
             height: 8.arP,
           ),
           Text(
-            subtitle,
+            subtitle.tr,
             style: bodySmall.copyWith(color: ColorConst.textGrey1),
           ),
         ],
@@ -126,7 +126,7 @@ class FeesSummarySheet extends StatelessWidget {
             size: 15,
           ),
           Text(
-            'Sending',
+            'Sending'.tr,
             style: bodySmall.copyWith(
                 color: ColorConst.textGrey1, fontWeight: FontWeight.w600),
           ),

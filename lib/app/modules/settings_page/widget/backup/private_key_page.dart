@@ -76,7 +76,8 @@ class _PrivateKeyPageState extends State<PrivateKeyPage> {
                         0.04.vspace,
 
                         Text(
-                          'Your private key can be used to\naccess all of your funds so do not\nshare with anyone',
+                          'Your private key can be used to\naccess all of your funds so do not\nshare with anyone'
+                              .tr,
                           textAlign: TextAlign.center,
                           style: bodySmall.copyWith(
                               color: ColorConst.NeutralVariant.shade60),
@@ -109,7 +110,7 @@ class _PrivateKeyPageState extends State<PrivateKeyPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'This screen will auto close in ',
+                                'This screen will auto close in '.tr,
                                 textAlign: TextAlign.center,
                                 style: labelSmall.copyWith(
                                     color: ColorConst.NeutralVariant.shade60),

@@ -199,7 +199,7 @@ class DappBottomSheet extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Launch',
+                          'Launch'.tr,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14.arP,

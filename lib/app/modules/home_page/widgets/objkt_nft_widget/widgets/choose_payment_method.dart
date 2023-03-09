@@ -39,11 +39,11 @@ class ChoosePaymentMethod extends StatelessWidget {
             contentPadding: EdgeInsets.zero,
             leading: SvgPicture.asset("assets/svg/credit-card.svg"),
             title: Text(
-              "Credit card",
+              "Credit card".tr,
               style: labelLarge,
             ),
             subtitle: Text(
-              "Powered by wert.io",
+              "${"Powered by".tr} wert.io",
               style: bodySmall.copyWith(color: ColorConst.textGrey1),
             ),
           ),

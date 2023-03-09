@@ -49,7 +49,6 @@ class HomePageController extends AnimateBottomsheetController {
   RxList<AccountModel> userAccounts = <AccountModel>[].obs;
   @override
   void onInit() async {
-
     super.onInit();
     Get.put(BeaconService(), permanent: true);
     DataHandlerService()
@@ -233,12 +232,13 @@ class BackupWalletBottomSheet extends StatelessWidget {
       bottomSheetWidgets: [
         0.03.vspace,
         Text(
-          'Backup your account',
+          'Backup your account'.tr,
           style: titleLarge,
         ),
         0.012.vspace,
         Text(
-          'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.',
+          'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.'
+              .tr,
           textAlign: TextAlign.start,
           style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
         ),

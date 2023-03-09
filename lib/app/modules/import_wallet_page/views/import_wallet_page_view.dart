@@ -137,7 +137,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                 children: [
                   0.05.vspace,
                   Text(
-                    isWatchAddress ? "Add a watch address" : "Import account",
+                    (isWatchAddress ? "Add a watch address" : "Import account")
+                        .tr,
                     style: titleLarge,
                   ),
                   0.023.vspace,
@@ -194,7 +195,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                           controller.phraseText.value = "";
                                         },
                                         child: Text(
-                                          "Clear",
+                                          "Clear".tr,
                                           style: titleSmall.apply(
                                               color: ColorConst.Primary),
                                         ),
@@ -245,7 +246,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           ),
           0.02.hspace,
           Text(
-            "Paste",
+            "Paste".tr,
             style: titleSmall.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w600,
@@ -334,13 +335,13 @@ class AccountBottomSheet extends StatelessWidget {
       bottomSheetWidgets: [
         0.04.vspace,
         Text(
-          "Select addresses",
+          "Select addresses".tr,
           textAlign: TextAlign.start,
           style: titleLarge,
         ),
         0.014.vspace,
         Text(
-          "Multiple addresses can be selected",
+          "Multiple addresses can be selected".tr,
           style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
         ),
         0.03.vspace,
@@ -410,7 +411,7 @@ class AccountBottomSheet extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text("Legacy"),
+                              Text("Legacy".tr),
                               if (controller.selectedLegacyAccount.isNotEmpty)
                                 _buildCount(
                                     controller.selectedLegacyAccount.length)

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -26,7 +27,7 @@ class PasteButton extends StatelessWidget {
           ),
           0.01.hspace,
           Text(
-            "Paste",
+            "Paste".tr,
             style: labelMedium.apply(color: ColorConst.Primary),
           )
         ],

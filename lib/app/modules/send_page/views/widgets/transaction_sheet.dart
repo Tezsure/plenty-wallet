@@ -63,7 +63,7 @@ class TransactionBottomSheet extends StatelessWidget {
                 size: 15,
               ),
               Text(
-                'Sending',
+                'Sending'.tr,
                 style: bodySmall.copyWith(
                     color: ColorConst.textGrey1, fontWeight: FontWeight.w600),
               ),
@@ -158,7 +158,7 @@ class TransactionBottomSheet extends StatelessWidget {
             },
             contentPadding: EdgeInsets.zero,
             title: Text(
-              "To",
+              "To".tr,
               style: bodySmall.copyWith(color: ColorConst.textGrey1),
             ),
             subtitle: SizedBox(
@@ -220,7 +220,7 @@ class TransactionBottomSheet extends StatelessWidget {
             },
             contentPadding: EdgeInsets.zero,
             title: Text(
-              "From",
+              "From".tr,
               style: bodySmall.copyWith(color: ColorConst.textGrey1),
             ),
             subtitle: SizedBox(

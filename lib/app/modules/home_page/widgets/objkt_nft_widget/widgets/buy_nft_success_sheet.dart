@@ -44,12 +44,13 @@ class BuyNftSuccessSheet extends StatelessWidget {
                 // ),
                 0.0175.vspace,
                 Text(
-                  "Order submitted",
+                  "Order submitted".tr,
                   style: titleLarge,
                 ),
                 0.006.vspace,
                 Text(
-                  "Your can track the status of your order \nand request in the objkt profile",
+                  "Your can track the status of your order \nand request in the objkt profile"
+                      .tr,
                   textAlign: TextAlign.center,
                   style: labelMedium.copyWith(color: ColorConst.textGrey1),
                 ),
@@ -71,7 +72,7 @@ class BuyNftSuccessSheet extends StatelessWidget {
                   borderWidth: 1,
                   onPressed: () {
                     Share.share(
-                        "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}");
+                        "${"👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone.".tr} ${AppConstant.naanWebsite}");
                   },
                   title: "Share naan",
                 ),

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/app/modules/onboarding_page/controllers/onboarding_page_controller.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -126,7 +127,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                             // alignment: const Alignment(-0.1, 0.6),
                             child: Text(
                               widget.controller.onboardingMessages.values
-                                  .elementAt(widget.controller.pageIndex()),
+                                  .elementAt(widget.controller.pageIndex()).tr,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontFamily: 'Space Grotesk',

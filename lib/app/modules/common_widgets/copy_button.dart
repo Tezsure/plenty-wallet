@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -32,7 +33,7 @@ class CopyButton extends StatelessWidget {
             ),
             0.014.hspace,
             Text(
-              isCopied ? 'copied!' : 'copy to clipboard',
+              (isCopied ? 'copied!' : 'copy to clipboard').tr,
               style: titleSmall.copyWith(color: Colors.white),
             )
           ]),

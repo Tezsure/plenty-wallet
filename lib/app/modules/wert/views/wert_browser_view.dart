@@ -82,7 +82,7 @@ class WertBrowserView extends GetView<WertBrowserController> {
                   ),
                   0.01.hspace,
                   Text(
-                    "Buy NFT",
+                    "Buy NFT".tr,
                     style: bodyMedium,
                   ),
                 ],

@@ -208,7 +208,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                       ),
                       0.02.hspace,
                       Text(
-                        "Open",
+                        "Open".tr,
                         style: labelLarge,
                       ),
                     ],
@@ -445,7 +445,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                                               style: labelLarge,
                                               children: [
                                                 TextSpan(
-                                                    text: 'Owners',
+                                                    text: 'Owners'.tr,
                                                     style: labelSmall.copyWith(
                                                         fontSize: 11.aR,
                                                         color: ColorConst
@@ -460,7 +460,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                                                   fontSize: 14.aR),
                                               children: [
                                                 TextSpan(
-                                                    text: 'Editions',
+                                                    text: 'Editions'.tr,
                                                     style: labelSmall.copyWith(
                                                         color: ColorConst
                                                             .NeutralVariant
@@ -488,7 +488,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                                         child: RichText(
                                             textAlign: TextAlign.start,
                                             text: TextSpan(
-                                                text: 'Current Price\n',
+                                                text: '${'Current Price'.tr}\n',
                                                 style: labelSmall.copyWith(
                                                     color: ColorConst
                                                         .NeutralVariant
@@ -549,7 +549,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                                     title: RichText(
                                         textAlign: TextAlign.start,
                                         text: TextSpan(
-                                            text: 'Created By ',
+                                            text: 'Created By '.tr,
                                             style: labelSmall.copyWith(
                                                 fontSize: 11.aR,
                                                 color: ColorConst
@@ -580,7 +580,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                                 title: RichText(
                                     textAlign: TextAlign.start,
                                     text: TextSpan(
-                                        text: 'Owned By ',
+                                        text: 'Owned By '.tr,
                                         style: labelSmall.copyWith(
                                             fontSize: 11.aR,
                                             color: ColorConst
@@ -634,15 +634,15 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
           unselectedLabelStyle: labelLarge.copyWith(fontSize: 14.aR),
           labelColor: ColorConst.Primary.shade95,
           labelStyle: labelLarge.copyWith(fontSize: 14.aR),
-          tabs: const [
+          tabs: [
             Tab(
               child: Text(
-                'Details',
+                'Details'.tr,
               ),
             ),
             Tab(
               child: Text(
-                'Item Activity',
+                'Item Activity'.tr,
               ),
             ),
           ]),
@@ -774,7 +774,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                     isExpanded = val;
                   }),
               title: Text(
-                'About Collection',
+                'About Collection'.tr,
                 style: labelSmall.copyWith(fontSize: 11.aR),
               ),
               iconColor: Colors.white,
@@ -827,7 +827,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
               iconColor: Colors.white,
               collapsedIconColor: Colors.white,
               title: Text(
-                'Details',
+                'Details'.tr,
                 style: labelSmall.copyWith(fontSize: 11.aR),
               ),
               childrenPadding: EdgeInsets.only(left: 16.arP, right: 13.arP),
@@ -835,7 +835,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Token ID", style: bodySmall),
+                    Text("Token ID".tr, style: bodySmall),
                     Text(
                       nftModel?.tokenId ?? "",
                       style: bodySmall.copyWith(color: ColorConst.textGrey1),
@@ -846,7 +846,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Royality", style: bodySmall),
+                    Text("Royality".tr, style: bodySmall),
                     Text(
                       "${royality.toStringAsFixed(1)}%",
                       style: bodySmall.copyWith(color: ColorConst.textGrey1),
@@ -858,7 +858,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Minted", style: bodySmall),
+                          Text("Minted".tr, style: bodySmall),
                           Text(
                             DateFormat("MMM dd,yyyy")
                                 .format(DateTime.parse(nftModel!.timestamp!)),
@@ -872,7 +872,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Artifact", style: bodySmall),
+                    Text("Artifact".tr, style: bodySmall),
                     const Spacer(),
                     BouncingWidget(
                         onPressed: () {
@@ -926,7 +926,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("MetaData", style: bodySmall),
+                    Text("MetaData".tr, style: bodySmall),
                     const Spacer(),
                     BouncingWidget(
                         onPressed: () {

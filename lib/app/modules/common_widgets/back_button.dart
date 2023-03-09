@@ -27,7 +27,7 @@ Widget backButton({Function()? ontap, String? lastPageName}) {
         lastPageName == null
             ? Container()
             : Text(
-                lastPageName,
+                lastPageName.tr,
                 style: bodySmall,
               )
       ],

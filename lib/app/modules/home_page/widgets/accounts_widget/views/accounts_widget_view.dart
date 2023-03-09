@@ -188,7 +188,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
         onPressed: () {
           homePageController.changeSelectedAccount(index);
           CommonFunctions.bottomSheet(
-             AccountSummaryView(),
+            AccountSummaryView(),
             settings: RouteSettings(arguments: model),
           );
         },
@@ -260,7 +260,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                       width: 5.arP,
                                     ),
                                     Text(
-                                      "Copied ${tz1Shortner(model.publicKeyHash!)}",
+                                      "${"Copied".tr} ${tz1Shortner(model.publicKeyHash!)}",
                                       style: labelSmall,
                                     )
                                   ],

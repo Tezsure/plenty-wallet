@@ -133,7 +133,7 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
           height: 8.arP,
         ),
         Text(
-          "Custom Nodes :",
+          "Custom Nodes :".tr,
           style: labelMedium.copyWith(color: ColorConst.Primary),
         ),
         ListView.separated(
@@ -150,12 +150,12 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
               child: Row(
                 children: [
                   Text(
-                    "DELETE",
+                    "DELETE".tr,
                     style: labelMedium,
                   ),
                   Spacer(),
                   Text(
-                    "DELETE",
+                    "DELETE".tr,
                     style: labelMedium,
                   ),
                 ],
@@ -235,7 +235,7 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
       bottomSheetWidgets: [
         Center(
           child: Text(
-            "You can add the node again later",
+            "You can add the node again later".tr,
             style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
           ),
         ),
@@ -248,7 +248,7 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
             children: [
               optionDelete(
                   child: Text(
-                    "Delete",
+                    "Delete".tr,
                     style: labelMedium.apply(color: ColorConst.Error.shade60),
                   ),
                   onTap: () {
@@ -259,7 +259,7 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
               ),
               optionDelete(
                   child: Text(
-                    "Cancel",
+                    "Cancel".tr,
                     style: labelMedium,
                   ),
                   onTap: () {
@@ -281,7 +281,7 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
         ),
         width: double.infinity,
-        height: 54,
+        height: 50.arP,
         child: Center(
           child: child,
         ),

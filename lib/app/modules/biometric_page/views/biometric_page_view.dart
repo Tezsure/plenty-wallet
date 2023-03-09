@@ -45,14 +45,15 @@ class BiometricPageView extends GetView<BiometricPageController> {
                       ),
                 0.05.vspace,
                 Text(
-                  Platform.isAndroid
-                      ? "Enable biometric unlock"
-                      : "Enable Face ID",
+                  (Platform.isAndroid
+                          ? "Enable biometric unlock"
+                          : "Enable Face ID")
+                      .tr,
                   style: titleLarge,
                 ),
                 0.01.vspace,
                 Text(
-                  "Access your naan with your ${Platform.isAndroid ? "fingerprint" : "face ID"}",
+                  "${"Access your naan with your".tr} ${(Platform.isAndroid ? "Fingerprint" : "Face ID").tr}",
                   textAlign: TextAlign.center,
                   style: bodySmall.apply(
                     color: ColorConst.NeutralVariant.shade60,
@@ -72,14 +73,13 @@ class BiometricPageView extends GetView<BiometricPageController> {
                 BouncingWidget(
                   onPressed: () {
                     controller.checkOrWriteNewAndRedirectToNewPage(false);
-         
                   },
                   child: Container(
                     height: 48,
                     width: double.infinity,
                     alignment: Alignment.center,
                     child: Text(
-                      "Skip",
+                      "Skip".tr,
                       style: titleSmall.copyWith(
                           fontWeight: FontWeight.w600,
                           color: ColorConst.NeutralVariant.shade60),

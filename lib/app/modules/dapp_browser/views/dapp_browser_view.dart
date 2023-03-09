@@ -111,7 +111,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                   0.01.hspace,
                   Text(
                     controller.url.value.contains("https://wert")
-                        ? "Buy tez"
+                        ? "Buy tez".tr
                         : Uri.parse(controller.url.value)
                             .host
                             .replaceAll(RegExp(r".+\/\/|www.|"), ""),
@@ -162,7 +162,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                                   ),
                                   0.01.hspace,
                                   Text(
-                                    "Buy",
+                                    "Buy".tr,
                                     style: labelLarge,
                                   )
                                 ],

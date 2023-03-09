@@ -86,20 +86,19 @@ void main() async {
     runApp(
       GetMaterialApp(
         title: "naan",
-            locale: Get.deviceLocale,
-            theme: ThemeData(
-              brightness: Brightness.dark,
-              fontFamily: "Poppins",
-            ),
-            navigatorObservers: [
-              //InstabugNavigatorObserver(),
-              FirebaseAnalyticsObserver(
-                  analytics: NaanAnalytics().getAnalytics()),
-            ],
-            supportedLocales: const [
-              Locale("en", "US"),
-              Locale("en", "IN"),
-            ],
+        locale: Get.deviceLocale,
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          fontFamily: "Poppins",
+        ),
+        navigatorObservers: [
+          //InstabugNavigatorObserver(),
+          FirebaseAnalyticsObserver(analytics: NaanAnalytics().getAnalytics()),
+        ],
+        supportedLocales: const [
+          Locale("en", "US"),
+          Locale("en", "IN"),
+        ],
         debugShowCheckedModeBanner: false,
         initialRoute: AppPages.INITIAL,
         // getPages: AppPages.routes,

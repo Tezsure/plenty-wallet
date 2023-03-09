@@ -76,10 +76,10 @@ class ObjktNftWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("Buy NFTs",
+                      Text("Buy NFTs".tr,
                           style: headlineSmall.copyWith(
                               color: Colors.black, fontSize: 20.arP)),
-                      Text("using your card",
+                      Text("using your card".tr,
                           style: bodySmall.copyWith(
                             color: Colors.black,
                           )),

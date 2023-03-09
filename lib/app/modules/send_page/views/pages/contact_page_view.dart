@@ -29,7 +29,7 @@ class ContactsListView extends GetView<SendPageController> {
                       ...[
                             0.008.vspace,
                             Text(
-                              'Suggestions',
+                              'Suggestions'.tr,
                               style: labelSmall.apply(
                                   color: ColorConst.NeutralVariant.shade60),
                             ),
@@ -40,7 +40,7 @@ class ContactsListView extends GetView<SendPageController> {
                               .toList(),
                     controller.recentsContacts.isNotEmpty
                         ? Text(
-                            'Recents',
+                            'Recents'.tr,
                             style: labelSmall.apply(
                                 color: ColorConst.NeutralVariant.shade60),
                           )
@@ -54,7 +54,7 @@ class ContactsListView extends GetView<SendPageController> {
                       ? <Widget>[
                           0.02.vspace,
                           Text(
-                            'Contacts',
+                            'Contacts'.tr,
                             style: labelSmall.apply(
                                 color: ColorConst.NeutralVariant.shade60),
                           ),
@@ -135,7 +135,7 @@ class ContactsListView extends GetView<SendPageController> {
                               );
                             },
                             child: Text(
-                              "Edit",
+                              "Edit".tr,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.5.arP,
@@ -160,7 +160,7 @@ class ContactsListView extends GetView<SendPageController> {
                               );
                             },
                             child: Text(
-                              "Remove",
+                              "Remove".tr,
                               style: TextStyle(
                                 color: const Color(0xFFFF5449),
                                 fontSize: 12.5.arP,

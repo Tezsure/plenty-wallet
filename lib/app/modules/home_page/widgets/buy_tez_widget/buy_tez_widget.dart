@@ -93,10 +93,10 @@ class BuyTezWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("Buy tez",
+                      Text("Buy tez".tr,
                           style: headlineSmall.copyWith(fontSize: 20.arP)),
                       Text(
-                        "with your card",
+                        "with your card".tr,
                         style: bodySmall,
                       ),
                     ],

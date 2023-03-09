@@ -39,7 +39,7 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                 ),
                 0.02.vspace,
                 Text(
-                  "Earn 5% APR on your tez",
+                  "Earn 5% APR on your tez".tr,
                   style: titleLarge,
                 ),
                 0.03.vspace,
@@ -63,7 +63,7 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                               0.02.hspace,
                               Expanded(
                                 child: Text(
-                                  infos[index],
+                                  infos[index].tr,
                                   style: labelMedium.copyWith(
                                       color: ColorConst.textGrey1,
                                       fontWeight: FontWeight.normal),

@@ -169,7 +169,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                       child: Padding(
                         padding: EdgeInsets.only(right: 16.arP, left: 8.arP),
                         child: Text(
-                          "Cancel",
+                          "Cancel".tr,
                           style:
                               labelMedium.copyWith(color: ColorConst.Primary),
                         ),
@@ -184,7 +184,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                         child: Padding(
                           padding: EdgeInsets.only(top: 44.arP),
                           child: Text(
-                              "Try searching for token,\n protocols, and tags",
+                              "Try searching for token,\n protocols, and tags"
+                                  .tr,
                               textAlign: TextAlign.center,
                               style: labelLarge.copyWith(
                                   letterSpacing: 0.25,

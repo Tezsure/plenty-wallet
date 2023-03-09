@@ -453,7 +453,7 @@ class SettingsPageController extends GetxController {
                   width: 5,
                 ),
                 Text(
-                  "Copied",
+                  "Copied!".tr,
                   style: labelSmall,
                 )
               ],

@@ -187,7 +187,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                             width: 5,
                                                           ),
                                                           Text(
-                                                            "Copied ${tz1Shortner(controller.selectedAccount.value.publicKeyHash!)}",
+                                                            "${"Copied".tr} ${tz1Shortner(controller.selectedAccount.value.publicKeyHash!)}",
                                                             style: labelSmall,
                                                           )
                                                         ],

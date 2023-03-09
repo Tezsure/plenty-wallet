@@ -58,7 +58,8 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                         padding: EdgeInsets.symmetric(vertical: 0.012.height),
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text("Recommended bakers", style: labelLarge),
+                          child:
+                              Text("Recommended bakers".tr, style: labelLarge),
                         ),
                       ),
                       _buildBakerList(),
@@ -134,7 +135,8 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
             child: Padding(
               padding: EdgeInsets.only(bottom: 48.arP),
               child: GestureDetector(
-                onTap: () => CommonFunctions.bottomSheet(const BakerFilterBottomSheet()),
+                onTap: () =>
+                    CommonFunctions.bottomSheet(const BakerFilterBottomSheet()),
                 child: Container(
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.white, width: .3),
@@ -155,7 +157,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                           ),
                           0.01.hspace,
                           Text(
-                            "Sort",
+                            "Sort".tr,
                             style: labelSmall.copyWith(color: Colors.white),
                           )
                         ],
@@ -232,7 +234,8 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               style:
                   bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
               text:
-                  'Choose a baker to delegate your tez to.\nThis list is powered by ',
+                  'Choose a baker to delegate your tez to.\nThis list is powered by '
+                      .tr,
               children: [
                 TextSpan(
                     text: 'Tezos-nodes.com',

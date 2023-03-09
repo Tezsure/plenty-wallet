@@ -37,7 +37,6 @@ class ReceivePageView extends GetView<ReceivePageController> {
               lastPageName: lastPageName)
           : null,
       prevPageName: lastPageName,
-
       height: AppConstant.naanBottomSheetHeight,
       title: lastPageName == null ? "Receive" : null,
       bottomSheetWidgets: [
@@ -49,7 +48,6 @@ class ReceivePageView extends GetView<ReceivePageController> {
               if (lastPageName != null)
                 BottomSheetHeading(
                   title: "Receive",
-    
                   leading: lastPageName != null
                       ? backButton(
                           ontap: () {
@@ -61,7 +59,8 @@ class ReceivePageView extends GetView<ReceivePageController> {
               Row(),
               0.01.vspace,
               Text(
-                'You can receive tez or any other Tezos\nbased assets on this address by\nsharing this QR code.',
+                'You can receive tez or any other Tezos\nbased assets on this address by\nsharing this QR code.'
+                    .tr,
                 textAlign: TextAlign.center,
                 style: bodySmall.copyWith(
                     fontSize: 12.aR, color: ColorConst.NeutralVariant.shade60),
@@ -213,7 +212,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
             ),
             0.04.hspace,
             Text(
-              'Share',
+              'Share'.tr,
               style: titleSmall.copyWith(
                   fontWeight: FontWeight.w500, fontSize: 14.aR),
             )

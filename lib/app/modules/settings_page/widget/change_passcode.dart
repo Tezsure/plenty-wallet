@@ -43,15 +43,16 @@ class ChangePasscode extends GetView<SettingsPageController> {
                 ),
                 0.05.vspace,
                 Obx(() => Text(
-                      controller.verifyPassCode.value
-                          ? "Set passcode"
-                          : "Enter passcode",
+                      (controller.verifyPassCode.value
+                              ? "Set passcode"
+                              : "Enter passcode")
+                          .tr,
                       textAlign: TextAlign.center,
                       style: titleMedium,
                     )),
                 0.01.vspace,
                 Text(
-                  "Protect your wallet by setting a passcode",
+                  "Protect your wallet by setting a passcode".tr,
                   style:
                       bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
                 ),

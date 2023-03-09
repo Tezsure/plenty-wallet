@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -66,7 +67,7 @@ class NaanTextfield extends StatelessWidget {
         // contentPadding: EdgeInsets.zero,
         hintStyle: hintTextSyle ??
             bodyMedium.copyWith(color: Colors.white.withOpacity(0.2)),
-        hintText: hint,
+        hintText: hint?.tr,
       ),
     );
   }
@@ -85,7 +86,7 @@ class NaanTextFormfield extends StatelessWidget {
       borderRadius: BorderRadius.circular(8.arP),
       color: Colors.white.withOpacity(0.2),
       child: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 12.arP),
+        padding: EdgeInsets.symmetric(horizontal: 12.arP),
         child: SizedBox(
           width: double.infinity,
           height: height,

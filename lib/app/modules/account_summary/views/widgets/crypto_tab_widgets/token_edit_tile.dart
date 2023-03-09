@@ -69,7 +69,7 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                           width: 5.arP,
                         ),
                         Text(
-                          expandedTokenList ? 'Less' : 'All',
+                          (expandedTokenList ? 'Less' : 'All').tr,
                           style: labelLarge.copyWith(
                               fontWeight: FontWeight.w600,
                               letterSpacing: 0.5.aR,
@@ -126,7 +126,7 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    isEditable ?? false ? 'Done' : 'Edit',
+                    (isEditable ?? false ? 'Done' : 'Edit').tr,
                     style: labelLarge.copyWith(
                         fontSize: 14.aR,
                         fontWeight: FontWeight.w600,

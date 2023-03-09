@@ -32,7 +32,8 @@ class DismissRecoverAccountBottomSheet extends StatelessWidget {
         const Spacer(),
         Center(
           child: Text(
-            'You can lose your funds forever if you\ndon’t restore the backup. Are you sure you\nwant to dismiss the backup?',
+            'You can lose your funds forever if you\ndon’t restore the backup. Are you sure you\nwant to dismiss the backup?'
+                .tr,
             style: bodySmall.copyWith(color: ColorConst.textGrey1),
             textAlign: TextAlign.center,
           ),
@@ -44,7 +45,7 @@ class DismissRecoverAccountBottomSheet extends StatelessWidget {
             if (!settingController.fingerprint.value)
               optionMethod(
                   child: Text(
-                    "Dismiss",
+                    "Dismiss".tr,
                     style: labelLarge.apply(color: ColorConst.Error.shade60),
                   ),
                   onTap: () {
@@ -69,7 +70,7 @@ class DismissRecoverAccountBottomSheet extends StatelessWidget {
                             ),
                       0.02.hspace,
                       Text(
-                        "Hold to dismiss",
+                        "Hold to dismiss".tr,
                         style:
                             labelLarge.apply(color: ColorConst.Error.shade60),
                       ),
@@ -79,7 +80,7 @@ class DismissRecoverAccountBottomSheet extends StatelessWidget {
             0.016.vspace,
             optionMethod(
                 child: Text(
-                  "Cancel",
+                  "Cancel".tr,
                   style: labelLarge,
                 ),
                 onTap: () {

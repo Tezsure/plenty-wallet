@@ -87,7 +87,7 @@ class DelegateRewardsTile extends StatelessWidget {
         child: RichText(
           textAlign: TextAlign.start,
           text: TextSpan(
-            text: '$title:\n',
+            text: '${title.tr}:\n',
             style:
                 labelSmall.copyWith(color: ColorConst.NeutralVariant.shade70),
             children: [TextSpan(text: value, style: labelLarge)],

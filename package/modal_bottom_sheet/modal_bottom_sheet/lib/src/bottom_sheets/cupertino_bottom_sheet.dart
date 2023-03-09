@@ -505,7 +505,7 @@ class _CupertinoScaffoldState extends State<CupertinoScaffold>
   @override
   void initState() {
     animationController =
-        AnimationController(duration: Duration(milliseconds: 350), vsync: this);
+        AnimationController(duration: Duration(milliseconds: 180), vsync: this);
     super.initState();
   }
 

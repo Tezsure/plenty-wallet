@@ -29,7 +29,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                 children: <Widget>[
                       0.008.vspace,
                       Text(
-                        'Tokens',
+                        'Tokens'.tr,
                         style: labelSmall.apply(
                             color: ColorConst.NeutralVariant.shade60),
                       ),
@@ -62,7 +62,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                       ),
                       controller.userNfts.isNotEmpty
                           ? Text(
-                              'Collectibles',
+                              'Collectibles'.tr,
                               style: labelSmall.apply(
                                   color: ColorConst.NeutralVariant.shade60),
                             )
@@ -120,7 +120,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              controller.isTokensExpanded.value ? 'Less' : 'All',
+              (controller.isTokensExpanded.value ? 'Less' : 'All').tr,
               style: labelSmall.copyWith(color: const Color(0xFF958E99)),
             ),
             Icon(
@@ -155,7 +155,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              controller.isCollectibleExpanded.value ? 'Less' : 'All',
+              (controller.isCollectibleExpanded.value ? 'Less' : 'All').tr,
               style: labelSmall.copyWith(color: const Color(0xFF958E99)),
             ),
             AnimatedRotation(

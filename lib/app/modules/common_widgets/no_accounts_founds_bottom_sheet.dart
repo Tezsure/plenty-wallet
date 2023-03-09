@@ -29,7 +29,7 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      title: "", 
+      title: "",
       // bottomSheetHorizontalPadding: 0
       height: AppConstant.naanBottomSheetChildHeight,
       bottomSheetWidgets: [
@@ -54,13 +54,13 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
                       ),
                       0.05.vspace,
                       Text(
-                        "No accounts found",
+                        "No accounts found".tr,
                         textAlign: TextAlign.center,
                         style: titleLarge,
                       ),
                       0.016.vspace,
                       Text(
-                        "Create or import new account to proceed",
+                        "Create or import new account to proceed".tr,
                         textAlign: TextAlign.center,
                         style: bodySmall.copyWith(
                           color: const Color(0xFF958E99),
@@ -125,7 +125,7 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              "Or create account with",
+              "Or create account with".tr,
               style: bodySmall.copyWith(
                 fontWeight: FontWeight.w600,
                 color: ColorConst.NeutralVariant.shade60,

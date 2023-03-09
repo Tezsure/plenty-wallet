@@ -91,12 +91,12 @@ class DelegateBakerTile extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: ColorConst.Primary,
                           borderRadius: BorderRadius.circular(24.arP)),
-                      child: Text(
-                        "Redelegate",
-                        style: labelSmall.copyWith(fontWeight: FontWeight.bold),
-                      ),
                       padding: EdgeInsets.symmetric(
                           vertical: 4.arP, horizontal: 8.arP),
+                      child: Text(
+                        "Redelegate".tr,
+                        style: labelSmall.copyWith(fontWeight: FontWeight.bold),
+                      ),
                     ),
                     onPressed: () {
                       Get.back();
@@ -116,7 +116,7 @@ class DelegateBakerTile extends StatelessWidget {
               RichText(
                 textAlign: TextAlign.start,
                 text: TextSpan(
-                  text: 'Baker fee:\n',
+                  text: '${'Baker fee:'.tr}\n',
                   style: labelMedium.copyWith(
                       color: ColorConst.NeutralVariant.shade70),
                   children: [
@@ -130,7 +130,7 @@ class DelegateBakerTile extends StatelessWidget {
               RichText(
                 textAlign: TextAlign.start,
                 text: TextSpan(
-                  text: 'Staking:\n',
+                  text: '${'Staking:'.tr}\n',
                   style: labelMedium.copyWith(
                       color: ColorConst.NeutralVariant.shade70),
                   children: [
@@ -143,7 +143,7 @@ class DelegateBakerTile extends StatelessWidget {
               RichText(
                 textAlign: TextAlign.start,
                 text: TextSpan(
-                  text: 'Yield:\n',
+                  text: '${'Yield:'.tr}\n',
                   style: labelMedium.copyWith(
                       color: ColorConst.NeutralVariant.shade70),
                   children: [

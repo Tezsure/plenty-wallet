@@ -134,7 +134,7 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
                             alignment:
                                 widget.titleAlignment ?? Alignment.centerLeft,
                             child: Text(
-                              widget.title ?? "",
+                              (widget.title ?? "").tr,
                               textAlign: TextAlign.start,
                               style: widget.titleStyle ?? titleMedium,
                             ),
@@ -279,7 +279,7 @@ class BottomSheetHeading extends StatelessWidget {
               child: Align(
                 alignment: titleAlignment ?? Alignment.center,
                 child: Text(
-                  title!,
+                  (title ?? "").tr,
                   textAlign: TextAlign.center,
                   style: titleStyle ?? titleMedium,
                 ),

@@ -40,7 +40,7 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
         ),
         Center(
           child: Text(
-            'Create or import an account',
+            'Create or import an account'.tr,
             style: bodySmall.copyWith(
               color: const Color(0xFF958E99),
             ),

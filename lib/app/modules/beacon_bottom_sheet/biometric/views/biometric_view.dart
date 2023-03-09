@@ -41,14 +41,14 @@ class BiometricView extends GetView<BiometricController> {
             ),
             0.04.vspace,
             Text(
-              'Confirm Using Your ${Platform.isAndroid ? "Fingerprint" : "Face ID"}',
+              '${'Confirm Using Your'.tr} ${(Platform.isAndroid ? "Fingerprint" : "Face ID").tr}',
               style: titleMedium,
             ),
             0.02.vspace,
             Text(
               Platform.isAndroid
-                  ? 'Touch the fingerprint sensor'
-                  : "Come to front camera",
+                  ? 'Touch the fingerprint sensor'.tr
+                  : "Come to front camera".tr,
               style: bodySmall,
             ),
             0.03.vspace,
@@ -72,7 +72,7 @@ class BiometricView extends GetView<BiometricController> {
                   child: BouncingWidget(
                     onPressed: controller.usePasscode,
                     child: Text(
-                      'Use passcode',
+                      'Use passcode'.tr,
                       style: bodySmall.copyWith(color: ColorConst.grey),
                     ),
                   ),

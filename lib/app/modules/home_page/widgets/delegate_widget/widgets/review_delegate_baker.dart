@@ -48,7 +48,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                   ),
                 ),
                 Text(
-                  "Delegate to",
+                  "Delegate to".tr,
                   style: labelMedium.copyWith(color: ColorConst.textGrey1),
                 ),
                 Padding(
@@ -83,7 +83,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                               ),
                         0.02.hspace,
                         Text(
-                          "Hold to Delegate",
+                          "Hold to Delegate".tr,
                           style: titleSmall.copyWith(
                               fontSize: 14.aR, color: Colors.white),
                         )
@@ -119,7 +119,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
             SizedBox(
               // height: 14.arP,
               child: Text(
-                _homePageController.userAccounts[0].name ?? 'Account Name',
+                _homePageController.userAccounts[0].name ?? 'Account',
                 style: labelSmall.apply(
                   color: ColorConst.NeutralVariant.shade60,
                 ),
@@ -166,7 +166,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                                 width: 5.arP,
                               ),
                               Text(
-                                "Copied to clipboard",
+                                "copied to clipboard".tr,
                                 style: labelSmall,
                               )
                             ],

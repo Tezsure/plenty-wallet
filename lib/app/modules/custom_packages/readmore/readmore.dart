@@ -2,6 +2,7 @@ library readmore;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 enum TrimMode {
   Length,
@@ -123,7 +124,7 @@ class ReadMoreTextState extends State<ReadMoreText> {
     final defaultDelimiterStyle = widget.delimiterStyle ?? effectiveTextStyle;
 
     TextSpan link = TextSpan(
-      text: _readMore ? widget.trimCollapsedText : widget.trimExpandedText,
+      text: (_readMore ? widget.trimCollapsedText : widget.trimExpandedText).tr,
       style: _readMore ? defaultMoreStyle : defaultLessStyle,
       recognizer: TapGestureRecognizer()..onTap = _onTapLink,
     );

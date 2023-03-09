@@ -29,7 +29,10 @@ class DappsPageView extends GetView<DappsPageController> {
     Get.put(DappsPageController());
     return NaanBottomSheet(
       title: "",
-      action: Padding(padding: EdgeInsets.only(right: 16.arP), child: closeButton(),),
+      action: Padding(
+        padding: EdgeInsets.only(right: 16.arP),
+        child: closeButton(),
+      ),
       height: AppConstant.naanBottomSheetHeight,
       bottomSheetHorizontalPadding: 0,
       bottomSheetWidgets: [
@@ -344,7 +347,7 @@ class DappListItemWidget extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    "Launch",
+                    "Launch".tr,
                     style: TextStyle(
                       fontSize: 14.arP,
                       color: const Color(0xFF958E99),

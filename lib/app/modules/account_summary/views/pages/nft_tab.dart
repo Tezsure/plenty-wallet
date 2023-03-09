@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -33,12 +34,12 @@ class NFTabPage extends GetView<AccountSummaryController> {
                   RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
-                          text: "No Collections",
+                          text: "No Collections".tr,
                           style: titleLarge.copyWith(
                               fontWeight: FontWeight.w700, fontSize: 22.aR),
                           children: [
                             TextSpan(
-                                text: "\nExplore new collectibles on objkt",
+                                text: "\nExplore new collectibles on objkt".tr,
                                 style: labelMedium.copyWith(
                                     fontSize: 12.aR,
                                     color: ColorConst.NeutralVariant.shade60))

@@ -67,15 +67,16 @@ class PasscodePageView extends GetView<PasscodePageController> {
                 0.05.vspace,
                 Obx(
                   () => Text(
-                    controller.isToVerifyPassCode.value
-                        ? controller.isPassCodeWrong.value
-                            ? "Try Again"
-                            : "Enter passcode"
-                        : (controller.isPassCodeWrong.value)
-                            ? "Try Again"
-                            : controller.confirmPasscode.value.length < 6
-                                ? "Set passcode"
-                                : "Verify passcode",
+                    (controller.isToVerifyPassCode.value
+                            ? controller.isPassCodeWrong.value
+                                ? "Try Again"
+                                : "Enter passcode"
+                            : (controller.isPassCodeWrong.value)
+                                ? "Try Again"
+                                : controller.confirmPasscode.value.length < 6
+                                    ? "Set passcode"
+                                    : "Verify passcode")
+                        .tr,
                     textAlign: TextAlign.center,
                     style: titleMedium,
                   ),
@@ -83,11 +84,12 @@ class PasscodePageView extends GetView<PasscodePageController> {
                 0.01.vspace,
                 Obx(
                   () => Text(
-                    controller.isPassCodeWrong.value
-                        ? "Passcode doesn’t match"
-                        : controller.confirmPasscode.value.length < 6
-                            ? "Protect your naan by creating a passcode"
-                            : "Re-enter your passcode",
+                    (controller.isPassCodeWrong.value
+                            ? "Passcode doesn’t match"
+                            : controller.confirmPasscode.value.length < 6
+                                ? "Protect your naan by creating a passcode"
+                                : "Re-enter your passcode")
+                        .tr,
                     style: bodySmall.apply(
                         color: ColorConst.NeutralVariant.shade60),
                   ),

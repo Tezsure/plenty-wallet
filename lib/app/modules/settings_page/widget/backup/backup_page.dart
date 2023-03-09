@@ -118,7 +118,7 @@ class BackupPage extends StatelessWidget {
                   style: bodySmall.copyWith(fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  tz1Shortner(accountModel.publicKeyHash ?? 'nxkjfbhedvzbv'),
+                  tz1Shortner(accountModel.publicKeyHash ?? ''),
                   style: labelSmall.apply(
                       color: ColorConst.NeutralVariant.shade60),
                 ),
@@ -141,7 +141,7 @@ class BackupPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Reveal",
+            "Reveal".tr,
             style: labelSmall,
           ),
           const SizedBox(

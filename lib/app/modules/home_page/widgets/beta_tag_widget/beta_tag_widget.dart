@@ -72,7 +72,7 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("naan version",
+                      Text("naan version".tr,
                           style: bodySmall.copyWith(
                               color: ColorConst.NeutralVariant.shade40)),
                       Text("$version (beta)", style: labelMedium),

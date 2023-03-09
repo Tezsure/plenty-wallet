@@ -93,7 +93,7 @@ class TokenView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(24.arP),
                                     color: const Color(0xFF332F37)),
                                 child: Center(
-                                  child: Text('Max',
+                                  child: Text('Max'.tr,
                                       style: labelMedium.copyWith(
                                           color: const Color(0xFF625C66))),
                                 ),
@@ -220,7 +220,7 @@ class TokenView extends StatelessWidget {
                                       color: ColorConst.NeutralVariant.shade60
                                           .withOpacity(0.2)),
                                   child: Center(
-                                    child: Text('Max',
+                                    child: Text('Max'.tr,
                                         style: labelMedium.copyWith(
                                             color: ColorConst
                                                 .NeutralVariant.shade60)),

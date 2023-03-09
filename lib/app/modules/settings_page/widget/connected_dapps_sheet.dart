@@ -60,7 +60,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
                       ),
                       0.03.vspace,
                       Text(
-                        "No connected apps",
+                        "No connected apps".tr,
                         style: titleLarge,
                       ),
                     ],
@@ -141,7 +141,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
       bottomSheetWidgets: [
         Center(
           child: Text(
-            "You can reconnect to this app later",
+            "You can reconnect to this app later".tr,
             style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
           ),
         ),
@@ -150,7 +150,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
           children: [
             optionMethod(
                 child: Text(
-                  "Disconnect",
+                  "Disconnect".tr,
                   style: labelMedium.apply(color: ColorConst.Error.shade60),
                 ),
                 onTap: () {
@@ -162,7 +162,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
             ),
             optionMethod(
                 child: Text(
-                  "Cancel",
+                  "Cancel".tr,
                   style: labelMedium,
                 ),
                 onTap: () {

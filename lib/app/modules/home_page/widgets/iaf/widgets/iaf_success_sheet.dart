@@ -18,7 +18,7 @@ class IAFClaimSuccessSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      AppConstant.hapticFeedback();
+    AppConstant.hapticFeedback();
     return NaanBottomSheet(
         bottomSheetHorizontalPadding: 16.arP,
         height: 0.45.height,
@@ -46,12 +46,13 @@ class IAFClaimSuccessSheet extends StatelessWidget {
                   // ),
                   0.0175.vspace,
                   Text(
-                    "Claim complete",
+                    "Claim complete".tr,
                     style: titleLarge,
                   ),
                   0.006.vspace,
                   Text(
-                    "Claim will be completed within 1-2 minutes.\nThe NFT can be viewed in the account\nwidget located on the home screen.",
+                    "Claim will be completed within 1-2 minutes.\nThe NFT can be viewed in the account\nwidget located on the home screen."
+                        .tr,
                     textAlign: TextAlign.center,
                     style: labelMedium.copyWith(color: ColorConst.textGrey1),
                   ),
@@ -74,7 +75,7 @@ class IAFClaimSuccessSheet extends StatelessWidget {
                     active: true,
                     onPressed: () {
                       Share.share(
-                          "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}");
+                          "${"👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone.".tr} ${AppConstant.naanWebsite}");
                     },
                     title: "Share naan",
                   ),

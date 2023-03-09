@@ -97,21 +97,21 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               height: 4,
             ),
             Text(
-              "Address index : ${widget.accountIndex}",
+              "${"Address index : ".tr}${widget.accountIndex}",
               style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
             const SizedBox(
               height: 4,
             ),
             Text(
-              "Derivation path: ${_controller.homePageController.userAccounts[widget.accountIndex].derivationPathIndex}",
+              "${"Derivation path:".tr} ${_controller.homePageController.userAccounts[widget.accountIndex].derivationPathIndex}",
               style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
             0.02.vspace,
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Account Name",
+                "Account Name".tr,
                 style:
                     labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
               ),
@@ -131,7 +131,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "or choose a avatar",
+                "or choose a avatar".tr,
                 textAlign: TextAlign.left,
                 style:
                     labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
@@ -170,7 +170,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             Row(
               children: [
                 Text(
-                  "Primary Account",
+                  "Primary Account".tr,
                   textAlign: TextAlign.left,
                   style: bodySmall,
                 ),
@@ -198,7 +198,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             Row(
               children: [
                 Text(
-                  "Hide this account",
+                  "Hide this account".tr,
                   textAlign: TextAlign.left,
                   style: bodySmall,
                 ),
@@ -238,7 +238,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Change profile photo",
+            "Change profile photo".tr,
             textAlign: TextAlign.start,
             style: titleLarge,
           ),
@@ -273,7 +273,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                   height: 51,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Choose photo",
+                    "Choose photo".tr,
                     style: labelMedium,
                   ),
                 ),
@@ -301,7 +301,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                   height: 51,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Take photo",
+                    "Take photo".tr,
                     style: labelMedium,
                   ),
                 ),
@@ -325,7 +325,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                   height: 51,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Remove current photo",
+                    "Remove current photo".tr,
                     style: labelMedium.apply(color: ColorConst.Error.shade60),
                   ),
                 ),

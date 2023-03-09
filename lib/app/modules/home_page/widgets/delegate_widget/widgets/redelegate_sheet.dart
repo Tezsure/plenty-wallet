@@ -43,7 +43,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
                   child: Column(
                     children: [
                       Text(
-                        "Total Rewards",
+                        "Total Rewards".tr,
                         style:
                             labelMedium.copyWith(color: ColorConst.textGrey1),
                       ),
@@ -55,20 +55,20 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
                     ],
                   ),
                 ),
-                Text("Delegated to", style: labelLarge),
+                Text("Delegated to".tr, style: labelLarge),
                 0.015.vspace,
                 DelegateBakerTile(
                   baker: baker,
                   redelegate: true,
                 ),
                 0.015.vspace,
-                Text("Rewards", style: labelLarge),
+                Text("Rewards".tr, style: labelLarge),
                 .01.vspace,
                 Expanded(
                   child: controller.delegateRewardList.isEmpty
                       ? Center(
                           child: Text(
-                            "Delegation is pending . . .",
+                            "Delegation is pending . . .".tr,
                             style: titleMedium.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: ColorConst.textGrey1),

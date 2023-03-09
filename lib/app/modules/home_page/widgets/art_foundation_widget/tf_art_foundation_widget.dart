@@ -87,8 +87,8 @@ class TFArtFoundationWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("TF Permanent", style: labelMedium),
-                      Text("Art Collection", style: labelMedium),
+                      Text("TF Permanent".tr, style: labelMedium),
+                      Text("Art Collection".tr, style: labelMedium),
                     ],
                   ),
                 ),
