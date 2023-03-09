@@ -270,7 +270,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                       //         ? controller.xtzPrice.value
                       //         : (tokenModel.currentPrice! *
                       //             controller.xtzPrice.value))
-                      .roundUpDollar()
+                      .roundUpDollar(controller.xtzPrice.value)
                       .removeTrailing0,
                   style: labelSmall.apply(
                     color: Colors.white,

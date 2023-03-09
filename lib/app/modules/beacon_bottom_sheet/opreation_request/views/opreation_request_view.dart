@@ -13,6 +13,7 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 import '../controllers/opreation_request_controller.dart';
 
@@ -81,7 +82,9 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Obx(() => (Text(
-                                            "\$ ${controller.dollarPrice.value.toStringAsFixed(2)}",
+                                            controller.dollarPrice.value
+                                                .roundUpDollar(
+                                                    controller.xtzPrice),
                                             style: titleLarge.copyWith(
                                                 fontSize: 32.arP),
                                           ))),
@@ -351,7 +354,17 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                                         .grey),
                                                       ),
                                                       Obx(() => (Text(
-                                                            '\$ ${controller.fees.value}',
+                                                            controller.fees
+                                                                        .value ==
+                                                                    "calculating..."
+                                                                ? "calculating..."
+                                                                : double.parse(
+                                                                        controller
+                                                                            .fees
+                                                                            .value)
+                                                                    .roundUpDollar(
+                                                                        controller
+                                                                            .xtzPrice),
                                                             style: bodyMedium,
                                                           ))),
                                                     ],

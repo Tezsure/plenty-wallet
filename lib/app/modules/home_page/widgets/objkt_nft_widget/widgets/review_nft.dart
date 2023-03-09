@@ -20,6 +20,7 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 import '../controllers/buy_nft_controller.dart';
 
@@ -71,8 +72,13 @@ class ReviewNFTSheet extends StatelessWidget {
                 () => Text(
                   controller.selectedToken.value!.symbol!.toLowerCase() ==
                           "Tezos".toLowerCase()
-                      ? "\$${(double.parse(controller.priceInToken.value) * homeController.xtzPrice.value).toStringAsFixed(2)}"
-                      : "\$${((double.parse(controller.priceInToken.value) * controller.selectedToken.value!.currentPrice! * homeController.xtzPrice.value).toStringAsFixed(2))}",
+                      ? (double.parse(controller.priceInToken.value) *
+                              homeController.xtzPrice.value)
+                          .roundUpDollar(homeController.xtzPrice.value)
+                      : ((double.parse(controller.priceInToken.value) *
+                              controller.selectedToken.value!.currentPrice! *
+                              homeController.xtzPrice.value)
+                          .roundUpDollar(homeController.xtzPrice.value)),
                   style: headlineLarge,
                 ),
               ),
@@ -131,7 +137,11 @@ class ReviewNFTSheet extends StatelessWidget {
                 () => Row(
                   children: [
                     Text(
-                      "\$ ${controller.fees["totalFee"]!}",
+                      controller.fees["totalFee"] == "calculating..."
+                          ? "calculating..."
+                          : double.parse(controller.fees["totalFee"]!)
+                              .roundUpDollar(controller.xtzPrice.value,
+                                  decimals: 4),
                       style: labelMedium,
                     ),
                     0.01.hspace,

@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/router_report.dart';
@@ -85,17 +86,20 @@ void main() async {
     runApp(
       GetMaterialApp(
         title: "naan",
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          fontFamily: "Poppins",
-        ),
-        navigatorObservers: [
-          //InstabugNavigatorObserver(),
-          FirebaseAnalyticsObserver(analytics: NaanAnalytics().getAnalytics()),
-        ],
-        supportedLocales: const [
-          Locale("en", "US"),
-        ],
+            locale: Get.deviceLocale,
+            theme: ThemeData(
+              brightness: Brightness.dark,
+              fontFamily: "Poppins",
+            ),
+            navigatorObservers: [
+              //InstabugNavigatorObserver(),
+              FirebaseAnalyticsObserver(
+                  analytics: NaanAnalytics().getAnalytics()),
+            ],
+            supportedLocales: const [
+              Locale("en", "US"),
+              Locale("en", "IN"),
+            ],
         debugShowCheckedModeBanner: false,
         initialRoute: AppPages.INITIAL,
         // getPages: AppPages.routes,
@@ -173,6 +177,7 @@ class LifeCycleController extends SuperController {
 
       return;
     }
+    DataHandlerService().currencyPrices();
     DataHandlerService().setUpTimer();
     print("onResumed");
   }

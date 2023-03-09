@@ -58,10 +58,16 @@ class DataHandlerService {
   /// init all data services which runs in isolate and store user specific data in to local storage
   Future<void> initDataServices() async {
     // first time if data exists in storage readand render
-    //await ServiceConfig.localStorage.delete(key: ServiceConfig.nftPatch);
+/*     await ServiceConfig.localStorage
+        .delete(key: ServiceConfig.currencySelectedStorage);
+
+    await ServiceConfig.localStorage.delete(key: ServiceConfig.inrPriceStorage);
+    await ServiceConfig.localStorage.delete(key: ServiceConfig.eurPriceStorage); */
     await renderService.updateUi();
 
     setUpTimer();
+
+    currencyPrices();
 
     // update the values&store using isolates
     await updateAllTheValues();
@@ -69,6 +75,25 @@ class DataHandlerService {
 
     // update one time data in cache
     _updateOneTimeData();
+  }
+
+  currencyPrices() {
+    HttpService.performGetRequest(
+            "https://api.exchangerate.host/latest?base=USD")
+        .then((result) async {
+      dynamic response = jsonDecode(result);
+      var inr = response['rates']['INR'];
+      var eur = response['rates']['EUR'];
+      print("inr: $inr eur: $eur");
+
+      ServiceConfig.inr = inr;
+      ServiceConfig.eur = eur;
+
+      await ServiceConfig.localStorage
+          .write(key: ServiceConfig.inrPriceStorage, value: inr.toString());
+      await ServiceConfig.localStorage
+          .write(key: ServiceConfig.eurPriceStorage, value: eur.toString());
+    });
   }
 
   setUpTimer() => {

@@ -514,7 +514,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                                                               nftModel?.lowestAsk ==
                                                                   null
                                                           ? '\n0'
-                                                          : '\n\$${((nftModel?.lowestAsk / 1e6) * _controller.xtzPrice.value).toStringAsFixed(2)}',
+                                                          : '\n${double.parse(((nftModel?.lowestAsk / 1e6) * _controller.xtzPrice.value).toString()).roundUpDollar(_controller.xtzPrice.value)}',
                                                       style: labelSmall.copyWith(
                                                           fontSize: 11.aR,
                                                           color: ColorConst
