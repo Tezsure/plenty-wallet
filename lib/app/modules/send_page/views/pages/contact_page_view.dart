@@ -17,61 +17,57 @@ class ContactsListView extends GetView<SendPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 0.8.height,
-      decoration: const BoxDecoration(color: Colors.black),
-      child: Column(
-        children: [
-          Obx(
-            () => Expanded(
-              child: ListView(
-                physics: AppConstant.scrollPhysics,
-                children: (<Widget>[
-                      if (controller.searchText.isNotEmpty)
-                        ...[
-                              0.008.vspace,
-                              Text(
-                                'Suggestions',
-                                style: labelSmall.apply(
-                                    color: ColorConst.NeutralVariant.shade60),
-                              ),
-                              0.008.vspace
-                            ] +
-                            controller.suggestedContacts
-                                .map((element) => contactWidget(element))
-                                .toList(),
-                      controller.recentsContacts.isNotEmpty
-                          ? Text(
-                              'Recents',
-                              style: labelSmall.apply(
-                                  color: ColorConst.NeutralVariant.shade60),
-                            )
-                          : Container(),
-                      0.008.vspace
-                    ] +
-                    controller.recentsContacts
-                        .map((element) => contactWidget(element))
-                        .toList() +
-                    (controller.contacts.isNotEmpty
-                        ? <Widget>[
-                            0.02.vspace,
+    return Column(
+      children: [
+        Obx(
+          () => Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              physics: AppConstant.scrollPhysics,
+              children: (<Widget>[
+                    if (controller.searchText.isNotEmpty)
+                      ...[
+                            0.008.vspace,
                             Text(
-                              'Contacts',
+                              'Suggestions',
                               style: labelSmall.apply(
                                   color: ColorConst.NeutralVariant.shade60),
                             ),
                             0.008.vspace
-                          ]
-                        : [Container()]) +
-                    controller.contacts
-                        .map((element) =>
-                            contactWidget(element, isContact: true))
-                        .toList()),
-              ),
+                          ] +
+                          controller.suggestedContacts
+                              .map((element) => contactWidget(element))
+                              .toList(),
+                    controller.recentsContacts.isNotEmpty
+                        ? Text(
+                            'Recents',
+                            style: labelSmall.apply(
+                                color: ColorConst.NeutralVariant.shade60),
+                          )
+                        : Container(),
+                    0.008.vspace
+                  ] +
+                  controller.recentsContacts
+                      .map((element) => contactWidget(element))
+                      .toList() +
+                  (controller.contacts.isNotEmpty
+                      ? <Widget>[
+                          0.02.vspace,
+                          Text(
+                            'Contacts',
+                            style: labelSmall.apply(
+                                color: ColorConst.NeutralVariant.shade60),
+                          ),
+                          0.008.vspace
+                        ]
+                      : [Container()]) +
+                  controller.contacts
+                      .map((element) => contactWidget(element, isContact: true))
+                      .toList()),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 

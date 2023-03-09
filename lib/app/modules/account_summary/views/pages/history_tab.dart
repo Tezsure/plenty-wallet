@@ -46,8 +46,12 @@ class HistoryPage extends GetView<TransactionController> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       BouncingWidget(
-                        onPressed: (() => CommonFunctions.bottomSheet(
-                            const SearchBottomSheet())),
+                        onPressed: () {
+                          return Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SearchBottomSheet()));
+                          return CommonFunctions.bottomSheet(
+                              const SearchBottomSheet());
+                        },
                         child: Container(
                           height: 0.06.height,
                           width: 0.8.width,

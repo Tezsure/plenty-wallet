@@ -155,7 +155,7 @@ class CreateNewNftGalleryBottomSheet
           ),
         ),
         SizedBox(
-          height: 12.arP,
+          height: 16.arP,
         ),
         controller.accounts.isNotEmpty
             ? Obx(
@@ -409,8 +409,9 @@ class CreateNewNftGalleryBottomSheet
               Obx(() => CustomCheckBox(
                     borderRadius: 12.aR,
                     checkedIcon: Icons.done,
-                    borderWidth: 2,
+                    borderWidth: 2.arP,
                     checkBoxIconSize: 12.aR,
+                    margin: 0,
                     checkBoxSize: 20.aR,
                     borderColor: const Color(0xff1E1C1F),
                     checkedIconColor: Colors.white,
@@ -452,7 +453,7 @@ class CreateNewNftGalleryBottomSheet
         title:
             nftGalleryModel != null ? "Edit your gallery" : "Name your gallery",
 
-        height: AppConstant.naanBottomSheetHeight,
+        height: AppConstant.naanBottomSheetHeight ,
         // isScrollControlled: true,
         bottomSheetWidgets: [
           SizedBox(

@@ -19,6 +19,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/con
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/scan_qr.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/utils/bottom_sheet_manager.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -32,7 +33,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../widgets/scanQR/permission_sheet.dart';
 
-class HomePageController extends GetxController with WidgetsBindingObserver {
+class HomePageController extends AnimateBottomsheetController {
   // RxBool showBottomSheet = false.obs;
   RxInt selectedIndex = 0.obs;
 
@@ -46,9 +47,9 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   RxDouble dayChange = 0.0.obs;
 
   RxList<AccountModel> userAccounts = <AccountModel>[].obs;
-
   @override
   void onInit() async {
+
     super.onInit();
     Get.put(BeaconService(), permanent: true);
     DataHandlerService()
@@ -104,6 +105,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         log(e.toString());
       }
     });
+
     // .registerVariable(userAccounts);
 
     DataHandlerService()
@@ -199,6 +201,19 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         const ScanQrView(),
       );
     }
+  }
+
+  @override
+  void animateForward() {
+    animate.forward();
+    // TODO: implement animateForward
+  }
+
+  @override
+  void animateReverse() {
+    animate.reverse();
+
+    // TODO: implement animateReverse
   } // void onIndicatorTapped(int index) => selectedIndex.value = index;
 }
 

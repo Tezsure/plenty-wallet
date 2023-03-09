@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/dapps_page/views/widgets/dapp_bottomsheet.dart';
@@ -25,46 +27,33 @@ class DappsPageView extends GetView<DappsPageController> {
   @override
   Widget build(BuildContext context) {
     Get.put(DappsPageController());
-    return Container(
-      height: Get.size.height < 600 || Get.size.height > 1100
-          ? 0.9.height
-          : AppConstant.naanBottomSheetHeight,
-      width: 1.width,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10.arP)),
-          color: Colors.black),
-      child: Column(
-        children: [
-          0.01.vspace,
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              height: 5.arP,
-              width: 36.arP,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5.arP),
-                color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 41.arP,
-          ),
-          Expanded(
-            child: Obx(
-              () => ListView.builder(
-                physics: AppConstant.scrollPhysics,
-                itemCount: controller.dappBanners.length,
-                itemBuilder: (context, index) {
-                  List<DappModel> dapps = controller.dappBanners[index].dapps!
-                      .map<DappModel>((e) => controller.dapps[e]!)
-                      .toList();
-                  if (controller.dappBanners[index].type == "dappList") {
-                    return _buildCard(index, dapps);
-                  }
-                  return BouncingWidget(
-                    onPressed: () =>
-                        controller.dappBanners[index].type! == "banner"
+    return NaanBottomSheet(
+      title: "",
+      action: Padding(padding: EdgeInsets.only(right: 16.arP), child: closeButton(),),
+      height: AppConstant.naanBottomSheetHeight,
+      bottomSheetHorizontalPadding: 0,
+      bottomSheetWidgets: [
+        SizedBox(
+          height: AppConstant.naanBottomSheetHeight - 56.arP,
+          child: Column(
+            children: [
+              0.02.vspace,
+              Expanded(
+                child: Obx(
+                  () => ListView.builder(
+                    physics: AppConstant.scrollPhysics,
+                    itemCount: controller.dappBanners.length,
+                    itemBuilder: (context, index) {
+                      List<DappModel> dapps = controller
+                          .dappBanners[index].dapps!
+                          .map<DappModel>((e) => controller.dapps[e]!)
+                          .toList();
+                      if (controller.dappBanners[index].type == "dappList") {
+                        return _buildCard(index, dapps);
+                      }
+                      return BouncingWidget(
+                        onPressed: () => controller.dappBanners[index].type! ==
+                                "banner"
                             ? CommonFunctions.bottomSheet(
                                 DappBottomSheet(
                                   dappModel: dapps[0],
@@ -74,14 +63,16 @@ class DappsPageView extends GetView<DappsPageController> {
                                 ? openCategoryBottomSheet(
                                     controller.dappBanners[index], dapps)
                                 : null,
-                    child: _buildCard(index, dapps),
-                  );
-                },
+                        child: _buildCard(index, dapps),
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

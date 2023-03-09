@@ -132,13 +132,15 @@ class _TestNetworkBottomSheetState extends State<TestNetworkBottomSheet> {
                                 switch (widget.request.type!) {
                                   case RequestType.permission:
                                     //print("Permission requested");
-                                    CommonFunctions.bottomSheet(const PairRequestView(),
+                                    CommonFunctions.bottomSheet(
+                                        const PairRequestView(),
                                         settings: RouteSettings(
                                             arguments: widget.request));
                                     break;
                                   case RequestType.signPayload:
                                     //print("payload request $widget.request");
-                                    CommonFunctions.bottomSheet(const PayloadRequestView(),
+                                    CommonFunctions.bottomSheet(
+                                        const PayloadRequestView(),
                                         settings: RouteSettings(
                                             arguments: widget.request));
                                     break;

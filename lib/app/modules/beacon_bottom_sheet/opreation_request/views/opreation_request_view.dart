@@ -171,8 +171,8 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                             top: 8.arP,
                                             bottom: 8.arP),
                                         child: Container(
-                                          height: 40.arP,
-                                          width: 40.arP,
+                                          height: 24.arP,
+                                          width: 24.arP,
                                           alignment: Alignment.bottomRight,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,

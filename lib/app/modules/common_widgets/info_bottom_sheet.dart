@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/mock/mock_data.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -18,6 +19,7 @@ class InfoBottomSheet extends StatelessWidget {
     return NaanBottomSheet(
       // isScrollControlled: true,
       height: AppConstant.naanBottomSheetHeight,
+      titleAlignment: Alignment.centerLeft,
       title: isWatchAddress ? 'Watch addresses' : 'Introduction to Crypto',
       // blurRadius: 5,
       // isDraggableBottomSheet: true,

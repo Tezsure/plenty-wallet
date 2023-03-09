@@ -30,33 +30,29 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 0,
+      // bottomSheetHorizontalPadding: 0,
       height: 0.44.height,
+
       title: widget.warning ?? 'Add account',
       bottomSheetWidgets: [
         SizedBox(
-          height: 8.arP,
+          height: 12.arP,
         ),
         Center(
           child: Text(
             'Create or import an account',
-            style: TextStyle(
-                fontSize: 12.arP,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xFF958E99),
-                letterSpacing: 0.4.arP),
+            style: bodySmall.copyWith(
+              color: const Color(0xFF958E99),
+            ),
             textAlign: TextAlign.center,
           ),
         ),
-        Spacer(),
+        // Spacer(),
         SizedBox(
-          height: 10.arP,
+          height: 24.arP,
         ),
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             // color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),

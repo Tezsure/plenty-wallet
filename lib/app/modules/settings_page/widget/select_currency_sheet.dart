@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -33,10 +35,12 @@ class _SelectCurrencyBottomSheetState extends State<SelectCurrencyBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      prevPageName: "Settings",
       title: "Currency",
-      blurRadius: 5,
-      height: 0.95.height,
-      bottomSheetHorizontalPadding: 16.arP,
+      leading: backButton(
+          lastPageName: "Settings", ontap: () => Navigator.pop(context)),
+      height: AppConstant.naanBottomSheetChildHeight,
+      bottomSheetHorizontalPadding: 0,
       bottomSheetWidgets: [
         Column(
           children: [
@@ -108,7 +112,7 @@ class _SelectCurrencyBottomSheetState extends State<SelectCurrencyBottomSheet> {
           },
       child: SizedBox(
         width: double.infinity,
-        height: 54,
+        height: 54.arP,
         child: Row(
           children: [
             Image.asset(

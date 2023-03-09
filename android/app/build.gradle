@@ -75,7 +75,11 @@ android {
     packagingOptions {
         resources.excludes.add("META-INF/*")
         pickFirst '**/*.so'
+<<<<<<< HEAD
+        resources.excludes.add("META-INF/*")
+=======
         
+>>>>>>> c2e1751eeae463e5ec7f4a8720c5e34b22f3bd48
     }
   
 }

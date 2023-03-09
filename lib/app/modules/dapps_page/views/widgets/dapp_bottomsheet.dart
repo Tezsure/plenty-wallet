@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
@@ -50,9 +51,8 @@ class DappBottomSheet extends StatelessWidget {
                           fit: BoxFit.cover,
                           width: double.infinity,
                         )
-                      : CachedNetworkImage(
-                          imageUrl:
-                              "${ServiceConfig.naanApis}/images/${dappModel.backgroundImage!}",
+                      : Image.network(
+                          "${ServiceConfig.naanApis}/images/${dappModel.backgroundImage!}",
                           fit: BoxFit.cover,
                           width: double.infinity,
                         ),
@@ -71,18 +71,33 @@ class DappBottomSheet extends StatelessWidget {
                   //   ),
                   // ),
 
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      margin: EdgeInsets.only(top: 0.01.height),
-                      height: 5,
-                      width: 36,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: ColorConst.NeutralVariant.shade60
-                            .withOpacity(0.3),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 40.arP,
                       ),
-                    ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 0.01.height),
+                          height: 5.arP,
+                          width: 36.arP,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.arP),
+                            color: ColorConst.NeutralVariant.shade60
+                                .withOpacity(0.3),
+                          ),
+                        ),
+                      ),
+                      Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                right: 16.arP, top: 0.02.height),
+                            child: closeButton(),
+                          ))
+                    ],
                   ),
                 ],
               ),

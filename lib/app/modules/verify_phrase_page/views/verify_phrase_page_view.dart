@@ -37,14 +37,11 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
     ];
     return NaanBottomSheet(
         height: AppConstant.naanBottomSheetHeight,
-        title: "",
-        action: InfoButton(
-          onPressed: () => CommonFunctions.bottomSheet(
-            const InfoBottomSheet(),
-          ),
-        ),
-        leading: backButton(),
-        // bottomSheetHorizontalPadding: 16.arP,
+        title: "Verify",
+        prevPageName: "Back",
+        leading: backButton(
+            ontap: () => Navigator.pop(context), lastPageName: "Back"),
+        bottomSheetHorizontalPadding: 0.arP,
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight,
@@ -63,15 +60,8 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                   //     ),
                   //   ],
                   // ),
-                  0.02.vspace,
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Verify your secret phrase',
-                      style: titleLarge,
-                    ),
-                  ),
-                  0.012.vspace,
+                  0.04.vspace,
+
                   Obx(() => Align(
                         alignment: Alignment.center,
                         child: Text(

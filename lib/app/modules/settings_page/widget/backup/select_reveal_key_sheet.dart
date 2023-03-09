@@ -22,7 +22,9 @@ import 'secret_phrase_page.dart';
 
 class SelectToRevealKeyBottomSheet extends StatefulWidget {
   final AccountModel accountModel;
-  const SelectToRevealKeyBottomSheet({super.key, required this.accountModel});
+  final String? prevPage;
+  const SelectToRevealKeyBottomSheet(
+      {super.key, required this.accountModel, this.prevPage});
 
   @override
   State<SelectToRevealKeyBottomSheet> createState() =>
@@ -37,113 +39,139 @@ class _SelectToRevealKeyBottomSheetState
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      prevPageName: widget.prevPage,
       // isScrollControlled: true,
-      title: "",
-      action: InfoButton(
-          onPressed: () => CommonFunctions.bottomSheet(
-                InfoBottomSheet(),
-              )),
-      leading: backButton(),
-      height: AppConstant.naanBottomSheetHeight,
+      title: widget.accountModel.name ?? "",
+      leading: backButton(
+          ontap: () {
+            Navigator.pop(context);
+          },
+          lastPageName: widget.prevPage),
+      height: AppConstant.naanBottomSheetChildHeight,
       // bottomSheetHorizontalPadding: 24,
       bottomSheetWidgets: [
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //   children: [
-        //     backButton(),
-        //     InfoButton(
-        //         onPressed: () => CommonFunctions.bottomSheet(
-        //               InfoBottomSheet(),
-        //             )),
-        //   ],
-        // ),
-        0.02.vspace,
-        Center(
-          child: SvgPicture.asset(
-            "${PathConst.SETTINGS_PAGE.SVG}backup_success.svg",
-            color: ColorConst.Primary,
-            height: 90.arP,
-          ),
-        ),
-        0.048.arP.vspace,
-        Center(
-          child: Text(
-            "Your wallet is backed up",
-            style: titleLarge,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        0.012.arP.vspace,
-        Center(
-          child: Text(
-            "Dont’t risk your money! Backup your\nwallet so you can recover it if you lose\nthis device.",
-            style: bodySmall.copyWith(color: ColorConst.textGrey1),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        0.04.vspace,
-        Center(
-          child: Obx(() {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+        Column(
+          children: [
+            0.04.vspace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                if (_controller.seedPhraseReveal.value)
-                  revealOptionMethod(
-                      icon: '${PathConst.SETTINGS_PAGE}svg/secret_phrase.svg',
-                      child: Text(
-                        "View secret phrase",
-                        style: labelMedium,
-                      ),
-                      onTap: () async {
-                        if (!(await AuthService()
-                            .verifyBiometricOrPassCode())) {
-                          return;
-                        }
-
-                        // controller.timer;
-                        final controller = Get.put(BackupPageController());
-                        CommonFunctions.bottomSheet(
-                          SecretPhrasePage(
-                            pkHash: widget.accountModel.publicKeyHash!,
-                          ),
-                        ).then((_) => controller.timer.cancel());
-                      }),
-                0.02.vspace,
-                if (_controller.privateKeyReveal.value)
-                  revealOptionMethod(
-                      icon: '${PathConst.SETTINGS_PAGE}svg/key.svg',
-                      child: Text(
-                        "View private key",
-                        style: labelMedium,
-                      ),
-                      onTap: () async {
-                        if (!(await AuthService()
-                            .verifyBiometricOrPassCode())) {
-                          return;
-                        }
-
-                        // controller.timer;
-                        final controller = Get.put(BackupPageController());
-                        CommonFunctions.bottomSheet(
-                          PrivateKeyPage(
-                            pkh: widget.accountModel.publicKeyHash!,
-                          ),
-                        ).then((_) => controller.timer.cancel());
-                      }),
-                // revealOptionMethod(
-                //     child: Text(
-                //       "Private Key",
-                //       style: labelMedium,
-                //     ),
-                //     onTap: () {
-                //       controller.timer;
-                //       Get.to(() => PrivateKeyPage(
-                //             pkh: accountModel.publicKeyHash!,
-                //           ))?.whenComplete(() => controller.timer.cancel());
-                //     }),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: InfoButton(
+                      onPressed: () => CommonFunctions.bottomSheet(
+                            InfoBottomSheet(),
+                          )),
+                ),
               ],
-            );
-          }),
+            ),
+            0.048.vspace,
+            Center(
+              child: SvgPicture.asset(
+                "${PathConst.SETTINGS_PAGE.SVG}backup_success.svg",
+                color: ColorConst.Primary,
+                height: 90.arP,
+              ),
+            ),
+            0.048.arP.vspace,
+            Center(
+              child: Text(
+                "Your wallet is backed up",
+                style: titleLarge,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            0.012.arP.vspace,
+            Text(
+              "Dont’t risk your money! Backup your\nwallet so you can recover it if you lose\nthis device.",
+              style: bodySmall.copyWith(color: ColorConst.textGrey1),
+              textAlign: TextAlign.center,
+            ),
+            0.04.vspace,
+            Obx(() {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (_controller.seedPhraseReveal.value)
+                    revealOptionMethod(
+                        icon: '${PathConst.SETTINGS_PAGE}svg/secret_phrase.svg',
+                        child: Text(
+                          "View secret phrase",
+                          style: labelMedium,
+                        ),
+                        onTap: () async {
+                          if (!(await AuthService()
+                              .verifyBiometricOrPassCode())) {
+                            return;
+                          }
+
+                          // controller.timer;
+                          final controller = Get.put(BackupPageController());
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SecretPhrasePage(
+                                        prevPage:
+                                            widget.accountModel.name ?? "",
+                                        pkHash:
+                                            widget.accountModel.publicKeyHash!,
+                                      ))).then((value) {
+                            controller.dispose();
+                          });
+                          // CommonFunctions.bottomSheet(
+                          //   SecretPhrasePage(
+                          //     pkHash: widget.accountModel.publicKeyHash!,
+                          //   ),
+                          // ).then((_) => controller.timer.cancel());
+                        }),
+                  0.02.vspace,
+                  if (_controller.privateKeyReveal.value)
+                    revealOptionMethod(
+                        icon: '${PathConst.SETTINGS_PAGE}svg/key.svg',
+                        child: Text(
+                          "View private key",
+                          style: labelMedium,
+                        ),
+                        onTap: () async {
+                          if (!(await AuthService()
+                              .verifyBiometricOrPassCode())) {
+                            return;
+                          }
+
+                          // controller.timer;
+
+                          final controller = Get.put(BackupPageController());
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PrivateKeyPage(
+                                        prevPage:
+                                            widget.accountModel.name ?? "",
+                                        pkh: widget.accountModel.publicKeyHash!,
+                                      ))).then((value) {
+                            controller.dispose();
+                          });
+                          // CommonFunctions.bottomSheet(
+                          // PrivateKeyPage(
+                          //   pkh: widget.accountModel.publicKeyHash!,
+                          // ),
+                          // ).then((_) => controller.timer.cancel());
+                        }),
+                  // revealOptionMethod(
+                  //     child: Text(
+                  //       "Private Key",
+                  //       style: labelMedium,
+                  //     ),
+                  //     onTap: () {
+                  //       controller.timer;
+                  //       Get.to(() => PrivateKeyPage(
+                  //             pkh: accountModel.publicKeyHash!,
+                  //           ))?.whenComplete(() => controller.timer.cancel());
+                  //     }),
+                ],
+              );
+            }),
+          ],
         ),
       ],
     );

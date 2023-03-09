@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
@@ -14,7 +15,8 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class ConnectedDappBottomSheet extends StatelessWidget {
-  ConnectedDappBottomSheet({Key? key}) : super(key: key);
+  final String? prevPage;
+  ConnectedDappBottomSheet({Key? key, this.prevPage}) : super(key: key);
 
   final SettingsPageController controller = Get.find<SettingsPageController>();
 
@@ -22,13 +24,19 @@ class ConnectedDappBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => NaanBottomSheet(
+        prevPageName: prevPage,
         // blurRadius: 5,
         height: controller.dapps.isEmpty
             ? AppConstant.naanBottomSheetChildHeight / 1.5
-            : AppConstant.naanBottomSheetHeight,
+            : (AppConstant.naanBottomSheetHeight -
+                (prevPage == null ? 0 : 064.arP)),
+        leading: prevPage == null
+            ? null
+            : backButton(
+                ontap: () => Navigator.pop(context), lastPageName: prevPage),
         // isScrollControlled: true,
         title: controller.dapps.isEmpty ? "" : "Connected apps",
-        // bottomSheetHorizontalPadding: 16.arP,
+        bottomSheetHorizontalPadding: prevPage == null ? 16.arP : 0,
         bottomSheetWidgets: [
           SizedBox(
             height: 20.arP,

@@ -188,7 +188,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
         onPressed: () {
           homePageController.changeSelectedAccount(index);
           CommonFunctions.bottomSheet(
-            const AccountSummaryView(),
+             AccountSummaryView(),
             settings: RouteSettings(arguments: model),
           );
         },

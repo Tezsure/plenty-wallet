@@ -26,7 +26,7 @@ class _IAFSheetState extends State<IAFSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 0,
+      // bottomSheetHorizontalPadding: 0,
       title: "Claim NFT", isScrollControlled: true,
       // height: AppConstant.naanBottomSheetHeight -
       //     MediaQuery.of(context).viewInsets.bottom,
@@ -40,7 +40,7 @@ class _IAFSheetState extends State<IAFSheet> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                0.001.vspace,
+                0.02.vspace,
 
                 // 0.016.vspace,
                 Center(
@@ -142,7 +142,7 @@ class _IAFSheetState extends State<IAFSheet> {
       return Center(
         child: SizedBox(
           // height: 0.06.height,
-          width: 1.width - 44.arP,
+          width: 1.width,
           child: TextFormField(
             style: bodyLarge.copyWith(color: Colors.white),
             onChanged: (input) {

@@ -22,7 +22,7 @@ class TokenView extends StatelessWidget {
     return Column(
       children: [
         Material(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.arP),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           child: Obx(
             () => NaanListTile(
@@ -117,7 +117,7 @@ class TokenView extends StatelessWidget {
         ),
         0.008.vspace,
         Material(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.arP),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           child: Obx(() => NaanListTile(
                 dense: true,
@@ -227,7 +227,7 @@ class TokenView extends StatelessWidget {
                                   ),
                                 ),
                               )
-                            : SizedBox(),
+                            : const SizedBox(),
                         0.02.hspace,
                         Text(
                           ServiceConfig.currency.name.toUpperCase(),

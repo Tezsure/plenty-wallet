@@ -98,7 +98,7 @@ class ResetWalletBottomSheet extends StatelessWidget {
                         style: labelMedium,
                       ),
                       onTap: () {
-                        settingController.checkWalletBackup();
+                        settingController.checkWalletBackup(Get.context!, null);
                       }),
                 ],
               ),

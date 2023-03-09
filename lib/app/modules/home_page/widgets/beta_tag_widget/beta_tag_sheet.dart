@@ -35,9 +35,9 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
   @override
   Widget build(BuildContext context) {
     List<String> infos = [
-      "You may encounter issues or unexpected behavior.\nWe appreciate your patience and understanding.",
-      "Please report any issues or feedback to help us\nimprove the app. Your feedback is essential!",
-      "We may use your feedback and usage data for\nresearch and development purposes."
+      "You may encounter issues or unexpected behavior. We appreciate your patience and understanding.",
+      "Please report any issues or feedback to help us improve the app. Your feedback is essential!",
+      "We may use your feedback and usage data for research and development purposes."
     ];
     return NaanBottomSheet(
       isScrollControlled: true,

@@ -23,7 +23,8 @@ class PrivateKeyPage extends StatefulWidget {
   static final _settingsController = Get.find<SettingsPageController>();
   static final _backupController = Get.find<BackupPageController>();
   final String pkh;
-  const PrivateKeyPage({super.key, required this.pkh});
+  final String? prevPage;
+  const PrivateKeyPage({super.key, required this.pkh, this.prevPage});
 
   @override
   State<PrivateKeyPage> createState() => _PrivateKeyPageState();
@@ -44,14 +45,12 @@ class _PrivateKeyPageState extends State<PrivateKeyPage> {
     NaanAnalytics.logEvent(NaanAnalyticsEvents.VIEW_PRIVATE_KEY,
         param: {NaanAnalytics.address: widget.pkh});
     return NaanBottomSheet(
-        bottomSheetHorizontalPadding: 16.arP,
-        title: "",
-        action: InfoButton(
-            onPressed: () => CommonFunctions.bottomSheet(
-                  const InfoBottomSheet(),
-                )),
-        leading: backButton(),
-        height: AppConstant.naanBottomSheetHeight,
+        bottomSheetHorizontalPadding: 0,
+        title: "Private key",
+        prevPageName: widget.prevPage,
+        leading: backButton(
+            ontap: () => Navigator.pop(context), lastPageName: widget.prevPage),
+        height: AppConstant.naanBottomSheetHeight - 64.arP,
         bottomSheetWidgets: [
           FutureBuilder<AccountSecretModel?>(
               future: UserStorageService().readAccountSecrets(widget.pkh),
@@ -74,12 +73,8 @@ class _PrivateKeyPageState extends State<PrivateKeyPage> {
                         //     ),
                         //   ],
                         // ),
-                        0.045.vspace,
-                        Text(
-                          'Your private key',
-                          style: titleLarge,
-                        ),
-                        0.012.vspace,
+                        0.04.vspace,
+
                         Text(
                           'Your private key can be used to\naccess all of your funds so do not\nshare with anyone',
                           textAlign: TextAlign.center,

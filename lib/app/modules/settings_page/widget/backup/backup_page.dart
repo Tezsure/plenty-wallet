@@ -18,7 +18,8 @@ import '../../../../data/services/enums/enums.dart';
 import '../../../home_page/controllers/home_page_controller.dart';
 
 class BackupPage extends StatelessWidget {
-  BackupPage({super.key});
+  final String? prevPage;
+  BackupPage({super.key, this.prevPage});
 
   // final controller = Get.put(BackupPageController());
   static final _homePageController = Get.find<HomePageController>();
@@ -26,30 +27,36 @@ class BackupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-        // isScrollControlled: true,
-        height: AppConstant.naanBottomSheetHeight,
-        title: "Backup",
-        leading: backButton(),
-        // bottomSheetHorizontalPadding: 16.arP,
+        height: AppConstant.naanBottomSheetHeight - 64.arP,
+        prevPageName: prevPage,
         bottomSheetWidgets: [
           SizedBox(
-            height: AppConstant.naanBottomSheetChildHeight,
+            height: AppConstant.naanBottomSheetChildHeight + 64.arP,
             child: Column(
               children: [
+                BottomSheetHeading(
+                  title: "Backup",
+                  leading: backButton(
+                      lastPageName: prevPage,
+                      ontap: prevPage == null
+                          ? null
+                          : () => Navigator.pop(context)),
+                ),
                 0.02.vspace,
                 Expanded(
                   child: Obx(
                     () => ListView.builder(
+                      padding: EdgeInsets.zero,
                       itemBuilder: (context, index) {
                         if (_homePageController
                             .userAccounts[index].isWatchOnly) {
                           return Container();
                         }
                         return accountMethod(
-                          _homePageController.userAccounts[index],
-                        );
+                            _homePageController.userAccounts[index], context);
                       },
                       itemCount: _homePageController.userAccounts.length,
+                      // itemCount: 20.obs.value,
                     ),
                   ),
                 )
@@ -59,61 +66,67 @@ class BackupPage extends StatelessWidget {
         ]);
   }
 
-  Widget accountMethod(AccountModel accountModel) {
+  Widget accountMethod(AccountModel accountModel, BuildContext context) {
     return BouncingWidget(
       onPressed: () {
+        return Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SelectToRevealKeyBottomSheet(
+                prevPage: "Backup",
+                accountModel: accountModel,
+              ),
+            ));
         CommonFunctions.bottomSheet(
           SelectToRevealKeyBottomSheet(
+            prevPage: "Backup",
             accountModel: accountModel,
           ),
         );
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: SizedBox(
-          // height: 44,
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 22.arP,
-                backgroundColor:
-                    ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                child: Container(
-                  alignment: Alignment.bottomRight,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: accountModel.imageType ==
-                              AccountProfileImageType.assets
-                          ? AssetImage(accountModel.profileImage!)
-                          : FileImage(
-                              File(accountModel.profileImage!),
-                            ) as ImageProvider,
-                    ),
+        padding: EdgeInsets.symmetric(vertical: 8.arP),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 22.arP,
+              backgroundColor:
+                  ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              child: Container(
+                alignment: Alignment.bottomRight,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image:
+                        accountModel.imageType == AccountProfileImageType.assets
+                            ? AssetImage(accountModel.profileImage!)
+                            : FileImage(
+                                File(accountModel.profileImage!),
+                              ) as ImageProvider,
                   ),
                 ),
               ),
-              0.04.hspace,
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    accountModel.name!,
-                    style: bodySmall.copyWith(fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    tz1Shortner(accountModel.publicKeyHash ?? 'nxkjfbhedvzbv'),
-                    style: labelSmall.apply(
-                        color: ColorConst.NeutralVariant.shade60),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              revealButtonUI()
-            ],
-          ),
+            ),
+            0.04.hspace,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  accountModel.name!,
+                  style: bodySmall.copyWith(fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  tz1Shortner(accountModel.publicKeyHash ?? 'nxkjfbhedvzbv'),
+                  style: labelSmall.apply(
+                      color: ColorConst.NeutralVariant.shade60),
+                ),
+              ],
+            ),
+            const Spacer(),
+            revealButtonUI()
+          ],
         ),
       ),
     );
@@ -121,8 +134,6 @@ class BackupPage extends StatelessWidget {
 
   Container revealButtonUI() {
     return Container(
-      height: 24,
-      width: 74,
       // decoration: BoxDecoration(
       //     // color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
       //     borderRadius: BorderRadius.circular(8)),

@@ -16,28 +16,31 @@ import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 class NFTCollectionSheet extends StatelessWidget {
+  final String? prevPage;
   final List<NftTokenModel> nfts;
   final List<String> publicKeyHashs;
   const NFTCollectionSheet(
-      {super.key, this.nfts = const [], this.publicKeyHashs = const []});
+      {super.key,
+      this.nfts = const [],
+      this.publicKeyHashs = const [],
+      this.prevPage});
 
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      prevPageName: prevPage,
       // isScrollControlled: true,
       // bottomSheetHorizontalPadding: 0,
-      height: AppConstant.naanBottomSheetHeight,
+      height: AppConstant.naanBottomSheetHeight - 4.arP,
       bottomSheetWidgets: [
-        _getNftListViewWidget(),
+        _getNftListViewWidget(2.1, context),
       ],
     );
   }
 
-  Widget _getNftListViewWidget([
-    double crossAxisCount = 2.1,
-  ]) =>
+  Widget _getNftListViewWidget(double crossAxisCount, BuildContext context) =>
       SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight,
+          height: AppConstant.naanBottomSheetHeight - 18.arP,
           // margin: EdgeInsets.symmetric(
           //   horizontal: 16.arP,
           // ),
@@ -45,9 +48,7 @@ class NFTCollectionSheet extends StatelessWidget {
             children: [
               0.02.vspace,
               _getCollectionDetailsRow(
-                nfts.first,
-                nfts.toList().length,
-              ),
+                  nfts.first, nfts.toList().length, context),
               SizedBox(
                 height: 15.arP,
               ),
@@ -72,13 +73,21 @@ class NFTCollectionSheet extends StatelessWidget {
                       var nftTokenModel = nfts[i];
                       return BouncingWidget(
                         onPressed: () {
-                          CommonFunctions.bottomSheet(
-                            NFTDetailBottomSheet(
-                              onBackTap: Get.back,
-                              pk: nftTokenModel.pk,
-                              publicKeyHashs: publicKeyHashs,
-                            ),
-                          );
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => NFTDetailBottomSheet(
+                                    onBackTap: Get.back,
+                                    prevPage: "Back",
+                                    pk: nftTokenModel.pk,
+                                    publicKeyHashs: publicKeyHashs,
+                                  )));
+                          // CommonFunctions.bottomSheet(
+                          //   NFTDetailBottomSheet(
+                          //     prevPage: prevPage,
+                          //     onBackTap: Get.back,
+                          //     pk: nftTokenModel.pk,
+                          //     publicKeyHashs: publicKeyHashs,
+                          //   ),
+                          // );
                         },
                         child: Container(
                           width: double.infinity,
@@ -162,7 +171,8 @@ class NFTCollectionSheet extends StatelessWidget {
             ],
           ));
 
-  Widget _getCollectionDetailsRow(NftTokenModel nftTokenModel, length) {
+  Widget _getCollectionDetailsRow(
+      NftTokenModel nftTokenModel, length, BuildContext context) {
     var logo = nftTokenModel.fa!.logo!;
     if (logo.startsWith("ipfs://")) {
       logo = "https://ipfs.io/ipfs/${logo.replaceAll("ipfs://", "")}";
@@ -174,9 +184,11 @@ class NFTCollectionSheet extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        SizedBox(
-          width: 22.arP,
-        ),
+        backButton(
+            ontap: () {
+              Navigator.pop(context);
+            },
+            lastPageName: prevPage),
         // backButton(),
         Expanded(
           child: Align(
@@ -209,22 +221,14 @@ class NFTCollectionSheet extends StatelessWidget {
                     letterSpacing: 0.1.arP,
                   ),
                 ),
+                SizedBox(
+                  width: 24.arP,
+                ),
               ],
             ),
           ),
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            "$length items",
-            style: TextStyle(
-              color: const Color(0xFF958E99),
-              fontSize: 12.arP,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.1.arP,
-            ),
-          ),
-        ),
+        closeButton()
       ],
     );
   }

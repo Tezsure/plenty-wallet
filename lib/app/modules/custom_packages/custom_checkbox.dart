@@ -16,6 +16,7 @@ class CustomCheckBox extends StatefulWidget {
   final Color uncheckedFillColor;
   final IconData uncheckedIcon;
   final double? borderWidth;
+  final double? margin;
   final double? checkBoxSize;
   final double? checkBoxIconSize;
   final bool shouldShowBorder;
@@ -33,6 +34,7 @@ class CustomCheckBox extends StatefulWidget {
     this.checkedIconColor = Colors.white,
     this.checkedFillColor = Colors.teal,
     this.checkedIcon,
+    this.margin,
     this.checkBoxIconSize,
     this.uncheckedIconColor = Colors.white,
     this.uncheckedFillColor = Colors.white,
@@ -99,7 +101,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
       width: widget.checkBoxSize,
       height: widget.checkBoxSize,
       duration: const Duration(milliseconds: 250),
-      margin: EdgeInsets.only(right: widget.checkBoxIconSize ?? 0),
+      margin: EdgeInsets.only(right: widget.margin ?? 0),
       decoration: BoxDecoration(
         color: fillColor,
         borderRadius:

@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/rpc_node_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -11,12 +13,14 @@ import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/add_RPC_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class SelectNodeBottomSheet extends StatefulWidget {
-  SelectNodeBottomSheet({super.key});
+  final String? prevPage;
+  SelectNodeBottomSheet({super.key, this.prevPage});
 
   @override
   State<SelectNodeBottomSheet> createState() => _SelectNodeBottomSheetState();
@@ -35,62 +39,82 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      prevPageName: widget.prevPage,
       title: "Node",
-      blurRadius: 5,
-      isScrollControlled: true,
-      bottomSheetHorizontalPadding: 16.arP,
+      leading: backButton(
+          lastPageName: widget.prevPage, ontap: () => Navigator.pop(context)),
+      // blurRadius: 5,
+      height: widget.prevPage == null
+          ? null
+          : (AppConstant.naanBottomSheetHeight - 64.arP),
+      isScrollControlled: widget.prevPage == null,
+      bottomSheetHorizontalPadding: widget.prevPage == null ? null : 0,
       bottomSheetWidgets: [
-        0.02.vspace,
-        ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          itemCount: controller.networkType.value == NetworkType.mainnet
-              ? controller.nodeModel.value.mainnet!.nodes?.length ?? 0
-              : controller.nodeModel.value.testnet?.nodes?.length ?? 0,
-          itemBuilder: (context, index) => optionMethod(
-            // isSelected: true,
-            model: controller.networkType.value == NetworkType.mainnet
-                ? controller.nodeModel.value.mainnet!.nodes![index]
-                : controller.nodeModel.value.testnet!.nodes![index],
-          ),
-          separatorBuilder: (context, index) => const Divider(
-            color: Colors.black,
-            height: 1,
-            thickness: 1,
-          ),
-        ),
-        _buildCustomNodes(),
-        0.02.vspace,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.arP),
-          child: SolidButton(
-            borderColor: ColorConst.Primary,
-            textColor: ColorConst.Primary,
-            primaryColor: Colors.transparent,
-            onPressed: () {
-              CommonFunctions.bottomSheet(
-                AddRPCbottomSheet(),
-              );
-            },
-            title: "Add custom RPC",
-          ),
-        ),
         SizedBox(
-          height: 16.aR,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.arP),
-          child: SolidButton(
-            active: selectedModel != controller.selectedNode.value,
-            onPressed: () {
-              controller.changeNode(selectedModel);
-              Get.back();
-            },
-            title: "Apply",
+          height: widget.prevPage == null
+              ? null
+              : AppConstant.naanBottomSheetChildHeight,
+          child: Column(
+            children: [
+              0.02.vspace,
+              ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: controller.networkType.value == NetworkType.mainnet
+                    ? controller.nodeModel.value.mainnet!.nodes?.length ?? 0
+                    : controller.nodeModel.value.testnet?.nodes?.length ?? 0,
+                itemBuilder: (context, index) => optionMethod(
+                  // isSelected: true,
+                  model: controller.networkType.value == NetworkType.mainnet
+                      ? controller.nodeModel.value.mainnet!.nodes![index]
+                      : controller.nodeModel.value.testnet!.nodes![index],
+                ),
+                separatorBuilder: (context, index) => const Divider(
+                  color: Colors.black,
+                  height: 1,
+                  thickness: 1,
+                ),
+              ),
+              _buildCustomNodes(),
+              0.02.vspace,
+              if (widget.prevPage != null) Spacer(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.arP),
+                child: SolidButton(
+                  borderColor: ColorConst.Primary,
+                  textColor: ColorConst.Primary,
+                  primaryColor: Colors.transparent,
+                  onPressed: () {
+                    CommonFunctions.bottomSheet(
+                      AddRPCbottomSheet(),
+                    );
+                  },
+                  title: "Add custom RPC",
+                ),
+              ),
+              SizedBox(
+                height: 16.aR,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.arP),
+                child: SolidButton(
+                  active: selectedModel != controller.selectedNode.value,
+                  onPressed: () {
+                    controller.changeNode(selectedModel);
+                    if (widget.prevPage == null)
+                      Get.back();
+                    else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  title: "Apply",
+                ),
+              ),
+              BottomButtonPadding()
+            ],
           ),
         ),
-        0.055.vspace,
       ],
     );
   }

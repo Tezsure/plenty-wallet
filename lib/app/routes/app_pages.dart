@@ -57,7 +57,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.HOME_PAGE,
-      page: () => const HomePageView(),
+      page: () =>  HomePageView(),
       binding: HomePageBinding(),
     ),
     GetPage(
@@ -132,7 +132,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ACCOUNT_SUMMARY,
-      page: () => const AccountSummaryView(),
+      page: () =>  AccountSummaryView(),
       binding: AccountSummaryBinding(),
     ),
     GetPage(

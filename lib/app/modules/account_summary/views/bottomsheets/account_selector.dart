@@ -64,18 +64,15 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       title: 'Accounts',
-      action: Obx(() => BouncingWidget(
+      leading: Obx(() => BouncingWidget(
             onPressed: _controller.editAccount,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.arP),
-              child: Text(
-                _controller.isAccountEditable.value ? "Done" : "Edit",
-                style: labelMedium.copyWith(
-                    color: ColorConst.Primary, fontSize: 12.aR),
-              ),
+            child: Text(
+              _controller.isAccountEditable.value ? "Done" : "Edit",
+              style: labelMedium.copyWith(
+                  color: ColorConst.Primary, fontSize: 12.aR),
             ),
           )),
-      bottomSheetHorizontalPadding: 0,
+      // bottomSheetHorizontalPadding: 0,
       // isScrollControlled: true,
       height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
@@ -91,6 +88,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                   child: _controller.homePageController.userAccounts.isEmpty
                       ? noAccountWidget()
                       : ListView.builder(
+                          padding: EdgeInsets.zero,
                           itemCount: _controller
                               .homePageController.userAccounts.length,
                           itemBuilder: (context, index) {
@@ -104,7 +102,8 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                               ),
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                    top: 8.aR, left: 16.aR, right: 16.aR),
+                                  top: 8.aR,
+                                ),
                                 child: BouncingWidget(
                                   onPressed: () {
                                     // setState(() {
@@ -123,7 +122,6 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        0.01.hspace,
                                         CustomImageWidget(
                                           imageType: _controller
                                               .homePageController
@@ -312,12 +310,12 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                           .selectedIndex.value
                                                   ? SvgPicture.asset(
                                                       "assets/svg/check_3.svg",
-                                                      height: 14.arP,
-                                                      width: 14.arP,
+                                                      height: 16.arP,
+                                                      width: 16.arP,
                                                     )
                                                   : SizedBox(
-                                                      height: 14.arP,
-                                                      width: 14.arP,
+                                                      height: 16.arP,
+                                                      width: 16.arP,
                                                     ),
                                             ))
                                       ],
@@ -378,45 +376,6 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                           ),
                         )),
                     0.028.vspace,
-                    // Obx(() => BouncingWidget(
-                    //       onPressed: () {
-                    //         if (_controller.isAccountEditable.isFalse) {
-                    //           Get.bottomSheet(
-                    //               ImportWalletPageView(
-                    //                 isBottomSheet: true,
-                    //               ),
-                    //               isScrollControlled: true);
-                    //           // Get.bottomSheet(const ImportWalletPageView(),
-                    //           //     isScrollControlled: true,
-                    //           //     useRootNavigator: true,
-                    //           //     enableDrag: true,
-                    //           //     settings: const RouteSettings(
-                    //           //         arguments: Routes.ACCOUNT_SUMMARY));
-                    //         }
-                    //       },
-                    //       child: Row(
-                    //         children: [
-                    //           Image.asset(
-                    //             _controller.isAccountEditable.isFalse
-                    //                 ? "${PathConst.EMPTY_STATES}union.png"
-                    //                 : "${PathConst.EMPTY_STATES}union_faded.png",
-                    //             height: 16.aR,
-                    //             fit: BoxFit.contain,
-                    //             scale: 1,
-                    //           ),
-                    //           0.02.hspace,
-                    //           Text(
-                    //             "Add an existing account",
-                    //             style: labelLarge.copyWith(
-                    //                 fontSize: 14.aR,
-                    //                 color: _controller.isAccountEditable.isFalse
-                    //                     ? ColorConst.Primary
-                    //                     : ColorConst.NeutralVariant.shade60,
-                    //                 fontWeight: FontWeight.w600),
-                    //           )
-                    //         ],
-                    //       ),
-                    //     ))
                   ]),
                 ),
               ),
@@ -449,439 +408,6 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
         ),
       ],
     );
-    // return BackdropFilter(
-    //   filter: ImageFilter.blur(sigmaX: 10.aR, sigmaY: 10.aR),
-    //   child: Container(
-    //     height: 0.8.height,
-    //     width: 1.width,
-    //     decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.vertical(top: Radius.circular(10.aR)),
-    //         color: Colors.black),
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.start,
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         0.01.vspace,
-    //         Center(
-    //           child: Container(
-    //             height: 5.aR,
-    //             width: 36.aR,
-    //             decoration: BoxDecoration(
-    //               borderRadius: BorderRadius.circular(5),
-    //               color: ColorConst.NeutralVariant.shade60.withOpacity(0.3),
-    //             ),
-    //           ),
-    //         ),
-    //         0.01.vspace,
-    //         Row(
-    //           children: [
-    //             const Spacer(),
-    //             Expanded(
-    //               child: Center(
-    //                 child: Text(
-    //                   'Accounts',
-    //                   style: titleLarge.copyWith(
-    //                     letterSpacing: 0.5.arP,
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //             Expanded(
-    //               child: Obx(() => Align(
-    //                     alignment: Alignment.centerRight,
-    //                     child: TextButton(
-    //                       style: ButtonStyle(
-    //                           backgroundColor: MaterialStateProperty.all<Color>(
-    //                             Colors.transparent,
-    //                           ),
-    //                           overlayColor: MaterialStateProperty.all<Color>(
-    //                               Colors.transparent)),
-    //                       onPressed: _controller.editAccount,
-    //                       child: Text(
-    //                         _controller.isAccountEditable.value
-    //                             ? "Done"
-    //                             : "Edit",
-    //                         style: labelMedium.copyWith(
-    //                             color: ColorConst.Primary, fontSize: 12.aR),
-    //                       ),
-    //                     ),
-    //                   )),
-    //             ),
-    //           ],
-    //         ),
-    //         0.01.vspace,
-    //         Obx(
-    //           () => Expanded(
-    //             child: _controller.homePageController.userAccounts.isEmpty
-    //                 ? noAccountWidget()
-    //                 : ListView.builder(
-    //                     itemCount:
-    //                         _controller.homePageController.userAccounts.length,
-    //                     itemBuilder: (context, index) {
-    //                       return Material(
-    //                         color: Colors.transparent,
-    //                         shape: RoundedRectangleBorder(
-    //                           side: const BorderSide(
-    //                             color: Colors.transparent,
-    //                           ),
-    //                           borderRadius: BorderRadius.circular(10.aR),
-    //                         ),
-    //                         child: Padding(
-    //                           padding: EdgeInsets.only(
-    //                               top: 8.aR, left: 16.aR, right: 16.aR),
-    //                           child: InkWell(
-    //                             splashColor: Colors.transparent,
-    //                             overlayColor: MaterialStateProperty.all<Color>(
-    //                                 Colors.transparent),
-    //                             onTap: () {
-    //                               // setState(() {
-    //                               print("==============");
-    //                               print(index);
-    //                               print("==============");
-
-    //                               _controller.onAccountTap(index);
-    //                               // });
-    //                             },
-    //                             child: SizedBox(
-    //                               height: 48.aR,
-    //                               child: Row(
-    //                                 crossAxisAlignment:
-    //                                     CrossAxisAlignment.center,
-    //                                 mainAxisAlignment: MainAxisAlignment.start,
-    //                                 children: [
-    //                                   0.01.hspace,
-    //                                   CustomImageWidget(
-    //                                     imageType: _controller
-    //                                         .homePageController
-    //                                         .userAccounts[index]
-    //                                         .imageType!,
-    //                                     imagePath: _controller
-    //                                         .homePageController
-    //                                         .userAccounts[index]
-    //                                         .profileImage!,
-    //                                     imageRadius: 18.aR,
-    //                                   ),
-    //                                   0.03.hspace,
-    //                                   RichText(
-    //                                     text: TextSpan(
-    //                                         text:
-    //                                             '${_controller.homePageController.userAccounts[index].name}\n',
-    //                                         style: labelMedium.copyWith(
-    //                                             fontSize: 12.aR,
-    //                                             letterSpacing: 0.4),
-    //                                         children: [
-    //                                           WidgetSpan(
-    //                                               child: SizedBox(
-    //                                             height: 18.aR,
-    //                                           )),
-    //                                           TextSpan(
-    //                                             text:
-    //                                                 '${_controller.homePageController.userAccounts[index].accountDataModel?.xtzBalance} tez',
-    //                                             style: labelMedium.copyWith(
-    //                                                 fontSize: 12.aR,
-    //                                                 fontWeight: FontWeight.w400,
-    //                                                 color: ColorConst
-    //                                                     .NeutralVariant
-    //                                                     .shade60),
-    //                                           )
-    //                                         ]),
-    //                                   ),
-    //                                   const Spacer(),
-    //                                   if (_controller.homePageController
-    //                                       .userAccounts[index].isWatchOnly)
-    //                                     Container(
-    //                                       margin: EdgeInsets.only(
-    //                                         right: 14.arP,
-    //                                       ),
-    //                                       child: Text(
-    //                                         "Watching",
-    //                                         style: TextStyle(
-    //                                           color: Colors.white,
-    //                                           fontSize: 12.arP,
-    //                                           fontWeight: FontWeight.w400,
-    //                                           letterSpacing: 0.5.arP,
-    //                                         ),
-    //                                       ),
-    //                                     ),
-    //                                   Obx(() => Visibility(
-    //                                         visible: _controller
-    //                                             .isAccountEditable.isFalse,
-    //                                         replacement: PopupMenuButton(
-    //                                           enableFeedback: true,
-    //                                           onCanceled: () {
-    //                                             _controller.popupIndex.value =
-    //                                                 0;
-    //                                             _controller.isPopupVisible
-    //                                                 .value = false;
-    //                                           },
-    //                                           splashRadius: 1,
-    //                                           tooltip: "",
-    //                                           position: PopupMenuPosition.under,
-    //                                           shape: RoundedRectangleBorder(
-    //                                               borderRadius:
-    //                                                   BorderRadius.circular(
-    //                                                       8.arP)),
-    //                                           color: const Color(0xff421121),
-    //                                           itemBuilder: (_) {
-    //                                             _controller.popupIndex.value =
-    //                                                 index;
-    //                                             _controller.isPopupVisible
-    //                                                 .value = true;
-    //                                             return <PopupMenuEntry>[
-    //                                               CustomPopupMenuItem(
-    //                                                 width: 140.aR,
-    //                                                 height: 30.aR,
-    //                                                 padding: EdgeInsets.only(
-    //                                                     left: 12.arP,
-    //                                                     bottom: 5.arP),
-    //                                                 onTap: () {
-    //                                                   Get.bottomSheet(
-    //                                                     EditAccountBottomSheet(
-    //                                                       accountIndex: index,
-    //                                                     ),
-    //                                                     enterBottomSheetDuration:
-    //                                                         const Duration(
-    //                                                             milliseconds:
-    //                                                                 180),
-    //                                                     exitBottomSheetDuration:
-    //                                                         const Duration(
-    //                                                             milliseconds:
-    //                                                                 150),
-    //                                                     isScrollControlled:
-    //                                                         true,
-    //                                                     barrierColor:
-    //                                                         Colors.transparent,
-    //                                                   );
-    //                                                 },
-    //                                                 child: Text(
-    //                                                   "Edit",
-    //                                                   style:
-    //                                                       labelMedium.copyWith(
-    //                                                           fontSize: 12.aR),
-    //                                                 ),
-    //                                               ),
-    //                                               if (_controller
-    //                                                       .homePageController
-    //                                                       .userAccounts
-    //                                                       .length !=
-    //                                                   1)
-    //                                                 CustomPopupMenuDivider(
-    //                                                   height: 1,
-    //                                                   color: ColorConst
-    //                                                       .Neutral.shade50,
-    //                                                   thickness: 1,
-    //                                                 ),
-    //                                               if (_controller
-    //                                                       .homePageController
-    //                                                       .userAccounts
-    //                                                       .length !=
-    //                                                   1)
-    //                                                 CustomPopupMenuItem(
-    //                                                   padding: EdgeInsets.only(
-    //                                                       left: 12.arP,
-    //                                                       top: 5.arP),
-    //                                                   width: 140.aR,
-    //                                                   height: 30.aR,
-    //                                                   onTap: () {
-    //                                                     Get.bottomSheet(
-    //                                                       removeAccountBottomSheet(
-    //                                                         index,
-    //                                                         accountName: _controller
-    //                                                             .homePageController
-    //                                                             .userAccounts[
-    //                                                                 index]
-    //                                                             .name!,
-    //                                                         onPressed: () {
-    //                                                           _controller
-    //                                                               .removeAccount(
-    //                                                                   index);
-    //                                                           _settingsController
-    //                                                               .removeAccount(
-    //                                                                   index);
-    //                                                         },
-    //                                                       ),
-    //                                                       enterBottomSheetDuration:
-    //                                                           const Duration(
-    //                                                               milliseconds:
-    //                                                                   180),
-    //                                                       exitBottomSheetDuration:
-    //                                                           const Duration(
-    //                                                               milliseconds:
-    //                                                                   150),
-    //                                                       barrierColor: Colors
-    //                                                           .transparent,
-    //                                                     );
-    //                                                   },
-    //                                                   child: Text(
-    //                                                     "Remove",
-    //                                                     style: labelMedium
-    //                                                         .copyWith(
-    //                                                             fontSize: 12.aR,
-    //                                                             color: ColorConst
-    //                                                                 .Error
-    //                                                                 .shade60),
-    //                                                   ),
-    //                                                 ),
-    //                                             ];
-    //                                           },
-    //                                           child: Container(
-    //                                             height: 24.aR,
-    //                                             width: 24.aR,
-    //                                             decoration: BoxDecoration(
-    //                                                 color: _controller
-    //                                                             .isPopupVisible
-    //                                                             .value &&
-    //                                                         index ==
-    //                                                             _controller
-    //                                                                 .popupIndex
-    //                                                                 .value
-    //                                                     ? const Color(
-    //                                                         0xff421121)
-    //                                                     : Colors.transparent,
-    //                                                 borderRadius:
-    //                                                     BorderRadius.circular(
-    //                                                         20)),
-    //                                             child: Icon(
-    //                                               Icons.more_horiz,
-    //                                               size: 20.aR,
-    //                                               color: Colors.white,
-    //                                             ),
-    //                                           ),
-    //                                         ),
-    //                                         child: index ==
-    //                                                 _homePageController
-    //                                                     .selectedIndex.value
-    //                                             ? SvgPicture.asset(
-    //                                                 "assets/svg/check_3.svg",
-    //                                                 height: 14.arP,
-    //                                                 width: 14.arP,
-    //                                               )
-    //                                             : SizedBox(
-    //                                                 height: 14.arP,
-    //                                                 width: 14.arP,
-    //                                               ),
-    //                                       ))
-    //                                 ],
-    //                               ),
-    //                             ),
-    //                           ),
-    //                         ),
-    //                       );
-    //                     }),
-    //           ),
-    //         ),
-    //         Padding(
-    //           padding: EdgeInsets.only(bottom: 52.arP, left: 16.arP),
-    //           child: Align(
-    //             alignment: Alignment.bottomCenter,
-    //             child: Column(children: [
-    //               0.014.vspace,
-    //               Obx(() => InkWell(
-    //                     onTap: (() {
-    //                       if (_controller.isAccountEditable.isFalse) {
-    //                         Get.bottomSheet(AddNewAccountBottomSheet(),
-    //                                 enterBottomSheetDuration:
-    //                                     const Duration(milliseconds: 180),
-    //                                 exitBottomSheetDuration:
-    //                                     const Duration(milliseconds: 150),
-    //                                 barrierColor: Colors.transparent,
-    //                                 isScrollControlled: true)
-    //                             .whenComplete(() {
-    //                           Get.find<AccountsWidgetController>()
-    //                               .resetCreateNewWallet();
-    //                         });
-    //                       }
-    //                     }),
-    //                     child: Row(
-    //                       children: [
-    //                         Image.asset(
-    //                           _controller.isAccountEditable.isFalse
-    //                               ? "${PathConst.EMPTY_STATES}plus.png"
-    //                               : "${PathConst.EMPTY_STATES}plus_faded.png",
-    //                           height: 16.aR,
-    //                           fit: BoxFit.contain,
-    //                           scale: 1,
-    //                         ),
-    //                         0.02.hspace,
-    //                         Text(
-    //                           "Create a new account",
-    //                           style: labelLarge.copyWith(
-    //                               fontSize: 14.aR,
-    //                               color: _controller.isAccountEditable.isFalse
-    //                                   ? ColorConst.Primary
-    //                                   : ColorConst.NeutralVariant.shade60,
-    //                               fontWeight: FontWeight.w600),
-    //                         )
-    //                       ],
-    //                     ),
-    //                   )),
-    //               0.028.vspace,
-    //               Obx(() => InkWell(
-    //                     onTap: () {
-    //                       if (_controller.isAccountEditable.isFalse) {
-    //                         Get.to(ImportWalletPageView());
-    //                         // Get.bottomSheet(const ImportWalletPageView(),
-    //                         //     isScrollControlled: true,
-    //                         //     useRootNavigator: true,
-    //                         //     enableDrag: true,
-    //                         //     settings: const RouteSettings(
-    //                         //         arguments: Routes.ACCOUNT_SUMMARY));
-    //                       }
-    //                     },
-    //                     child: Row(
-    //                       children: [
-    //                         Image.asset(
-    //                           _controller.isAccountEditable.isFalse
-    //                               ? "${PathConst.EMPTY_STATES}union.png"
-    //                               : "${PathConst.EMPTY_STATES}union_faded.png",
-    //                           height: 16.aR,
-    //                           fit: BoxFit.contain,
-    //                           scale: 1,
-    //                         ),
-    //                         0.02.hspace,
-    //                         Text(
-    //                           "Add an existing account",
-    //                           style: labelLarge.copyWith(
-    //                               fontSize: 14.aR,
-    //                               color: _controller.isAccountEditable.isFalse
-    //                                   ? ColorConst.Primary
-    //                                   : ColorConst.NeutralVariant.shade60,
-    //                               fontWeight: FontWeight.w600),
-    //                         )
-    //                       ],
-    //                     ),
-    //                   ))
-    //             ]),
-    //           ),
-    //         ),
-    //         if (widget.onNext != null)
-    //           Obx(() {
-    //             return SafeArea(
-    //               child: Padding(
-    //                 padding: const EdgeInsets.symmetric(horizontal: 16),
-    //                 child: SolidButton(
-    //                   onPressed:
-    //                       _controller.homePageController.userAccounts.isEmpty
-    //                           ? null
-    //                           : _controller
-    //                                   .homePageController
-    //                                   .userAccounts[_controller
-    //                                       .homePageController
-    //                                       .selectedIndex
-    //                                       .value]
-    //                                   .isWatchOnly
-    //                               ? null
-    //                               : widget.onNext,
-    //                   title: "Next",
-    //                 ),
-    //               ),
-    //             );
-    //           }),
-    //         0.01.vspace
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }
 
