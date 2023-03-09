@@ -416,33 +416,33 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                       ],
                                     ),
                                   ),
-                                  0.036.vspace,
-                                  Obx(() => Center(
-                                        child: Text(
-                                          ((ServiceConfig.currentNetwork ==
-                                                          NetworkType.mainnet
-                                                      ? controller
-                                                              .selectedAccount
-                                                              .value
-                                                              .accountDataModel
-                                                              ?.totalBalance ??
-                                                          0
-                                                      : controller
-                                                              .selectedAccount
-                                                              .value
-                                                              .accountDataModel!
-                                                              .xtzBalance ??
-                                                          0) *
-                                                  controller.xtzPrice.value)
-                                              .roundUpDollar(
-                                                  controller.xtzPrice.value),
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 30.aR,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ))
+                                  // 0.036.vspace,
+                                  // Obx(() => Center(
+                                  //       child: Text(
+                                  //         ((ServiceConfig.currentNetwork ==
+                                  //                         NetworkType.mainnet
+                                  //                     ? controller
+                                  //                             .selectedAccount
+                                  //                             .value
+                                  //                             .accountDataModel
+                                  //                             ?.totalBalance ??
+                                  //                         0
+                                  //                     : controller
+                                  //                             .selectedAccount
+                                  //                             .value
+                                  //                             .accountDataModel!
+                                  //                             .xtzBalance ??
+                                  //                         0) *
+                                  //                 controller.xtzPrice.value)
+                                  //             .roundUpDollar(
+                                  //                 controller.xtzPrice.value),
+                                  //         style: TextStyle(
+                                  //           fontWeight: FontWeight.w700,
+                                  //           fontSize: 30.aR,
+                                  //           color: Colors.white,
+                                  //         ),
+                                  //       ),
+                                  //     ))
                                 ])));
                   });
                 });

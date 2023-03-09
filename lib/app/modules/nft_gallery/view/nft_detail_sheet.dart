@@ -1011,7 +1011,7 @@ class FullScreenView extends StatelessWidget {
         ),
         bottomSheetWidgets: [
           SizedBox(
-            height: AppConstant.naanBottomSheetHeight,
+            height: AppConstant.naanBottomSheetChildHeight,
             child: Column(
               // alignment: Alignment.topLeft,
               children: [

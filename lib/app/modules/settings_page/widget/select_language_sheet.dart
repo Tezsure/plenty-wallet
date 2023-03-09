@@ -14,15 +14,15 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-class SelectCurrencyBottomSheet extends StatefulWidget {
-  SelectCurrencyBottomSheet({Key? key}) : super(key: key);
+class SelectLanguageBottomSheet extends StatefulWidget {
+  SelectLanguageBottomSheet({Key? key}) : super(key: key);
 
   @override
-  State<SelectCurrencyBottomSheet> createState() =>
-      _SelectCurrencyBottomSheetState();
+  State<SelectLanguageBottomSheet> createState() =>
+      _SelectLanguageBottomSheetState();
 }
 
-class _SelectCurrencyBottomSheetState extends State<SelectCurrencyBottomSheet> {
+class _SelectLanguageBottomSheetState extends State<SelectLanguageBottomSheet> {
   final SettingsPageController controller = Get.find<SettingsPageController>();
   late String selectedCurrency;
   @override
@@ -36,7 +36,7 @@ class _SelectCurrencyBottomSheetState extends State<SelectCurrencyBottomSheet> {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       prevPageName: "Settings",
-      title: "Currency",
+      title: "Language",
       leading: backButton(
           lastPageName: "Settings", ontap: () => Navigator.pop(context)),
       height: AppConstant.naanBottomSheetChildHeight,
@@ -48,36 +48,27 @@ class _SelectCurrencyBottomSheetState extends State<SelectCurrencyBottomSheet> {
               height: 30.aR,
             ),
             optionMethod(
-              value: "tez",
-              title: "Tezos (Tez)",
-            ),
-            const Divider(
-              color: Colors.black,
-              height: 1,
-              thickness: 1,
-            ),
-            optionMethod(
               value: "usd",
-              title: "United States Dollar (USD)",
+              title: "English (US)",
             ),
-            const Divider(
-              color: Colors.black,
-              height: 1,
-              thickness: 1,
-            ),
-            optionMethod(
-              value: "inr",
-              title: "Indian Rupee(INR)",
-            ),
-            const Divider(
-              color: Colors.black,
-              height: 1,
-              thickness: 1,
-            ),
-            optionMethod(
-              value: "eur",
-              title: "Euro (EUR)",
-            ),
+            // const Divider(
+            //   color: Colors.black,
+            //   height: 1,
+            //   thickness: 1,
+            // ),
+            // optionMethod(
+            //   value: "inr",
+            //   title: "Indian Rupee(INR)",
+            // ),
+            // const Divider(
+            //   color: Colors.black,
+            //   height: 1,
+            //   thickness: 1,
+            // ),
+            // optionMethod(
+            //   value: "eur",
+            //   title: "Euro (EUR)",
+            // ),
 
 /*               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.arP),

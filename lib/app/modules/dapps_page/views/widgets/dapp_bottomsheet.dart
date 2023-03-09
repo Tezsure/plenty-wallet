@@ -94,7 +94,7 @@ class DappBottomSheet extends StatelessWidget {
                           alignment: Alignment.topCenter,
                           child: Padding(
                             padding: EdgeInsets.only(
-                                right: 16.arP, top: 0.01.height),
+                                right: 16.arP, top: 0.02.height),
                             child: closeButton(),
                           ))
                     ],
