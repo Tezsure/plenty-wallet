@@ -84,46 +84,48 @@ void main() async {
     //Remove this method to stop OneSignal Debugging
 
     runApp(
-      GetMaterialApp(
-        title: "naan",
-            locale: Get.deviceLocale,
-            theme: ThemeData(
-              brightness: Brightness.dark,
-              fontFamily: "Poppins",
-            ),
-            navigatorObservers: [
-              //InstabugNavigatorObserver(),
-              FirebaseAnalyticsObserver(
-                  analytics: NaanAnalytics().getAnalytics()),
-            ],
-            supportedLocales: const [
-              Locale("en", "US"),
-              Locale("en", "IN"),
-            ],
-        debugShowCheckedModeBanner: false,
-        initialRoute: AppPages.INITIAL,
-        // getPages: AppPages.routes,
-        builder: (context, Widget? child) => CupertinoTheme(
-          data: CupertinoThemeData(
-            brightness: Theme.of(context).brightness,
-            scaffoldBackgroundColor: CupertinoColors.systemBackground,
+      Phoenix(
+        child: GetMaterialApp(
+          title: "naan",
+          locale: Get.deviceLocale,
+          theme: ThemeData(
+            brightness: Brightness.dark,
+            fontFamily: "Poppins",
           ),
-          child: child!,
+          navigatorObservers: [
+            //InstabugNavigatorObserver(),
+            FirebaseAnalyticsObserver(
+                analytics: NaanAnalytics().getAnalytics()),
+          ],
+          supportedLocales: const [
+            Locale("en", "US"),
+            Locale("en", "IN"),
+          ],
+          debugShowCheckedModeBanner: false,
+          initialRoute: AppPages.INITIAL,
+          // getPages: AppPages.routes,
+          builder: (context, Widget? child) => CupertinoTheme(
+            data: CupertinoThemeData(
+              brightness: Theme.of(context).brightness,
+              scaffoldBackgroundColor: CupertinoColors.systemBackground,
+            ),
+            child: child!,
+          ),
+          onGenerateRoute: (settings) {
+            final page = AppPages.routes.firstWhere(
+                (e) => e.name.toLowerCase() == settings.name!.toLowerCase());
+            page.binding?.dependencies();
+            return MaterialWithModalsPageRoute(
+                onCreate: (route) {
+                  RouterReportManager.reportCurrentRoute(route);
+                },
+                onDispose: (route) {
+                  RouterReportManager.reportRouteDispose(route);
+                },
+                settings: settings,
+                builder: (_) => page.page());
+          },
         ),
-        onGenerateRoute: (settings) {
-          final page = AppPages.routes.firstWhere(
-              (e) => e.name.toLowerCase() == settings.name!.toLowerCase());
-          page.binding?.dependencies();
-          return MaterialWithModalsPageRoute(
-              onCreate: (route) {
-                RouterReportManager.reportCurrentRoute(route);
-              },
-              onDispose: (route) {
-                RouterReportManager.reportRouteDispose(route);
-              },
-              settings: settings,
-              builder: (_) => page.page());
-        },
       ),
     );
   }, (error, stackTrace) {
