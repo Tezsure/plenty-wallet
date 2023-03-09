@@ -155,39 +155,39 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                         ],
                                       ),
                                     ),
-                                    // _settingOption(
-                                    //     title: "Language",
-                                    //     svgPath:
-                                    //         "${PathConst.SETTINGS_PAGE.SVG}node.svg",
-                                    //     onTap: () {
-                                    //       Navigator.push(
-                                    //           context,
-                                    //           MaterialPageRoute(
-                                    //               builder: (context) =>
-                                    //                   SelectLanguageBottomSheet()));
-                                    //       // CommonFunctions.bottomSheet(
-                                    //       //   SelectNodeBottomSheet(),
-                                    //       // );
-                                    //     },
-                                    //     trailing: Row(
-                                    //       children: [
-                                    //         Obx(() => Text(
-                                    //               controller.selectedNode.value
-                                    //                       .name ??
-                                    //                   "Default",
-                                    //               style: labelSmall.apply(
-                                    //                   color: ColorConst
-                                    //                       .NeutralVariant
-                                    //                       .shade60),
-                                    //             )),
-                                    //         Icon(
-                                    //           Icons.chevron_right_rounded,
-                                    //           size: 14,
-                                    //           color: ColorConst
-                                    //               .NeutralVariant.shade60,
-                                    //         )
-                                    //       ],
-                                    //     )),
+                                    _settingOption(
+                                        title: "Language",
+                                        svgPath:
+                                            "${PathConst.SETTINGS_PAGE.SVG}language.svg",
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SelectLanguageBottomSheet()));
+                                          // CommonFunctions.bottomSheet(
+                                          //   SelectNodeBottomSheet(),
+                                          // );
+                                        },
+                                        trailing: Row(
+                                          children: [
+                                            Obx(() => Text(
+                                                  controller.selectedNode.value
+                                                          .name ??
+                                                      "Default",
+                                                  style: labelSmall.apply(
+                                                      color: ColorConst
+                                                          .NeutralVariant
+                                                          .shade60),
+                                                )),
+                                            Icon(
+                                              Icons.chevron_right_rounded,
+                                              size: 14,
+                                              color: ColorConst
+                                                  .NeutralVariant.shade60,
+                                            )
+                                          ],
+                                        )),
                                   ],
                                 ),
 
@@ -344,6 +344,9 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                 ),
                                 SizedBox(height: 0.05.width),
                                 _resetOption(),
+                                SizedBox(height: 0.06.width),
+
+                                _buildNaanLogo(),
                                 SizedBox(height: 0.065.width),
                               ]);
                         }),
@@ -355,6 +358,24 @@ class SettingsPageView extends GetView<SettingsPageController> {
             }),
           ),
         ]);
+  }
+
+  Widget _buildNaanLogo() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset(
+          "${PathConst.SETTINGS_PAGE.SVG}naan_logo_grey.svg",
+          height: 50.arP,
+          width: 50.arP,
+        ),
+        0.01.vspace,
+        Text(
+          "Version 2.0.4 (beta)",
+          style: labelSmall.copyWith(color: ColorConst.NeutralVariant.shade60),
+        )
+      ],
+    );
   }
 
   Widget _settingsSeparator({required List<Widget> settings, required title}) {

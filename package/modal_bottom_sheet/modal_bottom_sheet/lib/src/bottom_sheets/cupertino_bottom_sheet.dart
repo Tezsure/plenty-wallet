@@ -26,7 +26,7 @@ import '../../modal_bottom_sheet.dart';
 
 const double _kPreviousPageVisibleOffset = 10;
 
-const Radius _kDefaultTopRadius = Radius.circular(12);
+const Radius _kDefaultTopRadius = Radius.circular(36);
 const BoxShadow _kDefaultBoxShadow =
     BoxShadow(blurRadius: 10, color: Colors.black12, spreadRadius: 5);
 
