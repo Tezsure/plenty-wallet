@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_she
 import 'package:naan_wallet/app/modules/settings_page/widget/old_wallet_recover/dismiss_recover_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/old_wallet_recover/recover_account_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/reset_wallet_sheet.dart';
+import 'package:naan_wallet/app/modules/settings_page/widget/select_currency_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/select_network_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/select_node_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -93,7 +94,66 @@ class SettingsPageView extends GetView<SettingsPageController> {
                         if (_homePageController.userAccounts.isNotEmpty)
                           _connectedAppsOption(),
                         // SizedBox(height: 0.05.width),
-
+                        SizedBox(height: 0.05.width),
+                        _settingsSeparator(
+                          title: "Currency",
+                          settings: [
+                            _settingOption(
+                              title: "Currency",
+                              svgPath:
+                                  "${PathConst.SETTINGS_PAGE.SVG}currency.svg",
+                              onTap: () {
+                                CommonFunctions.bottomSheet(
+                                  SelectCurrencyBottomSheet(),
+                                );
+                              },
+                              trailing: Row(
+                                children: [
+                                  Obx(
+                                    () => Text(
+                                      controller.selectedCurrency.value
+                                          .toUpperCase(),
+                                      style: labelSmall.apply(
+                                          color: ColorConst
+                                              .NeutralVariant.shade60),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.chevron_right_rounded,
+                                    size: 14,
+                                    color: ColorConst.NeutralVariant.shade60,
+                                  )
+                                ],
+                              ),
+                            ),
+                            _settingOption(
+                                title: "Language",
+                                svgPath:
+                                    "${PathConst.SETTINGS_PAGE.SVG}node.svg",
+                                onTap: () {
+                                  CommonFunctions.bottomSheet(
+                                    SelectNodeBottomSheet(),
+                                  );
+                                },
+                                trailing: Row(
+                                  children: [
+                                    Obx(() => Text(
+                                          controller.selectedNode.value.name ??
+                                              "Default",
+                                          style: labelSmall.apply(
+                                              color: ColorConst
+                                                  .NeutralVariant.shade60),
+                                        )),
+                                    Icon(
+                                      Icons.chevron_right_rounded,
+                                      size: 14,
+                                      color: ColorConst.NeutralVariant.shade60,
+                                    )
+                                  ],
+                                )),
+                          ],
+                        ),
+                        //SizedBox(height: 0.05.width),
                         SizedBox(height: 0.05.width),
                         _settingsSeparator(
                           title: "Others",

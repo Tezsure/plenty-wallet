@@ -73,8 +73,11 @@ android {
     }
 
     packagingOptions {
+        resources.excludes.add("META-INF/*")
         pickFirst '**/*.so'
+        
     }
+  
 }
 
 flutter {

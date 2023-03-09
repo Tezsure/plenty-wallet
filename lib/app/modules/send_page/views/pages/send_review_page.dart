@@ -10,6 +10,7 @@ import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 import '../widgets/token_selector.dart';
 import '../widgets/token_view.dart';
@@ -140,7 +141,9 @@ class SendReviewPage extends StatelessWidget {
                       () => Text(
                           double.parse(controller.estimatedFee.value) == 0
                               ? "calculating..."
-                              : '\$${double.parse(controller.estimatedFee.value).toStringAsFixed(6)}',
+                              : double.parse(controller.estimatedFee.value)
+                                  .roundUpDollar(controller.xtzPrice.value,
+                                      decimals: 6),
                           style: labelMedium),
                     ),
                   ],

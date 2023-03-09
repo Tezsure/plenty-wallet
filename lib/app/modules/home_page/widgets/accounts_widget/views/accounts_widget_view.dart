@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/account_summary_view.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
@@ -16,6 +17,7 @@ import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicato
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
+import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -295,9 +297,16 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                       children: [
                         Obx(
                           () => Text(
-                            ((model.accountDataModel!.totalBalance ?? 0) *
+                            ((ServiceConfig.currentNetwork ==
+                                            NetworkType.mainnet
+                                        ? model.accountDataModel
+                                                ?.totalBalance ??
+                                            0
+                                        : model.accountDataModel?.xtzBalance ??
+                                            0) *
                                     homePageController.xtzPrice.value)
-                                .roundUpDollar(),
+                                .roundUpDollar(
+                                    homePageController.xtzPrice.value),
                             style: headlineLarge,
                           ),
                         ),

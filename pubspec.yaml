@@ -49,7 +49,10 @@ dependencies:
   collection:
   instabug_flutter:
   onesignal_flutter: ^3.5.0
-  modal_bottom_sheet: ^3.0.0-pre
+  flutter_phoenix: "^1.0.0"
+
+  modal_bottom_sheet:
+    ^3.0.0-pre
     # path: packages/modal_bottom_sheet/modal_bottom_sheet
 
   # Firebase
@@ -79,6 +82,7 @@ flutter:
     - assets/home_page/images/
     #settings page
     - assets/settings_page/
+    - assets/settings_page/currencies/
     - assets/settings_page/svg/
     #onboarding page
     - assets/onboarding_page/

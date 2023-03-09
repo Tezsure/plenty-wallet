@@ -1,5 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
@@ -92,6 +96,62 @@ class UserStorageService {
     } catch (e) {
       return false;
     }
+  }
+
+  static Future<Currency> getCurrency() async {
+    try {
+      Locale locale = Localizations.localeOf(Get.context!);
+
+      var format = NumberFormat.simpleCurrency(locale: locale.toString());
+      print(
+          "${format.currencyName} ${format.currencySymbol} ${locale.countryCode}");
+      return Currency.values.byName((await ServiceConfig.localStorage.read(
+            key: ServiceConfig.currencySelectedStorage,
+          )) ??
+          (format.currencyName == "INR"
+              ? "INR"
+              : format.currencyName == "EUR"
+                  ? "EUR"
+                  : "USD"));
+    } catch (e) {
+/*       print(e);
+      print("default currency used"); */
+      Locale locale = Localizations.localeOf(Get.context!);
+      var format = NumberFormat.simpleCurrency(locale: locale.toString());
+
+      return (format.currencyName == "INR"
+          ? Currency.inr
+          : format.currencyName == "EUR"
+              ? Currency.eur
+              : Currency.usd);
+    }
+  }
+
+  static Future<double> getINR() async {
+    try {
+      return double.parse(await ServiceConfig.localStorage.read(
+            key: ServiceConfig.inrPriceStorage,
+          ) ??
+          "0");
+    } catch (e) {
+      return 0.0;
+    }
+  }
+
+  static Future<double> getEUR() async {
+    try {
+      return double.parse(await ServiceConfig.localStorage.read(
+            key: ServiceConfig.eurPriceStorage,
+          ) ??
+          "0");
+    } catch (e) {
+      return 0.0;
+    }
+  }
+
+  static Future<void> writeCurrency(String currency) async {
+    await ServiceConfig.localStorage
+        .write(key: ServiceConfig.currencySelectedStorage, value: currency);
   }
 
   static Future<void> betaTagAgree() async {

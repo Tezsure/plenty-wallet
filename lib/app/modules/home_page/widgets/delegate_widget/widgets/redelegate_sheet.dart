@@ -9,6 +9,9 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
+
+import '../../../controllers/home_page_controller.dart';
 
 class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
   final DelegateBakerModel baker;
@@ -45,7 +48,8 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
                             labelMedium.copyWith(color: ColorConst.textGrey1),
                       ),
                       Text(
-                        "\$${controller.totalRewards.toStringAsFixed(4)}",
+                        controller.totalRewards.value.roundUpDollar(
+                            Get.find<HomePageController>().xtzPrice.value),
                         style: headlineLarge,
                       ),
                     ],

@@ -22,6 +22,8 @@ import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_stat
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:simple_gql/simple_gql.dart';
 
+import '../../settings_page/enums/network_enum.dart';
+
 class SendPageController extends GetxController {
   AccountModel? senderAccountModel;
 
@@ -277,45 +279,33 @@ class SendPageController extends GetxController {
     userTokens.clear();
     userTokens.addAll(await UserStorageService()
         .getUserTokens(userAddress: senderAccountModel!.publicKeyHash!));
-    if (userTokens.isEmpty) {
-      userTokens.add(AccountTokenModel(
-        name: "Tezos",
-        balance: senderAccountModel!.accountDataModel!.xtzBalance!,
-        contractAddress: "xtz",
-        symbol: "Tezos",
-        currentPrice: xtzPrice.value,
-        tokenId: "0",
-        decimals: 6,
-        iconUrl: "assets/tezos_logo.png",
-      ));
-    } else {
-      if (userTokens.any((element) => element.name!.contains("Tezos"))) {
-        userTokens.map((element) => element.name!.contains("Tezos")
-            ? element.copyWith(
-                balance: senderAccountModel!.accountDataModel!.xtzBalance!,
-                currentPrice: xtzPrice.value,
-              )
-            : null);
-      } else {
-        userTokens.insert(
-            0,
-            AccountTokenModel(
-              name: "Tezos",
-              balance: senderAccountModel!.accountDataModel!.xtzBalance!,
-              contractAddress: "xtz",
-              symbol: "Tezos",
-              currentPrice: xtzPrice.value,
-              tokenId: "0",
-              decimals: 6,
-              iconUrl: "assets/tezos_logo.png",
-            ));
-      }
+
+    userTokens.removeWhere((element) =>
+        element.name != null && element.name!.toLowerCase() == "tezos");
+
+    AccountTokenModel tezos = AccountTokenModel(
+      name: "Tezos",
+      balance: senderAccountModel!.accountDataModel!.xtzBalance!,
+      contractAddress: "xtz",
+      symbol: "tezos",
+      currentPrice: xtzPrice.value,
+      tokenId: "0",
+      decimals: 6,
+      iconUrl: "assets/tezos_logo.png",
+    );
+    // userTokens = [...userTokens.toSet().toList()];
+    userTokens.insert(0, tezos);
+
+    if (ServiceConfig.currentNetwork == NetworkType.testnet) {
+      userTokens.removeWhere((element) =>
+          element.name == null || element.name!.toLowerCase() != "tezos");
     }
   }
 
   Future<void> fetchAllNfts() async {
     // userNfts.clear();
-    if (senderAccountModel!.publicKeyHash == null) return;
+    if (senderAccountModel!.publicKeyHash == null ||
+        ServiceConfig.currentNetwork == NetworkType.testnet) return;
 /*     isLoadingMore = true;
     if (contractOffset == 0) {
       nftLoading.value = true;

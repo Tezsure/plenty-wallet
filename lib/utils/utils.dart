@@ -1,3 +1,5 @@
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+
 String tz1Shortner(String tz1) => tz1.length > 3
     ? ("${tz1.substring(0, 3)}...${tz1.substring(tz1.length - 3, tz1.length)}")
     : tz1;
@@ -16,7 +18,8 @@ extension StringHelper on String {
       (startsWith("tz1") || startsWith("tz2") || startsWith("tz3")) &&
       length == 36;
 
-  get removeTrailing0 => replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "");
+  get removeTrailing0 =>
+      contains(".") ? replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "") : this;
 }
 
 String relativeDate(DateTime d) {
@@ -43,11 +46,79 @@ String relativeDate(DateTime d) {
 }
 
 extension DecimalsRoundUp on num {
-  String roundUpDollar() => this == 0
-      ? r"$ 0.00"
-      : this < 0.01
-          ? r"<$0.01"
-          : this >= 100
-              ? r"$ " + toStringAsFixed(0)
-              : r"$ " + toStringAsFixed(2);
+  String roundUpDollar(double xtzPrice,
+      {int decimals = 2, bool price = false}) {
+    if (!price) {
+      if (ServiceConfig.currency == Currency.usd) {
+        return this == 0
+            ? r"$ 0.00"
+            : this < 0.01
+                ? r"<$0.01"
+                : this >= 100
+                    ? r"$ " + toStringAsFixed(0)
+                    : r"$ " + toStringAsFixed(decimals);
+      } else if (ServiceConfig.currency == Currency.inr) {
+        print((this * ServiceConfig.inr).toStringAsFixed(0));
+        return this == 0
+            ? r"₹ 0.00"
+            : this * ServiceConfig.inr < 0.01
+                ? r"<₹0.01"
+                : this * ServiceConfig.inr >= 1000
+                    ? r"₹ " + (this * ServiceConfig.inr).toStringAsFixed(0)
+                    : r"₹ " +
+                        (this * ServiceConfig.inr).toStringAsFixed(decimals);
+      } else if (ServiceConfig.currency == Currency.eur) {
+        return this == 0
+            ? r"€ 0.00"
+            : this * ServiceConfig.eur < 0.01
+                ? r"<€0.01"
+                : this * ServiceConfig.eur >= 100
+                    ? r"€ " + (this * ServiceConfig.eur).toStringAsFixed(0)
+                    : r"€ " +
+                        (this * ServiceConfig.eur).toStringAsFixed(decimals);
+      } else {
+        return this == 0
+            ? r"0.00 tez"
+            : this / xtzPrice < 0.01
+                ? r"<0.01 tez"
+                : this / xtzPrice >= 100
+                    ? (this / xtzPrice).toStringAsFixed(0) + r" tez"
+                    : (this / xtzPrice).toStringAsFixed(decimals) + r" tez";
+      }
+    } else {
+      if (ServiceConfig.currency == Currency.usd) {
+        return this == 0
+            ? r"$ 0.00"
+            : this < 0.01
+                ? r"<$0.01"
+                : this >= 100
+                    ? r"$ " + toStringAsFixed(0)
+                    : r"$ " + toStringAsFixed(decimals);
+      } else if (ServiceConfig.currency == Currency.inr) {
+        return this == 0
+            ? r"₹ 0.00"
+            : this < 0.01
+                ? r"<₹0.01"
+                : this >= 1000
+                    ? r"₹ " + (this).toStringAsFixed(0)
+                    : r"₹ " + (this).toStringAsFixed(decimals);
+      } else if (ServiceConfig.currency == Currency.eur) {
+        return this == 0
+            ? r"€ 0.00"
+            : this < 0.01
+                ? r"<€0.01"
+                : this >= 100
+                    ? r"€ " + (this).toStringAsFixed(0)
+                    : r"€ " + (this).toStringAsFixed(decimals);
+      } else {
+        return this == 0
+            ? r"0.00 tez"
+            : this < 0.01
+                ? r"<0.01 tez"
+                : this >= 100
+                    ? (this).toStringAsFixed(0) + r" tez"
+                    : (this).toStringAsFixed(decimals) + r" tez";
+      }
+    }
+  }
 }

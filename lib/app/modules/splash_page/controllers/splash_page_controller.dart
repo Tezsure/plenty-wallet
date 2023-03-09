@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/foundation_service/art_foundation_handler.dart';
@@ -19,10 +21,10 @@ class SplashPageController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    try {
+/*     try {
       await Get.updateLocale(Locale("en", "US"));
       print("languageCode: ${Get.locale?.languageCode}");
-    } catch (e) {}
+    } catch (e) {} */
     await Future.delayed(const Duration(milliseconds: 1800));
     // un-comment below line to test onboarding flow multiple time
 
@@ -41,6 +43,11 @@ class SplashPageController extends GetxController {
 
     AppConstant.tfCollection = (await ArtFoundationHandler.getCollectionNfts(
         "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
+
+    ServiceConfig.currency = await UserStorageService.getCurrency();
+
+    ServiceConfig.inr = await UserStorageService.getINR();
+    ServiceConfig.eur = await UserStorageService.getEUR();
 
     var walletAccountsLength =
         (await UserStorageService().getAllAccount()).length;

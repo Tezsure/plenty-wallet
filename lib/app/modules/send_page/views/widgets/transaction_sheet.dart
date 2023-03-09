@@ -99,11 +99,15 @@ class TransactionBottomSheet extends StatelessWidget {
                   style: bodyLarge.copyWith(color: ColorConst.textGrey1),
                 ),
               ),
-              Text(
-                controller.isNFTPage.value
-                    ? '\$ 0.00'
-                    : '\$${controller.amountUsdController.text}',
-                style: bodyMedium,
+              Obx(
+                () => Text(
+                  controller.isNFTPage.value
+                      ? 0.0.roundUpDollar(controller.xtzPrice.value)
+                      : double.parse(controller.amountUsdController.text)
+                          .roundUpDollar(controller.xtzPrice.value,
+                              price: true),
+                  style: bodyMedium,
+                ),
               )
             ],
           ),

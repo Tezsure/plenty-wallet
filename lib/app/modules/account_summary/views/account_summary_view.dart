@@ -18,10 +18,12 @@ import 'package:naan_wallet/utils/utils.dart';
 
 import '../../../../utils/colors/colors.dart';
 import '../../../../utils/constants/path_const.dart';
+import '../../../data/services/service_config/service_config.dart';
 import '../../common_widgets/custom_image_widget.dart';
 import '../../import_wallet_page/widgets/custom_tab_indicator.dart';
 import '../../receive_page/views/receive_page_view.dart';
 import '../../send_page/views/send_page.dart';
+import '../../settings_page/enums/network_enum.dart';
 import '../controllers/account_summary_controller.dart';
 import 'bottomsheets/account_selector.dart';
 import 'pages/crypto_tab.dart';
@@ -177,11 +179,15 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                 0.036.vspace,
                 Obx(() => Center(
                       child: Text(
-                        ((controller.selectedAccount.value.accountDataModel!
-                                        .totalBalance ??
-                                    0) *
+                        ((ServiceConfig.currentNetwork == NetworkType.mainnet
+                                    ? controller.selectedAccount.value
+                                            .accountDataModel?.totalBalance ??
+                                        0
+                                    : controller.selectedAccount.value
+                                            .accountDataModel!.xtzBalance ??
+                                        0) *
                                 controller.xtzPrice.value)
-                            .roundUpDollar(),
+                            .roundUpDollar(controller.xtzPrice.value),
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 30.aR,

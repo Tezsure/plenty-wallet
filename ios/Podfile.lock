@@ -33,11 +33,11 @@ PODS:
     - FirebaseAnalytics (~> 10.3.0)
   - Firebase/CoreOnly (10.3.0):
     - FirebaseCore (= 10.3.0)
-  - firebase_analytics (10.1.0):
+  - firebase_analytics (10.1.4):
     - Firebase/Analytics (= 10.3.0)
     - firebase_core
     - Flutter
-  - firebase_core (2.4.1):
+  - firebase_core (2.7.0):
     - Firebase/CoreOnly (= 10.3.0)
     - Flutter
   - FirebaseAnalytics (10.3.0):
@@ -130,10 +130,10 @@ PODS:
     - Flutter
   - in_app_review (0.2.0):
     - Flutter
-  - Instabug (11.6.0)
-  - instabug_flutter (11.6.0):
+  - Instabug (11.9.0)
+  - instabug_flutter (11.9.0):
     - Flutter
-    - Instabug (= 11.6.0)
+    - Instabug (= 11.9.0)
   - KeychainSwift (20.0.0)
   - local_auth_ios (0.0.1):
     - Flutter
@@ -164,7 +164,7 @@ PODS:
     - FlutterMacOS
   - permission_handler_apple (9.0.4):
     - Flutter
-  - PromisesObjC (2.1.1)
+  - PromisesObjC (2.2.0)
   - qr_code_scanner (0.2.0):
     - Flutter
     - MTBBarcodeScanner
@@ -311,8 +311,8 @@ SPEC CHECKSUMS:
   bonsoir: c97724f65041a4068af8ab5f3449ae7f58b725b1
   CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
   Firebase: f92fc551ead69c94168d36c2b26188263860acd9
-  firebase_analytics: 9f3a4cb560a59976b2c48707abae2d4cb94bcb3a
-  firebase_core: bf59c32d2e53814f558efa20840c1902fa2fe461
+  firebase_analytics: 4f57c422c9c6225cd5ddd5fca28f92bde5fb21b5
+  firebase_core: 128d8c43c3a453a4a67463314fc3761bedff860b
   FirebaseAnalytics: 036232b6a1e2918e5f67572417be1173576245f3
   FirebaseCore: 988754646ab3bd4bdcb740f1bfe26b9f6c0d5f2a
   FirebaseCoreInternal: e463f41bb935cd049505bf7e9a5bdd7dcea90df6
@@ -326,28 +326,28 @@ SPEC CHECKSUMS:
   GenericJSON: 79a840eeb77030962e8cf02a62d36bd413b67626
   GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
   GoogleUtilities: c2bdc4cf2ce786c4d2e6b3bcfd599a25ca78f06f
-  image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
+  image_picker_ios: 58b9c4269cb176f89acea5e5d043c9358f2d25f8
   in_app_review: 318597b3a06c22bb46dc454d56828c85f444f99d
-  Instabug: bddae5b34c359e97e4aee5ce4d9a71fdba4df652
-  instabug_flutter: 8f3ebc607ad1db5880a4da9cdcce8dfe1104247b
+  Instabug: 1d21096fdadbc1f26cd2fc2322ff8e060a611237
+  instabug_flutter: 40394da80e1cf39b540a3836caf4c555739b01de
   KeychainSwift: 0ce6a4d13f7228054d1a71bb1b500448fb2ab837
-  local_auth_ios: 0d333dde7780f669e66f19d2ff6005f3ea84008d
+  local_auth_ios: ceb207b594b48c075f1065f97b61e3ffa00d686b
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   onesignal_flutter: e01b19b76406d2f303edabe36da8dc747443d679
   OneSignalXCFramework: 75844c29607ca95e6176f6f21257b4382c7fdbfb
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
-  path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
+  path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
-  PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
+  PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
   Sodium: 23d11554ecd556196d313cf6130d406dfe7ac6da
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
-  url_launcher_ios: ae1517e5e344f5544fb090b079e11f399dfbe4d2
+  url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
   web3.swift: c6c3bf1f853743f8a7a58d263e5f7e46545e22c7
   Web3Auth: 3ef09358f409cf6b2b57f3bcc074281ac73681a1
   web3auth_flutter: c40401ed4bb3aff723349a382ddae9809eeee959
