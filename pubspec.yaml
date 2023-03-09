@@ -50,10 +50,10 @@ dependencies:
   instabug_flutter:
   onesignal_flutter: ^3.5.0
   modal_bottom_sheet:
-  #  ^3.0.0-pre
+    #  ^3.0.0-pre
     path: package/modal_bottom_sheet/modal_bottom_sheet
-  flutter_phoenix: "^1.0.0"
-
+  flutter_phoenix:
+    "^1.0.0"
 
     # path: packages/modal_bottom_sheet/modal_bottom_sheet
 
