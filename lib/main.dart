@@ -20,6 +20,7 @@ import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_
 import 'package:naan_wallet/env.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/translation.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app/routes/app_pages.dart';
 
@@ -86,7 +87,7 @@ void main() async {
     runApp(
       GetMaterialApp(
         title: "naan",
-        locale: Get.deviceLocale,
+        locale: Get.deviceLocale,translations: Messages(),
         theme: ThemeData(
           brightness: Brightness.dark,
           fontFamily: "Poppins",

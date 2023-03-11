@@ -20,7 +20,7 @@ class AddContactButton extends StatelessWidget {
     return BouncingWidget(
       onPressed: () {
         CommonFunctions.bottomSheet(
-          AddContactBottomSheet(contactModel: contactModel),
+          AddContactBottomSheet(contactModel: contactModel),fullscreen: true
         );
       },
       child: Row(

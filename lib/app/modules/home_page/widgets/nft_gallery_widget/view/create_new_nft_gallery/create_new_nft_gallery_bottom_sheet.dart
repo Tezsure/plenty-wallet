@@ -294,11 +294,11 @@ class CreateNewNftGalleryBottomSheet
 
   _onImportAccount() async {
     String pkh = await CommonFunctions.bottomSheet(
-      ImportWalletPageView(
-        isBottomSheet: true,
-        isWatchAddress: true,
-      ),
-    );
+        ImportWalletPageView(
+          isBottomSheet: true,
+          isWatchAddress: true,
+        ),
+        fullscreen: true);
     controller.accounts.value = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
 

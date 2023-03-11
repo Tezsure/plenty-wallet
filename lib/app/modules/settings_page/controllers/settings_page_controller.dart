@@ -65,6 +65,7 @@ class SettingsPageController extends GetxController {
   RxBool isPasscodeSet = true.obs;
 
   RxString selectedCurrency = ServiceConfig.currency.name.obs;
+  RxString selectedLanguage = ServiceConfig.language.name.obs;
 
   final InAppReview inAppReview = InAppReview.instance;
 
@@ -217,6 +218,14 @@ class SettingsPageController extends GetxController {
 /*     await Get.deleteAll(force: true);
     Phoenix.rebirth(Get.context!);
     Get.reset(); */
+  }
+
+  /// Change Language
+  Future<void> changeLanguage(String language) async {
+    await UserStorageService.writeLanguage(language);
+    Get.updateLocale(Locale(language));
+    selectedLanguage.value = language;
+    ServiceConfig.language = Language.values.byName(language);
   }
 
   /// Change Node
@@ -382,9 +391,7 @@ class SettingsPageController extends GetxController {
   void switchFingerprint(bool value) => fingerprint.value = value;
   void checkWalletBackup(BuildContext context, String? prevPage) async {
     if (isWalletBackup.value) {
-      CommonFunctions.bottomSheet(
-        BackupPage(),
-      );
+      CommonFunctions.bottomSheet(BackupPage(), fullscreen: true);
     } else {
       final seedPhrase = await UserStorageService()
           .readAccountSecrets(homePageController.userAccounts
@@ -408,7 +415,7 @@ class SettingsPageController extends GetxController {
           BackupWalletView(
             prevPage: null,
             seedPhrase: seedPhrase,
-          ),
+          ),fullscreen: true
         ).whenComplete(getWalletBackupStatus);
       }
     }

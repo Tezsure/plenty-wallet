@@ -83,10 +83,10 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                     Get.back();
                     // }
                     CommonFunctions.bottomSheet(
-                      DelegateSelectBaker(
-                        isScrollable: true,
-                      ),
-                    );
+                        DelegateSelectBaker(
+                          isScrollable: true,
+                        ),
+                        fullscreen: true);
                   },
                   title: "Continue",
                 ),

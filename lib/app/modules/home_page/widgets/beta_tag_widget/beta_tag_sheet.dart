@@ -41,6 +41,7 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
     ];
     return NaanBottomSheet(
       isScrollControlled: true,
+      // title: "",
       bottomSheetWidgets: [
         SizedBox(
           height: hasAgreed ? 0.6.height : 0.69.height,

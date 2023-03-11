@@ -45,6 +45,8 @@ class SplashPageController extends GetxController {
         "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
 
     ServiceConfig.currency = await UserStorageService.getCurrency();
+    ServiceConfig.language =
+        Language.values.byName(await UserStorageService.readLanguage());
 
     ServiceConfig.inr = await UserStorageService.getINR();
     ServiceConfig.eur = await UserStorageService.getEUR();

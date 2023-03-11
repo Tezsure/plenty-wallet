@@ -928,7 +928,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                   color: const Color(0xFFB0A9B3),
                                   size: 18.arP,
                                 ),
-                                hintText: "Search",
+                                hintText: "Search".tr,
                                 hintStyle: bodyMedium.copyWith(
                                   color: const Color(0xFFB0A9B3),
                                 ),

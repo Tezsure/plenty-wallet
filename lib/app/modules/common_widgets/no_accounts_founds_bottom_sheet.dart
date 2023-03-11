@@ -79,9 +79,9 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
                 ),
                 onPressed: () {
                   Get.back();
-                  CommonFunctions.bottomSheet(
-                    AddNewAccountBottomSheet(),
-                  ).whenComplete(() {
+                  CommonFunctions.bottomSheet(AddNewAccountBottomSheet(),
+                          fullscreen: true)
+                      .whenComplete(() {
                     Get.find<AccountsWidgetController>().resetCreateNewWallet();
                   });
                 },

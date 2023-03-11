@@ -122,8 +122,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               InfoButton(
                 onPressed: () {
                   CommonFunctions.bottomSheet(
-                    InfoBottomSheet(isWatchAddress: isWatchAddress),
-                  );
+                      InfoBottomSheet(isWatchAddress: isWatchAddress),
+                      fullscreen: true);
                 },
               ),
             ],
@@ -176,9 +176,10 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                       contentPadding: const EdgeInsets.all(0),
                                       hintStyle: bodyMedium.apply(
                                           color: Colors.white.withOpacity(0.2)),
-                                      hintText: isWatchAddress
-                                          ? "Enter wallet address or tezos domain "
-                                          : "Paste your secret phrase, private key\nor watch address",
+                                      hintText: (isWatchAddress
+                                              ? "Enter wallet address or tezos domain "
+                                              : "Paste your secret phrase, private key\nor watch address")
+                                          .tr,
                                       border: InputBorder.none),
                                 ),
                               ),

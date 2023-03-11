@@ -127,12 +127,12 @@ class ContactsListView extends GetView<SendPageController> {
                             onTap: () {
                               Get.back();
                               CommonFunctions.bottomSheet(
-                                AddContactBottomSheet(
-                                  contactModel: contact,
-                                  isTransactionContact: false,
-                                  isEditContact: true,
-                                ),
-                              );
+                                  AddContactBottomSheet(
+                                    contactModel: contact,
+                                    isTransactionContact: false,
+                                    isEditContact: true,
+                                  ),
+                                  fullscreen: true);
                             },
                             child: Text(
                               "Edit".tr,

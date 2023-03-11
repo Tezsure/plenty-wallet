@@ -134,17 +134,20 @@ class HomePageController extends AnimateBottomsheetController {
   @override
   void onReady() async {
     super.onReady();
-    await UserStorageService.getBetaTagAgree().then((value) async {
-      if (!value) {
-        await CommonFunctions.bottomSheet(
-          BetaTagSheet(),
-        );
-      }
-    });
+
     if (Get.arguments != null &&
         Get.arguments.length == 2 &&
         Get.arguments[1].toString().isNotEmpty) {
       showBackUpWalletBottomSheet(Get.arguments[1].toString());
+    }
+    if (Get.currentRoute == Routes.HOME_PAGE) {
+      await UserStorageService.getBetaTagAgree().then((value) async {
+        if (!value) {
+          await CommonFunctions.bottomSheet(
+            BetaTagSheet(),
+          );
+        }
+      });
     }
   }
 
@@ -196,9 +199,7 @@ class HomePageController extends AnimateBottomsheetController {
 
       // We didn't ask for permission yet or the permission has been denied before but not permanently.
     } else {
-      CommonFunctions.bottomSheet(
-        const ScanQrView(),
-      );
+      CommonFunctions.bottomSheet(const ScanQrView(), fullscreen: true);
     }
   }
 
@@ -252,9 +253,11 @@ class BackupWalletBottomSheet extends StatelessWidget {
               onPressed: () {
                 Get.back();
                 NaanAnalytics.logEvent(NaanAnalyticsEvents.BACKUP_FROM_HOME);
-                CommonFunctions.bottomSheet(BackupWalletView(
-                  seedPhrase: seedPhrase,
-                ));
+                CommonFunctions.bottomSheet(
+                    BackupWalletView(
+                      seedPhrase: seedPhrase,
+                    ),
+                    fullscreen: true);
               }),
         ),
         0.012.vspace,

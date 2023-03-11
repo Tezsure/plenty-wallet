@@ -48,9 +48,7 @@ class IAFWidget extends StatelessWidget {
                     IAFController(home.userAccounts[home.selectedIndex.value]));
                 // String url =
                 //     "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
-                CommonFunctions.bottomSheet(
-                  IAFSheet(),
-                );
+                CommonFunctions.bottomSheet(IAFSheet(), fullscreen: true);
               },
             ),
           );

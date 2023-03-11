@@ -213,6 +213,7 @@ class DappBottomSheet extends StatelessWidget {
                       Get.back();
                       CommonFunctions.bottomSheet(
                         const DappBrowserView(),
+                        fullscreen: true,
                         settings: RouteSettings(
                           arguments: dappModel.url,
                         ),

@@ -108,7 +108,7 @@ class _SelectCurrencyBottomSheetState extends State<SelectCurrencyBottomSheet> {
               selectedCurrency = value;
             });
             controller.changeCurrency(value);
-            Get.back();
+            Navigator.pop(context);
           },
       child: SizedBox(
         width: double.infinity,

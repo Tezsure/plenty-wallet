@@ -41,13 +41,13 @@ Widget closeButton({Function()? ontap}) {
     child: Container(
       decoration:
           BoxDecoration(color: ColorConst.darkGrey, shape: BoxShape.circle),
-      height: 24.arP,
-      width: 24.arP,
+      height: 26.arP,
+      width: 26.arP,
       alignment: Alignment.center,
       child: Icon(
         Icons.close,
         color: Color.fromRGBO(235, 235, 245, .6),
-        size: 14.arP,
+        size: 16.arP,
       ),
     ),
   );

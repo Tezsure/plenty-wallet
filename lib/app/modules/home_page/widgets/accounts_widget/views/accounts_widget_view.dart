@@ -189,6 +189,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
           homePageController.changeSelectedAccount(index);
           CommonFunctions.bottomSheet(
             AccountSummaryView(),
+            fullscreen: true,
             settings: RouteSettings(arguments: model),
           );
         },
@@ -328,6 +329,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                   action(
                                       () => CommonFunctions.bottomSheet(
                                             const SendPage(),
+                                            fullscreen: true,
                                             settings: RouteSettings(
                                               arguments: model,
                                             ),
@@ -337,6 +339,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                   action(
                                     () => CommonFunctions.bottomSheet(
                                       const ReceivePageView(),
+                                      fullscreen: true,
                                       settings: RouteSettings(
                                         arguments: model,
                                       ),

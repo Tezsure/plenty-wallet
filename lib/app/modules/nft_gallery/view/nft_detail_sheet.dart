@@ -185,7 +185,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                     final String img = '$ipfsHost/$hash';
                     //CommonFunctions.launchURL(img);
                     await CommonFunctions.bottomSheet(
-                      const DappBrowserView(),
+                      const DappBrowserView(),fullscreen: true,
                       settings: RouteSettings(
                         arguments: img,
                       ),
@@ -241,7 +241,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  0.001.vspace,
+                  0.02.vspace,
                   nftModel == null
                       ? Padding(
                           padding: EdgeInsets.only(top: 450.arP),
@@ -430,7 +430,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                                               style: labelLarge,
                                               children: [
                                                 TextSpan(
-                                                    text: 'Owned',
+                                                    text: 'Owned'.tr,
                                                     style: labelSmall.copyWith(
                                                         fontSize: 11.aR,
                                                         color: ColorConst
@@ -956,7 +956,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Contract address", style: bodySmall),
+                    Text("Contract address".tr, style: bodySmall),
                     const Spacer(),
                     InkWell(
                         onTap: () {

@@ -56,6 +56,7 @@ class BuyTezWidget extends StatelessWidget {
                     "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
                 CommonFunctions.bottomSheet(
                   const DappBrowserView(),
+                  fullscreen: true,
                   settings: RouteSettings(
                     arguments: url,
                   ),

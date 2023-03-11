@@ -659,6 +659,7 @@ class BuyNFTController extends GetxController {
         "https://naan-nft-credit-card.netlify.app/?fa=${mainUrl[0]}&tokenId=${mainUrl[1]}&address=${accountToken.selectedAccount.value.publicKeyHash!}&askId=${selectedNFT.value!.tokenId}&askPrice=${selectedNFT.value!.lowestAsk}&name=${encodedName}&ipfs=${selectedNFT.value!.artifactUri!.replaceAll("ipfs://", "")}";
     CommonFunctions.bottomSheet(
       const WertBrowserView(),
+      fullscreen: true,
       settings: RouteSettings(
         arguments: url,
       ),

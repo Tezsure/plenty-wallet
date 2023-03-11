@@ -125,14 +125,16 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                         : const Color(0xff1e1c1f),
                   ),
                   alignment: Alignment.center,
-                  child: Text(
-                    (isEditable ?? false ? 'Done' : 'Edit').tr,
-                    style: labelLarge.copyWith(
-                        fontSize: 14.aR,
-                        fontWeight: FontWeight.w600,
-                        color: isEditable ?? false
-                            ? Colors.white
-                            : ColorConst.NeutralVariant.shade60),
+                  child: Center(
+                    child: Text(
+                      (isEditable ?? false ? 'Done' : 'Edit').tr,
+                      style: labelLarge.copyWith(
+                          fontSize: 14.aR,
+                          fontWeight: FontWeight.w600,
+                          color: isEditable ?? false
+                              ? Colors.white
+                              : ColorConst.NeutralVariant.shade60),
+                    ),
                   ),
                 ),
               )

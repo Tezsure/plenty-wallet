@@ -346,10 +346,10 @@ class DelegateWidgetController extends GetxController {
         );
 
         CommonFunctions.bottomSheet(
-          ReDelegateBottomSheet(
-            baker: delegatedBaker,
-          ),
-        );
+            ReDelegateBottomSheet(
+              baker: delegatedBaker,
+            ),
+            fullscreen: true);
       } else {
         await toggleLoaderOverlay(() async {
           delegatedBaker = (await getBakerDetail(bakerAddress!)) ??
@@ -357,7 +357,7 @@ class DelegateWidgetController extends GetxController {
           delegateBakerList.add(delegatedBaker!);
         });
         CommonFunctions.bottomSheet(
-          ReDelegateBottomSheet(baker: delegatedBaker!),
+          ReDelegateBottomSheet(baker: delegatedBaker!),fullscreen: true
         );
       }
     }

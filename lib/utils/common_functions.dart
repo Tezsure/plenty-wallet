@@ -28,19 +28,22 @@ class CommonFunctions {
               : throw 'Could not launch $url';
   static Future bottomSheet(
     Widget child, {
+    bool fullscreen = false,
     RouteSettings? settings,
   }) async {
-    // return await Get.bottomSheet(
-    //   child,
-    //   settings: settings,
-    //   isScrollControlled: true,
-    //   barrierColor: Colors.black.withOpacity(0.5),
-    //   backgroundColor: Colors.transparent,
-    //   enterBottomSheetDuration: const Duration(milliseconds: 180),
-    //   exitBottomSheetDuration: const Duration(milliseconds: 150),
-    // ).then((value) {
-    //   return value;
-    // });
+    if (!fullscreen) {
+      return await Get.bottomSheet(
+        child,
+        settings: settings,
+        isScrollControlled: true,
+        barrierColor: Colors.black.withOpacity(0.5),
+        backgroundColor: Colors.transparent,
+        enterBottomSheetDuration: const Duration(milliseconds: 180),
+        exitBottomSheetDuration: const Duration(milliseconds: 150),
+      ).then((value) {
+        return value;
+      });
+    }
     return await showCupertinoModalBottomSheet(
             context: Get.context!,
             navigatorState: Get.global(null).currentState!,
@@ -54,28 +57,9 @@ class CommonFunctions {
                   child: child,
                 ),
             settings: settings,
-            bounce: false,
-            // : true,
-            // barrierColor: Colors.black.withOpacity(0.6),
-            // elevation: 5,
-            // topRadius: Radius.circular(24.arP),
-            // backgroundColor: ColorConst.darkGrey,
+            // bounce: false,
             overlayStyle: SystemUiOverlayStyle.light,
-            // transitionBackgroundColor: ColorConst.darkGrey,
-            // backgroundColor: Colors.black54,
-            // barrierColor: ColorConst.darkGrey.withOpacity(.8),
-            backgroundColor: Colors.transparent
-            // shadow: BoxShadow(
-            //   color: Colors.black.withOpacity(0.2),
-            //   spreadRadius: 50,
-            //   blurRadius: 50,
-            //   // offset: const Offset(0, 0), // changes position of shadow
-            // ),
-            // transitionBackgroundColor: Colors.white.withOpacity(.2),
-            // useRootNavigator: true
-            // enterBottomSheetDuration: const Duration(milliseconds: 180),
-            // exitBottomSheetDuration: const Duration(milliseconds: 150),
-            )
+            backgroundColor: Colors.transparent)
         .then((value) {
       return value;
     });

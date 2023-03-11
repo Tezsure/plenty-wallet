@@ -76,8 +76,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                           BouncingWidget(
                                             onPressed: () {
                                               CommonFunctions.bottomSheet(
-                                                const AccountSelectorSheet(),
-                                              );
+                                                  const AccountSelectorSheet(),
+                                                  fullscreen: true);
                                             },
                                             child: Row(
                                               crossAxisAlignment:
@@ -264,6 +264,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                 print(url);
                                                 CommonFunctions.bottomSheet(
                                                     const DappBrowserView(),
+                                                    fullscreen: true,
                                                     settings: RouteSettings(
                                                       arguments: url,
                                                     ));
@@ -384,7 +385,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                             width: 70.arP,
                                             child: Tab(
                                               height: 30.arP,
-                                              text: "Crypto",
+                                              text: "Crypto".tr,
                                               iconMargin: EdgeInsets.zero,
                                             ),
                                           ),
@@ -392,7 +393,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                             width: 70.arP,
                                             child: Tab(
                                               height: 30.arP,
-                                              text: "NFTs",
+                                              text: "NFTs".tr,
                                               iconMargin: EdgeInsets.zero,
                                             ),
                                           ),
@@ -400,7 +401,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                             width: 70.arP,
                                             child: Tab(
                                               height: 30.arP,
-                                              text: "History",
+                                              text: "History".tr,
                                               iconMargin: EdgeInsets.zero,
                                             ),
                                           ),
@@ -476,7 +477,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                   ),
                 )),
             TextSpan(
-                text: '\n$label',
+                text: '\n${label.tr}',
                 style: labelMedium.copyWith(
                     fontSize: 12.aR, letterSpacing: 0.1.aR, height: 20 / 12)),
           ],

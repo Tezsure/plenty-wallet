@@ -23,6 +23,7 @@ class TezosPriceWidget extends StatelessWidget {
       onPressed: () {
         CommonFunctions.bottomSheet(
           const DappBrowserView(),
+          fullscreen: true,
           settings: RouteSettings(
             arguments: ServiceConfig.tezPriceChart,
           ),

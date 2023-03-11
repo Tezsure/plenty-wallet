@@ -30,9 +30,7 @@ class AddAccountWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        CommonFunctions.bottomSheet(
-          addAccountSheet(warning),
-        );
+        CommonFunctions.bottomSheet(addAccountSheet(warning),);
       },
       child: Container(
         height: AppConstant.homeWidgetDimension,

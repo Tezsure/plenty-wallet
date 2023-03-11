@@ -28,6 +28,7 @@ class ObjktNftWidget extends StatelessWidget {
         // Get.to(BuyNFTPage(), arguments: url);
         CommonFunctions.bottomSheet(
           const DappBrowserView(),
+          fullscreen: true,
           settings: RouteSettings(
             arguments: url,
           ),

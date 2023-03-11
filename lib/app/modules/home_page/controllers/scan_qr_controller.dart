@@ -48,6 +48,7 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
         final home = Get.find<HomePageController>();
         CommonFunctions.bottomSheet(
           const SendPage(),
+          fullscreen: true,
           settings: RouteSettings(
             arguments: home.userAccounts[home.selectedIndex.value],
           ),

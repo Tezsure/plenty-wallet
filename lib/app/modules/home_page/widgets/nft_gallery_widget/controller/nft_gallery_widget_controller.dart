@@ -99,9 +99,9 @@ class NftGalleryWidgetController extends GetxController {
     // NaanAnalytics.logEvent(NaanAnalyticsEvents.CREATE_NFT_GALLERY, param: {
     //   "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
     // });
-    CommonFunctions.bottomSheet(
-      const CreateNewNftGalleryBottomSheet(),
-    ).then(
+    CommonFunctions.bottomSheet(const CreateNewNftGalleryBottomSheet(),
+            fullscreen: true)
+        .then(
       (_) async {
         selectedAccountIndex = <String, bool>{}.obs;
         accounts.value = [];
@@ -135,11 +135,12 @@ class NftGalleryWidgetController extends GetxController {
     accountName.value = accountNameController.text;
 
     await CommonFunctions.bottomSheet(
-      CreateNewNftGalleryBottomSheet(
-        nftGalleryModel: nftGallery,
-        galleryIndex: galleryIndex,
-      ),
-    ).then(
+            CreateNewNftGalleryBottomSheet(
+              nftGalleryModel: nftGallery,
+              galleryIndex: galleryIndex,
+            ),
+            fullscreen: true)
+        .then(
       (_) async {
         selectedAccountIndex = <String, bool>{}.obs;
         accounts.value = [];
@@ -276,6 +277,7 @@ class NftGalleryWidgetController extends GetxController {
 
     CommonFunctions.bottomSheet(
       const NftGalleryView(),
+      fullscreen: true,
       settings:
           RouteSettings(arguments: [nftGalleryList.length - 1, nftGalleryList]),
     ).then((_) {
@@ -289,6 +291,7 @@ class NftGalleryWidgetController extends GetxController {
     // });
     CommonFunctions.bottomSheet(
       const NftGalleryView(),
+      fullscreen: true,
       settings: RouteSettings(arguments: [index, nftGalleryList]),
     );
   }

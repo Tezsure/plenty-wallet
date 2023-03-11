@@ -60,7 +60,7 @@ class _SelectToRevealKeyBottomSheetState
                   alignment: Alignment.centerRight,
                   child: InfoButton(
                       onPressed: () => CommonFunctions.bottomSheet(
-                            InfoBottomSheet(),
+                            InfoBottomSheet(),fullscreen: true
                           )),
                 ),
               ],

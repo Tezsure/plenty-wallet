@@ -324,6 +324,7 @@ class DappListItemWidget extends StatelessWidget {
                       });
                   CommonFunctions.bottomSheet(
                     const DappBrowserView(),
+                    fullscreen: true,
                     settings: RouteSettings(
                       arguments: dapp.url,
                     ),

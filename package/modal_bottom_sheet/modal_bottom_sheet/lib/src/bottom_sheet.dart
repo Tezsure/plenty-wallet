@@ -188,10 +188,10 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
     return result ?? false;
   }
 
-  ParametricCurve<double> animationCurve = Curves.linear;
+  ParametricCurve<double> animationCurve = Curves.bounceInOut;
 
   void _handleDragUpdate(double primaryDelta) async {
-    animationCurve = Curves.linear;
+    animationCurve = Curves.bounceInOut;
     assert(widget.enableDrag, 'Dragging is disabled');
 
     if (_dismissUnderway) return;
@@ -354,7 +354,7 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
   Widget build(BuildContext context) {
     final bounceAnimation = CurvedAnimation(
       parent: _bounceDragController,
-      curve: Curves.easeOutSine,
+      curve: Curves.bounceInOut,
     );
 
     var child = widget.child;

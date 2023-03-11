@@ -74,6 +74,7 @@ class DelegateBakerTile extends StatelessWidget {
                   onPressed: () {
                     CommonFunctions.bottomSheet(
                       const DappBrowserView(),
+                      fullscreen: true,
                       settings: RouteSettings(
                           arguments: 'https://tzkt.io/${baker.address}'),
                     );
@@ -101,11 +102,11 @@ class DelegateBakerTile extends StatelessWidget {
                     onPressed: () {
                       Get.back();
                       CommonFunctions.bottomSheet(
-                        DelegateSelectBaker(
-                          delegatedBaker: baker,
-                          isScrollable: true,
-                        ),
-                      );
+                          DelegateSelectBaker(
+                            delegatedBaker: baker,
+                            isScrollable: true,
+                          ),
+                          fullscreen: true);
                     }),
             ],
           ),

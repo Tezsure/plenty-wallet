@@ -172,9 +172,9 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                         trailing: Row(
                                           children: [
                                             Obx(() => Text(
-                                                  controller.selectedNode.value
-                                                          .name ??
-                                                      "Default",
+                                                  controller
+                                                      .selectedLanguage.value
+                                                      .toUpperCase(),
                                                   style: labelSmall.apply(
                                                       color: ColorConst
                                                           .NeutralVariant
@@ -419,7 +419,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
             ),
             0.04.hspace,
             Text(
-              title,
+              title.tr,
               style: labelMedium,
             ),
             const Spacer(),
@@ -590,7 +590,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         child: Row(
           children: [
             Text(
-              "Reset naan",
+              "Reset naan".tr,
               style: labelMedium.apply(color: ColorConst.Error.shade60),
             ),
             const Spacer(),
