@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -56,10 +57,12 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     }
     return OverrideTextScaleFactor(
       child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.arP),
-          child: SafeArea(bottom: false, child: _buildBody(context)),
+        backgroundColor: Colors.transparent,
+        body: CupertinoPageScaffold(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.arP),
+            child: SafeArea(bottom: false, child: _buildBody(context)),
+          ),
         ),
       ),
     );
