@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:naan_wallet/app/data/services/foundation_service/art_foundation_
 import 'package:naan_wallet/app/data/services/iaf/iaf_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:naan_wallet/app/data/services/translation/translation_helper.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
@@ -25,11 +27,21 @@ class SplashPageController extends GetxController {
       await Get.updateLocale(Locale("en", "US"));
       print("languageCode: ${Get.locale?.languageCode}");
     } catch (e) {} */
-    await Future.delayed(const Duration(milliseconds: 1800));
+    await Future.delayed(const Duration(milliseconds: 800));
     // un-comment below line to test onboarding flow multiple time
 
     // await ServiceConfig().clearStorage();
+    try {
+      final translationHelper = TranslationHelper();
 
+      final translations = await translationHelper.getTranslations();
+      if (translations != null) {
+        Get.clearTranslations();
+        Get.addTranslations(translations.keys);
+      }
+    } catch (e) {
+      log(e.toString());
+    }
     ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
         ServiceConfig.currentSelectedNode;
     await DataHandlerService().initDataServices();
