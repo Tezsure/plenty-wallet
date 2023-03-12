@@ -37,7 +37,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
         child: Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(
-            leading: Get.previousRoute.toString() != Routes.SPLASH_PAGE
+            leading: Get.previousRoute == Routes.SPLASH_PAGE
                 ? Container()
                 : Align(
                     alignment: Alignment.centerLeft,
@@ -46,11 +46,11 @@ class PasscodePageView extends GetView<PasscodePageController> {
                       child: backButton(),
                     ),
                   ),
-            backgroundColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
           ),
           body: Container(
             color: Colors.black,
-            padding: const EdgeInsets.symmetric(horizontal: 21),
+            padding:  EdgeInsets.symmetric(horizontal: 21.arP),
             child: SafeArea(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

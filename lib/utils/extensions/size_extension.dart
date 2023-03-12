@@ -17,7 +17,7 @@ extension SizeExtension on num {
     // log(Get.size.height.toString());
     // log(Get.pixelRatio.toString());
     double ratio = 1;
-    if (Get.size.height < 600) {
+    if (Get.size.height < 740) {
       ratio = 1;
     } else if (Get.size.height > 1100) {
       ratio = 1.35;
