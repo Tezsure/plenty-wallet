@@ -135,7 +135,7 @@ class TokenCheckbox extends StatelessWidget {
         margin: 12.arP,
         borderRadius: 12.aR,
         checkedIcon: Icons.done,
-        borderWidth: 2,
+        borderWidth: 2.arP,
         checkBoxIconSize: 12.aR,
         checkBoxSize: 20.aR,
         borderColor: const Color(0xff1E1C1F),

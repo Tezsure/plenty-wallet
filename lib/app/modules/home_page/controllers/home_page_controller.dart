@@ -33,7 +33,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../widgets/scanQR/permission_sheet.dart';
 
-class HomePageController extends AnimateBottomsheetController {
+class HomePageController extends GetxController {
   // RxBool showBottomSheet = false.obs;
   RxInt selectedIndex = 0.obs;
 
@@ -203,18 +203,7 @@ class HomePageController extends AnimateBottomsheetController {
     }
   }
 
-  @override
-  void animateForward() {
-    animate.forward();
-    // TODO: implement animateForward
-  }
-
-  @override
-  void animateReverse() {
-    animate.reverse();
-
-    // TODO: implement animateReverse
-  } // void onIndicatorTapped(int index) => selectedIndex.value = index;
+  // void onIndicatorTapped(int index) => selectedIndex.value = index;
 }
 
 class BackupWalletBottomSheet extends StatelessWidget {

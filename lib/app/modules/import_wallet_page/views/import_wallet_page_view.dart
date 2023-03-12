@@ -89,7 +89,15 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               //   ),
               // ),
               const Spacer(),
-              isBottomSheet ? closeButton() : const SizedBox(),
+              isBottomSheet
+                  ? closeButton()
+                  : InfoButton(
+                      onPressed: () {
+                        CommonFunctions.bottomSheet(
+                            InfoBottomSheet(isWatchAddress: isWatchAddress),
+                            fullscreen: true);
+                      },
+                    ),
 
               // GestureDetector(
               //   onTap: () {
@@ -119,18 +127,19 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             ],
           ),
           0.02.vspace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              InfoButton(
-                onPressed: () {
-                  CommonFunctions.bottomSheet(
-                      InfoBottomSheet(isWatchAddress: isWatchAddress),
-                      fullscreen: true);
-                },
-              ),
-            ],
-          ),
+          if (isBottomSheet)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InfoButton(
+                  onPressed: () {
+                    CommonFunctions.bottomSheet(
+                        InfoBottomSheet(isWatchAddress: isWatchAddress),
+                        fullscreen: true);
+                  },
+                ),
+              ],
+            ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -279,8 +288,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               controller.tabController!.animateTo(0);
               controller.genAndLoadMoreAccounts(0, 3);
               CommonFunctions.bottomSheet(
-                AccountBottomSheet(controller: controller),
-              );
+                  AccountBottomSheet(controller: controller),
+                  fullscreen: true);
             } else {
               controller.redirectBasedOnImportWalletType(
                   Routes.NFT_GALLERY_CREATE, isWatchAddress);

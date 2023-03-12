@@ -18,7 +18,7 @@ extension SizeExtension on num {
     // log(Get.pixelRatio.toString());
     double ratio = 1;
     if (Get.size.height < 740) {
-      ratio = 1;
+      ratio = Platform.isIOS ? 1.35 : 1;
     } else if (Get.size.height > 1100) {
       ratio = 1.35;
     } else {

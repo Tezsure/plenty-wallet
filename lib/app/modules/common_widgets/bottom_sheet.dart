@@ -78,119 +78,104 @@ class NaanBottomSheet extends StatefulWidget {
 }
 
 class _NaanBottomSheetState extends State<NaanBottomSheet> {
-  late NaanBottomsheetController controller;
-
   @override
   void initState() {
-    Get.create(() => NaanBottomsheetController(), permanent: false);
-    controller = Get.put(NaanBottomsheetController());
-    if (widget.prevPageName == null) BottomSheetManager.addSheet(controller);
     super.initState();
   }
 
   @override
   void dispose() {
-    if (widget.prevPageName == null) BottomSheetManager.deleteSheet(controller);
-    Get.delete<NaanBottomsheetController>();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      type: MaterialType.transparency,
-      child: Obx(() {
-        return Transform.scale(
-          scale: controller.scale.value,
-          child: OverrideTextScaleFactor(
-            child: widget.isDraggableBottomSheet
-                ? DraggableScrollableSheet(
-                    initialChildSize: widget.initialChildSize ?? 0.85,
-                    minChildSize: widget.minChildSize ?? 0.4,
-                    maxChildSize: widget.maxChildSize ?? 1,
-                    builder: (_, scrollController) => Container(
-                      decoration: const BoxDecoration(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(10)),
-                          color: Colors.black),
-                      padding: EdgeInsets.symmetric(horizontal: 0.05.width),
-                      child: Column(
-                        children: [
-                          0.02.vspace,
-                          Center(
-                            child: Container(
-                              height: 5.arP,
-                              width: 36.arP,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: const Color(0xffEBEBF5).withOpacity(0.3),
-                              ),
+        type: MaterialType.transparency,
+        child: OverrideTextScaleFactor(
+          child: widget.isDraggableBottomSheet
+              ? DraggableScrollableSheet(
+                  initialChildSize: widget.initialChildSize ?? 0.85,
+                  minChildSize: widget.minChildSize ?? 0.4,
+                  maxChildSize: widget.maxChildSize ?? 1,
+                  builder: (_, scrollController) => Container(
+                    decoration: const BoxDecoration(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(10)),
+                        color: Colors.black),
+                    padding: EdgeInsets.symmetric(horizontal: 0.05.width),
+                    child: Column(
+                      children: [
+                        0.02.vspace,
+                        Center(
+                          child: Container(
+                            height: 5.arP,
+                            width: 36.arP,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: const Color(0xffEBEBF5).withOpacity(0.3),
                             ),
                           ),
-                          SizedBox(
-                            height: 16.arP,
+                        ),
+                        SizedBox(
+                          height: 16.arP,
+                        ),
+                        Align(
+                          alignment:
+                              widget.titleAlignment ?? Alignment.centerLeft,
+                          child: Text(
+                            (widget.title ?? "").tr,
+                            textAlign: TextAlign.start,
+                            style: widget.titleStyle ?? titleMedium,
                           ),
-                          Align(
-                            alignment:
-                                widget.titleAlignment ?? Alignment.centerLeft,
-                            child: Text(
-                              (widget.title ?? "").tr,
-                              textAlign: TextAlign.start,
-                              style: widget.titleStyle ?? titleMedium,
-                            ),
-                          ),
-                          0.020.vspace,
-                          Expanded(
-                            child: RawScrollbar(
+                        ),
+                        0.020.vspace,
+                        Expanded(
+                          child: RawScrollbar(
+                              controller: scrollController,
+                              radius: const Radius.circular(2),
+                              trackRadius: const Radius.circular(2),
+                              thickness: 4,
+                              thumbVisibility: widget.scrollThumbVisibility,
+                              thumbColor: ColorConst.NeutralVariant.shade60,
+                              trackColor: ColorConst.NeutralVariant.shade60
+                                  .withOpacity(0.4),
+                              trackBorderColor: ColorConst
+                                  .NeutralVariant.shade60
+                                  .withOpacity(0.4),
+                              child: ListView.builder(
+                                shrinkWrap: true,
                                 controller: scrollController,
-                                radius: const Radius.circular(2),
-                                trackRadius: const Radius.circular(2),
-                                thickness: 4,
-                                thumbVisibility: widget.scrollThumbVisibility,
-                                thumbColor: ColorConst.NeutralVariant.shade60,
-                                trackColor: ColorConst.NeutralVariant.shade60
-                                    .withOpacity(0.4),
-                                trackBorderColor: ColorConst
-                                    .NeutralVariant.shade60
-                                    .withOpacity(0.4),
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  controller: scrollController,
-                                  physics: AppConstant.scrollPhysics,
-                                  itemCount: widget.itemCount,
-                                  itemBuilder: widget.draggableListBuilder ??
-                                      (_, index) => Container(),
-                                )),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                : SafeArea(
-                    bottom: false,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(10.arP)),
-                          color: controller.scale.value == 1.00
-                              ? Colors.black
-                              : ColorConst.darkGrey),
-                      width: widget.width ?? 1.width,
-                      height: widget.height,
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                              widget.bottomSheetHorizontalPadding ?? 16.arP),
-                      child: widget.isScrollControlled
-                          ? SingleChildScrollView(
-                              child: isScrollControlledUI(),
-                            )
-                          : isScrollControlledUI(),
+                                physics: AppConstant.scrollPhysics,
+                                itemCount: widget.itemCount,
+                                itemBuilder: widget.draggableListBuilder ??
+                                    (_, index) => Container(),
+                              )),
+                        )
+                      ],
                     ),
                   ),
-          ),
-        );
-      }),
-    );
+                )
+              : SafeArea(
+                  bottom: false,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(10.arP)),
+                        color: Colors.black),
+                    width: widget.width ?? 1.width,
+                    height: widget.height,
+                    padding: EdgeInsets.symmetric(
+                        horizontal:
+                            widget.bottomSheetHorizontalPadding ?? 16.arP),
+                    child: widget.isScrollControlled
+                        ? SingleChildScrollView(
+                            child: isScrollControlledUI(),
+                          )
+                        : isScrollControlledUI(),
+                  ),
+                ),
+        ));
   }
 
   Widget isScrollControlledUI() {
@@ -298,18 +283,18 @@ class BottomSheetHeading extends StatelessWidget {
   }
 }
 
-class NaanBottomsheetController extends AnimateBottomsheetController {
-  NaanBottomsheetController();
-  @override
-  void animateForward() {
-    animate.forward();
-    // TODO: implement animateForward
-  }
+// class NaanBottomsheetController extends AnimateBottomsheetController {
+//   NaanBottomsheetController();
+//   @override
+//   void animateForward() {
+//     animate.forward();
+//     // TODO: implement animateForward
+//   }
 
-  @override
-  void animateReverse() {
-    animate.reverse();
+//   @override
+//   void animateReverse() {
+//     animate.reverse();
 
-    // TODO: implement animateReverse
-  }
-}
+//     // TODO: implement animateReverse
+//   }
+// }

@@ -13,7 +13,7 @@ const Curve _decelerateEasing = Cubic(0.0, 0.0, 0.2, 1.0);
 
 const Duration _bottomSheetDuration = Duration(milliseconds: 200);
 const double _minFlingVelocity = 500.0;
-const double _closeProgressThreshold = 0.6;
+const double _closeProgressThreshold = 0.8;
 const double _willPopThreshold = 0.8;
 
 typedef WidgetWithChildBuilder = Widget Function(
