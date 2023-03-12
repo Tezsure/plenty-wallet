@@ -24,8 +24,8 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
   Widget build(BuildContext context) {
     return Obx(() {
       return NaanBottomSheet(
-        // height: 0.9.height,
-        isScrollControlled: true,
+        height: AppConstant.naanBottomSheetHeight,
+        // isScrollControlled: true,
         // bottomSheetHorizontalPadding: 16.arP,
         // decoration: const BoxDecoration(
         //   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
@@ -33,7 +33,7 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
         // ),
         bottomSheetWidgets: [
           SizedBox(
-            height: AppConstant.naanBottomSheetChildHeight,
+            height: AppConstant.naanBottomSheetChildHeight + 44.arP,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -343,8 +343,8 @@ class AccountBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      blurRadius: 5,
-      height: 0.85.height,
+      // blurRadius: 5,
+      height:AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         0.04.vspace,
         Text(

@@ -37,7 +37,7 @@ class DappsPageView extends GetView<DappsPageController> {
       bottomSheetHorizontalPadding: 0,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetHeight - 56.arP,
+          height: AppConstant.naanBottomSheetHeight - 58.arP,
           child: Column(
             children: [
               0.02.vspace,

@@ -28,15 +28,14 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
         title: "Delegate",
-        isScrollControlled: true,
+        // isScrollControlled: true,
         // mainAxisAlignment: MainAxisAlignment.end,
         bottomSheetHorizontalPadding: 0,
-        // height: (isScrollable ? 0.85.height : 1.height),
+        height: AppConstant.naanBottomSheetHeight,
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight -
-                MediaQuery.of(context).viewInsets.bottom -
-                64.arP,
+                MediaQuery.of(context).viewInsets.bottom,
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
@@ -82,33 +81,23 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
       //   borderRadius: BorderRadius.only(
       //       topLeft: Radius.circular(8), topRight: Radius.circular(8)),
       // ),
-      child: ShaderMask(
-        shaderCallback: (Rect rect) {
-          return LinearGradient(colors: [
-            const Color(0xff100919),
-            const Color(0xff100919).withOpacity(0),
-          ], begin: const Alignment(0, 1), end: const Alignment(0, 0.7))
-              .createShader(rect);
-        },
-        blendMode: BlendMode.dstOut,
-        child: Obx(() {
-          return ListView.builder(
-              shrinkWrap: true,
-              itemCount: controller.searchedDelegateBakerList.length,
-              cacheExtent: 4,
-              controller: controller.scrollController,
-              padding: EdgeInsets.zero,
-              physics: AppConstant.scrollPhysics,
-              itemBuilder: (_, index) {
-                if (delegatedBaker?.address ==
-                    controller.searchedDelegateBakerList[index].address) {
-                  return Container();
-                }
-                return _buildBakerItem(
-                    controller.searchedDelegateBakerList[index]);
-              });
-        }),
-      ),
+      child: Obx(() {
+        return ListView.builder(
+            shrinkWrap: true,
+            itemCount: controller.searchedDelegateBakerList.length,
+            cacheExtent: 4,
+            controller: controller.scrollController,
+            padding: EdgeInsets.zero,
+            physics: AppConstant.scrollPhysics,
+            itemBuilder: (_, index) {
+              if (delegatedBaker?.address ==
+                  controller.searchedDelegateBakerList[index].address) {
+                return Container();
+              }
+              return _buildBakerItem(
+                  controller.searchedDelegateBakerList[index]);
+            });
+      }),
     );
   }
 

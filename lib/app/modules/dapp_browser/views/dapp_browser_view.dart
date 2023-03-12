@@ -61,10 +61,10 @@ class DappBrowserView extends GetView<DappBrowserController> {
     return OverrideTextScaleFactor(
       child: NaanBottomSheet(
         bottomSheetHorizontalPadding: 0,
-        height: .92.height,
+        height: AppConstant.naanBottomSheetHeight,
         bottomSheetWidgets: [
           Container(
-            height: .92.height - 14.arP,
+            height: AppConstant.naanBottomSheetHeight - 14.arP,
             // width: 1.width,
             // margin: EdgeInsets.only(
             //   top: 0.05.height,
