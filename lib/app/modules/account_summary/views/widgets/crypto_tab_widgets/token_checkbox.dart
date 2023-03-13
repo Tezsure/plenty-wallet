@@ -165,9 +165,7 @@ class TokenCheckbox extends StatelessWidget {
                   (tokenModel.name ?? tokenModel.symbol ?? "N/A")
                       .substring(0, 1)
                       .toUpperCase(),
-                  style: labelMedium.copyWith(
-                    fontSize: 12.aR,
-                    fontWeight: FontWeight.w400,
+                  style: bodySmall.copyWith(
                     color: ColorConst.NeutralVariant.shade60,
                   ),
                 ),

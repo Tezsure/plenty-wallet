@@ -281,7 +281,7 @@ class _CupertinoModalTransition extends StatelessWidget {
 
     final curvedAnimation = CurvedAnimation(
       parent: secondaryAnimation,
-      curve: animationCurve ?? Curves.bounceInOut,
+      curve: animationCurve ?? Curves.easeIn,
     );
 
     return AnnotatedRegion<SystemUiOverlayStyle>(

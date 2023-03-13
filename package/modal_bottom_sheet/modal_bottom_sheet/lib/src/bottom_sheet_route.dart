@@ -122,7 +122,8 @@ class _ModalBottomSheetState<T> extends State<_ModalBottomSheet<T>> {
   }
 }
 
-class ModalSheetRoute<T> extends PageRoute<T> {
+class 
+ModalSheetRoute<T> extends PageRoute<T> {
   ModalSheetRoute({
     this.closeProgressThreshold,
     this.containerBuilder,

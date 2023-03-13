@@ -99,20 +99,35 @@ class ConnectedDappBottomSheet extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 22,
-              backgroundColor: dappModel.icon != null
+              backgroundColor: dappModel.icon == null
                   ? ColorConst.NeutralVariant.shade60.withOpacity(0.2)
                   : ColorConst.Primary,
-              backgroundImage: Image.network(
-                dappModel.icon ?? "",
-                errorBuilder: (context, error, stackTrace) => Text(
-                  dappModel.name.substring(0, 1).toUpperCase(),
-                  style: titleMedium,
-                ),
-              ).image,
+              backgroundImage: dappModel.icon == null
+                  ? null
+                  : Image.network(
+                      dappModel.icon ?? "",
+                      errorBuilder: (context, error, stackTrace) => Text(
+                        dappModel.name.substring(0, 1).toUpperCase(),
+                        style: titleMedium,
+                      ),
+                    ).image,
               child: dappModel.icon == null
-                  ? Text(
-                      dappModel.name.substring(0, 1).toUpperCase(),
-                      style: titleMedium,
+                  ? Container(
+                      width: 24.aR,
+                      height: 24.aR,
+                      decoration: BoxDecoration(
+                        color:
+                            ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          dappModel.name.substring(0, 1).toUpperCase(),
+                          style: bodySmall.copyWith(
+                            color: ColorConst.NeutralVariant.shade60,
+                          ),
+                        ),
+                      ),
                     )
                   : Container(),
             ),

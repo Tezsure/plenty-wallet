@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -48,6 +49,11 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              0.01.vspace,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [closeButton()],
+              ),
               // 0.028.vspace,
               _buildIcon(),
               Text(
