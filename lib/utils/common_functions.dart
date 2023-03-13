@@ -46,6 +46,11 @@ class CommonFunctions {
     }
     return await showCupertinoModalBottomSheet(
             context: Get.context!,
+            bounce: false,
+            // animationCurve: Curves.ease,
+            // previousRouteAnimationCurve: Curves.decelerate,
+            // closeProgressThreshold: 0,
+            // enableDrag: false,
             navigatorState: Get.global(null).currentState!,
             onCreate: (route) {
               RouterReportManager.reportCurrentRoute(route);

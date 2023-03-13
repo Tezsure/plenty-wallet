@@ -223,6 +223,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                               )),
                         ),
                       ),
+                      0.02.vspace,
                       Expanded(
                           child: Column(
                         mainAxisSize: MainAxisSize.max,

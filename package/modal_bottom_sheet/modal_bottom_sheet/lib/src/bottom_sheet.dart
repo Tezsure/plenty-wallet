@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/src/utils/scroll_to_top_status_bar.dart';
@@ -191,7 +192,7 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
   ParametricCurve<double> animationCurve = Curves.bounceInOut;
 
   void _handleDragUpdate(double primaryDelta) async {
-    animationCurve = Curves.bounceInOut;
+    animationCurve = Curves.easeIn;
     assert(widget.enableDrag, 'Dragging is disabled');
 
     if (_dismissUnderway) return;

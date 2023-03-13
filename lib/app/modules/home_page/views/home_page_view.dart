@@ -60,9 +60,16 @@ class HomePageView extends GetView<HomePageController> {
                           end: Alignment.bottomCenter,
                           stops: const [0.2, 0.7, 0.9],
                           colors: [
-                            ColorConst.Primary.shade0,
-                            ColorConst.Primary.shade0.withOpacity(0.5),
-                            ColorConst.Primary.shade0.withOpacity(0.0),
+                            CupertinoTheme.of(context).scaffoldBackgroundColor,
+                            CupertinoTheme.of(context)
+                                .scaffoldBackgroundColor
+                                .withOpacity(0.5),
+                            CupertinoTheme.of(context)
+                                .scaffoldBackgroundColor
+                                .withOpacity(0.0),
+                            // ColorConst.Primary.shade0,
+                            // ColorConst.Primary.shade0.withOpacity(0.5),
+                            // ColorConst.Primary.shade0.withOpacity(0.0),
                           ],
                         ),
                       )),

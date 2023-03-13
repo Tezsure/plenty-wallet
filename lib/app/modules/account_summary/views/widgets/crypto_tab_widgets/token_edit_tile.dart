@@ -44,71 +44,65 @@ class TokenEditTile extends GetView<AccountSummaryController> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          flex: 3,
-          child: Visibility(
-            visible: isEditable ?? false,
-            replacement: showEditButton!
-                ? const SizedBox()
-                : Expanded(
-                    child: BouncingWidget(
-                      onPressed: viewAll,
-                      child: AnimatedContainer(
-                        margin: EdgeInsets.symmetric(vertical: 12.aR),
-                        duration: const Duration(milliseconds: 200),
-                        height: 30.aR,
-                        // width: expandedTokenList ? 70.aR : 63.aR,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.aR),
-                          color: const Color(0xff1e1c1f),
+        Visibility(
+          visible: isEditable ?? false,
+          replacement: showEditButton!
+              ? const SizedBox()
+              : BouncingWidget(
+                  onPressed: viewAll,
+                  child: AnimatedContainer(
+                    margin: EdgeInsets.symmetric(vertical: 12.aR),
+                    duration: const Duration(milliseconds: 200),
+                    height: 30.aR,
+                    width: expandedTokenList ? 70.aR : 63.aR,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.aR),
+                      color: const Color(0xff1e1c1f),
+                    ),
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 5.arP,
                         ),
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 5.arP,
-                            ),
-                            Text(
-                              (expandedTokenList ? 'Less' : 'All').tr,
-                              style: labelLarge.copyWith(
-                                  color: ColorConst.NeutralVariant.shade60),
-                            ),
-                            AnimatedRotation(
-                              turns:
-                                  controller.expandTokenList.isTrue ? 1 / 4 : 0,
-                              duration: const Duration(milliseconds: 200),
-                              child: Icon(
-                                Icons.keyboard_arrow_right_rounded,
-                                color: ColorConst.NeutralVariant.shade60,
-                                size: 20.aR,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          (expandedTokenList ? 'Less' : 'All').tr,
+                          style: labelLarge.copyWith(
+                              color: ColorConst.NeutralVariant.shade60),
                         ),
-                      ),
+                        AnimatedRotation(
+                          turns: controller.expandTokenList.isTrue ? 1 / 4 : 0,
+                          duration: const Duration(milliseconds: 200),
+                          child: Icon(
+                            Icons.keyboard_arrow_right_rounded,
+                            color: ColorConst.NeutralVariant.shade60,
+                            size: 20.aR,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+                ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              EditButtons(
+                  buttonName: isAnyTokenPinned! ? 'Pin' : 'Unpin',
+                  isDone: isTokenPinnedColor!,
+                  onTap: onPinTap),
+              if (showHideButton!) ...[
+                0.02.hspace,
                 EditButtons(
-                    buttonName: isAnyTokenPinned! ? 'Pin' : 'Unpin',
-                    isDone: isTokenPinnedColor!,
-                    onTap: onPinTap),
-                if (showHideButton!) ...[
-                  0.02.hspace,
-                  EditButtons(
-                    buttonName: isAnyTokenHidden! ? 'Hide' : 'Unhide',
-                    isDone: isTokenHiddenColor!,
-                    onTap: onHideTap,
-                  ),
-                ],
+                  buttonName: isAnyTokenHidden! ? 'Hide' : 'Unhide',
+                  isDone: isTokenHiddenColor!,
+                  onTap: onHideTap,
+                ),
               ],
-            ),
+            ],
           ),
         ),
         const Spacer(),

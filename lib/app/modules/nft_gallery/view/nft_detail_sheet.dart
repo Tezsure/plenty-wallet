@@ -234,8 +234,9 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
           length: 2,
           child: Container(
             width: 1.width,
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+            decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(10.arP)),
                 color: Colors.black),
             child: SingleChildScrollView(
               // controller: scrollController,
@@ -245,12 +246,13 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                 children: [
                   nftModel == null
                       ? Padding(
-                          padding: EdgeInsets.only(top: 450.arP),
+                          padding: EdgeInsets.only(
+                              top:
+                                  AppConstant.naanBottomSheetChildHeight / 2.5),
                           child: Center(
                             child: CupertinoActivityIndicator(
                                 radius: 15.arP, color: ColorConst.Primary),
-                          ),
-                        )
+                          ))
                       : Column(
                           children: [
                             Container(

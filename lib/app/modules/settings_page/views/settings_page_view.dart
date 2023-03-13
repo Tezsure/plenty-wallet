@@ -155,39 +155,39 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                         ],
                                       ),
                                     ),
-                                    _settingOption(
-                                        title: "Language",
-                                        svgPath:
-                                            "${PathConst.SETTINGS_PAGE.SVG}language.svg",
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SelectLanguageBottomSheet()));
-                                          // CommonFunctions.bottomSheet(
-                                          //   SelectNodeBottomSheet(),
-                                          // );
-                                        },
-                                        trailing: Row(
-                                          children: [
-                                            Obx(() => Text(
-                                                  controller
-                                                      .selectedLanguage.value
-                                                      .toUpperCase(),
-                                                  style: labelSmall.apply(
-                                                      color: ColorConst
-                                                          .NeutralVariant
-                                                          .shade60),
-                                                )),
-                                            Icon(
-                                              Icons.chevron_right_rounded,
-                                              size: 14,
-                                              color: ColorConst
-                                                  .NeutralVariant.shade60,
-                                            )
-                                          ],
-                                        )),
+                                    // _settingOption(
+                                    //     title: "Language",
+                                    //     svgPath:
+                                    //         "${PathConst.SETTINGS_PAGE.SVG}language.svg",
+                                    //     onTap: () {
+                                    //       Navigator.push(
+                                    //           context,
+                                    //           MaterialPageRoute(
+                                    //               builder: (context) =>
+                                    //                   SelectLanguageBottomSheet()));
+                                    //       // CommonFunctions.bottomSheet(
+                                    //       //   SelectNodeBottomSheet(),
+                                    //       // );
+                                    //     },
+                                    //     trailing: Row(
+                                    //       children: [
+                                    //         Obx(() => Text(
+                                    //               controller
+                                    //                   .selectedLanguage.value
+                                    //                   .toUpperCase(),
+                                    //               style: labelSmall.apply(
+                                    //                   color: ColorConst
+                                    //                       .NeutralVariant
+                                    //                       .shade60),
+                                    //             )),
+                                    //         Icon(
+                                    //           Icons.chevron_right_rounded,
+                                    //           size: 14,
+                                    //           color: ColorConst
+                                    //               .NeutralVariant.shade60,
+                                    //         )
+                                    //       ],
+                                    //     )),
                                   ],
                                 ),
 
