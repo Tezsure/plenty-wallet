@@ -98,10 +98,9 @@ class DappBrowserView extends GetView<DappBrowserController> {
                   child: closeButton(),
                 )
               ],
-              leading: SizedBox(),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset(
                     "assets/dapp_browser/lock.png",
