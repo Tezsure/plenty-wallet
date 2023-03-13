@@ -27,11 +27,11 @@ class BackupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-        height: AppConstant.naanBottomSheetHeight - 64.arP,
+        height: AppConstant.naanBottomSheetHeight,
         prevPageName: prevPage,
         bottomSheetWidgets: [
           SizedBox(
-            height: AppConstant.naanBottomSheetChildHeight + 64.arP,
+            height: AppConstant.naanBottomSheetChildHeight,
             child: Column(
               children: [
                 BottomSheetHeading(
