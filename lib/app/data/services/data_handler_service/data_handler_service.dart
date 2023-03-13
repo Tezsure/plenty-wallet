@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
@@ -11,6 +12,7 @@ import 'package:naan_wallet/app/data/services/data_handler_service/token_and_xtz
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
+import 'package:naan_wallet/app/data/services/service_models/event_models.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 
 import 'data_handler_render_service.dart';
@@ -194,6 +196,56 @@ class DataHandlerService {
     String dappString = await HttpService.performGetRequest(
         ServiceConfig.naanApis,
         endpoint: "dapps");
+    Map<String, DappModel> dappsMap = jsonDecode(dappString)
+        .map<String, DappModel>(
+            (key, json) => MapEntry(key.toString(), DappModel.fromJson(json)));
+
+    if (dappBanners != null &&
+        dappBanners.toString().hashCode != banners.toString().hashCode) {
+      dapps!.value = dappsMap;
+      dappBanners.value = banners;
+    } else {}
+
+    // store in local storage
+    await ServiceConfig.localStorage
+        .write(key: ServiceConfig.dappsStorage, value: dappString);
+    await ServiceConfig.localStorage.write(
+        key: ServiceConfig.dappsBannerStorage, value: jsonEncode(banners));
+  }
+
+  Future<void> getEventsDetail(
+      {required RxList<String> tags,
+      required RxString bottomText,
+      required RxString contactUsLink,
+      required RxMap<String, List<EventModel>> events}) async {
+    var eventsStorage = jsonDecode(await ServiceConfig.localStorage
+            .read(key: ServiceConfig.dappsStorage) ??
+        "{}");
+    if (eventsStorage.isNotEmpty) {
+      tags.value = eventsStorage['tags'];
+      bottomText.value = eventsStorage['bottomText'];
+      contactUsLink.value = eventsStorage['contactUsLink'];
+      events.value = eventsStorage['events'].map<EventModel>((json) {
+        return EventModel.fromJson(json);
+      }).toList();
+      ;
+    }
+    events.value = jsonDecode(await ServiceConfig.localStorage
+                .read(key: ServiceConfig.dappsStorage) ??
+            "{}")
+        .map<String, EventModel>(
+            (key, json) => MapEntry(key.toString(), DappModel.fromJson(json)));
+
+    final apiResult = jsonDecode(await HttpService.performGetRequest(
+        ServiceConfig.naanApis,
+        endpoint: "events"));
+    // call apis
+    List<EventModel> eventsAPI = apiResult['events']
+        .map<EventModel>((json) => EventModel.fromJson(json))
+        .toList();
+
+    List<String> tagsAPI = apiResult['tags'];
+
     Map<String, DappModel> dappsMap = jsonDecode(dappString)
         .map<String, DappModel>(
             (key, json) => MapEntry(key.toString(), DappModel.fromJson(json)));
