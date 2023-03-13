@@ -44,9 +44,8 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
       leading: backButton(
           lastPageName: widget.prevPage, ontap: () => Navigator.pop(context)),
       // blurRadius: 5,
-      height: widget.prevPage == null
-          ? null
-          : (AppConstant.naanBottomSheetHeight - 64.arP),
+      height:
+          widget.prevPage == null ? null : (AppConstant.naanBottomSheetHeight),
       isScrollControlled: widget.prevPage == null,
       bottomSheetHorizontalPadding: widget.prevPage == null ? null : 0,
       bottomSheetWidgets: [
@@ -193,7 +192,9 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
         setState(() {});
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 12.0.arP, horizontal: 16.arP),
+        padding: EdgeInsets.symmetric(
+            vertical: 12.0.arP,
+            horizontal: widget.prevPage == null ? 16.arP : 0),
         child: Row(
           children: [
             Column(
