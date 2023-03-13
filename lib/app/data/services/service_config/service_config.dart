@@ -4,10 +4,7 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 
 enum Currency { usd, tez, eur, inr }
 
-enum Language {
-  en,
-  nld,fr
-}
+enum Language { en, nl, fr }
 
 class ServiceConfig {
   /// Current selected node

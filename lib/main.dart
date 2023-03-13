@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/router_report.dart';
@@ -82,42 +83,24 @@ void main() async {
     //Remove this method to stop OneSignal Debugging
 
     runApp(
-      GetMaterialApp(
-        title: "naan",
-        locale: Get.deviceLocale,
-        // translations: Messages(),
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          fontFamily: "Poppins",
-        ),
-        navigatorObservers: [
-          //InstabugNavigatorObserver(),
-          FirebaseAnalyticsObserver(analytics: NaanAnalytics().getAnalytics()),
-        ],
-        fallbackLocale: const Locale("en", "US"),
-
-        localizationsDelegates: const [
-          DefaultMaterialLocalizations.delegate,
-          DefaultCupertinoLocalizations.delegate,
-          DefaultWidgetsLocalizations.delegate
-        ],
-        debugShowCheckedModeBanner: false,
-        initialRoute: AppPages.INITIAL,
-        // getPages: AppPages.routes,
-        builder: (context, Widget? child) => CupertinoTheme(
-          data: CupertinoThemeData(
-            brightness: Theme.of(context).brightness,
-            scaffoldBackgroundColor: CupertinoColors.systemBackground,
+      Phoenix(
+        child: GetMaterialApp(
+          title: "naan",
+          locale: Get.deviceLocale,
+          theme: ThemeData(
+            brightness: Brightness.dark,
+            fontFamily: "Poppins",
           ),
           navigatorObservers: [
             //InstabugNavigatorObserver(),
             FirebaseAnalyticsObserver(
                 analytics: NaanAnalytics().getAnalytics()),
           ],
-          supportedLocales: const [
-            Locale("en", "US"),
-            Locale("en", "IN"),
-          ],
+          // supportedLocales: const [
+          //   Locale("en", "US"),
+          //   Locale("en", "IN"),
+          // ],
+          fallbackLocale: Locale("en", "US"),
           debugShowCheckedModeBanner: false,
           initialRoute: AppPages.INITIAL,
           // getPages: AppPages.routes,
