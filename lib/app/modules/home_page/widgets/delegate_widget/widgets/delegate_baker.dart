@@ -30,7 +30,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
         title: "Delegate",
         // isScrollControlled: true,
         // mainAxisAlignment: MainAxisAlignment.end,
-        bottomSheetHorizontalPadding: 0,
+        // bottomSheetHorizontalPadding: 0,
         height: AppConstant.naanBottomSheetHeight,
         bottomSheetWidgets: [
           SizedBox(
@@ -39,31 +39,24 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    right: 0.05.width,
-                    left: 0.05.width,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: isScrollable
-                        ? CrossAxisAlignment.center
-                        : CrossAxisAlignment.start,
-                    children: [
-                      _buildHeader(),
-                      _buildSearch(),
-                      0.01.vspace,
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 0.012.height),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child:
-                              Text("Recommended bakers".tr, style: labelLarge),
-                        ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: isScrollable
+                      ? CrossAxisAlignment.center
+                      : CrossAxisAlignment.start,
+                  children: [
+                    _buildHeader(),
+                    _buildSearch(),
+                    0.01.vspace,
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 0.012.height),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text("Recommended bakers".tr, style: labelLarge),
                       ),
-                      _buildBakerList(),
-                    ],
-                  ),
+                    ),
+                    _buildBakerList(),
+                  ],
                 ),
                 _buildSortByWidget(context)
               ],
@@ -81,23 +74,33 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
       //   borderRadius: BorderRadius.only(
       //       topLeft: Radius.circular(8), topRight: Radius.circular(8)),
       // ),
-      child: Obx(() {
-        return ListView.builder(
-            shrinkWrap: true,
-            itemCount: controller.searchedDelegateBakerList.length,
-            cacheExtent: 4,
-            controller: controller.scrollController,
-            padding: EdgeInsets.zero,
-            physics: AppConstant.scrollPhysics,
-            itemBuilder: (_, index) {
-              if (delegatedBaker?.address ==
-                  controller.searchedDelegateBakerList[index].address) {
-                return Container();
-              }
-              return _buildBakerItem(
-                  controller.searchedDelegateBakerList[index]);
-            });
-      }),
+      child: ShaderMask(
+        shaderCallback: (Rect rect) {
+          return LinearGradient(colors: [
+            const Color(0xff100919),
+            const Color(0xff100919).withOpacity(0),
+          ], begin: const Alignment(0, 1), end: const Alignment(0, 0.7))
+              .createShader(rect);
+        },
+        blendMode: BlendMode.dstOut,
+        child: Obx(() {
+          return ListView.builder(
+              shrinkWrap: true,
+              itemCount: controller.searchedDelegateBakerList.length,
+              cacheExtent: 4,
+              controller: controller.scrollController,
+              padding: EdgeInsets.zero,
+              physics: AppConstant.scrollPhysics,
+              itemBuilder: (_, index) {
+                if (delegatedBaker?.address ==
+                    controller.searchedDelegateBakerList[index].address) {
+                  return Container();
+                }
+                return _buildBakerItem(
+                    controller.searchedDelegateBakerList[index]);
+              });
+        }),
+      ),
     );
   }
 
