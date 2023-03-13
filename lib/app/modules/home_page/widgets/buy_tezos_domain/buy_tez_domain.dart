@@ -35,6 +35,7 @@ class _TezosDomainWidgetState extends State<TezosDomainWidget> {
       onPressed: () {
         CommonFunctions.bottomSheet(
           const DappBrowserView(),
+          fullscreen: true,
           settings: const RouteSettings(
             arguments: "https://tezos.domains/",
           ),
