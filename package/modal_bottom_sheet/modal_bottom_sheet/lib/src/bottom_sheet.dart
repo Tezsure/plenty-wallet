@@ -14,7 +14,7 @@ const Curve _decelerateEasing = Cubic(0.0, 0.0, 0.2, 1.0);
 
 const Duration _bottomSheetDuration = Duration(milliseconds: 200);
 const double _minFlingVelocity = 500.0;
-const double _closeProgressThreshold = 0.8;
+const double _closeProgressThreshold = 0.6;
 const double _willPopThreshold = 0.8;
 
 typedef WidgetWithChildBuilder = Widget Function(
@@ -190,7 +190,7 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
   }
 
   ParametricCurve<double> animationCurve = Curves.bounceInOut;
-
+  // void _handleDragUpdate(double primaryDelta) async {}
   void _handleDragUpdate(double primaryDelta) async {
     animationCurve = Curves.easeIn;
     assert(widget.enableDrag, 'Dragging is disabled');
@@ -220,7 +220,7 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
       return;
     }
 
-    widget.animationController.value -= progress;
+    widget.animationController.value -= progress * .75;
   }
 
   void _handleDragEnd(double velocity) async {
