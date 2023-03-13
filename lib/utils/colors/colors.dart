@@ -18,6 +18,15 @@ LinearGradient appleBlue = const LinearGradient(
   ],
 );
 
+LinearGradient lightBlue = const LinearGradient(
+  begin: Alignment.bottomLeft,
+  end: Alignment.topRight,
+  colors: [
+    Color(0xff57C1FF),
+    Color(0xff335EEA),
+  ],
+);
+
 LinearGradient accountBg = LinearGradient(
   begin: Alignment.center,
   end: Alignment.bottomLeft,
