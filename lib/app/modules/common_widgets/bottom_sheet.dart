@@ -99,9 +99,9 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
                   minChildSize: widget.minChildSize ?? 0.4,
                   maxChildSize: widget.maxChildSize ?? 1,
                   builder: (_, scrollController) => Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(10)),
+                            BorderRadius.vertical(top: Radius.circular(36.arP)),
                         color: Colors.black),
                     padding: EdgeInsets.symmetric(horizontal: 0.05.width),
                     child: Column(
@@ -161,7 +161,7 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(10.arP)),
+                            BorderRadius.vertical(top: Radius.circular(36.arP)),
                         color: Colors.black),
                     width: widget.width ?? 1.width,
                     height: widget.height,

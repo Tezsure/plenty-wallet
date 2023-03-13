@@ -30,8 +30,8 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
     return NaanBottomSheet(
       title: 'Add Custom RPC',
       blurRadius: 5,
-      bottomSheetHorizontalPadding: 32.arP,
-      height: .42.height + MediaQuery.of(context).viewInsets.bottom,
+      // bottomSheetHorizontalPadding: 32.arP,
+      height: .42.height,
       bottomSheetWidgets: [
         Column(
           children: [
@@ -64,6 +64,7 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
             ),
             0.025.vspace,
             SolidButton(
+                width: 1.width - 64.arP,
                 title: "Add RPC",
                 onPressed: (_name.text.isEmpty || (!_url.text.isURL))
                     ? null

@@ -36,7 +36,7 @@ class CommonFunctions {
         child,
         settings: settings,
         isScrollControlled: true,
-        barrierColor: Colors.black.withOpacity(0.5),
+        barrierColor: ColorConst.darkGrey.withOpacity(0.5),
         backgroundColor: Colors.transparent,
         enterBottomSheetDuration: const Duration(milliseconds: 180),
         exitBottomSheetDuration: const Duration(milliseconds: 150),
