@@ -20,70 +20,54 @@ class HomePageView extends GetView<HomePageController> {
     controller;
 
     return OverrideTextScaleFactor(
+        child: CupertinoPageScaffold(
       child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: CupertinoPageScaffold(
-            child: SizedBox.expand(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Column(
+              children: [
+                // SizedBox(height: 0.025.height),
+                Expanded(
+                    child: ListView(
+                  addAutomaticKeepAlives: true,
+                  padding: EdgeInsets.only(
+                    top: kToolbarHeight + 100.arP,
+                  ),
+                  physics: AppConstant.scrollPhysics,
+                  children: registeredWidgets,
+                )),
+              ],
+            ),
 
-                // decoration: BoxDecoration(
-                //     color: controller.scale.value == 1.00
-                //         ? Colors.black.withOpacity(controller.scale.value)
-                //         : ColorConst.darkGrey,
-                //     borderRadius: controller.scale.value == 1.00
-                //         ? null
-                //         : BorderRadius.circular(24.arP)),
-                child: SafeArea(
-              bottom: false,
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      // SizedBox(height: 0.025.height),
-                      Expanded(
-                          child: ListView(
-                        addAutomaticKeepAlives: true,
-                        padding: EdgeInsets.only(
-                          top: 100.arP,
-                        ),
-                        physics: AppConstant.scrollPhysics,
-                        children: registeredWidgets,
-                      )),
+            Container(
+                child: const HomepageAppBar(),
+                height: kToolbarHeight + 100.arP,
+                width: 1.width,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: const [0.0, 0.8, 1],
+                    colors: [
+                      CupertinoTheme.of(context).scaffoldBackgroundColor,
+                      CupertinoTheme.of(context)
+                          .scaffoldBackgroundColor
+                          .withOpacity(0.5),
+                      CupertinoTheme.of(context)
+                          .scaffoldBackgroundColor
+                          .withOpacity(0.0),
+                      // ColorConst.Primary.shade0,
+                      // ColorConst.Primary.shade0.withOpacity(0.5),
+                      // ColorConst.Primary.shade0.withOpacity(0.0),
                     ],
                   ),
-
-                  Container(
-                      height: 100.arP,
-                      width: 1.width,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          stops: const [0.2, 0.7, 0.9],
-                          colors: [
-                            CupertinoTheme.of(context).scaffoldBackgroundColor,
-                            CupertinoTheme.of(context)
-                                .scaffoldBackgroundColor
-                                .withOpacity(0.5),
-                            CupertinoTheme.of(context)
-                                .scaffoldBackgroundColor
-                                .withOpacity(0.0),
-                            // ColorConst.Primary.shade0,
-                            // ColorConst.Primary.shade0.withOpacity(0.5),
-                            // ColorConst.Primary.shade0.withOpacity(0.0),
-                          ],
-                        ),
-                      )),
-                  // ignore: prefer_const_constructors
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: const HomepageAppBar(),
-                  ),
-                ],
-              ),
-            )),
-          )),
-    );
+                )),
+            // ignore: prefer_const_constructors
+          ],
+        ),
+      ),
+    ));
   }
 }
