@@ -28,7 +28,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
   Widget build(BuildContext context) {
     final ReceivePageController controller = Get.put(ReceivePageController());
     return NaanBottomSheet(
-      isScrollControlled: true,
+      // isScrollControlled: true,
       leading: lastPageName != null
           ? backButton(
               ontap: () {

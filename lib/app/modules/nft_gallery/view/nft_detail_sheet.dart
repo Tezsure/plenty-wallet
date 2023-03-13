@@ -98,7 +98,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
     return NaanBottomSheet(
       prevPageName: widget.prevPage,
       bottomSheetHorizontalPadding: 0,
-      height: AppConstant.naanBottomSheetHeight - 4.arP,
+      height: AppConstant.naanBottomSheetHeight,
       leading: Padding(
         padding: EdgeInsets.only(left: 16.arP),
         child: backButton(
@@ -123,7 +123,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                   child: Icon(
                     Icons.share,
                     color: Colors.white,
-                    size: 16.aR,
+                    size: 20.aR,
                   ),
                 )),
             closeButton()
@@ -131,6 +131,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
         ),
       ),
       bottomSheetWidgets: [
+        0.02.vspace,
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight,
           child: _buildBody(),
@@ -185,7 +186,8 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                     final String img = '$ipfsHost/$hash';
                     //CommonFunctions.launchURL(img);
                     await CommonFunctions.bottomSheet(
-                      const DappBrowserView(),fullscreen: true,
+                      const DappBrowserView(),
+                      fullscreen: true,
                       settings: RouteSettings(
                         arguments: img,
                       ),
@@ -241,7 +243,6 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  0.02.vspace,
                   nftModel == null
                       ? Padding(
                           padding: EdgeInsets.only(top: 450.arP),
@@ -252,43 +253,6 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                         )
                       : Column(
                           children: [
-                            // Padding(
-                            //   padding: EdgeInsets.symmetric(
-                            //       horizontal: 16.arP, vertical: 8.arP),
-                            //   child: Row(
-                            //     mainAxisAlignment:
-                            //         MainAxisAlignment.spaceBetween,
-                            //     children: [
-                            //       backButton(),
-                            //       const Spacer(),
-                            //       BouncingWidget(
-                            //           onPressed: () {
-                            //             Share.share(
-                            //                 'https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}');
-                            //           },
-                            //           child: Padding(
-                            //             padding: const EdgeInsets.all(8.0),
-                            //             child: Icon(
-                            //               Icons.share,
-                            //               color: Colors.white,
-                            //               size: 16.aR,
-                            //             ),
-                            //           )),
-                            //       // IconButton(
-                            //       //     onPressed: () {
-                            //       //       Get.bottomSheet(const CastDevicesSheet());
-                            //       //     },
-                            //       //     padding: EdgeInsets.zero,
-                            //       //     visualDensity: VisualDensity.compact,
-                            //       //     icon: Icon(
-                            //       //       Icons.cast_rounded,
-                            //       //       color: Colors.white,
-                            //       //       size: 16.aR,
-                            //       //     )),
-                            //     ],
-                            //   ),
-                            // ),
-
                             Container(
                               margin:
                                   EdgeInsets.symmetric(vertical: 0.02.height),

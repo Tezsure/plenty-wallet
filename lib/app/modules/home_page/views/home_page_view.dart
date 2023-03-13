@@ -55,17 +55,17 @@ class HomePageView extends GetView<HomePageController> {
                       height: 100.arP,
                       width: 1.width,
                       decoration: BoxDecoration(
-                          // gradient: LinearGradient(
-                          //   begin: Alignment.topCenter,
-                          //   end: Alignment.bottomCenter,
-                          //   stops: const [0.2, 0.7, 0.9],
-                          //   colors: [
-                          //     ColorConst.Primary.shade0,
-                          //     ColorConst.Primary.shade0.withOpacity(0.5),
-                          //     ColorConst.Primary.shade0.withOpacity(0.0),
-                          //   ],
-                          // ),
-                          )),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: const [0.2, 0.7, 0.9],
+                          colors: [
+                            ColorConst.Primary.shade0,
+                            ColorConst.Primary.shade0.withOpacity(0.5),
+                            ColorConst.Primary.shade0.withOpacity(0.0),
+                          ],
+                        ),
+                      )),
                   // ignore: prefer_const_constructors
                   Positioned(
                     top: 0,
