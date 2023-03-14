@@ -58,11 +58,11 @@ class WertBrowserView extends GetView<WertBrowserController> {
       ),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(36.arP)),
-          color: ColorConst.darkGrey),
+          color: Colors.black),
       child: Center(
         child: Column(
           children: [
-            0.005.vspace,
+            0.01.vspace,
             Container(
               height: 5.arP,
               width: 36.arP,
