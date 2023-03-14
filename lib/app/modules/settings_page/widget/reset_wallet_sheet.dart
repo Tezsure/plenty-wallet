@@ -32,16 +32,17 @@ class ResetWalletBottomSheet extends StatelessWidget {
       height: isWalletBackup ? 325.arP : 400.arP,
       title: "Reset naan",
       bottomSheetWidgets: [
-        const Spacer(),
+        // const Spacer(),
         Center(
           child: Text(
-            'You can lose your funds forever if you\ndidn’t make a backup. Are you sure you\nwant to reset naan?',
+            'You can lose your funds forever if you\ndidn’t make a backup. Are you sure you\nwant to reset naan?'
+                .tr,
             style: bodySmall.copyWith(color: ColorConst.textGrey1),
             textAlign: TextAlign.center,
           ),
         ),
-        const Spacer(),
-        0.016.vspace,
+        // const Spacer(),
+        0.02.vspace,
         Column(
           children: [
             optionMethod(
@@ -62,7 +63,7 @@ class ResetWalletBottomSheet extends StatelessWidget {
                           ),
                     0.02.hspace,
                     Text(
-                      "Hold to reset naan",
+                      "Hold to reset naan".tr,
                       style: labelMedium.apply(color: ColorConst.Error.shade60),
                     ),
                   ],
@@ -94,7 +95,7 @@ class ResetWalletBottomSheet extends StatelessWidget {
                   0.016.vspace,
                   optionMethod(
                       child: Text(
-                        "Backup Account",
+                        "Backup Account".tr,
                         style: labelMedium,
                       ),
                       onTap: () {
@@ -102,10 +103,10 @@ class ResetWalletBottomSheet extends StatelessWidget {
                       }),
                 ],
               ),
-            0.016.vspace,
+            0.02.vspace,
             optionMethod(
                 child: Text(
-                  "Cancel",
+                  "Cancel".tr,
                   style: labelMedium,
                 ),
                 onTap: () {

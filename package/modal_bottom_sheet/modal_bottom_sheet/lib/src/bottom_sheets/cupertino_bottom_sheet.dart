@@ -26,7 +26,7 @@ import '../../modal_bottom_sheet.dart';
 
 const double _kPreviousPageVisibleOffset = 10;
 
-const Radius _kDefaultTopRadius = Radius.circular(12);
+const Radius _kDefaultTopRadius = Radius.circular(36);
 const BoxShadow _kDefaultBoxShadow =
     BoxShadow(blurRadius: 10, color: Colors.black12, spreadRadius: 5);
 
@@ -281,7 +281,7 @@ class _CupertinoModalTransition extends StatelessWidget {
 
     final curvedAnimation = CurvedAnimation(
       parent: secondaryAnimation,
-      curve: animationCurve ?? Curves.easeOut,
+      curve: animationCurve ?? Curves.easeIn,
     );
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -505,7 +505,7 @@ class _CupertinoScaffoldState extends State<CupertinoScaffold>
   @override
   void initState() {
     animationController =
-        AnimationController(duration: Duration(milliseconds: 350), vsync: this);
+        AnimationController(duration: Duration(milliseconds: 180), vsync: this);
     super.initState();
   }
 

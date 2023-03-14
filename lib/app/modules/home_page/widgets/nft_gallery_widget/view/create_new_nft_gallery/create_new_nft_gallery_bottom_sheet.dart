@@ -145,7 +145,8 @@ class CreateNewNftGalleryBottomSheet
           height: 12.arP,
         ),
         Text(
-          "Choose accounts to add to your gallery.\nYou can always edit these later",
+          "Choose accounts to add to your gallery.\nYou can always edit these later"
+              .tr,
           textAlign: TextAlign.center,
           style: TextStyle(
             color: const Color(0xFF958E99),
@@ -229,7 +230,7 @@ class CreateNewNftGalleryBottomSheet
           ),
           0.05.vspace,
           Text(
-            "No accounts found",
+            "No accounts found".tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
@@ -242,7 +243,7 @@ class CreateNewNftGalleryBottomSheet
             height: 12.arP,
           ),
           Text(
-            "Create or import new account to proceed",
+            "Create or import new account to proceed".tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: const Color(0xFF958E99),
@@ -279,7 +280,7 @@ class CreateNewNftGalleryBottomSheet
             ),
             0.02.hspace,
             Text(
-              "Add a watch address",
+              "Add a watch address".tr,
               style: labelLarge.copyWith(
                   fontSize: 14.aR,
                   color: ColorConst.Primary,
@@ -293,11 +294,11 @@ class CreateNewNftGalleryBottomSheet
 
   _onImportAccount() async {
     String pkh = await CommonFunctions.bottomSheet(
-      ImportWalletPageView(
-        isBottomSheet: true,
-        isWatchAddress: true,
-      ),
-    );
+        ImportWalletPageView(
+          isBottomSheet: true,
+          isWatchAddress: true,
+        ),
+        fullscreen: true);
     controller.accounts.value = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
 
@@ -396,7 +397,7 @@ class CreateNewNftGalleryBottomSheet
                         right: 14.arP,
                       ),
                       child: Text(
-                        "Watching",
+                        "Watching".tr,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 12.arP,
@@ -453,7 +454,7 @@ class CreateNewNftGalleryBottomSheet
         title:
             nftGalleryModel != null ? "Edit your gallery" : "Name your gallery",
 
-        height: AppConstant.naanBottomSheetHeight ,
+        height: AppConstant.naanBottomSheetHeight,
         // isScrollControlled: true,
         bottomSheetWidgets: [
           SizedBox(

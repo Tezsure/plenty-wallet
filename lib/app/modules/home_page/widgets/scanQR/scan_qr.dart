@@ -149,7 +149,7 @@ class _ScanQrViewState extends State<ScanQrView> {
                       width: 8.arP,
                     ),
                     Text(
-                      "Connected apps",
+                      "Connected apps".tr,
                       style: labelSmall,
                     ),
                     SizedBox(

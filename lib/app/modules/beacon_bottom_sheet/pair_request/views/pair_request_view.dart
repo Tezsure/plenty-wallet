@@ -76,13 +76,13 @@ class PairRequestView extends GetView<PairRequestController> {
 
                 0.02.vspace,
                 Text(
-                  'Wants to connect to your account',
+                  'Wants to connect to your account'.tr,
                   style: bodyLarge.copyWith(
                       color: ColorConst.grey, fontWeight: FontWeight.w600),
                 ),
                 0.03.vspace,
                 Text(
-                  'Account',
+                  'Account'.tr,
                   style: bodySmall.copyWith(color: ColorConst.grey),
                 ),
                 Padding(

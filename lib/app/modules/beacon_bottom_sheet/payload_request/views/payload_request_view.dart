@@ -64,7 +64,7 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                         ),
                         0.02.vspace,
                         Text(
-                          'Message Signature Request',
+                          'Message Signature Request'.tr,
                           style: titleMedium.copyWith(fontSize: 18),
                         ),
                         0.03.vspace,
@@ -73,7 +73,7 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'Message',
+                              'Message'.tr,
                               style: labelMedium,
                             ),
                           ),
@@ -93,7 +93,7 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                         ),
                         0.03.vspace,
                         Text(
-                          'Account',
+                          'Account'.tr,
                           style: bodySmall.copyWith(color: ColorConst.grey),
                         ),
                         Padding(

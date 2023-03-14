@@ -53,7 +53,7 @@ class ScrollToTopStatusBarState extends State<ScrollToTopStatusBarHandler> {
     if (controller.hasClients) {
       controller.animateTo(
         0.0,
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 150),
         curve: Curves.linear, // TODO(ianh): Use a more appropriate curve.
       );
     }

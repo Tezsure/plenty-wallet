@@ -26,57 +26,49 @@ class CommonFunctions {
           : url.contains("mailto:naan-support@tezsure.com")
               ? launchUrlString(url)
               : throw 'Could not launch $url';
-  static Future bottomSheet(
-    Widget child, {
-    RouteSettings? settings,
-  }) async {
-    // return await Get.bottomSheet(
-    //   child,
-    //   settings: settings,
-    //   isScrollControlled: true,
-    //   barrierColor: Colors.black.withOpacity(0.5),
-    //   backgroundColor: Colors.transparent,
-    //   enterBottomSheetDuration: const Duration(milliseconds: 180),
-    //   exitBottomSheetDuration: const Duration(milliseconds: 150),
-    // ).then((value) {
-    //   return value;
-    // });
+  static Future bottomSheet(Widget child,
+      {bool fullscreen = false,
+      RouteSettings? settings,
+      isDismissible = true}) async {
+    if (!fullscreen) {
+      return await Get.bottomSheet(
+        child,
+        settings: settings,
+        isDismissible: isDismissible,
+        isScrollControlled: true,
+        barrierColor: ColorConst.darkGrey.withOpacity(0.5),
+        enterBottomSheetDuration: const Duration(milliseconds: 180),
+        exitBottomSheetDuration: const Duration(milliseconds: 150),
+      ).then((value) {
+        return value;
+      });
+    }
     return await showCupertinoModalBottomSheet(
-            context: Get.context!,
-            navigatorState: Get.global(null).currentState!,
-            onCreate: (route) {
-              RouterReportManager.reportCurrentRoute(route);
-            },
-            onDispose: (route) {
-              RouterReportManager.reportRouteDispose(route);
-            },
-            builder: (context) => Material(
-                  child: child,
-                ),
-            settings: settings,
-            bounce: false,
-            // : true,
-            // barrierColor: Colors.black.withOpacity(0.6),
-            // elevation: 5,
-            // topRadius: Radius.circular(24.arP),
-            // backgroundColor: ColorConst.darkGrey,
-            overlayStyle: SystemUiOverlayStyle.light,
-            // transitionBackgroundColor: ColorConst.darkGrey,
-            // backgroundColor: Colors.black54,
-            // barrierColor: ColorConst.darkGrey.withOpacity(.8),
-            backgroundColor: Colors.transparent
-            // shadow: BoxShadow(
-            //   color: Colors.black.withOpacity(0.2),
-            //   spreadRadius: 50,
-            //   blurRadius: 50,
-            //   // offset: const Offset(0, 0), // changes position of shadow
-            // ),
-            // transitionBackgroundColor: Colors.white.withOpacity(.2),
-            // useRootNavigator: true
-            // enterBottomSheetDuration: const Duration(milliseconds: 180),
-            // exitBottomSheetDuration: const Duration(milliseconds: 150),
-            )
-        .then((value) {
+      context: Get.context!,
+      bounce: false,
+      isDismissible: isDismissible,
+      enableDrag: isDismissible,
+      barrierColor: ColorConst.darkGrey.withOpacity(0.5),
+      backgroundColor: Colors.transparent,
+      // animationCurve: Curves.ease,
+      // previousRouteAnimationCurve: Curves.decelerate,
+      // closeProgressThreshold: 0,
+      // enableDrag: false,
+      navigatorState: Get.global(null).currentState!,
+      onCreate: (route) {
+        RouterReportManager.reportCurrentRoute(route);
+      },
+      onDispose: (route) {
+        RouterReportManager.reportRouteDispose(route);
+      },
+      builder: (context) => Material(
+        type: MaterialType.transparency,
+        child: child,
+      ),
+      settings: settings,
+      // bounce: false,
+      overlayStyle: SystemUiOverlayStyle.light,
+    ).then((value) {
       return value;
     });
   }

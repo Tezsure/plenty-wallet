@@ -67,17 +67,17 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
       leading: Obx(() => BouncingWidget(
             onPressed: _controller.editAccount,
             child: Text(
-              _controller.isAccountEditable.value ? "Done" : "Edit",
+              (_controller.isAccountEditable.value ? "Done" : "Edit").tr,
               style: labelMedium.copyWith(
                   color: ColorConst.Primary, fontSize: 12.aR),
             ),
           )),
       // bottomSheetHorizontalPadding: 0,
       // isScrollControlled: true,
-      height: AppConstant.naanBottomSheetHeight,
+      height: AppConstant.naanBottomSheetChildHeight,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight,
+          height: AppConstant.naanBottomSheetChildHeight - 62.arP,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,7 +167,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                               right: 14.arP,
                                             ),
                                             child: Text(
-                                              "Watching",
+                                              "Watching".tr,
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12.arP,
@@ -217,7 +217,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                         );
                                                       },
                                                       child: Text(
-                                                        "Edit",
+                                                        "Edit".tr,
                                                         style: labelMedium
                                                             .copyWith(
                                                                 fontSize:
@@ -269,7 +269,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                                                           );
                                                         },
                                                         child: Text(
-                                                          "Remove",
+                                                          "Remove".tr,
                                                           style: labelMedium
                                                               .copyWith(
                                                                   fontSize:
@@ -364,7 +364,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                               ),
                               0.02.hspace,
                               Text(
-                                "Add account",
+                                "Add account".tr,
                                 style: labelLarge.copyWith(
                                     fontSize: 14.aR,
                                     color: _controller.isAccountEditable.isFalse
@@ -426,7 +426,7 @@ Widget noAccountWidget() => SizedBox(
             ),
             0.05.vspace,
             Text(
-              "No accounts found",
+              "No accounts found".tr,
               textAlign: TextAlign.center,
               style: titleLarge,
             ),
@@ -434,7 +434,7 @@ Widget noAccountWidget() => SizedBox(
               height: 12.arP,
             ),
             Text(
-              "Create or import new account to proceed",
+              "Create or import new account to proceed".tr,
               textAlign: TextAlign.center,
               style: bodySmall.copyWith(color: ColorConst.textGrey1),
             ),
@@ -454,7 +454,7 @@ Widget removeAccountBottomSheet(int index,
     bottomSheetWidgets: [
       Center(
         child: Text(
-          'Do you want to remove “$accountName”\nfrom your account list?',
+          '${'Do you want to remove'.tr} “$accountName”\n${'from your account list?'.tr}',
           style: bodySmall.copyWith(
               color: ColorConst.NeutralVariant.shade60, fontSize: 14.aR),
           textAlign: TextAlign.center,

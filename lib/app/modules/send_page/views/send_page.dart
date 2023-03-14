@@ -55,7 +55,7 @@ class SendPage extends GetView<SendPageController> {
 
         prevPageName: lastPageName,
         // isScrollControlled: true,
-        height: AppConstant.naanBottomSheetHeight ,
+        height: AppConstant.naanBottomSheetHeight,
         // bottomSheetHorizontalPadding: 16.arP,
         // margin: EdgeInsets.only(top: 27.arP),
         // decoration: const BoxDecoration(
@@ -105,7 +105,7 @@ class SendPage extends GetView<SendPageController> {
           Row(
             children: [
               Text(
-                'To',
+                'To'.tr,
                 style: bodyMedium.apply(
                   color: ColorConst.NeutralVariant.shade60,
                 ),
@@ -164,7 +164,7 @@ class SendPage extends GetView<SendPageController> {
                       ),
                       decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Tez domain or address',
+                          hintText: 'Tez domain or address'.tr,
                           hintStyle: TextStyle(
                             color: const Color(0xFF625C66),
                             fontWeight: FontWeight.w400,

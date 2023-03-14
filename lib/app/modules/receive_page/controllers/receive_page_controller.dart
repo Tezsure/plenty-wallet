@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -12,10 +13,12 @@ class ReceivePageController extends GetxController {
   RxBool isCopied = false.obs; // is copied to clipboard
 
   late AccountModel? userAccount;
-
+  final homeController = Get.find<HomePageController>();
   @override
   void onInit() {
-    userAccount = Get.arguments as AccountModel?;
+    userAccount =
+        homeController.userAccounts[homeController.selectedIndex.value];
+
     super.onInit();
   }
 
@@ -28,20 +31,20 @@ class ReceivePageController extends GetxController {
       backgroundColor: Colors.transparent,
       snackPosition: SnackPosition.BOTTOM,
       snackStyle: SnackStyle.FLOATING,
-      padding: const EdgeInsets.only(bottom: 60),
+      padding: EdgeInsets.only(bottom: 60.arP),
       messageText: Container(
         height: 36.arP,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10.arP),
         decoration: BoxDecoration(
             color: ColorConst.Neutral.shade10,
-            borderRadius: BorderRadius.circular(8)),
+            borderRadius: BorderRadius.circular(8.arP)),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.check_circle_outline_rounded,
-              size: 14,
+              size: 14.arP,
               color: Colors.white,
             ),
             SizedBox(

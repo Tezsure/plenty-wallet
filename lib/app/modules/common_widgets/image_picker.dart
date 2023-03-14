@@ -56,7 +56,7 @@ class ImagePickerSheet extends StatelessWidget {
                       height: 51.aR,
                       alignment: Alignment.center,
                       child: Text(
-                        "Choose from library",
+                        "Choose from library".tr,
                         style: labelMedium.copyWith(fontSize: 12.aR),
                       ),
                     ),
@@ -78,7 +78,7 @@ class ImagePickerSheet extends StatelessWidget {
                       height: 51.aR,
                       alignment: Alignment.center,
                       child: Text(
-                        "Pick an avatar",
+                        "Pick an avatar".tr,
                         style: labelMedium.copyWith(fontSize: 12.aR),
                       ),
                     ),
@@ -97,7 +97,7 @@ class ImagePickerSheet extends StatelessWidget {
                             height: 51.aR,
                             alignment: Alignment.center,
                             child: Text(
-                              "Remove photo",
+                              "Remove photo".tr,
                               style: labelMedium.copyWith(
                                   color: ColorConst.Error.shade60,
                                   fontSize: 12.aR),
@@ -121,7 +121,7 @@ class ImagePickerSheet extends StatelessWidget {
                     color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                   ),
                   child: Text(
-                    "Cancel",
+                    "Cancel".tr,
                     style: labelMedium.copyWith(
                         color: Colors.white, fontSize: 12.aR),
                   ),

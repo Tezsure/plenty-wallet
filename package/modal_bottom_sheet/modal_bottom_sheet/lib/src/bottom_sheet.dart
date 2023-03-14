@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/src/utils/scroll_to_top_status_bar.dart';
@@ -11,7 +12,7 @@ import 'package:modal_bottom_sheet/src/utils/bottom_sheet_suspended_curve.dart';
 
 const Curve _decelerateEasing = Cubic(0.0, 0.0, 0.2, 1.0);
 
-const Duration _bottomSheetDuration = Duration(milliseconds: 400);
+const Duration _bottomSheetDuration = Duration(milliseconds: 200);
 const double _minFlingVelocity = 500.0;
 const double _closeProgressThreshold = 0.6;
 const double _willPopThreshold = 0.8;
@@ -188,10 +189,10 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
     return result ?? false;
   }
 
-  ParametricCurve<double> animationCurve = Curves.linear;
-
+  ParametricCurve<double> animationCurve = Curves.bounceInOut;
+  // void _handleDragUpdate(double primaryDelta) async {}
   void _handleDragUpdate(double primaryDelta) async {
-    animationCurve = Curves.linear;
+    animationCurve = Curves.easeIn;
     assert(widget.enableDrag, 'Dragging is disabled');
 
     if (_dismissUnderway) return;
@@ -219,7 +220,7 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
       return;
     }
 
-    widget.animationController.value -= progress;
+    widget.animationController.value -= progress * .75;
   }
 
   void _handleDragEnd(double velocity) async {
@@ -344,7 +345,7 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
   void initState() {
     animationCurve = _defaultCurve;
     _bounceDragController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 180));
 
     // Todo: Check if we can remove scroll Controller
     super.initState();
@@ -354,7 +355,7 @@ class ModalBottomSheetState extends State<ModalBottomSheet>
   Widget build(BuildContext context) {
     final bounceAnimation = CurvedAnimation(
       parent: _bounceDragController,
-      curve: Curves.easeOutSine,
+      curve: Curves.bounceInOut,
     );
 
     var child = widget.child;

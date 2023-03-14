@@ -87,7 +87,7 @@ class DelegateRewardsTile extends StatelessWidget {
         child: RichText(
           textAlign: TextAlign.start,
           text: TextSpan(
-            text: '$title:\n',
+            text: '${title.tr}:\n',
             style:
                 labelSmall.copyWith(color: ColorConst.NeutralVariant.shade70),
             children: [TextSpan(text: value, style: labelLarge)],
@@ -104,13 +104,13 @@ class DelegateRewardsTile extends StatelessWidget {
       children: [
         CircleAvatar(
           backgroundColor: Colors.transparent,
-          radius: 20,
+          radius: 20.arP,
           child: ClipOval(
             child: CachedNetworkImage(
               imageUrl: reward.bakerDetail?.logo ?? "",
               fit: BoxFit.fill,
-              width: 40,
-              height: 40,
+              width: 40.arP,
+              height: 40.arP,
               maxWidthDiskCache: 80,
               maxHeightDiskCache: 80,
             ),
@@ -119,7 +119,7 @@ class DelegateRewardsTile extends StatelessWidget {
         0.02.hspace,
         RichText(
             text: TextSpan(
-                text: '${reward.bakerDetail?.name}\n',
+                text: '${reward.bakerDetail?.name ?? ""}\n',
                 style: labelMedium,
                 children: [
               TextSpan(
@@ -137,10 +137,10 @@ class DelegateRewardsTile extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       snackPosition: SnackPosition.BOTTOM,
                       snackStyle: SnackStyle.FLOATING,
-                      padding: const EdgeInsets.only(bottom: 60),
+                      padding: EdgeInsets.only(bottom: 60.arP),
                       messageText: Container(
-                        height: 36,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        height: 36.arP,
+                        padding: EdgeInsets.symmetric(horizontal: 10.arP),
                         decoration: BoxDecoration(
                             color: ColorConst.Neutral.shade10,
                             borderRadius: BorderRadius.circular(8)),
@@ -148,13 +148,13 @@ class DelegateRewardsTile extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.check_circle_outline_rounded,
-                              size: 14,
+                              size: 14.arP,
                               color: Colors.white,
                             ),
-                            const SizedBox(
-                              width: 5,
+                            SizedBox(
+                              width: 5.arP,
                             ),
                             Text(
                               "Copied to clipboard",
@@ -183,10 +183,10 @@ class DelegateRewardsTile extends StatelessWidget {
               reward.cycle.toString(),
               style: labelSmall,
             ),
-            const Icon(
+            Icon(
               Icons.hourglass_empty,
               color: ColorConst.Primary,
-              size: 20,
+              size: 20.arP,
             ),
           ],
         ),

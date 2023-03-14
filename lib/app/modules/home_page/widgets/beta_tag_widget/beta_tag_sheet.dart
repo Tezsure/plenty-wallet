@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -41,23 +42,30 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
     ];
     return NaanBottomSheet(
       isScrollControlled: true,
+      // title: "",
       bottomSheetWidgets: [
         SizedBox(
           height: hasAgreed ? 0.6.height : 0.69.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              0.01.vspace,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [closeButton()],
+              ),
               // 0.028.vspace,
               _buildIcon(),
               Text(
-                "Your naan is in Beta",
+                "Your naan is in Beta".tr,
                 style: headlineSmall,
               ),
               0.02.vspace,
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                    "Welcome to the naan beta! By using the beta version of our product, you agree that:",
+                    "Welcome to the naan beta! By using the beta version of our product, you agree that:"
+                        .tr,
                     style: labelMedium.copyWith(
                         color: ColorConst.textGrey1,
                         fontWeight: FontWeight.normal)),
@@ -84,7 +92,7 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
                             0.02.hspace,
                             Expanded(
                               child: Text(
-                                infos[index],
+                                infos[index].tr,
                                 style: labelMedium.copyWith(
                                     color: ColorConst.textGrey1,
                                     fontWeight: FontWeight.normal),
@@ -105,10 +113,11 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
                         Get.find<HomePageController>().userAccounts.isEmpty
                             ? null
                             : Get.find<HomePageController>()
-                                .userAccounts
-                                .first
+                                .userAccounts[Get.find<HomePageController>()
+                                    .selectedIndex
+                                    .value]
                                 .publicKeyHash;
-                    NaanAnalytics.logEvent(NaanAnalyticsEvents.TF_COLLECTION,
+                    NaanAnalytics.logEvent(NaanAnalyticsEvents.BETA_AGREE,
                         param: {NaanAnalytics.address: address});
                     UserStorageService.betaTagAgree();
                     Get.back();

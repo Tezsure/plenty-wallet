@@ -19,8 +19,9 @@ class AddContactButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        CommonFunctions.bottomSheet(AddContactBottomSheet(contactModel: contactModel),
-          );
+        CommonFunctions.bottomSheet(
+          AddContactBottomSheet(contactModel: contactModel),fullscreen: true
+        );
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +34,7 @@ class AddContactButton extends StatelessWidget {
           ),
           0.02.hspace,
           Text(
-            "Save",
+            "Save".tr,
             style: labelMedium.apply(color: ColorConst.Primary),
           )
         ],

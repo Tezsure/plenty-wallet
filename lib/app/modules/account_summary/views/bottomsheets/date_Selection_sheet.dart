@@ -31,7 +31,7 @@ class DateSelectionSheet extends StatelessWidget {
         bottomSheetWidgets: [
           0.02.vspace,
           Text(
-            'Select Start Date',
+            'Select Start Date'.tr,
             style: titleSmall.copyWith(letterSpacing: 0.5.arP),
           ),
           SizedBox(
@@ -43,7 +43,7 @@ class DateSelectionSheet extends StatelessWidget {
               dateBox(SelectDateType.from,
                   controller.fromDate.value.toString().substring(0, 11)),
               Text(
-                "to",
+                "to".tr,
                 style: bodyMedium.copyWith(fontSize: 14.aR),
               ),
               dateBox(SelectDateType.to,

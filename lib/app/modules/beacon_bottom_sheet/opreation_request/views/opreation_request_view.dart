@@ -73,7 +73,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                               ),
                               0.01.vspace,
                               Text(
-                                'Confirm Transaction',
+                                'Confirm Transaction'.tr,
                                 style: titleMedium.copyWith(fontSize: 18.arP),
                               ),
                               Expanded(
@@ -145,7 +145,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                     ]),
                               ),
                               Text(
-                                'Account',
+                                'Account'.tr,
                                 style:
                                     bodySmall.copyWith(color: ColorConst.grey),
                               ),
@@ -223,7 +223,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                       vertical: 12,
                                                       horizontal: 24),
                                                   child: Text(
-                                                    'Transaction is likely to fail: ${controller.error.value.length > 100 ? controller.error.value.replaceRange(100, controller.error.value.length, '...') : controller.error.value}',
+                                                    '${'Transaction is likely to fail:'.tr} ${controller.error.value.length > 100 ? controller.error.value.replaceRange(100, controller.error.value.length, '...') : controller.error.value}',
                                                     style: bodyMedium.copyWith(
                                                         color:
                                                             ColorConst.NaanRed),
@@ -301,7 +301,8 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                                         .isBiometric
                                                                         .value
                                                                     ? Text(
-                                                                        'Confirm',
+                                                                        'Confirm'
+                                                                            .tr,
                                                                         style: titleSmall.copyWith(
                                                                             fontWeight:
                                                                                 FontWeight.w600,
@@ -319,7 +320,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                                                   color: Colors.white,
                                                                                 ),
                                                                           Text(
-                                                                            'Confirm',
+                                                                            'Confirm'.tr,
                                                                             style:
                                                                                 titleSmall.copyWith(fontWeight: FontWeight.w600, color: ColorConst.Neutral.shade100),
                                                                           ),
@@ -346,7 +347,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        'Estimated Fees',
+                                                        'Estimated Fees'.tr,
                                                         style:
                                                             bodySmall.copyWith(
                                                                 color:
@@ -357,7 +358,10 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                             controller.fees
                                                                         .value ==
                                                                     "calculating..."
+                                                                        .tr
                                                                 ? "calculating..."
+                                                                    .tr
+                                                                    .tr
                                                                 : double.parse(
                                                                         controller
                                                                             .fees
@@ -375,7 +379,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            'Balance',
+                                                            'Balance'.tr,
                                                             style: bodySmall
                                                                 .copyWith(
                                                                     color: ColorConst
@@ -450,7 +454,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                         ),
                         0.02.hspace,
                         Text(
-                          "Confirm",
+                          "Confirm".tr,
                           style: titleSmall.copyWith(
                               fontWeight: FontWeight.w600,
                               color: ColorConst.Neutral.shade100),

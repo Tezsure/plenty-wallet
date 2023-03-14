@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../modal_bottom_sheet.dart';
 
-const Duration _bottomSheetDuration = Duration(milliseconds: 400);
+const Duration _bottomSheetDuration = Duration(milliseconds: 200);
 
 class _ModalBottomSheet<T> extends StatefulWidget {
   const _ModalBottomSheet({
@@ -122,7 +122,8 @@ class _ModalBottomSheetState<T> extends State<_ModalBottomSheet<T>> {
   }
 }
 
-class ModalSheetRoute<T> extends PageRoute<T> {
+class 
+ModalSheetRoute<T> extends PageRoute<T> {
   ModalSheetRoute({
     this.closeProgressThreshold,
     this.containerBuilder,

@@ -71,7 +71,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 32.arP),
                         child: Text(
-                          widget.subtitle,
+                          widget.subtitle.tr,
                           style: bodySmall.copyWith(
                             color: ColorConst.NeutralVariant.shade60,
                           ),
@@ -80,7 +80,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                       ),
                       0.04.vspace,
                       Text(
-                        'Choose account',
+                        'Choose account'.tr,
                         style: bodySmall.copyWith(color: ColorConst.grey),
                       ),
                       Padding(
@@ -223,6 +223,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                               )),
                         ),
                       ),
+                      0.02.vspace,
                       Expanded(
                           child: Column(
                         mainAxisSize: MainAxisSize.max,
@@ -245,7 +246,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 14),
                                     child: Text(
-                                      'Cancel',
+                                      'Cancel'.tr,
                                       style: bodyMedium.copyWith(
                                         fontWeight: FontWeight.w600,
                                         color: const Color(

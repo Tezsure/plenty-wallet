@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
@@ -33,8 +34,17 @@ class _TezosDomainWidgetState extends State<TezosDomainWidget> {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
+        final address = Get.find<HomePageController>().userAccounts.isEmpty
+            ? null
+            : Get.find<HomePageController>()
+                .userAccounts[
+                    Get.find<HomePageController>().selectedIndex.value]
+                .publicKeyHash;
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZOS_DOMAIN,
+            param: {NaanAnalytics.address: address});
         CommonFunctions.bottomSheet(
           const DappBrowserView(),
+          fullscreen: true,
           settings: const RouteSettings(
             arguments: "https://tezos.domains/",
           ),
@@ -82,7 +92,7 @@ class _TezosDomainWidgetState extends State<TezosDomainWidget> {
     return Container(
       decoration:
           const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-      padding: EdgeInsets.all(16.arP),
+      padding: EdgeInsets.all(AppConstant.homeWidgetDimension / 11),
       height: AppConstant.homeWidgetDimension / 2.5,
       width: AppConstant.homeWidgetDimension / 2.5,
       child: Image.asset("assets/home_page/tez_domain.png"),

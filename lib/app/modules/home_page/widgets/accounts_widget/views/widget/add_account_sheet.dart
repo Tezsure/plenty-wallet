@@ -40,7 +40,7 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
         ),
         Center(
           child: Text(
-            'Create or import an account',
+            'Create or import an account'.tr,
             style: bodySmall.copyWith(
               color: const Color(0xFF958E99),
             ),
@@ -71,9 +71,9 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
                 ),
                 onPressed: () {
                   Get.back();
-                  CommonFunctions.bottomSheet(
-                    AddNewAccountBottomSheet(),
-                  ).whenComplete(() {
+                  CommonFunctions.bottomSheet(AddNewAccountBottomSheet(),
+                          fullscreen: true)
+                      .whenComplete(() {
                     Get.find<AccountsWidgetController>().resetCreateNewWallet();
                   });
                 },
@@ -117,7 +117,7 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              "Or create account with",
+              "Or create account with".tr,
               style: bodySmall.copyWith(
                 fontWeight: FontWeight.w600,
                 color: ColorConst.NeutralVariant.shade60,

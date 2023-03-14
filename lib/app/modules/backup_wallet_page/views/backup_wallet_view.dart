@@ -72,7 +72,8 @@ class BackupWalletView extends GetView<BackupWalletController> {
         ),
         0.04.vspace,
         Text(
-          'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.',
+          'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.'
+              .tr,
           textAlign: TextAlign.center,
           style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
         ),
@@ -80,8 +81,8 @@ class BackupWalletView extends GetView<BackupWalletController> {
         Obx(() => CopyButton(
               isCopied: controller.phraseCopy.value,
               onPressed: () => controller.paste().whenComplete(() =>
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Copied to your clipboard !')))),
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Copied to your clipboard !'.tr)))),
             )),
         0.020.vspace,
         GridView.builder(
@@ -132,7 +133,7 @@ class BackupWalletView extends GetView<BackupWalletController> {
                 ),
                 0.02.hspace,
                 Text(
-                  "I’ve saved these words",
+                  "I’ve saved these words".tr,
                   style: titleSmall,
                 )
               ],

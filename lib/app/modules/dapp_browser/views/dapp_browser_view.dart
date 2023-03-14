@@ -23,6 +23,7 @@ import '../controllers/dapp_browser_controller.dart';
 
 class DappBrowserView extends GetView<DappBrowserController> {
   final String? tagString;
+
   const DappBrowserView({Key? key, this.tagString}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -61,10 +62,10 @@ class DappBrowserView extends GetView<DappBrowserController> {
     return OverrideTextScaleFactor(
       child: NaanBottomSheet(
         bottomSheetHorizontalPadding: 0,
-        height: .9.height,
+        height: AppConstant.naanBottomSheetHeight,
         bottomSheetWidgets: [
           Container(
-            height: .9.height - 14.arP,
+            height: AppConstant.naanBottomSheetHeight - 18.arP,
             // width: 1.width,
             // margin: EdgeInsets.only(
             //   top: 0.05.height,
@@ -74,7 +75,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
             ),
             decoration: BoxDecoration(
                 borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(10.arP)),
+                    BorderRadius.vertical(top: Radius.circular(36.arP)),
                 color: Colors.black),
             child: Center(
               child: _buildBody(webViewKey, options, pullToRefreshController),
@@ -98,10 +99,12 @@ class DappBrowserView extends GetView<DappBrowserController> {
                   child: closeButton(),
                 )
               ],
-              leading: SizedBox(),
+              leading: SizedBox(
+                width: 46.arP,
+              ),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset(
                     "assets/dapp_browser/lock.png",
@@ -111,12 +114,13 @@ class DappBrowserView extends GetView<DappBrowserController> {
                   0.01.hspace,
                   Text(
                     controller.url.value.contains("https://wert")
-                        ? "Buy tez"
+                        ? "Buy tez".tr
                         : Uri.parse(controller.url.value)
                             .host
                             .replaceAll(RegExp(r".+\/\/|www.|"), ""),
                     style: bodyMedium,
                   ),
+                  0.01.hspace,
                 ],
               ),
               backgroundColor: Colors.black,
@@ -162,7 +166,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                                   ),
                                   0.01.hspace,
                                   Text(
-                                    "Buy",
+                                    "Buy".tr,
                                     style: labelLarge,
                                   )
                                 ],

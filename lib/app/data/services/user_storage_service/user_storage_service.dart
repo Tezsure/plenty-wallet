@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -152,6 +153,23 @@ class UserStorageService {
   static Future<void> writeCurrency(String currency) async {
     await ServiceConfig.localStorage
         .write(key: ServiceConfig.currencySelectedStorage, value: currency);
+  }
+
+  static Future<String> readLanguage() async {
+    final String? language = (await ServiceConfig.localStorage.read(
+      key: ServiceConfig.languageSelectedStorage,
+    ));
+    if (language != null) {
+      await Get.updateLocale(Locale(language));
+      return language;
+    }
+    log("Get.locale?:${Get.deviceLocale?.languageCode}");
+    return Get.locale?.languageCode ?? "en";
+  }
+
+  static Future<void> writeLanguage(String language) async {
+    await ServiceConfig.localStorage
+        .write(key: ServiceConfig.languageSelectedStorage, value: language);
   }
 
   static Future<void> betaTagAgree() async {

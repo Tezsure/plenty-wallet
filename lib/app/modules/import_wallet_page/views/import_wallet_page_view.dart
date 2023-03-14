@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -56,10 +57,12 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     }
     return OverrideTextScaleFactor(
       child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.arP),
-          child: SafeArea(bottom: false, child: _buildBody(context)),
+        backgroundColor: Colors.transparent,
+        body: CupertinoPageScaffold(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.arP),
+            child: SafeArea(bottom: false, child: _buildBody(context)),
+          ),
         ),
       ),
     );
@@ -86,7 +89,15 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               //   ),
               // ),
               const Spacer(),
-              isBottomSheet ? closeButton() : const SizedBox(),
+              isBottomSheet
+                  ? closeButton()
+                  : InfoButton(
+                      onPressed: () {
+                        CommonFunctions.bottomSheet(
+                            InfoBottomSheet(isWatchAddress: isWatchAddress),
+                            fullscreen: true);
+                      },
+                    ),
 
               // GestureDetector(
               //   onTap: () {
@@ -116,18 +127,19 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             ],
           ),
           0.02.vspace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              InfoButton(
-                onPressed: () {
-                  CommonFunctions.bottomSheet(
-                    InfoBottomSheet(isWatchAddress: isWatchAddress),
-                  );
-                },
-              ),
-            ],
-          ),
+          if (isBottomSheet)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InfoButton(
+                  onPressed: () {
+                    CommonFunctions.bottomSheet(
+                        InfoBottomSheet(isWatchAddress: isWatchAddress),
+                        fullscreen: true);
+                  },
+                ),
+              ],
+            ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -137,7 +149,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                 children: [
                   0.05.vspace,
                   Text(
-                    isWatchAddress ? "Add a watch address" : "Import account",
+                    (isWatchAddress ? "Add a watch address" : "Import account")
+                        .tr,
                     style: titleLarge,
                   ),
                   0.023.vspace,
@@ -175,9 +188,10 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                       contentPadding: const EdgeInsets.all(0),
                                       hintStyle: bodyMedium.apply(
                                           color: Colors.white.withOpacity(0.2)),
-                                      hintText: isWatchAddress
-                                          ? "Enter wallet address or tezos domain "
-                                          : "Paste your secret phrase, private key\nor watch address",
+                                      hintText: (isWatchAddress
+                                              ? "Enter wallet address or tezos domain "
+                                              : "Paste your secret phrase, private key\nor watch address")
+                                          .tr,
                                       border: InputBorder.none),
                                 ),
                               ),
@@ -194,7 +208,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                           controller.phraseText.value = "";
                                         },
                                         child: Text(
-                                          "Clear",
+                                          "Clear".tr,
                                           style: titleSmall.apply(
                                               color: ColorConst.Primary),
                                         ),
@@ -245,7 +259,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           ),
           0.02.hspace,
           Text(
-            "Paste",
+            "Paste".tr,
             style: titleSmall.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w600,
@@ -274,8 +288,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               controller.tabController!.animateTo(0);
               controller.genAndLoadMoreAccounts(0, 3);
               CommonFunctions.bottomSheet(
-                AccountBottomSheet(controller: controller),
-              );
+                  AccountBottomSheet(controller: controller),
+                  fullscreen: true);
             } else {
               controller.redirectBasedOnImportWalletType(
                   Routes.NFT_GALLERY_CREATE, isWatchAddress);
@@ -329,18 +343,18 @@ class AccountBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      blurRadius: 5,
-      height: 0.85.height,
+      // blurRadius: 5,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         0.04.vspace,
         Text(
-          "Select addresses",
+          "Select addresses".tr,
           textAlign: TextAlign.start,
           style: titleLarge,
         ),
         0.014.vspace,
         Text(
-          "Multiple addresses can be selected",
+          "Multiple addresses can be selected".tr,
           style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
         ),
         0.03.vspace,
@@ -364,6 +378,9 @@ class AccountBottomSheet extends StatelessWidget {
                       topRightRadius: 4,
                       strokeWidth: 4,
                     ),
+                    onTap: (_) {
+                      AppConstant.hapticFeedback();
+                    },
                     controller: controller.tabController,
                     labelPadding: EdgeInsets.zero,
                     tabs: [
@@ -410,7 +427,7 @@ class AccountBottomSheet extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text("Legacy"),
+                              Text("Legacy".tr),
                               if (controller.selectedLegacyAccount.isNotEmpty)
                                 _buildCount(
                                     controller.selectedLegacyAccount.length)

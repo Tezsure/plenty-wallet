@@ -70,7 +70,7 @@ class HistoryPage extends GetView<TransactionController> {
                               ),
                               0.02.hspace,
                               Text(
-                                'Search',
+                                'Search'.tr,
                                 style: labelLarge.copyWith(
                                     letterSpacing: 0.25.aR,
                                     fontSize: 14.aR,
@@ -119,7 +119,7 @@ class HistoryPage extends GetView<TransactionController> {
                                       height: 40.aR,
                                       child: Center(
                                         child: Text(
-                                          'No more results',
+                                          'No more results'.tr,
                                           style: labelLarge.copyWith(
                                               fontSize: 14.aR,
                                               fontWeight: FontWeight.w400,
@@ -148,7 +148,7 @@ class HistoryPage extends GetView<TransactionController> {
                                       height: 40.aR,
                                       child: Center(
                                         child: Text(
-                                          'No more results',
+                                          'No more results'.tr,
                                           style: labelLarge.copyWith(
                                               fontSize: 14.aR,
                                               fontWeight: FontWeight.w400,
@@ -197,14 +197,15 @@ class HistoryPage extends GetView<TransactionController> {
             RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                    text: "No transactions\n",
+                    text: "No transactions\n".tr,
                     style: titleLarge.copyWith(
                         fontSize: 22.aR, fontWeight: FontWeight.w700),
                     children: [
                       WidgetSpan(child: 0.04.vspace),
                       TextSpan(
                           text:
-                              "Your crypto and NFT activity will appear\nhere once you start using your wallet",
+                              "Your crypto and NFT activity will appear\nhere once you start using your wallet"
+                                  .tr,
                           style: labelMedium.copyWith(
                               fontSize: 12.aR,
                               color: ColorConst.NeutralVariant.shade60))

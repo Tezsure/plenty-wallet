@@ -7,7 +7,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
@@ -18,10 +17,10 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/env.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'app/data/services/translation/translation_helper.dart';
 import 'app/routes/app_pages.dart';
+import 'utils/translation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -97,10 +96,11 @@ void main() async {
             FirebaseAnalyticsObserver(
                 analytics: NaanAnalytics().getAnalytics()),
           ],
-          supportedLocales: const [
-            Locale("en", "US"),
-            Locale("en", "IN"),
-          ],
+          // supportedLocales: const [
+          //   Locale("en", "US"),
+          //   Locale("en", "IN"),
+          // ],
+          fallbackLocale: Locale("en", "US"),
           debugShowCheckedModeBanner: false,
           initialRoute: AppPages.INITIAL,
           // getPages: AppPages.routes,

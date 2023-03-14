@@ -140,7 +140,7 @@ class AccountWidget extends StatelessWidget {
           height: 50,
           child: Center(
             child: Text(
-              "Show more accounts",
+              "Show more accounts".tr,
               style: labelMedium,
             ),
           ),
@@ -234,7 +234,7 @@ class AccountWidget extends StatelessWidget {
             // if (isSelected)
             isImported
                 ? Text(
-                    "IMPORTED",
+                    "Imported".tr,
                     style: labelSmall.copyWith(color: ColorConst.Primary),
                   )
                 : IconButton(

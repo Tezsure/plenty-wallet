@@ -40,7 +40,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
       return NaanBottomSheet(
         bottomSheetHorizontalPadding: 16.arP,
         // isScrollControlled: true,
-        height: AppConstant.naanBottomSheetHeight ,
+        height: AppConstant.naanBottomSheetHeight,
         bottomSheetWidgets: [
           SizedBox(
               height: AppConstant.naanBottomSheetChildHeight -
@@ -69,7 +69,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
         0.02.vspace,
         Align(
           alignment: Alignment.centerLeft,
-          child: Text("Name your account", style: titleLarge),
+          child: Text("Name your account".tr, style: titleLarge),
         ),
         0.05.vspace,
         Obx(
@@ -173,7 +173,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     ),
                     0.015.hspace,
                     Text(
-                      "Start using naan",
+                      "Start using naan".tr,
                       style: titleSmall.copyWith(
                           color: !controller.isContiuneButtonEnable.value
                               ? ColorConst.textGrey1
@@ -194,7 +194,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     ),
                     0.02.hspace,
                     Text(
-                      "Start using naan",
+                      "Start using naan".tr,
                       style: titleSmall.copyWith(
                           color: !controller.isContiuneButtonEnable.value
                               ? ColorConst.textGrey1

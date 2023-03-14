@@ -123,7 +123,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                       ? Align(
                           alignment: Alignment.center,
                           child: Text(
-                            'Wrong word selected. Try again',
+                            'Wrong word selected. Try again'.tr,
                             style: bodySmall.copyWith(color: ColorConst.Error),
                           ),
                         )

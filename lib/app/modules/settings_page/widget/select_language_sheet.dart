@@ -24,10 +24,10 @@ class SelectLanguageBottomSheet extends StatefulWidget {
 
 class _SelectLanguageBottomSheetState extends State<SelectLanguageBottomSheet> {
   final SettingsPageController controller = Get.find<SettingsPageController>();
-  late String selectedCurrency;
+  late String selectedLanguage;
   @override
   void initState() {
-    selectedCurrency = controller.selectedCurrency.value;
+    selectedLanguage = controller.selectedLanguage.value;
 
     super.initState();
   }
@@ -48,14 +48,27 @@ class _SelectLanguageBottomSheetState extends State<SelectLanguageBottomSheet> {
               height: 30.aR,
             ),
             optionMethod(
-              value: "usd",
+              value: "en",
               title: "English (US)",
             ),
-            // const Divider(
-            //   color: Colors.black,
-            //   height: 1,
-            //   thickness: 1,
-            // ),
+            const Divider(
+              color: Colors.black,
+              height: 1,
+              thickness: 1,
+            ),
+            optionMethod(
+              value: "nl",
+              title: "Netherlands",
+            ),
+            const Divider(
+              color: Colors.black,
+              height: 1,
+              thickness: 1,
+            ),
+            optionMethod(
+              value: "fr",
+              title: "French",
+            ),
             // optionMethod(
             //   value: "inr",
             //   title: "Indian Rupee(INR)",
@@ -96,18 +109,18 @@ class _SelectLanguageBottomSheetState extends State<SelectLanguageBottomSheet> {
       onPressed: onTap ??
           () {
             setState(() {
-              selectedCurrency = value;
+              selectedLanguage = value;
             });
-            controller.changeCurrency(value);
-            Get.back();
+            controller.changeLanguage(value);
+            Navigator.pop(context);
           },
       child: SizedBox(
         width: double.infinity,
         height: 54.arP,
         child: Row(
           children: [
-            Image.asset(
-              "${PathConst.SETTINGS_PAGE}currencies/$value.png",
+            SvgPicture.asset(
+              "${PathConst.SETTINGS_PAGE}language/$value.svg",
               height: 40.arP,
               fit: BoxFit.contain,
             ),
@@ -119,7 +132,7 @@ class _SelectLanguageBottomSheetState extends State<SelectLanguageBottomSheet> {
               style: labelMedium,
             ),
             const Spacer(),
-            if (selectedCurrency.toLowerCase() == value.toLowerCase())
+            if (selectedLanguage.toLowerCase() == value.toLowerCase())
               SvgPicture.asset(
                 "${PathConst.SVG}check_3.svg",
                 height: 20.arP,

@@ -55,7 +55,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
       return NaanBottomSheet(
         bottomSheetHorizontalPadding: 0,
         // isScrollControlled: true,
-        height: AppConstant.naanBottomSheetHeight ,
+        height: AppConstant.naanBottomSheetHeight,
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight -
@@ -78,7 +78,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           ? Container(
                               margin: EdgeInsets.only(top: 0.03.height),
                               child: Text(
-                                "Try searching for an artist, \ncollection name or NFT name",
+                                "Try searching for an artist, \ncollection name or NFT name"
+                                    .tr,
                                 textAlign: TextAlign.center,
                                 style:
                                     bodyMedium.copyWith(color: ColorConst.grey),
@@ -99,7 +100,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                             height: 0.02.height,
                                           ),
                                           Text(
-                                            "Probably Nothing",
+                                            "Probably Nothing".tr,
                                             textAlign: TextAlign.center,
                                             style: titleLarge,
                                           ),
@@ -107,7 +108,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                             height: 0.01.height,
                                           ),
                                           Text(
-                                            "We didn’t find any results. Did you \nmisspell your query?",
+                                            "We didn’t find any results. Did you \nmisspell your query?"
+                                                .tr,
                                             textAlign: TextAlign.center,
                                             style: bodySmall.copyWith(
                                                 color: ColorConst.grey),
@@ -235,7 +237,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 0,
       // isScrollControlled: true,
-      height: AppConstant.naanBottomSheetHeight ,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight + 60.7.arP,
@@ -926,7 +928,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                   color: const Color(0xFFB0A9B3),
                                   size: 18.arP,
                                 ),
-                                hintText: "Search",
+                                hintText: "Search".tr,
                                 hintStyle: bodyMedium.copyWith(
                                   color: const Color(0xFFB0A9B3),
                                 ),
@@ -950,7 +952,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           padding:
                               const EdgeInsets.only(left: 12.0, right: 7.0),
                           child: Text(
-                            "Cancel",
+                            "Cancel".tr,
                             style:
                                 bodyMedium.copyWith(color: ColorConst.Primary),
                           ),
@@ -970,7 +972,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
           },
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.arP),
-            child: Text(controller.isEditing.value ? "Done" : "Edit",
+            child: Text((controller.isEditing.value ? "Done" : "Edit").tr,
                 style: bodySmall.copyWith(
                     fontWeight: FontWeight.w600, color: ColorConst.Primary)),
           ),
@@ -1009,7 +1011,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                   ),
                                   0.02.hspace,
                                   Text(
-                                    "Create a new gallery",
+                                    "Create a new gallery".tr,
                                     style: labelLarge.copyWith(
                                         fontSize: 14.aR,
                                         color: ColorConst.Primary,
@@ -1112,7 +1114,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                               left: 10.arP,
                                                             ),
                                                             child: Text(
-                                                              "Edit",
+                                                              "Edit".tr,
                                                               style:
                                                                   labelMedium,
                                                             ),
@@ -1150,7 +1152,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                                                         );
                                                       },
                                                       child: Text(
-                                                        "Remove",
+                                                        "Remove".tr,
                                                         style: labelMedium
                                                             .copyWith(
                                                                 color:
@@ -1363,7 +1365,7 @@ class RemoveGallerySheet extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 0.175.width),
                 child: Text(
-                  "Do you want to remove \"${controller.nftGalleryList[galleryIndex].name}\" from your gallery list?",
+                  "${"Do you want to remove".tr} \"${controller.nftGalleryList[galleryIndex].name}\" ${"from your gallery list?".tr}",
                   style: bodySmall.copyWith(
                     color: ColorConst.NeutralVariant.shade60,
                   ),

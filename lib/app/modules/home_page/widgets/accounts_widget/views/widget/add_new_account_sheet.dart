@@ -78,7 +78,7 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
     return NaanBottomSheet(
       title: "Name your account",
       // isScrollControlled: true,
-      height: AppConstant.naanBottomSheetHeight ,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
@@ -167,7 +167,7 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
                         ),
                         0.015.hspace,
                         Text(
-                          "Start using naan",
+                          "Start using naan".tr,
                           style: titleSmall.copyWith(
                               fontSize: 14.aR,
                               color: controller.phrase.isEmpty ||

@@ -37,7 +37,7 @@ class DappsPageView extends GetView<DappsPageController> {
       bottomSheetHorizontalPadding: 0,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetHeight - 56.arP,
+          height: AppConstant.naanBottomSheetChildHeight,
           child: Column(
             children: [
               0.02.vspace,
@@ -324,6 +324,7 @@ class DappListItemWidget extends StatelessWidget {
                       });
                   CommonFunctions.bottomSheet(
                     const DappBrowserView(),
+                    fullscreen: true,
                     settings: RouteSettings(
                       arguments: dapp.url,
                     ),
@@ -347,7 +348,7 @@ class DappListItemWidget extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    "Launch",
+                    "Launch".tr,
                     style: TextStyle(
                       fontSize: 14.arP,
                       color: const Color(0xFF958E99),

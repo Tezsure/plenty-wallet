@@ -44,7 +44,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         // bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
           SizedBox(
-            height: AppConstant.naanBottomSheetHeight - 14.arP,
+            height: AppConstant.naanBottomSheetHeight - 20.arP,
             child: Navigator(onGenerateRoute: (context2) {
               return MaterialPageRoute(builder: (context) {
                 return SizedBox(
@@ -54,7 +54,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                       const BottomSheetHeading(
                         title: "Settings",
                       ),
-                      0.01.vspace,
+                      0.02.vspace,
                       Expanded(
                         child: Obx(() {
                           return ListView(
@@ -158,7 +158,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                     // _settingOption(
                                     //     title: "Language",
                                     //     svgPath:
-                                    //         "${PathConst.SETTINGS_PAGE.SVG}node.svg",
+                                    //         "${PathConst.SETTINGS_PAGE.SVG}language.svg",
                                     //     onTap: () {
                                     //       Navigator.push(
                                     //           context,
@@ -172,9 +172,9 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                     //     trailing: Row(
                                     //       children: [
                                     //         Obx(() => Text(
-                                    //               controller.selectedNode.value
-                                    //                       .name ??
-                                    //                   "Default",
+                                    //               controller
+                                    //                   .selectedLanguage.value
+                                    //                   .toUpperCase(),
                                     //               style: labelSmall.apply(
                                     //                   color: ColorConst
                                     //                       .NeutralVariant
@@ -344,6 +344,9 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                 ),
                                 SizedBox(height: 0.05.width),
                                 _resetOption(),
+                                SizedBox(height: 0.06.width),
+
+                                _buildNaanLogo(),
                                 SizedBox(height: 0.065.width),
                               ]);
                         }),
@@ -355,6 +358,24 @@ class SettingsPageView extends GetView<SettingsPageController> {
             }),
           ),
         ]);
+  }
+
+  Widget _buildNaanLogo() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset(
+          "${PathConst.SETTINGS_PAGE.SVG}naan_logo_grey.svg",
+          height: 50.arP,
+          width: 50.arP,
+        ),
+        0.01.vspace,
+        Text(
+          "Version 2.0.4 (beta)",
+          style: labelSmall.copyWith(color: ColorConst.NeutralVariant.shade60),
+        )
+      ],
+    );
   }
 
   Widget _settingsSeparator({required List<Widget> settings, required title}) {
@@ -398,7 +419,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
             ),
             0.04.hspace,
             Text(
-              title,
+              title.tr,
               style: labelMedium,
             ),
             const Spacer(),
@@ -431,7 +452,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
           ),
           0.04.hspace,
           Text(
-            "Sign in with ${Platform.isAndroid ? "Biometrics" : "Face ID"}",
+            "${"Sign in with".tr} ${Platform.isAndroid ? "Fingerprint".tr : "Face ID".tr}",
             style: labelMedium,
           ),
           const Spacer(),
@@ -543,7 +564,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
             ),
             0.04.hspace,
             Text(
-              "Connected apps",
+              "Connected apps".tr,
               style: labelMedium,
             ),
           ],
@@ -569,7 +590,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         child: Row(
           children: [
             Text(
-              "Reset naan",
+              "Reset naan".tr,
               style: labelMedium.apply(color: ColorConst.Error.shade60),
             ),
             const Spacer(),
@@ -612,9 +633,10 @@ class SettingsPageView extends GetView<SettingsPageController> {
                   ),
                   0.02.hspace,
                   Text(
-                    isBackedUp
-                        ? "Wallet successfully backed up"
-                        : "Action required: not backed up",
+                    (isBackedUp
+                            ? "Wallet successfully backed up"
+                            : "Action required: not backed up")
+                        .tr,
                     style: labelMedium.apply(
                         color: isBackedUp
                             ? const Color(0xff44CD41)
@@ -626,7 +648,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
                 height: 4,
               ),
               Text(
-                "If your device gets lost or stolen, or if there’s an unexpected hardware error, you will lose your funds",
+                "If your device gets lost or stolen, or if there’s an unexpected hardware error, you will lose your funds"
+                    .tr,
                 style: labelSmall.apply(
                   color: ColorConst.NeutralVariant.shade70,
                 ),
@@ -638,7 +661,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                 onPressed: () =>
                     controller.checkWalletBackup(context, "Settings"),
                 child: Text(
-                  isBackedUp ? "View my recovery phrase" : "Backup now",
+                  (isBackedUp ? "View my recovery phrase" : "Backup now").tr,
                   style: labelMedium.apply(
                       color: isBackedUp ? Colors.white : ColorConst.Tertiary),
                 ),
@@ -677,14 +700,15 @@ class SettingsPageView extends GetView<SettingsPageController> {
                   ),
                   0.02.hspace,
                   Text(
-                    "Action required: old backup found",
+                    "Action required: old backup found".tr,
                     style: labelMedium.apply(color: ColorConst.Tertiary),
                   )
                 ],
               ),
               0.020.vspace,
               Text(
-                "Restore your accounts from your backup and retrieve your valuable digital assets and collectables.",
+                "Restore your accounts from your backup and retrieve your valuable digital assets and collectables."
+                    .tr,
                 style: labelSmall.apply(
                   color: ColorConst.NeutralVariant.shade70,
                 ),
@@ -697,7 +721,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                       RecoverOldAccountSheet(),
                     ),
                     child: Text(
-                      "Recover now",
+                      "Recover now".tr,
                       style: labelMedium.apply(color: ColorConst.Tertiary),
                     ),
                   ),
@@ -707,7 +731,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                       DismissRecoverAccountBottomSheet(),
                     ),
                     child: Text(
-                      "Dismiss",
+                      "Dismiss".tr,
                       style: labelMedium.apply(color: ColorConst.lightGrey),
                     ),
                   ),

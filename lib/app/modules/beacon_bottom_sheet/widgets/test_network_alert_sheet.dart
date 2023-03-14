@@ -59,12 +59,13 @@ class _TestNetworkBottomSheetState extends State<TestNetworkBottomSheet> {
                 ),
                 0.03.vspace,
                 Text(
-                  "Connection Failed",
+                  "Connection Failed".tr,
                   style: titleSmall.copyWith(color: ColorConst.Error),
                 ),
                 0.01.vspace,
                 Text(
-                  "Your app network is not the same as the network required by the dApp",
+                  "Your app network is not the same as the network required by the dApp"
+                      .tr,
                   style: labelMedium.copyWith(
                     color: ColorConst.textGrey1,
                   ),
@@ -72,7 +73,7 @@ class _TestNetworkBottomSheetState extends State<TestNetworkBottomSheet> {
                 ),
                 0.032.vspace,
                 Text(
-                  "Network",
+                  "Network".tr,
                   style: labelMedium.copyWith(color: ColorConst.textGrey1),
                 ),
                 0.008.vspace,

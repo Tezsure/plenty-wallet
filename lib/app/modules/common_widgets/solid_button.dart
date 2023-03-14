@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -105,7 +106,7 @@ class SolidButton extends StatelessWidget {
                     ? child != null
                         ? (active ? child! : inActiveChild!)
                         : Text(
-                            title,
+                            title.tr,
                             style: titleStyle ??
                                 titleSmall.copyWith(
                                     fontWeight: FontWeight.w600,

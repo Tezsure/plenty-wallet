@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker_tile.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/review_delegate_baker.dart';
@@ -28,42 +29,41 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
         title: "Delegate",
-        isScrollControlled: true,
+        prevPageName: controller.prevPage,
+        leading: controller.prevPage == null
+            ? null
+            : backButton(
+                ontap: () => Navigator.pop(context),
+                lastPageName: controller.prevPage),
+        // isScrollControlled: true,
         // mainAxisAlignment: MainAxisAlignment.end,
-        bottomSheetHorizontalPadding: 0,
-        // height: (isScrollable ? 0.85.height : 1.height),
+        // bottomSheetHorizontalPadding: 0,
+        height: AppConstant.naanBottomSheetHeight,
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight -
-                MediaQuery.of(context).viewInsets.bottom -
-                64.arP,
+                MediaQuery.of(context).viewInsets.bottom,
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    right: 0.05.width,
-                    left: 0.05.width,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: isScrollable
-                        ? CrossAxisAlignment.center
-                        : CrossAxisAlignment.start,
-                    children: [
-                      _buildHeader(),
-                      _buildSearch(),
-                      0.01.vspace,
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 0.012.height),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text("Recommended bakers", style: labelLarge),
-                        ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: isScrollable
+                      ? CrossAxisAlignment.center
+                      : CrossAxisAlignment.start,
+                  children: [
+                    _buildHeader(),
+                    _buildSearch(),
+                    0.01.vspace,
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 0.012.height),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text("Recommended bakers".tr, style: labelLarge),
                       ),
-                      _buildBakerList(),
-                    ],
-                  ),
+                    ),
+                    _buildBakerList(),
+                  ],
                 ),
                 _buildSortByWidget(context)
               ],
@@ -134,7 +134,8 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
             child: Padding(
               padding: EdgeInsets.only(bottom: 48.arP),
               child: GestureDetector(
-                onTap: () => CommonFunctions.bottomSheet(const BakerFilterBottomSheet()),
+                onTap: () =>
+                    CommonFunctions.bottomSheet(const BakerFilterBottomSheet()),
                 child: Container(
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.white, width: .3),
@@ -155,7 +156,7 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                           ),
                           0.01.hspace,
                           Text(
-                            "Sort",
+                            "Sort".tr,
                             style: labelSmall.copyWith(color: Colors.white),
                           )
                         ],
@@ -232,7 +233,8 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               style:
                   bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
               text:
-                  'Choose a baker to delegate your tez to.\nThis list is powered by ',
+                  'Choose a baker to delegate your tez to.\nThis list is powered by '
+                      .tr,
               children: [
                 TextSpan(
                     text: 'Tezos-nodes.com',

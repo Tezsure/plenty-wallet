@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -32,105 +33,109 @@ class PasscodePageView extends GetView<PasscodePageController> {
     }
 
     return OverrideTextScaleFactor(
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          leading: Get.previousRoute.toString() != Routes.SPLASH_PAGE
-              ? Container()
-              : Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 16.arP),
-                    child: backButton(),
-                  ),
-                ),
-          backgroundColor: Colors.transparent,
-        ),
-        body: Container(
-          color: Colors.black,
-          padding: const EdgeInsets.symmetric(horizontal: 21),
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: SizedBox(
-                    height: 0.27.width,
-                    width: 0.27.width,
-                    child: SvgPicture.asset(
-                      "${PathConst.SVG}naan_logo.svg",
-                      fit: BoxFit.fitHeight,
+      child: CupertinoPageScaffold(
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          appBar: AppBar(
+            leading: Get.previousRoute == Routes.SPLASH_PAGE
+                ? Container()
+                : Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 16.arP),
+                      child: backButton(),
                     ),
                   ),
-                ),
-                0.05.vspace,
-                Obx(
-                  () => Text(
-                    controller.isToVerifyPassCode.value
-                        ? controller.isPassCodeWrong.value
-                            ? "Try Again"
-                            : "Enter passcode"
-                        : (controller.isPassCodeWrong.value)
-                            ? "Try Again"
-                            : controller.confirmPasscode.value.length < 6
-                                ? "Set passcode"
-                                : "Verify passcode",
-                    textAlign: TextAlign.center,
-                    style: titleMedium,
+          backgroundColor: Colors.transparent,
+          ),
+          body: Container(
+            color: Colors.black,
+            padding:  EdgeInsets.symmetric(horizontal: 21.arP),
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: SizedBox(
+                      height: 0.27.width,
+                      width: 0.27.width,
+                      child: SvgPicture.asset(
+                        "${PathConst.SVG}naan_logo.svg",
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
                   ),
-                ),
-                0.01.vspace,
-                Obx(
-                  () => Text(
-                    controller.isPassCodeWrong.value
-                        ? "Passcode doesn’t match"
-                        : controller.confirmPasscode.value.length < 6
-                            ? "Protect your naan by creating a passcode"
-                            : "Re-enter your passcode",
-                    style: bodySmall.apply(
-                        color: ColorConst.NeutralVariant.shade60),
+                  0.05.vspace,
+                  Obx(
+                    () => Text(
+                      (controller.isToVerifyPassCode.value
+                              ? controller.isPassCodeWrong.value
+                                  ? "Try Again"
+                                  : "Enter passcode"
+                              : (controller.isPassCodeWrong.value)
+                                  ? "Try Again"
+                                  : controller.confirmPasscode.value.length < 6
+                                      ? "Set passcode"
+                                      : "Verify passcode")
+                          .tr,
+                      textAlign: TextAlign.center,
+                      style: titleMedium,
+                    ),
                   ),
-                ),
-                0.05.vspace,
-                PassCodeWidget(onChanged: (value) {
-                  // debugPrint(
-                  //     "confirm passcode : ${controller.confirmPasscode.value}");
-                  // debugPrint(
-                  //     "set passcode : ${controller.enteredPassCode.value}");
+                  0.01.vspace,
+                  Obx(
+                    () => Text(
+                      (controller.isPassCodeWrong.value
+                              ? "Passcode doesn’t match"
+                              : controller.confirmPasscode.value.length < 6
+                                  ? "Protect your naan by creating a passcode"
+                                  : "Re-enter your passcode")
+                          .tr,
+                      style: bodySmall.apply(
+                          color: ColorConst.NeutralVariant.shade60),
+                    ),
+                  ),
+                  0.05.vspace,
+                  PassCodeWidget(onChanged: (value) {
+                    // debugPrint(
+                    //     "confirm passcode : ${controller.confirmPasscode.value}");
+                    // debugPrint(
+                    //     "set passcode : ${controller.enteredPassCode.value}");
 
-                  if (controller.isToVerifyPassCode.value) {
-                    if (value.length == 6) {
-                      controller.checkOrWriteNewAndRedirectToNewPage(value);
-                    } else {
-                      controller.isPassCodeWrong.value = false;
-                    }
-                  } else {
-                    if (controller.enteredPassCode.value.length == 6 &&
-                        controller.confirmPasscode.value ==
-                            controller.enteredPassCode.value) {
-                      controller.checkOrWriteNewAndRedirectToNewPage(value);
-                    } else if (controller.enteredPassCode.value.length == 6 &&
-                        controller.confirmPasscode.value.length == 6 &&
-                        controller.confirmPasscode.value !=
-                            controller.enteredPassCode.value) {
-                      controller.wrongPasscodeLimit++;
-                      controller.isPassCodeWrong.value = true;
-                      controller.enteredPassCode.value = "";
-                      HapticFeedback.heavyImpact();
-                      if (controller.wrongPasscodeLimit.value == 5) {
-                        controller.wrongPasscodeLimit.value = 0;
+                    if (controller.isToVerifyPassCode.value) {
+                      if (value.length == 6) {
+                        controller.checkOrWriteNewAndRedirectToNewPage(value);
+                      } else {
                         controller.isPassCodeWrong.value = false;
-                        controller.confirmPasscode.value = "";
-                        controller.enteredPassCode.value = "";
                       }
                     } else {
-                      controller.isPassCodeWrong.value = false;
+                      if (controller.enteredPassCode.value.length == 6 &&
+                          controller.confirmPasscode.value ==
+                              controller.enteredPassCode.value) {
+                        controller.checkOrWriteNewAndRedirectToNewPage(value);
+                      } else if (controller.enteredPassCode.value.length == 6 &&
+                          controller.confirmPasscode.value.length == 6 &&
+                          controller.confirmPasscode.value !=
+                              controller.enteredPassCode.value) {
+                        controller.wrongPasscodeLimit++;
+                        controller.isPassCodeWrong.value = true;
+                        controller.enteredPassCode.value = "";
+                        HapticFeedback.heavyImpact();
+                        if (controller.wrongPasscodeLimit.value == 5) {
+                          controller.wrongPasscodeLimit.value = 0;
+                          controller.isPassCodeWrong.value = false;
+                          controller.confirmPasscode.value = "";
+                          controller.enteredPassCode.value = "";
+                        }
+                      } else {
+                        controller.isPassCodeWrong.value = false;
+                      }
                     }
-                  }
-                }),
-                BottomButtonPadding()
-              ],
+                  }),
+                  BottomButtonPadding()
+                ],
+              ),
             ),
           ),
         ),

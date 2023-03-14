@@ -56,6 +56,7 @@ class BuyTezWidget extends StatelessWidget {
                     "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
                 CommonFunctions.bottomSheet(
                   const DappBrowserView(),
+                  fullscreen: true,
                   settings: RouteSettings(
                     arguments: url,
                   ),
@@ -93,10 +94,10 @@ class BuyTezWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("Buy tez",
+                      Text("Buy tez".tr,
                           style: headlineSmall.copyWith(fontSize: 20.arP)),
                       Text(
-                        "with your card",
+                        "with your card".tr,
                         style: bodySmall,
                       ),
                     ],

@@ -34,7 +34,7 @@ class HistoryFilterSheet extends StatelessWidget {
           height: 16.aR,
         ),
         Text(
-          "Asset type",
+          "Asset type".tr,
           style: titleSmall.copyWith(letterSpacing: 0.5, fontSize: 14.aR),
         ),
         SizedBox(
@@ -59,7 +59,7 @@ class HistoryFilterSheet extends StatelessWidget {
           height: 26.aR,
         ),
         Text(
-          "Transaction type",
+          "Transaction type".tr,
           style: titleSmall.copyWith(letterSpacing: 0.5, fontSize: 14.aR),
         ),
         SizedBox(
@@ -89,7 +89,7 @@ class HistoryFilterSheet extends StatelessWidget {
           height: 26.aR,
         ),
         Text(
-          "Date",
+          "Date".tr,
           style: labelMedium.copyWith(fontSize: 12.aR),
         ),
         SizedBox(
@@ -227,7 +227,7 @@ class HistoryFilterSheet extends StatelessWidget {
                     height: 4.aR,
                   ),
                   Text(
-                    title,
+                    title.tr,
                     style: labelMedium.copyWith(
                         fontSize: 12.arP,
                         color: isSelected
@@ -292,7 +292,7 @@ class HistoryFilterSheet extends StatelessWidget {
                         ? ColorConst.Primary.shade70
                         : ColorConst.NeutralVariant.shade30)),
             child: Text(
-              text,
+              text.tr,
               style: labelMedium.copyWith(
                   fontSize: 12.aR,
                   color: controller.dateType.value == dateType
@@ -329,7 +329,7 @@ class HistoryFilterSheet extends StatelessWidget {
           child: Text(
             controller.dateType.value == DateType.customDate
                 ? "${controller.fromDate.value.year}/${controller.fromDate.value.month}/${controller.fromDate.value.day} - ${controller.toDate.value.year}/${controller.toDate.value.month}/${controller.toDate.value.day}"
-                : "Select Date Range",
+                : "Select Date Range".tr,
             style: labelMedium.copyWith(
                 fontSize: 12.aR,
                 color: controller.dateType.value == DateType.customDate

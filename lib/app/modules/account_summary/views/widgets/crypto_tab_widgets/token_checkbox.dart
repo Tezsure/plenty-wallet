@@ -135,7 +135,7 @@ class TokenCheckbox extends StatelessWidget {
         margin: 12.arP,
         borderRadius: 12.aR,
         checkedIcon: Icons.done,
-        borderWidth: 2,
+        borderWidth: 2.arP,
         checkBoxIconSize: 12.aR,
         checkBoxSize: 20.aR,
         borderColor: const Color(0xff1E1C1F),
@@ -165,9 +165,7 @@ class TokenCheckbox extends StatelessWidget {
                   (tokenModel.name ?? tokenModel.symbol ?? "N/A")
                       .substring(0, 1)
                       .toUpperCase(),
-                  style: labelMedium.copyWith(
-                    fontSize: 12.aR,
-                    fontWeight: FontWeight.w400,
+                  style: bodySmall.copyWith(
                     color: ColorConst.NeutralVariant.shade60,
                   ),
                 ),

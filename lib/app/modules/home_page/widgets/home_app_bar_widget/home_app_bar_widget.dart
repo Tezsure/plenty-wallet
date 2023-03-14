@@ -24,9 +24,8 @@ class HomepageAppBar extends StatelessWidget {
               // Get.bottomSheet(
               //   TestNetworkBottomSheet(),
               // );
-              CommonFunctions.bottomSheet(
-                const SettingsPageView(),
-              );
+              CommonFunctions.bottomSheet(const SettingsPageView(),
+                  fullscreen: true);
             },
             child: Image.asset(
               "${PathConst.HOME_PAGE}menu.png",

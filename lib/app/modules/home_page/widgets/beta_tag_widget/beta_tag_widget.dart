@@ -72,7 +72,7 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("naan version",
+                      Text("naan version".tr,
                           style: bodySmall.copyWith(
                               color: ColorConst.NeutralVariant.shade40)),
                       Text("$version (beta)", style: labelMedium),
@@ -91,7 +91,7 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
     return Container(
       decoration: BoxDecoration(
           color: Colors.black, borderRadius: BorderRadius.circular(11.arP)),
-      padding: EdgeInsets.all(16.arP),
+      padding: EdgeInsets.all(AppConstant.homeWidgetDimension / 11),
       height: AppConstant.homeWidgetDimension / 2.5,
       width: AppConstant.homeWidgetDimension / 2.5,
       child: Image.asset("assets/naan_logo.png"),

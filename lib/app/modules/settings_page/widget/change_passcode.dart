@@ -17,20 +17,22 @@ class ChangePasscode extends GetView<SettingsPageController> {
   Widget build(BuildContext context) {
     return OverrideTextScaleFactor(
       child: Scaffold(
+        appBar: AppBar(
+          leading: Padding(
+            padding: EdgeInsets.only(left: 16.arP),
+            child: backButton(),
+          ),
+          backgroundColor: Colors.transparent,
+        ),
         backgroundColor: Colors.black,
         body: Container(
           // decoration: const BoxDecoration(gradient: GradConst.GradientBackground),
-          padding: const EdgeInsets.symmetric(horizontal: 21),
+          padding: EdgeInsets.symmetric(horizontal: 21.arP),
           child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                0.02.vspace,
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: backButton(),
-                ),
-                0.05.vspace,
                 Center(
                   child: SizedBox(
                     height: 0.27.width,
@@ -43,15 +45,16 @@ class ChangePasscode extends GetView<SettingsPageController> {
                 ),
                 0.05.vspace,
                 Obx(() => Text(
-                      controller.verifyPassCode.value
-                          ? "Set passcode"
-                          : "Enter passcode",
+                      (controller.verifyPassCode.value
+                              ? "Set passcode"
+                              : "Enter passcode")
+                          .tr,
                       textAlign: TextAlign.center,
                       style: titleMedium,
                     )),
                 0.01.vspace,
                 Text(
-                  "Protect your wallet by setting a passcode",
+                  "Protect your wallet by setting a passcode".tr,
                   style:
                       bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
                 ),

@@ -163,6 +163,7 @@ class ImportWalletPageController extends GetxController
       if (pageRoute == Routes.ACCOUNT_SUMMARY) {
         return CommonFunctions.bottomSheet(
             const CreateProfilePageView(isBottomSheet: true),
+            fullscreen: true,
             settings: RouteSettings(arguments: [pageRoute]));
       }
 
@@ -206,8 +207,9 @@ class ImportWalletPageController extends GetxController
       var previousRoute = Get.previousRoute;
 
       if (pageRoute == Routes.ACCOUNT_SUMMARY) {
-        return CommonFunctions.bottomSheet(const CreateProfilePageView(isBottomSheet: true),
-           
+        return CommonFunctions.bottomSheet(
+            const CreateProfilePageView(isBottomSheet: true),
+            fullscreen: true,
             settings: RouteSettings(arguments: [pageRoute]));
       }
       Get.toNamed(

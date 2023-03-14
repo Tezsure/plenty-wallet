@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 import '../../modal_bottom_sheet.dart' as modal_bottom_sheet;
 
-const Radius kDefaultBarTopRadius = Radius.circular(15);
+const Radius kDefaultBarTopRadius = Radius.circular(36);
 
 class BarBottomSheet extends StatelessWidget {
   final Widget child;

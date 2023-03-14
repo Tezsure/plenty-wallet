@@ -4,6 +4,8 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 
 enum Currency { usd, tez, eur, inr }
 
+enum Language { en, nl, fr }
+
 class ServiceConfig {
   /// Current selected node
   static String currentSelectedNode = "https://rpc.tzkt.io/mainnet";
@@ -18,6 +20,7 @@ class ServiceConfig {
   static bool isTezQuakeWidgetVisible = false;
 
   static Currency currency = Currency.usd;
+  static Language language = Language.en;
 
   static double inr = 0.0;
   static double eur = 0.0;
@@ -85,6 +88,7 @@ class ServiceConfig {
 
   // xtz price and token price
   static const String currencySelectedStorage = "${storageName}_currency";
+  static const String languageSelectedStorage = "${storageName}_language";
   static const String xtzPriceStorage = "${storageName}_xtz_price";
   static const String inrPriceStorage = "${storageName}_inr";
   static const String eurPriceStorage = "${storageName}_eur";

@@ -357,7 +357,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
       child: SingleChildScrollView(
         child: Column(children: [
           0.01.vspace,
-          Text("Edit Account", style: titleLarge),
+          Text("Edit Account".tr, style: titleLarge),
           0.02.vspace,
           Container(
             height: 0.3.width,

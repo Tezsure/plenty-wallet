@@ -60,14 +60,14 @@ class InfoBottomSheet extends StatelessWidget {
                               textAlign: TextAlign.start,
                               text: TextSpan(
                                 text: isWatchAddress
-                                    ? '${MockData.watchAddress.keys.elementAt(index)}\n'
-                                    : '${MockData.walletInfo.keys.elementAt(index)}\n',
+                                    ? '${MockData.watchAddress.keys.elementAt(index).tr}\n'
+                                    : '${MockData.walletInfo.keys.elementAt(index).tr}\n',
                                 style: titleSmall,
                                 children: [
                                   TextSpan(
                                     text: isWatchAddress
-                                        ? "\n${MockData.watchAddress.values.elementAt(index)}\n"
-                                        : "\n${MockData.walletInfo.values.elementAt(index)}\n",
+                                        ? "\n${MockData.watchAddress.values.elementAt(index).tr}\n"
+                                        : "\n${MockData.walletInfo.values.elementAt(index).tr}\n",
                                     style: bodySmall.copyWith(
                                       color: ColorConst.NeutralVariant.shade60,
                                     ),

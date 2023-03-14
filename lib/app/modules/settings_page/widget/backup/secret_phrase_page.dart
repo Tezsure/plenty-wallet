@@ -71,7 +71,8 @@ class SecretPhrasePage extends StatelessWidget {
                       0.04.vspace,
 
                       Text(
-                        'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.',
+                        'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.'
+                            .tr,
                         textAlign: TextAlign.center,
                         style: bodySmall.copyWith(
                             color: ColorConst.NeutralVariant.shade60),
@@ -100,7 +101,7 @@ class SecretPhrasePage extends StatelessWidget {
                           }),
                       0.07.vspace,
                       Text(
-                        'Derivation path',
+                        'Derivation path'.tr,
                         textAlign: TextAlign.center,
                         style: labelMedium.copyWith(
                             color: ColorConst.NeutralVariant.shade60),
@@ -119,7 +120,7 @@ class SecretPhrasePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'This screen will auto close in ',
+                              'This screen will auto close in '.tr,
                               textAlign: TextAlign.center,
                               style: labelSmall.copyWith(
                                   color: ColorConst.NeutralVariant.shade60),

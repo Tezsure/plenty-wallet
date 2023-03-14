@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -23,20 +24,17 @@ class EditButtons extends StatelessWidget {
       onPressed: onTap,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 12.aR),
-        height: 30.aR,
-        width: buttonName.length > 4 ? 65.aR : 50.aR,
+        padding: EdgeInsets.symmetric(horizontal: 10.aR, vertical: 4.arP),
+        // height: 30.aR,
+        // width: buttonName.length > 4 ? 65.aR : 50.aR,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.aR),
           color: isDone ? ColorConst.Primary : const Color(0xff1e1c1f),
         ),
         alignment: Alignment.center,
         child: Text(
-          buttonName,
+          buttonName.tr,
           style: labelLarge.copyWith(
-              letterSpacing: 0.5.aR,
-              fontSize: 14.aR,
-              height: 16 / 14,
-              fontWeight: FontWeight.w600,
               color: isDone ? Colors.white : ColorConst.NeutralVariant.shade60),
         ),
       ),

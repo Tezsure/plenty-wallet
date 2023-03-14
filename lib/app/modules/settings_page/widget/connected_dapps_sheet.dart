@@ -38,9 +38,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
         title: controller.dapps.isEmpty ? "" : "Connected apps",
         bottomSheetHorizontalPadding: prevPage == null ? 16.arP : 0,
         bottomSheetWidgets: [
-          SizedBox(
-            height: 20.arP,
-          ),
+          0.02.vspace,
           Obx(
             () {
               if (controller.dapps.isEmpty) {
@@ -60,7 +58,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
                       ),
                       0.03.vspace,
                       Text(
-                        "No connected apps",
+                        "No connected apps".tr,
                         style: titleLarge,
                       ),
                     ],
@@ -99,20 +97,35 @@ class ConnectedDappBottomSheet extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 22,
-              backgroundColor: dappModel.icon != null
+              backgroundColor: dappModel.icon == null
                   ? ColorConst.NeutralVariant.shade60.withOpacity(0.2)
                   : ColorConst.Primary,
-              backgroundImage: Image.network(
-                dappModel.icon ?? "",
-                errorBuilder: (context, error, stackTrace) => Text(
-                  dappModel.name.substring(0, 1).toUpperCase(),
-                  style: titleMedium,
-                ),
-              ).image,
+              backgroundImage: dappModel.icon == null
+                  ? null
+                  : Image.network(
+                      dappModel.icon ?? "",
+                      errorBuilder: (context, error, stackTrace) => Text(
+                        dappModel.name.substring(0, 1).toUpperCase(),
+                        style: titleMedium,
+                      ),
+                    ).image,
               child: dappModel.icon == null
-                  ? Text(
-                      dappModel.name.substring(0, 1).toUpperCase(),
-                      style: titleMedium,
+                  ? Container(
+                      width: 24.aR,
+                      height: 24.aR,
+                      decoration: BoxDecoration(
+                        color:
+                            ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          dappModel.name.substring(0, 1).toUpperCase(),
+                          style: bodySmall.copyWith(
+                            color: ColorConst.NeutralVariant.shade60,
+                          ),
+                        ),
+                      ),
                     )
                   : Container(),
             ),
@@ -141,7 +154,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
       bottomSheetWidgets: [
         Center(
           child: Text(
-            "You can reconnect to this app later",
+            "You can reconnect to this app later".tr,
             style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
           ),
         ),
@@ -150,7 +163,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
           children: [
             optionMethod(
                 child: Text(
-                  "Disconnect",
+                  "Disconnect".tr,
                   style: labelMedium.apply(color: ColorConst.Error.shade60),
                 ),
                 onTap: () {
@@ -162,7 +175,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
             ),
             optionMethod(
                 child: Text(
-                  "Cancel",
+                  "Cancel".tr,
                   style: labelMedium,
                 ),
                 onTap: () {

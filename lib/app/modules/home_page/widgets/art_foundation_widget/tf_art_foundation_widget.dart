@@ -36,6 +36,7 @@ class TFArtFoundationWidget extends StatelessWidget {
         // Get.to(BuyNFTPage(), arguments: url);
         CommonFunctions.bottomSheet(
           const DappBrowserView(),
+          fullscreen: true,
           settings: RouteSettings(
             arguments: url,
           ),
@@ -87,8 +88,8 @@ class TFArtFoundationWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("TF Permanent", style: labelMedium),
-                      Text("Art Collection", style: labelMedium),
+                      Text("TF Permanent".tr, style: labelMedium),
+                      Text("Art Collection".tr, style: labelMedium),
                     ],
                   ),
                 ),
@@ -105,8 +106,8 @@ class TFArtFoundationWidget extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.black, borderRadius: BorderRadius.circular(8.arP)),
       padding: EdgeInsets.all(8.arP),
-      height: 33.arP,
-      width: 33.arP,
+      height: AppConstant.homeWidgetDimension / 6,
+      width: AppConstant.homeWidgetDimension / 6,
       child: Image.asset("${PathConst.HOME_PAGE}tf_icon.png"),
     );
   }

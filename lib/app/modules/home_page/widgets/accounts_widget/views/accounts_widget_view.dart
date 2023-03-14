@@ -188,8 +188,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
         onPressed: () {
           homePageController.changeSelectedAccount(index);
           CommonFunctions.bottomSheet(
-             AccountSummaryView(),
-            settings: RouteSettings(arguments: model),
+            AccountSummaryView(),
+            fullscreen: true,
           );
         },
         child: Stack(
@@ -197,7 +197,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             Container(
               width: 1.width,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(22), gradient: accountBg),
+                  borderRadius: BorderRadius.circular(22.arP),
+                  gradient: accountBg),
             ),
             Padding(
               padding: EdgeInsets.all(0.04.width),
@@ -239,14 +240,14 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                               backgroundColor: Colors.transparent,
                               snackPosition: SnackPosition.BOTTOM,
                               snackStyle: SnackStyle.FLOATING,
-                              padding: const EdgeInsets.only(bottom: 60),
+                              padding: EdgeInsets.only(bottom: 60.arP),
                               messageText: Container(
                                 height: 36.arP,
                                 padding:
                                     EdgeInsets.symmetric(horizontal: 10.arP),
                                 decoration: BoxDecoration(
                                     color: ColorConst.Neutral.shade10,
-                                    borderRadius: BorderRadius.circular(8)),
+                                    borderRadius: BorderRadius.circular(8.arP)),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -260,7 +261,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                       width: 5.arP,
                                     ),
                                     Text(
-                                      "Copied ${tz1Shortner(model.publicKeyHash!)}",
+                                      "${"Copied".tr} ${tz1Shortner(model.publicKeyHash!)}",
                                       style: labelSmall,
                                     )
                                   ],
@@ -328,6 +329,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                   action(
                                       () => CommonFunctions.bottomSheet(
                                             const SendPage(),
+                                            fullscreen: true,
                                             settings: RouteSettings(
                                               arguments: model,
                                             ),
@@ -337,6 +339,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                   action(
                                     () => CommonFunctions.bottomSheet(
                                       const ReceivePageView(),
+                                      fullscreen: true,
                                       settings: RouteSettings(
                                         arguments: model,
                                       ),

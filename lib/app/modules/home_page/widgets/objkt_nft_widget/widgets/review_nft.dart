@@ -104,7 +104,7 @@ class ReviewNFTSheet extends StatelessWidget {
                     child: controller.error.value.trim().isEmpty
                         ? _builButtons()
                         : Text(
-                            'Transaction is likely to fail: ${controller.error.value.length > 100 ? controller.error.value.replaceRange(100, controller.error.value.length, '...') : controller.error.value}',
+                            '${'Transaction is likely to fail:'.tr} ${controller.error.value.length > 100 ? controller.error.value.replaceRange(100, controller.error.value.length, '...') : controller.error.value}',
                             style:
                                 bodyMedium.copyWith(color: ColorConst.NaanRed),
                             textAlign: TextAlign.center,
@@ -130,7 +130,7 @@ class ReviewNFTSheet extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Estimate fee",
+                "Estimate fee".tr,
                 style: bodySmall.copyWith(color: ColorConst.grey),
               ),
               Obx(
@@ -160,7 +160,7 @@ class ReviewNFTSheet extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Balance",
+                "Balance".tr,
                 style: bodySmall.copyWith(color: ColorConst.grey),
               ),
               Text(
@@ -205,7 +205,7 @@ class ReviewNFTSheet extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Account',
+          'Account'.tr,
           style: bodySmall.copyWith(color: ColorConst.grey),
         ),
         0.008.vspace,
@@ -319,7 +319,7 @@ class ReviewNFTSheet extends StatelessWidget {
                         ),
                         0.02.hspace,
                         Text(
-                          "Confirm",
+                          "Confirm".tr,
                           style: titleSmall.copyWith(
                               fontWeight: FontWeight.w600,
                               color: ColorConst.Neutral.shade100),

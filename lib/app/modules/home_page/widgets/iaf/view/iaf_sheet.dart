@@ -47,7 +47,8 @@ class _IAFSheetState extends State<IAFSheet> {
                   child: SizedBox(
                     width: 1.width - 64.arP,
                     child: Text(
-                      "Enter the email address used at India Art Fair to claim your free NFT and tez",
+                      "Enter the email address used at India Art Fair to claim your free NFT and tez"
+                          .tr,
                       textAlign: TextAlign.center,
                       style: bodySmall.copyWith(
                         letterSpacing: 0.15.arP,
@@ -107,7 +108,7 @@ class _IAFSheetState extends State<IAFSheet> {
             width: 8.arP,
           ),
           Text(
-            "Verified",
+            "Verified".tr,
             style: labelMedium.copyWith(color: ColorConst.green),
           )
         ],
@@ -129,7 +130,7 @@ class _IAFSheetState extends State<IAFSheet> {
             width: 8.arP,
           ),
           Text(
-            "Not verified",
+            "Not verified".tr,
             style: labelMedium.copyWith(color: ColorConst.Tertiary),
           )
         ],

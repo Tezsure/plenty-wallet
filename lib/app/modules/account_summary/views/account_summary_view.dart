@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/app/modules/dapp_browser/controllers/dapp_browser_controller.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
@@ -76,8 +77,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                           BouncingWidget(
                                             onPressed: () {
                                               CommonFunctions.bottomSheet(
-                                                const AccountSelectorSheet(),
-                                              );
+                                                  const AccountSelectorSheet(),
+                                                  fullscreen: true);
                                             },
                                             child: Row(
                                               crossAxisAlignment:
@@ -187,7 +188,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                             width: 5,
                                                           ),
                                                           Text(
-                                                            "Copied ${tz1Shortner(controller.selectedAccount.value.publicKeyHash!)}",
+                                                            "${"Copied".tr} ${tz1Shortner(controller.selectedAccount.value.publicKeyHash!)}",
                                                             style: labelSmall,
                                                           )
                                                         ],
@@ -262,8 +263,18 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                     "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
 
                                                 print(url);
+                                                // final dappController = Get.put(
+                                                //   DappBrowserController(),
+                                                // );
+                                                // dappController.initUrl = url;
+                                                // Navigator.push(
+                                                //     context,
+                                                //     MaterialPageRoute(
+                                                //         builder: (context) =>
+                                                //             DappBrowserView()));
                                                 CommonFunctions.bottomSheet(
                                                     const DappBrowserView(),
+                                                    fullscreen: true,
                                                     settings: RouteSettings(
                                                       arguments: url,
                                                     ));
@@ -278,7 +289,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                     NaanAnalyticsEvents
                                                         .DELEGATE_FROM_WALLET);
                                                 Get.put(DelegateWidgetController())
-                                                    .openBakerList();
+                                                    .openBakerList(
+                                                        context, "Accounts");
                                               },
                                               imagePath:
                                                   '${PathConst.SVG}dollar_sign.svg',
@@ -300,13 +312,13 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                             lastPageName:
                                                                 "Accounts",
                                                           )));
-                                              return CommonFunctions
-                                                  .bottomSheet(
-                                                const SendPage(),
-                                                settings: RouteSettings(
-                                                    arguments: controller
-                                                        .selectedAccount.value),
-                                              );
+                                              // return CommonFunctions
+                                              //     .bottomSheet(
+                                              //   const SendPage(),
+                                              //   settings: RouteSettings(
+                                              //       arguments: controller
+                                              //           .selectedAccount.value),
+                                              // );
                                             },
                                           ),
                                           0.04.hspace,
@@ -326,13 +338,13 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                             lastPageName:
                                                                 "Accounts",
                                                           )));
-                                              return CommonFunctions
-                                                  .bottomSheet(
-                                                const ReceivePageView(),
-                                                settings: RouteSettings(
-                                                    arguments: controller
-                                                        .selectedAccount.value),
-                                              );
+                                              // return CommonFunctions
+                                              //     .bottomSheet(
+                                              //   const ReceivePageView(),
+                                              //   settings: RouteSettings(
+                                              //       arguments: controller
+                                              //           .selectedAccount.value),
+                                              // );
                                             }),
                                           ),
                                         ],
@@ -352,6 +364,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                     width: 1.width,
                                     child: TabBar(
                                         onTap: (value) async {
+                                          AppConstant.hapticFeedback();
                                           value == 2
                                               ? controller.loadUserTransaction()
                                               : null;
@@ -384,7 +397,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                             width: 70.arP,
                                             child: Tab(
                                               height: 30.arP,
-                                              text: "Crypto",
+                                              text: "Crypto".tr,
                                               iconMargin: EdgeInsets.zero,
                                             ),
                                           ),
@@ -392,7 +405,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                             width: 70.arP,
                                             child: Tab(
                                               height: 30.arP,
-                                              text: "NFTs",
+                                              text: "NFTs".tr,
                                               iconMargin: EdgeInsets.zero,
                                             ),
                                           ),
@@ -400,7 +413,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                             width: 70.arP,
                                             child: Tab(
                                               height: 30.arP,
-                                              text: "History",
+                                              text: "History".tr,
                                               iconMargin: EdgeInsets.zero,
                                             ),
                                           ),
@@ -476,7 +489,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                   ),
                 )),
             TextSpan(
-                text: '\n$label',
+                text: '\n${label.tr}',
                 style: labelMedium.copyWith(
                     fontSize: 12.aR, letterSpacing: 0.1.aR, height: 20 / 12)),
           ],

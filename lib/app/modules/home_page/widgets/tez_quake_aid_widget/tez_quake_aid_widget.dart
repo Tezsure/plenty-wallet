@@ -26,6 +26,7 @@ class TezQuake extends StatelessWidget {
             param: {NaanAnalytics.address: address});
         CommonFunctions.bottomSheet(
           const DappBrowserView(),
+          fullscreen: true,
           settings: const RouteSettings(
             arguments: "https://linktr.ee/tezquakeaid",
           ),

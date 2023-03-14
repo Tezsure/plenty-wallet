@@ -69,12 +69,8 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                           width: 5.arP,
                         ),
                         Text(
-                          expandedTokenList ? 'Less' : 'All',
+                          (expandedTokenList ? 'Less' : 'All').tr,
                           style: labelLarge.copyWith(
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.5.aR,
-                              fontSize: 14.aR,
-                              height: 16 / 14,
                               color: ColorConst.NeutralVariant.shade60),
                         ),
                         AnimatedRotation(
@@ -115,9 +111,11 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                 onPressed: onEditTap,
                 child: AnimatedContainer(
                   margin: EdgeInsets.symmetric(vertical: 12.aR),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 5.aR, horizontal: 16.arP),
                   duration: const Duration(milliseconds: 200),
-                  height: 30.aR,
-                  width: isEditable ?? false ? 60.aR : 50.aR,
+                  // height: 30.aR,
+                  // width: isEditable ?? false ? 60.aR : 50.aR,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.aR),
                     color: isEditable ?? false
@@ -125,14 +123,14 @@ class TokenEditTile extends GetView<AccountSummaryController> {
                         : const Color(0xff1e1c1f),
                   ),
                   alignment: Alignment.center,
-                  child: Text(
-                    isEditable ?? false ? 'Done' : 'Edit',
-                    style: labelLarge.copyWith(
-                        fontSize: 14.aR,
-                        fontWeight: FontWeight.w600,
-                        color: isEditable ?? false
-                            ? Colors.white
-                            : ColorConst.NeutralVariant.shade60),
+                  child: Center(
+                    child: Text(
+                      (isEditable ?? false ? 'Done' : 'Edit').tr,
+                      style: labelLarge.copyWith(
+                          color: isEditable ?? false
+                              ? Colors.white
+                              : ColorConst.NeutralVariant.shade60),
+                    ),
                   ),
                 ),
               )

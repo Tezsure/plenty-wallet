@@ -17,6 +17,7 @@ import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dar
 import 'package:naan_wallet/app/data/services/service_models/operation_model.dart';
 import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/token_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -38,10 +39,13 @@ class SendPageController extends GetxController {
   int? callbackHash;
   int contractOffset = 0;
   List contracts = [];
+  final homeController = Get.find<HomePageController>();
   @override
   void onInit() {
     super.onInit();
-    senderAccountModel = Get.arguments as AccountModel;
+    senderAccountModel =
+        homeController.userAccounts[homeController.selectedIndex.value];
+    
 
     callback(value) {
       xtzPrice.value = value;

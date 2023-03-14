@@ -60,7 +60,7 @@ class _SelectToRevealKeyBottomSheetState
                   alignment: Alignment.centerRight,
                   child: InfoButton(
                       onPressed: () => CommonFunctions.bottomSheet(
-                            InfoBottomSheet(),
+                            InfoBottomSheet(),fullscreen: true
                           )),
                 ),
               ],
@@ -76,14 +76,15 @@ class _SelectToRevealKeyBottomSheetState
             0.048.arP.vspace,
             Center(
               child: Text(
-                "Your wallet is backed up",
+                "Your wallet is backed up".tr,
                 style: titleLarge,
                 textAlign: TextAlign.center,
               ),
             ),
             0.012.arP.vspace,
             Text(
-              "Dont’t risk your money! Backup your\nwallet so you can recover it if you lose\nthis device.",
+              "Dont’t risk your money! Backup your\nwallet so you can recover it if you lose\nthis device."
+                  .tr,
               style: bodySmall.copyWith(color: ColorConst.textGrey1),
               textAlign: TextAlign.center,
             ),
@@ -96,7 +97,7 @@ class _SelectToRevealKeyBottomSheetState
                     revealOptionMethod(
                         icon: '${PathConst.SETTINGS_PAGE}svg/secret_phrase.svg',
                         child: Text(
-                          "View secret phrase",
+                          "View secret phrase".tr,
                           style: labelMedium,
                         ),
                         onTap: () async {
@@ -129,7 +130,7 @@ class _SelectToRevealKeyBottomSheetState
                     revealOptionMethod(
                         icon: '${PathConst.SETTINGS_PAGE}svg/key.svg',
                         child: Text(
-                          "View private key",
+                          "View private key".tr,
                           style: labelMedium,
                         ),
                         onTap: () async {

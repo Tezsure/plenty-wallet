@@ -18,9 +18,8 @@ class DiscoverAppsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        CommonFunctions.bottomSheet(
-          const DappsPageView(),
-        );
+        CommonFunctions.bottomSheet(const DappsPageView(),
+            fullscreen: true, isDismissible: false);
       },
       child: HomeWidgetFrame(
         width: 1.width,
@@ -48,10 +47,10 @@ class DiscoverAppsWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("Discover",
+                      Text("Discover".tr,
                           style: headlineSmall.copyWith(fontSize: 20.arP)),
                       Text(
-                        "apps on Tezos",
+                        "apps on Tezos".tr,
                         style: bodySmall,
                       ),
                     ],

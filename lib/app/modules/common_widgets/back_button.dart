@@ -16,7 +16,7 @@ Widget backButton({Function()? ontap, String? lastPageName}) {
         SvgPicture.asset(
           "${PathConst.SVG}arrow_back.svg",
           fit: BoxFit.cover,
-          height: 16.arP,
+          height: 18.arP,
           color: Colors.white,
           alignment: Alignment.centerLeft,
         ),
@@ -27,8 +27,8 @@ Widget backButton({Function()? ontap, String? lastPageName}) {
         lastPageName == null
             ? Container()
             : Text(
-                lastPageName,
-                style: bodySmall,
+                lastPageName.tr,
+                style: bodyMedium,
               )
       ],
     ),
@@ -41,13 +41,13 @@ Widget closeButton({Function()? ontap}) {
     child: Container(
       decoration:
           BoxDecoration(color: ColorConst.darkGrey, shape: BoxShape.circle),
-      height: 24.arP,
-      width: 24.arP,
+      height: 30.arP,
+      width: 30.arP,
       alignment: Alignment.center,
       child: Icon(
         Icons.close,
         color: Color.fromRGBO(235, 235, 245, .6),
-        size: 14.arP,
+        size: 18.arP,
       ),
     ),
   );

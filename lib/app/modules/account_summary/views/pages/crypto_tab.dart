@@ -35,14 +35,15 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
                     RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                            text: "No token found\n",
+                            text: "No token found\n".tr,
                             style: titleLarge.copyWith(
                                 fontWeight: FontWeight.w700, fontSize: 22.aR),
                             children: [
                               WidgetSpan(child: 0.04.vspace),
                               TextSpan(
                                   text:
-                                      "Buy or Transfer token from another\n wallet or elsewhere",
+                                      "Buy or Transfer token from another\n wallet or elsewhere"
+                                          .tr,
                                   style: labelMedium.copyWith(
                                       fontSize: 12.aR,
                                       color: ColorConst.NeutralVariant.shade60))

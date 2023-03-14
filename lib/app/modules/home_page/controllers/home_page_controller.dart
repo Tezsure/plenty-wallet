@@ -33,7 +33,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../widgets/scanQR/permission_sheet.dart';
 
-class HomePageController extends AnimateBottomsheetController {
+class HomePageController extends GetxController {
   // RxBool showBottomSheet = false.obs;
   RxInt selectedIndex = 0.obs;
 
@@ -49,7 +49,6 @@ class HomePageController extends AnimateBottomsheetController {
   RxList<AccountModel> userAccounts = <AccountModel>[].obs;
   @override
   void onInit() async {
-
     super.onInit();
     Get.put(BeaconService(), permanent: true);
     DataHandlerService()
@@ -135,17 +134,20 @@ class HomePageController extends AnimateBottomsheetController {
   @override
   void onReady() async {
     super.onReady();
-    await UserStorageService.getBetaTagAgree().then((value) async {
-      if (!value) {
-        await CommonFunctions.bottomSheet(
-          BetaTagSheet(),
-        );
-      }
-    });
+
     if (Get.arguments != null &&
         Get.arguments.length == 2 &&
         Get.arguments[1].toString().isNotEmpty) {
       showBackUpWalletBottomSheet(Get.arguments[1].toString());
+    }
+    if (Get.currentRoute == Routes.HOME_PAGE) {
+      await UserStorageService.getBetaTagAgree().then((value) async {
+        if (!value) {
+          await CommonFunctions.bottomSheet(
+            BetaTagSheet(),
+          );
+        }
+      });
     }
   }
 
@@ -178,14 +180,12 @@ class HomePageController extends AnimateBottomsheetController {
 
   Future<void> openScanner() async {
     if (userAccounts[selectedIndex.value].isWatchOnly) {
-      return CommonFunctions.bottomSheet(
-        AccountSelectorSheet(
-          onNext: () {
-            Get.back();
-            openScanner();
-          },
-        ),
-      );
+      return CommonFunctions.bottomSheet(AccountSelectorSheet(
+        onNext: () {
+          Get.back();
+          openScanner();
+        },
+      ), fullscreen: true);
     }
     await Permission.camera.request();
     final status = await Permission.camera.status;
@@ -197,24 +197,11 @@ class HomePageController extends AnimateBottomsheetController {
 
       // We didn't ask for permission yet or the permission has been denied before but not permanently.
     } else {
-      CommonFunctions.bottomSheet(
-        const ScanQrView(),
-      );
+      CommonFunctions.bottomSheet(const ScanQrView(), fullscreen: true);
     }
   }
 
-  @override
-  void animateForward() {
-    animate.forward();
-    // TODO: implement animateForward
-  }
-
-  @override
-  void animateReverse() {
-    animate.reverse();
-
-    // TODO: implement animateReverse
-  } // void onIndicatorTapped(int index) => selectedIndex.value = index;
+  // void onIndicatorTapped(int index) => selectedIndex.value = index;
 }
 
 class BackupWalletBottomSheet extends StatelessWidget {
@@ -233,12 +220,13 @@ class BackupWalletBottomSheet extends StatelessWidget {
       bottomSheetWidgets: [
         0.03.vspace,
         Text(
-          'Backup your account',
+          'Backup your account'.tr,
           style: titleLarge,
         ),
         0.012.vspace,
         Text(
-          'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.',
+          'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.'
+              .tr,
           textAlign: TextAlign.start,
           style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
         ),
@@ -252,9 +240,11 @@ class BackupWalletBottomSheet extends StatelessWidget {
               onPressed: () {
                 Get.back();
                 NaanAnalytics.logEvent(NaanAnalyticsEvents.BACKUP_FROM_HOME);
-                CommonFunctions.bottomSheet(BackupWalletView(
-                  seedPhrase: seedPhrase,
-                ));
+                CommonFunctions.bottomSheet(
+                    BackupWalletView(
+                      seedPhrase: seedPhrase,
+                    ),
+                    fullscreen: true);
               }),
         ),
         0.012.vspace,
