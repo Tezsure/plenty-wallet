@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -14,12 +15,14 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'delegate_baker.dart';
 
-class DelegateBakerTile extends StatelessWidget {
+class DelegateBakerTile extends GetView<DelegateWidgetController> {
   final DelegateBakerModel baker;
   final bool redelegate;
+  final String? prevPage;
   const DelegateBakerTile({
     required this.baker,
     this.redelegate = false,
+    this.prevPage,
     Key? key,
   }) : super(key: key);
 
@@ -100,13 +103,24 @@ class DelegateBakerTile extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      Get.back();
-                      CommonFunctions.bottomSheet(
-                          DelegateSelectBaker(
-                            delegatedBaker: baker,
-                            isScrollable: true,
-                          ),
-                          fullscreen: true);
+                      if (controller.prevPage == null) {
+                        Get.back();
+                        CommonFunctions.bottomSheet(
+                            DelegateSelectBaker(
+                              delegatedBaker: baker,
+                              isScrollable: true,
+                            ),
+                            fullscreen: true);
+                      } else {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DelegateSelectBaker(
+                                delegatedBaker: baker,
+                                isScrollable: true,
+                              ),
+                            ));
+                      }
                     }),
             ],
           ),

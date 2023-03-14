@@ -190,7 +190,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
           CommonFunctions.bottomSheet(
             AccountSummaryView(),
             fullscreen: true,
-            settings: RouteSettings(arguments: model),
+   
           );
         },
         child: Stack(

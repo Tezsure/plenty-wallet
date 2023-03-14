@@ -344,7 +344,7 @@ class AccountBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       // blurRadius: 5,
-      height:AppConstant.naanBottomSheetHeight,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         0.04.vspace,
         Text(
@@ -378,6 +378,9 @@ class AccountBottomSheet extends StatelessWidget {
                       topRightRadius: 4,
                       strokeWidth: 4,
                     ),
+                    onTap: (_) {
+                      AppConstant.hapticFeedback();
+                    },
                     controller: controller.tabController,
                     labelPadding: EdgeInsets.zero,
                     tabs: [

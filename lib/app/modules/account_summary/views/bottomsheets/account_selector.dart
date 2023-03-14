@@ -74,10 +74,10 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
           )),
       // bottomSheetHorizontalPadding: 0,
       // isScrollControlled: true,
-      height: AppConstant.naanBottomSheetHeight,
+      height: AppConstant.naanBottomSheetChildHeight,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight,
+          height: AppConstant.naanBottomSheetChildHeight - 62.arP,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

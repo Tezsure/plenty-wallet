@@ -79,14 +79,8 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                   active: true,
                   width: 1.width - 64.arP,
                   onPressed: () {
-                    // if (Get.isBottomSheetOpen ?? false) {
-                    Get.back();
-                    // }
-                    CommonFunctions.bottomSheet(
-                        DelegateSelectBaker(
-                          isScrollable: true,
-                        ),
-                        fullscreen: true);
+                    Get.back(result:true);
+                  
                   },
                   title: "Continue",
                 ),

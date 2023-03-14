@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_rewards_tile.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
@@ -15,7 +16,8 @@ import '../../../controllers/home_page_controller.dart';
 
 class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
   final DelegateBakerModel baker;
-  ReDelegateBottomSheet({super.key, required this.baker}) {
+
+  ReDelegateBottomSheet({super.key, required this.baker,}) {
     Get.lazyPut(() => DelegateWidgetController());
     controller.getDelegateRewardList();
   }
@@ -24,8 +26,13 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
   Widget build(BuildContext context) {
     return Obx(() {
       return NaanBottomSheet(
+        prevPageName: controller.prevPage,
         height: AppConstant.naanBottomSheetHeight,
         title: "",
+        leading:  controller.prevPage == null
+            ? null
+            : backButton(
+                ontap: () => Navigator.pop(context), lastPageName: controller. prevPage),
         // isScrollControlled: true,
         // bottomSheetHorizontalPadding: 16.arP,
         // decoration: const BoxDecoration(

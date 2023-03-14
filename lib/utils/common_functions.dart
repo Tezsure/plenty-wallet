@@ -26,18 +26,17 @@ class CommonFunctions {
           : url.contains("mailto:naan-support@tezsure.com")
               ? launchUrlString(url)
               : throw 'Could not launch $url';
-  static Future bottomSheet(
-    Widget child, {
-    bool fullscreen = false,
-    RouteSettings? settings,
-  }) async {
+  static Future bottomSheet(Widget child,
+      {bool fullscreen = false,
+      RouteSettings? settings,
+      isDismissible = true}) async {
     if (!fullscreen) {
       return await Get.bottomSheet(
         child,
         settings: settings,
+        isDismissible: isDismissible,
         isScrollControlled: true,
         barrierColor: ColorConst.darkGrey.withOpacity(0.5),
-        backgroundColor: Colors.transparent,
         enterBottomSheetDuration: const Duration(milliseconds: 180),
         exitBottomSheetDuration: const Duration(milliseconds: 150),
       ).then((value) {
@@ -45,27 +44,30 @@ class CommonFunctions {
       });
     }
     return await showCupertinoModalBottomSheet(
-            context: Get.context!,
-            bounce: false,
-            // animationCurve: Curves.ease,
-            // previousRouteAnimationCurve: Curves.decelerate,
-            // closeProgressThreshold: 0,
-            // enableDrag: false,
-            navigatorState: Get.global(null).currentState!,
-            onCreate: (route) {
-              RouterReportManager.reportCurrentRoute(route);
-            },
-            onDispose: (route) {
-              RouterReportManager.reportRouteDispose(route);
-            },
-            builder: (context) => Material(
-                  child: child,
-                ),
-            settings: settings,
-            // bounce: false,
-            overlayStyle: SystemUiOverlayStyle.light,
-            backgroundColor: Colors.transparent)
-        .then((value) {
+      context: Get.context!,
+      bounce: false,
+      isDismissible: isDismissible,
+      enableDrag: isDismissible,
+      barrierColor: ColorConst.darkGrey.withOpacity(0.5),
+      backgroundColor: Colors.transparent,
+      // animationCurve: Curves.ease,
+      // previousRouteAnimationCurve: Curves.decelerate,
+      // closeProgressThreshold: 0,
+      // enableDrag: false,
+      navigatorState: Get.global(null).currentState!,
+      onCreate: (route) {
+        RouterReportManager.reportCurrentRoute(route);
+      },
+      onDispose: (route) {
+        RouterReportManager.reportRouteDispose(route);
+      },
+      builder: (context) => Material(
+        child: child,
+      ),
+      settings: settings,
+      // bounce: false,
+      overlayStyle: SystemUiOverlayStyle.light,
+    ).then((value) {
       return value;
     });
   }

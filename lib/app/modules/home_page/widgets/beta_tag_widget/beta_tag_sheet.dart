@@ -113,10 +113,11 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
                         Get.find<HomePageController>().userAccounts.isEmpty
                             ? null
                             : Get.find<HomePageController>()
-                                .userAccounts
-                                .first
+                                .userAccounts[Get.find<HomePageController>()
+                                    .selectedIndex
+                                    .value]
                                 .publicKeyHash;
-                    NaanAnalytics.logEvent(NaanAnalyticsEvents.TF_COLLECTION,
+                    NaanAnalytics.logEvent(NaanAnalyticsEvents.BETA_AGREE,
                         param: {NaanAnalytics.address: address});
                     UserStorageService.betaTagAgree();
                     Get.back();

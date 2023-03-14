@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker_tile.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/review_delegate_baker.dart';
@@ -28,6 +29,12 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
         title: "Delegate",
+        prevPageName: controller.prevPage,
+        leading: controller.prevPage == null
+            ? null
+            : backButton(
+                ontap: () => Navigator.pop(context),
+                lastPageName: controller.prevPage),
         // isScrollControlled: true,
         // mainAxisAlignment: MainAxisAlignment.end,
         // bottomSheetHorizontalPadding: 0,
