@@ -44,9 +44,7 @@ class _SelectCurrencyBottomSheetState extends State<SelectCurrencyBottomSheet> {
       bottomSheetWidgets: [
         Column(
           children: [
-            SizedBox(
-              height: 30.aR,
-            ),
+            0.02.vspace,
             optionMethod(
               value: "tez",
               title: "Tezos (Tez)",

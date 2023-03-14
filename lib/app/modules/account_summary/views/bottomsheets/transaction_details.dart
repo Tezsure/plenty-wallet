@@ -183,7 +183,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                   );
                 }
               }),
-        const Spacer(),
+        0.02.vspace,
+        // const Spacer(),
         Center(
           child: BouncingWidget(
             onPressed: () {

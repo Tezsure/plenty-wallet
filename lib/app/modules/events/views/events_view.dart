@@ -146,6 +146,7 @@ class EventsView extends GetView<EventsController> {
                   color: const Color(0xff4A454E),
                   width: controller.selectedTab.value == index ? 0 : 1)),
           onSelected: (value) {
+            AppConstant.hapticFeedback();
             controller.changeFilter(index);
           },
           padding: EdgeInsets.symmetric(horizontal: 20.arP, vertical: 12.arP),
