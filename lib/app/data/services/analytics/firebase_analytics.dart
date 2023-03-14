@@ -104,4 +104,5 @@ class NaanAnalyticsEvents {
   static const String TF_COLLECTION = "tf_collection";
   static const String TEZ_QUAKE = "tez_quake";
   static const String BETA_AGREE = "beta_agree";
+  static const String TEZOS_DOMAIN = "tezos_domain";
 }
