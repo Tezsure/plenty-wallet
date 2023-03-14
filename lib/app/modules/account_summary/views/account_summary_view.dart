@@ -364,6 +364,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                     width: 1.width,
                                     child: TabBar(
                                         onTap: (value) async {
+                                          AppConstant.hapticFeedback();
                                           value == 2
                                               ? controller.loadUserTransaction()
                                               : null;
