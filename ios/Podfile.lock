@@ -1,4 +1,6 @@
 PODS:
+  - add_2_calendar (0.0.1):
+    - Flutter
   - Base58Swift (2.1.10):
     - BigInt (~> 5.0.0)
   - beacon_flutter (1.0.8):
@@ -192,6 +194,7 @@ PODS:
     - Web3Auth (~> 5.0.0)
 
 DEPENDENCIES:
+  - add_2_calendar (from `.symlinks/plugins/add_2_calendar/ios`)
   - beacon_flutter (from `.symlinks/plugins/beacon_flutter/ios`)
   - bonsoir (from `.symlinks/plugins/bonsoir/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -251,6 +254,8 @@ SPEC REPOS:
     - Web3Auth
 
 EXTERNAL SOURCES:
+  add_2_calendar:
+    :path: ".symlinks/plugins/add_2_calendar/ios"
   beacon_flutter:
     :path: ".symlinks/plugins/beacon_flutter/ios"
   bonsoir:
@@ -299,6 +304,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/web3auth_flutter/ios"
 
 SPEC CHECKSUMS:
+  add_2_calendar: e9d68636aed37fb18e12f5a3d74c2e0589487af0
   Base58Swift: 53d551f0b33d9478fa63b3445e453a772d6b31a7
   beacon_flutter: 5d8748f51ff25724266676afc02088d3fade29b1
   BeaconBlockchainSubstrate: 76d202c65a939fb6ccbe57ef1016f93212400bac
