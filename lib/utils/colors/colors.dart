@@ -89,6 +89,15 @@ LinearGradient appleBlack = const LinearGradient(
   ],
 );
 
+LinearGradient imagesGradient = LinearGradient(
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+  colors: [
+    const Color(0xff000000).withOpacity(0),
+    const Color(0xff373636).withOpacity(0.61),
+  ],
+);
+
 LinearGradient blueGradient = const LinearGradient(
   begin: Alignment.topRight,
   end: Alignment.bottomLeft,
@@ -106,6 +115,16 @@ LinearGradient blueGradientLight = const LinearGradient(
     Color(0xff0E61FF),
   ],
 );
+
+LinearGradient pinkGradient = const LinearGradient(
+  begin: Alignment.bottomLeft,
+  end: Alignment.topRight,
+  colors: [
+    Color(0xff493240),
+    Color(0xffFF0099),
+  ],
+);
+
 LinearGradient purpleGradient = const LinearGradient(
   begin: Alignment.topRight,
   end: Alignment.bottomLeft,

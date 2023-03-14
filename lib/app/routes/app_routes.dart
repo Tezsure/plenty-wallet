@@ -29,6 +29,7 @@ abstract class Routes {
   static const BIOMETRIC = _Paths.BEACON_BOTTOM_SHEET + _Paths.BIOMETRIC;
   static const DAPPS_PAGE = _Paths.DAPPS_PAGE;
   static const NFT_GALLERY_CREATE = _Paths.NFT_GALLERY_CREATE;
+  static const EVENTS = _Paths.EVENTS;
 }
 
 abstract class _Paths {
@@ -56,4 +57,5 @@ abstract class _Paths {
   static const BIOMETRIC = '/biometric';
   static const DAPPS_PAGE = '/dapps-page';
   static const NFT_GALLERY_CREATE = '/nft-gallery-create';
+  static const EVENTS = '/events';
 }

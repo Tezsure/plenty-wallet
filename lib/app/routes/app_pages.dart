@@ -22,6 +22,8 @@ import '../modules/dapp_browser/bindings/dapp_browser_binding.dart';
 import '../modules/dapp_browser/views/dapp_browser_view.dart';
 import '../modules/dapps_page/bindings/dapps_page_binding.dart';
 import '../modules/dapps_page/views/dapps_page_view.dart';
+import '../modules/events/bindings/events_binding.dart';
+import '../modules/events/views/events_view.dart';
 import '../modules/home_page/bindings/home_page_binding.dart';
 import '../modules/home_page/views/home_page_view.dart';
 import '../modules/home_page/widgets/accounts_widget/bindings/accounts_widget_binding.dart';
@@ -57,7 +59,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.HOME_PAGE,
-      page: () =>  HomePageView(),
+      page: () => HomePageView(),
       binding: HomePageBinding(),
     ),
     GetPage(
@@ -97,7 +99,7 @@ class AppPages {
     // ),
     GetPage(
       name: _Paths.IMPORT_WALLET_PAGE,
-      page: () =>  ImportWalletPageView(),
+      page: () => ImportWalletPageView(),
       binding: ImportWalletPageBinding(),
     ),
     GetPage(
@@ -132,7 +134,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ACCOUNT_SUMMARY,
-      page: () =>  AccountSummaryView(),
+      page: () => AccountSummaryView(),
       binding: AccountSummaryBinding(),
     ),
     GetPage(
@@ -164,6 +166,11 @@ class AppPages {
       name: _Paths.DAPPS_PAGE,
       page: () => const DappsPageView(),
       binding: DappsPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.EVENTS,
+      page: () => const EventsView(),
+      binding: EventsBinding(),
     ),
   ];
 }
