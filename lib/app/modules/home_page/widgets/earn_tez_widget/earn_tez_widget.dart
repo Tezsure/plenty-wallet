@@ -34,7 +34,7 @@ class EarnTezWidget extends StatelessWidget {
           return;
         }
         NaanAnalytics.logEvent(NaanAnalyticsEvents.DELEGATE_WIDGET_CLICK);
-        Get.put(DelegateWidgetController()).openBakerList();
+        Get.put(DelegateWidgetController()).openBakerList(context, null);
       },
       child: Container(
         height: AppConstant.homeWidgetDimension,

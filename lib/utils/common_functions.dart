@@ -26,15 +26,15 @@ class CommonFunctions {
           : url.contains("mailto:naan-support@tezsure.com")
               ? launchUrlString(url)
               : throw 'Could not launch $url';
-  static Future bottomSheet(
-    Widget child, {
-    bool fullscreen = false,
-    RouteSettings? settings,
-  }) async {
+  static Future bottomSheet(Widget child,
+      {bool fullscreen = false,
+      RouteSettings? settings,
+      isDismissible = true}) async {
     if (!fullscreen) {
       return await Get.bottomSheet(
         child,
         settings: settings,
+        isDismissible: isDismissible,
         isScrollControlled: true,
         barrierColor: ColorConst.darkGrey.withOpacity(0.5),
         backgroundColor: Colors.transparent,
@@ -47,6 +47,8 @@ class CommonFunctions {
     return await showCupertinoModalBottomSheet(
             context: Get.context!,
             bounce: false,
+            isDismissible: isDismissible,
+            enableDrag: isDismissible,
             // animationCurve: Curves.ease,
             // previousRouteAnimationCurve: Curves.decelerate,
             // closeProgressThreshold: 0,

@@ -279,7 +279,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                     NaanAnalyticsEvents
                                                         .DELEGATE_FROM_WALLET);
                                                 Get.put(DelegateWidgetController())
-                                                    .openBakerList();
+                                                    .openBakerList(
+                                                        context, "Accounts");
                                               },
                                               imagePath:
                                                   '${PathConst.SVG}dollar_sign.svg',
