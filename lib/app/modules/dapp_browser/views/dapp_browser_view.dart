@@ -23,6 +23,7 @@ import '../controllers/dapp_browser_controller.dart';
 
 class DappBrowserView extends GetView<DappBrowserController> {
   final String? tagString;
+  final String url;
   const DappBrowserView({Key? key, this.tagString}) : super(key: key);
   @override
   Widget build(BuildContext context) {

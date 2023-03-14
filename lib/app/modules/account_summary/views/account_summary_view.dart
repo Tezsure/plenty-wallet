@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/app/modules/dapp_browser/controllers/dapp_browser_controller.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
@@ -262,6 +263,15 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                     "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
 
                                                 print(url);
+                                                // final dappController = Get.put(
+                                                //   DappBrowserController(),
+                                                // );
+                                                // dappController.initUrl = url;
+                                                // Navigator.push(
+                                                //     context,
+                                                //     MaterialPageRoute(
+                                                //         builder: (context) =>
+                                                //             DappBrowserView()));
                                                 CommonFunctions.bottomSheet(
                                                     const DappBrowserView(),
                                                     fullscreen: true,
@@ -302,13 +312,13 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                             lastPageName:
                                                                 "Accounts",
                                                           )));
-                                              return CommonFunctions
-                                                  .bottomSheet(
-                                                const SendPage(),
-                                                settings: RouteSettings(
-                                                    arguments: controller
-                                                        .selectedAccount.value),
-                                              );
+                                              // return CommonFunctions
+                                              //     .bottomSheet(
+                                              //   const SendPage(),
+                                              //   settings: RouteSettings(
+                                              //       arguments: controller
+                                              //           .selectedAccount.value),
+                                              // );
                                             },
                                           ),
                                           0.04.hspace,
@@ -328,13 +338,13 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                             lastPageName:
                                                                 "Accounts",
                                                           )));
-                                              return CommonFunctions
-                                                  .bottomSheet(
-                                                const ReceivePageView(),
-                                                settings: RouteSettings(
-                                                    arguments: controller
-                                                        .selectedAccount.value),
-                                              );
+                                              // return CommonFunctions
+                                              //     .bottomSheet(
+                                              //   const ReceivePageView(),
+                                              //   settings: RouteSettings(
+                                              //       arguments: controller
+                                              //           .selectedAccount.value),
+                                              // );
                                             }),
                                           ),
                                         ],
