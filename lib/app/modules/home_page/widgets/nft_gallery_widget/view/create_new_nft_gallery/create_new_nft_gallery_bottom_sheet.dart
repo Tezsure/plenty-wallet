@@ -300,21 +300,21 @@ class CreateNewNftGalleryBottomSheet
   }
 
   _onImportAccount(BuildContext context) async {
-    String? pkh = await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ImportWalletPageView(
-            isBottomSheet: true,
-            isWatchAddress: true,
-          ),
-        ));
-    // String pkh = await CommonFunctions.bottomSheet(
-    //     ImportWalletPageView(
-    //       isBottomSheet: true,
-    //       isWatchAddress: true,
-    //     ),
-    //     fullscreen: true);
-    if (pkh == null) return;
+    // String? pkh = await Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => ImportWalletPageView(
+    //         isBottomSheet: true,
+    //         isWatchAddress: true,
+    //       ),
+    //     ));
+    String pkh = await CommonFunctions.bottomSheet(
+        ImportWalletPageView(
+          isBottomSheet: true,
+          isWatchAddress: true,
+        ),
+        fullscreen: true);
+    // if (pkh == null) return;
     controller.accounts.value = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
 

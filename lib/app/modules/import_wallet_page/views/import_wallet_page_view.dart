@@ -42,23 +42,14 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     Get.put(ImportWalletPageController());
     if (isBottomSheet) {
       return NaanBottomSheet(
-        prevPageName: isWatchAddress ? "Select accounts" : null,
         // bottomSheetHorizontalPadding: 16.arP,
         // isScrollControlled: true,
-        title: "",
-        leading: isWatchAddress
-            ? backButton(
-                ontap: () => Navigator.pop(context),
-                lastPageName: "Select accounts")
-            : null,
         height: AppConstant.naanBottomSheetHeight,
-        bottomSheetHorizontalPadding: 0,
         bottomSheetWidgets: [
           SizedBox(
-              height: AppConstant.naanBottomSheetHeight -
-                  MediaQuery.of(context).viewInsets.bottom -
-                  48.arP -
-                  14.arP,
+              height: AppConstant.naanBottomSheetChildHeight -
+                  MediaQuery.of(context).viewInsets.bottom +
+                  60.arP,
               child: _buildBody(context,
                   isWatchAddress: isWatchAddress, isBottomSheet: isBottomSheet))
         ],
@@ -98,13 +89,15 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               //   ),
               // ),
               const Spacer(),
-              InfoButton(
-                onPressed: () {
-                  CommonFunctions.bottomSheet(
-                      InfoBottomSheet(isWatchAddress: isWatchAddress),
-                      fullscreen: true);
-                },
-              ),
+              isBottomSheet
+                  ? closeButton()
+                  : InfoButton(
+                      onPressed: () {
+                        CommonFunctions.bottomSheet(
+                            InfoBottomSheet(isWatchAddress: isWatchAddress),
+                            fullscreen: true);
+                      },
+                    ),
 
               // GestureDetector(
               //   onTap: () {
@@ -134,7 +127,19 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
             ],
           ),
           0.02.vspace,
-
+          if (isBottomSheet)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InfoButton(
+                  onPressed: () {
+                    CommonFunctions.bottomSheet(
+                        InfoBottomSheet(isWatchAddress: isWatchAddress),
+                        fullscreen: true);
+                  },
+                ),
+              ],
+            ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -142,7 +147,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                     ? CrossAxisAlignment.center
                     : CrossAxisAlignment.start,
                 children: [
-                  0.02.vspace,
+                  0.05.vspace,
                   Text(
                     (isWatchAddress ? "Add a watch address" : "Import account")
                         .tr,
