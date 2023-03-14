@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
@@ -213,53 +212,152 @@ class DataHandlerService {
         key: ServiceConfig.dappsBannerStorage, value: jsonEncode(banners));
   }
 
-  Future<void> getEventsDetail(
-      {required RxList<String> tags,
+  Future<Map<String, List<EventModel>>> getEventsDetail(
+      {required RxList tags,
       required RxString bottomText,
       required RxString contactUsLink,
       required RxMap<String, List<EventModel>> events}) async {
     var eventsStorage = jsonDecode(await ServiceConfig.localStorage
-            .read(key: ServiceConfig.dappsStorage) ??
+            .read(key: ServiceConfig.eventsStorage) ??
         "{}");
     if (eventsStorage.isNotEmpty) {
       tags.value = eventsStorage['tags'];
       bottomText.value = eventsStorage['bottomText'];
       contactUsLink.value = eventsStorage['contactUsLink'];
-      events.value = eventsStorage['events'].map<EventModel>((json) {
-        return EventModel.fromJson(json);
-      }).toList();
-      ;
+      final Map<String, List<EventModel>> eventsByTime = {
+        "Today": [],
+        "Tomorrow": [],
+        "This Week": [],
+        "Next Week": [],
+        "This Month": [],
+        "Next Month": [],
+        "This Year": [],
+      };
+
+// Iterate through each event and categorize them based on their timestamp
+      eventsStorage['events'].forEach((json) {
+        final EventModel event = EventModel.fromJson(json);
+        final DateTime? eventTime = event.timestamp;
+        if (eventTime!.isAfter(DateTime.now())) {
+          if (_isToday(eventTime!)) {
+            eventsByTime['Today']!.add(event);
+          } else if (_isTomorrow(eventTime)) {
+            eventsByTime['Tomorrow']!.add(event);
+          } else if (_isThisWeek(eventTime)) {
+            eventsByTime['This Week']!.add(event);
+          } else if (_isNextWeek(eventTime)) {
+            eventsByTime['Next Week']!.add(event);
+          } else if (_isThisMonth(eventTime)) {
+            eventsByTime['This Month']!.add(event);
+          } else if (_isNextMonth(eventTime)) {
+            eventsByTime['Next Month']!.add(event);
+          } else if (_isThisYear(eventTime)) {
+            eventsByTime['This Year']!.add(event);
+          }
+        }
+      });
+      events.value = eventsByTime;
     }
-    events.value = jsonDecode(await ServiceConfig.localStorage
-                .read(key: ServiceConfig.dappsStorage) ??
-            "{}")
-        .map<String, EventModel>(
-            (key, json) => MapEntry(key.toString(), DappModel.fromJson(json)));
 
     final apiResult = jsonDecode(await HttpService.performGetRequest(
         ServiceConfig.naanApis,
         endpoint: "events"));
-    // call apis
-    List<EventModel> eventsAPI = apiResult['events']
-        .map<EventModel>((json) => EventModel.fromJson(json))
-        .toList();
 
-    List<String> tagsAPI = apiResult['tags'];
+    if (eventsStorage.toString().hashCode != apiResult.toString().hashCode) {
+      tags.value = apiResult['tags'];
+      bottomText.value = apiResult['bottomText'];
+      contactUsLink.value = apiResult['contactUsLink'];
+      final Map<String, List<EventModel>> eventsByTime = {
+        "Today": [],
+        "Tomorrow": [],
+        "This Week": [],
+        "Next Week": [],
+        "This Month": [],
+        "Next Month": [],
+        "This Year": [],
+      };
 
-    Map<String, DappModel> dappsMap = jsonDecode(dappString)
-        .map<String, DappModel>(
-            (key, json) => MapEntry(key.toString(), DappModel.fromJson(json)));
-
-    if (dappBanners != null &&
-        dappBanners.toString().hashCode != banners.toString().hashCode) {
-      dapps!.value = dappsMap;
-      dappBanners.value = banners;
+// Iterate through each event and categorize them based on their timestamp
+      apiResult['events'].forEach((json) {
+        final EventModel event = EventModel.fromJson(json);
+        final DateTime? eventTime = event.timestamp;
+        if (eventTime!.isAfter(DateTime.now())) {
+          if (_isToday(eventTime!)) {
+            eventsByTime['Today']!.add(event);
+          } else if (_isTomorrow(eventTime)) {
+            eventsByTime['Tomorrow']!.add(event);
+          } else if (_isThisWeek(eventTime)) {
+            eventsByTime['This Week']!.add(event);
+          } else if (_isNextWeek(eventTime)) {
+            eventsByTime['Next Week']!.add(event);
+          } else if (_isThisMonth(eventTime)) {
+            eventsByTime['This Month']!.add(event);
+          } else if (_isNextMonth(eventTime)) {
+            eventsByTime['Next Month']!.add(event);
+          } else if (_isThisYear(eventTime)) {
+            eventsByTime['This Year']!.add(event);
+          }
+        }
+        ;
+      });
+      events.value = eventsByTime;
     } else {}
 
     // store in local storage
+
     await ServiceConfig.localStorage
-        .write(key: ServiceConfig.dappsStorage, value: dappString);
-    await ServiceConfig.localStorage.write(
-        key: ServiceConfig.dappsBannerStorage, value: jsonEncode(banners));
+        .write(key: ServiceConfig.eventsStorage, value: jsonEncode(apiResult));
+
+    return events.value;
+  }
+
+  // Helper functions to determine if a date falls into a specific time range
+  bool _isToday(DateTime dateTime) {
+    final now = DateTime.now();
+    return dateTime.day == now.day &&
+        dateTime.month == now.month &&
+        dateTime.year == now.year;
+  }
+
+  bool _isTomorrow(DateTime dateTime) {
+    final now = DateTime.now();
+    final tomorrow = now.add(Duration(days: 1));
+    return dateTime.day == tomorrow.day &&
+        dateTime.month == tomorrow.month &&
+        dateTime.year == tomorrow.year;
+  }
+
+  bool _isThisWeek(DateTime dateTime) {
+    final now = DateTime.now();
+    final endOfWeek =
+        now.add(Duration(days: DateTime.daysPerWeek - now.weekday));
+    return dateTime.isAfter(now) && dateTime.isBefore(endOfWeek);
+  }
+
+  bool _isNextWeek(DateTime dateTime) {
+    final now = DateTime.now();
+    final endOfWeek =
+        now.add(Duration(days: DateTime.daysPerWeek - now.weekday));
+    final nextEndOfWeek = endOfWeek.add(Duration(days: DateTime.daysPerWeek));
+    return dateTime.isAfter(endOfWeek) && dateTime.isBefore(nextEndOfWeek);
+  }
+
+  bool _isThisMonth(DateTime dateTime) {
+    final now = DateTime.now();
+    return dateTime.month == now.month && dateTime.year == now.year;
+  }
+
+  bool _isNextMonth(DateTime dateTime) {
+    final now = DateTime.now();
+    final endOfMonth =
+        DateTime(now.year, now.month + 1, 1).subtract(const Duration(days: 1));
+    final nextEndOfMonth =
+        DateTime(now.year, now.month + 2, 1).subtract(const Duration(days: 1));
+    return dateTime.isAfter(endOfMonth) && dateTime.isBefore(nextEndOfMonth);
+  }
+
+  bool _isThisYear(DateTime dateTime) {
+    final now = DateTime.now();
+    return dateTime.year == now.year;
   }
 }

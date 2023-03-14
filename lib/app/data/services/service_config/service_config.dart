@@ -102,6 +102,8 @@ class ServiceConfig {
 
   // dapps
   static const String dappsStorage = "${storageName}_dapps";
+// events
+  static const String eventsStorage = "${storageName}_events";
   // dapps banner
   static const String dappsBannerStorage = "${storageName}_dapps_banner";
 

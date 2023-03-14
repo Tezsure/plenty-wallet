@@ -16,6 +16,7 @@ class EventModel {
   String? title;
   String? tag;
   DateTime? timestamp;
+  DateTime? endTimestamp;
   String? link;
   String? address;
   String? description;
@@ -26,6 +27,7 @@ class EventModel {
       {this.title,
       this.tag,
       this.timestamp,
+      this.endTimestamp,
       this.link,
       this.address,
       this.description,
@@ -35,8 +37,14 @@ class EventModel {
   EventModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     tag = json['tag'];
-    timestamp =
-        DateTime.fromMillisecondsSinceEpoch(int.parse(json['timestamp']));
+    timestamp = DateTime.fromMillisecondsSinceEpoch(
+        int.parse(json['timestamp']) * 1000);
+    endTimestamp = json['endTimestamp'].isEmpty
+        ? DateTime.fromMillisecondsSinceEpoch(
+                int.parse(json['timestamp']) * 1000)
+            .add(const Duration(hours: 1))
+        : DateTime.fromMillisecondsSinceEpoch(
+            int.parse(json['endTimestamp']) * 1000);
     link = json['link'];
     address = json['address'];
     description = json['description'];
@@ -49,6 +57,7 @@ class EventModel {
     data['title'] = title;
     data['tag'] = tag;
     data['timestamp'] = timestamp!.millisecondsSinceEpoch.toString();
+    data['endTimestamp'] = endTimestamp!.millisecondsSinceEpoch.toString();
     data['link'] = link;
     data['description'] = description;
     data['address'] = address;
