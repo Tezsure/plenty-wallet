@@ -41,13 +41,15 @@ class SettingsPageView extends GetView<SettingsPageController> {
     return NaanBottomSheet(
         // title: "Settings",
         height: AppConstant.naanBottomSheetHeight,
+        bottomSheetHorizontalPadding: 0,
         // bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetHeight - 20.arP,
             child: Navigator(onGenerateRoute: (context2) {
               return MaterialPageRoute(builder: (context) {
-                return SizedBox(
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16.arP),
                   height: AppConstant.naanBottomSheetChildHeight,
                   child: Column(
                     children: [

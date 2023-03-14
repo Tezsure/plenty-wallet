@@ -36,7 +36,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
                 ontap: () => Navigator.pop(context), lastPageName: prevPage),
         // isScrollControlled: true,
         title: controller.dapps.isEmpty ? "" : "Connected apps",
-        bottomSheetHorizontalPadding: prevPage == null ? 16.arP : 0,
+        // bottomSheetHorizontalPadding: prevPage == null ? 16.arP : 0,
         bottomSheetWidgets: [
           0.02.vspace,
           Obx(

@@ -40,7 +40,7 @@ class _SelectCurrencyBottomSheetState extends State<SelectCurrencyBottomSheet> {
       leading: backButton(
           lastPageName: "Settings", ontap: () => Navigator.pop(context)),
       height: AppConstant.naanBottomSheetChildHeight,
-      bottomSheetHorizontalPadding: 0,
+      // bottomSheetHorizontalPadding: 0,
       bottomSheetWidgets: [
         Column(
           children: [
