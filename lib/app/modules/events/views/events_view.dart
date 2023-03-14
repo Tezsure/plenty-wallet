@@ -77,8 +77,11 @@ class EventsView extends GetView<EventsController> {
                                     onPressed: () async {
                                       if (await canLaunchUrl(Uri.parse(
                                           controller.contactUsLink.value))) {
-                                        await launchUrl(Uri.parse(
-                                            controller.contactUsLink.value));
+                                        await launchUrl(
+                                            Uri.parse(
+                                                controller.contactUsLink.value),
+                                            mode:
+                                                LaunchMode.externalApplication);
                                       } else {
                                         throw 'Could not launch ${controller.contactUsLink.value}';
                                       }
