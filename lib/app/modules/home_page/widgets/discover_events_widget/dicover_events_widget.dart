@@ -23,9 +23,7 @@ class DiscoverEvents extends StatelessWidget {
         NaanAnalytics.logEvent(
           NaanAnalyticsEvents.EVENTS_OPENED,
         );
-        CommonFunctions.bottomSheet(
-          const EventsView(),
-        );
+        CommonFunctions.bottomSheet(const EventsView(), fullscreen: true);
       },
       child: HomeWidgetFrame(
         width: 1.width,

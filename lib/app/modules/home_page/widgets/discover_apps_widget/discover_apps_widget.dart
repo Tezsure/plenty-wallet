@@ -18,8 +18,10 @@ class DiscoverAppsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        CommonFunctions.bottomSheet(const DappsPageView(),
-            fullscreen: true, isDismissible: false);
+        CommonFunctions.bottomSheet(
+          const DappsPageView(),
+          fullscreen: true,
+        );
       },
       child: HomeWidgetFrame(
         width: 1.width,

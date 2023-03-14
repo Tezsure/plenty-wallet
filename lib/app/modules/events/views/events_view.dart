@@ -38,7 +38,7 @@ class EventsView extends GetView<EventsController> {
       bottomSheetWidgets: [
         Obx(
           () => Container(
-            height: AppConstant.naanBottomSheetHeight - 56.arP,
+            height: AppConstant.naanBottomSheetChildHeight + 12.arP,
             margin: EdgeInsets.symmetric(horizontal: 16.arP),
             child: Column(
               children: [
@@ -57,7 +57,7 @@ class EventsView extends GetView<EventsController> {
                               );
                       }),
                 ),
-                0.01.vspace,
+                0.02.vspace,
                 Expanded(
                     child: ListView.builder(
                         itemCount: controller.events.length + 1,
