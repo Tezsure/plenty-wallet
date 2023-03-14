@@ -180,14 +180,12 @@ class HomePageController extends GetxController {
 
   Future<void> openScanner() async {
     if (userAccounts[selectedIndex.value].isWatchOnly) {
-      return CommonFunctions.bottomSheet(
-        AccountSelectorSheet(
-          onNext: () {
-            Get.back();
-            openScanner();
-          },
-        ),
-      );
+      return CommonFunctions.bottomSheet(AccountSelectorSheet(
+        onNext: () {
+          Get.back();
+          openScanner();
+        },
+      ), fullscreen: true);
     }
     await Permission.camera.request();
     final status = await Permission.camera.status;

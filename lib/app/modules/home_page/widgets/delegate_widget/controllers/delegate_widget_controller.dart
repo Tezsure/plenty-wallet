@@ -297,9 +297,8 @@ class DelegateWidgetController extends GetxController {
         .obs;
 
     if (accountModel == null) {
-      return CommonFunctions.bottomSheet(
-        const AccountSelectorSheet(),
-      );
+      return CommonFunctions.bottomSheet(const AccountSelectorSheet(),
+          fullscreen: true);
     }
     // if (accountModel?.value.publicKeyHash == null) {}
     // await toggleLoaderOverlay(() async {
