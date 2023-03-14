@@ -44,7 +44,7 @@ class DappsPageView extends GetView<DappsPageController> {
               Expanded(
                 child: Obx(
                   () => ListView.builder(
-                    physics: AppConstant.scrollPhysics,
+                    physics: ClampingScrollPhysics(),
                     itemCount: controller.dappBanners.length,
                     itemBuilder: (context, index) {
                       List<DappModel> dapps = controller
