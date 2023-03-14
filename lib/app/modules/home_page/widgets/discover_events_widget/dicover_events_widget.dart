@@ -20,6 +20,9 @@ class DiscoverEvents extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
+        NaanAnalytics.logEvent(
+          NaanAnalyticsEvents.EVENTS_OPENED,
+        );
         CommonFunctions.bottomSheet(
           const EventsView(),
         );

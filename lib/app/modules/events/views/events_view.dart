@@ -15,6 +15,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utils/constants/constants.dart';
+import '../../../data/services/analytics/firebase_analytics.dart';
 import '../../../data/services/service_config/service_config.dart';
 import '../../common_widgets/back_button.dart';
 import '../../common_widgets/bouncing_widget.dart';
@@ -245,6 +246,9 @@ class EventWidget extends StatelessWidget {
                           primaryColor: ColorConst.Primary,
                           onPressed: () async {
                             if (await canLaunchUrl(Uri.parse(event.link!))) {
+                              NaanAnalytics.logEvent(
+                                  NaanAnalyticsEvents.JOIN_EVENT,
+                                  param: {"name": event.title});
                               await launchUrl(Uri.parse(event.link!),
                                   mode: LaunchMode.externalApplication);
                             } else {
@@ -257,6 +261,9 @@ class EventWidget extends StatelessWidget {
                         ),
                         BouncingWidget(
                           onPressed: () {
+                            NaanAnalytics.logEvent(
+                                NaanAnalyticsEvents.SHARE_EVENT,
+                                param: {"name": event.title});
                             Share.share(event.shareText ??
                                 "Check out this event ${event.title}}");
                           },

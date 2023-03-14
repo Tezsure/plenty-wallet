@@ -20,6 +20,8 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../data/services/analytics/firebase_analytics.dart';
+
 // ignore: must_be_immutable
 class EventBottomSheet extends StatelessWidget {
   EventModel eventModel;
@@ -133,6 +135,8 @@ class EventBottomSheet extends StatelessWidget {
                         height: 30.arP,
                       ),
                       onPressed: () {
+                        NaanAnalytics.logEvent(NaanAnalyticsEvents.SHARE_EVENT,
+                            param: {"name": eventModel.title});
                         Share.share(eventModel.shareText ??
                             "Check out this event ${eventModel.title}}");
                       })
@@ -297,6 +301,8 @@ class EventBottomSheet extends StatelessWidget {
                     ),
                     onPressed: () async {
                       if (await canLaunchUrl(Uri.parse(eventModel.link!))) {
+                        NaanAnalytics.logEvent(NaanAnalyticsEvents.JOIN_EVENT,
+                            param: {"name": eventModel.title});
                         await launchUrl(Uri.parse(eventModel.link!),
                             mode: LaunchMode.externalApplication);
                       } else {
