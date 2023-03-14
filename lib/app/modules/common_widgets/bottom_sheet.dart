@@ -195,7 +195,7 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
 
   Widget _buildBody() {
     return SizedBox(
-      height: widget.height == null ? null : (widget.height! - 14.arP),
+      // height: widget.height == null ? null : (widget.height! - 24.arP),
       child: Column(
         children: [
           if (widget.title != null)

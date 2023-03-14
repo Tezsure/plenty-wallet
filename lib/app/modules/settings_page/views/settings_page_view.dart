@@ -44,7 +44,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         // bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
           SizedBox(
-            height: AppConstant.naanBottomSheetHeight - 14.arP,
+            height: AppConstant.naanBottomSheetHeight - 20.arP,
             child: Navigator(onGenerateRoute: (context2) {
               return MaterialPageRoute(builder: (context) {
                 return SizedBox(
@@ -54,7 +54,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                       const BottomSheetHeading(
                         title: "Settings",
                       ),
-                      0.01.vspace,
+                      0.02.vspace,
                       Expanded(
                         child: Obx(() {
                           return ListView(

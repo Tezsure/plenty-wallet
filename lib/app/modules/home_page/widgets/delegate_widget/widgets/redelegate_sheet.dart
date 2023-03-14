@@ -17,7 +17,10 @@ import '../../../controllers/home_page_controller.dart';
 class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
   final DelegateBakerModel baker;
 
-  ReDelegateBottomSheet({super.key, required this.baker,}) {
+  ReDelegateBottomSheet({
+    super.key,
+    required this.baker,
+  }) {
     Get.lazyPut(() => DelegateWidgetController());
     controller.getDelegateRewardList();
   }
@@ -29,10 +32,11 @@ class ReDelegateBottomSheet extends GetView<DelegateWidgetController> {
         prevPageName: controller.prevPage,
         height: AppConstant.naanBottomSheetHeight,
         title: "",
-        leading:  controller.prevPage == null
+        leading: controller.prevPage == null
             ? null
             : backButton(
-                ontap: () => Navigator.pop(context), lastPageName: controller. prevPage),
+                ontap: () => Navigator.pop(context),
+                lastPageName: controller.prevPage),
         // isScrollControlled: true,
         // bottomSheetHorizontalPadding: 16.arP,
         // decoration: const BoxDecoration(

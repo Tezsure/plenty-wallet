@@ -62,6 +62,7 @@ class CommonFunctions {
         RouterReportManager.reportRouteDispose(route);
       },
       builder: (context) => Material(
+        type: MaterialType.transparency,
         child: child,
       ),
       settings: settings,

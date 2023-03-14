@@ -17,7 +17,7 @@ class DappBrowserController extends GetxController {
   RxBool showButton = false.obs;
   RxBool isScrolling = false.obs;
   RxInt offset = 0.obs;
-  late String initUrl;
+  String initUrl = Get.arguments;
   RxString url = ''.obs;
   RxString fa = ''.obs;
   RxString tokenId = ''.obs;
