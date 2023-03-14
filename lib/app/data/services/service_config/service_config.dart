@@ -32,7 +32,7 @@ class ServiceConfig {
   static String coingeckoApi =
       "https://api.coingecko.com/api/v3/simple/price?ids=tezos&vs_currencies=usd";
 
-  static String tezPriceChart = "https://www.kraken.com/prices/tezos";
+  static String tezPriceChart = "https://messari.io/asset/tezos";
 
   static String xtzPriceApi =
       "https://api.analytics.plenty.network/analytics/tokens/XTZ?historical=false";
