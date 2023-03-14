@@ -42,14 +42,14 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     Get.put(ImportWalletPageController());
     if (isBottomSheet) {
       return NaanBottomSheet(
-        prevPageName: isWatchAddress ? "Select Account" : null,
+        prevPageName: isWatchAddress ? "Select accounts" : null,
         // bottomSheetHorizontalPadding: 16.arP,
         // isScrollControlled: true,
         title: "",
         leading: isWatchAddress
             ? backButton(
                 ontap: () => Navigator.pop(context),
-                lastPageName: "Select Account")
+                lastPageName: "Select accounts")
             : null,
         height: AppConstant.naanBottomSheetHeight,
         bottomSheetHorizontalPadding: 0,
