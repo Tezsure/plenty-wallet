@@ -38,9 +38,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
         title: controller.dapps.isEmpty ? "" : "Connected apps",
         bottomSheetHorizontalPadding: prevPage == null ? 16.arP : 0,
         bottomSheetWidgets: [
-          SizedBox(
-            height: 20.arP,
-          ),
+          0.02.vspace,
           Obx(
             () {
               if (controller.dapps.isEmpty) {
