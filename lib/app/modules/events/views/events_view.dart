@@ -39,7 +39,7 @@ class EventsView extends GetView<EventsController> {
         Obx(
           () => Container(
             height: AppConstant.naanBottomSheetChildHeight + 12.arP,
-            margin: EdgeInsets.symmetric(horizontal: 16.arP),
+            // margin: EdgeInsets.symmetric(horizontal: 16.arP),
             child: Column(
               children: [
                 0.02.vspace,
@@ -49,8 +49,12 @@ class EventsView extends GetView<EventsController> {
                       scrollDirection: Axis.horizontal,
                       itemCount: controller.tags.length + 1,
                       itemBuilder: (context, index) {
-                        return index == 0
-                            ? filterChip(index)
+                        return index == controller.tags.length
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                    right: 12.0.arP, left: 12.0.arP),
+                                child: filterChip(index),
+                              )
                             : Padding(
                                 padding: EdgeInsets.only(left: 12.0.arP),
                                 child: filterChip(index),
@@ -60,6 +64,7 @@ class EventsView extends GetView<EventsController> {
                 0.02.vspace,
                 Expanded(
                     child: ListView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 16.arP),
                         itemCount: controller.events.length + 1,
                         itemBuilder: (context, index) {
                           if (index == controller.events.length) {
