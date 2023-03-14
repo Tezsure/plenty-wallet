@@ -169,7 +169,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
         ),
         0.012.vspace,
         tokenInfo.token!.operationStatus != "applied" ||
-                getSenderAddress().isEmpty
+                transactionModel.send.address!.isEmpty
             ? const SizedBox()
             : Obx(() {
                 if (controller.contacts.isEmpty) {
@@ -178,8 +178,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                   );
                 } else {
                   return contactTile(
-                    controller.contacts.firstWhereOrNull(
-                        (element) => element.address == getSenderAddress()),
+                    controller.contacts.firstWhereOrNull((element) =>
+                        element.address == transactionModel.send.address!),
                   );
                 }
               }),
@@ -224,16 +224,23 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
   ) {
     return Row(
       children: [
-        CircleAvatar(
-          backgroundColor: Colors.transparent,
-          radius: 22.aR,
-          child: contact != null
-              ? Image.asset(
-                  contact.imagePath,
-                )
-              : SvgPicture.asset(
-                  'assets/svg/send.svg',
-                ),
+        ClipOval(
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: 22.aR,
+            child: contact != null
+                ? Image.asset(
+                    contact.imagePath,
+                  )
+                : Image.network(
+                    "https://services.tzkt.io/v1/avatars/${transactionModel.send.address!}",
+                    errorBuilder: (context, error, stackTrace) {
+                      return SvgPicture.asset(
+                        'assets/svg/send.svg',
+                      );
+                    },
+                  ),
+          ),
         ),
         0.02.hspace,
         Column(
@@ -252,33 +259,16 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
             Row(
               children: [
                 Text(
-                  contact != null
-                      ? contact.name
-                      : getSenderAddress().tz1Short(),
+                  transactionModel.send.alias ??
+                      transactionModel.send.address!.tz1Short(),
                   style: bodyMedium.copyWith(
                       fontSize: 14.aR, letterSpacing: 0.5.aR),
                 ),
                 0.02.hspace,
                 BouncingWidget(
                   onPressed: () {
-                    Clipboard.setData(ClipboardData(
-                      text: contact != null
-                          ? contact.address
-                          : transactionModel.sender!.address!
-                                  .contains(userAccountAddress)
-                              ? transactionModel.parameter?.value == null
-                                  ? transactionModel.target!.address!
-                                  : senderAddress(
-                                      transactionModel,
-                                      transactionModel.sender!.address!
-                                          .contains(userAccountAddress))!
-                              : transactionModel.parameter?.value == null
-                                  ? transactionModel.sender!.address!
-                                  : senderAddress(
-                                      transactionModel,
-                                      transactionModel.sender!.address!
-                                          .contains(userAccountAddress))!,
-                    ));
+                    Clipboard.setData(
+                        ClipboardData(text: transactionModel.send.address));
                     Get.rawSnackbar(
                       maxWidth: 0.45.width,
                       backgroundColor: Colors.transparent,
@@ -324,7 +314,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
           ],
         ),
         const Spacer(),
-        getSenderAddress().isValidWalletAddress
+        transactionModel.send.address!.isValidWalletAddress
             ? Obx(() => PopupMenuButton(
                   position: PopupMenuPosition.under,
                   enableFeedback: true,
@@ -338,7 +328,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
 
                     return <PopupMenuEntry>[
                       if (contact == null &&
-                          getSenderAddress().isValidWalletAddress) ...[
+                          transactionModel
+                              .send.address!.isValidWalletAddress) ...[
                         CustomPopupMenuItem(
                           height: 30.arP,
                           width: 120.arP,
@@ -348,8 +339,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                               AddContactBottomSheet(
                                   isTransactionContact: true,
                                   contactModel: ContactModel(
-                                      name: '',
-                                      address: getSenderAddress(),
+                                      name: transactionModel.send.alias ?? "",
+                                      address: transactionModel.send.address!,
                                       imagePath:
                                           ServiceConfig.allAssetsProfileImages[
                                               Random().nextInt(
@@ -358,7 +349,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                             1,
                                       )])),
                             ).whenComplete(() => controller.contact?.value =
-                                controller.getContact(getSenderAddress()));
+                                controller.getContact(
+                                    transactionModel.send.address!));
                           },
                           child: Text(
                             "Add to contacts",
@@ -366,7 +358,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                           ),
                         ),
                       ] else if (contact != null &&
-                          getSenderAddress().isValidWalletAddress) ...[
+                          transactionModel
+                              .send.address!.isValidWalletAddress) ...[
                         CustomPopupMenuItem(
                           height: 30.aR,
                           width: 100.aR,
@@ -378,7 +371,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                   isTransactionContact: true,
                                   contactModel: ContactModel(
                                       name: contact.name,
-                                      address: getSenderAddress(),
+                                      address: transactionModel.send.address!,
                                       imagePath:
                                           ServiceConfig.allAssetsProfileImages[
                                               Random().nextInt(
@@ -387,7 +380,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                             1,
                                       )])),
                             ).whenComplete(() => controller.contact?.value =
-                                controller.getContact(getSenderAddress()));
+                                controller.getContact(
+                                    transactionModel.send.address!));
                           },
                           child: Text(
                             "Edit ",
@@ -439,50 +433,50 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
     );
   }
 
-  String getSenderAddress() =>
-      transactionModel.sender!.address!.contains(userAccountAddress)
-          ? transactionModel.parameter?.value == null
-              ? transactionModel.target?.address ??
-                  transactionModel.newDelegate?.address ??
-                  ""
-              : senderAddress(
-                      transactionModel,
-                      transactionModel.sender!.address!
-                          .contains(userAccountAddress)) ??
-                  ""
-          : transactionModel.parameter?.value == null
-              ? transactionModel.sender!.address!
-              : senderAddress(
-                      transactionModel,
-                      transactionModel.sender!.address!
-                          .contains(userAccountAddress)) ??
-                  "";
+  // String getSenderAddress() =>
+  //     transactionModel.sender!.address!.contains(userAccountAddress)
+  //         ? transactionModel.parameter?.value == null
+  //             ? transactionModel.target?.address ??
+  //                 transactionModel.newDelegate?.address ??
+  //                 ""
+  //             : senderAddress(
+  //                     transactionModel,
+  //                     transactionModel.sender!.address!
+  //                         .contains(userAccountAddress)) ??
+  //                 ""
+  //         : transactionModel.parameter?.value == null
+  //             ? transactionModel.sender!.address!
+  //             : senderAddress(
+  //                     transactionModel,
+  //                     transactionModel.sender!.address!
+  //                         .contains(userAccountAddress)) ??
+  //                 "";
 
-  String? senderAddress(TxHistoryModel model, bool isSent) {
-    if (transactionModel.operationStatus != "applied") return "";
-    if (transactionModel.parameter?.value is List) {
-      return isSent
-          ? (transactionModel.parameter?.value[0]?['txs']?[0]?['to_'] ??
-              transactionModel.parameter?.value[0]?['add_operator']
-                  ?['operator'] ??
-              "")
-          : transactionModel.parameter?.value[0]['from_'];
-    } else if (transactionModel.parameter?.value is Map) {
-      return isSent
-          ? transactionModel.parameter?.value['to']
-          : transactionModel.parameter?.value['from'];
-    } else if (transactionModel.parameter?.value is String) {
-      var decoded = jsonDecode(transactionModel.parameter!.value);
-      if (decoded is Map) {
-        return isSent ? decoded['to'] : decoded['from'];
-      } else if (decoded is List) {
-        return isSent ? decoded[0]['txs'][0]['to_'] : decoded[0]['from_'];
-      }
-    } else {
-      return "";
-    }
-    return "";
-  }
+  // String? senderAddress(TxHistoryModel model, bool isSent) {
+  //   if (transactionModel.operationStatus != "applied") return "";
+  //   if (transactionModel.parameter?.value is List) {
+  //     return isSent
+  //         ? (transactionModel.parameter?.value[0]?['txs']?[0]?['to_'] ??
+  //             transactionModel.parameter?.value[0]?['add_operator']
+  //                 ?['operator'] ??
+  //             "")
+  //         : transactionModel.parameter?.value[0]['from_'];
+  //   } else if (transactionModel.parameter?.value is Map) {
+  //     return isSent
+  //         ? transactionModel.parameter?.value['to']
+  //         : transactionModel.parameter?.value['from'];
+  //   } else if (transactionModel.parameter?.value is String) {
+  //     var decoded = jsonDecode(transactionModel.parameter!.value);
+  //     if (decoded is Map) {
+  //       return isSent ? decoded['to'] : decoded['from'];
+  //     } else if (decoded is List) {
+  //       return isSent ? decoded[0]['txs'][0]['to_'] : decoded[0]['from_'];
+  //     }
+  //   } else {
+  //     return "";
+  //   }
+  //   return "";
+  // }
 }
 
 class RemoveContactBottomSheet extends GetView<TransactionController> {

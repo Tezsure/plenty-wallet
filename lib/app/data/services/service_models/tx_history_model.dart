@@ -12,7 +12,7 @@ class TxHistoryModel {
   String? block;
   String? hash;
   int? counter;
-  Sender? sender;
+  AliasAddress? sender;
   int? gasLimit;
   int? gasUsed;
   int? storageLimit;
@@ -20,13 +20,13 @@ class TxHistoryModel {
   int? bakerFee;
   int? storageFee;
   int? allocationFee;
-  Target? target;
+  AliasAddress? target;
   int? targetCodeHash;
   int? amount;
   bool? hasInternals;
   int? tokenTransfersCount;
-  Delegate? prevDelegate;
-  Delegate? newDelegate;
+  AliasAddress? prevDelegate;
+  AliasAddress? newDelegate;
 
   TxHistoryModel({
     this.type,
@@ -63,7 +63,7 @@ class TxHistoryModel {
     block = json['block'];
     hash = json['hash'];
     counter = json['counter'];
-    sender = json['sender'] != null ? Sender.fromJson(json['sender']) : null;
+    sender = json['sender'] != null ? AliasAddress.fromJson(json['sender']) : null;
     gasLimit = json['gasLimit'];
     gasUsed = json['gasUsed'];
     storageLimit = json['storageLimit'];
@@ -71,7 +71,7 @@ class TxHistoryModel {
     bakerFee = json['bakerFee'];
     storageFee = json['storageFee'];
     allocationFee = json['allocationFee'];
-    target = json['target'] != null ? Target.fromJson(json['target']) : null;
+    target = json['target'] != null ? AliasAddress.fromJson(json['target']) : null;
     targetCodeHash = json['targetCodeHash'];
     amount = json['amount'];
     parameter = json['parameter'] != null
@@ -81,10 +81,10 @@ class TxHistoryModel {
     hasInternals = json['hasInternals'];
     tokenTransfersCount = json['tokenTransfersCount'];
     prevDelegate = json['prevDelegate'] != null
-        ? Delegate.fromJson(json['prevDelegate'])
+        ? AliasAddress.fromJson(json['prevDelegate'])
         : null;
     newDelegate = json['newDelegate'] != null
-        ? Delegate.fromJson(json['newDelegate'])
+        ? AliasAddress.fromJson(json['newDelegate'])
         : null;
   }
 
@@ -128,13 +128,13 @@ class TxHistoryModel {
   }
 }
 
-class Sender {
+class AliasAddress {
   String? address;
   String? alias;
 
-  Sender({this.address, this.alias});
+  AliasAddress({this.address, this.alias});
 
-  Sender.fromJson(Map<String, dynamic> json) {
+  AliasAddress.fromJson(Map<String, dynamic> json) {
     alias = json['alias'];
     address = json['address'];
   }
@@ -146,45 +146,6 @@ class Sender {
     return data;
   }
 }
-
-class Target {
-  String? alias;
-  String? address;
-
-  Target({this.alias, this.address});
-
-  Target.fromJson(Map<String, dynamic> json) {
-    alias = json['alias'];
-    address = json['address'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['alias'] = alias;
-    data['address'] = address;
-    return data;
-  }
-}
-
-class Delegate {
-  String? address;
-  String? alias;
-
-  Delegate({this.address, this.alias});
-
-  Delegate.fromJson(Map<String, dynamic> json) {
-    address = json['address'];
-    alias = json['alias'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['address'] = address;
-    data['alias'] = alias;
-    return data;
-  }
-}
-
 class Parameter {
   String? entrypoint;
   dynamic value;

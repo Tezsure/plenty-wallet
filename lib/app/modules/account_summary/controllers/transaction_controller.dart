@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/data/services/service_models/token_price_model.d
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/models/token_info.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 
 import '../../../../utils/constants/path_const.dart';
@@ -304,6 +305,27 @@ extension TransactionChecker on TxHistoryModel {
     } catch (e) {
       return "0";
     }
+  }
+
+  AliasAddress get send {
+    final homeController = Get.find<HomePageController>();
+    final transactionCOntroller = Get.find<TransactionController>();
+    if (homeController.userAccounts
+        .any((element) => element.publicKeyHash!.contains(sender!.address!))) {
+      final account = homeController.userAccounts.firstWhere(
+          (element) => element.publicKeyHash!.contains(sender!.address!));
+      return AliasAddress(address: account.publicKeyHash, alias: account.name);
+    } else if (transactionCOntroller.contacts
+        .any((element) => element.address.contains(sender!.address!))) {
+      final contact = transactionCOntroller.contacts
+          .firstWhere((element) => element.address.contains(sender!.address!));
+      return AliasAddress(address: contact.address, alias: contact.name);
+    }
+    return sender!;
+  }
+
+  AliasAddress? get reciever {
+    return sender!;
   }
 
   TokenPriceModel get getFa1TokenName => Get.find<AccountSummaryController>()
