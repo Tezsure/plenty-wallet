@@ -77,8 +77,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                           BouncingWidget(
                                             onPressed: () {
                                               CommonFunctions.bottomSheet(
-                                                  const AccountSelectorSheet(),
-                                                  fullscreen: true);
+                                                const AccountSelectorSheet(),
+                                              );
                                             },
                                             child: Row(
                                               crossAxisAlignment:

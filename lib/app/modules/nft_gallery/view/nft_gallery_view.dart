@@ -524,7 +524,8 @@ class NftGalleryView extends GetView<NftGalleryController> {
                               onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (context) => NFTDetailBottomSheet(
-                                          prevPage: "Back",
+                                          prevPage: controller
+                                              .selectedNftGallery.value.name,
                                           onBackTap: Get.back,
                                           pk: nftTokenModel.pk!,
                                           publicKeyHashs: controller
@@ -756,6 +757,9 @@ class NftGalleryView extends GetView<NftGalleryController> {
                             child: nfts.isEmpty
                                 ? Container()
                                 : NftCollectionItemWidget(
+                                    galleryName: controller
+                                            .selectedNftGallery.value.name ??
+                                        "",
                                     nftTokens: nfts.values.toList()[index],
                                     publicKeyHashes: controller
                                         .selectedNftGallery
@@ -1413,10 +1417,12 @@ class RemoveGallerySheet extends StatelessWidget {
 class NftCollectionItemWidget extends StatelessWidget {
   final List<NftTokenModel> nftTokens;
   final List<String> publicKeyHashes;
+  final String galleryName;
   const NftCollectionItemWidget({
     Key? key,
     required this.nftTokens,
     required this.publicKeyHashes,
+    required this.galleryName,
   }) : super(key: key);
 
   @override
@@ -1440,7 +1446,7 @@ class NftCollectionItemWidget extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => NFTDetailBottomSheet(
                     onBackTap: Get.back,
-                    prevPage: "Back",
+                    prevPage: galleryName,
                     pk: nftTokens[0].pk,
                     publicKeyHashs: publicKeyHashes,
                   )));

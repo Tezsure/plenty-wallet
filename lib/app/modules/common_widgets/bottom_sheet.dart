@@ -158,6 +158,7 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
                 )
               : SafeArea(
                   bottom: false,
+                  // minimum: EdgeInsets.only(top: kToolbarHeight),
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius:

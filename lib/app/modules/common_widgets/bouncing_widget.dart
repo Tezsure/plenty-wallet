@@ -42,7 +42,8 @@ class BouncingWidgetState extends State<BouncingWidget>
     //defining the controller
     _animate = AnimationController(
         vsync: this,
-        duration: Duration(milliseconds: 100), //This is an inital controller duration
+        duration:
+            Duration(milliseconds: 100), //This is an inital controller duration
         lowerBound: 0,
         upperBound: 0.15)
       ..addListener(() {

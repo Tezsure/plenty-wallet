@@ -19,6 +19,7 @@ class CameraPermissionHandler extends StatelessWidget {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       height: 0.6.height,
+      title: "",
       bottomSheetWidgets: [
         SizedBox(
           height: 0.56.height,
