@@ -37,8 +37,8 @@ class CommonFunctions {
         settings: settings,
         isScrollControlled: true,
         barrierColor: ColorConst.darkGrey.withOpacity(0.5),
-        enterBottomSheetDuration: const Duration(milliseconds: 180),
-        exitBottomSheetDuration: const Duration(milliseconds: 150),
+        enterBottomSheetDuration: const Duration(milliseconds: 130),
+        exitBottomSheetDuration: const Duration(milliseconds: 130),
       ).then((value) {
         return value;
       });

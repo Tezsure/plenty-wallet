@@ -45,7 +45,7 @@ class _PrivateKeyPageState extends State<PrivateKeyPage> {
     NaanAnalytics.logEvent(NaanAnalyticsEvents.VIEW_PRIVATE_KEY,
         param: {NaanAnalytics.address: widget.pkh});
     return NaanBottomSheet(
-        bottomSheetHorizontalPadding: 0,
+        // bottomSheetHorizontalPadding: 0,
         title: "Private key",
         prevPageName: widget.prevPage,
         leading: backButton(

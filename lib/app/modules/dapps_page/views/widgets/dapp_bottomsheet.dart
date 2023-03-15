@@ -24,16 +24,16 @@ class DappBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(18.arP),
-        topRight: Radius.circular(18.arP),
+        topLeft: Radius.circular(36.arP),
+        topRight: Radius.circular(36.arP),
       ),
       child: Container(
         height: 0.75.height,
         decoration: BoxDecoration(
           color: Colors.black,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(18.arP),
-            topRight: Radius.circular(18.arP),
+            topLeft: Radius.circular(36.arP),
+            topRight: Radius.circular(36.arP),
           ),
         ),
         child: Column(

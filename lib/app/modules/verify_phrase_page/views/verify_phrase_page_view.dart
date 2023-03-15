@@ -41,7 +41,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
         prevPageName: "Back",
         leading: backButton(
             ontap: () => Navigator.pop(context), lastPageName: "Back"),
-        bottomSheetHorizontalPadding: 0.arP,
+        // bottomSheetHorizontalPadding: 0.arP,
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight,

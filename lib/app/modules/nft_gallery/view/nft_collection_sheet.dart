@@ -76,7 +76,10 @@ class NFTCollectionSheet extends StatelessWidget {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => NFTDetailBottomSheet(
                                     onBackTap: Get.back,
-                                    prevPage: "Back",
+                                    prevPage: nftTokenModel.fa!.name ??
+                                        nftTokenModel.fa!.contract
+                                            ?.tz1Short() ??
+                                        "",
                                     pk: nftTokenModel.pk,
                                     publicKeyHashs: publicKeyHashs,
                                   )));
@@ -210,15 +213,19 @@ class NFTCollectionSheet extends StatelessWidget {
                 SizedBox(
                   width: 12.arP,
                 ),
-                Text(
-                  nftTokenModel.fa!.name ??
-                      nftTokenModel.fa!.contract?.tz1Short() ??
-                      "",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.arP,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.1.arP,
+                Container(
+                  constraints: BoxConstraints(maxWidth: .3.width),
+                  child: Text(
+                    nftTokenModel.fa!.name ??
+                        nftTokenModel.fa!.contract?.tz1Short() ??
+                        "",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.arP,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.1.arP,
+                    ),
                   ),
                 ),
                 SizedBox(
