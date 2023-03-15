@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/event_models.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -96,9 +97,7 @@ class EventsView extends GetView<EventsController> {
                                         style: labelMedium.copyWith(
                                             color: ColorConst.Primary)),
                                   ),
-                                  SizedBox(
-                                    height: 12.arP,
-                                  ),
+                                  BottomButtonPadding()
                                 ],
                               ),
                             );
@@ -117,10 +116,11 @@ class EventsView extends GetView<EventsController> {
                                     EdgeInsets.symmetric(vertical: 24.0.arP),
                                 child: Text(key,
                                     style: headlineMedium.copyWith(
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w700)),
                               ),
                               ListView.builder(
                                   shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: events.length,
                                   itemBuilder: (context, index) {
@@ -140,24 +140,27 @@ class EventsView extends GetView<EventsController> {
 
   Obx filterChip(int index) {
     return Obx(
-      () => FilterChip(
-          shape: StadiumBorder(
-              side: BorderSide(
-                  color: const Color(0xff4A454E),
-                  width: controller.selectedTab.value == index ? 0 : 1)),
-          onSelected: (value) {
-            AppConstant.hapticFeedback();
-            controller.changeFilter(index);
-          },
-          padding: EdgeInsets.symmetric(horizontal: 20.arP, vertical: 12.arP),
-          backgroundColor: controller.selectedTab.value == index
-              ? ColorConst.Primary
-              : const Color(0xff1E1C1F),
-          label: Text(index == 0 ? "Overview" : controller.tags[index - 1],
-              style: labelMedium.copyWith(
-                  color: controller.selectedTab.value == index
-                      ? Colors.white
-                      : const Color(0xff958E99)))),
+      () {
+        bool isSelected = controller.selectedTab.value == index;
+        return FilterChip(
+            shape: StadiumBorder(
+                side: BorderSide(
+                    color: isSelected
+                        ? ColorConst.Primary
+                        : const Color(0xff4A454E),
+                    width: 1)),
+            onSelected: (value) {
+              AppConstant.hapticFeedback();
+              controller.changeFilter(index);
+            },
+            padding: EdgeInsets.symmetric(horizontal: 20.arP, vertical: 8.arP),
+            backgroundColor:
+                isSelected ? ColorConst.Primary : const Color(0xff1E1C1F),
+            label: Text(index == 0 ? "Overview" : controller.tags[index - 1],
+                style: labelMedium.copyWith(
+                    color:
+                        isSelected ? Colors.white : const Color(0xff958E99))));
+      },
     );
   }
 }
@@ -178,9 +181,9 @@ class EventWidget extends StatelessWidget {
       },
       child: Container(
           width: double.infinity,
-          margin: EdgeInsets.only(
-            bottom: 20.arP,
-          ),
+          // margin: EdgeInsets.only(
+          //   bottom: 20.arP,
+          // ),
           decoration: BoxDecoration(
             color: const Color(0xFF1E1A22),
             borderRadius: BorderRadius.circular(
@@ -197,16 +200,16 @@ class EventWidget extends StatelessWidget {
                 child: event.bannerImage!.endsWith(".svg")
                     ? SvgPicture.network(
                         "${ServiceConfig.naanApis}/events_images/${event.bannerImage!}",
-                        fit: BoxFit.fill,
-                        height: 400.arP,
-                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        height: 1.width - 32.arP,
+                        width: 1.width - 32.arP,
                       )
                     : CachedNetworkImage(
                         imageUrl:
                             "${ServiceConfig.naanApis}/events_images/${event.bannerImage!}",
                         fit: BoxFit.cover,
-                        height: 400.arP,
-                        width: double.infinity,
+                        height: 1.width - 32.arP,
+                        width: 1.width - 32.arP,
                       ),
               ),
               ClipRRect(

@@ -276,7 +276,7 @@ class NftGalleryWidgetController extends GetxController {
     }
 
     CommonFunctions.bottomSheet(
-      const NftGalleryView(),
+      NftGalleryView(),
       fullscreen: true,
       settings:
           RouteSettings(arguments: [nftGalleryList.length - 1, nftGalleryList]),
@@ -290,7 +290,7 @@ class NftGalleryWidgetController extends GetxController {
     //   NaanAnalytics.address: nftGalleryList[index].publicKeyHashs?.join(", ")
     // });
     CommonFunctions.bottomSheet(
-      const NftGalleryView(),
+      NftGalleryView(),
       fullscreen: true,
       settings: RouteSettings(arguments: [index, nftGalleryList]),
     );

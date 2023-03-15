@@ -29,6 +29,7 @@ import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/nested_route_observer.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:get/get.dart';
@@ -124,17 +125,12 @@ class CreateNewNftGalleryBottomSheet
       height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetHeight - 14.arP,
-          child: Navigator(onGenerateRoute: (context2) {
-            return MaterialPageRoute(builder: (context) {
-              return Obx(() {
-                return controller.accounts.isEmpty
-                    ? noAccountsWidget(context)
-                    : _accountSelectorList(context);
-              });
-            });
-          }),
-        )
+            height: AppConstant.naanBottomSheetHeight - 14.arP,
+            child: Obx(() {
+              return controller.accounts.isEmpty
+                  ? noAccountsWidget(context)
+                  : _accountSelectorList(context);
+            }))
       ],
     );
   }
