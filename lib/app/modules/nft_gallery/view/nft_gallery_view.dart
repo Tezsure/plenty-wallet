@@ -39,22 +39,15 @@ import 'nft_collection_sheet.dart';
 ///https://objkt.com/asset/hicetnunc/706649
 class NftGalleryView extends GetView<NftGalleryController> {
   NftGalleryView({super.key});
-  late BuildContext nestedContext;
 
   @override
   Widget build(BuildContext context) {
     Get.put(NftGalleryController());
 
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.of(nestedContext).pop();
-        return false;
-      },
-      child: Obx(
-        () => !controller.isSearch.value
-            ? _buildGalleryWithoutSearch(context)
-            : _buildGalleryWithSearch(context),
-      ),
+    return Obx(
+      () => !controller.isSearch.value
+          ? _buildGalleryWithoutSearch(context)
+          : _buildGalleryWithSearch(context),
     );
   }
 
@@ -73,7 +66,6 @@ class NftGalleryView extends GetView<NftGalleryController> {
                 observers: [NestedRouteObserver()],
                 onGenerateRoute: (_) {
                   return MaterialPageRoute(builder: (context) {
-                    nestedContext = context;
                     return Obx(() {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -257,8 +249,6 @@ class NftGalleryView extends GetView<NftGalleryController> {
               observers: [NestedRouteObserver()],
               onGenerateRoute: (context) {
                 return MaterialPageRoute(builder: (context) {
-                  nestedContext = context;
-
                   return Obx(() {
                     return Stack(
                       children: [
