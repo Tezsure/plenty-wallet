@@ -978,12 +978,12 @@ class NftGalleryView extends GetView<NftGalleryController> {
   Widget _selectGallery(int galleryIndex) {
     return Obx(() {
       return NaanBottomSheet(
-        action: BouncingWidget(
+        leading: BouncingWidget(
           onPressed: () {
             controller.isEditing.value = !controller.isEditing.value;
           },
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.arP),
+            padding: EdgeInsets.only(left: 0.arP),
             child: Text((controller.isEditing.value ? "Done" : "Edit").tr,
                 style: bodySmall.copyWith(
                     fontWeight: FontWeight.w600, color: ColorConst.Primary)),
@@ -995,217 +995,206 @@ class NftGalleryView extends GetView<NftGalleryController> {
         title: "Galleries",
         bottomSheetWidgets: [
           SizedBox(
-            height: 0.52.height,
+            // height: 0.52.height,
             child: Column(
               children: [
+                0.02.vspace,
                 ListView.builder(
                   shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return index == controller.nftGalleryList.length
-                        ? BouncingWidget(
-                            onPressed: () async {
-                              Get.back(closeOverlays: true);
-                              Get.back(closeOverlays: true);
-
-                              Get.find<NftGalleryWidgetController>()
-                                  .showCreateNewNftGalleryBottomSheet();
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20.arP, horizontal: 16.arP),
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    "${PathConst.EMPTY_STATES}plus.png",
-                                    height: 16.aR,
-                                    fit: BoxFit.contain,
-                                    scale: 1,
+                    return BouncingWidget(
+                      onPressed: () async {
+                        if (!controller.isEditing.value) {
+                          controller.changeSelectedNftGallery(index);
+                          Get.back(result: index);
+                        }
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10.arP,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 20.arP),
+                              child: Container(
+                                height: 32.arP,
+                                width: 32.arP,
+                                alignment: Alignment.bottomRight,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: controller.nftGalleryList[index]
+                                                .imageType ==
+                                            AccountProfileImageType.assets
+                                        ? AssetImage(controller
+                                            .nftGalleryList[index].profileImage
+                                            .toString())
+                                        : FileImage(
+                                            File(
+                                              controller.nftGalleryList[index]
+                                                  .profileImage
+                                                  .toString(),
+                                            ),
+                                          ) as ImageProvider,
                                   ),
-                                  0.02.hspace,
-                                  Text(
-                                    "Create a new gallery".tr,
-                                    style: labelLarge.copyWith(
-                                        fontSize: 14.aR,
-                                        color: ColorConst.Primary,
-                                        fontWeight: FontWeight.w600),
-                                  )
-                                ],
+                                ),
                               ),
                             ),
-                          )
-                        : BouncingWidget(
-                            onPressed: () async {
-                              if (!controller.isEditing.value) {
-                                controller.changeSelectedNftGallery(index);
-                                Get.back(result: index);
-                              }
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 10.arP, horizontal: 16.arP),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 20.arP),
-                                    child: Container(
-                                      height: 32.arP,
-                                      width: 32.arP,
-                                      alignment: Alignment.bottomRight,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: controller
-                                                      .nftGalleryList[index]
-                                                      .imageType ==
-                                                  AccountProfileImageType.assets
-                                              ? AssetImage(controller
-                                                  .nftGalleryList[index]
-                                                  .profileImage
-                                                  .toString())
-                                              : FileImage(
-                                                  File(
-                                                    controller
-                                                        .nftGalleryList[index]
-                                                        .profileImage
-                                                        .toString(),
-                                                  ),
-                                                ) as ImageProvider,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                      controller.nftGalleryList[index].name
-                                          .toString(),
-                                      style: bodySmall.copyWith(
-                                          fontWeight: FontWeight.w600)),
-                                  controller.isEditing.value
-                                      ? Expanded(
-                                          child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: PopupMenuButton(
-                                                position:
-                                                    PopupMenuPosition.under,
-                                                enableFeedback: true,
-                                                onCanceled: () => controller
-                                                    .isTransactionPopUpOpened
-                                                    .value = false,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.arP)),
-                                                color: const Color(0xff421121),
-                                                padding: EdgeInsets.zero,
-                                                itemBuilder: (_) {
-                                                  controller
-                                                      .isTransactionPopUpOpened
-                                                      .value = true;
+                            Text(
+                                controller.nftGalleryList[index].name
+                                    .toString(),
+                                style: bodySmall.copyWith(
+                                    fontWeight: FontWeight.w600)),
+                            controller.isEditing.value
+                                ? Expanded(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: PopupMenuButton(
+                                          position: PopupMenuPosition.under,
+                                          enableFeedback: true,
+                                          onCanceled: () => controller
+                                              .isTransactionPopUpOpened
+                                              .value = false,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.arP)),
+                                          color: const Color(0xff421121),
+                                          padding: EdgeInsets.zero,
+                                          itemBuilder: (_) {
+                                            controller.isTransactionPopUpOpened
+                                                .value = true;
 
-                                                  return <PopupMenuEntry>[
-                                                    CustomPopupMenuItem(
-                                                      height: 35.arP,
-                                                      width: 120.arP,
-                                                      onTap: () {
-                                                        controller
-                                                            .editGallery(index);
-                                                      },
-                                                      padding: EdgeInsets.zero,
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 5.arP,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                              left: 10.arP,
-                                                            ),
-                                                            child: Text(
-                                                              "Edit".tr,
-                                                              style:
-                                                                  labelMedium,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 10.arP,
-                                                          ),
-                                                          const Divider(
-                                                              height: 0,
-                                                              color: Color(
-                                                                  0xff802040)),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    CustomPopupMenuItem(
-                                                      height: 30.arP,
-                                                      width: 120.arP,
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  10.arP),
-                                                      onTap: () {
-                                                        Get.back();
-                                                        Get.back();
-                                                        // NaanAnalytics.logEvent(
-                                                        //     NaanAnalyticsEvents
-                                                        //         .REMOVE_NFT_GALLERY);
-                                                        CommonFunctions
-                                                            .bottomSheet(
-                                                          RemoveGallerySheet(
-                                                              controller:
-                                                                  controller,
-                                                              galleryIndex:
-                                                                  index),
-                                                        );
-                                                      },
-                                                      child: Text(
-                                                        "Remove".tr,
-                                                        style: labelMedium
-                                                            .copyWith(
-                                                                color:
-                                                                    Colors.red),
-                                                      ),
-                                                    ),
-                                                  ];
+                                            return <PopupMenuEntry>[
+                                              CustomPopupMenuItem(
+                                                height: 35.arP,
+                                                width: 120.arP,
+                                                onTap: () {
+                                                  controller.editGallery(index);
                                                 },
-                                                child: Icon(
-                                                  Icons.more_horiz,
-                                                  size: 24.aR,
-                                                  color: Colors.white,
-                                                ),
-                                              )),
-                                        )
-                                      : galleryIndex == index
-                                          ? Expanded(
-                                              child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Container(
-                                                height: 16.arP,
-                                                width: 16.arP,
-                                                decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.white,
-                                                ),
-                                                child: SvgPicture.asset(
-                                                  "assets/svg/check2.svg",
-                                                  height: 16.arP,
-                                                  width: 16.arP,
+                                                padding: EdgeInsets.zero,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 5.arP,
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                        left: 10.arP,
+                                                      ),
+                                                      child: Text(
+                                                        "Edit".tr,
+                                                        style: labelMedium,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10.arP,
+                                                    ),
+                                                    const Divider(
+                                                        height: 0,
+                                                        color:
+                                                            Color(0xff802040)),
+                                                  ],
                                                 ),
                                               ),
-                                            ))
-                                          : const Spacer()
-                                ],
-                              ),
-                            ),
-                          );
+                                              CustomPopupMenuItem(
+                                                height: 30.arP,
+                                                width: 120.arP,
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10.arP),
+                                                onTap: () {
+                                                  Get.back();
+                                                  Get.back();
+                                                  // NaanAnalytics.logEvent(
+                                                  //     NaanAnalyticsEvents
+                                                  //         .REMOVE_NFT_GALLERY);
+                                                  CommonFunctions.bottomSheet(
+                                                    RemoveGallerySheet(
+                                                        controller: controller,
+                                                        galleryIndex: index),
+                                                  );
+                                                },
+                                                child: Text(
+                                                  "Remove".tr,
+                                                  style: labelMedium.copyWith(
+                                                      color: Colors.red),
+                                                ),
+                                              ),
+                                            ];
+                                          },
+                                          child: Icon(
+                                            Icons.more_horiz,
+                                            size: 24.aR,
+                                            color: Colors.white,
+                                          ),
+                                        )),
+                                  )
+                                : galleryIndex == index
+                                    ? Expanded(
+                                        child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Container(
+                                          height: 16.arP,
+                                          width: 16.arP,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                          child: SvgPicture.asset(
+                                            "assets/svg/check2.svg",
+                                            height: 16.arP,
+                                            width: 16.arP,
+                                          ),
+                                        ),
+                                      ))
+                                    : const Spacer()
+                          ],
+                        ),
+                      ),
+                    );
                   },
-                  itemCount: controller.nftGalleryList.length + 1,
+                  itemCount: controller.nftGalleryList.length,
                 ),
+                0.02.vspace,
+                BouncingWidget(
+                  onPressed: () async {
+                    Get.back(closeOverlays: true);
+                    Get.back(closeOverlays: true);
+
+                    Get.find<NftGalleryWidgetController>()
+                        .showCreateNewNftGalleryBottomSheet();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 20.arP,
+                    ),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          "${PathConst.EMPTY_STATES}plus.png",
+                          height: 16.aR,
+                          fit: BoxFit.contain,
+                          scale: 1,
+                        ),
+                        0.02.hspace,
+                        Text(
+                          "Create a new gallery".tr,
+                          style: labelLarge.copyWith(
+                              fontSize: 14.aR,
+                              color: ColorConst.Primary,
+                              fontWeight: FontWeight.w600),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                BottomButtonPadding()
               ],
             ),
           )
