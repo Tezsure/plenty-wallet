@@ -430,6 +430,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
             xtzPrice: controller.accController.xtzPrice.value,
             onTap: () => CommonFunctions.bottomSheet(
               TransactionDetailsBottomSheet(
+                xtzPrice: controller.accController.xtzPrice.value,
                 tokenInfo: controller.searchTransactionList[index],
                 userAccountAddress: controller
                     .accController.selectedAccount.value.publicKeyHash!,

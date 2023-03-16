@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 import '../../../../../../utils/colors/colors.dart';
 import '../../../../../../utils/styles/styles.dart';
@@ -52,8 +53,8 @@ class ExpandableHistoryTile extends StatelessWidget {
                   ? tokenInfo.dollarAmount == 0.0
                       ? ""
                       : tokenInfo.isSent
-                          ? '- \$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'
-                          : '\$${(tokenInfo.dollarAmount).toStringAsFixed(2)}'
+                          ? '- ${(tokenInfo.dollarAmount).roundUpDollar(xtzPrice)}'
+                          : '${(tokenInfo.dollarAmount).roundUpDollar(xtzPrice)}'
                   : "failed",
               style: labelLarge.copyWith(
                   fontWeight: FontWeight.w400,

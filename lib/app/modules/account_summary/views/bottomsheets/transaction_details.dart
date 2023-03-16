@@ -29,12 +29,13 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
   final TxHistoryModel transactionModel;
   final TokenInfo tokenInfo;
   final String userAccountAddress;
-
+  final double xtzPrice;
   const TransactionDetailsBottomSheet(
       {super.key,
       required this.transactionModel,
       required this.tokenInfo,
-      required this.userAccountAddress});
+      required this.userAccountAddress,
+      required this.xtzPrice});
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +152,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                   trailing: Text(
                     tokenInfo.token!.operationStatus != "applied"
                         ? "failed"
-                        : "\$${tokenInfo.dollarAmount.toStringAsFixed(6)}",
+                        : "${tokenInfo.dollarAmount.roundUpDollar(xtzPrice, decimals: 6)}",
                     style: labelLarge.copyWith(
                         letterSpacing: 0.5.aR,
                         fontWeight: FontWeight.w400,

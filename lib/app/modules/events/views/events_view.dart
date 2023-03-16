@@ -29,7 +29,7 @@ class EventsView extends GetView<EventsController> {
   Widget build(BuildContext context) {
     Get.put(EventsController());
     return NaanBottomSheet(
-      title: "Events",
+      title: "Discover Events",
       action: Padding(
         padding: EdgeInsets.only(right: 16.arP),
         child: closeButton(),
@@ -201,14 +201,12 @@ class EventWidget extends StatelessWidget {
                     ? SvgPicture.network(
                         "${ServiceConfig.naanApis}/events_images/${event.bannerImage!}",
                         fit: BoxFit.cover,
-                        height: 1.width - 32.arP,
-                        width: 1.width - 32.arP,
+                        width: double.infinity,
                       )
                     : CachedNetworkImage(
                         imageUrl:
                             "${ServiceConfig.naanApis}/events_images/${event.bannerImage!}",
                         fit: BoxFit.cover,
-                        height: 1.width - 32.arP,
                         width: 1.width - 32.arP,
                       ),
               ),

@@ -25,8 +25,9 @@ class SplashPageController extends GetxController {
     super.onInit();
 /*     try {
       await Get.updateLocale(Locale("en", "US"));
-      print("languageCode: ${Get.locale?.languageCode}");
+      
     } catch (e) {} */
+    print("languageCode: ${Get.locale?.countryCode}");
     await Future.delayed(const Duration(milliseconds: 800));
     // un-comment below line to test onboarding flow multiple time
 
