@@ -13,13 +13,7 @@
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		5D2E8A12299638CB009A9D3C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2E8A11299638CB009A9D3C /* NotificationService.swift */; };
 		5D2E8A16299638CB009A9D3C /* OneSignalNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5D2E8A0F299638CB009A9D3C /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		5D2E8A2329963FC9009A9D3C /* OneSignalOutcomes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2E8A2229963FC9009A9D3C /* OneSignalOutcomes.xcframework */; };
-		5D2E8A2429963FC9009A9D3C /* OneSignalOutcomes.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2E8A2229963FC9009A9D3C /* OneSignalOutcomes.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5D9ABBD7291BFE8C001511BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D9ABBD6291BFE8C001511BE /* Assets.xcassets */; };
-		5DA3D17029C29CA800CE25EE /* OneSignalCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2E8A1F29963F9E009A9D3C /* OneSignalCore.xcframework */; };
-		5DA3D17129C29CA800CE25EE /* OneSignalCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2E8A1F29963F9E009A9D3C /* OneSignalCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5DA3D17229C2AD1400CE25EE /* OneSignalExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC4B02229C2886900A31D64 /* OneSignalExtension.xcframework */; };
-		5DA3D17329C2AD1400CE25EE /* OneSignalExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC4B02229C2886900A31D64 /* OneSignalExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
@@ -47,19 +41,6 @@
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				5DA3D17129C29CA800CE25EE /* OneSignalCore.xcframework in Embed Frameworks */,
-				5DA3D17329C2AD1400CE25EE /* OneSignalExtension.xcframework in Embed Frameworks */,
-				5D2E8A2429963FC9009A9D3C /* OneSignalOutcomes.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -112,9 +93,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D2E8A2329963FC9009A9D3C /* OneSignalOutcomes.xcframework in Frameworks */,
-				5DA3D17029C29CA800CE25EE /* OneSignalCore.xcframework in Frameworks */,
-				5DA3D17229C2AD1400CE25EE /* OneSignalExtension.xcframework in Frameworks */,
 				C9418BD5ED2899D529FCC55E /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,7 +215,6 @@
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
-				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				5D250E1B2995AF2F003F3C98 /* Embed Foundation Extensions */,
 				E83385BFCF831DDF63DF5383 /* [CP] Embed Pods Frameworks */,
