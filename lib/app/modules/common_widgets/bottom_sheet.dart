@@ -158,7 +158,7 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
                 )
               : SafeArea(
                   bottom: false,
-                  // minimum: EdgeInsets.only(top: kToolbarHeight),
+                  minimum:  widget.isScrollControlled?EdgeInsets.only(top: kToolbarHeight):EdgeInsets.zero,
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.vertical(

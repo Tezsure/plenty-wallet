@@ -70,7 +70,6 @@ class EventsView extends GetView<EventsController> {
                             .every((element) => element.isEmpty)
                         ? _buildEmpty()
                         : ListView.builder(
-
                             padding: EdgeInsets.symmetric(horizontal: 16.arP),
                             itemCount: controller.events.length + 1,
                             itemBuilder: (context, index) {
@@ -130,15 +129,9 @@ class EventsView extends GetView<EventsController> {
           ),
           BouncingWidget(
             onPressed: () async {
-              if (await canLaunchUrl(
-                  Uri.parse(controller.contactUsLink.value))) {
-                await launchUrl(Uri.parse(controller.contactUsLink.value),
-                    mode: LaunchMode.externalApplication);
-              } else {
-                throw 'Could not launch ${controller.contactUsLink.value}';
-              }
+              CommonFunctions.launchURL("https://tally.so/r/wgaN4K");
             },
-            child: Text("Add now",
+            child: Text("Request event",
                 style: labelMedium.copyWith(color: ColorConst.Primary)),
           ),
           BottomButtonPadding()
@@ -242,13 +235,14 @@ class EventWidget extends StatelessWidget {
                     ? SvgPicture.network(
                         "${ServiceConfig.naanApis}/events_images/${event.bannerImage!}",
                         fit: BoxFit.cover,
-                        width: double.infinity,
+                        width: 1.width - 32.arP,
+                        height: 400.arP,
                       )
-                    : CachedNetworkImage(
-                        imageUrl:
-                            "${ServiceConfig.naanApis}/events_images/${event.bannerImage!}",
+                    : Image.network(
+                        "${ServiceConfig.naanApis}/events_images/${event.bannerImage!}",
                         fit: BoxFit.cover,
                         width: 1.width - 32.arP,
+                        height: 400.arP,
                       ),
               ),
               ClipRRect(

@@ -7,7 +7,11 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 
 class AccountsWidgetController extends GetxController {
   final homeController = Get.find<HomePageController>();
-  late PageController pageController;
+  PageController pageController = PageController(
+    keepPage: true,
+    viewportFraction: 1,
+    initialPage: 0,
+  );
   final List<String> imagePath = [
     'assets/svg/accounts/account_1.svg',
     'assets/svg/accounts/account_2.svg',

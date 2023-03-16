@@ -80,16 +80,16 @@ class HomePageController extends GetxController {
               (element2) => element2.publicKeyHash == element.publicKeyHash);
         });
         userAccounts.value = [...temp];
-        Future.delayed(
-          Duration(milliseconds: 500),
-        ).then((value) {
+        // Future.delayed(
+        //   Duration(milliseconds: 100),
+        // ).then((value) {
           try {
             Get.put(AccountsWidgetController()).onPageChanged(index);
             changeSelectedAccount(index);
           } catch (e) {
             log(e.toString());
           }
-        });
+        // });
       }
       try {
         if (userAccounts.where((p0) => !p0.isWatchOnly).isNotEmpty) {

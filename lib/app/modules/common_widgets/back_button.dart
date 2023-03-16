@@ -52,6 +52,8 @@ Widget closeButton({Function()? ontap}) {
         "${PathConst.SVG}xmark.svg",
         fit: BoxFit.cover,
         height: 11.arP,
+        width: 11.arP,
+        alignment: Alignment.center,
         color: Colors.white,
       ),
     ),

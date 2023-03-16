@@ -12,7 +12,8 @@ import '../controllers/home_page_controller.dart';
 import '../widgets/home_app_bar_widget/home_app_bar_widget.dart';
 import '../widgets/register_widgets.dart';
 
-class HomePageView extends GetView<HomePageController> {
+class HomePageView extends GetView<HomePageController>
+    with WidgetsBindingObserver {
   HomePageView({super.key});
 
   @override
