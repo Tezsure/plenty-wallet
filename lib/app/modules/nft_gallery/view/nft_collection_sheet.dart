@@ -9,10 +9,12 @@ import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_sheet.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
+import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 class NFTCollectionSheet extends StatelessWidget {
@@ -184,6 +186,8 @@ class NFTCollectionSheet extends StatelessWidget {
       logo =
           "https://services.tzkt.io/v1/avatars/${nftTokenModel.creators!.first.creatorAddress}";
     }
+    final String name =
+        nftTokenModel.fa!.name ?? nftTokenModel.fa!.contract?.tz1Short() ?? "X";
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -204,10 +208,34 @@ class NFTCollectionSheet extends StatelessWidget {
                   width: 32.arP,
                   height: 32.arP,
                   child: ClipOval(
-                      child: CachedNetworkImage(
-                    imageUrl: logo,
-                    maxHeightDiskCache: 59,
-                    maxWidthDiskCache: 59,
+                      child: Image.network(
+                    logo,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        padding: EdgeInsets.all(6.arP),
+                        alignment: Alignment.center,
+                        color:
+                            ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                        child: Container(
+                          width: 24.aR,
+                          height: 24.aR,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: ColorConst.NeutralVariant.shade60
+                                .withOpacity(0.2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              name.substring(0, 1),
+                              style: bodySmall.copyWith(
+                                color: ColorConst.NeutralVariant.shade60,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   )),
                 ),
                 SizedBox(
