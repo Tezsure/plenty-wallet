@@ -21,6 +21,7 @@ import '../../../data/services/analytics/firebase_analytics.dart';
 import '../../../data/services/service_config/service_config.dart';
 import '../../common_widgets/back_button.dart';
 import '../../common_widgets/bouncing_widget.dart';
+import '../../dapp_browser/views/dapp_browser_view.dart';
 import '../controllers/events_controller.dart';
 import 'event_bottomsheet.dart';
 
@@ -30,7 +31,7 @@ class EventsView extends GetView<EventsController> {
   Widget build(BuildContext context) {
     Get.put(EventsController());
     return NaanBottomSheet(
-      title: "Discover Events",
+      title: "Discover events",
       action: Padding(
         padding: EdgeInsets.only(right: 16.arP),
         child: closeButton(),
@@ -129,12 +130,18 @@ class EventsView extends GetView<EventsController> {
           ),
           BouncingWidget(
             onPressed: () async {
-              CommonFunctions.launchURL("https://tally.so/r/wgaN4K");
+              CommonFunctions.bottomSheet(
+                const DappBrowserView(),
+                fullscreen: true,
+                settings: RouteSettings(
+                  arguments: controller.contactUsLink.value,
+                ),
+              );
             },
             child: Text("Request event",
                 style: labelMedium.copyWith(color: ColorConst.Primary)),
           ),
-          BottomButtonPadding()
+          const BottomButtonPadding()
         ],
       ),
     );
@@ -235,13 +242,14 @@ class EventWidget extends StatelessWidget {
                     ? SvgPicture.network(
                         "${ServiceConfig.naanApis}/events_images/${event.bannerImage!}",
                         fit: BoxFit.cover,
-                        width: 1.width - 32.arP,
+                        width: double.infinity,
                         height: 400.arP,
                       )
-                    : Image.network(
-                        "${ServiceConfig.naanApis}/events_images/${event.bannerImage!}",
+                    : CachedNetworkImage(
+                        imageUrl:
+                            "${ServiceConfig.naanApis}/events_images/${event.bannerImage!}",
                         fit: BoxFit.cover,
-                        width: 1.width - 32.arP,
+                        width: double.infinity,
                         height: 400.arP,
                       ),
               ),
