@@ -102,9 +102,16 @@ class EventsView extends GetView<EventsController> {
                                       physics:
                                           const NeverScrollableScrollPhysics(),
                                       itemCount: events.length,
-                                      itemBuilder: (context, index) {
-                                        final event = events[index];
-                                        return EventWidget(event: event);
+                                      itemBuilder: (context, index1) {
+                                        final event = events[index1];
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                              bottom:
+                                                  events.length - 1 == index1
+                                                      ? 0
+                                                      : 24.0.arP),
+                                          child: EventWidget(event: event),
+                                        );
                                       }),
                                 ],
                               );

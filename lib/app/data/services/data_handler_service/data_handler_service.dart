@@ -238,8 +238,9 @@ class DataHandlerService {
       eventsStorage['events'].forEach((json) {
         final EventModel event = EventModel.fromJson(json);
         final DateTime? eventTime = event.timestamp;
-        if (eventTime!.isAfter(DateTime.now())) {
-          if (_isToday(eventTime!)) {
+        final DateTime? endTime = event.endTimestamp;
+        if (endTime!.isAfter(DateTime.now())) {
+          if (_isToday(eventTime!, endTime)) {
             eventsByTime['Today']!.add(event);
           } else if (_isTomorrow(eventTime)) {
             eventsByTime['Tomorrow']!.add(event);
@@ -281,8 +282,9 @@ class DataHandlerService {
       apiResult['events'].forEach((json) {
         final EventModel event = EventModel.fromJson(json);
         final DateTime? eventTime = event.timestamp;
-        if (eventTime!.isAfter(DateTime.now())) {
-          if (_isToday(eventTime!)) {
+        final DateTime? endTime = event.endTimestamp;
+        if (endTime!.isAfter(DateTime.now())) {
+          if (_isToday(eventTime!, endTime)) {
             eventsByTime['Today']!.add(event);
           } else if (_isTomorrow(eventTime)) {
             eventsByTime['Tomorrow']!.add(event);
@@ -298,7 +300,6 @@ class DataHandlerService {
             eventsByTime['This Year']!.add(event);
           }
         }
-        ;
       });
       events.value = eventsByTime;
     } else {}
@@ -312,11 +313,12 @@ class DataHandlerService {
   }
 
   // Helper functions to determine if a date falls into a specific time range
-  bool _isToday(DateTime dateTime) {
+  bool _isToday(DateTime startTime, DateTime endTime) {
     final now = DateTime.now();
-    return dateTime.day == now.day &&
-        dateTime.month == now.month &&
-        dateTime.year == now.year;
+    return (startTime.day == now.day &&
+            startTime.month == now.month &&
+            startTime.year == now.year) ||
+        now.isAfter(startTime) && now.isBefore(endTime);
   }
 
   bool _isTomorrow(DateTime dateTime) {
