@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:share_plus/share_plus.dart';
@@ -64,77 +65,117 @@ class EventsView extends GetView<EventsController> {
                 ),
                 0.02.vspace,
                 Expanded(
-                    child: ListView.builder(
-                        padding: EdgeInsets.symmetric(horizontal: 16.arP),
-                        itemCount: controller.events.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index == controller.events.length) {
-                            return Padding(
-                              padding: EdgeInsets.only(top: 24.0.arP),
-                              child: Column(
+                    child: controller.events.values
+                            .toList()
+                            .every((element) => element.isEmpty)
+                        ? _buildEmpty()
+                        : ListView.builder(
+                            physics: ClampingScrollPhysics(),
+                            padding: EdgeInsets.symmetric(horizontal: 16.arP),
+                            itemCount: controller.events.length + 1,
+                            itemBuilder: (context, index) {
+                              if (index == controller.events.length) {
+                                return _addNowButton();
+                              }
+                              final key =
+                                  controller.events.keys.toList()[index];
+                              final events = controller.events[key];
+
+                              if (events!.isEmpty) {
+                                return const SizedBox
+                                    .shrink(); // Don't show empty lists
+                              }
+
+                              return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(controller.bottomText.value,
-                                      style: bodySmall.copyWith(
-                                          color: const Color(0xff958E99))),
-                                  SizedBox(
-                                    height: 12.arP,
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 24.0.arP),
+                                    child: Text(key,
+                                        style: headlineMedium.copyWith(
+                                            fontWeight: FontWeight.w700)),
                                   ),
-                                  BouncingWidget(
-                                    onPressed: () async {
-                                      if (await canLaunchUrl(Uri.parse(
-                                          controller.contactUsLink.value))) {
-                                        await launchUrl(
-                                            Uri.parse(
-                                                controller.contactUsLink.value),
-                                            mode:
-                                                LaunchMode.externalApplication);
-                                      } else {
-                                        throw 'Could not launch ${controller.contactUsLink.value}';
-                                      }
-                                    },
-                                    child: Text("Contact Us",
-                                        style: labelMedium.copyWith(
-                                            color: ColorConst.Primary)),
-                                  ),
-                                  BottomButtonPadding()
+                                  ListView.builder(
+                                      shrinkWrap: true,
+                                      padding: EdgeInsets.zero,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: events.length,
+                                      itemBuilder: (context, index) {
+                                        final event = events[index];
+                                        return EventWidget(event: event);
+                                      }),
                                 ],
-                              ),
-                            );
-                          }
-                          final key = controller.events.keys.toList()[index];
-                          final events = controller.events[key];
-                          if (events!.isEmpty) {
-                            return const SizedBox
-                                .shrink(); // Don't show empty lists
-                          }
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.symmetric(vertical: 24.0.arP),
-                                child: Text(key,
-                                    style: headlineMedium.copyWith(
-                                        fontWeight: FontWeight.w700)),
-                              ),
-                              ListView.builder(
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.zero,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: events.length,
-                                  itemBuilder: (context, index) {
-                                    final event = events[index];
-                                    return EventWidget(event: event);
-                                  }),
-                            ],
-                          );
-                        }))
+                              );
+                            }))
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Padding _addNowButton() {
+    return Padding(
+      padding: EdgeInsets.only(top: 24.0.arP),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(controller.bottomText.value,
+              style: bodySmall.copyWith(color: const Color(0xff958E99))),
+          SizedBox(
+            height: 12.arP,
+          ),
+          BouncingWidget(
+            onPressed: () async {
+              if (await canLaunchUrl(
+                  Uri.parse(controller.contactUsLink.value))) {
+                await launchUrl(Uri.parse(controller.contactUsLink.value),
+                    mode: LaunchMode.externalApplication);
+              } else {
+                throw 'Could not launch ${controller.contactUsLink.value}';
+              }
+            },
+            child: Text("Add now",
+                style: labelMedium.copyWith(color: ColorConst.Primary)),
+          ),
+          BottomButtonPadding()
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmpty() {
+    return Padding(
+      padding: EdgeInsets.all(32.arP),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        // mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            "${PathConst.EMPTY_STATES}events.svg",
+            height: 175.arP,
+            width: 175.arP,
+          ),
+          0.05.vspace,
+          Text(
+            "No events found".tr,
+            textAlign: TextAlign.center,
+            style: titleLarge,
+          ),
+          0.016.vspace,
+          Text(
+            "Why not check out some of our recommended activities?".tr,
+            textAlign: TextAlign.center,
+            style: bodySmall.copyWith(
+              color: const Color(0xFF958E99),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
