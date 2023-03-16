@@ -70,7 +70,7 @@ class EventsView extends GetView<EventsController> {
                             .every((element) => element.isEmpty)
                         ? _buildEmpty()
                         : ListView.builder(
-                            physics: ClampingScrollPhysics(),
+
                             padding: EdgeInsets.symmetric(horizontal: 16.arP),
                             itemCount: controller.events.length + 1,
                             itemBuilder: (context, index) {
@@ -168,7 +168,7 @@ class EventsView extends GetView<EventsController> {
           ),
           0.016.vspace,
           Text(
-            "Why not check out some of our recommended activities?".tr,
+            "There don’t seem to be any events scheduled".tr,
             textAlign: TextAlign.center,
             style: bodySmall.copyWith(
               color: const Color(0xFF958E99),
