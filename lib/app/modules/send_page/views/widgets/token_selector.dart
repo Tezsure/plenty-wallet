@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:naan_wallet/app/modules/common_widgets/list_tile.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -27,7 +28,7 @@ class TokenSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return controller!.selectedTokenModel != null ||
             controller!.selectedNftModel != null
-        ? ListTile(
+        ? NaanListTile(
             onTap: onTap,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

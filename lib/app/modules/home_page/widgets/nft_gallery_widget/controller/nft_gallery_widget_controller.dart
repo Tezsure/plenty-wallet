@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
@@ -16,7 +17,7 @@ import 'package:naan_wallet/app/modules/nft_gallery/view/nft_gallery_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 
 class NftGalleryWidgetController extends GetxController {
-  List<AccountModel>? accounts;
+  RxList<AccountModel> accounts = <AccountModel>[].obs;
   RxInt index = 0.obs;
   RxMap<String, bool> selectedAccountIndex = <String, bool>{}.obs;
 
@@ -33,7 +34,9 @@ class NftGalleryWidgetController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    fetchNftGallerys();
+    await DataHandlerService().nftPatch(() {
+      fetchNftGallerys();
+    });
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
   }
 
@@ -67,6 +70,7 @@ class NftGalleryWidgetController extends GetxController {
 
   Future<NftState> checkIfEmpty(List<String> publicKeyHashs) async {
     NftState nftState = NftState.done;
+    int emptyCount = 0;
     for (int j = 0; j < publicKeyHashs.length; j++) {
       String? nfts = await UserStorageService()
           .getUserNftsString(userAddress: publicKeyHashs[j]);
@@ -74,16 +78,18 @@ class NftGalleryWidgetController extends GetxController {
         nftState = NftState.processing;
         break;
       } else if (nfts == "[]") {
-        nftState = NftState.empty;
-        break;
+        emptyCount++;
       }
+    }
+    if (emptyCount == publicKeyHashs.length) {
+      nftState = NftState.empty;
     }
 
     return nftState;
   }
 
   Future<void> showCreateNewNftGalleryBottomSheet() async {
-    accounts = await UserStorageService().getAllAccount() +
+    accounts.value = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
     accountNameFocus = FocusNode();
 
@@ -102,7 +108,7 @@ class NftGalleryWidgetController extends GetxController {
     ).then(
       (_) async {
         selectedAccountIndex = <String, bool>{}.obs;
-        accounts = null;
+        accounts.value = [];
         formIndex.value = 0;
         accountNameFocus.hasFocus ? accountNameFocus.unfocus() : null;
         accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
@@ -114,10 +120,10 @@ class NftGalleryWidgetController extends GetxController {
 
   Future<void> showEditNewNftGalleryBottomSheet(
       NftGalleryModel nftGallery, int galleryIndex) async {
-    accounts = await UserStorageService().getAllAccount() +
+    accounts.value = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
 
-    for (var element in accounts!) {
+    for (var element in accounts) {
       if (nftGallery.publicKeyHashs!.contains(element.publicKeyHash)) {
         selectedAccountIndex[element.publicKeyHash!] = true;
       }
@@ -145,7 +151,7 @@ class NftGalleryWidgetController extends GetxController {
     ).then(
       (_) async {
         selectedAccountIndex = <String, bool>{}.obs;
-        accounts = null;
+        accounts.value = [];
         formIndex.value = 0;
         accountNameFocus.hasFocus ? accountNameFocus.unfocus() : null;
         accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
@@ -160,19 +166,19 @@ class NftGalleryWidgetController extends GetxController {
         .where((String key) => selectedAccountIndex[key] == true)
         .toList();
     isCreating.value = true;
-    Function unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
-    if (nftGalleryList.firstWhereOrNull(
-            (element) => unOrdDeepEq(element.publicKeyHashs, publicKeyHashs)) !=
-        null) {
-      transactionStatusSnackbar(
-        duration: const Duration(seconds: 2),
-        status: TransactionStatus.error,
-        tezAddress: 'Gallery with same Accounts already exists',
-        transactionAmount: 'Cannot create gallery',
-      );
-      isCreating.value = false;
-      return;
-    }
+    // Function unOrdDeepEq = const DeepCollectionEquality.unordered().equals;
+    // if (nftGalleryList.firstWhereOrNull(
+    //         (element) => unOrdDeepEq(element.publicKeyHashs, publicKeyHashs)) !=
+    //     null) {
+    //   transactionStatusSnackbar(
+    //     duration: const Duration(seconds: 2),
+    //     status: TransactionStatus.error,
+    //     tezAddress: 'Gallery with same Accounts already exists',
+    //     transactionAmount: 'Cannot create gallery',
+    //   );
+    //   isCreating.value = false;
+    //   return;
+    // }
     NftState check = await checkIfEmpty(publicKeyHashs);
     if (check == NftState.empty) {
       transactionStatusSnackbar(

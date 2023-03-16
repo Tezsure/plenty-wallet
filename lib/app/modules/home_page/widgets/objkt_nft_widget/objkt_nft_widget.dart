@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
@@ -20,20 +21,22 @@ class ObjktNftWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HomeWidgetFrame(
-      child: GestureDetector(
-        onTap: () {
-          String url = "https://objkt.com";
-          // Get.to(BuyNFTPage(), arguments: url);
-          Get.bottomSheet(
-            const DappBrowserView(),
-            barrierColor: Colors.white.withOpacity(0.09),
-            settings: RouteSettings(
-              arguments: url,
-            ),
-            isScrollControlled: true,
-          );
-        },
+    return BouncingWidget(
+      onPressed: () {
+        String url = "https://objkt.com";
+        // Get.to(BuyNFTPage(), arguments: url);
+        Get.bottomSheet(
+          const DappBrowserView(),
+          barrierColor: Colors.white.withOpacity(0.09),
+          settings: RouteSettings(
+            arguments: url,
+          ),
+          isScrollControlled: true,
+          enterBottomSheetDuration: const Duration(milliseconds: 180),
+          exitBottomSheetDuration: const Duration(milliseconds: 150),
+        );
+      },
+      child: HomeWidgetFrame(
         child: Container(
           decoration: BoxDecoration(color: Colors.white
               // gradient: purpleGradient,
@@ -46,10 +49,13 @@ class ObjktNftWidget extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: EdgeInsets.only(top: 24.arP),
-                  child: Image.asset(
-                    "${PathConst.HOME_PAGE}buy_nft.png",
-                    // cacheHeight: 217,
-                    // cacheWidth: 158,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(22.arP),
+                    child: Image.asset(
+                      "${PathConst.HOME_PAGE}buy_nft.png",
+                      // cacheHeight: 217,
+                      // cacheWidth: 158,
+                    ),
                   ),
                 ),
               ),

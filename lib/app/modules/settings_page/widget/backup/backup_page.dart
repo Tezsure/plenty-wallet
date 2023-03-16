@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/select_reveal_key_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -75,8 +76,8 @@ class BackupPage extends StatelessWidget {
   }
 
   Widget accountMethod(AccountModel accountModel) {
-    return InkWell(
-      onTap: () {
+    return BouncingWidget(
+      onPressed: () {
         Get.bottomSheet(
           isScrollControlled: true,
           barrierColor: Colors.transparent,

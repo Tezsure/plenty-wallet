@@ -5,6 +5,7 @@ import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -39,9 +40,8 @@ class DeleteContactBottomSheet extends StatelessWidget {
         0.025.vspace,
         Column(
           children: [
-            InkWell(
-              splashColor: Colors.transparent,
-              onTap: () async {
+            BouncingWidget(
+              onPressed: () async {
                 var accountController = Get.find<TransactionController>();
                 accountController.contacts.value = accountController.contacts
                     .where((item) => item.address != contactModel.address)
@@ -71,9 +71,8 @@ class DeleteContactBottomSheet extends StatelessWidget {
               ),
             ),
             0.016.vspace,
-            InkWell(
-              splashColor: Colors.transparent,
-              onTap: () async {
+            BouncingWidget(
+              onPressed: () async {
                 Get.back();
               },
               child: Container(

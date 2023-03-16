@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/image_picker.dart';
 import 'package:naan_wallet/app/modules/common_widgets/pick_an_avatar.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
@@ -70,15 +71,15 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   Widget draggableUI() {
     return NaanBottomSheet(
       bottomSheetHorizontalPadding: 16.arP,
-      height: AppConstant.naanBottomSheetHeight -
-          MediaQuery.of(context).viewInsets.bottom,
+      // height: AppConstant.naanBottomSheetHeight -
+      //     MediaQuery.of(context).viewInsets.bottom,
       isScrollControlled: true,
       title: "Edit Account",
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
               MediaQuery.of(context).viewInsets.bottom -
-              36.arP,
+              70.arP,
           child: Column(children: [
             0.02.vspace,
             _buildAvatar(),
@@ -330,8 +331,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
           image: _controller.showUpdatedProfilePhoto(widget.accountIndex),
         ),
       ),
-      child: GestureDetector(
-        onTap: () {
+      child: BouncingWidget(
+        onPressed: () {
           Get.bottomSheet(
             changePhotoBottomSheet(),
             barrierColor: Colors.transparent,
@@ -373,8 +374,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                 image: _controller.showUpdatedProfilePhoto(widget.accountIndex),
               ),
             ),
-            child: GestureDetector(
-              onTap: () {
+            child: BouncingWidget(
+              onPressed: () {
                 Get.bottomSheet(
                   changePhotoBottomSheet(),
                   barrierColor: Colors.transparent,

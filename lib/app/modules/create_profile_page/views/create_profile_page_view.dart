@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/data/services/create_profile_service/create_prof
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/image_picker.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/pick_an_avatar.dart';
@@ -19,6 +20,7 @@ import 'package:naan_wallet/app/modules/create_profile_page/views/avatar_picker_
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -33,180 +35,184 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
     isBottomSheet ? Get.put(CreateProfilePageController()) : null;
     var args = ModalRoute.of(context)!.settings.arguments as List;
     controller.previousRoute = args[0] as String;
+    if (isBottomSheet) {
+      return NaanBottomSheet(
+        bottomSheetHorizontalPadding: 16.arP,
+        isScrollControlled: true,
+        // height: AppConstant.naanBottomSheetHeight -
+        //     MediaQuery.of(context).viewInsets.bottom,
+        bottomSheetWidgets: [
+          SizedBox(
+              height: AppConstant.naanBottomSheetChildHeight -
+                  MediaQuery.of(context).viewInsets.bottom,
+              child: _buildBody())
+        ],
+      );
+    }
     return OverrideTextScaleFactor(
-      child: DraggableScrollableSheet(
-        initialChildSize: isBottomSheet ? 0.95 : 1,
-        minChildSize: isBottomSheet ? 0.9 : 1,
-        maxChildSize: isBottomSheet ? 0.95 : 1,
-        builder: (context, scrollController) => Scaffold(
-          appBar: AppBar(
-            leading: backButton(),
-            backgroundColor: Colors.black,
-          ),
-          body: Container(
-            color: Colors.black,
-            width: 1.width,
-            height: 1.height,
-            padding: EdgeInsets.symmetric(horizontal: 16.5.arP),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                0.02.vspace,
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Name your account", style: titleLarge),
-                ),
-                0.05.vspace,
-                Obx(
-                  () => Center(
-                    child: Container(
-                      height: 120.arP,
-                      width: 120.arP,
-                      alignment: Alignment.bottomRight,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: controller.currentSelectedType ==
-                                  AccountProfileImageType.assets
-                              ? AssetImage(controller.selectedImagePath.value)
-                              : FileImage(
-                                  File(
-                                    controller.selectedImagePath.value,
-                                  ),
-                                ) as ImageProvider,
-                        ),
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.bottomSheet(
-                            changePhotoBottomSheet(),
-                            enterBottomSheetDuration:
-                                const Duration(milliseconds: 180),
-                            exitBottomSheetDuration:
-                                const Duration(milliseconds: 150),
-                            barrierColor: Colors.white.withOpacity(0.01),
-                            isScrollControlled: true,
-                          );
-                        },
-                        child: CircleAvatar(
-                          radius: 20.arP,
-                          backgroundColor: Colors.white,
-                          child: SvgPicture.asset(
-                            "${PathConst.SVG}add_photo.svg",
-                            fit: BoxFit.contain,
-                            height: 20.arP,
-                            color: ColorConst.Primary,
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.arP),
+          child: SafeArea(bottom: false, child: _buildBody()),
+        ),
+      ),
+    );
+  }
+
+  Column _buildBody() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        0.02.vspace,
+        backButton(),
+        0.02.vspace,
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text("Name your account", style: titleLarge),
+        ),
+        0.05.vspace,
+        Obx(
+          () => Center(
+            child: Container(
+              height: 120.arP,
+              width: 120.arP,
+              alignment: Alignment.bottomRight,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: controller.currentSelectedType ==
+                          AccountProfileImageType.assets
+                      ? AssetImage(controller.selectedImagePath.value)
+                      : FileImage(
+                          File(
+                            controller.selectedImagePath.value,
                           ),
-                        ),
-                      ),
-                    ),
+                        ) as ImageProvider,
+                ),
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  Get.bottomSheet(
+                    changePhotoBottomSheet(),
+                    enterBottomSheetDuration: const Duration(milliseconds: 180),
+                    exitBottomSheetDuration: const Duration(milliseconds: 150),
+                    barrierColor: Colors.white.withOpacity(0.01),
+                    isScrollControlled: true,
+                  );
+                },
+                child: CircleAvatar(
+                  radius: 20.arP,
+                  backgroundColor: Colors.white,
+                  child: SvgPicture.asset(
+                    "${PathConst.SVG}add_photo.svg",
+                    fit: BoxFit.contain,
+                    height: 20.arP,
+                    color: ColorConst.Primary,
                   ),
                 ),
-                0.05.vspace,
-                NaanTextfield(
-                  // height: 52.arP,
-                  backgroundColor: const Color(0xff1E1C1F),
-                  hint: "Account Name",
-                  focusNode: controller.accountNameFocus,
-                  controller: controller.accountNameController,
-                  onTextChange: (String value) => controller
-                      .isContiuneButtonEnable
-                      .value = value.length > 2 && value.length < 20,
-                ),
-                const Spacer(),
-                Obx(
-                  () => Center(
-                    child: Container(
-                      margin: EdgeInsets.only(
-                        left: 16.arP,
-                        right: 16.arP,
-                      ),
-                      child: SolidButton(
-                        // width: 326.arP,
-                        active: controller.isContiuneButtonEnable.value,
-                        onPressed: () {
-                          if (controller.previousRoute ==
-                                  Routes.CREATE_WALLET_PAGE ||
-                              controller.previousRoute ==
-                                  Routes.IMPORT_WALLET_PAGE) {
-                            Get.toNamed(Routes.LOADING_PAGE, arguments: [
-                              'assets/create_wallet/lottie/wallet_success.json',
-                              controller.previousRoute,
-                              Routes.HOME_PAGE,
-                            ]);
-                          } else
-                          // if (controller.previousRoute ==
-                          //     Routes.HOME_PAGE)
-                          {
-                            Get.toNamed(Routes.LOADING_PAGE, arguments: [
-                              'assets/create_wallet/lottie/wallet_success.json',
-                              Routes.IMPORT_WALLET_PAGE,
-                              null,
-                            ]);
-                          }
-                          // } else if (controller.previousRoute ==
-                          //     Routes.ACCOUNT_SUMMARY) {
-                          //   Get.toNamed(Routes.LOADING_PAGE, arguments: [
-                          //     'assets/create_wallet/lottie/wallet_success.json',
-                          //     Routes.IMPORT_WALLET_PAGE,
-                          //     null,
-                          //   ]);
-                          // }
-                        },
-                        inActiveChild: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              "${PathConst.SVG}check.svg",
-                              color: !controller.isContiuneButtonEnable.value
-                                  ? ColorConst.textGrey1
-                                  : Colors.white,
-                              height: 16.6.arP,
-                              fit: BoxFit.contain,
-                            ),
-                            0.015.hspace,
-                            Text(
-                              "Start using naan",
-                              style: titleSmall.copyWith(
-                                  color: !controller.isContiuneButtonEnable.value
-                                      ? ColorConst.textGrey1
-                                      : Colors.white,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              "${PathConst.SVG}check.svg",
-                              height: 16.6.arP,
-                              color: !controller.isContiuneButtonEnable.value
-                                  ? ColorConst.textGrey1
-                                  : Colors.white,
-                            ),
-                            0.02.hspace,
-                            Text(
-                              "Start using naan",
-                              style: titleSmall.copyWith(
-                                  color: !controller.isContiuneButtonEnable.value
-                                      ? ColorConst.textGrey1
-                                      : Colors.white,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const BottomButtonPadding()
-              ],
+              ),
             ),
           ),
         ),
-      ),
+        0.05.vspace,
+        NaanTextfield(
+          // height: 52.arP,
+          backgroundColor: const Color(0xff1E1C1F),
+          hint: "Account Name",
+          focusNode: controller.accountNameFocus,
+          controller: controller.accountNameController,
+          onTextChange: (String value) => controller.isContiuneButtonEnable
+              .value = value.length > 2 && value.length < 20,
+        ),
+        const Spacer(),
+        Obx(
+          () => Center(
+            child: Container(
+              margin: EdgeInsets.only(
+                left: 16.arP,
+                right: 16.arP,
+              ),
+              child: SolidButton(
+                // width: 326.arP,
+                active: controller.isContiuneButtonEnable.value,
+                onPressed: () {
+                  if (controller.previousRoute == Routes.CREATE_WALLET_PAGE ||
+                      controller.previousRoute == Routes.IMPORT_WALLET_PAGE) {
+                    Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                      'assets/create_wallet/lottie/wallet_success.json',
+                      controller.previousRoute,
+                      Routes.HOME_PAGE,
+                    ]);
+                  } else
+                  // if (controller.previousRoute ==
+                  //     Routes.HOME_PAGE)
+                  {
+                    Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                      'assets/create_wallet/lottie/wallet_success.json',
+                      Routes.IMPORT_WALLET_PAGE,
+                      null,
+                    ]);
+                  }
+                  // } else if (controller.previousRoute ==
+                  //     Routes.ACCOUNT_SUMMARY) {
+                  //   Get.toNamed(Routes.LOADING_PAGE, arguments: [
+                  //     'assets/create_wallet/lottie/wallet_success.json',
+                  //     Routes.IMPORT_WALLET_PAGE,
+                  //     null,
+                  //   ]);
+                  // }
+                },
+                inActiveChild: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "${PathConst.SVG}check.svg",
+                      color: !controller.isContiuneButtonEnable.value
+                          ? ColorConst.textGrey1
+                          : Colors.white,
+                      height: 16.6.arP,
+                      fit: BoxFit.contain,
+                    ),
+                    0.015.hspace,
+                    Text(
+                      "Start using naan",
+                      style: titleSmall.copyWith(
+                          color: !controller.isContiuneButtonEnable.value
+                              ? ColorConst.textGrey1
+                              : Colors.white,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "${PathConst.SVG}check.svg",
+                      height: 16.6.arP,
+                      color: !controller.isContiuneButtonEnable.value
+                          ? ColorConst.textGrey1
+                          : Colors.white,
+                    ),
+                    0.02.hspace,
+                    Text(
+                      "Start using naan",
+                      style: titleSmall.copyWith(
+                          color: !controller.isContiuneButtonEnable.value
+                              ? ColorConst.textGrey1
+                              : Colors.white,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        const BottomButtonPadding()
+      ],
     );
   }
 

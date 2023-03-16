@@ -18,6 +18,17 @@ class MockData {
         "A watch address is a public address for a cryptocurrency account that you can monitor without having access to the private key that controls it. You can use a watch address to keep track of payments and NFTs received from other users, but you can't use it to make transactions or move funds from the address.",
   };
 
+  static const Map<String, String> watchAddress = {
+    "What is a watch address?":
+        "A watch address is like adding someone to your friends list on social media. It lets you see all their online activity but you can't post anything on their account. Similarly, adding a watch address to your wallet lets you see all the transactions happening with that address, but you can't make any transactions from it. This is useful because all transactions on the blockchain are public, so you can see your friend's NFTs and collectibles just by knowing their watch address.",
+    "What is Tezos domain address?":
+        "A Tezos domain address, also called a \"TZ domain,\" is a name that is easier to remember and share than a long string of characters that represent a Tezos wallet address. For example, instead of using tz1Uox91evyMrCvQ5dabegEDCekNiKMdz12K, you can create an alias like \"john.tez\". This name can replace the long string of characters to represent the address. You can register a Tezos domain address on https://tezos.domains",
+    "What is a tz1 or tz2 address?":
+        "In Tezos, a tz1 or tz2 address is a type of address used to represent a user's account ID. It's like having a username that everyone can see. You can use these addresses to send and receive Tezos tokens, delegate tokens for staking, and interact with smart contracts on the Tezos blockchain. So, it's an important way to identify your account and do things with your Tezos tokens.",
+    "Can I add a Tezos address from my Nano Ledger as a watch address?":
+        "Yes! You can add your Ledger account as a watch address in naan. This means you can see your NFTs, collectibles, and transaction history without connecting your Ledger device or entering your private key. It's like looking at your account balance without having to log in. You can also add other cold storage addresses as watch addresses. But remember, you can't send or receive cryptocurrency from the account.",
+  };
+
   static const Map<String, String> naanInfoStory = {
     "Importing wallet": "assets/home_page/info_story/story_1.svg",
     "Add funds": "assets/home_page/info_story/story_2.svg",

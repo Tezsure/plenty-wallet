@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -42,8 +44,8 @@ class HistoryPage extends GetView<TransactionController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      GestureDetector(
-                        onTap: (() => Get.bottomSheet(
+                      BouncingWidget(
+                        onPressed: (() => Get.bottomSheet(
                               const SearchBottomSheet(),
                               isScrollControlled: true,
                               enterBottomSheetDuration:
@@ -81,8 +83,8 @@ class HistoryPage extends GetView<TransactionController> {
                         ),
                       ),
                       0.02.hspace,
-                      GestureDetector(
-                        onTap: () {
+                      BouncingWidget(
+                        onPressed: () {
                           Get.bottomSheet(HistoryFilterSheet(),
                               enterBottomSheetDuration:
                                   const Duration(milliseconds: 180),
@@ -270,7 +272,9 @@ class HistoryPage extends GetView<TransactionController> {
         builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
           if (!snapshot.hasData) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CupertinoActivityIndicator(
+                color: ColorConst.Primary,
+              ),
             );
           } else if (snapshot.data!.name == null) {
             return Container();

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -43,7 +44,7 @@ class SolidButton extends StatelessWidget {
       this.primaryColor,
       this.elevation = 2,
       this.borderColor = Colors.transparent,
-      this.borderWidth = 0,
+      this.borderWidth = 01.5,
       this.isLoading,
       this.titleStyle,
       this.borderRadius})
@@ -96,9 +97,9 @@ class SolidButton extends StatelessWidget {
                 ? SizedBox(
                     width: 30.arP,
                     height: 30.arP,
-                    child: const CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
+                    child: const CupertinoActivityIndicator(
+                            color: Colors.white,
+                          ),
                   )
                 : rowWidget == null
                     ? child != null

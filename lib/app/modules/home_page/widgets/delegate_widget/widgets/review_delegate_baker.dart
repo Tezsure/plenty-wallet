@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
@@ -134,8 +135,8 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                     style: labelLarge,
                   ),
                   0.02.hspace,
-                  InkWell(
-                    onTap: () {
+                  BouncingWidget(
+                    onPressed: () {
                       Clipboard.setData(ClipboardData(
                           text: _homePageController
                               .userAccounts[0].publicKeyHash));

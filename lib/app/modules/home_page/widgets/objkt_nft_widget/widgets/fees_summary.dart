@@ -56,8 +56,7 @@ class FeesSummarySheet extends StatelessWidget {
                   title: "Network fee",
                   trailing: "\$ ${controller.fees["networkFee"]}"),
               _buildFeeTitle(
-                  subtitle:
-                      "Fee charged by naan.",
+                  subtitle: "Fee charged by naan.",
                   title: "Interface fee",
                   trailing: "\$${controller.fees["interfaceFee"]}"),
             ],

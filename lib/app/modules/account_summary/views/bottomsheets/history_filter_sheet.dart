@@ -3,7 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/history_filter_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/date_Selection_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
@@ -17,12 +19,18 @@ class HistoryFilterSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 15.aR,
-      height: 609.aR,
+      bottomSheetHorizontalPadding: 32.aR,
+      // height: 609.aR,
+      isScrollControlled: true,
       crossAxisAlignment: CrossAxisAlignment.start,
       bottomSheetWidgets: [
+        // SizedBox(
+        //     height: 609.aR,
+        //     child: Column(
+        //       children: [],
+        //     )),
         SizedBox(
-          height: 10.aR,
+          height: 16.aR,
         ),
         Text(
           "Asset type",
@@ -98,7 +106,10 @@ class HistoryFilterSheet extends StatelessWidget {
           height: 40.aR,
         ),
         dateRangeButton(),
-        const Spacer(),
+        SizedBox(
+          height: 40.aR,
+        ),
+        // const Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -107,9 +118,7 @@ class HistoryFilterSheet extends StatelessWidget {
             applyButton(),
           ],
         ),
-        SizedBox(
-          height: 37.aR,
-        ),
+        BottomButtonPadding()
       ],
     );
   }
@@ -238,8 +247,7 @@ class HistoryFilterSheet extends StatelessWidget {
       child: SolidButton(
         onPressed: () {
           controller.clear();
-              Get.back();
-
+          Get.back();
         },
         title: "Clear",
         borderColor: ColorConst.Primary.shade80,
@@ -264,8 +272,8 @@ class HistoryFilterSheet extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(right: 12.aR),
       child: Obx(
-        () => GestureDetector(
-          onTap: () {
+        () => BouncingWidget(
+          onPressed: () {
             controller.setDate(dateType);
           },
           child: Container(
@@ -298,8 +306,8 @@ class HistoryFilterSheet extends StatelessWidget {
 
   Widget dateRangeButton() {
     return Obx(
-      () => GestureDetector(
-        onTap: () {
+      () => BouncingWidget(
+        onPressed: () {
           Get.bottomSheet(
             DateSelectionSheet(),
             enterBottomSheetDuration: const Duration(milliseconds: 180),

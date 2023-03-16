@@ -82,7 +82,7 @@ class LoadingPageController extends GetxController {
         await Future.wait([
           UserStorageService().writeNewAccount(
             [
-              ...importWalletPageController.selectedAccountsTz1,
+              ...importWalletPageController.selectedAccounts,
             ],
             false,
             true,
@@ -121,10 +121,12 @@ class LoadingPageController extends GetxController {
       );
     } else if (nextRoute == null && fromRoute == Routes.IMPORT_WALLET_PAGE) {
       // close loading, create profile, import wallet
+      ImportWalletPageController importWalletPageController =
+          Get.find<ImportWalletPageController>();
       Get
         ..back()
         ..back()
-        ..back();
+        ..back(result: importWalletPageController.phraseText.value.trim());
     } else {
       Get.toNamed(nextRoute!);
     }

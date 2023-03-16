@@ -6,11 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/beta_tag_widget/beta_tag_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/scan_qr.dart';
@@ -46,14 +49,46 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   @override
   void onInit() async {
     super.onInit();
-
+    Get.put(BeaconService(), permanent: true);
     DataHandlerService()
         .renderService
         .accountUpdater
         .registerCallback((accounts) async {
+    List<AccountModel>  account = (accounts ?? (<AccountModel>[])) as List<AccountModel>;
       // print("accountUpdater".toUpperCase());
       // print("${userAccounts.value.hashCode == accounts.hashCode}");
-      userAccounts.value = [...(accounts ?? [])];
+      if ((account.length) != userAccounts.length) {
+        // userAccounts.value = [...(accounts ?? [])];
+        account.sort((a, b) =>
+            a.importedAt!.millisecondsSinceEpoch -
+            b.importedAt!.millisecondsSinceEpoch);
+        List temp = [];
+        account.forEach((element) {
+          if (!element.isWatchOnly) {
+            temp.add(element);
+          }
+        });
+        account.forEach((element) {
+          if (element.isWatchOnly) {
+            temp.add(element);
+          }
+        });
+        int index = temp.indexWhere((element) {
+          return !userAccounts.any(
+              (element2) => element2.publicKeyHash == element.publicKeyHash);
+        });
+        userAccounts.value = [...temp];
+        Future.delayed(
+          Duration(milliseconds: 500),
+        ).then((value) {
+          try {
+            Get.put(AccountsWidgetController()).onPageChanged(index);
+            changeSelectedAccount(index);
+          } catch (e) {
+            log(e.toString());
+          }
+        });
+      }
       try {
         if (userAccounts.where((p0) => !p0.isWatchOnly).isNotEmpty) {
           Future.delayed(const Duration(seconds: 1), () async {
@@ -96,7 +131,15 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   @override
   void onReady() async {
     super.onReady();
-
+    await UserStorageService.getBetaTagAgree().then((value) async {
+      if (!value) {
+        await Get.bottomSheet(
+          BetaTagSheet(),
+          barrierColor: Colors.white.withOpacity(0.09),
+          isScrollControlled: true,
+        );
+      }
+    });
     if (Get.arguments != null &&
         Get.arguments.length == 2 &&
         Get.arguments[1].toString().isNotEmpty) {
@@ -125,8 +168,8 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
     sliderValue.value = value;
   }
 
-  void showBackUpWalletBottomSheet(String seedPhrase) {
-    Get.bottomSheet(
+  Future<void> showBackUpWalletBottomSheet(String seedPhrase) async {
+    await Get.bottomSheet(
       BackupWalletBottomSheet(seedPhrase: seedPhrase),
       enterBottomSheetDuration: const Duration(milliseconds: 180),
       exitBottomSheetDuration: const Duration(milliseconds: 150),
@@ -159,7 +202,6 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
 
       // We didn't ask for permission yet or the permission has been denied before but not permanently.
     } else {
-      HapticFeedback.heavyImpact();
       Get.bottomSheet(const ScanQrView(),
           enterBottomSheetDuration: const Duration(milliseconds: 180),
           exitBottomSheetDuration: const Duration(milliseconds: 150),

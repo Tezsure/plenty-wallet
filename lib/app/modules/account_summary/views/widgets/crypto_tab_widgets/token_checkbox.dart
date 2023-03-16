@@ -2,10 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../utils/styles/styles.dart';
 import '../../../../custom_packages/custom_checkbox.dart';
@@ -38,8 +40,8 @@ class TokenCheckbox extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.aR),
-      child: GestureDetector(
-        onTap: onCheckboxTap,
+      child: BouncingWidget(
+        onPressed: onCheckboxTap,
         child: SizedBox(
           height: 50.aR,
           child: Column(
@@ -193,6 +195,17 @@ class TokenCheckbox extends StatelessWidget {
                         imageUrl: tokenModel.iconUrl!.startsWith("ipfs")
                             ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
                             : tokenModel.iconUrl!,
+                        placeholder: (context, url) => SizedBox(
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                                decoration: const BoxDecoration(
+                              color: Color(0xff474548),
+                            )),
+                          ),
+                        ),
                         fit: BoxFit.cover,
                         memCacheHeight: 73,
                         memCacheWidth: 73,

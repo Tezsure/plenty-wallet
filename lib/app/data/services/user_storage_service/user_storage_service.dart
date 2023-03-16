@@ -66,6 +66,39 @@ class UserStorageService {
         ));
   }
 
+  /// update accountList
+  Future<void> nftPatch() async {
+    await ServiceConfig.localStorage
+        .write(key: ServiceConfig.nftPatch, value: jsonEncode(true));
+  }
+
+  Future<bool> nftPatchRead() async {
+    try {
+      return (await ServiceConfig.localStorage.read(
+            key: ServiceConfig.nftPatch,
+          )) ==
+          "true";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static Future<bool> getBetaTagAgree() async {
+    try {
+      return (await ServiceConfig.localStorage.read(
+            key: ServiceConfig.betaTagStorage,
+          )) ==
+          "true";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static Future<void> betaTagAgree() async {
+    await ServiceConfig.localStorage
+        .write(key: ServiceConfig.betaTagStorage, value: "true");
+  }
+
   /// Get all accounts in storage <br>
   /// If onlyNaanAccount is true then returns the account list which is created on naan<br>
   /// Else returns all the available accounts in storage<br>
@@ -156,13 +189,11 @@ class UserStorageService {
   }
 
   /// read user nft using user address
-  Future<List<NftTokenModel>> getUserNfts(
-          {required String userAddress}) async =>
-      jsonDecode(await ServiceConfig.localStorage
+  Future<List> getUserNfts({required String userAddress}) async =>
+      jsonDecode((await ServiceConfig.localStorage
                   .read(key: "${ServiceConfig.nftStorage}_$userAddress") ??
               "[]")
-          .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
-          .toList();
+          .toString());
 
   /// read user nft using user address RETURN STRING
   Future<String?> getUserNftsString({required String userAddress}) async =>

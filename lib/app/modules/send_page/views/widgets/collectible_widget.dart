@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/parser.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/app/modules/veNFT.dart';
@@ -16,6 +17,9 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
+import 'package:shimmer/shimmer.dart';
+
+import '../../../../data/services/service_config/service_config.dart';
 
 class CollectibleWidget extends GetView<SendPageController> {
   CollectibleWidget({
@@ -24,10 +28,13 @@ class CollectibleWidget extends GetView<SendPageController> {
     required this.widgetIndex,
   }) {
     var firstValue = collectionNfts.first;
-    logo = firstValue.fa!.logo!;
-    if (logo.startsWith("ipfs://")) {
-      logo = "https://ipfs.io/ipfs/${logo.replaceAll("ipfs://", "")}";
-    }
+    logo = firstValue.fa!.logo?.isEmpty ?? true
+        ? firstValue.creators?.isNotEmpty ?? false
+            ? "https://services.tzkt.io/v1/avatars/${firstValue.creators?.first.creatorAddress}"
+            : ""
+        : firstValue.fa!.logo!.startsWith("ipfs://")
+            ? "${ServiceConfig.ipfsUrl}/${firstValue.fa!.logo!.replaceAll("ipfs://", "")}"
+            : firstValue.fa!.logo!;
     name = firstValue.fa!.name ?? "N/A";
   }
 
@@ -47,13 +54,33 @@ class CollectibleWidget extends GetView<SendPageController> {
               NaanExpansionTile(
                 maintainState: true,
                 tilePadding: EdgeInsets.zero,
-                leading: CircleAvatar(
-                  radius: 20,
-                  backgroundColor:
-                      ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                  foregroundImage: NetworkImage(
-                    logo,
-                    // fit: BoxFit.contain,
+                leading: Container(
+                  height: 40.aR,
+                  width: 40.aR,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      width: 1.5.aR,
+                      color: ColorConst.NeutralVariant.shade60,
+                    ),
+                  ),
+                  child: ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl: logo,
+                      memCacheHeight: 73,
+                      memCacheWidth: 73,
+                      placeholder: (context, url) => SizedBox(
+                        child: Shimmer.fromColors(
+                          baseColor: const Color(0xff474548),
+                          highlightColor:
+                              const Color(0xFF958E99).withOpacity(0.2),
+                          child: Container(
+                              decoration: const BoxDecoration(
+                            color: Color(0xff474548),
+                          )),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 onExpansionChanged: (isExpand) =>
@@ -150,8 +177,8 @@ class NFTwidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onTap(nfTmodel),
+    return BouncingWidget(
+      onPressed: () => onTap(nfTmodel),
       child: Container(
         width: 0.44.width,
         height: 0.32.height,

@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/common_widgets/info_bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/verify_phrase_page/views/verify_phrase_page_view.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -33,7 +34,7 @@ class BackupWalletView extends GetView<BackupWalletController> {
       bottom: false,
       top: true,
       child: NaanBottomSheet(
-          height: 0.9.height,
+          height: AppConstant.naanBottomSheetChildHeight,
           bottomSheetHorizontalPadding: 16.arP,
           bottomSheetWidgets: [
             Column(
@@ -158,5 +159,4 @@ class BackupWalletView extends GetView<BackupWalletController> {
   //             ));
   //       });
   // }
-
 }

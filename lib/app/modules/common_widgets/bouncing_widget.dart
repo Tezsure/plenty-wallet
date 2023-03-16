@@ -1,6 +1,7 @@
 library flutter_bounce;
 
 import 'package:flutter/material.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 
 import 'text_scale_factor.dart';
 
@@ -41,10 +42,9 @@ class BouncingWidgetState extends State<BouncingWidget>
     //defining the controller
     _animate = AnimationController(
         vsync: this,
-        duration: const Duration(
-            milliseconds: 100), //This is an inital controller duration
+        duration: Duration(milliseconds: 100), //This is an inital controller duration
         lowerBound: 0,
-        upperBound: 0.1)
+        upperBound: 0.15)
       ..addListener(() {
         setState(() {});
       }); // Can do something in the listener, but not required
@@ -81,6 +81,7 @@ class BouncingWidgetState extends State<BouncingWidget>
     if (onPressed == null && onLongPressed == null) return;
     //Firing the animation right away
     _animate.forward();
+    AppConstant.hapticFeedback();
 
     //Now reversing the animation after the user defined duration
     Future.delayed(widget.duration, () {
@@ -96,6 +97,7 @@ class BouncingWidgetState extends State<BouncingWidget>
   // but in a duration of time, and our callback is called here as well
   void _onLongPress() {
     if (onPressed == null && onLongPressed == null) return;
+    AppConstant.hapticFeedback();
 
     //Firing the animation right away
     _animate.forward();

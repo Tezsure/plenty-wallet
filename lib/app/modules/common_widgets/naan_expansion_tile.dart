@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:naan_wallet/app/modules/common_widgets/list_tile.dart';
 
 // import 'color_scheme.dart';
 // import 'colors.dart';
@@ -389,7 +390,7 @@ class _NaanExpansionTileState extends State<NaanExpansionTile>
           ListTileTheme.merge(
             iconColor: _iconColor.value ?? expansionTileTheme.iconColor,
             textColor: _headerColor.value,
-            child: ListTile(
+            child: NaanListTile(
               onTap: _handleTap,
               contentPadding:
                   widget.tilePadding ?? expansionTileTheme.tilePadding,

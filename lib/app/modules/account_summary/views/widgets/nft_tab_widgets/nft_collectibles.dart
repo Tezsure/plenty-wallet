@@ -6,28 +6,33 @@ import 'package:naan_wallet/app/modules/common_widgets/naan_expansion_tile.dart'
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:shimmer/shimmer.dart';
 
+import '../../../../../data/services/service_config/service_config.dart';
 import '../../../../send_page/views/widgets/collectible_widget.dart';
 import '../../../../nft_gallery/view/nft_detail_sheet.dart';
 
 class NftCollectibles extends StatefulWidget {
   final List<NftTokenModel> nftList;
-  const NftCollectibles({required this.nftList, super.key});
+  final String account;
+  const NftCollectibles(
+      {required this.nftList, required this.account, super.key});
 
   @override
   State<NftCollectibles> createState() => _NftCollectiblesState();
 }
 
 class _NftCollectiblesState extends State<NftCollectibles> {
-  bool isExpanded = true;
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.aR),
+      padding: EdgeInsets.symmetric(vertical: 0.aR),
       child: Column(
         children: [
           NaanExpansionTile(
+            maintainState: true,
             initiallyExpanded: isExpanded,
             tilePadding: EdgeInsets.zero,
             leading: Container(
@@ -47,10 +52,20 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                           ? "https://services.tzkt.io/v1/avatars/${widget.nftList.first.creators?.first.creatorAddress}"
                           : ""
                       : widget.nftList.first.fa!.logo!.startsWith("ipfs://")
-                          ? "https://ipfs.io/ipfs/${widget.nftList.first.fa!.logo!.replaceAll("ipfs://", "")}"
+                          ? "${ServiceConfig.ipfsUrl}/${widget.nftList.first.fa!.logo!.replaceAll("ipfs://", "")}"
                           : widget.nftList.first.fa!.logo!,
                   memCacheHeight: 73,
                   memCacheWidth: 73,
+                  placeholder: (context, url) => SizedBox(
+                    child: Shimmer.fromColors(
+                      baseColor: const Color(0xff474548),
+                      highlightColor: const Color(0xFF958E99).withOpacity(0.2),
+                      child: Container(
+                          decoration: const BoxDecoration(
+                        color: Color(0xff474548),
+                      )),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -87,14 +102,15 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                             Get.bottomSheet(
                               NFTDetailBottomSheet(
                                 onBackTap: Get.back,
-                                nftModel: widget.nftList[index],
+                                pk: widget.nftList[index].pk,
+                                publicKeyHashs: [widget.account],
                               ),
                               enterBottomSheetDuration:
                                   const Duration(milliseconds: 180),
                               exitBottomSheetDuration:
                                   const Duration(milliseconds: 150),
                               isScrollControlled: true,
-                            );
+                            ); //todo: uncomment this when NFTDetailBottomSheet is ready
                           },
                         )),
                   )),

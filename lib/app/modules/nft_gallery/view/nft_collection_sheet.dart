@@ -7,20 +7,25 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_detail_sheet.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 class NFTCollectionSheet extends StatelessWidget {
   final List<NftTokenModel> nfts;
-  const NFTCollectionSheet({super.key, this.nfts = const []});
+  final List<String> publicKeyHashs;
+  const NFTCollectionSheet(
+      {super.key, this.nfts = const [], this.publicKeyHashs = const []});
 
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      isScrollControlled: true,
       bottomSheetHorizontalPadding: 0,
-      height: .9.height,
+      // height: .9.height,
       bottomSheetWidgets: [
         _getNftListViewWidget(),
       ],
@@ -31,12 +36,13 @@ class NFTCollectionSheet extends StatelessWidget {
     double crossAxisCount = 2.1,
   ]) =>
       Container(
-          height: .8724.height,
+          height: AppConstant.naanBottomSheetChildHeight,
           margin: EdgeInsets.symmetric(
             horizontal: 16.arP,
           ),
           child: Column(
             children: [
+              0.02.vspace,
               _getCollectionDetailsRow(
                 nfts.first,
                 nfts.toList().length,
@@ -60,16 +66,16 @@ class NFTCollectionSheet extends StatelessWidget {
                         .toInt(),
                     mainAxisSpacing: 12.arP,
                     crossAxisSpacing: 12.arP,
-                    cacheExtent: 0.0,
                     itemCount: nfts.toList().length,
                     itemBuilder: ((context, i) {
                       var nftTokenModel = nfts[i];
-                      return GestureDetector(
-                        onTap: () {
+                      return BouncingWidget(
+                        onPressed: () {
                           Get.bottomSheet(
                             NFTDetailBottomSheet(
                               onBackTap: Get.back,
-                              nftModel: nftTokenModel,
+                              pk: nftTokenModel.pk,
+                              publicKeyHashs: publicKeyHashs,
                             ),
                             enterBottomSheetDuration:
                                 const Duration(milliseconds: 180),
@@ -92,21 +98,23 @@ class NFTCollectionSheet extends StatelessWidget {
                           ),
                           child: Column(
                             children: [
-                              SizedBox(
+                              Container(
+                                constraints: BoxConstraints(
+                                  minHeight: crossAxisCount == 2.1
+                                      ? 150.arP
+                                      : crossAxisCount == 1.1
+                                          ? 300.arP
+                                          : 1,
+                                ),
                                 width: double.infinity,
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(
                                       8.arP,
                                     ),
                                     child: NFTImage(
-                                      nftTokenModel: nftTokenModel,
-                                    )
-                                    // CachedNetworkImage(
-                                    //   imageUrl:
-                                    //       "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
-                                    //   fit: BoxFit.fitWidth,
-                                    // ),
-                                    ),
+                                        memCacheHeight: 250,
+                                        memCacheWidth: 250,
+                                        nftTokenModel: nftTokenModel)),
                               ),
                               SizedBox(
                                 height: 12.arP,
@@ -170,7 +178,10 @@ class NFTCollectionSheet extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        backButton(),
+        SizedBox(
+          width: 22.arP,
+        ),
+        // backButton(),
         Expanded(
           child: Align(
             alignment: Alignment.center,

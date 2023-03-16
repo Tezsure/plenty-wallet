@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -121,7 +123,9 @@ class AccountWidget extends StatelessWidget {
           width: 50,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CircularProgressIndicator(color: ColorConst.Primary),
+            child: CupertinoActivityIndicator(
+                            color: ColorConst.Primary,
+                          ),
           ),
         );
       }
@@ -159,8 +163,8 @@ class AccountWidget extends StatelessWidget {
     final bool isImported = homeController.userAccounts
         .any((element) => element.publicKeyHash == accountModel.publicKeyHash);
 
-    return InkWell(
-      onTap: () {
+    return BouncingWidget(
+      onPressed: () {
         if (isImported) return;
         if (!isSelected) {
           controller.isLegacySelected.value

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:math';
 
 import 'package:dartez/dartez.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -202,22 +203,22 @@ class DelegateWidgetController extends GetxController {
         return delegateBakerList.value = value;
       });
     } catch (e) {
-      Get.closeAllSnackbars();
+      // Get.closeAllSnackbars();
 
-      Get.rawSnackbar(
-        onTap: (_) {
-          getBakerList();
-        },
-        message: "Failed to load, tap to try gain",
-        shouldIconPulse: true,
-        backgroundColor: ColorConst.NaanRed,
-        snackPosition: SnackPosition.BOTTOM,
-        maxWidth: 0.9.width,
-        margin: EdgeInsets.only(
-          bottom: 20.aR,
-        ),
-        duration: const Duration(milliseconds: 700),
-      );
+      // Get.rawSnackbar(
+      //   onTap: (_) {
+      //     getBakerList();
+      //   },
+      //   message: "Failed to load, tap to try gain",
+      //   shouldIconPulse: true,
+      //   backgroundColor: ColorConst.NaanRed,
+      //   snackPosition: SnackPosition.BOTTOM,
+      //   maxWidth: 0.9.width,
+      //   margin: EdgeInsets.only(
+      //     bottom: 20.aR,
+      //   ),
+      //   duration: const Duration(milliseconds: 700),
+      // );
       delegateBakerList.value = <DelegateBakerModel>[];
     }
   }
@@ -234,22 +235,22 @@ class DelegateWidgetController extends GetxController {
         return delegateRewardList.value = value;
       });
     } catch (e) {
-      Get.closeAllSnackbars();
+      // Get.closeAllSnackbars();
 
-      Get.rawSnackbar(
-        onTap: (_) {
-          getDelegateRewardList();
-        },
-        message: "Failed to load, tap to try again",
-        shouldIconPulse: true,
-        backgroundColor: ColorConst.NaanRed,
-        snackPosition: SnackPosition.BOTTOM,
-        maxWidth: 0.9.width,
-        margin: EdgeInsets.only(
-          bottom: 20.aR,
-        ),
-        duration: const Duration(milliseconds: 700),
-      );
+      // Get.rawSnackbar(
+      //   onTap: (_) {
+      //     getDelegateRewardList();
+      //   },
+      //   message: "Failed to load, tap to try again",
+      //   shouldIconPulse: true,
+      //   backgroundColor: ColorConst.NaanRed,
+      //   snackPosition: SnackPosition.BOTTOM,
+      //   maxWidth: 0.9.width,
+      //   margin: EdgeInsets.only(
+      //     bottom: 20.aR,
+      //   ),
+      //   duration: const Duration(milliseconds: 700),
+      // );
       delegateRewardList.value = <DelegateRewardModel>[];
     }
     getTotalRewards();
@@ -400,9 +401,9 @@ class DelegateWidgetController extends GetxController {
           height: 50,
           width: 50,
           child: Center(
-              child: CircularProgressIndicator(
-            color: ColorConst.Primary,
-          )),
+              child: CupertinoActivityIndicator(
+                            color: ColorConst.Primary,
+                          )),
         ));
     // if (Get.isOverlaysOpen) {
     //   Get.back();

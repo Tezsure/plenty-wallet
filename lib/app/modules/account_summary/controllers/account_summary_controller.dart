@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
@@ -14,6 +15,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:simple_gql/simple_gql.dart';
 
 import '../../../data/services/data_handler_service/data_handler_service.dart';
 import '../../../data/services/service_models/account_model.dart';
@@ -51,22 +53,25 @@ class AccountSummaryController extends GetxController {
   RxInt minTokens = 4.obs;
   RxList<AccountTokenModel> pinnedList = <AccountTokenModel>[].obs;
   RxList<AccountTokenModel> unPinnedList = <AccountTokenModel>[].obs;
-
+  List contracts = [];
   // ! NFT Related Variables
   RxMap<String, List<NftTokenModel>> userNfts =
       <String, List<NftTokenModel>>{}.obs; // List of user nfts
   RxBool isCollectibleListExpanded =
       false.obs; // false = show 3 collectibles, true = show all collectibles
 
+  int contractOffset = 0;
   int? callbackHash;
+  bool isLoadingMore = false;
+  RxBool nftLoading = false.obs;
   // ! Others
   RxBool isAccountDelegated =
       false.obs; // To check if current account is delegated
 
-  fetchAllNftscallback(_) {
+/*   fetchAllNftscallback(_) {
     // print("NFT Updated");
     _fetchAllNfts();
-  }
+  } */
 
   // ! Global Functions
   @override
@@ -78,13 +83,13 @@ class AccountSummaryController extends GetxController {
       xtzPrice.value = value;
     });
 
-    callbackHash = fetchAllNftscallback.hashCode;
+/*     callbackHash = fetchAllNftscallback.hashCode; */
     //print("acc $callbackHash");
 
-    DataHandlerService()
+/*     DataHandlerService()
         .renderService
         .accountNft
-        .registerCallback(fetchAllNftscallback);
+        .registerCallback(fetchAllNftscallback); */
 
     homePageController.userAccounts.listen((event) {
       fetchAllTokens();
@@ -92,7 +97,7 @@ class AccountSummaryController extends GetxController {
     });
     Future.delayed(const Duration(milliseconds: 300), () {
       fetchAllTokens();
-      _fetchAllNfts();
+      fetchAllNfts();
     });
 
     selectedTokenIndexSet.clear();
@@ -103,7 +108,7 @@ class AccountSummaryController extends GetxController {
   void onClose() {
     super.onClose();
 
-    DataHandlerService().renderService.accountNft.removeCallback(callbackHash);
+    /* DataHandlerService().renderService.accountNft.removeCallback(callbackHash); */
     print("Closed nft callback");
   }
 
@@ -249,15 +254,30 @@ class AccountSummaryController extends GetxController {
   }
 
   /// Fetches the user account NFTs
-  Future<void> _fetchAllNfts() async {
+  Future<void> fetchAllNfts() async {
     // userNfts.clear();
     if (selectedAccount.value.publicKeyHash == null) return;
+    isLoadingMore = true;
+    if (contractOffset == 0) {
+      nftLoading.value = true;
+    }
     UserStorageService()
         .getUserNftsString(userAddress: selectedAccount.value.publicKeyHash!)
         .then((nftList) async {
       nftList ??= "[]";
-      userNfts.value = await compute(getUserNft, nftList,
+      contracts = jsonDecode(nftList);
+      userNfts.value = await compute(
+          nftsIsolate,
+          [
+            [selectedAccount.value.publicKeyHash!],
+            contracts.skip(contractOffset).take(6).toList(),
+            userNfts.value
+          ],
           debugLabel: "getUserNft ACCOUNT SUMMARY");
+      contractOffset += 6;
+      isLoadingMore = false;
+      nftLoading.value = false;
+
 /*       for (var i = 0; i < nftList.length; i++) {
         userNfts[nftList[i].fa!.contract!] =
             (userNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
@@ -265,7 +285,45 @@ class AccountSummaryController extends GetxController {
     });
   }
 
-  static Map<String, List<NftTokenModel>> getUserNft(String nfts) {
+  static Future<Map<String, List<NftTokenModel>>> nftsIsolate(
+      /* int offsetContract,
+      List<String> publicKeyHashes, List<String> contracts */
+      List data) async {
+    {
+      int offset = 0;
+      List<NftTokenModel> nfts = [];
+      while (true) {
+        final response = await GQLClient(
+          'https://data.objkt.com/v3/graphql',
+        ).query(
+          query: ServiceConfig.getNftsFromContracts,
+          variables: {
+            'contracts': data[1],
+            'holders': data[0],
+            'offset': offset,
+          },
+        );
+        nfts = [
+          ...nfts,
+          ...(response.data['token'])
+              .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
+              .toList()
+        ];
+        offset += 500;
+        if (response.data['token'].length != 500) {
+          break;
+        }
+      }
+      Map<String, List<NftTokenModel>> userNfts = data[2];
+      for (var i = 0; i < nfts.length; i++) {
+        userNfts[nfts[i].faContract!] = (userNfts[nfts[i].faContract!] ?? [])
+          ..add(nfts[i]);
+      }
+      return userNfts;
+    }
+  }
+
+/*   static Map<String, List<NftTokenModel>> getUserNft(String nfts) {
     List<NftTokenModel> nftList = jsonDecode(nfts)
         .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
         .toList();
@@ -275,7 +333,7 @@ class AccountSummaryController extends GetxController {
           (userNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
     }
     return userNfts;
-  }
+  } */
 
   // ! Account Related Functions
   /// Change Selected Account Name
@@ -303,8 +361,11 @@ class AccountSummaryController extends GetxController {
       Get.find<AccountsWidgetController>().onPageChanged(index);
       //selectedAccountIndex.value = index;
       selectedAccount.value = homePageController.userAccounts[index];
+      contracts.clear();
+      contractOffset = 0;
+      userNfts.clear();
       fetchAllTokens();
-      _fetchAllNfts();
+      fetchAllNfts();
       loadUserTransaction();
     }
   }
@@ -332,6 +393,7 @@ class AccountSummaryController extends GetxController {
       return;
     } else if (index == homePageController.userAccounts.length - 1) {
       // When the last index is selected
+
       if (_isSelectedAccount(index)) {
         Get.find<AccountsWidgetController>().onPageChanged(index - 1);
         // selectedAccount.value = homePageController.userAccounts[index - 1];
@@ -346,6 +408,10 @@ class AccountSummaryController extends GetxController {
 /*     fetchAllTokens();
     _fetchAllNfts(); */
     loadUserTransaction();
+    contracts.clear();
+    userNfts.clear();
+    contractOffset = 0;
+    fetchAllNfts();
     Get
       ..back()
       ..back();

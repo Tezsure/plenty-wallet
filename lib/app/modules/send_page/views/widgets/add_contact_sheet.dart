@@ -63,8 +63,8 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
     return NaanBottomSheet(
       title: widget.isEditContact ? "Edit Contact" : 'Add Contact',
       isScrollControlled: true,
-      height: AppConstant.naanBottomSheetHeight -
-          MediaQuery.of(context).viewInsets.bottom,
+      // height: AppConstant.naanBottomSheetHeight -
+      //     MediaQuery.of(context).viewInsets.bottom,
       bottomSheetHorizontalPadding: 32.arP,
       bottomSheetWidgets: [
         SizedBox(
@@ -440,5 +440,4 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
   //     ),
   //   );
   // }
-
 }

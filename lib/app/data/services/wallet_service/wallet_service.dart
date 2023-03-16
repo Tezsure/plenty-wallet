@@ -65,6 +65,7 @@ class WalletService {
         isWalletBackedUp: false,
         derivationPathIndex: derivationIndex,
         name: name,
+        importedAt: DateTime.now(),
         imageType: imageType,
         profileImage: image,
         publicKeyHash: keyStore[2],
@@ -110,6 +111,7 @@ class WalletService {
       isNaanAccount: false,
       derivationPathIndex: 0,
       name: name,
+      importedAt: DateTime.now(),
       imageType: imageType,
       profileImage: image,
       publicKeyHash: keyStore[2],
@@ -146,6 +148,7 @@ class WalletService {
         isWalletBackedUp: true,
         derivationPathIndex: index,
         name: "",
+        importedAt: DateTime.now(),
         imageType: AccountProfileImageType.assets,
         profileImage: ServiceConfig.allAssetsProfileImages[
             Random().nextInt(ServiceConfig.allAssetsProfileImages.length - 1)],
@@ -183,6 +186,7 @@ class WalletService {
         isWalletBackedUp: true,
         derivationPathIndex: 0,
         name: "",
+        importedAt: DateTime.now(),
         imageType: AccountProfileImageType.assets,
         profileImage: ServiceConfig.allAssetsProfileImages[
             Random().nextInt(ServiceConfig.allAssetsProfileImages.length - 1)],
@@ -212,6 +216,7 @@ class WalletService {
   Future<AccountModel> importWatchAddress(String pkH, String name,
       AccountProfileImageType imageType, String image) async {
     var account = AccountModel(
+        importedAt: DateTime.now(),
         isNaanAccount: false,
         isWatchOnly: true,
         isWalletBackedUp: true,

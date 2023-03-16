@@ -72,8 +72,6 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                             ],
                           ),
                         )),
-                // const Spacer(),
-                // 0.075.vspace,
                 SizedBox(
                   height: 40.arP,
                 ),

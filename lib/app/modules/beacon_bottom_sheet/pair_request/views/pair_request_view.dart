@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -86,8 +87,8 @@ class PairRequestView extends GetView<PairRequestController> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(4),
-                  child: InkWell(
-                    onTap: () {
+                  child: BouncingWidget(
+                    onPressed: () {
                       controller.changeAccount();
                     },
                     child: Obx(() => Container(

@@ -9,7 +9,10 @@ import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
+import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/image_picker.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_listview.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
@@ -19,10 +22,13 @@ import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/custom_packages/custom_checkbox.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/app/modules/import_wallet_page/views/import_wallet_page_view.dart';
+import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:get/get.dart';
 
@@ -107,92 +113,213 @@ class CreateNewNftGalleryBottomSheet
 
   /// Select account widget for creating new gallery
   Widget selectAccountWidget() {
-    if (controller.accounts?.isEmpty ?? true) {
-      return const NoAccountsFoundBottomSheet();
-    }
+    // if (controller.accounts.isEmpty) {
+    //   return noAccountsWidget();
+    // }
     return NaanBottomSheet(
-      title: "Select accounts",
+      title: controller.accounts.isEmpty ? "" : "Select accounts",
       bottomSheetHorizontalPadding: 0,
-      height: AppConstant.naanBottomSheetHeight,
+      isScrollControlled: true,
+      // height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
+        Obx(() {
+          return SizedBox(
+            height: AppConstant.naanBottomSheetChildHeight - 40,
+            child: controller.accounts.isEmpty
+                ? noAccountsWidget()
+                : _accountSelectorList(),
+          );
+        }),
+      ],
+    );
+  }
+
+  Column _accountSelectorList() {
+    return Column(
+      // mainAxisAlignment: MainAxisAlignment.start,
+      // mainAxisSize: MainAxisSize.min,
+      // crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
         SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight - 40,
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            // mainAxisSize: MainAxisSize.min,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 12.arP,
-              ),
-              Text(
-                "Choose accounts to add to your gallery.\nYou can always edit these later",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: const Color(0xFF958E99),
-                  fontSize: 12.arP,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0.4.arP,
-                ),
-              ),
-              SizedBox(
-                height: 12.arP,
-              ),
-              controller.accounts != null
-                  ? Expanded(
-                      flex: 1,
-                      child: NaanListView(
-                        listViewEdgeInsets: EdgeInsets.only(
-                          left: 16.arP,
-                          right: 16.arP,
-                        ),
-                        itemBuilder: (context, index) => accountItemWidget(
-                            index, controller.accounts![index]),
-                        itemCount: controller.accounts!.length,
-                        topSpacing: 18.spH,
-                        bottomSpacing: 18.spH,
-                      ),
-                    )
-                  : Container(),
-              Container(
-                margin: EdgeInsets.only(
-                  left: 16.arP + 16.arP,
-                  right: 16.arP + 16.arP,
-                  bottom: 40.arP,
-                  top: 30.spH,
-                ),
-                child: Obx(
-                  () => SolidButton(
-                    title:
-                        "Next (${controller.selectedAccountIndex.values.where((element) => element == true).toList().length}/5)",
-                    height: 50.arP,
-                    active: controller.selectedAccountIndex.isNotEmpty &&
-                            controller.selectedAccountIndex.values
-                                .contains(true)
-                        ? true
-                        : false,
-                    borderRadius: 8.arP,
-                    titleStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.arP,
-                      fontWeight: FontWeight.w600,
+          height: 12.arP,
+        ),
+        Text(
+          "Choose accounts to add to your gallery.\nYou can always edit these later",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: const Color(0xFF958E99),
+            fontSize: 12.arP,
+            fontWeight: FontWeight.w400,
+            letterSpacing: 0.4.arP,
+          ),
+        ),
+        SizedBox(
+          height: 12.arP,
+        ),
+        controller.accounts.isNotEmpty
+            ? Obx(
+                () => Expanded(
+                  flex: 1,
+                  child: NaanListView(
+                    listViewEdgeInsets: EdgeInsets.only(
+                      left: 16.arP,
+                      right: 16.arP,
                     ),
-                    onPressed: () {
-                      controller.accountNameFocus.requestFocus();
-                      controller.formIndex.value = 1;
-                    },
+                    itemBuilder: (context, index) =>
+                        accountItemWidget(index, controller.accounts[index]),
+                    itemCount: controller.accounts.length,
+                    topSpacing: 18.spH,
+                    bottomSpacing: 18.spH,
                   ),
                 ),
+              )
+            : Container(),
+        controller.selectedAccountIndex.values
+                .where((element) => element == true)
+                .toList()
+                .isEmpty
+            ? _importWatchAddressButton()
+            : Container(),
+        Container(
+          margin: EdgeInsets.only(
+            left: 16.arP + 16.arP,
+            right: 16.arP + 16.arP,
+            bottom: 40.arP,
+            top: 30.arP,
+          ),
+          child: Obx(
+            () => SolidButton(
+              title:
+                  "Next (${controller.selectedAccountIndex.values.where((element) => element == true).toList().length}/5)",
+              height: 50.arP,
+              active: controller.selectedAccountIndex.isNotEmpty &&
+                      controller.selectedAccountIndex.values.contains(true)
+                  ? true
+                  : false,
+              borderRadius: 8.arP,
+              titleStyle: TextStyle(
+                color: controller.selectedAccountIndex.isNotEmpty &&
+                        controller.selectedAccountIndex.values.contains(true)
+                    ? Colors.white
+                    : const Color(0xff958E99),
+                fontSize: 14.arP,
+                fontWeight: FontWeight.w600,
               ),
-            ],
+              onPressed: () {
+                controller.accountNameFocus.requestFocus();
+                controller.formIndex.value = 1;
+              },
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget accountItemWidget(int index, AccountModel accountModel) => InkWell(
-        onTap: () {
+  Widget noAccountsWidget() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        // mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Spacer(),
+          SvgPicture.asset(
+            "${PathConst.EMPTY_STATES}no_accounts.svg",
+            height: 175.arP,
+            width: 175.arP,
+          ),
+          0.05.vspace,
+          Text(
+            "No accounts found",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              decoration: TextDecoration.none,
+              fontSize: 22.arP,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(
+            height: 12.arP,
+          ),
+          Text(
+            "Create or import new account to proceed",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: const Color(0xFF958E99),
+              decoration: TextDecoration.none,
+              fontSize: 12.arP,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 0.4.arP,
+            ),
+          ),
+          Spacer(),
+          SolidButton(
+            width: 1.width - 64.arP,
+            onPressed: _onImportAccount,
+            title: "Add a watch address",
+          ),
+          BottomButtonPadding()
+        ],
+      ),
+    );
+  }
+
+  BouncingWidget _importWatchAddressButton() {
+    return BouncingWidget(
+      onPressed: _onImportAccount,
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: 16.arP,
+          left: 16.arP,
+          right: 16.arP,
+        ),
+        child: Row(
+          children: [
+            Image.asset(
+              "${PathConst.EMPTY_STATES}plus.png",
+              height: 16.aR,
+              fit: BoxFit.contain,
+              scale: 1,
+            ),
+            0.02.hspace,
+            Text(
+              "Add a watch address",
+              style: labelLarge.copyWith(
+                  fontSize: 14.aR,
+                  color: ColorConst.Primary,
+                  fontWeight: FontWeight.w600),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  _onImportAccount() async {
+    String pkh = await Get.bottomSheet(
+        ImportWalletPageView(
+          isBottomSheet: true,
+          isWatchAddress: true,
+        ),
+        isScrollControlled: true);
+    controller.accounts.value = await UserStorageService().getAllAccount() +
+        (await UserStorageService().getAllAccount(watchAccountsList: true));
+
+    controller.selectedAccountIndex[pkh] = controller
+                .selectedAccountIndex.values
+                .where((element) => element == true)
+                .toList()
+                .length !=
+            5
+        ? true
+        : false;
+  }
+
+  Widget accountItemWidget(int index, AccountModel accountModel) =>
+      BouncingWidget(
+        onPressed: () {
           if (controller.selectedAccountIndex.values
                       .where((element) => element == true)
                       .toList()
@@ -330,12 +457,14 @@ class CreateNewNftGalleryBottomSheet
         bottomSheetHorizontalPadding: 0,
         title:
             nftGalleryModel != null ? "Edit your gallery" : "Name your gallery",
-        height: AppConstant.naanBottomSheetHeight,
+
+        // height: AppConstant.naanBottomSheetHeight,
         isScrollControlled: true,
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight -
-                MediaQuery.of(context).viewInsets.bottom,
+                MediaQuery.of(context).viewInsets.bottom -
+                64.arP,
             child: Column(
               children: [
                 Obx(
@@ -343,7 +472,7 @@ class CreateNewNftGalleryBottomSheet
                     height: 104.arP,
                     width: 104.arP,
                     margin: EdgeInsets.only(
-                      top: 69.7.arP,
+                      top: 34.2.arP,
                     ),
                     alignment: Alignment.bottomRight,
                     decoration: BoxDecoration(
@@ -360,8 +489,8 @@ class CreateNewNftGalleryBottomSheet
                               ) as ImageProvider,
                       ),
                     ),
-                    child: GestureDetector(
-                      onTap: () {
+                    child: BouncingWidget(
+                      onPressed: () {
                         Get.bottomSheet(
                           changePhotoBottomSheet(),
                           enterBottomSheetDuration:
@@ -416,7 +545,7 @@ class CreateNewNftGalleryBottomSheet
                     margin: EdgeInsets.only(
                       left: 16.arP + 16.arP,
                       right: 16.arP + 16.arP,
-                      bottom: 40.arP,
+                      bottom: 35.arP,
                       top: 30.spH,
                     ),
                     child: Obx(() {

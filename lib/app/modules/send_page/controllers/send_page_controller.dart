@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:dartez/models/key_store_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,7 @@ import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_
 import 'package:naan_wallet/app/modules/send_page/views/widgets/token_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/utils/utils.dart';
+import 'package:simple_gql/simple_gql.dart';
 
 class SendPageController extends GetxController {
   AccountModel? senderAccountModel;
@@ -31,6 +34,8 @@ class SendPageController extends GetxController {
   Rx<TextfieldType> selectedTextfieldType = TextfieldType.token.obs;
   RxString estimatedFee = "0.00181".obs;
   int? callbackHash;
+  int contractOffset = 0;
+  List contracts = [];
   @override
   void onInit() {
     super.onInit();
@@ -246,6 +251,9 @@ class SendPageController extends GetxController {
     contacts.value = await UserStorageService().getAllSavedContacts();
   }
 
+  bool isLoadingMore = false;
+  RxBool nftLoading = false.obs;
+
   // * Collection Page * //
 
   RxBool isTokensExpanded =
@@ -306,14 +314,72 @@ class SendPageController extends GetxController {
   }
 
   Future<void> fetchAllNfts() async {
+    // userNfts.clear();
+    if (senderAccountModel!.publicKeyHash == null) return;
+/*     isLoadingMore = true;
+    if (contractOffset == 0) {
+      nftLoading.value = true;
+    } */
     UserStorageService()
-        .getUserNfts(userAddress: senderAccountModel!.publicKeyHash!)
-        .then((nftList) {
-      for (var i = 0; i < nftList.length; i++) {
+        .getUserNftsString(userAddress: senderAccountModel!.publicKeyHash!)
+        .then((nftList) async {
+      nftList ??= "[]";
+      contracts = jsonDecode(nftList);
+      userNfts.value = await compute(
+          nftsIsolate,
+          [
+            [senderAccountModel!.publicKeyHash!],
+            contracts.toList(),
+            userNfts.value
+          ],
+          debugLabel: "getUserNft ACCOUNT SUMMARY");
+      //contractOffset += 6;
+      //isLoadingMore = false;
+      //nftLoading.value = false;
+
+/*       for (var i = 0; i < nftList.length; i++) {
         userNfts[nftList[i].fa!.contract!] =
             (userNfts[nftList[i].fa!.contract!] ?? [])..add(nftList[i]);
-      }
+      } */
     });
+  }
+
+  static Future<Map<String, List<NftTokenModel>>> nftsIsolate(
+      /* int offsetContract,
+      List<String> publicKeyHashes, List<String> contracts */
+      List data) async {
+    {
+      int offset = 0;
+      List<NftTokenModel> nfts = [];
+      while (true) {
+        final response = await GQLClient(
+          'https://data.objkt.com/v3/graphql',
+        ).query(
+          query: ServiceConfig.getNftsFromContracts,
+          variables: {
+            'contracts': data[1],
+            'holders': data[0],
+            'offset': offset,
+          },
+        );
+        nfts = [
+          ...nfts,
+          ...(response.data['token'])
+              .map<NftTokenModel>((e) => NftTokenModel.fromJson(e))
+              .toList()
+        ];
+        offset += 500;
+        if (response.data['token'].length != 500) {
+          break;
+        }
+      }
+      Map<String, List<NftTokenModel>> userNfts = data[2];
+      for (var i = 0; i < nfts.length; i++) {
+        userNfts[nfts[i].faContract!] = (userNfts[nfts[i].faContract!] ?? [])
+          ..add(nfts[i]);
+      }
+      return userNfts;
+    }
   }
 
   // * Token/Send Review Page * //

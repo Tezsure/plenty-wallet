@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/collectible_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -135,9 +136,9 @@ class TokenAndNftPageView extends GetView<SendPageController> {
     );
   }
 
-  GestureDetector collectibleExpandButton() {
-    return GestureDetector(
-      onTap: () {
+  Widget collectibleExpandButton() {
+    return BouncingWidget(
+      onPressed: () {
         controller.isCollectibleExpanded.value =
             !controller.isCollectibleExpanded.value;
       },
@@ -178,8 +179,8 @@ class TokenAndNftPageView extends GetView<SendPageController> {
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: InkWell(
-        onTap: onTap,
+      child: BouncingWidget(
+        onPressed: tokenModel.balance != 0 ? onTap : () {},
         child: SizedBox(
           height: 0.06.height,
           child: Row(

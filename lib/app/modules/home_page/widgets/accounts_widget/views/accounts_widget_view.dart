@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/account_summary_view.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/scrolling_dot_effect.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
@@ -78,7 +79,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                             )
                           : Container(
                               decoration: BoxDecoration(
-                                color: const Color(0xff958E99).withOpacity(0.2),
+                                // color: const Color(0xff958E99).withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(22.arP),
                               ),
                               width: double.infinity,
@@ -180,8 +181,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   }
 
   Widget accountContainer(AccountModel model, int index) {
-    return InkWell(
-        onTap: () {
+    return BouncingWidget(
+        onPressed: () {
           homePageController.changeSelectedAccount(index);
           Get.bottomSheet(
             const AccountSummaryView(),
@@ -229,8 +230,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                         style: labelMedium,
                       ),
                       Expanded(
-                        child: InkWell(
-                          onTap: () {
+                        child: BouncingWidget(
+                          onPressed: () {
                             Clipboard.setData(
                                 ClipboardData(text: model.publicKeyHash));
                             Get.rawSnackbar(
@@ -317,45 +318,22 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  RawMaterialButton(
-                                    constraints: BoxConstraints(
-                                        minWidth: 48.arP, minHeight: 48.arP),
-                                    elevation: 1,
-                                    padding: const EdgeInsets.all(8),
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    enableFeedback: true,
-                                    onPressed: () => Get.bottomSheet(
-                                        const SendPage(),
-                                        enterBottomSheetDuration:
-                                            const Duration(milliseconds: 180),
-                                        exitBottomSheetDuration:
-                                            const Duration(milliseconds: 150),
-                                        isScrollControlled: true,
-                                        settings: RouteSettings(
-                                          arguments: model,
-                                        ),
-                                        barrierColor:
-                                            Colors.white.withOpacity(0.09)),
-                                    fillColor: ColorConst.Primary.shade0,
-                                    shape: const CircleBorder(
-                                        side: BorderSide.none),
-                                    child: Image.asset(
-                                      "${PathConst.HOME_PAGE}send.png",
-                                      width: 22.arP,
-                                      height: 22.arP,
-                                    ),
-                                  ),
+                                  action(
+                                      () => Get.bottomSheet(const SendPage(),
+                                          enterBottomSheetDuration:
+                                              const Duration(milliseconds: 180),
+                                          exitBottomSheetDuration:
+                                              const Duration(milliseconds: 150),
+                                          isScrollControlled: true,
+                                          settings: RouteSettings(
+                                            arguments: model,
+                                          ),
+                                          barrierColor:
+                                              Colors.white.withOpacity(0.09)),
+                                      "${PathConst.HOME_PAGE}send.png"),
                                   0.036.hspace,
-                                  RawMaterialButton(
-                                    enableFeedback: true,
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    padding: const EdgeInsets.all(8),
-                                    constraints: BoxConstraints(
-                                        minWidth: 48.arP, minHeight: 48.arP),
-                                    elevation: 1,
-                                    onPressed: () => Get.bottomSheet(
+                                  action(
+                                    () => Get.bottomSheet(
                                         const ReceivePageView(),
                                         enterBottomSheetDuration:
                                             const Duration(milliseconds: 180),
@@ -367,14 +345,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                         ),
                                         barrierColor:
                                             Colors.white.withOpacity(0.09)),
-                                    fillColor: ColorConst.Primary.shade0,
-                                    shape: const CircleBorder(
-                                        side: BorderSide.none),
-                                    child: Image.asset(
-                                      "${PathConst.HOME_PAGE}qr.png",
-                                      width: 22.arP,
-                                      height: 22.arP,
-                                    ),
+                                    "${PathConst.HOME_PAGE}qr.png",
                                   ),
                                 ],
                               ),
@@ -388,6 +359,24 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             ),
           ],
         ));
+  }
+
+  Widget action(Function() onTap, String icon) {
+    return BouncingWidget(
+      onPressed: onTap,
+      child: Container(
+        padding: EdgeInsets.all(13.arP),
+        width: 48.arP,
+        height: 48.arP,
+        decoration: BoxDecoration(
+            color: ColorConst.Primary.shade0, shape: BoxShape.circle),
+        child: Image.asset(
+          icon,
+          width: 22.arP,
+          height: 22.arP,
+        ),
+      ),
+    );
   }
 }
 

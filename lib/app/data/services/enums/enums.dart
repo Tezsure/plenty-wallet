@@ -9,6 +9,7 @@ enum ImportWalletDataType {
   privateKey,
   watchAddress,
   mnemonic,
+  tezDomain,
   none,
 }
 
