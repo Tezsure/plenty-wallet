@@ -207,9 +207,9 @@ class SettingsPageController extends GetxController {
     await Get.delete<BeaconService>(force: true);
     await Get.delete<HomePageController>(force: true);
     await Get.deleteAll(force: true);
-    Get.reset();
-    Phoenix.rebirth(Get.context!);
 
+    Phoenix.rebirth(Get.context!);
+    Get.reset();
   }
 
   /// Change Currency
@@ -415,11 +415,12 @@ class SettingsPageController extends GetxController {
       } else {
         Get.back();
         CommonFunctions.bottomSheet(
-          BackupWalletView(
-            prevPage: null,
-            seedPhrase: seedPhrase,
-          ),fullscreen: true
-        ).whenComplete(getWalletBackupStatus);
+                BackupWalletView(
+                  prevPage: null,
+                  seedPhrase: seedPhrase,
+                ),
+                fullscreen: true)
+            .whenComplete(getWalletBackupStatus);
       }
     }
   }

@@ -229,7 +229,7 @@ class HistoryFilterSheet extends StatelessWidget {
                   Text(
                     title.tr,
                     style: labelMedium.copyWith(
-                        fontSize: 12.arP,
+                        fontSize: 11.arP,
                         color: isSelected
                             ? Colors.white
                             : ColorConst.NeutralVariant.shade60),
