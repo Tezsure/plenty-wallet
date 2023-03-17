@@ -127,6 +127,12 @@ class BeaconService extends GetxService {
   }
 
   @override
+  void stop() {
+    beaconPlugin.stop();
+    super.onClose();
+  }
+
+  @override
   void onClose() {
     print("BeaconService Closed");
     super.onClose();

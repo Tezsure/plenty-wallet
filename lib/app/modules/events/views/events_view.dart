@@ -201,7 +201,7 @@ class EventsView extends GetView<EventsController> {
               AppConstant.hapticFeedback();
               controller.changeFilter(index);
             },
-            padding: EdgeInsets.symmetric(horizontal: 20.arP, vertical: 8.arP),
+            padding: EdgeInsets.symmetric(horizontal: 12.arP, vertical: 8.arP),
             backgroundColor:
                 isSelected ? ColorConst.Primary : const Color(0xff1E1C1F),
             label: Text(index == 0 ? "Overview" : controller.tags[index - 1],

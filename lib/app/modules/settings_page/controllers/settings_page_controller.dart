@@ -204,6 +204,7 @@ class SettingsPageController extends GetxController {
         ? nodeModel.value.mainnet!.nodes!.first
         : nodeModel.value.testnet!.nodes!.first;
     await changeNode(node);
+    Get.find<BeaconService>().stop();
     await Get.delete<BeaconService>(force: true);
     await Get.delete<HomePageController>(force: true);
     await Get.deleteAll(force: true);
