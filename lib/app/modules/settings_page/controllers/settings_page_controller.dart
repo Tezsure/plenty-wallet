@@ -204,8 +204,8 @@ class SettingsPageController extends GetxController {
         ? nodeModel.value.mainnet!.nodes!.first
         : nodeModel.value.testnet!.nodes!.first;
     await changeNode(node);
-    Get.delete<BeaconService>(force: true);
-    Get.delete<HomePageController>(force: true);
+    await Get.delete<BeaconService>(force: true);
+    await Get.delete<HomePageController>(force: true);
     await Get.deleteAll(force: true);
     Get.reset();
     Phoenix.rebirth(Get.context!);
