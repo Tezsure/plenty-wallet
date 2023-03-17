@@ -205,10 +205,11 @@ class SettingsPageController extends GetxController {
         : nodeModel.value.testnet!.nodes!.first;
     await changeNode(node);
     Get.delete<BeaconService>(force: true);
+    Get.delete<HomePageController>(force: true);
     await Get.deleteAll(force: true);
-
-    Phoenix.rebirth(Get.context!);
     Get.reset();
+    Phoenix.rebirth(Get.context!);
+
   }
 
   /// Change Currency
