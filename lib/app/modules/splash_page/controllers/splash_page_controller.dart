@@ -32,18 +32,18 @@ class SplashPageController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 800));
     // un-comment below line to test onboarding flow multiple time
 
-    // await ServiceConfig().clearStorage();
-    try {
-      final translationHelper = TranslationHelper();
+    // // await ServiceConfig().clearStorage();
+    // try {
+    //   final translationHelper = TranslationHelper();
 
-      final translations = await translationHelper.getTranslations();
-      if (translations != null) {
-        Get.clearTranslations();
-        Get.addTranslations(translations.keys);
-      }
-    } catch (e) {
-      log(e.toString());
-    }
+    //   final translations = await translationHelper.getTranslations();
+    //   if (translations != null) {
+    //     Get.clearTranslations();
+    //     Get.addTranslations(translations.keys);
+    //   }
+    // } catch (e) {
+    //   log(e.toString());
+    // }
     ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
         ServiceConfig.currentSelectedNode;
     await DataHandlerService().initDataServices();
