@@ -42,11 +42,11 @@ class _AccountsWidgetState extends State<AccountsWidget>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
-    // controller.pageController = PageController(
-    //   keepPage: true,
-    //   viewportFraction: 1,
-    //   initialPage: controller.currIndex.value,
-    // );
+    controller.pageController = PageController(
+      keepPage: true,
+      viewportFraction: 1,
+      initialPage: controller.currIndex.value,
+    );
     // TODO: implement initState
     super.initState();
   }
