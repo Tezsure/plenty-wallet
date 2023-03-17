@@ -19,7 +19,8 @@ class NftGalleryWidget extends StatefulWidget {
   State<NftGalleryWidget> createState() => _NftGalleryWidgetState();
 }
 
-class _NftGalleryWidgetState extends State<NftGalleryWidget> {
+class _NftGalleryWidgetState extends State<NftGalleryWidget>
+    with AutomaticKeepAliveClientMixin {
   int currIndex = 0;
   NftGalleryWidgetController controller =
       Get.find<NftGalleryWidgetController>();
@@ -265,6 +266,9 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget> {
       );
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 

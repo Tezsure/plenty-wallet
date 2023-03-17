@@ -95,40 +95,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
         width: double.infinity,
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 22,
-              backgroundColor: dappModel.icon == null
-                  ? ColorConst.NeutralVariant.shade60.withOpacity(0.2)
-                  : ColorConst.Primary,
-              backgroundImage: dappModel.icon == null
-                  ? null
-                  : Image.network(
-                      dappModel.icon ?? "",
-                      errorBuilder: (context, error, stackTrace) => Text(
-                        dappModel.name.substring(0, 1).toUpperCase(),
-                        style: titleMedium,
-                      ),
-                    ).image,
-              child: dappModel.icon == null
-                  ? Container(
-                      width: 24.aR,
-                      height: 24.aR,
-                      decoration: BoxDecoration(
-                        color:
-                            ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          dappModel.name.substring(0, 1).toUpperCase(),
-                          style: bodySmall.copyWith(
-                            color: ColorConst.NeutralVariant.shade60,
-                          ),
-                        ),
-                      ),
-                    )
-                  : Container(),
-            ),
+            _buildImage(dappModel),
             0.045.hspace,
             Text(
               dappModel.name,
@@ -141,6 +108,49 @@ class ConnectedDappBottomSheet extends StatelessWidget {
               width: 20.arP,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImage(P2PPeer dappModel) {
+    return SizedBox(
+      width: 44.arP,
+      height: 44.arP,
+      child: ClipOval(
+          child: dappModel.icon?.contains(".svg") ?? false
+              ? SvgPicture.network(
+                  dappModel.icon ?? "",
+                )
+              : Image.network(
+                  dappModel.icon ?? "",
+                  errorBuilder: (context, error, stackTrace) {
+                    return _errorBuilder(dappModel);
+                  },
+                )),
+    );
+  }
+
+  Container _errorBuilder(P2PPeer dappModel) {
+    return Container(
+      padding: EdgeInsets.all(6.arP),
+      alignment: Alignment.center,
+      color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+      child: Container(
+        width: 24.aR,
+        height: 24.aR,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+          shape: BoxShape.circle,
+        ),
+        child: Center(
+          child: Text(
+            dappModel.name.substring(0, 1),
+            style: bodySmall.copyWith(
+              color: ColorConst.NeutralVariant.shade60,
+            ),
+          ),
         ),
       ),
     );

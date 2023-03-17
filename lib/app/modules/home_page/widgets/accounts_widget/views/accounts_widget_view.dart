@@ -38,7 +38,8 @@ class AccountsWidget extends StatefulWidget {
   State<AccountsWidget> createState() => _AccountsWidgetState();
 }
 
-class _AccountsWidgetState extends State<AccountsWidget> {
+class _AccountsWidgetState extends State<AccountsWidget>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     // controller.pageController = PageController(
@@ -377,6 +378,10 @@ class _AccountsWidgetState extends State<AccountsWidget> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 

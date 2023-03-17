@@ -83,7 +83,7 @@ class ResetWalletBottomSheet extends StatelessWidget {
                     }
                   }
                   try {
-                    Get.find<HomePageController>().dispose();
+                    Get.find<HomePageController>().resetUserAccounts();
                   } catch (_) {}
                   try {
                     Get.find<NftGalleryWidgetController>().fetchNftGallerys();

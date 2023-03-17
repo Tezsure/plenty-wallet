@@ -13,6 +13,7 @@ import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/translation/translation_helper.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
@@ -71,6 +72,7 @@ class SplashPageController extends GetxController {
             .length;
 
     Get.put(NftGalleryWidgetController(), permanent: true);
+    Get.put(HomePageController(), permanent: true);
 
     if (walletAccountsLength != 0 || watchAccountsLength != 0) {
       bool isPasscodeSet = await AuthService().getIsPassCodeSet();
