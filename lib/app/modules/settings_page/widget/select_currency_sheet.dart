@@ -40,13 +40,11 @@ class _SelectCurrencyBottomSheetState extends State<SelectCurrencyBottomSheet> {
       leading: backButton(
           lastPageName: "Settings", ontap: () => Navigator.pop(context)),
       height: AppConstant.naanBottomSheetChildHeight,
-      bottomSheetHorizontalPadding: 0,
+      // bottomSheetHorizontalPadding: 0,
       bottomSheetWidgets: [
         Column(
           children: [
-            SizedBox(
-              height: 30.aR,
-            ),
+            0.02.vspace,
             optionMethod(
               value: "tez",
               title: "Tezos (Tez)",

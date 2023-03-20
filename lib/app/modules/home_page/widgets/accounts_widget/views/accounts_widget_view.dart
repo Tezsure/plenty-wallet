@@ -38,7 +38,8 @@ class AccountsWidget extends StatefulWidget {
   State<AccountsWidget> createState() => _AccountsWidgetState();
 }
 
-class _AccountsWidgetState extends State<AccountsWidget> {
+class _AccountsWidgetState extends State<AccountsWidget>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     controller.pageController = PageController(
@@ -190,7 +191,6 @@ class _AccountsWidgetState extends State<AccountsWidget> {
           CommonFunctions.bottomSheet(
             AccountSummaryView(),
             fullscreen: true,
-   
           );
         },
         child: Stack(
@@ -198,7 +198,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             Container(
               width: 1.width,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(22), gradient: accountBg),
+                  borderRadius: BorderRadius.circular(22.arP),
+                  gradient: accountBg),
             ),
             Padding(
               padding: EdgeInsets.all(0.04.width),
@@ -240,14 +241,14 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                               backgroundColor: Colors.transparent,
                               snackPosition: SnackPosition.BOTTOM,
                               snackStyle: SnackStyle.FLOATING,
-                              padding: const EdgeInsets.only(bottom: 60),
+                              padding: EdgeInsets.only(bottom: 60.arP),
                               messageText: Container(
                                 height: 36.arP,
                                 padding:
                                     EdgeInsets.symmetric(horizontal: 10.arP),
                                 decoration: BoxDecoration(
                                     color: ColorConst.Neutral.shade10,
-                                    borderRadius: BorderRadius.circular(8)),
+                                    borderRadius: BorderRadius.circular(8.arP)),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -377,6 +378,10 @@ class _AccountsWidgetState extends State<AccountsWidget> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 

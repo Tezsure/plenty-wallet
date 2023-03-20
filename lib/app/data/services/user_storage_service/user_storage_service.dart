@@ -101,19 +101,19 @@ class UserStorageService {
 
   static Future<Currency> getCurrency() async {
     try {
-      Locale locale = Localizations.localeOf(Get.context!);
+      Locale locale = Get.deviceLocale ?? const Locale("en", "US");
 
       var format = NumberFormat.simpleCurrency(locale: locale.toString());
       print(
-          "${format.currencyName} ${format.currencySymbol} ${locale.countryCode}");
+          "${format.currencyName} ${format.currencySymbol} ${locale.countryCode} ${format.currencyName == "INR"} ");
       return Currency.values.byName((await ServiceConfig.localStorage.read(
             key: ServiceConfig.currencySelectedStorage,
           )) ??
           (format.currencyName == "INR"
-              ? "INR"
+              ? "inr"
               : format.currencyName == "EUR"
-                  ? "EUR"
-                  : "USD"));
+                  ? "eur"
+                  : "usd"));
     } catch (e) {
 /*       print(e);
       print("default currency used"); */

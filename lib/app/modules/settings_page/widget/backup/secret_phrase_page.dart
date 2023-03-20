@@ -44,7 +44,7 @@ class SecretPhrasePage extends StatelessWidget {
       prevPageName: prevPage,
       // isScrollControlled: true,
       height: AppConstant.naanBottomSheetHeight - 64.arP,
-      bottomSheetHorizontalPadding: 0,
+      // bottomSheetHorizontalPadding: 0,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight,

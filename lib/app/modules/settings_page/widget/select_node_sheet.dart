@@ -47,7 +47,7 @@ class _SelectNodeBottomSheetState extends State<SelectNodeBottomSheet> {
       height:
           widget.prevPage == null ? null : (AppConstant.naanBottomSheetHeight),
       isScrollControlled: widget.prevPage == null,
-      bottomSheetHorizontalPadding: widget.prevPage == null ? null : 0,
+      // bottomSheetHorizontalPadding: widget.prevPage == null ? null : 0,
       bottomSheetWidgets: [
         SizedBox(
           height: widget.prevPage == null

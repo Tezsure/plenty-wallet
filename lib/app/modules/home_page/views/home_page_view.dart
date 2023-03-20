@@ -12,8 +12,21 @@ import '../controllers/home_page_controller.dart';
 import '../widgets/home_app_bar_widget/home_app_bar_widget.dart';
 import '../widgets/register_widgets.dart';
 
-class HomePageView extends GetView<HomePageController> {
+class HomePageView extends StatefulWidget {
   HomePageView({super.key});
+
+  @override
+  State<HomePageView> createState() => _HomePageViewState();
+}
+
+class _HomePageViewState extends State<HomePageView> {
+  late HomePageController controller;
+  @override
+  void initState() {
+    controller = Get.find<HomePageController>();
+    controller.onReady();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

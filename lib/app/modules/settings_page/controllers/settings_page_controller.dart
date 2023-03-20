@@ -204,7 +204,12 @@ class SettingsPageController extends GetxController {
         ? nodeModel.value.mainnet!.nodes!.first
         : nodeModel.value.testnet!.nodes!.first;
     await changeNode(node);
+    Get.find<BeaconService>().stop();
+    await Get.delete<BeaconService>(force: true);
+    Get.find<HomePageController>().resetUserAccounts();
+    await Get.delete<HomePageController>(force: true);
     await Get.deleteAll(force: true);
+
     Phoenix.rebirth(Get.context!);
     Get.reset();
   }
@@ -412,11 +417,12 @@ class SettingsPageController extends GetxController {
       } else {
         Get.back();
         CommonFunctions.bottomSheet(
-          BackupWalletView(
-            prevPage: null,
-            seedPhrase: seedPhrase,
-          ),fullscreen: true
-        ).whenComplete(getWalletBackupStatus);
+                BackupWalletView(
+                  prevPage: null,
+                  seedPhrase: seedPhrase,
+                ),
+                fullscreen: true)
+            .whenComplete(getWalletBackupStatus);
       }
     }
   }

@@ -51,7 +51,9 @@ class AccountWidget extends StatelessWidget {
                                 (index) => accountWidget(index),
                               )
                             : List.generate(
-                                controller.generatedAccounts.length - 1,
+                                controller.generatedAccounts.isEmpty
+                                    ? 0
+                                    : (controller.generatedAccounts.length - 1),
                                 (index) => accountWidget(index + 1),
                               ),
                       ),
@@ -93,8 +95,11 @@ class AccountWidget extends StatelessWidget {
                                   physics: AppConstant.scrollPhysics,
                                   itemBuilder: (context, index) =>
                                       accountWidget(index + 1),
-                                  itemCount:
-                                      controller.generatedAccounts.length - 1,
+                                  itemCount: controller
+                                          .generatedAccounts.isEmpty
+                                      ? 0
+                                      : (controller.generatedAccounts.length -
+                                          1),
                                   shrinkWrap: true,
                                 ),
                         ),

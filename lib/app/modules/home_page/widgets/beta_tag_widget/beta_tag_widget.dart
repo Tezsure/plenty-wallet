@@ -28,7 +28,7 @@ class BetaTagWidget extends StatefulWidget {
 }
 
 class _BetaTagWidgetState extends State<BetaTagWidget> {
-  String version = "2.0.4";
+  String version = "2.0.5";
   @override
   void initState() {
     PackageInfo.fromPlatform().then((packageInfo) {
@@ -91,7 +91,7 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
     return Container(
       decoration: BoxDecoration(
           color: Colors.black, borderRadius: BorderRadius.circular(11.arP)),
-      padding: EdgeInsets.all(16.arP),
+      padding: EdgeInsets.all(AppConstant.homeWidgetDimension / 11),
       height: AppConstant.homeWidgetDimension / 2.5,
       width: AppConstant.homeWidgetDimension / 2.5,
       child: Image.asset("assets/naan_logo.png"),

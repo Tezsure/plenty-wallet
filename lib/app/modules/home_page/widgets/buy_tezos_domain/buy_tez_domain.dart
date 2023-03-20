@@ -92,7 +92,7 @@ class _TezosDomainWidgetState extends State<TezosDomainWidget> {
     return Container(
       decoration:
           const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-      padding: EdgeInsets.all(16.arP),
+      padding: EdgeInsets.all(AppConstant.homeWidgetDimension / 11),
       height: AppConstant.homeWidgetDimension / 2.5,
       width: AppConstant.homeWidgetDimension / 2.5,
       child: Image.asset("assets/home_page/tez_domain.png"),

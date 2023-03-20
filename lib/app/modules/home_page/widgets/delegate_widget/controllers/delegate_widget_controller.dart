@@ -380,7 +380,7 @@ class DelegateWidgetController extends GetxController {
   Future<void> openBakerList(BuildContext context, String? prevPageName) async {
     //setting prevpage
     prevPage = prevPageName;
-    if (!(Get.isRegistered<AccountSummaryController>())) {
+    if (prevPage == null) {
       Get.put(AccountSummaryController());
       CommonFunctions.bottomSheet(
         AccountSwitch(

@@ -100,7 +100,7 @@ void main() async {
           //   Locale("en", "US"),
           //   Locale("en", "IN"),
           // ],
-          fallbackLocale: Locale("en", "US"),
+
           debugShowCheckedModeBanner: false,
           initialRoute: AppPages.INITIAL,
           // getPages: AppPages.routes,

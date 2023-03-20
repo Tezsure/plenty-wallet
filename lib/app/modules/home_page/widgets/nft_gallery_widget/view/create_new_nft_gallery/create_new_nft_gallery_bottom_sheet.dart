@@ -29,6 +29,7 @@ import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/nested_route_observer.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:get/get.dart';
@@ -44,7 +45,7 @@ class CreateNewNftGalleryBottomSheet
   Widget build(BuildContext context) {
     return Obx(
       () => controller.formIndex.value == 0
-          ? selectAccountWidget()
+          ? selectAccountWidget(context)
           : createGalleryProfileWidget(context),
     );
     // return BackdropFilter(
@@ -113,34 +114,36 @@ class CreateNewNftGalleryBottomSheet
   //     );
 
   /// Select account widget for creating new gallery
-  Widget selectAccountWidget() {
+  Widget selectAccountWidget(BuildContext context) {
     // if (controller.accounts.isEmpty) {
     //   return noAccountsWidget();
     // }
     return NaanBottomSheet(
-      title: controller.accounts.isEmpty ? "" : "Select accounts",
+      // title: controller.accounts.isEmpty ? "" : "Select accounts",
       // bottomSheetHorizontalPadding: 0,
       // isScrollControlled: true,
       height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
-        Obx(() {
-          return SizedBox(
-            height: AppConstant.naanBottomSheetChildHeight,
-            child: controller.accounts.isEmpty
-                ? noAccountsWidget()
-                : _accountSelectorList(),
-          );
-        }),
+        SizedBox(
+            height: AppConstant.naanBottomSheetHeight - 14.arP,
+            child: Obx(() {
+              return controller.accounts.isEmpty
+                  ? noAccountsWidget(context)
+                  : _accountSelectorList(context);
+            }))
       ],
     );
   }
 
-  Column _accountSelectorList() {
+  Column _accountSelectorList(BuildContext context) {
     return Column(
       // mainAxisAlignment: MainAxisAlignment.start,
       // mainAxisSize: MainAxisSize.min,
       // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        BottomSheetHeading(
+          title: "Select accounts",
+        ),
         SizedBox(
           height: 12.arP,
         ),
@@ -177,7 +180,7 @@ class CreateNewNftGalleryBottomSheet
                 .where((element) => element == true)
                 .toList()
                 .isEmpty
-            ? _importWatchAddressButton()
+            ? _importWatchAddressButton(context)
             : Container(),
         Container(
           margin: EdgeInsets.only(
@@ -215,7 +218,7 @@ class CreateNewNftGalleryBottomSheet
     );
   }
 
-  Widget noAccountsWidget() {
+  Widget noAccountsWidget(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -254,16 +257,16 @@ class CreateNewNftGalleryBottomSheet
             ),
           ),
           const Spacer(),
-          _importWatchAddressButton(),
+          _importWatchAddressButton(context),
           const BottomButtonPadding()
         ],
       ),
     );
   }
 
-  BouncingWidget _importWatchAddressButton() {
+  BouncingWidget _importWatchAddressButton(BuildContext context) {
     return BouncingWidget(
-      onPressed: _onImportAccount,
+      onPressed: () => _onImportAccount(context),
       child: Padding(
         padding: EdgeInsets.only(
           top: 16.arP,
@@ -292,13 +295,22 @@ class CreateNewNftGalleryBottomSheet
     );
   }
 
-  _onImportAccount() async {
+  _onImportAccount(BuildContext context) async {
+    // String? pkh = await Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => ImportWalletPageView(
+    //         isBottomSheet: true,
+    //         isWatchAddress: true,
+    //       ),
+    //     ));
     String pkh = await CommonFunctions.bottomSheet(
         ImportWalletPageView(
           isBottomSheet: true,
           isWatchAddress: true,
         ),
         fullscreen: true);
+    // if (pkh == null) return;
     controller.accounts.value = await UserStorageService().getAllAccount() +
         (await UserStorageService().getAllAccount(watchAccountsList: true));
 

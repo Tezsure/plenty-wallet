@@ -46,12 +46,12 @@ class _SelectNetworkBottomSheetState extends State<SelectNetworkBottomSheet> {
       height: widget.prevPage == null
           ? 360.arP
           : (AppConstant.naanBottomSheetHeight),
-      bottomSheetHorizontalPadding: widget.prevPage == null ? 16.arP : 0,
+      // bottomSheetHorizontalPadding: widget.prevPage == null ? 16.arP : 0,
       bottomSheetWidgets: [
         Obx(
           () => SizedBox(
             height: widget.prevPage == null
-                ? 340.arP
+                ? 350.arP
                 : (AppConstant.naanBottomSheetChildHeight),
             child: Column(
               children: [

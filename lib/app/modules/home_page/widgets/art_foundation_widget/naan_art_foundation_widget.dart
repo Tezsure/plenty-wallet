@@ -105,8 +105,8 @@ class NaanArtFoundationWidget extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.black, borderRadius: BorderRadius.circular(8.arP)),
       padding: EdgeInsets.all(8.arP),
-      height: 33.arP,
-      width: 33.arP,
+      height: AppConstant.homeWidgetDimension / 6,
+      width: AppConstant.homeWidgetDimension / 6,
       child: Image.asset("assets/naan_logo.png"),
     );
   }

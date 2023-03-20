@@ -88,6 +88,7 @@ class FeesSummarySheet extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 16.arP),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [

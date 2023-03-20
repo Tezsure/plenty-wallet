@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_
 import 'package:naan_wallet/app/modules/settings_page/widget/connected_dapps_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -48,44 +49,60 @@ class _ScanQrViewState extends State<ScanQrView> {
   @override
   Widget build(BuildContext context) {
     return OverrideTextScaleFactor(
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        extendBodyBehindAppBar: true,
-        // appBar: AppBar(
-        //   elevation: 0,
-        //   leading: SizedBox.shrink(),
-        //   backgroundColor: Colors.transparent,
-        // ),
-        // height: 01.height,
-        body: Column(
-          children: <Widget>[
-            Expanded(
-                child: Stack(
-              children: [
-                _buildQrView(context),
-                SafeArea(
-                  child: Column(
-                    children: [
-                      0.02.vspace,
-                      Container(
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            height: 5.arP,
-                            width: 36.arP,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.arP),
-                              color: ColorConst.NeutralVariant.shade60,
+      child: SizedBox(
+        height: AppConstant.naanBottomSheetHeight,
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          extendBodyBehindAppBar: true,
+          // appBar: AppBar(
+          //   elevation: 0,
+          //   leading: SizedBox.shrink(),
+          //   backgroundColor: Colors.transparent,
+          // ),
+          // height: 01.height,
+          body: ClipRRect(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(36.arP)),
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                    child: Stack(
+                  children: [
+                    _buildQrView(context),
+                    SafeArea(
+                      child: Column(
+                        children: [
+                          0.02.vspace,
+                          Container(
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Container(
+                                height: 5.arP,
+                                width: 36.arP,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.arP),
+                                  color: ColorConst.NeutralVariant.shade60,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          0.01.vspace,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              closeButton(),
+                              SizedBox(
+                                width: 16.arP,
+                              )
+                            ],
+                          )
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  ],
+                )),
               ],
-            )),
-          ],
+            ),
+          ),
         ),
       ),
     );

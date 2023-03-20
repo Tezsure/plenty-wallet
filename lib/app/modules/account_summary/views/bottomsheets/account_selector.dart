@@ -74,259 +74,255 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
           )),
       // bottomSheetHorizontalPadding: 0,
       // isScrollControlled: true,
-      height: AppConstant.naanBottomSheetChildHeight,
+      // height: AppConstant.naanBottomSheetChildHeight,
+      isScrollControlled: true,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight - 62.arP,
+          // height: AppConstant.naanBottomSheetChildHeight - 62.arP,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               0.016.vspace,
               Obx(
-                () => Expanded(
-                  child: _controller.homePageController.userAccounts.isEmpty
-                      ? noAccountWidget()
-                      : ListView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: _controller
-                              .homePageController.userAccounts.length,
-                          itemBuilder: (context, index) {
-                            return Material(
-                              color: Colors.transparent,
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  color: Colors.transparent,
-                                ),
-                                borderRadius: BorderRadius.circular(10.aR),
+                () => _controller.homePageController.userAccounts.isEmpty
+                    ? noAccountWidget()
+                    : ListView.builder(
+                        padding: EdgeInsets.zero,
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount:
+                            _controller.homePageController.userAccounts.length,
+                        itemBuilder: (context, index) {
+                          return Material(
+                            color: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                color: Colors.transparent,
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  top: 8.aR,
-                                ),
-                                child: BouncingWidget(
-                                  onPressed: () {
-                                    // setState(() {
-                                    print("==============");
-                                    print(index);
-                                    print("==============");
+                              borderRadius: BorderRadius.circular(10.aR),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                top: 8.aR,
+                              ),
+                              child: BouncingWidget(
+                                onPressed: () {
+                                  // setState(() {
+                                  print("==============");
+                                  print(index);
+                                  print("==============");
 
-                                    _controller.onAccountTap(index);
-                                    // });
-                                  },
-                                  child: SizedBox(
-                                    height: 48.aR,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        CustomImageWidget(
-                                          imageType: _controller
-                                              .homePageController
-                                              .userAccounts[index]
-                                              .imageType!,
-                                          imagePath: _controller
-                                              .homePageController
-                                              .userAccounts[index]
-                                              .profileImage!,
-                                          imageRadius: 18.aR,
-                                        ),
-                                        0.03.hspace,
-                                        RichText(
-                                          text: TextSpan(
-                                              text:
-                                                  '${_controller.homePageController.userAccounts[index].name}\n',
-                                              style: labelMedium.copyWith(
-                                                  fontSize: 12.aR,
-                                                  letterSpacing: 0.4),
-                                              children: [
-                                                WidgetSpan(
-                                                    child: SizedBox(
-                                                  height: 18.aR,
-                                                )),
-                                                TextSpan(
-                                                  text:
-                                                      '${_controller.homePageController.userAccounts[index].accountDataModel?.xtzBalance} tez',
-                                                  style: labelMedium.copyWith(
-                                                      fontSize: 12.aR,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: ColorConst
-                                                          .NeutralVariant
-                                                          .shade60),
-                                                )
-                                              ]),
-                                        ),
-                                        const Spacer(),
-                                        if (_controller.homePageController
-                                            .userAccounts[index].isWatchOnly)
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                              right: 14.arP,
-                                            ),
-                                            child: Text(
-                                              "Watching".tr,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12.arP,
-                                                fontWeight: FontWeight.w400,
-                                                letterSpacing: 0.5.arP,
-                                              ),
+                                  _controller.onAccountTap(index);
+                                  // });
+                                },
+                                child: SizedBox(
+                                  height: 48.aR,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      CustomImageWidget(
+                                        imageType: _controller
+                                            .homePageController
+                                            .userAccounts[index]
+                                            .imageType!,
+                                        imagePath: _controller
+                                            .homePageController
+                                            .userAccounts[index]
+                                            .profileImage!,
+                                        imageRadius: 18.aR,
+                                      ),
+                                      0.03.hspace,
+                                      RichText(
+                                        text: TextSpan(
+                                            text:
+                                                '${_controller.homePageController.userAccounts[index].name}\n',
+                                            style: labelMedium.copyWith(
+                                                fontSize: 12.aR,
+                                                letterSpacing: 0.4),
+                                            children: [
+                                              WidgetSpan(
+                                                  child: SizedBox(
+                                                height: 18.aR,
+                                              )),
+                                              TextSpan(
+                                                text:
+                                                    '${_controller.homePageController.userAccounts[index].accountDataModel?.xtzBalance} tez',
+                                                style: labelMedium.copyWith(
+                                                    fontSize: 12.aR,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: ColorConst
+                                                        .NeutralVariant
+                                                        .shade60),
+                                              )
+                                            ]),
+                                      ),
+                                      const Spacer(),
+                                      if (_controller.homePageController
+                                          .userAccounts[index].isWatchOnly)
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                            right: 14.arP,
+                                          ),
+                                          child: Text(
+                                            "Watching".tr,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12.arP,
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: 0.5.arP,
                                             ),
                                           ),
-                                        Obx(() => Visibility(
-                                              visible: _controller
-                                                  .isAccountEditable.isFalse,
-                                              replacement: PopupMenuButton(
-                                                enableFeedback: true,
-                                                onCanceled: () {
-                                                  _controller.popupIndex.value =
-                                                      0;
-                                                  _controller.isPopupVisible
-                                                      .value = false;
-                                                },
-                                                splashRadius: 1,
-                                                tooltip: "",
-                                                position:
-                                                    PopupMenuPosition.under,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.arP)),
-                                                color: const Color(0xff421121),
-                                                itemBuilder: (_) {
-                                                  _controller.popupIndex.value =
-                                                      index;
-                                                  _controller.isPopupVisible
-                                                      .value = true;
-                                                  return <PopupMenuEntry>[
+                                        ),
+                                      Obx(() => Visibility(
+                                            visible: _controller
+                                                .isAccountEditable.isFalse,
+                                            replacement: PopupMenuButton(
+                                              enableFeedback: true,
+                                              onCanceled: () {
+                                                _controller.popupIndex.value =
+                                                    0;
+                                                _controller.isPopupVisible
+                                                    .value = false;
+                                              },
+                                              splashRadius: 1,
+                                              tooltip: "",
+                                              position: PopupMenuPosition.under,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.arP)),
+                                              color: const Color(0xff421121),
+                                              itemBuilder: (_) {
+                                                _controller.popupIndex.value =
+                                                    index;
+                                                _controller.isPopupVisible
+                                                    .value = true;
+                                                return <PopupMenuEntry>[
+                                                  CustomPopupMenuItem(
+                                                    width: 140.aR,
+                                                    height: 30.aR,
+                                                    padding: EdgeInsets.only(
+                                                        left: 12.arP,
+                                                        bottom: 5.arP),
+                                                    onTap: () {
+                                                      CommonFunctions
+                                                          .bottomSheet(
+                                                        EditAccountBottomSheet(
+                                                          accountIndex: index,
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Text(
+                                                      "Edit".tr,
+                                                      style:
+                                                          labelMedium.copyWith(
+                                                              fontSize: 12.aR),
+                                                    ),
+                                                  ),
+                                                  if (_controller
+                                                          .homePageController
+                                                          .userAccounts
+                                                          .length !=
+                                                      1)
+                                                    CustomPopupMenuDivider(
+                                                      height: 1,
+                                                      color: ColorConst
+                                                          .Neutral.shade50,
+                                                      thickness: 1,
+                                                    ),
+                                                  if (_controller
+                                                          .homePageController
+                                                          .userAccounts
+                                                          .length !=
+                                                      1)
                                                     CustomPopupMenuItem(
-                                                      width: 140.aR,
-                                                      height: 30.aR,
                                                       padding: EdgeInsets.only(
                                                           left: 12.arP,
-                                                          bottom: 5.arP),
+                                                          top: 5.arP),
+                                                      width: 140.aR,
+                                                      height: 30.aR,
                                                       onTap: () {
                                                         CommonFunctions
                                                             .bottomSheet(
-                                                          EditAccountBottomSheet(
-                                                            accountIndex: index,
+                                                          removeAccountBottomSheet(
+                                                            index,
+                                                            accountName: _controller
+                                                                .homePageController
+                                                                .userAccounts[
+                                                                    index]
+                                                                .name!,
+                                                            onPressed: () {
+                                                              _controller
+                                                                  .removeAccount(
+                                                                      index);
+                                                              _settingsController
+                                                                  .removeAccount(
+                                                                      index);
+                                                            },
                                                           ),
                                                         );
                                                       },
                                                       child: Text(
-                                                        "Edit".tr,
+                                                        "Remove".tr,
                                                         style: labelMedium
                                                             .copyWith(
-                                                                fontSize:
-                                                                    12.aR),
+                                                                fontSize: 12.aR,
+                                                                color: ColorConst
+                                                                    .Error
+                                                                    .shade60),
                                                       ),
                                                     ),
-                                                    if (_controller
-                                                            .homePageController
-                                                            .userAccounts
-                                                            .length !=
-                                                        1)
-                                                      CustomPopupMenuDivider(
-                                                        height: 1,
-                                                        color: ColorConst
-                                                            .Neutral.shade50,
-                                                        thickness: 1,
-                                                      ),
-                                                    if (_controller
-                                                            .homePageController
-                                                            .userAccounts
-                                                            .length !=
-                                                        1)
-                                                      CustomPopupMenuItem(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 12.arP,
-                                                                top: 5.arP),
-                                                        width: 140.aR,
-                                                        height: 30.aR,
-                                                        onTap: () {
-                                                          CommonFunctions
-                                                              .bottomSheet(
-                                                            removeAccountBottomSheet(
-                                                              index,
-                                                              accountName: _controller
-                                                                  .homePageController
-                                                                  .userAccounts[
-                                                                      index]
-                                                                  .name!,
-                                                              onPressed: () {
+                                                ];
+                                              },
+                                              child: Container(
+                                                height: 24.aR,
+                                                width: 24.aR,
+                                                decoration: BoxDecoration(
+                                                    color: _controller
+                                                                .isPopupVisible
+                                                                .value &&
+                                                            index ==
                                                                 _controller
-                                                                    .removeAccount(
-                                                                        index);
-                                                                _settingsController
-                                                                    .removeAccount(
-                                                                        index);
-                                                              },
-                                                            ),
-                                                          );
-                                                        },
-                                                        child: Text(
-                                                          "Remove".tr,
-                                                          style: labelMedium
-                                                              .copyWith(
-                                                                  fontSize:
-                                                                      12.aR,
-                                                                  color: ColorConst
-                                                                      .Error
-                                                                      .shade60),
-                                                        ),
-                                                      ),
-                                                  ];
-                                                },
-                                                child: Container(
-                                                  height: 24.aR,
-                                                  width: 24.aR,
-                                                  decoration: BoxDecoration(
-                                                      color: _controller
-                                                                  .isPopupVisible
-                                                                  .value &&
-                                                              index ==
-                                                                  _controller
-                                                                      .popupIndex
-                                                                      .value
-                                                          ? const Color(
-                                                              0xff421121)
-                                                          : Colors.transparent,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20)),
-                                                  child: Icon(
-                                                    Icons.more_horiz,
-                                                    size: 20.aR,
-                                                    color: Colors.white,
-                                                  ),
+                                                                    .popupIndex
+                                                                    .value
+                                                        ? const Color(
+                                                            0xff421121)
+                                                        : Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20)),
+                                                child: Icon(
+                                                  Icons.more_horiz,
+                                                  size: 20.aR,
+                                                  color: Colors.white,
                                                 ),
                                               ),
-                                              child: index ==
-                                                      _homePageController
-                                                          .selectedIndex.value
-                                                  ? SvgPicture.asset(
-                                                      "assets/svg/check_3.svg",
-                                                      height: 16.arP,
-                                                      width: 16.arP,
-                                                    )
-                                                  : SizedBox(
-                                                      height: 16.arP,
-                                                      width: 16.arP,
-                                                    ),
-                                            ))
-                                      ],
-                                    ),
+                                            ),
+                                            child: index ==
+                                                    _homePageController
+                                                        .selectedIndex.value
+                                                ? SvgPicture.asset(
+                                                    "assets/svg/check_3.svg",
+                                                    height: 16.arP,
+                                                    width: 16.arP,
+                                                  )
+                                                : SizedBox(
+                                                    height: 16.arP,
+                                                    width: 16.arP,
+                                                  ),
+                                          ))
+                                    ],
                                   ),
                                 ),
                               ),
-                            );
-                          }),
-                ),
+                            ),
+                          );
+                        }),
               ),
+              0.02.vspace,
               Padding(
                 padding: EdgeInsets.only(bottom: 52.arP, left: 16.arP),
                 child: Align(

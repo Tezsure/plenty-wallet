@@ -65,7 +65,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
         height: AppConstant.naanBottomSheetHeight,
         bottomSheetWidgets: [
           Container(
-            height: AppConstant.naanBottomSheetHeight - 14.arP,
+            height: AppConstant.naanBottomSheetHeight - 18.arP,
             // width: 1.width,
             // margin: EdgeInsets.only(
             //   top: 0.05.height,
@@ -75,7 +75,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
             ),
             decoration: BoxDecoration(
                 borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(10.arP)),
+                    BorderRadius.vertical(top: Radius.circular(36.arP)),
                 color: Colors.black),
             child: Center(
               child: _buildBody(webViewKey, options, pullToRefreshController),
@@ -99,6 +99,9 @@ class DappBrowserView extends GetView<DappBrowserController> {
                   child: closeButton(),
                 )
               ],
+              leading: SizedBox(
+                width: 46.arP,
+              ),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -117,6 +120,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                             .replaceAll(RegExp(r".+\/\/|www.|"), ""),
                     style: bodyMedium,
                   ),
+                  0.01.hspace,
                 ],
               ),
               backgroundColor: Colors.black,

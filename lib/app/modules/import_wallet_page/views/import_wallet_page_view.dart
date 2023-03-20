@@ -49,7 +49,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           SizedBox(
               height: AppConstant.naanBottomSheetChildHeight -
                   MediaQuery.of(context).viewInsets.bottom +
-                  63.arP,
+                  60.arP,
               child: _buildBody(context,
                   isWatchAddress: isWatchAddress, isBottomSheet: isBottomSheet))
         ],
@@ -343,129 +343,136 @@ class AccountBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      title: "Select addresses",
       // blurRadius: 5,
       height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
-        0.04.vspace,
-        Text(
-          "Select addresses".tr,
-          textAlign: TextAlign.start,
-          style: titleLarge,
-        ),
-        0.014.vspace,
-        Text(
-          "Multiple addresses can be selected".tr,
-          style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
-        ),
-        0.03.vspace,
-        Expanded(
-          child: DefaultTabController(
-            length: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Obx(
-                  () => TabBar(
-                    isScrollable: true,
-                    indicatorColor: ColorConst.Primary,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicatorWeight: 4,
-                    indicatorPadding: EdgeInsets.zero,
-                    indicator: const MaterialIndicator(
-                      color: ColorConst.Primary,
-                      height: 4,
-                      topLeftRadius: 4,
-                      topRightRadius: 4,
-                      strokeWidth: 4,
-                    ),
-                    onTap: (_) {
-                      AppConstant.hapticFeedback();
-                    },
-                    controller: controller.tabController,
-                    labelPadding: EdgeInsets.zero,
-                    tabs: [
-                      Tab(
-                        child: SizedBox(
-                          width: controller.selectedAccountsTz1.isNotEmpty
-                              ? 84
-                              : 61,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Tz1"),
-                              if (controller.selectedAccountsTz1.isNotEmpty)
-                                _buildCount(
-                                    controller.selectedAccountsTz1.length)
-                            ],
+        SizedBox(
+          height: AppConstant.naanBottomSheetChildHeight,
+          child: Column(
+            children: [
+              0.02.vspace,
+              Text(
+                "Multiple addresses can be selected".tr,
+                style:
+                    bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+              ),
+              0.03.vspace,
+              Expanded(
+                child: DefaultTabController(
+                  length: 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(
+                        () => TabBar(
+                          isScrollable: true,
+                          indicatorColor: ColorConst.Primary,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          indicatorWeight: 4,
+                          indicatorPadding: EdgeInsets.zero,
+                          indicator: const MaterialIndicator(
+                            color: ColorConst.Primary,
+                            height: 4,
+                            topLeftRadius: 4,
+                            topRightRadius: 4,
+                            strokeWidth: 4,
                           ),
+                          onTap: (_) {
+                            AppConstant.hapticFeedback();
+                          },
+                          controller: controller.tabController,
+                          labelPadding: EdgeInsets.zero,
+                          tabs: [
+                            Tab(
+                              child: SizedBox(
+                                width: controller.selectedAccountsTz1.isNotEmpty
+                                    ? 84
+                                    : 61,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text("Tz1"),
+                                    if (controller
+                                        .selectedAccountsTz1.isNotEmpty)
+                                      _buildCount(
+                                          controller.selectedAccountsTz1.length)
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Tab(
+                              child: SizedBox(
+                                width: controller.selectedAccountsTz2.isNotEmpty
+                                    ? 84.arP
+                                    : 61.arP,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text("Tz2"),
+                                    if (controller
+                                        .selectedAccountsTz2.isNotEmpty)
+                                      _buildCount(
+                                          controller.selectedAccountsTz2.length)
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Tab(
+                              child: SizedBox(
+                                width:
+                                    controller.selectedLegacyAccount.isNotEmpty
+                                        ? 84
+                                        : 61,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Legacy".tr),
+                                    if (controller
+                                        .selectedLegacyAccount.isNotEmpty)
+                                      _buildCount(controller
+                                          .selectedLegacyAccount.length)
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Tab(
-                        child: SizedBox(
-                          width: controller.selectedAccountsTz2.isNotEmpty
-                              ? 84.arP
-                              : 61.arP,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Tz2"),
-                              if (controller.selectedAccountsTz2.isNotEmpty)
-                                _buildCount(
-                                    controller.selectedAccountsTz2.length)
-                            ],
-                          ),
+                      0.015.vspace,
+                      Expanded(
+                        child: TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            AccountWidget(),
+                            AccountWidget(),
+                            AccountWidget()
+                          ],
                         ),
-                      ),
-                      Tab(
-                        child: SizedBox(
-                          width: controller.selectedLegacyAccount.isNotEmpty
-                              ? 84
-                              : 61,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("Legacy".tr),
-                              if (controller.selectedLegacyAccount.isNotEmpty)
-                                _buildCount(
-                                    controller.selectedLegacyAccount.length)
-                            ],
-                          ),
-                        ),
-                      ),
+                      )
                     ],
                   ),
                 ),
-                0.015.vspace,
-                Expanded(
-                  child: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      AccountWidget(),
-                      AccountWidget(),
-                      AccountWidget()
-                    ],
-                  ),
-                )
-              ],
-            ),
+              ),
+              0.03.vspace,
+              Obx(
+                () => SolidButton(
+                  active: controller.selectedAccountsTz1.isNotEmpty ||
+                      controller.selectedAccountsTz2.isNotEmpty ||
+                      controller.selectedLegacyAccount.isNotEmpty,
+                  onPressed: () {
+                    controller.redirectBasedOnImportWalletType();
+                  },
+                  title: "Import",
+                ),
+              ),
+              0.05.vspace
+            ],
           ),
         ),
-        0.03.vspace,
-        Obx(
-          () => SolidButton(
-            active: controller.selectedAccountsTz1.isNotEmpty ||
-                controller.selectedAccountsTz2.isNotEmpty ||
-                controller.selectedLegacyAccount.isNotEmpty,
-            onPressed: () {
-              controller.redirectBasedOnImportWalletType();
-            },
-            title: "Import",
-          ),
-        ),
-        0.05.vspace
       ],
     );
   }

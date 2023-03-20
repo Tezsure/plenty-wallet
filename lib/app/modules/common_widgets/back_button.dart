@@ -26,9 +26,13 @@ Widget backButton({Function()? ontap, String? lastPageName}) {
           ),
         lastPageName == null
             ? Container()
-            : Text(
-                lastPageName.tr,
-                style: bodyMedium,
+            : Container(
+                constraints: BoxConstraints(maxWidth: .25.width),
+                child: Text(
+                  lastPageName.tr,
+                  overflow: TextOverflow.ellipsis,
+                  style: bodyMedium,
+                ),
               )
       ],
     ),
@@ -44,10 +48,13 @@ Widget closeButton({Function()? ontap}) {
       height: 30.arP,
       width: 30.arP,
       alignment: Alignment.center,
-      child: Icon(
-        Icons.close,
-        color: Color.fromRGBO(235, 235, 245, .6),
-        size: 18.arP,
+      child: SvgPicture.asset(
+        "${PathConst.SVG}xmark.svg",
+        fit: BoxFit.cover,
+        height: 11.arP,
+        width: 11.arP,
+        alignment: Alignment.center,
+        color: Colors.white,
       ),
     ),
   );

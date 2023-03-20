@@ -13,6 +13,7 @@ import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/translation/translation_helper.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
@@ -25,23 +26,24 @@ class SplashPageController extends GetxController {
     super.onInit();
 /*     try {
       await Get.updateLocale(Locale("en", "US"));
-      print("languageCode: ${Get.locale?.languageCode}");
+      
     } catch (e) {} */
+    print("languageCode: ${Get.locale?.countryCode}");
     await Future.delayed(const Duration(milliseconds: 800));
     // un-comment below line to test onboarding flow multiple time
 
-    // await ServiceConfig().clearStorage();
-    try {
-      final translationHelper = TranslationHelper();
+    // // await ServiceConfig().clearStorage();
+    // try {
+    //   final translationHelper = TranslationHelper();
 
-      final translations = await translationHelper.getTranslations();
-      if (translations != null) {
-        Get.clearTranslations();
-        Get.addTranslations(translations.keys);
-      }
-    } catch (e) {
-      log(e.toString());
-    }
+    //   final translations = await translationHelper.getTranslations();
+    //   if (translations != null) {
+    //     Get.clearTranslations();
+    //     Get.addTranslations(translations.keys);
+    //   }
+    // } catch (e) {
+    //   log(e.toString());
+    // }
     ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
         ServiceConfig.currentSelectedNode;
     await DataHandlerService().initDataServices();
@@ -57,8 +59,8 @@ class SplashPageController extends GetxController {
         "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
 
     ServiceConfig.currency = await UserStorageService.getCurrency();
-    ServiceConfig.language =
-        Language.values.byName(await UserStorageService.readLanguage());
+    // ServiceConfig.language =
+    //     Language.values.byName(await UserStorageService.readLanguage());
 
     ServiceConfig.inr = await UserStorageService.getINR();
     ServiceConfig.eur = await UserStorageService.getEUR();
@@ -70,6 +72,7 @@ class SplashPageController extends GetxController {
             .length;
 
     Get.put(NftGalleryWidgetController(), permanent: true);
+    Get.put(HomePageController(), permanent: true);
 
     if (walletAccountsLength != 0 || watchAccountsLength != 0) {
       bool isPasscodeSet = await AuthService().getIsPassCodeSet();

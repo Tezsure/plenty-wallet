@@ -50,6 +50,7 @@ class HomePageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+
     Get.put(BeaconService(), permanent: true);
     DataHandlerService()
         .renderService
@@ -80,16 +81,16 @@ class HomePageController extends GetxController {
               (element2) => element2.publicKeyHash == element.publicKeyHash);
         });
         userAccounts.value = [...temp];
-        Future.delayed(
-          Duration(milliseconds: 500),
-        ).then((value) {
-          try {
-            Get.put(AccountsWidgetController()).onPageChanged(index);
-            changeSelectedAccount(index);
-          } catch (e) {
-            log(e.toString());
-          }
-        });
+        // Future.delayed(
+        //   Duration(milliseconds: 100),
+        // ).then((value) {
+        try {
+          Get.find<AccountsWidgetController>().onPageChanged(index);
+          changeSelectedAccount(index);
+        } catch (e) {
+          log(e.toString());
+        }
+        // });
       }
       try {
         if (userAccounts.where((p0) => !p0.isWatchOnly).isNotEmpty) {
@@ -131,16 +132,22 @@ class HomePageController extends GetxController {
     // });
   }
 
+  void resetUserAccounts() {
+    userAccounts.clear();
+    userAccounts.refresh();
+    selectedIndex.value = 0;
+  }
+
   @override
   void onReady() async {
     super.onReady();
 
-    if (Get.arguments != null &&
-        Get.arguments.length == 2 &&
-        Get.arguments[1].toString().isNotEmpty) {
-      showBackUpWalletBottomSheet(Get.arguments[1].toString());
-    }
     if (Get.currentRoute == Routes.HOME_PAGE) {
+      if (Get.arguments != null &&
+          Get.arguments.length == 2 &&
+          Get.arguments[1].toString().isNotEmpty) {
+        showBackUpWalletBottomSheet(Get.arguments[1].toString());
+      }
       await UserStorageService.getBetaTagAgree().then((value) async {
         if (!value) {
           await CommonFunctions.bottomSheet(
@@ -158,8 +165,7 @@ class HomePageController extends GetxController {
   void changeSelectedAccount(int index) async {
     print("On PAGECHANGED");
     // Get.find<AccountsWidgetController>().onPageChanged(index);
-
-    if (userAccounts.length > index) {
+    if (userAccounts.isNotEmpty && userAccounts.length > index) {
       selectedIndex.value = index;
       userAccounts[index].delegatedBakerAddress =
           await Get.put(DelegateWidgetController())

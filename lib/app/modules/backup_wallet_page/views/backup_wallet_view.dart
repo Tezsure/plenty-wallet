@@ -40,10 +40,10 @@ class BackupWalletView extends GetView<BackupWalletController> {
             AppConstant.naanBottomSheetHeight - (prevPage == null ? 0 : 64.arP),
         // title: "Secret Phrase",
         prevPageName: prevPage,
-        bottomSheetHorizontalPadding: prevPage == null ? null : 0,
+        // bottomSheetHorizontalPadding: prevPage == null ? null : 0,
         bottomSheetWidgets: [
           SizedBox(
-            height: AppConstant.naanBottomSheetHeight - 14.arP,
+            height: AppConstant.naanBottomSheetHeight - 24.arP,
             child: prevPage == null
                 ? Navigator(
                     onGenerateRoute: (settings) {

@@ -105,4 +105,10 @@ class NaanAnalyticsEvents {
   static const String TEZ_QUAKE = "tez_quake";
   static const String BETA_AGREE = "beta_agree";
   static const String TEZOS_DOMAIN = "tezos_domain";
+
+  static const String SHARE_EVENT = "share_event";
+
+  static const String JOIN_EVENT = "join_event";
+
+  static const String EVENTS_OPENED = "events_opened";
 }

@@ -100,8 +100,8 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
                   maxChildSize: widget.maxChildSize ?? 1,
                   builder: (_, scrollController) => Container(
                     decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(36.arP)),
+                        borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(36.arP)),
                         color: Colors.black),
                     padding: EdgeInsets.symmetric(horizontal: 0.05.width),
                     child: Column(
@@ -158,10 +158,11 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
                 )
               : SafeArea(
                   bottom: false,
+                  minimum:  widget.isScrollControlled?EdgeInsets.only(top: kToolbarHeight):EdgeInsets.zero,
                   child: Container(
                     decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(36.arP)),
+                        borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(36.arP)),
                         color: Colors.black),
                     width: widget.width ?? 1.width,
                     height: widget.height,
@@ -195,7 +196,7 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
 
   Widget _buildBody() {
     return SizedBox(
-      height: widget.height == null ? null : (widget.height! - 14.arP),
+      // height: widget.height == null ? null : (widget.height! - 24.arP),
       child: Column(
         children: [
           if (widget.title != null)
