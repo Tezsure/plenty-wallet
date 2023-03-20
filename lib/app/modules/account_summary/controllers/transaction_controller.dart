@@ -119,7 +119,8 @@ class TransactionController extends GetxController {
     List<TokenInfo> sortedTransactionList = <TokenInfo>[];
     late TokenInfo tokenInfo;
     String? isHashSame;
-    for (var tx in transactionList) {
+    for (int i = 0; i < transactionList.length; i++) {
+      var tx = transactionList[i];
       tokenInfo = TokenInfo(
         isHashSame: isHashSame == null ? false : tx.hash!.contains(isHashSame),
         token: tx,
@@ -194,6 +195,18 @@ class TransactionController extends GetxController {
           !_tokenTransactionID.contains(tx.lastid.toString()), tokenInfo);
       _tokenTransactionID.add(tx.lastid.toString());
     }
+    List<TokenInfo> temp = [];
+    for (var i = 0; i < sortedTransactionList.length; i++) {
+      if (sortedTransactionList[i].isHashSame ?? false) {
+        temp.last = temp.last.copyWith(internalOperation: [
+          ...temp.last.internalOperation,
+          sortedTransactionList[i]
+        ]);
+      } else {
+        temp.add(sortedTransactionList[i]);
+      }
+    }
+    sortedTransactionList = [...temp].reversed.toList();
     return sortedTransactionList;
   }
 
@@ -309,15 +322,15 @@ extension TransactionChecker on TxHistoryModel {
 
   AliasAddress get send {
     final homeController = Get.find<HomePageController>();
-    final transactionCOntroller = Get.find<TransactionController>();
+    final transactionController = Get.find<TransactionController>();
     if (homeController.userAccounts
         .any((element) => element.publicKeyHash!.contains(sender!.address!))) {
       final account = homeController.userAccounts.firstWhere(
           (element) => element.publicKeyHash!.contains(sender!.address!));
       return AliasAddress(address: account.publicKeyHash, alias: account.name);
-    } else if (transactionCOntroller.contacts
+    } else if (transactionController.contacts
         .any((element) => element.address.contains(sender!.address!))) {
-      final contact = transactionCOntroller.contacts
+      final contact = transactionController.contacts
           .firstWhere((element) => element.address.contains(sender!.address!));
       return AliasAddress(address: contact.address, alias: contact.name);
     }
@@ -326,6 +339,57 @@ extension TransactionChecker on TxHistoryModel {
 
   AliasAddress? get reciever {
     return sender!;
+  }
+
+  String get actionType {
+    final homeController = Get.find<HomePageController>();
+
+    if (newDelegate != null) {
+      return "Delegated to ${newDelegate!.alias ?? newDelegate!.address!.tz1Short()}";
+    }
+    // if (homeController.userAccounts
+    //     .any((element) => element.publicKeyHash!.contains(sender!.address!))) {
+    //   return "Sent";
+    // }
+    // if (target != null &&
+    //     homeController.userAccounts.any(
+    //         (element) => element.publicKeyHash!.contains(target!.address!))) {
+    //   return "Received";
+    // }
+    if (type == "transaction") {
+      List<String> swapTypes = [
+        "swap",
+        "_to_",
+        "xtzToTokenSwapInput",
+        "tokenToXtzSwapInput",
+        "tokenToTokenSwapInput"
+      ];
+
+      ///Check Swap
+      if (parameter != null) {
+        if ((swapTypes.any(
+            (element) => parameter!.entrypoint?.contains(element) ?? false))) {
+          return "Swapped";
+        }
+        if (parameter!.entrypoint == "offer") {
+          return "Offer in ${target?.alias ?? target?.address?.tz1Short()} ";
+        }
+      }
+    }
+    if (homeController.userAccounts
+        .any((element) => element.publicKeyHash!.contains(sender!.address!))) {
+      return "Sent";
+    }
+    if (target != null &&
+        homeController.userAccounts.any(
+            (element) => element.publicKeyHash!.contains(target!.address!))) {
+      return "Received";
+    }
+    if (target != null) {
+      return target!.alias ?? "Contract interaction";
+    }
+
+    return type?.capitalizeFirst ?? "";
   }
 
   TokenPriceModel get getFa1TokenName => Get.find<AccountSummaryController>()
