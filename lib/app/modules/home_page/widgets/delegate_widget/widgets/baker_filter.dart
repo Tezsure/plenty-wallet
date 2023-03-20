@@ -66,7 +66,7 @@ class BakerFilterBottomSheet extends GetView<DelegateWidgetController> {
                                 children: [
                                   const Spacer(),
                                   Text(
-                                    status[index].name,
+                                    status[index].name.tr,
                                     style: labelMedium,
                                   ),
                                   const Expanded(

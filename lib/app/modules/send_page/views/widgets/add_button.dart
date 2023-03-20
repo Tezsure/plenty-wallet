@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -18,11 +19,9 @@ class AddContactButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        Get.bottomSheet(AddContactBottomSheet(contactModel: contactModel),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            barrierColor: Colors.black.withOpacity(0.2),
-            isScrollControlled: true);
+        CommonFunctions.bottomSheet(
+          AddContactBottomSheet(contactModel: contactModel),fullscreen: true
+        );
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +34,7 @@ class AddContactButton extends StatelessWidget {
           ),
           0.02.hspace,
           Text(
-            "Save",
+            "Save".tr,
             style: labelMedium.apply(color: ColorConst.Primary),
           )
         ],

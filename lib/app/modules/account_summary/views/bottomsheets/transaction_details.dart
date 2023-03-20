@@ -29,12 +29,13 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
   final TxHistoryModel transactionModel;
   final TokenInfo tokenInfo;
   final String userAccountAddress;
-
+  final double xtzPrice;
   const TransactionDetailsBottomSheet(
       {super.key,
       required this.transactionModel,
       required this.tokenInfo,
-      required this.userAccountAddress});
+      required this.userAccountAddress,
+      required this.xtzPrice});
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +152,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                   trailing: Text(
                     tokenInfo.token!.operationStatus != "applied"
                         ? "failed"
-                        : "\$${tokenInfo.dollarAmount.toStringAsFixed(6)}",
+                        : "${tokenInfo.dollarAmount.roundUpDollar(xtzPrice, decimals: 6)}",
                     style: labelLarge.copyWith(
                         letterSpacing: 0.5.aR,
                         fontWeight: FontWeight.w400,
@@ -183,7 +184,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                   );
                 }
               }),
-        const Spacer(),
+        0.02.vspace,
+        // const Spacer(),
         Center(
           child: BouncingWidget(
             onPressed: () {
@@ -344,7 +346,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                           width: 120.arP,
                           padding: EdgeInsets.symmetric(horizontal: 10.arP),
                           onTap: () {
-                            Get.bottomSheet(
+                            CommonFunctions.bottomSheet(
                               AddContactBottomSheet(
                                   isTransactionContact: true,
                                   contactModel: ContactModel(
@@ -357,12 +359,6 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                                 .allAssetsProfileImages.length -
                                             1,
                                       )])),
-                              enterBottomSheetDuration:
-                                  const Duration(milliseconds: 180),
-                              exitBottomSheetDuration:
-                                  const Duration(milliseconds: 150),
-                              isScrollControlled: true,
-                              barrierColor: Colors.transparent,
                             ).whenComplete(() => controller.contact?.value =
                                 controller.getContact(getSenderAddress()));
                           },
@@ -378,7 +374,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                           width: 100.aR,
                           padding: EdgeInsets.symmetric(horizontal: 11.aR),
                           onTap: () {
-                            Get.bottomSheet(
+                            CommonFunctions.bottomSheet(
                               AddContactBottomSheet(
                                   isEditContact: true,
                                   isTransactionContact: true,
@@ -392,12 +388,6 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                                 .allAssetsProfileImages.length -
                                             1,
                                       )])),
-                              enterBottomSheetDuration:
-                                  const Duration(milliseconds: 180),
-                              exitBottomSheetDuration:
-                                  const Duration(milliseconds: 150),
-                              isScrollControlled: true,
-                              barrierColor: Colors.transparent,
                             ).whenComplete(() => controller.contact?.value =
                                 controller.getContact(getSenderAddress()));
                           },
@@ -417,13 +407,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                           height: 30.aR,
                           width: 100.aR,
                           onTap: () {
-                            Get.bottomSheet(
+                            CommonFunctions.bottomSheet(
                               RemoveContactBottomSheet(contactModel: contact),
-                              enterBottomSheetDuration:
-                                  const Duration(milliseconds: 180),
-                              exitBottomSheetDuration:
-                                  const Duration(milliseconds: 150),
-                              barrierColor: Colors.transparent,
                             );
                           },
                           child: Text(

@@ -14,9 +14,20 @@ extension SizeExtension on num {
   double get spH => this * (Get.height / 6) / 100;
 
   double get arP {
-    return this * (Get.size.aspectRatio * (Get.size.height < 540 ? 1 : 2));
+    // log(Get.size.height.toString());
+    // log(Get.pixelRatio.toString());
+    double ratio = 1;
+    if (Get.size.height < 740) {
+      ratio = Platform.isIOS ? 1.35 : 1;
+    } else if (Get.size.height > 1100) {
+      ratio = 1.6;
+    } else {
+      ratio = 2;
+    }
+    return this * (Get.size.aspectRatio * ratio);
   }
 
+  double get txtArp => arP;
   double get aR => arP;
 
   SizedBox get vspace => SizedBox(

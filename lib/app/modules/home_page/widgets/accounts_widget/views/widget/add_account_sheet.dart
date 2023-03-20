@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/modules/create_wallet_page/controllers/create_wa
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:web3auth_flutter/enums.dart';
@@ -29,33 +30,29 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 0,
-      height: 440.arP,
+      // bottomSheetHorizontalPadding: 0,
+      height: 0.44.height,
+
       title: widget.warning ?? 'Add account',
       bottomSheetWidgets: [
         SizedBox(
-          height: 8.arP,
+          height: 12.arP,
         ),
         Center(
           child: Text(
-            'Create or import an account',
-            style: TextStyle(
-                fontSize: 12.arP,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xFF958E99),
-                letterSpacing: 0.4.arP),
+            'Create or import an account'.tr,
+            style: bodySmall.copyWith(
+              color: const Color(0xFF958E99),
+            ),
             textAlign: TextAlign.center,
           ),
         ),
-        Spacer(),
+        // Spacer(),
         SizedBox(
-          height: 10.arP,
+          height: 24.arP,
         ),
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             // color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
@@ -74,13 +71,8 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
                 ),
                 onPressed: () {
                   Get.back();
-                  Get.bottomSheet(AddNewAccountBottomSheet(),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          barrierColor: Colors.transparent,
-                          isScrollControlled: true)
+                  CommonFunctions.bottomSheet(AddNewAccountBottomSheet(),
+                          fullscreen: true)
                       .whenComplete(() {
                     Get.find<AccountsWidgetController>().resetCreateNewWallet();
                   });
@@ -125,7 +117,7 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              "Or create account with",
+              "Or create account with".tr,
               style: bodySmall.copyWith(
                 fontWeight: FontWeight.w600,
                 color: ColorConst.NeutralVariant.shade60,

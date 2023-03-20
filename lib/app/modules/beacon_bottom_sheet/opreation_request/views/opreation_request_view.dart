@@ -13,6 +13,7 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 import '../controllers/opreation_request_controller.dart';
 
@@ -72,7 +73,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                               ),
                               0.01.vspace,
                               Text(
-                                'Confirm Transaction',
+                                'Confirm Transaction'.tr,
                                 style: titleMedium.copyWith(fontSize: 18.arP),
                               ),
                               Expanded(
@@ -81,7 +82,9 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Obx(() => (Text(
-                                            "\$ ${controller.dollarPrice.value.toStringAsFixed(2)}",
+                                            controller.dollarPrice.value
+                                                .roundUpDollar(
+                                                    controller.xtzPrice),
                                             style: titleLarge.copyWith(
                                                 fontSize: 32.arP),
                                           ))),
@@ -142,14 +145,14 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                     ]),
                               ),
                               Text(
-                                'Account',
+                                'Account'.tr,
                                 style:
                                     bodySmall.copyWith(color: ColorConst.grey),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(4),
                                 child: Container(
-                                  height: 42,
+                                  // height: 42,
                                   width: 0.5.width,
                                   decoration: BoxDecoration(
                                     border: Border.all(
@@ -163,11 +166,13 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
+                                        padding: EdgeInsets.only(
+                                            right: 8.0.arP,
+                                            top: 8.arP,
+                                            bottom: 8.arP),
                                         child: Container(
-                                          height: 0.06.width,
-                                          width: 0.06.width,
+                                          height: 24.arP,
+                                          width: 24.arP,
                                           alignment: Alignment.bottomRight,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
@@ -218,116 +223,115 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                       vertical: 12,
                                                       horizontal: 24),
                                                   child: Text(
-                                                    'Transaction is likely to fail: ${controller.error.value.length > 100 ? controller.error.value.replaceRange(100, controller.error.value.length, '...') : controller.error.value}',
+                                                    '${'Transaction is likely to fail:'.tr} ${controller.error.value.length > 100 ? controller.error.value.replaceRange(100, controller.error.value.length, '...') : controller.error.value}',
                                                     style: bodyMedium.copyWith(
                                                         color:
                                                             ColorConst.NaanRed),
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 )
-                                              : 
-                                           Padding(
-                                              padding: const EdgeInsets
-                                                      .symmetric(
-                                                  horizontal: 24.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                mainAxisSize:
-                                                    MainAxisSize.max,
-                                                children: [
-                                                  Expanded(
-                                                      child: SolidButton(
-                                                    borderColor:
-                                                        const Color(
+                                              : Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 24.0),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Expanded(
+                                                          child: SolidButton(
+                                                        borderColor:
+                                                            const Color(
+                                                                0xFFE8A2B9),
+                                                        title: "Cancel",
+                                                        primaryColor:
+                                                            Colors.transparent,
+                                                        onPressed: () {
+                                                          controller.reject();
+                                                        },
+                                                        textColor: const Color(
                                                             0xFFE8A2B9),
-                                                    title: "Cancel",
-                                                    primaryColor:
-                                                        Colors.transparent,
-                                                    onPressed: () {
-                                                      controller.reject();
-                                                    },
-                                                    textColor: const Color(
-                                                        0xFFE8A2B9),
-                                                  )),
-                                                  0.04.hspace,
-                                                  Expanded(
-                                                      child: TextButton(
-                                                    style: ButtonStyle(
-                                                        shape: MaterialStateProperty.all(
-                                                            RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius.circular(
-                                                                        8))),
-                                                        backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all(ColorConst
-                                                                    .Primary)),
-                                                    onPressed: () {
-                                                      if (controller
-                                                          .error.value
-                                                          .trim()
-                                                          .isEmpty) {
-                                                        controller
-                                                            .confirm();
-                                                      }
-                                                    },
-                                                    child: Obx(
-                                                      () => (Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 4,
-                                                                horizontal:
-                                                                    20),
-                                                        child: controller
-                                                                .operation
-                                                                .isEmpty
-                                                            ? const SizedBox(
-                                                                height: 20,
-                                                                width: 20,
-                                                                child:
-                                                                    CupertinoActivityIndicator(
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              )
-                                                            : !controller
-                                                                    .isBiometric
-                                                                    .value
-                                                                ? Text(
-                                                                    'Confirm',
-                                                                    style: titleSmall.copyWith(
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                        color: ColorConst.Neutral.shade100),
-                                                                  )
-                                                                : Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment.spaceAround,
-                                                                    children: [
-                                                                      Platform.isAndroid
-                                                                          ? SvgPicture.asset("${PathConst.SETTINGS_PAGE.SVG}fingerprint.svg")
-                                                                          : SvgPicture.asset(
-                                                                              "${PathConst.SVG}faceid.svg",
-                                                                              width: 25,
-                                                                              color: Colors.white,
-                                                                            ),
-                                                                      Text(
-                                                                        'Confirm',
-                                                                        style:
-                                                                            titleSmall.copyWith(fontWeight: FontWeight.w600, color: ColorConst.Neutral.shade100),
-                                                                      ),
-                                                                    ],
-                                                                  ),
                                                       )),
-                                                    ),
-                                                  )),
-                                                ],
-                                              ),
-                                            ),
-
+                                                      0.04.hspace,
+                                                      Expanded(
+                                                          child: TextButton(
+                                                        style: ButtonStyle(
+                                                            shape: MaterialStateProperty.all(
+                                                                RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            8))),
+                                                            backgroundColor:
+                                                                MaterialStateProperty
+                                                                    .all(ColorConst
+                                                                        .Primary)),
+                                                        onPressed: () {
+                                                          if (controller
+                                                              .error.value
+                                                              .trim()
+                                                              .isEmpty) {
+                                                            controller
+                                                                .confirm();
+                                                          }
+                                                        },
+                                                        child: Obx(
+                                                          () => (Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical: 4,
+                                                                    horizontal:
+                                                                        20),
+                                                            child: controller
+                                                                    .operation
+                                                                    .isEmpty
+                                                                ? const SizedBox(
+                                                                    height: 20,
+                                                                    width: 20,
+                                                                    child:
+                                                                        CupertinoActivityIndicator(
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  )
+                                                                : !controller
+                                                                        .isBiometric
+                                                                        .value
+                                                                    ? Text(
+                                                                        'Confirm'
+                                                                            .tr,
+                                                                        style: titleSmall.copyWith(
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                            color: ColorConst.Neutral.shade100),
+                                                                      )
+                                                                    : Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceAround,
+                                                                        children: [
+                                                                          Platform.isAndroid
+                                                                              ? SvgPicture.asset("${PathConst.SETTINGS_PAGE.SVG}fingerprint.svg")
+                                                                              : SvgPicture.asset(
+                                                                                  "${PathConst.SVG}faceid.svg",
+                                                                                  width: 25,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                          Text(
+                                                                            'Confirm'.tr,
+                                                                            style:
+                                                                                titleSmall.copyWith(fontWeight: FontWeight.w600, color: ColorConst.Neutral.shade100),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                          )),
+                                                        ),
+                                                      )),
+                                                    ],
+                                                  ),
+                                                ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 12, horizontal: 24),
@@ -343,7 +347,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        'Estimated Fees',
+                                                        'Estimated Fees'.tr,
                                                         style:
                                                             bodySmall.copyWith(
                                                                 color:
@@ -351,7 +355,20 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                                         .grey),
                                                       ),
                                                       Obx(() => (Text(
-                                                            '\$ ${controller.fees.value}',
+                                                            controller.fees
+                                                                        .value ==
+                                                                    "calculating..."
+                                                                        .tr
+                                                                ? "calculating..."
+                                                                    .tr
+                                                                    .tr
+                                                                : double.parse(
+                                                                        controller
+                                                                            .fees
+                                                                            .value)
+                                                                    .roundUpDollar(
+                                                                        controller
+                                                                            .xtzPrice),
                                                             style: bodyMedium,
                                                           ))),
                                                     ],
@@ -362,7 +379,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            'Balance',
+                                                            'Balance'.tr,
                                                             style: bodySmall
                                                                 .copyWith(
                                                                     color: ColorConst
@@ -437,7 +454,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                         ),
                         0.02.hspace,
                         Text(
-                          "Confirm",
+                          "Confirm".tr,
                           style: titleSmall.copyWith(
                               fontWeight: FontWeight.w600,
                               color: ColorConst.Neutral.shade100),

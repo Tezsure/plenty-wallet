@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 
+import '../../../../modules/settings_page/enums/network_enum.dart';
+import '../../service_config/service_config.dart';
+
 class OnGoingTxStatusHelper {
   String opHash;
   TransactionStatus status;
@@ -19,8 +22,13 @@ class OnGoingTxStatusHelper {
   });
 
   Future<int> getStatus() async {
+    String network = "mainnet";
+    network = ServiceConfig.currentNetwork == NetworkType.testnet
+        ? Uri.parse(ServiceConfig.currentSelectedNode).path.replaceAll("/", "")
+        : "mainnet";
+
     var response = await HttpService.performGetRequest(
-        "https://api.tzkt.io/v1/operations/$opHash");
+        "https://api.$network.tzkt.io/v1/operations/$opHash");
 
     if (response.isNotEmpty && jsonDecode(response).length != 0) {
       var status = jsonDecode(response)[0]['status'];

@@ -5,17 +5,22 @@ import 'dart:ui';
 // import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import 'package:get/get.dart';
+import 'package:get/get_navigation/src/router_report.dart';
 import 'package:instabug_flutter/instabug_flutter.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/env.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'app/data/services/translation/translation_helper.dart';
 import 'app/routes/app_pages.dart';
+import 'utils/translation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,22 +83,49 @@ void main() async {
     //Remove this method to stop OneSignal Debugging
 
     runApp(
-      GetMaterialApp(
-        title: "naan",
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          fontFamily: "Poppins",
+      Phoenix(
+        child: GetMaterialApp(
+          title: "naan",
+          locale: Get.deviceLocale,
+          theme: ThemeData(
+            brightness: Brightness.dark,
+            fontFamily: "Poppins",
+          ),
+          navigatorObservers: [
+            //InstabugNavigatorObserver(),
+            FirebaseAnalyticsObserver(
+                analytics: NaanAnalytics().getAnalytics()),
+          ],
+          // supportedLocales: const [
+          //   Locale("en", "US"),
+          //   Locale("en", "IN"),
+          // ],
+
+          debugShowCheckedModeBanner: false,
+          initialRoute: AppPages.INITIAL,
+          // getPages: AppPages.routes,
+          builder: (context, Widget? child) => CupertinoTheme(
+            data: CupertinoThemeData(
+              brightness: Theme.of(context).brightness,
+              scaffoldBackgroundColor: CupertinoColors.systemBackground,
+            ),
+            child: child!,
+          ),
+          onGenerateRoute: (settings) {
+            final page = AppPages.routes.firstWhere(
+                (e) => e.name.toLowerCase() == settings.name!.toLowerCase());
+            page.binding?.dependencies();
+            return MaterialWithModalsPageRoute(
+                onCreate: (route) {
+                  RouterReportManager.reportCurrentRoute(route);
+                },
+                onDispose: (route) {
+                  RouterReportManager.reportRouteDispose(route);
+                },
+                settings: settings,
+                builder: (_) => page.page());
+          },
         ),
-        navigatorObservers: [
-          //InstabugNavigatorObserver(),
-          FirebaseAnalyticsObserver(analytics: NaanAnalytics().getAnalytics()),
-        ],
-        supportedLocales: const [
-          Locale("en", "US"),
-        ],
-        debugShowCheckedModeBanner: false,
-        initialRoute: AppPages.INITIAL,
-        getPages: AppPages.routes,
       ),
     );
   }, (error, stackTrace) {
@@ -147,6 +179,7 @@ class LifeCycleController extends SuperController {
 
       return;
     }
+    DataHandlerService().currencyPrices();
     DataHandlerService().setUpTimer();
     print("onResumed");
   }

@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/app/data/services/create_profile_service/create_profile_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/image_picker.dart';
 
@@ -15,6 +16,7 @@ import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/pick_an_avatar.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -75,13 +77,11 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
   Widget _buildAddAccount(BuildContext context) {
     return NaanBottomSheet(
       title: "Name your account",
-      isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight -
-      //     MediaQuery.of(context).viewInsets.bottom,
+      // isScrollControlled: true,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
-              28.arP -
               MediaQuery.of(context).viewInsets.bottom,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,14 +109,8 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
                     ),
                     child: GestureDetector(
                       onTap: () {
-                        Get.bottomSheet(
+                        CommonFunctions.bottomSheet(
                           changePhotoBottomSheet(),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          barrierColor: Colors.white.withOpacity(0.01),
-                          isScrollControlled: true,
                         );
                       },
                       child: CircleAvatar(
@@ -173,7 +167,7 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
                         ),
                         0.015.hspace,
                         Text(
-                          "Start using naan",
+                          "Start using naan".tr,
                           style: titleSmall.copyWith(
                               fontSize: 14.aR,
                               color: controller.phrase.isEmpty ||
@@ -185,7 +179,7 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
                       ],
                     ),
                   )),
-              0.05.vspace
+              BottomButtonPadding()
             ],
           ),
         )
@@ -354,10 +348,9 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
         }
       },
       onPickAvatarSelect: () async {
-        Get.bottomSheet(avatarPicker(),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            isScrollControlled: true);
+        CommonFunctions.bottomSheet(
+          avatarPicker(),
+        );
       },
     );
     // return BackdropFilter(

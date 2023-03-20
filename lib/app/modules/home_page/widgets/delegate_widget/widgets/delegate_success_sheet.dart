@@ -21,11 +21,11 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
     Get.lazyPut(() => DelegateWidgetController());
     AppConstant.hapticFeedback();
     return NaanBottomSheet(
-        mainAxisAlignment: MainAxisAlignment.end,
-        bottomSheetHorizontalPadding: 16.arP,
+        // mainAxisAlignment: MainAxisAlignment.end,
+        // bottomSheetHorizontalPadding: 16.arP,
         height: 0.45.height,
-        blurRadius: 5,
-        width: double.infinity,
+        // blurRadius: 5,
+        // width: double.infinity,
         bottomSheetWidgets: [
           SafeArea(
             child: Container(
@@ -48,12 +48,13 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
                   // ),
                   0.0175.vspace,
                   Text(
-                    "Delegation successful",
+                    "Delegation successful".tr,
                     style: titleLarge,
                   ),
                   0.006.vspace,
                   Text(
-                    "Your delegation request should be \nconfirmed in next 30 seconds",
+                    "Your delegation request should be \nconfirmed in next 30 seconds"
+                        .tr,
                     textAlign: TextAlign.center,
                     style: labelMedium.copyWith(color: ColorConst.textGrey1),
                   ),
@@ -75,7 +76,9 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
                     active: true,
                     onPressed: () {
                       Share.share(
-                          "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}");
+                          "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone."
+                                  .tr +
+                              " ${AppConstant.naanWebsite}");
                     },
                     title: "Share naan",
                   ),

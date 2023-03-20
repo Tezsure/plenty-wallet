@@ -6,6 +6,7 @@ import 'package:beacon_flutter/models/connected_peers.dart';
 import 'package:beacon_flutter/models/p2p_peer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
@@ -21,10 +22,10 @@ import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:web3auth_flutter/enums.dart';
-
 import '../../../data/services/enums/enums.dart';
 import '../../../data/services/service_config/service_config.dart';
 import '../../../data/services/service_models/account_model.dart';
@@ -62,6 +63,9 @@ class SettingsPageController extends GetxController {
       true.obs; // Check if in app purchase is available
   RxBool supportBiometric = true.obs;
   RxBool isPasscodeSet = true.obs;
+
+  RxString selectedCurrency = ServiceConfig.currency.name.obs;
+  RxString selectedLanguage = ServiceConfig.language.name.obs;
 
   final InAppReview inAppReview = InAppReview.instance;
 
@@ -161,6 +165,7 @@ class SettingsPageController extends GetxController {
     networkType.value = await RpcService.getCurrentNetworkType();
     getOldWalletAccounts();
     ServiceConfig.currentNetwork = networkType.value;
+
     await changeNodeSelector();
     await RpcService.getCurrentNode().then((value) {
       if (value == null) {
@@ -198,7 +203,34 @@ class SettingsPageController extends GetxController {
     final node = networkType.value.index == NetworkType.mainnet.index
         ? nodeModel.value.mainnet!.nodes!.first
         : nodeModel.value.testnet!.nodes!.first;
-    changeNode(node);
+    await changeNode(node);
+    Get.find<BeaconService>().stop();
+    await Get.delete<BeaconService>(force: true);
+    Get.find<HomePageController>().resetUserAccounts();
+    await Get.delete<HomePageController>(force: true);
+    await Get.deleteAll(force: true);
+
+    Phoenix.rebirth(Get.context!);
+    Get.reset();
+  }
+
+  /// Change Currency
+  Future<void> changeCurrency(String currency) async {
+    await UserStorageService.writeCurrency(currency);
+
+    selectedCurrency.value = currency;
+    ServiceConfig.currency = Currency.values.byName(currency);
+/*     await Get.deleteAll(force: true);
+    Phoenix.rebirth(Get.context!);
+    Get.reset(); */
+  }
+
+  /// Change Language
+  Future<void> changeLanguage(String language) async {
+    await UserStorageService.writeLanguage(language);
+    Get.updateLocale(Locale(language));
+    selectedLanguage.value = language;
+    ServiceConfig.language = Language.values.byName(language);
   }
 
   /// Change Node
@@ -362,9 +394,9 @@ class SettingsPageController extends GetxController {
   }
 
   void switchFingerprint(bool value) => fingerprint.value = value;
-  void checkWalletBackup() async {
+  void checkWalletBackup(BuildContext context, String? prevPage) async {
     if (isWalletBackup.value) {
-      Get.bottomSheet(BackupPage(), isScrollControlled: true);
+      CommonFunctions.bottomSheet(BackupPage(), fullscreen: true);
     } else {
       final seedPhrase = await UserStorageService()
           .readAccountSecrets(homePageController.userAccounts
@@ -373,15 +405,25 @@ class SettingsPageController extends GetxController {
           .then((value) {
         return value?.seedPhrase ?? "";
       });
-      Get.bottomSheet(
-              BackupWalletView(
+      if (prevPage != null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BackupWalletView(
+                prevPage: prevPage,
                 seedPhrase: seedPhrase,
               ),
-              barrierColor: Colors.transparent,
-              enterBottomSheetDuration: const Duration(milliseconds: 180),
-              exitBottomSheetDuration: const Duration(milliseconds: 150),
-              isScrollControlled: true)
-          .whenComplete(getWalletBackupStatus);
+            )).whenComplete(getWalletBackupStatus);
+      } else {
+        Get.back();
+        CommonFunctions.bottomSheet(
+                BackupWalletView(
+                  prevPage: null,
+                  seedPhrase: seedPhrase,
+                ),
+                fullscreen: true)
+            .whenComplete(getWalletBackupStatus);
+      }
     }
   }
 
@@ -424,7 +466,7 @@ class SettingsPageController extends GetxController {
                   width: 5,
                 ),
                 Text(
-                  "Copied",
+                  "Copied!".tr,
                   style: labelSmall,
                 )
               ],

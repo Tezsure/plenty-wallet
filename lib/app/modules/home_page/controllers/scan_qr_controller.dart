@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/permission_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../send_page/controllers/send_page_controller.dart';
@@ -45,14 +46,13 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
         result = scanData;
         Get.back();
         final home = Get.find<HomePageController>();
-        Get.bottomSheet(const SendPage(),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            isScrollControlled: true,
-            settings: RouteSettings(
-              arguments: home.userAccounts[home.selectedIndex.value],
-            ),
-            barrierColor: Colors.white.withOpacity(0.09));
+        CommonFunctions.bottomSheet(
+          const SendPage(),
+          fullscreen: true,
+          settings: RouteSettings(
+            arguments: home.userAccounts[home.selectedIndex.value],
+          ),
+        );
         Future.delayed(const Duration(milliseconds: 300), () async {
           Get.find<SendPageController>().scanner(scanData.code!);
         });
@@ -79,8 +79,9 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
     // log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
       Get.back();
-      Get.bottomSheet(const CameraPermissionHandler(),
-          isScrollControlled: true);
+      CommonFunctions.bottomSheet(
+        const CameraPermissionHandler(),
+      );
     }
   }
 }

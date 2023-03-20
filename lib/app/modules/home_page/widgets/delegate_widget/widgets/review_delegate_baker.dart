@@ -48,7 +48,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                   ),
                 ),
                 Text(
-                  "Delegate to",
+                  "Delegate to".tr,
                   style: labelMedium.copyWith(color: ColorConst.textGrey1),
                 ),
                 Padding(
@@ -83,7 +83,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                               ),
                         0.02.hspace,
                         Text(
-                          "Hold to Delegate",
+                          "Hold to Delegate".tr,
                           style: titleSmall.copyWith(
                               fontSize: 14.aR, color: Colors.white),
                         )
@@ -102,30 +102,31 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
     return Row(
       children: [
         SizedBox(
-          width: 0.165.width,
+          // width: 0.16.width,
           child: Align(
               alignment: Alignment.centerLeft,
               child: CustomImageWidget(
                 imageType: _homePageController.userAccounts[0].imageType!,
                 imagePath: _homePageController.userAccounts[0].profileImage!,
-                imageRadius: 23,
+                imageRadius: 23.arP,
               )),
         ),
+        0.016.hspace,
         Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 14,
+              // height: 14.arP,
               child: Text(
-                _homePageController.userAccounts[0].name ?? 'Account Name',
+                _homePageController.userAccounts[0].name ?? 'Account',
                 style: labelSmall.apply(
                   color: ColorConst.NeutralVariant.shade60,
                 ),
               ),
             ),
             SizedBox(
-              height: 27,
+              height: 27.arP,
               child: Row(
                 children: [
                   Text(
@@ -145,27 +146,27 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                         backgroundColor: Colors.transparent,
                         snackPosition: SnackPosition.BOTTOM,
                         snackStyle: SnackStyle.FLOATING,
-                        padding: const EdgeInsets.only(bottom: 60),
+                        padding: EdgeInsets.only(bottom: 60.arP),
                         messageText: Container(
-                          height: 36,
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          height: 36.arP,
+                          padding: EdgeInsets.symmetric(horizontal: 10.arP),
                           decoration: BoxDecoration(
                               color: ColorConst.Neutral.shade10,
-                              borderRadius: BorderRadius.circular(8)),
+                              borderRadius: BorderRadius.circular(8.arP)),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.check_circle_outline_rounded,
-                                size: 14,
+                                size: 14.arP,
                                 color: Colors.white,
                               ),
-                              const SizedBox(
-                                width: 5,
+                              SizedBox(
+                                width: 5.arP,
                               ),
                               Text(
-                                "Copied to clipboard",
+                                "copied to clipboard".tr,
                                 style: labelSmall,
                               )
                             ],

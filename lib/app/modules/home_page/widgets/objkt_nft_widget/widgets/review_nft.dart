@@ -20,6 +20,7 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 import '../controllers/buy_nft_controller.dart';
 
@@ -71,8 +72,13 @@ class ReviewNFTSheet extends StatelessWidget {
                 () => Text(
                   controller.selectedToken.value!.symbol!.toLowerCase() ==
                           "Tezos".toLowerCase()
-                      ? "\$${(double.parse(controller.priceInToken.value) * homeController.xtzPrice.value).toStringAsFixed(2)}"
-                      : "\$${((double.parse(controller.priceInToken.value) * controller.selectedToken.value!.currentPrice! * homeController.xtzPrice.value).toStringAsFixed(2))}",
+                      ? (double.parse(controller.priceInToken.value) *
+                              homeController.xtzPrice.value)
+                          .roundUpDollar(homeController.xtzPrice.value)
+                      : ((double.parse(controller.priceInToken.value) *
+                              controller.selectedToken.value!.currentPrice! *
+                              homeController.xtzPrice.value)
+                          .roundUpDollar(homeController.xtzPrice.value)),
                   style: headlineLarge,
                 ),
               ),
@@ -98,7 +104,7 @@ class ReviewNFTSheet extends StatelessWidget {
                     child: controller.error.value.trim().isEmpty
                         ? _builButtons()
                         : Text(
-                            'Transaction is likely to fail: ${controller.error.value.length > 100 ? controller.error.value.replaceRange(100, controller.error.value.length, '...') : controller.error.value}',
+                            '${'Transaction is likely to fail:'.tr} ${controller.error.value.length > 100 ? controller.error.value.replaceRange(100, controller.error.value.length, '...') : controller.error.value}',
                             style:
                                 bodyMedium.copyWith(color: ColorConst.NaanRed),
                             textAlign: TextAlign.center,
@@ -124,14 +130,18 @@ class ReviewNFTSheet extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Estimate fee",
+                "Estimate fee".tr,
                 style: bodySmall.copyWith(color: ColorConst.grey),
               ),
               Obx(
                 () => Row(
                   children: [
                     Text(
-                      "\$ ${controller.fees["totalFee"]!}",
+                      controller.fees["totalFee"] == "calculating..."
+                          ? "calculating..."
+                          : double.parse(controller.fees["totalFee"]!)
+                              .roundUpDollar(controller.xtzPrice.value,
+                                  decimals: 4),
                       style: labelMedium,
                     ),
                     0.01.hspace,
@@ -150,7 +160,7 @@ class ReviewNFTSheet extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Balance",
+                "Balance".tr,
                 style: bodySmall.copyWith(color: ColorConst.grey),
               ),
               Text(
@@ -195,13 +205,14 @@ class ReviewNFTSheet extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Account',
+          'Account'.tr,
           style: bodySmall.copyWith(color: ColorConst.grey),
         ),
         0.008.vspace,
         Obx(() => Container(
-              height: 42.arP,
-              padding: EdgeInsets.symmetric(horizontal: 20.arP),
+              // height: 42.arP,
+              padding:
+                  EdgeInsets.symmetric(horizontal: 20.arP, vertical: 10.arP),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: ColorConst.grey,
@@ -217,8 +228,8 @@ class ReviewNFTSheet extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(right: 16.0.arP),
                     child: Container(
-                      height: 0.06.width,
-                      width: 0.06.width,
+                      height: 24.arP,
+                      width: 24.arP,
                       alignment: Alignment.bottomRight,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -287,15 +298,15 @@ class ReviewNFTSheet extends StatelessWidget {
                       height: 20,
                       width: 20,
                       child: CupertinoActivityIndicator(
-                            color: Colors.white,
-                          ),
+                        color: Colors.white,
+                      ),
                     )
                   : Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(
-                          height: 20,
-                          width: 20,
+                          height: 20.arP,
+                          width: 20.arP,
                           child: Platform.isAndroid
                               ? SvgPicture.asset(
                                   "${PathConst.SVG}fingerprint.svg",
@@ -308,7 +319,7 @@ class ReviewNFTSheet extends StatelessWidget {
                         ),
                         0.02.hspace,
                         Text(
-                          "Confirm",
+                          "Confirm".tr,
                           style: titleSmall.copyWith(
                               fontWeight: FontWeight.w600,
                               color: ColorConst.Neutral.shade100),

@@ -2,6 +2,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
+enum Currency { usd, tez, eur, inr }
+
+enum Language { en, nl, fr }
+
 class ServiceConfig {
   /// Current selected node
   static String currentSelectedNode = "https://rpc.tzkt.io/mainnet";
@@ -9,9 +13,17 @@ class ServiceConfig {
 
   static String ipfsUrl = "https://ipfs.io/ipfs";
 
+  static String currencyApi = "https://api.exchangerate.host/latest?base=USD";
+
   static bool isIAFWidgetVisible = false;
 
   static bool isTezQuakeWidgetVisible = false;
+
+  static Currency currency = Currency.usd;
+  static Language language = Language.en;
+
+  static double inr = 0.0;
+  static double eur = 0.0;
 
   /// Teztools api with endpoint for mainnet token prices
   static String tezToolsApi = "https://api.teztools.io/token/prices";
@@ -19,6 +31,8 @@ class ServiceConfig {
   /// Xtz price coingecko api with endpoint
   static String coingeckoApi =
       "https://api.coingecko.com/api/v3/simple/price?ids=tezos&vs_currencies=usd";
+
+  static String tezPriceChart = "https://messari.io/asset/tezos";
 
   static String xtzPriceApi =
       "https://api.analytics.plenty.network/analytics/tokens/XTZ?historical=false";
@@ -73,7 +87,11 @@ class ServiceConfig {
   static const String betaTagStorage = "${storageName}_beta_tag";
 
   // xtz price and token price
+  static const String currencySelectedStorage = "${storageName}_currency";
+  static const String languageSelectedStorage = "${storageName}_language";
   static const String xtzPriceStorage = "${storageName}_xtz_price";
+  static const String inrPriceStorage = "${storageName}_inr";
+  static const String eurPriceStorage = "${storageName}_eur";
   static const String dayChangeStorage = "${storageName}_24_hr_change";
   static const String tokenPricesStorage = "${storageName}_token_prices";
 
@@ -88,6 +106,8 @@ class ServiceConfig {
 
   // dapps
   static const String dappsStorage = "${storageName}_dapps";
+// events
+  static const String eventsStorage = "${storageName}_events";
   // dapps banner
   static const String dappsBannerStorage = "${storageName}_dapps_banner";
 

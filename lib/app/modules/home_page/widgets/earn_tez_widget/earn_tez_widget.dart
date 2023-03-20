@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -27,16 +28,13 @@ class EarnTezWidget extends StatelessWidget {
             .where((element) => element.isWatchOnly == false)
             .toList()
             .isEmpty) {
-          Get.bottomSheet(
-             NoAccountsFoundBottomSheet(),
-            isScrollControlled: true,
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
+          CommonFunctions.bottomSheet(
+            NoAccountsFoundBottomSheet(),
           );
           return;
         }
         NaanAnalytics.logEvent(NaanAnalyticsEvents.DELEGATE_WIDGET_CLICK);
-        Get.put(DelegateWidgetController()).openBakerList();
+        Get.put(DelegateWidgetController()).openBakerList(context, null);
       },
       child: Container(
         height: AppConstant.homeWidgetDimension,
@@ -64,10 +62,10 @@ class EarnTezWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("Earn 5%",
+                    Text("Earn 5%".tr,
                         style: headlineSmall.copyWith(fontSize: 20.arP)),
                     Text(
-                      "on your tez",
+                      "on your tez".tr,
                       style: bodySmall,
                     ),
                   ],

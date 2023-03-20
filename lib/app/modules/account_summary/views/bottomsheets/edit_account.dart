@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/common_widgets/pick_an_avatar.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -70,16 +71,15 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
 
   Widget draggableUI() {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 16.arP,
-      // height: AppConstant.naanBottomSheetHeight -
-      //     MediaQuery.of(context).viewInsets.bottom,
-      isScrollControlled: true,
+      // bottomSheetHorizontalPadding: 16.arP,
+      height: AppConstant.naanBottomSheetHeight,
+      // isScrollControlled: true,
       title: "Edit Account",
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
-              MediaQuery.of(context).viewInsets.bottom -
-              70.arP,
+              // 70.arP -
+              MediaQuery.of(context).viewInsets.bottom,
           child: Column(children: [
             0.02.vspace,
             _buildAvatar(),
@@ -333,12 +333,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
       ),
       child: BouncingWidget(
         onPressed: () {
-          Get.bottomSheet(
-            changePhotoBottomSheet(),
-            barrierColor: Colors.transparent,
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-          ).whenComplete(() {
+          CommonFunctions.bottomSheet(changePhotoBottomSheet())
+              .whenComplete(() {
             setState(() {});
           });
         },
@@ -361,7 +357,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
       child: SingleChildScrollView(
         child: Column(children: [
           0.01.vspace,
-          Text("Edit Account", style: titleLarge),
+          Text("Edit Account".tr, style: titleLarge),
           0.02.vspace,
           Container(
             height: 0.3.width,
@@ -376,11 +372,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             ),
             child: BouncingWidget(
               onPressed: () {
-                Get.bottomSheet(
+                CommonFunctions.bottomSheet(
                   changePhotoBottomSheet(),
-                  barrierColor: Colors.transparent,
-                  enterBottomSheetDuration: const Duration(milliseconds: 180),
-                  exitBottomSheetDuration: const Duration(milliseconds: 150),
                 ).whenComplete(() {
                   setState(() {});
                 });
@@ -437,7 +430,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               }),
           0.04.vspace,
           SolidButton(
-            height: 40.arP,
+            // height: 40.arP,
             primaryColor:
                 _controller.accountNameController.value.text.isNotEmpty
                     ? ColorConst.Primary
@@ -473,11 +466,8 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
         }
       },
       onPickAvatarSelect: () async {
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           avatarPicker(),
-          isScrollControlled: true,
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
         );
       },
       onRemoveImage: _controller.homePageController

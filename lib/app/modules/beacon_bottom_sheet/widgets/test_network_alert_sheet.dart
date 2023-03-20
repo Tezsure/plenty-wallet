@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/select_network_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -58,12 +59,13 @@ class _TestNetworkBottomSheetState extends State<TestNetworkBottomSheet> {
                 ),
                 0.03.vspace,
                 Text(
-                  "Connection Failed",
+                  "Connection Failed".tr,
                   style: titleSmall.copyWith(color: ColorConst.Error),
                 ),
                 0.01.vspace,
                 Text(
-                  "Your app network is not the same as the network required by the dApp",
+                  "Your app network is not the same as the network required by the dApp"
+                      .tr,
                   style: labelMedium.copyWith(
                     color: ColorConst.textGrey1,
                   ),
@@ -71,18 +73,14 @@ class _TestNetworkBottomSheetState extends State<TestNetworkBottomSheet> {
                 ),
                 0.032.vspace,
                 Text(
-                  "Network",
+                  "Network".tr,
                   style: labelMedium.copyWith(color: ColorConst.textGrey1),
                 ),
                 0.008.vspace,
                 BouncingWidget(
                   onPressed: () async {
-                    await Get.bottomSheet(
+                    await CommonFunctions.bottomSheet(
                       SelectNetworkBottomSheet(),
-                      enterBottomSheetDuration:
-                          const Duration(milliseconds: 180),
-                      exitBottomSheetDuration:
-                          const Duration(milliseconds: 150),
                     );
                     networkType =
                         (await RpcService.getCurrentNetworkType()).toString();
@@ -135,41 +133,22 @@ class _TestNetworkBottomSheetState extends State<TestNetworkBottomSheet> {
                                 switch (widget.request.type!) {
                                   case RequestType.permission:
                                     //print("Permission requested");
-                                    Get.bottomSheet(const PairRequestView(),
-                                        enterBottomSheetDuration:
-                                            const Duration(milliseconds: 180),
-                                        exitBottomSheetDuration:
-                                            const Duration(milliseconds: 150),
-                                        barrierColor:
-                                            Colors.white.withOpacity(0.09),
-                                        isScrollControlled: true,
+                                    CommonFunctions.bottomSheet(
+                                        const PairRequestView(),
                                         settings: RouteSettings(
                                             arguments: widget.request));
                                     break;
                                   case RequestType.signPayload:
                                     //print("payload request $widget.request");
-                                    Get.bottomSheet(const PayloadRequestView(),
-                                        enterBottomSheetDuration:
-                                            const Duration(milliseconds: 180),
-                                        exitBottomSheetDuration:
-                                            const Duration(milliseconds: 150),
-                                        barrierColor:
-                                            Colors.white.withOpacity(0.09),
-                                        isScrollControlled: true,
+                                    CommonFunctions.bottomSheet(
+                                        const PayloadRequestView(),
                                         settings: RouteSettings(
                                             arguments: widget.request));
                                     break;
                                   case RequestType.operation:
                                     //print("operation request $widget.request");
-                                    Get.bottomSheet(
+                                    CommonFunctions.bottomSheet(
                                         const OpreationRequestView(),
-                                        enterBottomSheetDuration:
-                                            const Duration(milliseconds: 180),
-                                        exitBottomSheetDuration:
-                                            const Duration(milliseconds: 150),
-                                        barrierColor:
-                                            Colors.white.withOpacity(0.09),
-                                        isScrollControlled: true,
                                         settings: RouteSettings(
                                             arguments: widget.request));
                                     break;

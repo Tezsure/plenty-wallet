@@ -3,21 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'delegate_baker.dart';
 
-class DelegateBakerTile extends StatelessWidget {
+class DelegateBakerTile extends GetView<DelegateWidgetController> {
   final DelegateBakerModel baker;
   final bool redelegate;
+  final String? prevPage;
   const DelegateBakerTile({
     required this.baker,
     this.redelegate = false,
+    this.prevPage,
     Key? key,
   }) : super(key: key);
 
@@ -26,7 +31,7 @@ class DelegateBakerTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 0.01.height),
       // width: 338,
-      height: 125.arP,
+      // height: 125.arP,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: const Color(0xff958e99).withOpacity(0.2),
@@ -70,11 +75,12 @@ class DelegateBakerTile extends StatelessWidget {
                   iconSize: 16.aR,
                   padding: EdgeInsets.zero,
                   onPressed: () {
-                    Get.bottomSheet(const DappBrowserView(),
-                        barrierColor: Colors.white.withOpacity(0.09),
-                        settings: RouteSettings(
-                            arguments: 'https://tzkt.io/${baker.address}'),
-                        isScrollControlled: true);
+                    CommonFunctions.bottomSheet(
+                      const DappBrowserView(),
+                      fullscreen: true,
+                      settings: RouteSettings(
+                          arguments: 'https://tzkt.io/${baker.address}'),
+                    );
                   },
                   icon: SvgPicture.asset(
                     '${PathConst.SETTINGS_PAGE}svg/external-link.svg',
@@ -84,32 +90,48 @@ class DelegateBakerTile extends StatelessWidget {
                   )),
               const Spacer(),
               if (redelegate)
-                SolidButton(
-                  title: "Redelegate",
-                  onPressed: () {
-                    Get.back();
-                    Get.bottomSheet(
-                        DelegateSelectBaker(
-                          delegatedBaker: baker,
-                          isScrollable: true,
-                        ),
-                        enableDrag: true,
-                        isScrollControlled: true);
-                  },
-                  borderRadius: 24,
-                  height: 25,
-                  titleStyle: labelSmall.copyWith(fontWeight: FontWeight.bold),
-                  width: 100,
-                )
+                BouncingWidget(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: ColorConst.Primary,
+                          borderRadius: BorderRadius.circular(24.arP)),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 4.arP, horizontal: 8.arP),
+                      child: Text(
+                        "Redelegate".tr,
+                        style: labelSmall.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (controller.prevPage == null) {
+                        Get.back();
+                        CommonFunctions.bottomSheet(
+                            DelegateSelectBaker(
+                              delegatedBaker: baker,
+                              isScrollable: true,
+                            ),
+                            fullscreen: true);
+                      } else {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DelegateSelectBaker(
+                                delegatedBaker: baker,
+                                isScrollable: true,
+                              ),
+                            ));
+                      }
+                    }),
             ],
           ),
-          const Spacer(),
+          0.024.vspace,
+          // const Spacer(),
           Row(
             children: [
               RichText(
                 textAlign: TextAlign.start,
                 text: TextSpan(
-                  text: 'Baker fee:\n',
+                  text: '${'Baker fee:'.tr}\n',
                   style: labelMedium.copyWith(
                       color: ColorConst.NeutralVariant.shade70),
                   children: [
@@ -123,7 +145,7 @@ class DelegateBakerTile extends StatelessWidget {
               RichText(
                 textAlign: TextAlign.start,
                 text: TextSpan(
-                  text: 'Staking:\n',
+                  text: '${'Staking:'.tr}\n',
                   style: labelMedium.copyWith(
                       color: ColorConst.NeutralVariant.shade70),
                   children: [
@@ -136,7 +158,7 @@ class DelegateBakerTile extends StatelessWidget {
               RichText(
                 textAlign: TextAlign.start,
                 text: TextSpan(
-                  text: 'Yield:\n',
+                  text: '${'Yield:'.tr}\n',
                   style: labelMedium.copyWith(
                       color: ColorConst.NeutralVariant.shade70),
                   children: [

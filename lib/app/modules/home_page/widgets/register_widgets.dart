@@ -5,8 +5,10 @@ import 'package:naan_wallet/app/modules/home_page/widgets/art_foundation_widget/
 import 'package:naan_wallet/app/modules/home_page/widgets/art_foundation_widget/tf_art_foundation_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/beta_tag_widget/beta_tag_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/buy_tez_widget/buy_tez_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/buy_tezos_domain/buy_tez_domain.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/coming_soon_widget/coming_soon_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/discover_apps_widget/discover_apps_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/discover_events_widget/dicover_events_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/earn_tez_widget/earn_tez_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/iaf/iaf_widget.dart';
@@ -88,6 +90,11 @@ final List<Widget> registeredWidgets = [
       ],
     ),
   ),
+
+  homeWidgetsGap,
+  Padding(
+      padding: EdgeInsets.symmetric(horizontal: 22.arP),
+      child: const DiscoverEvents()),
   homeWidgetsGap,
   Container(
     padding: EdgeInsets.symmetric(horizontal: 22.arP),
@@ -95,11 +102,9 @@ final List<Widget> registeredWidgets = [
     child: Row(
       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        BetaTagWidget(),
+        TezosDomainWidget(),
         Spacer(),
-        HomeWidgetFrame(
-          child: SizedBox.shrink(),
-        ),
+        BetaTagWidget(),
       ],
     ),
   ),

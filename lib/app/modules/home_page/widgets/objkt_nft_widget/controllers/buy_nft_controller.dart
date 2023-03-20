@@ -21,6 +21,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widge
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/review_nft.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/modules/wert/views/wert_browser_view.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:simple_gql/simple_gql.dart';
 
@@ -61,9 +62,8 @@ class BuyNFTController extends GetxController {
       selectedToken.value = token;
       final accountToken = Get.find<AccountSummaryController>();
       Get.back();
-      Get.bottomSheet(
+      CommonFunctions.bottomSheet(
         ReviewNFTSheet(),
-        isScrollControlled: true,
         settings: RouteSettings(
           arguments: url,
         ),
@@ -657,31 +657,22 @@ class BuyNFTController extends GetxController {
         base64Url.encode(utf8.encode(selectedNFT.value!.name.toString()));
     final url =
         "https://naan-nft-credit-card.netlify.app/?fa=${mainUrl[0]}&tokenId=${mainUrl[1]}&address=${accountToken.selectedAccount.value.publicKeyHash!}&askId=${selectedNFT.value!.tokenId}&askPrice=${selectedNFT.value!.lowestAsk}&name=${encodedName}&ipfs=${selectedNFT.value!.artifactUri!.replaceAll("ipfs://", "")}";
-    Get.bottomSheet(
+    CommonFunctions.bottomSheet(
       const WertBrowserView(),
-      barrierColor: Colors.white.withOpacity(0.09),
+      fullscreen: true,
       settings: RouteSettings(
         arguments: url,
       ),
-      isScrollControlled: true,
-      enterBottomSheetDuration: const Duration(milliseconds: 180),
-      exitBottomSheetDuration: const Duration(milliseconds: 150),
     );
   }
 
   void openFeeSummary() {
     Get.put(this);
-    Get.bottomSheet(
+    CommonFunctions.bottomSheet(
       FeesSummarySheet(),
       settings: RouteSettings(
         arguments: url,
       ),
-      enterBottomSheetDuration: const Duration(milliseconds: 180),
-      exitBottomSheetDuration: const Duration(milliseconds: 150),
-      enableDrag: true,
-      isDismissible: true,
-      isScrollControlled: true,
-      barrierColor: const Color.fromARGB(09, 255, 255, 255),
     );
   }
 
@@ -694,17 +685,11 @@ class BuyNFTController extends GetxController {
 
       Get.back();
 
-      await Get.bottomSheet(
+      await CommonFunctions.bottomSheet(
         const BuyNftSuccessSheet(),
         settings: RouteSettings(
           arguments: url,
         ),
-        enterBottomSheetDuration: const Duration(milliseconds: 180),
-        exitBottomSheetDuration: const Duration(milliseconds: 150),
-        enableDrag: true,
-        isDismissible: true,
-        isScrollControlled: true,
-        barrierColor: const Color.fromARGB(09, 255, 255, 255),
       );
       // start tracking tx here
       onConfirm(selectedToken.value!,

@@ -8,6 +8,8 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/select_reveal_key_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -16,7 +18,8 @@ import '../../../../data/services/enums/enums.dart';
 import '../../../home_page/controllers/home_page_controller.dart';
 
 class BackupPage extends StatelessWidget {
-  BackupPage({super.key});
+  final String? prevPage;
+  BackupPage({super.key, this.prevPage});
 
   // final controller = Get.put(BackupPageController());
   static final _homePageController = Get.find<HomePageController>();
@@ -24,48 +27,36 @@ class BackupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-        height: 0.9.height,
-        bottomSheetHorizontalPadding: 16.arP,
+        height: AppConstant.naanBottomSheetHeight,
+        prevPageName: prevPage,
         bottomSheetWidgets: [
           SizedBox(
-            height: 0.85.height,
+            height: AppConstant.naanBottomSheetChildHeight,
             child: Column(
               children: [
-                0.015.vspace,
-                Row(
-                  children: [
-                    Expanded(
-                      child: Align(
-                          alignment: Alignment.centerLeft, child: backButton()),
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Backup",
-                          maxLines: 1,
-                          style: titleLarge,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                    const Spacer()
-                  ],
+                BottomSheetHeading(
+                  title: "Backup",
+                  leading: backButton(
+                      lastPageName: prevPage,
+                      ontap: prevPage == null
+                          ? null
+                          : () => Navigator.pop(context)),
                 ),
-                0.03.vspace,
+                0.02.vspace,
                 Expanded(
                   child: Obx(
                     () => ListView.builder(
+                      padding: EdgeInsets.zero,
                       itemBuilder: (context, index) {
                         if (_homePageController
                             .userAccounts[index].isWatchOnly) {
                           return Container();
                         }
                         return accountMethod(
-                          _homePageController.userAccounts[index],
-                        );
+                            _homePageController.userAccounts[index], context);
                       },
                       itemCount: _homePageController.userAccounts.length,
+                      // itemCount: 20.obs.value,
                     ),
                   ),
                 )
@@ -75,65 +66,67 @@ class BackupPage extends StatelessWidget {
         ]);
   }
 
-  Widget accountMethod(AccountModel accountModel) {
+  Widget accountMethod(AccountModel accountModel, BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        Get.bottomSheet(
-          isScrollControlled: true,
-          barrierColor: Colors.transparent,
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
+        return Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SelectToRevealKeyBottomSheet(
+                prevPage: "Backup",
+                accountModel: accountModel,
+              ),
+            ));
+        CommonFunctions.bottomSheet(
           SelectToRevealKeyBottomSheet(
+            prevPage: "Backup",
             accountModel: accountModel,
           ),
         );
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: SizedBox(
-          height: 44,
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 22,
-                backgroundColor:
-                    ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                child: Container(
-                  alignment: Alignment.bottomRight,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: accountModel.imageType ==
-                              AccountProfileImageType.assets
-                          ? AssetImage(accountModel.profileImage!)
-                          : FileImage(
-                              File(accountModel.profileImage!),
-                            ) as ImageProvider,
-                    ),
+        padding: EdgeInsets.symmetric(vertical: 8.arP),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 22.arP,
+              backgroundColor:
+                  ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+              child: Container(
+                alignment: Alignment.bottomRight,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image:
+                        accountModel.imageType == AccountProfileImageType.assets
+                            ? AssetImage(accountModel.profileImage!)
+                            : FileImage(
+                                File(accountModel.profileImage!),
+                              ) as ImageProvider,
                   ),
                 ),
               ),
-              0.04.hspace,
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    accountModel.name!,
-                    style: bodySmall.copyWith(fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    tz1Shortner(accountModel.publicKeyHash ?? 'nxkjfbhedvzbv'),
-                    style: labelSmall.apply(
-                        color: ColorConst.NeutralVariant.shade60),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              revealButtonUI()
-            ],
-          ),
+            ),
+            0.04.hspace,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  accountModel.name!,
+                  style: bodySmall.copyWith(fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  tz1Shortner(accountModel.publicKeyHash ?? ''),
+                  style: labelSmall.apply(
+                      color: ColorConst.NeutralVariant.shade60),
+                ),
+              ],
+            ),
+            const Spacer(),
+            revealButtonUI()
+          ],
         ),
       ),
     );
@@ -141,8 +134,6 @@ class BackupPage extends StatelessWidget {
 
   Container revealButtonUI() {
     return Container(
-      height: 24,
-      width: 74,
       // decoration: BoxDecoration(
       //     // color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
       //     borderRadius: BorderRadius.circular(8)),
@@ -150,7 +141,7 @@ class BackupPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Reveal",
+            "Reveal".tr,
             style: labelSmall,
           ),
           const SizedBox(

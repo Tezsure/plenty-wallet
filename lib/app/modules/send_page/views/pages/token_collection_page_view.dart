@@ -18,7 +18,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 0.8.height.arP,
+      height: 0.8.height,
       // decoration: const BoxDecoration(color: Colors.black),
       child: Column(
         children: [
@@ -29,7 +29,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                 children: <Widget>[
                       0.008.vspace,
                       Text(
-                        'Tokens',
+                        'Tokens'.tr,
                         style: labelSmall.apply(
                             color: ColorConst.NeutralVariant.shade60),
                       ),
@@ -62,7 +62,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                       ),
                       controller.userNfts.isNotEmpty
                           ? Text(
-                              'Collectibles',
+                              'Collectibles'.tr,
                               style: labelSmall.apply(
                                   color: ColorConst.NeutralVariant.shade60),
                             )
@@ -82,8 +82,8 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                       ),
                     ) +
                     [
-                      const SizedBox(
-                        height: 8,
+                      SizedBox(
+                        height: 8.arP,
                       ),
                       if (controller.userNfts.length > 3)
                         Align(
@@ -120,7 +120,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              controller.isTokensExpanded.value ? 'Less' : 'All',
+              (controller.isTokensExpanded.value ? 'Less' : 'All').tr,
               style: labelSmall.copyWith(color: const Color(0xFF958E99)),
             ),
             Icon(
@@ -155,7 +155,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              controller.isCollectibleExpanded.value ? 'Less' : 'All',
+              (controller.isCollectibleExpanded.value ? 'Less' : 'All').tr,
               style: labelSmall.copyWith(color: const Color(0xFF958E99)),
             ),
             AnimatedRotation(
@@ -270,7 +270,7 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                       //         ? controller.xtzPrice.value
                       //         : (tokenModel.currentPrice! *
                       //             controller.xtzPrice.value))
-                      .roundUpDollar()
+                      .roundUpDollar(controller.xtzPrice.value)
                       .removeTrailing0,
                   style: labelSmall.apply(
                     color: Colors.white,

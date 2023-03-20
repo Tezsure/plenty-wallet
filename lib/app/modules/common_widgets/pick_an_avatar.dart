@@ -44,11 +44,11 @@ class _PickAvatarState extends State<PickAvatar> {
     return NaanBottomSheet(
       title: "Pick an avatar",
       leading: backButton(),
-      isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight,
+      // isScrollControlled: true,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight - 40.arP,
+          height: AppConstant.naanBottomSheetChildHeight,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

@@ -19,6 +19,7 @@ class CameraPermissionHandler extends StatelessWidget {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       height: 0.6.height,
+      title: "",
       bottomSheetWidgets: [
         SizedBox(
           height: 0.56.height,
@@ -33,13 +34,13 @@ class CameraPermissionHandler extends StatelessWidget {
               ),
               0.05.vspace,
               Text(
-                "Access to camera is \nrestricted",
+                "Access to camera is \nrestricted".tr,
                 style: titleLarge,
                 textAlign: TextAlign.center,
               ),
               0.012.vspace,
               Text(
-                "Enable camera permissions for naan to \nstart scanning QR",
+                "Enable camera permissions for naan to \nstart scanning QR".tr,
                 style: bodySmall.copyWith(color: ColorConst.textGrey1),
                 textAlign: TextAlign.center,
               ),

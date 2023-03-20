@@ -19,6 +19,8 @@ import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/con
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/scan_qr.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/utils/bottom_sheet_manager.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../utils/colors/colors.dart';
@@ -31,7 +33,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../widgets/scanQR/permission_sheet.dart';
 
-class HomePageController extends GetxController with WidgetsBindingObserver {
+class HomePageController extends GetxController {
   // RxBool showBottomSheet = false.obs;
   RxInt selectedIndex = 0.obs;
 
@@ -45,16 +47,17 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   RxDouble dayChange = 0.0.obs;
 
   RxList<AccountModel> userAccounts = <AccountModel>[].obs;
-
   @override
   void onInit() async {
     super.onInit();
+
     Get.put(BeaconService(), permanent: true);
     DataHandlerService()
         .renderService
         .accountUpdater
         .registerCallback((accounts) async {
-    List<AccountModel>  account = (accounts ?? (<AccountModel>[])) as List<AccountModel>;
+      List<AccountModel> account =
+          (accounts ?? (<AccountModel>[])) as List<AccountModel>;
       // print("accountUpdater".toUpperCase());
       // print("${userAccounts.value.hashCode == accounts.hashCode}");
       if ((account.length) != userAccounts.length) {
@@ -78,16 +81,16 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
               (element2) => element2.publicKeyHash == element.publicKeyHash);
         });
         userAccounts.value = [...temp];
-        Future.delayed(
-          Duration(milliseconds: 500),
-        ).then((value) {
-          try {
-            Get.put(AccountsWidgetController()).onPageChanged(index);
-            changeSelectedAccount(index);
-          } catch (e) {
-            log(e.toString());
-          }
-        });
+        // Future.delayed(
+        //   Duration(milliseconds: 100),
+        // ).then((value) {
+        try {
+          Get.find<AccountsWidgetController>().onPageChanged(index);
+          changeSelectedAccount(index);
+        } catch (e) {
+          log(e.toString());
+        }
+        // });
       }
       try {
         if (userAccounts.where((p0) => !p0.isWatchOnly).isNotEmpty) {
@@ -102,6 +105,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
         log(e.toString());
       }
     });
+
     // .registerVariable(userAccounts);
 
     DataHandlerService()
@@ -128,22 +132,29 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
     // });
   }
 
+  void resetUserAccounts() {
+    userAccounts.clear();
+    userAccounts.refresh();
+    selectedIndex.value = 0;
+  }
+
   @override
   void onReady() async {
     super.onReady();
-    await UserStorageService.getBetaTagAgree().then((value) async {
-      if (!value) {
-        await Get.bottomSheet(
-          BetaTagSheet(),
-          barrierColor: Colors.white.withOpacity(0.09),
-          isScrollControlled: true,
-        );
+
+    if (Get.currentRoute == Routes.HOME_PAGE) {
+      if (Get.arguments != null &&
+          Get.arguments.length == 2 &&
+          Get.arguments[1].toString().isNotEmpty) {
+        showBackUpWalletBottomSheet(Get.arguments[1].toString());
       }
-    });
-    if (Get.arguments != null &&
-        Get.arguments.length == 2 &&
-        Get.arguments[1].toString().isNotEmpty) {
-      showBackUpWalletBottomSheet(Get.arguments[1].toString());
+      await UserStorageService.getBetaTagAgree().then((value) async {
+        if (!value) {
+          await CommonFunctions.bottomSheet(
+            BetaTagSheet(),
+          );
+        }
+      });
     }
   }
 
@@ -154,8 +165,7 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   void changeSelectedAccount(int index) async {
     print("On PAGECHANGED");
     // Get.find<AccountsWidgetController>().onPageChanged(index);
-
-    if (userAccounts.length > index) {
+    if (userAccounts.isNotEmpty && userAccounts.length > index) {
       selectedIndex.value = index;
       userAccounts[index].delegatedBakerAddress =
           await Get.put(DelegateWidgetController())
@@ -169,45 +179,35 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> showBackUpWalletBottomSheet(String seedPhrase) async {
-    await Get.bottomSheet(
+    await CommonFunctions.bottomSheet(
       BackupWalletBottomSheet(seedPhrase: seedPhrase),
-      enterBottomSheetDuration: const Duration(milliseconds: 180),
-      exitBottomSheetDuration: const Duration(milliseconds: 150),
-      enableDrag: true,
-      isDismissible: true,
-      ignoreSafeArea: false,
     );
   }
 
   Future<void> openScanner() async {
     if (userAccounts[selectedIndex.value].isWatchOnly) {
-      return Get.bottomSheet(
-        AccountSelectorSheet(
-          onNext: () {
-            Get.back();
-            openScanner();
-          },
-        ),
-        isScrollControlled: true,
-        enterBottomSheetDuration: const Duration(milliseconds: 180),
-        exitBottomSheetDuration: const Duration(milliseconds: 150),
-      );
+      return CommonFunctions.bottomSheet(AccountSelectorSheet(
+        onNext: () {
+          Get.back();
+          openScanner();
+        },
+      ), fullscreen: true);
     }
     await Permission.camera.request();
     final status = await Permission.camera.status;
 
     if (status.isPermanentlyDenied) {
-      Get.bottomSheet(const CameraPermissionHandler(),
-          isScrollControlled: true);
+      CommonFunctions.bottomSheet(
+        const CameraPermissionHandler(),
+      );
 
       // We didn't ask for permission yet or the permission has been denied before but not permanently.
     } else {
-      Get.bottomSheet(const ScanQrView(),
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
-          isScrollControlled: true);
+      CommonFunctions.bottomSheet(const ScanQrView(), fullscreen: true);
     }
-  } // void onIndicatorTapped(int index) => selectedIndex.value = index;
+  }
+
+  // void onIndicatorTapped(int index) => selectedIndex.value = index;
 }
 
 class BackupWalletBottomSheet extends StatelessWidget {
@@ -226,12 +226,13 @@ class BackupWalletBottomSheet extends StatelessWidget {
       bottomSheetWidgets: [
         0.03.vspace,
         Text(
-          'Backup your account',
+          'Backup your account'.tr,
           style: titleLarge,
         ),
         0.012.vspace,
         Text(
-          'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.',
+          'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.'
+              .tr,
           textAlign: TextAlign.start,
           style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
         ),
@@ -245,14 +246,11 @@ class BackupWalletBottomSheet extends StatelessWidget {
               onPressed: () {
                 Get.back();
                 NaanAnalytics.logEvent(NaanAnalyticsEvents.BACKUP_FROM_HOME);
-                Get.bottomSheet(
+                CommonFunctions.bottomSheet(
                     BackupWalletView(
                       seedPhrase: seedPhrase,
                     ),
-                    barrierColor: Colors.transparent,
-                    enterBottomSheetDuration: const Duration(milliseconds: 180),
-                    exitBottomSheetDuration: const Duration(milliseconds: 150),
-                    isScrollControlled: true);
+                    fullscreen: true);
               }),
         ),
         0.012.vspace,

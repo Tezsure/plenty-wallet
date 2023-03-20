@@ -26,7 +26,7 @@ class _IAFSheetState extends State<IAFSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 0,
+      // bottomSheetHorizontalPadding: 0,
       title: "Claim NFT", isScrollControlled: true,
       // height: AppConstant.naanBottomSheetHeight -
       //     MediaQuery.of(context).viewInsets.bottom,
@@ -40,14 +40,15 @@ class _IAFSheetState extends State<IAFSheet> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                0.001.vspace,
+                0.02.vspace,
 
                 // 0.016.vspace,
                 Center(
                   child: SizedBox(
                     width: 1.width - 64.arP,
                     child: Text(
-                      "Enter the email address used at India Art Fair to claim your free NFT and tez",
+                      "Enter the email address used at India Art Fair to claim your free NFT and tez"
+                          .tr,
                       textAlign: TextAlign.center,
                       style: bodySmall.copyWith(
                         letterSpacing: 0.15.arP,
@@ -107,7 +108,7 @@ class _IAFSheetState extends State<IAFSheet> {
             width: 8.arP,
           ),
           Text(
-            "Verified",
+            "Verified".tr,
             style: labelMedium.copyWith(color: ColorConst.green),
           )
         ],
@@ -129,7 +130,7 @@ class _IAFSheetState extends State<IAFSheet> {
             width: 8.arP,
           ),
           Text(
-            "Not verified",
+            "Not verified".tr,
             style: labelMedium.copyWith(color: ColorConst.Tertiary),
           )
         ],
@@ -142,7 +143,7 @@ class _IAFSheetState extends State<IAFSheet> {
       return Center(
         child: SizedBox(
           // height: 0.06.height,
-          width: 1.width - 44.arP,
+          width: 1.width,
           child: TextFormField(
             style: bodyLarge.copyWith(color: Colors.white),
             onChanged: (input) {

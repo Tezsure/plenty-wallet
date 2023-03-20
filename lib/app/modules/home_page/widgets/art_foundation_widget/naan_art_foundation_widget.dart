@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
@@ -10,6 +11,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/choose_payment_method.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -24,15 +26,19 @@ class NaanArtFoundationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
+        final address = Get.find<HomePageController>().userAccounts.isEmpty
+            ? null
+            : Get.find<HomePageController>().userAccounts.first.publicKeyHash;
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.NAAN_COLLECTION,
+            param: {NaanAnalytics.address: address});
         String url = "https://objkt.com/profile/naancollection/owned?page=1";
         // Get.to(BuyNFTPage(), arguments: url);
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           const DappBrowserView(),
-          barrierColor: Colors.white.withOpacity(0.09),
+          fullscreen: true,
           settings: RouteSettings(
             arguments: url,
           ),
-          isScrollControlled: true,
         );
       },
       child: HomeWidgetFrame(
@@ -67,6 +73,7 @@ class NaanArtFoundationWidget extends StatelessWidget {
                           // ignore: prefer_const_literals_to_create_immutables
                           colors: [
                         Colors.transparent,
+                        Colors.grey[900]!.withOpacity(0.3),
                         Colors.grey[900]!.withOpacity(0.6),
                         Colors.grey[900]!.withOpacity(0.99),
                       ])),
@@ -80,8 +87,8 @@ class NaanArtFoundationWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("naan Official", style: labelMedium),
-                      Text("Art Collection", style: labelMedium),
+                      Text("naan Official".tr, style: labelMedium),
+                      Text("Art Collection".tr, style: labelMedium),
                     ],
                   ),
                 ),
@@ -98,8 +105,8 @@ class NaanArtFoundationWidget extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.black, borderRadius: BorderRadius.circular(8.arP)),
       padding: EdgeInsets.all(8.arP),
-      height: 33.arP,
-      width: 33.arP,
+      height: AppConstant.homeWidgetDimension / 6,
+      width: AppConstant.homeWidgetDimension / 6,
       child: Image.asset("assets/naan_logo.png"),
     );
   }

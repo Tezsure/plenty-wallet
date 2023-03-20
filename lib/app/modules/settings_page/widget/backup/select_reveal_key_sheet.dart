@@ -10,6 +10,8 @@ import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/backup_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/select_reveal_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -20,7 +22,9 @@ import 'secret_phrase_page.dart';
 
 class SelectToRevealKeyBottomSheet extends StatefulWidget {
   final AccountModel accountModel;
-  const SelectToRevealKeyBottomSheet({super.key, required this.accountModel});
+  final String? prevPage;
+  const SelectToRevealKeyBottomSheet(
+      {super.key, required this.accountModel, this.prevPage});
 
   @override
   State<SelectToRevealKeyBottomSheet> createState() =>
@@ -35,128 +39,140 @@ class _SelectToRevealKeyBottomSheetState
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      isScrollControlled: true,
-      blurRadius: 5,
-      height: 0.9.height,
-      bottomSheetHorizontalPadding: 24,
+      prevPageName: widget.prevPage,
+      // isScrollControlled: true,
+      title: widget.accountModel.name ?? "",
+      leading: backButton(
+          ontap: () {
+            Navigator.pop(context);
+          },
+          lastPageName: widget.prevPage),
+      height: AppConstant.naanBottomSheetChildHeight,
+      // bottomSheetHorizontalPadding: 24,
       bottomSheetWidgets: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
           children: [
-            backButton(),
-            InfoButton(
-                onPressed: () => Get.bottomSheet(
-                      InfoBottomSheet(),
-                      enterBottomSheetDuration:
-                          const Duration(milliseconds: 180),
-                      exitBottomSheetDuration:
-                          const Duration(milliseconds: 150),
-                      enableDrag: true,
-                      isDismissible: true,
-                      isScrollControlled: true,
-                      barrierColor: const Color.fromARGB(09, 255, 255, 255),
-                    )),
-          ],
-        ),
-        0.17.arP.vspace,
-        Center(
-          child: SvgPicture.asset(
-            "${PathConst.SETTINGS_PAGE.SVG}backup_success.svg",
-            color: ColorConst.Primary,
-            height: 90.arP,
-          ),
-        ),
-        0.048.arP.vspace,
-        Center(
-          child: Text(
-            "Your wallet is backed up",
-            style: titleLarge,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        0.012.arP.vspace,
-        Center(
-          child: Text(
-            "Dont’t risk your money! Backup your\nwallet so you can recover it if you lose\nthis device.",
-            style: bodySmall.copyWith(color: ColorConst.textGrey1),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        0.04.vspace,
-        Center(
-          child: Obx(() {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            0.04.vspace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                if (_controller.seedPhraseReveal.value)
-                  revealOptionMethod(
-                      icon: '${PathConst.SETTINGS_PAGE}svg/secret_phrase.svg',
-                      child: Text(
-                        "View secret phrase",
-                        style: labelMedium,
-                      ),
-                      onTap: () async {
-                        if (!(await AuthService()
-                            .verifyBiometricOrPassCode())) {
-                          return;
-                        }
-
-                        // controller.timer;
-                        final controller = Get.put(BackupPageController());
-                        Get.bottomSheet(
-                                SecretPhrasePage(
-                                  pkHash: widget.accountModel.publicKeyHash!,
-                                ),
-                                barrierColor: Colors.transparent,
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                                isScrollControlled: true)
-                            .then((_) => controller.timer.cancel());
-                      }),
-                0.02.vspace,
-                if (_controller.privateKeyReveal.value)
-                  revealOptionMethod(
-                      icon: '${PathConst.SETTINGS_PAGE}svg/key.svg',
-                      child: Text(
-                        "View private key",
-                        style: labelMedium,
-                      ),
-                      onTap: () async {
-                        if (!(await AuthService()
-                            .verifyBiometricOrPassCode())) {
-                          return;
-                        }
-
-                        // controller.timer;
-                        final controller = Get.put(BackupPageController());
-                        Get.bottomSheet(
-                                PrivateKeyPage(
-                                  pkh: widget.accountModel.publicKeyHash!,
-                                ),
-                                barrierColor: Colors.transparent,
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
-                                isScrollControlled: true)
-                            .then((_) => controller.timer.cancel());
-                      }),
-                // revealOptionMethod(
-                //     child: Text(
-                //       "Private Key",
-                //       style: labelMedium,
-                //     ),
-                //     onTap: () {
-                //       controller.timer;
-                //       Get.to(() => PrivateKeyPage(
-                //             pkh: accountModel.publicKeyHash!,
-                //           ))?.whenComplete(() => controller.timer.cancel());
-                //     }),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: InfoButton(
+                      onPressed: () => CommonFunctions.bottomSheet(
+                            InfoBottomSheet(),fullscreen: true
+                          )),
+                ),
               ],
-            );
-          }),
+            ),
+            0.048.vspace,
+            Center(
+              child: SvgPicture.asset(
+                "${PathConst.SETTINGS_PAGE.SVG}backup_success.svg",
+                color: ColorConst.Primary,
+                height: 90.arP,
+              ),
+            ),
+            0.048.arP.vspace,
+            Center(
+              child: Text(
+                "Your wallet is backed up".tr,
+                style: titleLarge,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            0.012.arP.vspace,
+            Text(
+              "Dont’t risk your money! Backup your\nwallet so you can recover it if you lose\nthis device."
+                  .tr,
+              style: bodySmall.copyWith(color: ColorConst.textGrey1),
+              textAlign: TextAlign.center,
+            ),
+            0.04.vspace,
+            Obx(() {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (_controller.seedPhraseReveal.value)
+                    revealOptionMethod(
+                        icon: '${PathConst.SETTINGS_PAGE}svg/secret_phrase.svg',
+                        child: Text(
+                          "View secret phrase".tr,
+                          style: labelMedium,
+                        ),
+                        onTap: () async {
+                          if (!(await AuthService()
+                              .verifyBiometricOrPassCode())) {
+                            return;
+                          }
+
+                          // controller.timer;
+                          final controller = Get.put(BackupPageController());
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SecretPhrasePage(
+                                        prevPage:
+                                            widget.accountModel.name ?? "",
+                                        pkHash:
+                                            widget.accountModel.publicKeyHash!,
+                                      ))).then((value) {
+                            controller.dispose();
+                          });
+                          // CommonFunctions.bottomSheet(
+                          //   SecretPhrasePage(
+                          //     pkHash: widget.accountModel.publicKeyHash!,
+                          //   ),
+                          // ).then((_) => controller.timer.cancel());
+                        }),
+                  0.02.vspace,
+                  if (_controller.privateKeyReveal.value)
+                    revealOptionMethod(
+                        icon: '${PathConst.SETTINGS_PAGE}svg/key.svg',
+                        child: Text(
+                          "View private key".tr,
+                          style: labelMedium,
+                        ),
+                        onTap: () async {
+                          if (!(await AuthService()
+                              .verifyBiometricOrPassCode())) {
+                            return;
+                          }
+
+                          // controller.timer;
+
+                          final controller = Get.put(BackupPageController());
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PrivateKeyPage(
+                                        prevPage:
+                                            widget.accountModel.name ?? "",
+                                        pkh: widget.accountModel.publicKeyHash!,
+                                      ))).then((value) {
+                            controller.dispose();
+                          });
+                          // CommonFunctions.bottomSheet(
+                          // PrivateKeyPage(
+                          //   pkh: widget.accountModel.publicKeyHash!,
+                          // ),
+                          // ).then((_) => controller.timer.cancel());
+                        }),
+                  // revealOptionMethod(
+                  //     child: Text(
+                  //       "Private Key",
+                  //       style: labelMedium,
+                  //     ),
+                  //     onTap: () {
+                  //       controller.timer;
+                  //       Get.to(() => PrivateKeyPage(
+                  //             pkh: accountModel.publicKeyHash!,
+                  //           ))?.whenComplete(() => controller.timer.cancel());
+                  //     }),
+                ],
+              );
+            }),
+          ],
         ),
       ],
     );

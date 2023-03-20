@@ -7,6 +7,7 @@ import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -38,10 +39,9 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                 ),
                 0.02.vspace,
                 Text(
-                  "Earn 5% APR on your tez",
+                  "Earn 5% APR on your tez".tr,
                   style: titleLarge,
                 ),
-
                 0.03.vspace,
                 ...List.generate(
                     infos.length,
@@ -63,7 +63,7 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                               0.02.hspace,
                               Expanded(
                                 child: Text(
-                                  infos[index],
+                                  infos[index].tr,
                                   style: labelMedium.copyWith(
                                       color: ColorConst.textGrey1,
                                       fontWeight: FontWeight.normal),
@@ -79,15 +79,8 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                   active: true,
                   width: 1.width - 64.arP,
                   onPressed: () {
-                    // if (Get.isBottomSheetOpen ?? false) {
-                    Get.back();
-                    // }
-                    Get.bottomSheet(
-                        DelegateSelectBaker(
-                          isScrollable: true,
-                        ),
-                        enableDrag: true,
-                        isScrollControlled: true);
+                    Get.back(result:true);
+                  
                   },
                   title: "Continue",
                 ),

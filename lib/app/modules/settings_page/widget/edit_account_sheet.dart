@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/flutter_switch.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -37,8 +38,9 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      height: 0.87.height,
-      bottomSheetHorizontalPadding: 32,
+      // isScrollControlled: true,
+      height: AppConstant.naanBottomSheetHeight,
+      // bottomSheetHorizontalPadding: 32,
       crossAxisAlignment: CrossAxisAlignment.center,
       bottomSheetWidgets: [editaccountUI()],
     );
@@ -47,7 +49,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
   Widget editaccountUI() {
     return Expanded(
       child: SingleChildScrollView(
-                    physics: AppConstant.scrollPhysics,
+        physics: AppConstant.scrollPhysics,
         child: Builder(builder: (context) {
           return Column(children: [
             Container(
@@ -64,13 +66,9 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               ),
               child: BouncingWidget(
                 onPressed: () {
-                  Get.bottomSheet(changePhotoBottomSheet(),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          barrierColor: Colors.transparent)
-                      .whenComplete(() {
+                  CommonFunctions.bottomSheet(
+                    changePhotoBottomSheet(),
+                  ).whenComplete(() {
                     setState(() {});
                   });
                 },
@@ -99,21 +97,21 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               height: 4,
             ),
             Text(
-              "Address index : ${widget.accountIndex}",
+              "${"Address index : ".tr}${widget.accountIndex}",
               style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
             const SizedBox(
               height: 4,
             ),
             Text(
-              "Derivation path: ${_controller.homePageController.userAccounts[widget.accountIndex].derivationPathIndex}",
+              "${"Derivation path:".tr} ${_controller.homePageController.userAccounts[widget.accountIndex].derivationPathIndex}",
               style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
             ),
             0.02.vspace,
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Account Name",
+                "Account Name".tr,
                 style:
                     labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
               ),
@@ -133,7 +131,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "or choose a avatar",
+                "or choose a avatar".tr,
                 textAlign: TextAlign.left,
                 style:
                     labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
@@ -172,7 +170,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             Row(
               children: [
                 Text(
-                  "Primary Account",
+                  "Primary Account".tr,
                   textAlign: TextAlign.left,
                   style: bodySmall,
                 ),
@@ -200,7 +198,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             Row(
               children: [
                 Text(
-                  "Hide this account",
+                  "Hide this account".tr,
                   textAlign: TextAlign.left,
                   style: bodySmall,
                 ),
@@ -234,13 +232,13 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
 
   Widget changePhotoBottomSheet() {
     return NaanBottomSheet(
-      height: 296,
-      bottomSheetHorizontalPadding: 32,
+      height: 296.arP,
+      // bottomSheetHorizontalPadding: 32,
       bottomSheetWidgets: [
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Change profile photo",
+            "Change profile photo".tr,
             textAlign: TextAlign.start,
             style: titleLarge,
           ),
@@ -275,7 +273,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                   height: 51,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Choose photo",
+                    "Choose photo".tr,
                     style: labelMedium,
                   ),
                 ),
@@ -303,7 +301,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                   height: 51,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Take photo",
+                    "Take photo".tr,
                     style: labelMedium,
                   ),
                 ),
@@ -327,7 +325,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                   height: 51,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Remove current photo",
+                    "Remove current photo".tr,
                     style: labelMedium.apply(color: ColorConst.Error.shade60),
                   ),
                 ),

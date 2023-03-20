@@ -51,7 +51,9 @@ class AccountWidget extends StatelessWidget {
                                 (index) => accountWidget(index),
                               )
                             : List.generate(
-                                controller.generatedAccounts.length - 1,
+                                controller.generatedAccounts.isEmpty
+                                    ? 0
+                                    : (controller.generatedAccounts.length - 1),
                                 (index) => accountWidget(index + 1),
                               ),
                       ),
@@ -93,8 +95,11 @@ class AccountWidget extends StatelessWidget {
                                   physics: AppConstant.scrollPhysics,
                                   itemBuilder: (context, index) =>
                                       accountWidget(index + 1),
-                                  itemCount:
-                                      controller.generatedAccounts.length - 1,
+                                  itemCount: controller
+                                          .generatedAccounts.isEmpty
+                                      ? 0
+                                      : (controller.generatedAccounts.length -
+                                          1),
                                   shrinkWrap: true,
                                 ),
                         ),
@@ -124,8 +129,8 @@ class AccountWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: CupertinoActivityIndicator(
-                            color: ColorConst.Primary,
-                          ),
+              color: ColorConst.Primary,
+            ),
           ),
         );
       }
@@ -140,7 +145,7 @@ class AccountWidget extends StatelessWidget {
           height: 50,
           child: Center(
             child: Text(
-              "Show more accounts",
+              "Show more accounts".tr,
               style: labelMedium,
             ),
           ),
@@ -185,8 +190,8 @@ class AccountWidget extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              height: 48,
-              width: 48,
+              height: 48.arP,
+              width: 48.arP,
               alignment: Alignment.bottomRight,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -234,7 +239,7 @@ class AccountWidget extends StatelessWidget {
             // if (isSelected)
             isImported
                 ? Text(
-                    "IMPORTED",
+                    "Imported".tr,
                     style: labelSmall.copyWith(color: ColorConst.Primary),
                   )
                 : IconButton(
@@ -267,6 +272,7 @@ class AccountWidget extends StatelessWidget {
                         : Icon(
                             Icons.circle_outlined,
                             color: ColorConst.NeutralVariant.shade30,
+                            size: 20.arP,
                           )),
           ],
         ),

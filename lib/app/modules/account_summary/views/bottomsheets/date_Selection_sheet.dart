@@ -25,55 +25,55 @@ class DateSelectionSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => NaanBottomSheet(
-        height: 0.5.height,
-        bottomSheetHorizontalPadding: 15.aR,
+        height: 0.5.height, title: 'Select Start Date',
+        // bottomSheetHorizontalPadding: 15.aR,
         crossAxisAlignment: CrossAxisAlignment.center,
         bottomSheetWidgets: [
-          0.02.vspace,
-          Text(
-            'Select Start Date',
-            style: titleSmall.copyWith(letterSpacing: 0.5.arP),
-          ),
           SizedBox(
-            height: 20.aR,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              dateBox(SelectDateType.from,
-                  controller.fromDate.value.toString().substring(0, 11)),
-              Text(
-                "to",
-                style: bodyMedium.copyWith(fontSize: 14.aR),
-              ),
-              dateBox(SelectDateType.to,
-                  controller.toDate.value.toString().substring(0, 11)),
-            ],
-          ),
-          Expanded(
-            child: CupertinoTheme(
-              data: CupertinoThemeData(
-                  textTheme: CupertinoTextThemeData(
-                      dateTimePickerTextStyle: labelMedium.copyWith(
-                          fontSize: 12.aR,
-                          color: ColorConst.NeutralVariant.shade60))),
-              child: CupertinoDatePicker(
-                onDateTimeChanged: (date) {
-                  _selectDateType.value == SelectDateType.from
-                      ? controller.fromDate.value = date
-                      : controller.toDate.value = date;
-                },
-                backgroundColor: Colors.transparent,
-                // maximumDate: DateTime.now(),
-                // dateOrder: ,
-                // minimumDate: DateTime(2018, 9),
-                mode: CupertinoDatePickerMode.date,
-              ),
+            height: 0.43.height,
+            child: Column(
+              children: [
+                0.02.vspace,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    dateBox(SelectDateType.from,
+                        controller.fromDate.value.toString().substring(0, 11)),
+                    Text(
+                      "to".tr,
+                      style: bodyMedium.copyWith(fontSize: 14.aR),
+                    ),
+                    dateBox(SelectDateType.to,
+                        controller.toDate.value.toString().substring(0, 11)),
+                  ],
+                ),
+                Expanded(
+                  child: CupertinoTheme(
+                    data: CupertinoThemeData(
+                        textTheme: CupertinoTextThemeData(
+                            dateTimePickerTextStyle: labelMedium.copyWith(
+                                fontSize: 12.aR,
+                                color: ColorConst.NeutralVariant.shade60))),
+                    child: CupertinoDatePicker(
+                      onDateTimeChanged: (date) {
+                        _selectDateType.value == SelectDateType.from
+                            ? controller.fromDate.value = date
+                            : controller.toDate.value = date;
+                      },
+                      backgroundColor: Colors.transparent,
+                      // maximumDate: DateTime.now(),
+                      // dateOrder: ,
+                      // minimumDate: DateTime(2018, 9),
+                      mode: CupertinoDatePickerMode.date,
+                    ),
+                  ),
+                ),
+                confirmButton(),
+                SizedBox(
+                  height: 40.aR,
+                )
+              ],
             ),
-          ),
-          confirmButton(),
-          SizedBox(
-            height: 40.aR,
           )
         ],
       ),

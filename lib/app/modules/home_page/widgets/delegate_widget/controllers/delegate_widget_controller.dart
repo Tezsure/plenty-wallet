@@ -26,6 +26,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widget
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
 
@@ -104,34 +105,8 @@ class DelegateWidgetController extends GetxController {
 
   Future<void> confirmBioMetric(DelegateBakerModel baker) async {
     try {
-      AuthService authService = AuthService();
-      bool isBioEnabled = await authService.getBiometricAuth();
-
-      if (isBioEnabled) {
-        final bioResult = await Get.bottomSheet(const BiometricView(),
-            barrierColor: Colors.white.withOpacity(0.09),
-            isScrollControlled: true,
-            settings: RouteSettings(arguments: isBioEnabled));
-        if (bioResult == null) {
-          return;
-        }
-        if (!bioResult) {
-          return;
-        }
-      } else {
-        var isValid = await Get.toNamed('/passcode-page', arguments: [
-          true,
-        ]);
-        if (isValid == null) {
-          return;
-        }
-        if (!isValid) {
-          return;
-        }
-      }
-      if (Get.isBottomSheetOpen ?? false) {
-        Get.back();
-      }
+      final isVerified = await AuthService().verifyBiometricOrPassCode();
+      if (!isVerified) return;
       toggleLoaderOverlay(
         () async {
           await confirmDelegate(baker);
@@ -169,7 +144,7 @@ class DelegateWidgetController extends GetxController {
               "baker_name": baker.name,
               "baker_address": baker.address,
             });
-        Get.bottomSheet(const DelegateBakerSuccessSheet())
+        CommonFunctions.bottomSheet(const DelegateBakerSuccessSheet())
             .whenComplete(() => Get.back());
       });
     } catch (e) {
@@ -306,11 +281,14 @@ class DelegateWidgetController extends GetxController {
     return await _delegateHandler.checkBaker(pkh);
   }
 
-  Future<void> checkBaker() async {
+  String? prevPage;
+  Future<void> checkBaker(BuildContext context) async {
     String? bakerAddress;
+
     if (Get.find<HomePageController>().userAccounts.isEmpty) {
-      return Get.bottomSheet(const DelegateInfoSheet(),
-          enableDrag: true, isScrollControlled: true);
+      return CommonFunctions.bottomSheet(
+        const DelegateInfoSheet(),
+      );
     }
 
     Get.put(AccountSummaryController());
@@ -319,12 +297,8 @@ class DelegateWidgetController extends GetxController {
         .obs;
 
     if (accountModel == null) {
-      return Get.bottomSheet(
-        const AccountSelectorSheet(),
-        isScrollControlled: true,
-        enterBottomSheetDuration: const Duration(milliseconds: 180),
-        exitBottomSheetDuration: const Duration(milliseconds: 150),
-      );
+      return CommonFunctions.bottomSheet(const AccountSelectorSheet(),
+          fullscreen: true);
     }
     // if (accountModel?.value.publicKeyHash == null) {}
     // await toggleLoaderOverlay(() async {
@@ -333,8 +307,27 @@ class DelegateWidgetController extends GetxController {
     // });
 
     if (bakerAddress == null) {
-      Get.bottomSheet(const DelegateInfoSheet(),
-          enableDrag: true, isScrollControlled: true);
+      CommonFunctions.bottomSheet(
+        const DelegateInfoSheet(),
+      ).then((value) {
+        if (value != null) {
+          if (prevPage == null) {
+            CommonFunctions.bottomSheet(
+                DelegateSelectBaker(
+                  isScrollable: true,
+                ),
+                fullscreen: true);
+          } else {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DelegateSelectBaker(
+                    isScrollable: true,
+                  ),
+                ));
+          }
+        }
+      });
     } else {
       DelegateBakerModel? delegatedBaker;
       if (delegateBakerList.isEmpty) {
@@ -345,21 +338,32 @@ class DelegateWidgetController extends GetxController {
         delegatedBaker = delegateBakerList.firstWhere(
           (element) => element.address == bakerAddress,
         );
-
-        Get.bottomSheet(
-            ReDelegateBottomSheet(
-              baker: delegatedBaker,
-            ),
-            enableDrag: true,
-            isScrollControlled: true);
+        if (prevPage != null) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ReDelegateBottomSheet(
+                  baker: delegatedBaker!,
+                ),
+              ));
+        } else {
+          CommonFunctions.bottomSheet(
+              ReDelegateBottomSheet(
+                baker: delegatedBaker,
+              ),
+              fullscreen: true);
+        }
       } else {
         await toggleLoaderOverlay(() async {
           delegatedBaker = (await getBakerDetail(bakerAddress!)) ??
               DelegateBakerModel(address: bakerAddress);
           delegateBakerList.add(delegatedBaker!);
         });
-        Get.bottomSheet(ReDelegateBottomSheet(baker: delegatedBaker!),
-            enableDrag: true, isScrollControlled: true);
+        CommonFunctions.bottomSheet(
+            ReDelegateBottomSheet(
+              baker: delegatedBaker!,
+            ),
+            fullscreen: true);
       }
     }
   }
@@ -373,24 +377,23 @@ class DelegateWidgetController extends GetxController {
     // }
   }
 
-  Future<void> openBakerList() async {
-    if (!(Get.isBottomSheetOpen ?? false)) {
+  Future<void> openBakerList(BuildContext context, String? prevPageName) async {
+    //setting prevpage
+    prevPage = prevPageName;
+    if (prevPage == null) {
       Get.put(AccountSummaryController());
-      Get.bottomSheet(
+      CommonFunctions.bottomSheet(
         AccountSwitch(
           title: "Delegate",
           subtitle:
               "In Tezos, we delegate an account to a baker\nand earn interest on the available Tez in the account.",
           onNext: () {
-            checkBaker();
+            checkBaker(context);
           },
         ),
-        isScrollControlled: true,
-        enterBottomSheetDuration: const Duration(milliseconds: 180),
-        exitBottomSheetDuration: const Duration(milliseconds: 150),
       );
     } else {
-      checkBaker();
+      checkBaker(context);
     }
   }
 
@@ -402,8 +405,8 @@ class DelegateWidgetController extends GetxController {
           width: 50,
           child: Center(
               child: CupertinoActivityIndicator(
-                            color: ColorConst.Primary,
-                          )),
+            color: ColorConst.Primary,
+          )),
         ));
     // if (Get.isOverlaysOpen) {
     //   Get.back();

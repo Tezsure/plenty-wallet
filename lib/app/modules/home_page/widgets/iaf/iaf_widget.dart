@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart
 import 'package:naan_wallet/app/modules/home_page/widgets/iaf/controller/iaf_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/iaf/view/iaf_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -29,15 +30,12 @@ class IAFWidget extends StatelessWidget {
             .where((element) => !element.isWatchOnly)
             .toList()
             .isEmpty) {
-          Get.bottomSheet(
+          CommonFunctions.bottomSheet(
             NoAccountsFoundBottomSheet(),
-            isScrollControlled: true,
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
           );
           return;
         } else {
-          Get.bottomSheet(
+          CommonFunctions.bottomSheet(
             AccountSwitch(
               title: "Claim NFT",
               subtitle: 'Choose an account to claim your free \nNFT and tez ',
@@ -50,16 +48,9 @@ class IAFWidget extends StatelessWidget {
                     IAFController(home.userAccounts[home.selectedIndex.value]));
                 // String url =
                 //     "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
-                Get.bottomSheet(
-                  IAFSheet(),
-                  barrierColor: Colors.white.withOpacity(0.09),
-                  isScrollControlled: true,
-                );
+                CommonFunctions.bottomSheet(IAFSheet(), fullscreen: true);
               },
             ),
-            isScrollControlled: true,
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
           );
         }
       },

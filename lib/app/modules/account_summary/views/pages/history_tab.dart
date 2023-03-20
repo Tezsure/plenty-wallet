@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -45,14 +46,12 @@ class HistoryPage extends GetView<TransactionController> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       BouncingWidget(
-                        onPressed: (() => Get.bottomSheet(
-                              const SearchBottomSheet(),
-                              isScrollControlled: true,
-                              enterBottomSheetDuration:
-                                  const Duration(milliseconds: 180),
-                              exitBottomSheetDuration:
-                                  const Duration(milliseconds: 150),
-                            )),
+                        onPressed: () {
+                          return Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SearchBottomSheet()));
+                          return CommonFunctions.bottomSheet(
+                              const SearchBottomSheet());
+                        },
                         child: Container(
                           height: 0.06.height,
                           width: 0.8.width,
@@ -71,7 +70,7 @@ class HistoryPage extends GetView<TransactionController> {
                               ),
                               0.02.hspace,
                               Text(
-                                'Search',
+                                'Search'.tr,
                                 style: labelLarge.copyWith(
                                     letterSpacing: 0.25.aR,
                                     fontSize: 14.aR,
@@ -85,12 +84,7 @@ class HistoryPage extends GetView<TransactionController> {
                       0.02.hspace,
                       BouncingWidget(
                         onPressed: () {
-                          Get.bottomSheet(HistoryFilterSheet(),
-                              enterBottomSheetDuration:
-                                  const Duration(milliseconds: 180),
-                              exitBottomSheetDuration:
-                                  const Duration(milliseconds: 150),
-                              isScrollControlled: true);
+                          CommonFunctions.bottomSheet(HistoryFilterSheet());
                         },
                         child: SvgPicture.asset(
                           controller.isFilterApplied.value
@@ -125,7 +119,7 @@ class HistoryPage extends GetView<TransactionController> {
                                       height: 40.aR,
                                       child: Center(
                                         child: Text(
-                                          'No more results',
+                                          'No more results'.tr,
                                           style: labelLarge.copyWith(
                                               fontSize: 14.aR,
                                               fontWeight: FontWeight.w400,
@@ -154,7 +148,7 @@ class HistoryPage extends GetView<TransactionController> {
                                       height: 40.aR,
                                       child: Center(
                                         child: Text(
-                                          'No more results',
+                                          'No more results'.tr,
                                           style: labelLarge.copyWith(
                                               fontSize: 14.aR,
                                               fontWeight: FontWeight.w400,
@@ -203,14 +197,15 @@ class HistoryPage extends GetView<TransactionController> {
             RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                    text: "No transactions\n",
+                    text: "No transactions\n".tr,
                     style: titleLarge.copyWith(
                         fontSize: 22.aR, fontWeight: FontWeight.w700),
                     children: [
                       WidgetSpan(child: 0.04.vspace),
                       TextSpan(
                           text:
-                              "Your crypto and NFT activity will appear\nhere once you start using your wallet",
+                              "Your crypto and NFT activity will appear\nhere once you start using your wallet"
+                                  .tr,
                           style: labelMedium.copyWith(
                               fontSize: 12.aR,
                               color: ColorConst.NeutralVariant.shade60))
@@ -250,15 +245,14 @@ class HistoryPage extends GetView<TransactionController> {
           HistoryTile(
             tokenInfo: token,
             xtzPrice: controller.accController.xtzPrice.value,
-            onTap: () => Get.bottomSheet(
+            onTap: () => CommonFunctions.bottomSheet(
               TransactionDetailsBottomSheet(
+                xtzPrice: controller.accController.xtzPrice.value,
                 tokenInfo: token,
                 userAccountAddress: controller
                     .accController.selectedAccount.value.publicKeyHash!,
                 transactionModel: token.token!,
               ),
-              enterBottomSheetDuration: const Duration(milliseconds: 180),
-              exitBottomSheetDuration: const Duration(milliseconds: 150),
             ),
           ),
         ],
@@ -320,16 +314,15 @@ class HistoryPage extends GetView<TransactionController> {
                 HistoryTile(
                   tokenInfo: controller.defaultTransactionList[index],
                   xtzPrice: controller.accController.xtzPrice.value,
-                  onTap: () => Get.bottomSheet(
+                  onTap: () => CommonFunctions.bottomSheet(
                     TransactionDetailsBottomSheet(
+                      xtzPrice: controller.accController.xtzPrice.value,
                       tokenInfo: controller.defaultTransactionList[index],
                       userAccountAddress: controller
                           .accController.selectedAccount.value.publicKeyHash!,
                       transactionModel:
                           controller.defaultTransactionList[index].token!,
                     ),
-                    enterBottomSheetDuration: const Duration(milliseconds: 180),
-                    exitBottomSheetDuration: const Duration(milliseconds: 150),
                   ),
                 ),
               ],

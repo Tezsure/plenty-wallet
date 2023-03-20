@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/beta_tag_widget/beta_t
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widgets/choose_payment_method.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -27,7 +28,7 @@ class BetaTagWidget extends StatefulWidget {
 }
 
 class _BetaTagWidgetState extends State<BetaTagWidget> {
-  String version = "2.0.4";
+  String version = "2.0.5";
   @override
   void initState() {
     PackageInfo.fromPlatform().then((packageInfo) {
@@ -44,10 +45,8 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        Get.bottomSheet(
+        CommonFunctions.bottomSheet(
           BetaTagSheet(),
-          barrierColor: Colors.white.withOpacity(0.09),
-          isScrollControlled: true,
         );
       },
       child: HomeWidgetFrame(
@@ -73,7 +72,7 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("naan version",
+                      Text("naan version".tr,
                           style: bodySmall.copyWith(
                               color: ColorConst.NeutralVariant.shade40)),
                       Text("$version (beta)", style: labelMedium),
@@ -92,7 +91,7 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
     return Container(
       decoration: BoxDecoration(
           color: Colors.black, borderRadius: BorderRadius.circular(11.arP)),
-      padding: EdgeInsets.all(16.arP),
+      padding: EdgeInsets.all(AppConstant.homeWidgetDimension / 11),
       height: AppConstant.homeWidgetDimension / 2.5,
       width: AppConstant.homeWidgetDimension / 2.5,
       child: Image.asset("assets/naan_logo.png"),

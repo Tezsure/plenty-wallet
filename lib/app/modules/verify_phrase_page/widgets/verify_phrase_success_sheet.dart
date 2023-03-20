@@ -38,12 +38,12 @@ class VerifyPhraseSuccessSheet extends StatelessWidget {
               ),
               0.0175.vspace,
               Text(
-                "Backup successful",
+                "Backup successful".tr,
                 style: titleLarge,
               ),
               0.006.vspace,
               Text(
-                "Hope you have written the secret \nphrase safely",
+                "Hope you have written the secret \nphrase safely".tr,
                 textAlign: TextAlign.center,
                 style: labelSmall.copyWith(color: ColorConst.textGrey1),
               ),

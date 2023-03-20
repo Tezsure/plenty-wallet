@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/widgets/account_selector/account_selector.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 
 class PairRequestController extends GetxController {
   final BeaconRequest beaconRequest = Get.arguments;
@@ -38,15 +39,11 @@ class PairRequestController extends GetxController {
   }
 
   changeAccount() async {
-    final selectedIndex = await Get.bottomSheet(
+    final selectedIndex = await CommonFunctions.bottomSheet(
       AccountSelector(
         accountModels: accountModels,
         index: selectedAccount.value,
       ),
-      enterBottomSheetDuration: const Duration(milliseconds: 180),
-      exitBottomSheetDuration: const Duration(milliseconds: 150),
-      barrierColor: Colors.white.withOpacity(0.09),
-      isScrollControlled: true,
     );
     if (selectedIndex != null) {
       selectedAccount.value = selectedIndex;

@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:naan_wallet/utils/utils.dart';
 
 import '../controllers/buy_nft_controller.dart';
 
@@ -43,8 +44,14 @@ class FeesSummarySheet extends StatelessWidget {
                     const Spacer(),
                     Text(
                       controller.selectedToken.value!.symbol == "Tezos"
-                          ? "\$${(double.parse(controller.priceInToken.value) * homeController.xtzPrice.value).toStringAsFixed(2)}"
-                          : "\$${((double.parse(controller.priceInToken.value) * controller.selectedToken.value!.currentPrice! * homeController.xtzPrice.value).toStringAsFixed(2))}",
+                          ? (double.parse(controller.priceInToken.value) *
+                                  homeController.xtzPrice.value)
+                              .roundUpDollar(homeController.xtzPrice.value)
+                          : (double.parse(controller.priceInToken.value) *
+                                  controller
+                                      .selectedToken.value!.currentPrice! *
+                                  homeController.xtzPrice.value)
+                              .roundUpDollar(homeController.xtzPrice.value),
                       style: bodyLarge,
                     )
                   ],
@@ -54,11 +61,19 @@ class FeesSummarySheet extends StatelessWidget {
                   subtitle:
                       "Fee required to get the transaction added to the blockchain.",
                   title: "Network fee",
-                  trailing: "\$ ${controller.fees["networkFee"]}"),
+                  trailing: controller.fees["networkFee"] == "calculating..."
+                      ? "calculating..."
+                      : double.parse(controller.fees["networkFee"]!)
+                          .roundUpDollar(controller.xtzPrice.value,
+                              decimals: 4)),
               _buildFeeTitle(
                   subtitle: "Fee charged by naan.",
                   title: "Interface fee",
-                  trailing: "\$${controller.fees["interfaceFee"]}"),
+                  trailing: controller.fees["interfaceFee"] == "calculating..."
+                      ? "calculating..."
+                      : double.parse(controller.fees["interfaceFee"]!)
+                          .roundUpDollar(controller.xtzPrice.value,
+                              decimals: 4)),
             ],
           ),
         ),
@@ -73,16 +88,17 @@ class FeesSummarySheet extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 16.arP),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Text(
-                title,
+                title.tr,
                 style: labelMedium.copyWith(color: ColorConst.textGrey1),
               ),
               const Spacer(),
               Text(
-                trailing,
+                trailing.tr,
                 style: labelMedium,
               ),
             ],
@@ -91,7 +107,7 @@ class FeesSummarySheet extends StatelessWidget {
             height: 8.arP,
           ),
           Text(
-            subtitle,
+            subtitle.tr,
             style: bodySmall.copyWith(color: ColorConst.textGrey1),
           ),
         ],
@@ -111,7 +127,7 @@ class FeesSummarySheet extends StatelessWidget {
             size: 15,
           ),
           Text(
-            'Sending',
+            'Sending'.tr,
             style: bodySmall.copyWith(
                 color: ColorConst.textGrey1, fontWeight: FontWeight.w600),
           ),

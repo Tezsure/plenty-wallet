@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -16,13 +19,17 @@ class TezQuake extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        Get.bottomSheet(
+        final address = Get.find<HomePageController>().userAccounts.isEmpty
+            ? null
+            : Get.find<HomePageController>().userAccounts.first.publicKeyHash;
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZ_QUAKE,
+            param: {NaanAnalytics.address: address});
+        CommonFunctions.bottomSheet(
           const DappBrowserView(),
-          barrierColor: Colors.white.withOpacity(0.09),
+          fullscreen: true,
           settings: const RouteSettings(
             arguments: "https://linktr.ee/tezquakeaid",
           ),
-          isScrollControlled: true,
         );
       },
       child: HomeWidgetFrame(

@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -43,7 +44,7 @@ class NaanTextfield extends StatelessWidget {
       autofocus: autofocus ?? false,
       controller: controller,
       cursorColor: ColorConst.Primary,
-      style: bodyMedium.copyWith(fontSize: 14.aR),
+      style: bodyMedium,
       textAlign: TextAlign.start,
       maxLength: maxLen ?? 1000,
       textAlignVertical: TextAlignVertical.center,
@@ -55,19 +56,18 @@ class NaanTextfield extends StatelessWidget {
         fillColor: backgroundColor ?? Colors.white.withOpacity(0.1),
         filled: true,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.arP),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.arP),
             borderSide: BorderSide.none),
         contentPadding:
             EdgeInsets.symmetric(horizontal: 10.arP, vertical: 20.arP),
         // contentPadding: EdgeInsets.zero,
         hintStyle: hintTextSyle ??
-            bodyMedium.copyWith(
-                fontSize: 14.aR, color: Colors.white.withOpacity(0.2)),
-        hintText: hint,
+            bodyMedium.copyWith(color: Colors.white.withOpacity(0.2)),
+        hintText: hint?.tr,
       ),
     );
   }
@@ -83,10 +83,10 @@ class NaanTextFormfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(8.arP),
       color: Colors.white.withOpacity(0.2),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        padding: EdgeInsets.symmetric(horizontal: 12.arP),
         child: SizedBox(
           width: double.infinity,
           height: height,

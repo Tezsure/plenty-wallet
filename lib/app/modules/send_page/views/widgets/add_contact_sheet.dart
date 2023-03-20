@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/modules/common_widgets/pick_an_avatar.dart';
 import 'package:naan_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -62,10 +63,10 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
     Get.put(TransactionController());
     return NaanBottomSheet(
       title: widget.isEditContact ? "Edit Contact" : 'Add Contact',
-      isScrollControlled: true,
+      // isScrollControlled: true,
       // height: AppConstant.naanBottomSheetHeight -
       //     MediaQuery.of(context).viewInsets.bottom,
-      bottomSheetHorizontalPadding: 32.arP,
+      // bottomSheetHorizontalPadding: 32.arP,
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
@@ -88,13 +89,9 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      Get.bottomSheet(avatarPicker(),
-                          isScrollControlled: true,
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          barrierColor: Colors.transparent);
+                      CommonFunctions.bottomSheet(
+                        avatarPicker(),
+                      );
                     },
                     child: CircleAvatar(
                       radius: 20.aR,
@@ -117,6 +114,7 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
               ),
               0.02.vspace,
               NaanTextfield(
+                autofocus: true,
                 height: 52.aR,
                 hint: 'Enter contact name',
                 hintTextSyle: bodyMedium.copyWith(
@@ -194,10 +192,9 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
         Get.back();
       }
     }, onPickAvatarSelect: () async {
-      Get.bottomSheet(avatarPicker(),
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
-          isScrollControlled: true);
+      CommonFunctions.bottomSheet(
+        avatarPicker(),
+      );
     });
     // return BackdropFilter(
     //   filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),

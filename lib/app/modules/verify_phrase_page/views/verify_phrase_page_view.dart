@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../utils/styles/styles.dart';
@@ -33,43 +36,32 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
       controller.phrase3
     ];
     return NaanBottomSheet(
-        height: 0.9.height,
-        bottomSheetHorizontalPadding: 16.arP,
+        height: AppConstant.naanBottomSheetHeight,
+        title: "Verify",
+        prevPageName: "Back",
+        leading: backButton(
+            ontap: () => Navigator.pop(context), lastPageName: "Back"),
+        // bottomSheetHorizontalPadding: 0.arP,
         bottomSheetWidgets: [
           SizedBox(
-            height: 0.82.height,
+            height: AppConstant.naanBottomSheetChildHeight,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      backButton(),
-                      InfoButton(
-                        onPressed: () => Get.bottomSheet(
-                          const InfoBottomSheet(),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          enableDrag: true,
-                          isDismissible: true,
-                          isScrollControlled: true,
-                          barrierColor: const Color.fromARGB(09, 255, 255, 255),
-                        ),
-                      ),
-                    ],
-                  ),
-                  0.038.vspace,
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Verify your secret phrase',
-                      style: titleLarge,
-                    ),
-                  ),
-                  0.012.vspace,
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     backButton(),
+                  //     InfoButton(
+                  //       onPressed: () => CommonFunctions.bottomSheet(
+                  //         const InfoBottomSheet(),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  0.04.vspace,
+
                   Obx(() => Align(
                         alignment: Alignment.center,
                         child: Text(
@@ -85,27 +77,14 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: controller
                           .phraseList[controller.keyIndex.value].length,
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      padding: EdgeInsets.symmetric(horizontal: 32.arP),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 140 / 52,
-                        crossAxisSpacing: 24,
-                        mainAxisSpacing: 16,
+                        childAspectRatio: (140 / 41).arP,
+                        crossAxisSpacing: 24.arP,
+                        mainAxisSpacing: 16.arP,
                       ),
                       itemBuilder: (_, index) {
-                        // return Obx(() => SolidButton(
-                        //       active: controller.selectedPhrase.value ==
-                        //           controller
-                        //               .phraseList[controller.keyIndex.value]
-                        //               .elementAt(index),
-                        //       onPressed: () => controller.selectSecretPhrase(
-                        //         index: index,
-                        //       ),
-                        //       title: controller
-                        //           .phraseList[controller.keyIndex.value]
-                        //           .elementAt(index),
-                        //     ));
                         return Obx(() => BouncingWidget(
                               onPressed: () => controller.selectSecretPhrase(
                                 index: index,
@@ -144,7 +123,7 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                       ? Align(
                           alignment: Alignment.center,
                           child: Text(
-                            'Wrong word selected. Try again',
+                            'Wrong word selected. Try again'.tr,
                             style: bodySmall.copyWith(color: ColorConst.Error),
                           ),
                         )
@@ -158,47 +137,8 @@ class VerifyPhrasePageView extends GetView<VerifyPhrasePageController> {
                         onPressed: controller.selectedPhrase.isEmpty
                             ? null
                             : controller.verifySecretPhrase,
-                      ))
-                  // Obx(() => Align(
-                  //       alignment: Alignment.bottomCenter,
-                  //       child: Material(
-                  //           color: (controller.isPhraseSelected.value)
-                  //               ? ColorConst.Primary
-                  //               : ColorConst.NeutralVariant.shade60
-                  //                   .withOpacity(0.2),
-                  //           type: MaterialType.canvas,
-                  //           elevation: 1,
-                  //           borderRadius:
-                  //               const BorderRadius.all(Radius.circular(8)),
-                  //           child: InkWell(
-                  //             borderRadius:
-                  //                 const BorderRadius.all(Radius.circular(8)),
-                  // onTap: () => controller.selectedPhrase.isEmpty
-                  //     ? null
-                  //     : controller.verifySecretPhrase(),
-                  //             splashColor: Colors.transparent,
-                  //             child: Container(
-                  //               height: 48,
-                  //               width: 0.8.width,
-                  //               decoration: BoxDecoration(
-                  //                 borderRadius: BorderRadius.circular(8),
-                  //                 color: Colors.transparent,
-                  //               ),
-                  //               alignment: Alignment.center,
-                  //               child: Text(
-                  // controller.isPhraseVerified.value &&
-                  //         controller.isPhraseSelected.value
-                  //     ? 'Done'
-                  //     : 'Next',
-                  //                 style: titleSmall.apply(
-                  //                   color: (controller.isPhraseSelected.value)
-                  //                       ? Colors.white
-                  //                       : ColorConst.NeutralVariant.shade60,
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           )),
-                  //     )),
+                      )),
+                  BottomButtonPadding()
                 ]),
           ),
         ]);

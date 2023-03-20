@@ -15,6 +15,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -28,17 +29,18 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 0, isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight - 32.arP,
+      title: "",
+      // bottomSheetHorizontalPadding: 0
+      height: AppConstant.naanBottomSheetChildHeight,
       bottomSheetWidgets: [
         SizedBox(
-          height: AppConstant.naanBottomSheetChildHeight - 32.arP,
+          height: AppConstant.naanBottomSheetChildHeight - .08.height,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Spacer(),
               Expanded(
-                flex: 3,
+                flex: 5,
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -52,27 +54,16 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
                       ),
                       0.05.vspace,
                       Text(
-                        "No accounts found",
+                        "No accounts found".tr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          decoration: TextDecoration.none,
-                          fontSize: 22.arP,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: titleLarge,
                       ),
-                      SizedBox(
-                        height: 12.arP,
-                      ),
+                      0.016.vspace,
                       Text(
-                        "Create or import new account to proceed",
+                        "Create or import new account to proceed".tr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: bodySmall.copyWith(
                           color: const Color(0xFF958E99),
-                          decoration: TextDecoration.none,
-                          fontSize: 12.arP,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 0.4.arP,
                         ),
                       ),
                     ],
@@ -88,13 +79,8 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
                 ),
                 onPressed: () {
                   Get.back();
-                  Get.bottomSheet(AddNewAccountBottomSheet(),
-                          enterBottomSheetDuration:
-                              const Duration(milliseconds: 180),
-                          exitBottomSheetDuration:
-                              const Duration(milliseconds: 150),
-                          barrierColor: Colors.transparent,
-                          isScrollControlled: true)
+                  CommonFunctions.bottomSheet(AddNewAccountBottomSheet(),
+                          fullscreen: true)
                       .whenComplete(() {
                     Get.find<AccountsWidgetController>().resetCreateNewWallet();
                   });
@@ -139,7 +125,7 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              "Or create account with",
+              "Or create account with".tr,
               style: bodySmall.copyWith(
                 fontWeight: FontWeight.w600,
                 color: ColorConst.NeutralVariant.shade60,
@@ -159,7 +145,7 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
   Padding _builsSocialLogins() {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: 32.arP,
+        horizontal: 16.arP,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

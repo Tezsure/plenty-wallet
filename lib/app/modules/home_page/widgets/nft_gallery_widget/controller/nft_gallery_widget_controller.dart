@@ -15,6 +15,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/vie
 import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
 import 'package:naan_wallet/app/modules/nft_gallery/view/nft_gallery_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 
 class NftGalleryWidgetController extends GetxController {
   RxList<AccountModel> accounts = <AccountModel>[].obs;
@@ -98,14 +99,9 @@ class NftGalleryWidgetController extends GetxController {
     // NaanAnalytics.logEvent(NaanAnalyticsEvents.CREATE_NFT_GALLERY, param: {
     //   "addresses": accounts?.map((e) => e.publicKeyHash).join(","),
     // });
-    Get.bottomSheet(
-      const CreateNewNftGalleryBottomSheet(),
-      isScrollControlled: true,
-      ignoreSafeArea: false,
-      backgroundColor: Colors.transparent,
-      enterBottomSheetDuration: const Duration(milliseconds: 180),
-      exitBottomSheetDuration: const Duration(milliseconds: 150),
-    ).then(
+    CommonFunctions.bottomSheet(const CreateNewNftGalleryBottomSheet(),
+            fullscreen: true)
+        .then(
       (_) async {
         selectedAccountIndex = <String, bool>{}.obs;
         accounts.value = [];
@@ -138,17 +134,13 @@ class NftGalleryWidgetController extends GetxController {
     accountNameController.text = 'Gallery ${nftGalleryList.length + 1}';
     accountName.value = accountNameController.text;
 
-    await Get.bottomSheet(
-      CreateNewNftGalleryBottomSheet(
-        nftGalleryModel: nftGallery,
-        galleryIndex: galleryIndex,
-      ),
-      isScrollControlled: true,
-      ignoreSafeArea: false,
-      backgroundColor: Colors.transparent,
-      enterBottomSheetDuration: const Duration(milliseconds: 180),
-      exitBottomSheetDuration: const Duration(milliseconds: 150),
-    ).then(
+    await CommonFunctions.bottomSheet(
+            CreateNewNftGalleryBottomSheet(
+              nftGalleryModel: nftGallery,
+              galleryIndex: galleryIndex,
+            ),
+            fullscreen: true)
+        .then(
       (_) async {
         selectedAccountIndex = <String, bool>{}.obs;
         accounts.value = [];
@@ -283,12 +275,9 @@ class NftGalleryWidgetController extends GetxController {
       Get.put(NftGalleryController());
     }
 
-    Get.bottomSheet(
-      const NftGalleryView(),
-      enterBottomSheetDuration: const Duration(milliseconds: 180),
-      exitBottomSheetDuration: const Duration(milliseconds: 150),
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+    CommonFunctions.bottomSheet(
+      NftGalleryView(),
+      fullscreen: true,
       settings:
           RouteSettings(arguments: [nftGalleryList.length - 1, nftGalleryList]),
     ).then((_) {
@@ -300,13 +289,10 @@ class NftGalleryWidgetController extends GetxController {
     // NaanAnalytics.logEvent(NaanAnalyticsEvents.MY_GALLERY_CLICK, param: {
     //   NaanAnalytics.address: nftGalleryList[index].publicKeyHashs?.join(", ")
     // });
-    Get.bottomSheet(
-      const NftGalleryView(),
-      enterBottomSheetDuration: const Duration(milliseconds: 180),
-      exitBottomSheetDuration: const Duration(milliseconds: 150),
-      isScrollControlled: true,
+    CommonFunctions.bottomSheet(
+      NftGalleryView(),
+      fullscreen: true,
       settings: RouteSettings(arguments: [index, nftGalleryList]),
-      backgroundColor: Colors.transparent,
     );
   }
 }

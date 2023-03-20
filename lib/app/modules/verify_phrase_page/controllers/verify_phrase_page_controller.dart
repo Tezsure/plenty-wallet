@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/verify_phrase_page/widgets/verify_phrase_success_sheet.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 
 class VerifyPhrasePageController extends GetxController {
   List<String> phrase1 = <String>[];
@@ -73,7 +74,7 @@ class VerifyPhrasePageController extends GetxController {
         ..back() // close current
         ..back() // close seeds
         ..back(); // close bottom sheet
-      Get.bottomSheet(VerifyPhraseSuccessSheet(), isScrollControlled: true);
+      CommonFunctions.bottomSheet(const VerifyPhraseSuccessSheet(), );
     } else {
       selectedPhrase.value = '';
       isPhraseSelected.value = false;

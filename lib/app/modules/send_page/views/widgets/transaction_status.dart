@@ -97,7 +97,7 @@ SnackbarController transactionStatusSnackbar({
                   children: [
                     tezAddress.isValidWalletAddress
                         ? Text(
-                            "Sent to $tezAddress",
+                            "${"Sent to".tr} $tezAddress",
                             style: labelSmall.copyWith(
                               color: ColorConst.NeutralVariant.shade60,
                             ),

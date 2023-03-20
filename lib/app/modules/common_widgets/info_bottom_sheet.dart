@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/mock/mock_data.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -16,9 +17,11 @@ class InfoBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      isScrollControlled: true,
-      // height: AppConstant.naanBottomSheetHeight,
-      blurRadius: 5,
+      // isScrollControlled: true,
+      height: AppConstant.naanBottomSheetHeight,
+      titleAlignment: Alignment.centerLeft,
+      title: isWatchAddress ? 'Watch addresses' : 'Introduction to Crypto',
+      // blurRadius: 5,
       // isDraggableBottomSheet: true,
       // title: 'Introduction to crypto wallet',
       bottomSheetWidgets: [
@@ -27,12 +30,12 @@ class InfoBottomSheet extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              0.02.vspace,
-              Text(
-                isWatchAddress ? 'Watch addresses' : 'Introduction to Crypto',
-                textAlign: TextAlign.center,
-                style: titleLarge,
-              ),
+              // 0.02.vspace,
+              // Text(
+              //   isWatchAddress ? 'Watch addresses' : 'Introduction to Crypto',
+              //   textAlign: TextAlign.center,
+              //   style: titleLarge,
+              // ),
               0.02.vspace,
               Expanded(
                 child: RawScrollbar(
@@ -57,14 +60,14 @@ class InfoBottomSheet extends StatelessWidget {
                               textAlign: TextAlign.start,
                               text: TextSpan(
                                 text: isWatchAddress
-                                    ? '${MockData.watchAddress.keys.elementAt(index)}\n'
-                                    : '${MockData.walletInfo.keys.elementAt(index)}\n',
+                                    ? '${MockData.watchAddress.keys.elementAt(index).tr}\n'
+                                    : '${MockData.walletInfo.keys.elementAt(index).tr}\n',
                                 style: titleSmall,
                                 children: [
                                   TextSpan(
                                     text: isWatchAddress
-                                        ? "\n${MockData.watchAddress.values.elementAt(index)}\n"
-                                        : "\n${MockData.walletInfo.values.elementAt(index)}\n",
+                                        ? "\n${MockData.watchAddress.values.elementAt(index).tr}\n"
+                                        : "\n${MockData.walletInfo.values.elementAt(index).tr}\n",
                                     style: bodySmall.copyWith(
                                       color: ColorConst.NeutralVariant.shade60,
                                     ),

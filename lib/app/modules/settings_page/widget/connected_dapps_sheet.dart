@@ -3,16 +3,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class ConnectedDappBottomSheet extends StatelessWidget {
-  ConnectedDappBottomSheet({Key? key}) : super(key: key);
+  final String? prevPage;
+  ConnectedDappBottomSheet({Key? key, this.prevPage}) : super(key: key);
 
   final SettingsPageController controller = Get.find<SettingsPageController>();
 
@@ -20,15 +24,21 @@ class ConnectedDappBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => NaanBottomSheet(
-        blurRadius: 5,
-        height: 0.87.height,
-        isScrollControlled: true,
+        prevPageName: prevPage,
+        // blurRadius: 5,
+        height: controller.dapps.isEmpty
+            ? AppConstant.naanBottomSheetChildHeight / 1.5
+            : (AppConstant.naanBottomSheetHeight -
+                (prevPage == null ? 0 : 064.arP)),
+        leading: prevPage == null
+            ? null
+            : backButton(
+                ontap: () => Navigator.pop(context), lastPageName: prevPage),
+        // isScrollControlled: true,
         title: controller.dapps.isEmpty ? "" : "Connected apps",
-        bottomSheetHorizontalPadding: 16.arP,
+        // bottomSheetHorizontalPadding: prevPage == null ? 16.arP : 0,
         bottomSheetWidgets: [
-          SizedBox(
-            height: 20.arP,
-          ),
+          0.02.vspace,
           Obx(
             () {
               if (controller.dapps.isEmpty) {
@@ -48,12 +58,8 @@ class ConnectedDappBottomSheet extends StatelessWidget {
                       ),
                       0.03.vspace,
                       Text(
-                        "No connected apps",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22.arP,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        "No connected apps".tr,
+                        style: titleLarge,
                       ),
                     ],
                   ),
@@ -80,29 +86,16 @@ class ConnectedDappBottomSheet extends StatelessWidget {
   }) {
     return BouncingWidget(
       onPressed: () {
-        Get.bottomSheet(disconnectDappBottomSheet(index),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            barrierColor: Colors.transparent);
+        CommonFunctions.bottomSheet(
+          disconnectDappBottomSheet(index),
+        );
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 12.arP),
         width: double.infinity,
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 22,
-              backgroundColor: dappModel.icon != null
-                  ? ColorConst.NeutralVariant.shade60.withOpacity(0.2)
-                  : ColorConst.Primary,
-              backgroundImage: CachedNetworkImageProvider(dappModel.icon ?? ""),
-              child: dappModel.icon == null
-                  ? Text(
-                      dappModel.name.substring(0, 1).toUpperCase(),
-                      style: titleMedium,
-                    )
-                  : Container(),
-            ),
+            _buildImage(dappModel),
             0.045.hspace,
             Text(
               dappModel.name,
@@ -120,6 +113,49 @@ class ConnectedDappBottomSheet extends StatelessWidget {
     );
   }
 
+  Widget _buildImage(P2PPeer dappModel) {
+    return SizedBox(
+      width: 44.arP,
+      height: 44.arP,
+      child: ClipOval(
+          child: dappModel.icon?.contains(".svg") ?? false
+              ? SvgPicture.network(
+                  dappModel.icon ?? "",
+                )
+              : Image.network(
+                  dappModel.icon ?? "",
+                  errorBuilder: (context, error, stackTrace) {
+                    return _errorBuilder(dappModel);
+                  },
+                )),
+    );
+  }
+
+  Container _errorBuilder(P2PPeer dappModel) {
+    return Container(
+      padding: EdgeInsets.all(6.arP),
+      alignment: Alignment.center,
+      color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+      child: Container(
+        width: 24.aR,
+        height: 24.aR,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+          shape: BoxShape.circle,
+        ),
+        child: Center(
+          child: Text(
+            dappModel.name.substring(0, 1),
+            style: bodySmall.copyWith(
+              color: ColorConst.NeutralVariant.shade60,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget disconnectDappBottomSheet(int index) {
     return NaanBottomSheet(
       title: "Disconnect app",
@@ -128,7 +164,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
       bottomSheetWidgets: [
         Center(
           child: Text(
-            "You can reconnect to this app later",
+            "You can reconnect to this app later".tr,
             style: labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
           ),
         ),
@@ -137,7 +173,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
           children: [
             optionMethod(
                 child: Text(
-                  "Disconnect",
+                  "Disconnect".tr,
                   style: labelMedium.apply(color: ColorConst.Error.shade60),
                 ),
                 onTap: () {
@@ -149,7 +185,7 @@ class ConnectedDappBottomSheet extends StatelessWidget {
             ),
             optionMethod(
                 child: Text(
-                  "Cancel",
+                  "Cancel".tr,
                   style: labelMedium,
                 ),
                 onTap: () {

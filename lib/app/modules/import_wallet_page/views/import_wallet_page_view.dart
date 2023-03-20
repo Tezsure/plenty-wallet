@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,6 +18,7 @@ import 'package:naan_wallet/app/modules/import_wallet_page/widgets/accounts_widg
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/custom_tab_indicator.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -40,14 +42,14 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     Get.put(ImportWalletPageController());
     if (isBottomSheet) {
       return NaanBottomSheet(
-        bottomSheetHorizontalPadding: 16.arP,
-        isScrollControlled: true,
-        // height: AppConstant.naanBottomSheetHeight -
-        //     MediaQuery.of(context).viewInsets.bottom,
+        // bottomSheetHorizontalPadding: 16.arP,
+        // isScrollControlled: true,
+        height: AppConstant.naanBottomSheetHeight,
         bottomSheetWidgets: [
           SizedBox(
               height: AppConstant.naanBottomSheetChildHeight -
-                  MediaQuery.of(context).viewInsets.bottom,
+                  MediaQuery.of(context).viewInsets.bottom +
+                  60.arP,
               child: _buildBody(context,
                   isWatchAddress: isWatchAddress, isBottomSheet: isBottomSheet))
         ],
@@ -55,10 +57,12 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
     }
     return OverrideTextScaleFactor(
       child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.arP),
-          child: SafeArea(bottom: false, child: _buildBody(context)),
+        backgroundColor: Colors.transparent,
+        body: CupertinoPageScaffold(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.arP),
+            child: SafeArea(bottom: false, child: _buildBody(context)),
+          ),
         ),
       ),
     );
@@ -73,7 +77,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          0.03.vspace,
+          0.02.vspace,
           Row(
             children: [
               !isBottomSheet ? backButton() : const SizedBox(),
@@ -85,15 +89,16 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               //   ),
               // ),
               const Spacer(),
-              InfoButton(
-                onPressed: () {
-                  Get.bottomSheet(
-                    InfoBottomSheet(isWatchAddress: isWatchAddress),
-                    isScrollControlled: true,
-                    barrierColor: Colors.white.withOpacity(0.2),
-                  );
-                },
-              ),
+              isBottomSheet
+                  ? closeButton()
+                  : InfoButton(
+                      onPressed: () {
+                        CommonFunctions.bottomSheet(
+                            InfoBottomSheet(isWatchAddress: isWatchAddress),
+                            fullscreen: true);
+                      },
+                    ),
+
               // GestureDetector(
               //   onTap: () {
               //     Get.bottomSheet(
@@ -121,6 +126,20 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               // )
             ],
           ),
+          0.02.vspace,
+          if (isBottomSheet)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InfoButton(
+                  onPressed: () {
+                    CommonFunctions.bottomSheet(
+                        InfoBottomSheet(isWatchAddress: isWatchAddress),
+                        fullscreen: true);
+                  },
+                ),
+              ],
+            ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -130,7 +149,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                 children: [
                   0.05.vspace,
                   Text(
-                    isWatchAddress ? "Add a watch address" : "Import account",
+                    (isWatchAddress ? "Add a watch address" : "Import account")
+                        .tr,
                     style: titleLarge,
                   ),
                   0.023.vspace,
@@ -168,9 +188,10 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                       contentPadding: const EdgeInsets.all(0),
                                       hintStyle: bodyMedium.apply(
                                           color: Colors.white.withOpacity(0.2)),
-                                      hintText: isWatchAddress
-                                          ? "Enter wallet address or tezos domain "
-                                          : "Paste your secret phrase, private key\nor watch address",
+                                      hintText: (isWatchAddress
+                                              ? "Enter wallet address or tezos domain "
+                                              : "Paste your secret phrase, private key\nor watch address")
+                                          .tr,
                                       border: InputBorder.none),
                                 ),
                               ),
@@ -187,7 +208,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                                           controller.phraseText.value = "";
                                         },
                                         child: Text(
-                                          "Clear",
+                                          "Clear".tr,
                                           style: titleSmall.apply(
                                               color: ColorConst.Primary),
                                         ),
@@ -238,7 +259,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
           ),
           0.02.hspace,
           Text(
-            "Paste",
+            "Paste".tr,
             style: titleSmall.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w600,
@@ -266,11 +287,9 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
               controller.isTz1Selected.value = true;
               controller.tabController!.animateTo(0);
               controller.genAndLoadMoreAccounts(0, 3);
-              Get.bottomSheet(
-                AccountBottomSheet(controller: controller),
-                isScrollControlled: true,
-                barrierColor: Colors.white.withOpacity(0.2),
-              );
+              CommonFunctions.bottomSheet(
+                  AccountBottomSheet(controller: controller),
+                  fullscreen: true);
             } else {
               controller.redirectBasedOnImportWalletType(
                   Routes.NFT_GALLERY_CREATE, isWatchAddress);
@@ -324,126 +343,136 @@ class AccountBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      blurRadius: 5,
-      height: 0.85.height,
+      title: "Select addresses",
+      // blurRadius: 5,
+      height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
-        0.04.vspace,
-        Text(
-          "Select addresses",
-          textAlign: TextAlign.start,
-          style: titleLarge,
-        ),
-        0.014.vspace,
-        Text(
-          "Multiple addresses can be selected",
-          style: bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
-        ),
-        0.03.vspace,
-        Expanded(
-          child: DefaultTabController(
-            length: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Obx(
-                  () => TabBar(
-                    isScrollable: true,
-                    indicatorColor: ColorConst.Primary,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicatorWeight: 4,
-                    indicatorPadding: EdgeInsets.zero,
-                    indicator: const MaterialIndicator(
-                      color: ColorConst.Primary,
-                      height: 4,
-                      topLeftRadius: 4,
-                      topRightRadius: 4,
-                      strokeWidth: 4,
-                    ),
-                    controller: controller.tabController,
-                    labelPadding: EdgeInsets.zero,
-                    tabs: [
-                      Tab(
-                        child: SizedBox(
-                          width: controller.selectedAccountsTz1.isNotEmpty
-                              ? 84
-                              : 61,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Tz1"),
-                              if (controller.selectedAccountsTz1.isNotEmpty)
-                                _buildCount(
-                                    controller.selectedAccountsTz1.length)
-                            ],
+        SizedBox(
+          height: AppConstant.naanBottomSheetChildHeight,
+          child: Column(
+            children: [
+              0.02.vspace,
+              Text(
+                "Multiple addresses can be selected".tr,
+                style:
+                    bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+              ),
+              0.03.vspace,
+              Expanded(
+                child: DefaultTabController(
+                  length: 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(
+                        () => TabBar(
+                          isScrollable: true,
+                          indicatorColor: ColorConst.Primary,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          indicatorWeight: 4,
+                          indicatorPadding: EdgeInsets.zero,
+                          indicator: const MaterialIndicator(
+                            color: ColorConst.Primary,
+                            height: 4,
+                            topLeftRadius: 4,
+                            topRightRadius: 4,
+                            strokeWidth: 4,
                           ),
+                          onTap: (_) {
+                            AppConstant.hapticFeedback();
+                          },
+                          controller: controller.tabController,
+                          labelPadding: EdgeInsets.zero,
+                          tabs: [
+                            Tab(
+                              child: SizedBox(
+                                width: controller.selectedAccountsTz1.isNotEmpty
+                                    ? 84
+                                    : 61,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text("Tz1"),
+                                    if (controller
+                                        .selectedAccountsTz1.isNotEmpty)
+                                      _buildCount(
+                                          controller.selectedAccountsTz1.length)
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Tab(
+                              child: SizedBox(
+                                width: controller.selectedAccountsTz2.isNotEmpty
+                                    ? 84.arP
+                                    : 61.arP,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text("Tz2"),
+                                    if (controller
+                                        .selectedAccountsTz2.isNotEmpty)
+                                      _buildCount(
+                                          controller.selectedAccountsTz2.length)
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Tab(
+                              child: SizedBox(
+                                width:
+                                    controller.selectedLegacyAccount.isNotEmpty
+                                        ? 84
+                                        : 61,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Legacy".tr),
+                                    if (controller
+                                        .selectedLegacyAccount.isNotEmpty)
+                                      _buildCount(controller
+                                          .selectedLegacyAccount.length)
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Tab(
-                        child: SizedBox(
-                          width: controller.selectedAccountsTz2.isNotEmpty
-                              ? 84
-                              : 61,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Tz2"),
-                              if (controller.selectedAccountsTz2.isNotEmpty)
-                                _buildCount(
-                                    controller.selectedAccountsTz2.length)
-                            ],
-                          ),
+                      0.015.vspace,
+                      Expanded(
+                        child: TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            AccountWidget(),
+                            AccountWidget(),
+                            AccountWidget()
+                          ],
                         ),
-                      ),
-                      Tab(
-                        child: SizedBox(
-                          width: controller.selectedLegacyAccount.isNotEmpty
-                              ? 84
-                              : 61,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Legacy"),
-                              if (controller.selectedLegacyAccount.isNotEmpty)
-                                _buildCount(
-                                    controller.selectedLegacyAccount.length)
-                            ],
-                          ),
-                        ),
-                      ),
+                      )
                     ],
                   ),
                 ),
-                0.015.vspace,
-                Expanded(
-                  child: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      AccountWidget(),
-                      AccountWidget(),
-                      AccountWidget()
-                    ],
-                  ),
-                )
-              ],
-            ),
+              ),
+              0.03.vspace,
+              Obx(
+                () => SolidButton(
+                  active: controller.selectedAccountsTz1.isNotEmpty ||
+                      controller.selectedAccountsTz2.isNotEmpty ||
+                      controller.selectedLegacyAccount.isNotEmpty,
+                  onPressed: () {
+                    controller.redirectBasedOnImportWalletType();
+                  },
+                  title: "Import",
+                ),
+              ),
+              0.05.vspace
+            ],
           ),
         ),
-        0.03.vspace,
-        Obx(
-          () => SolidButton(
-            active: controller.selectedAccountsTz1.isNotEmpty ||
-                controller.selectedAccountsTz2.isNotEmpty ||
-                controller.selectedLegacyAccount.isNotEmpty,
-            onPressed: () {
-              controller.redirectBasedOnImportWalletType();
-            },
-            title: "Import",
-          ),
-        ),
-        0.05.vspace
       ],
     );
   }

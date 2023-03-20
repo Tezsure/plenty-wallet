@@ -55,15 +55,11 @@ class BiometricPageController extends GetxController {
     } else {
       if (Get.previousRoute == Routes.PASSCODE_PAGE &&
           nextPageRoute == Routes.HOME_PAGE) {
-        Get.offAllNamed(Routes.HOME_PAGE, arguments: [
-          true,
-          'cross boat human mammal rain twin inner garment lizard quick never lamp'
-        ]);
+        Get.offAllNamed(Routes.HOME_PAGE);
       }
 
       /// if it's not to verify a biometric and not being redirected from create wallet page or import page<br>
       /// overwrite the new biometric and pop with value true
-
     }
   }
 }

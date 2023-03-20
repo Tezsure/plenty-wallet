@@ -76,13 +76,13 @@ class PairRequestView extends GetView<PairRequestController> {
 
                 0.02.vspace,
                 Text(
-                  'Wants to connect to your account',
+                  'Wants to connect to your account'.tr,
                   style: bodyLarge.copyWith(
                       color: ColorConst.grey, fontWeight: FontWeight.w600),
                 ),
                 0.03.vspace,
                 Text(
-                  'Account',
+                  'Account'.tr,
                   style: bodySmall.copyWith(color: ColorConst.grey),
                 ),
                 Padding(
@@ -92,7 +92,7 @@ class PairRequestView extends GetView<PairRequestController> {
                       controller.changeAccount();
                     },
                     child: Obx(() => Container(
-                          height: 42,
+                          // height: 42,
                           width: 0.5.width,
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -106,10 +106,11 @@ class PairRequestView extends GetView<PairRequestController> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
+                                padding: EdgeInsets.only(
+                                    right: 8.0.arP, top: 8.arP, bottom: 8.arP),
                                 child: Container(
-                                  height: 0.06.width,
-                                  width: 0.06.width,
+                                  height: 24.arP,
+                                  width: 24.arP,
                                   alignment: Alignment.bottomRight,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,

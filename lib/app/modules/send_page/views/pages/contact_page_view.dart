@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controll
 import 'package:naan_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/delete_contact_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -16,78 +17,74 @@ class ContactsListView extends GetView<SendPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 0.8.height,
-      decoration: const BoxDecoration(color: Colors.black),
-      child: Column(
-        children: [
-          Obx(
-            () => Expanded(
-              child: ListView(
-                physics: AppConstant.scrollPhysics,
-                children: (<Widget>[
-                      if (controller.searchText.isNotEmpty)
-                        ...[
-                              0.008.vspace,
-                              Text(
-                                'Suggestions',
-                                style: labelSmall.apply(
-                                    color: ColorConst.NeutralVariant.shade60),
-                              ),
-                              0.008.vspace
-                            ] +
-                            controller.suggestedContacts
-                                .map((element) => contactWidget(element))
-                                .toList(),
-                      controller.recentsContacts.isNotEmpty
-                          ? Text(
-                              'Recents',
-                              style: labelSmall.apply(
-                                  color: ColorConst.NeutralVariant.shade60),
-                            )
-                          : Container(),
-                      0.008.vspace
-                    ] +
-                    controller.recentsContacts
-                        .map((element) => contactWidget(element))
-                        .toList() +
-                    (controller.contacts.isNotEmpty
-                        ? <Widget>[
-                            0.02.vspace,
+    return Column(
+      children: [
+        Obx(
+          () => Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              physics: AppConstant.scrollPhysics,
+              children: (<Widget>[
+                    if (controller.searchText.isNotEmpty)
+                      ...[
+                            0.008.vspace,
                             Text(
-                              'Contacts',
+                              'Suggestions'.tr,
                               style: labelSmall.apply(
                                   color: ColorConst.NeutralVariant.shade60),
                             ),
                             0.008.vspace
-                          ]
-                        : [Container()]) +
-                    controller.contacts
-                        .map((element) =>
-                            contactWidget(element, isContact: true))
-                        .toList()),
-              ),
+                          ] +
+                          controller.suggestedContacts
+                              .map((element) => contactWidget(element))
+                              .toList(),
+                    controller.recentsContacts.isNotEmpty
+                        ? Text(
+                            'Recents'.tr,
+                            style: labelSmall.apply(
+                                color: ColorConst.NeutralVariant.shade60),
+                          )
+                        : Container(),
+                    0.008.vspace
+                  ] +
+                  controller.recentsContacts
+                      .map((element) => contactWidget(element))
+                      .toList() +
+                  (controller.contacts.isNotEmpty
+                      ? <Widget>[
+                          0.02.vspace,
+                          Text(
+                            'Contacts'.tr,
+                            style: labelSmall.apply(
+                                color: ColorConst.NeutralVariant.shade60),
+                          ),
+                          0.008.vspace
+                        ]
+                      : [Container()]) +
+                  controller.contacts
+                      .map((element) => contactWidget(element, isContact: true))
+                      .toList()),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 
   Widget contactWidget(ContactModel contact, {bool isContact = false}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(vertical: 5.arP),
       child: InkWell(
         onTap: () => controller.onContactSelect(contactModel: contact),
         child: SizedBox(
-          height: 46,
+          // height: 46,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   CircleAvatar(
-                    radius: 23,
+                    radius: 23.arP,
                     backgroundColor:
                         ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                     child: Image.asset(
@@ -129,20 +126,16 @@ class ContactsListView extends GetView<SendPageController> {
                             padding: EdgeInsets.symmetric(horizontal: 12.arP),
                             onTap: () {
                               Get.back();
-                              Get.bottomSheet(
+                              CommonFunctions.bottomSheet(
                                   AddContactBottomSheet(
                                     contactModel: contact,
                                     isTransactionContact: false,
                                     isEditContact: true,
                                   ),
-                                  enterBottomSheetDuration:
-                                      const Duration(milliseconds: 180),
-                                  exitBottomSheetDuration:
-                                      const Duration(milliseconds: 150),
-                                  isScrollControlled: true);
+                                  fullscreen: true);
                             },
                             child: Text(
-                              "Edit",
+                              "Edit".tr,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.5.arP,
@@ -162,16 +155,12 @@ class ContactsListView extends GetView<SendPageController> {
                             height: 40.arP,
                             onTap: () {
                               Get.back();
-                              Get.bottomSheet(
+                              CommonFunctions.bottomSheet(
                                 DeleteContactBottomSheet(contactModel: contact),
-                                enterBottomSheetDuration:
-                                    const Duration(milliseconds: 180),
-                                exitBottomSheetDuration:
-                                    const Duration(milliseconds: 150),
                               );
                             },
                             child: Text(
-                              "Remove",
+                              "Remove".tr,
                               style: TextStyle(
                                 color: const Color(0xFFFF5449),
                                 fontSize: 12.5.arP,

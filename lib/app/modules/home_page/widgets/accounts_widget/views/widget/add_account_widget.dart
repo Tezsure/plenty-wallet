@@ -13,6 +13,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/contro
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:web3auth_flutter/enums.dart';
@@ -29,12 +30,7 @@ class AddAccountWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        Get.bottomSheet(
-          addAccountSheet(warning),
-          enterBottomSheetDuration: const Duration(milliseconds: 180),
-          exitBottomSheetDuration: const Duration(milliseconds: 150),
-          barrierColor: Colors.transparent,
-        );
+        CommonFunctions.bottomSheet(addAccountSheet(warning),);
       },
       child: Container(
         height: AppConstant.homeWidgetDimension,
@@ -45,6 +41,9 @@ class AddAccountWidget extends StatelessWidget {
           bottom: 22.arP,
         ),
         decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.black,
+            ),
             borderRadius: BorderRadius.circular(22),
             color: ColorConst.darkGrey),
         child: Column(
@@ -59,7 +58,7 @@ class AddAccountWidget extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              'Add account',
+              'Add account'.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
@@ -70,7 +69,7 @@ class AddAccountWidget extends StatelessWidget {
               height: 4.arP,
             ),
             Text(
-              'Manage multiple accounts\neasily',
+              'Manage multiple accounts\neasily'.tr,
               style: TextStyle(
                 color: const Color(0xFF958E99),
                 fontWeight: FontWeight.w400,
@@ -105,4 +104,3 @@ Widget addAccountSheet(warning) {
     warning: warning,
   );
 }
-

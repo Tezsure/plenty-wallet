@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -25,7 +26,7 @@ class _CommunityProductsWidgetState extends State<CommunityProductsWidget> {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              'Explore DApps',
+              'Explore DApps'.tr,
               style:
                   titleSmall.copyWith(color: ColorConst.NeutralVariant.shade50),
             ),
@@ -70,7 +71,7 @@ class _CommunityProductsWidgetState extends State<CommunityProductsWidget> {
                   itemCount: 5,
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                    physics: AppConstant.scrollPhysics,
+                  physics: AppConstant.scrollPhysics,
                   padding: EdgeInsets.zero,
                   itemBuilder: ((context, index) => Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 2.0),

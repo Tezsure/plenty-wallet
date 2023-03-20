@@ -22,6 +22,7 @@ import 'package:naan_wallet/app/modules/common_widgets/list_tile.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -62,7 +63,7 @@ class TransactionBottomSheet extends StatelessWidget {
                 size: 15,
               ),
               Text(
-                'Sending',
+                'Sending'.tr,
                 style: bodySmall.copyWith(
                     color: ColorConst.textGrey1, fontWeight: FontWeight.w600),
               ),
@@ -98,11 +99,15 @@ class TransactionBottomSheet extends StatelessWidget {
                   style: bodyLarge.copyWith(color: ColorConst.textGrey1),
                 ),
               ),
-              Text(
-                controller.isNFTPage.value
-                    ? '\$ 0.00'
-                    : '\$${controller.amountUsdController.text}',
-                style: bodyMedium,
+              Obx(
+                () => Text(
+                  controller.isNFTPage.value
+                      ? 0.0.roundUpDollar(controller.xtzPrice.value)
+                      : double.parse(controller.amountUsdController.text)
+                          .roundUpDollar(controller.xtzPrice.value,
+                              price: true),
+                  style: bodyMedium,
+                ),
               )
             ],
           ),
@@ -153,7 +158,7 @@ class TransactionBottomSheet extends StatelessWidget {
             },
             contentPadding: EdgeInsets.zero,
             title: Text(
-              "To",
+              "To".tr,
               style: bodySmall.copyWith(color: ColorConst.textGrey1),
             ),
             subtitle: SizedBox(
@@ -215,7 +220,7 @@ class TransactionBottomSheet extends StatelessWidget {
             },
             contentPadding: EdgeInsets.zero,
             title: Text(
-              "From",
+              "From".tr,
               style: bodySmall.copyWith(color: ColorConst.textGrey1),
             ),
             subtitle: SizedBox(
@@ -338,7 +343,7 @@ class TransactionBottomSheet extends StatelessWidget {
                     "name": controller.selectedTokenModel?.name ??
                         controller.selectedNftModel?.name
                   });
-              Get.bottomSheet(
+              CommonFunctions.bottomSheet(
                 NaanBottomSheet(
                   height: 380.arP,
                   bottomSheetWidgets: [
@@ -425,8 +430,6 @@ class TransactionBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-                enterBottomSheetDuration: const Duration(milliseconds: 180),
-                exitBottomSheetDuration: const Duration(milliseconds: 150),
               );
             },
             child: Row(
@@ -446,8 +449,8 @@ class TransactionBottomSheet extends StatelessWidget {
                 0.02.hspace,
                 Text(
                   "Hold to Send",
-                  style: titleSmall.copyWith(
-                      fontSize: 14.aR, color: ColorConst.Neutral.shade100),
+                  style:
+                      titleSmall.copyWith(color: ColorConst.Neutral.shade100),
                 )
               ],
             ),

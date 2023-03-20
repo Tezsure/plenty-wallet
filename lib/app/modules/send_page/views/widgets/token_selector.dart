@@ -29,6 +29,7 @@ class TokenSelector extends StatelessWidget {
     return controller!.selectedTokenModel != null ||
             controller!.selectedNftModel != null
         ? NaanListTile(
+            minVerticalPadding: 0,
             onTap: onTap,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -40,11 +41,8 @@ class TokenSelector extends StatelessWidget {
               controller!.isNFTPage.value
                   ? controller!.selectedNftModel!.name!
                   : controller!.selectedTokenModel!.symbol!,
-              style: TextStyle(
+              style: titleSmall.copyWith(
                 color: const Color(0xFF7B757F),
-                fontSize: 13.arP,
-                letterSpacing: 0.4.arP,
-                fontWeight: FontWeight.w600,
               ),
             ),
             subtitle: Text(
@@ -59,8 +57,8 @@ class TokenSelector extends StatelessWidget {
               ),
             ),
             trailing: Container(
-              height: 24,
-              width: 24,
+              height: 24.arP,
+              width: 24.arP,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   color: const Color(0xFF332F37)),
@@ -68,7 +66,7 @@ class TokenSelector extends StatelessWidget {
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: ColorConst.textGrey1,
-                size: 12,
+                size: 12.arP,
               ),
             ),
           )
@@ -86,9 +84,12 @@ class TokenSelector extends StatelessWidget {
     );
   }
 
-  Widget getTokenImage(tokenModel) => CircleAvatar(
-        radius: 22.arP,
-        backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+  Widget getTokenImage(tokenModel) => Container(
+        height: 40.arP,
+        width: 40.arP,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2)),
         child: tokenModel.iconUrl == null
             ? Container(
                 decoration: BoxDecoration(

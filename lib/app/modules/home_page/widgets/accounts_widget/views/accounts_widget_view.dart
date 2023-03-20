@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/account_summary_view.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
@@ -16,6 +17,8 @@ import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicato
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/receive_page/views/receive_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
+import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -35,7 +38,8 @@ class AccountsWidget extends StatefulWidget {
   State<AccountsWidget> createState() => _AccountsWidgetState();
 }
 
-class _AccountsWidgetState extends State<AccountsWidget> {
+class _AccountsWidgetState extends State<AccountsWidget>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     controller.pageController = PageController(
@@ -184,12 +188,9 @@ class _AccountsWidgetState extends State<AccountsWidget> {
     return BouncingWidget(
         onPressed: () {
           homePageController.changeSelectedAccount(index);
-          Get.bottomSheet(
-            const AccountSummaryView(),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            settings: RouteSettings(arguments: model),
-            isScrollControlled: true,
+          CommonFunctions.bottomSheet(
+            AccountSummaryView(),
+            fullscreen: true,
           );
         },
         child: Stack(
@@ -197,7 +198,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             Container(
               width: 1.width,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(22), gradient: accountBg),
+                  borderRadius: BorderRadius.circular(22.arP),
+                  gradient: accountBg),
             ),
             Padding(
               padding: EdgeInsets.all(0.04.width),
@@ -211,7 +213,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                         width: 16.arP,
                         height: 16.arP,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white, width: 1),
+                          border: Border.all(color: Colors.white, width: 1.arP),
                           borderRadius: BorderRadius.circular(4.arP),
                           image: DecorationImage(
                             image: model.imageType ==
@@ -239,28 +241,28 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                               backgroundColor: Colors.transparent,
                               snackPosition: SnackPosition.BOTTOM,
                               snackStyle: SnackStyle.FLOATING,
-                              padding: const EdgeInsets.only(bottom: 60),
+                              padding: EdgeInsets.only(bottom: 60.arP),
                               messageText: Container(
-                                height: 36,
+                                height: 36.arP,
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                    EdgeInsets.symmetric(horizontal: 10.arP),
                                 decoration: BoxDecoration(
                                     color: ColorConst.Neutral.shade10,
-                                    borderRadius: BorderRadius.circular(8)),
+                                    borderRadius: BorderRadius.circular(8.arP)),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(
+                                    Icon(
                                       Icons.check_circle_outline_rounded,
-                                      size: 14,
+                                      size: 14.arP,
                                       color: Colors.white,
                                     ),
-                                    const SizedBox(
-                                      width: 5,
+                                    SizedBox(
+                                      width: 5.arP,
                                     ),
                                     Text(
-                                      "Copied ${tz1Shortner(model.publicKeyHash!)}",
+                                      "${"Copied".tr} ${tz1Shortner(model.publicKeyHash!)}",
                                       style: labelSmall,
                                     )
                                   ],
@@ -297,9 +299,16 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                       children: [
                         Obx(
                           () => Text(
-                            ((model.accountDataModel!.totalBalance ?? 0) *
+                            ((ServiceConfig.currentNetwork ==
+                                            NetworkType.mainnet
+                                        ? model.accountDataModel
+                                                ?.totalBalance ??
+                                            0
+                                        : model.accountDataModel?.xtzBalance ??
+                                            0) *
                                     homePageController.xtzPrice.value)
-                                .roundUpDollar(),
+                                .roundUpDollar(
+                                    homePageController.xtzPrice.value),
                             style: headlineLarge,
                           ),
                         ),
@@ -319,32 +328,23 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   action(
-                                      () => Get.bottomSheet(const SendPage(),
-                                          enterBottomSheetDuration:
-                                              const Duration(milliseconds: 180),
-                                          exitBottomSheetDuration:
-                                              const Duration(milliseconds: 150),
-                                          isScrollControlled: true,
-                                          settings: RouteSettings(
-                                            arguments: model,
+                                      () => CommonFunctions.bottomSheet(
+                                            const SendPage(),
+                                            fullscreen: true,
+                                            settings: RouteSettings(
+                                              arguments: model,
+                                            ),
                                           ),
-                                          barrierColor:
-                                              Colors.white.withOpacity(0.09)),
                                       "${PathConst.HOME_PAGE}send.png"),
                                   0.036.hspace,
                                   action(
-                                    () => Get.bottomSheet(
-                                        const ReceivePageView(),
-                                        enterBottomSheetDuration:
-                                            const Duration(milliseconds: 180),
-                                        exitBottomSheetDuration:
-                                            const Duration(milliseconds: 150),
-                                        isScrollControlled: true,
-                                        settings: RouteSettings(
-                                          arguments: model,
-                                        ),
-                                        barrierColor:
-                                            Colors.white.withOpacity(0.09)),
+                                    () => CommonFunctions.bottomSheet(
+                                      const ReceivePageView(),
+                                      fullscreen: true,
+                                      settings: RouteSettings(
+                                        arguments: model,
+                                      ),
+                                    ),
                                     "${PathConst.HOME_PAGE}qr.png",
                                   ),
                                 ],
@@ -378,6 +378,10 @@ class _AccountsWidgetState extends State<AccountsWidget> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 

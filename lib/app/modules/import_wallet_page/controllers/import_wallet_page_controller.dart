@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 
 import '../../create_profile_page/views/create_profile_page_view.dart';
 
@@ -160,10 +161,9 @@ class ImportWalletPageController extends GetxController
       var previousRoute = pageRoute ?? Get.previousRoute;
 
       if (pageRoute == Routes.ACCOUNT_SUMMARY) {
-        return Get.bottomSheet(const CreateProfilePageView(isBottomSheet: true),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            isScrollControlled: true,
+        return CommonFunctions.bottomSheet(
+            const CreateProfilePageView(isBottomSheet: true),
+            fullscreen: true,
             settings: RouteSettings(arguments: [pageRoute]));
       }
 
@@ -207,10 +207,9 @@ class ImportWalletPageController extends GetxController
       var previousRoute = Get.previousRoute;
 
       if (pageRoute == Routes.ACCOUNT_SUMMARY) {
-        return Get.bottomSheet(const CreateProfilePageView(isBottomSheet: true),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            isScrollControlled: true,
+        return CommonFunctions.bottomSheet(
+            const CreateProfilePageView(isBottomSheet: true),
+            fullscreen: true,
             settings: RouteSettings(arguments: [pageRoute]));
       }
       Get.toNamed(
@@ -321,8 +320,8 @@ class ImportWalletPageController extends GetxController
           width: 50,
           child: Center(
               child: CupertinoActivityIndicator(
-                            color: ColorConst.Primary,
-                          )),
+            color: ColorConst.Primary,
+          )),
         ));
     // if (Get.isOverlaysOpen) {
     //   Get.back();

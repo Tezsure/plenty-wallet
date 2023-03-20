@@ -39,8 +39,8 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                               alignment: Alignment.center,
                               padding: EdgeInsets.all(16.arP),
 
-                              decoration:
-                                  const BoxDecoration(color: ColorConst.Primary),
+                              decoration: const BoxDecoration(
+                                  color: ColorConst.Primary),
                               // radius: 20,
                               // backgroundColor: ColorConst.Primary,
                               child: Text(
@@ -64,7 +64,7 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                         ),
                         0.02.vspace,
                         Text(
-                          'Message Signature Request',
+                          'Message Signature Request'.tr,
                           style: titleMedium.copyWith(fontSize: 18),
                         ),
                         0.03.vspace,
@@ -73,7 +73,7 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'Message',
+                              'Message'.tr,
                               style: labelMedium,
                             ),
                           ),
@@ -93,13 +93,13 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                         ),
                         0.03.vspace,
                         Text(
-                          'Account',
+                          'Account'.tr,
                           style: bodySmall.copyWith(color: ColorConst.grey),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(4),
                           child: Container(
-                            height: 42,
+                            // height: 42,
                             width: 0.5.width,
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -113,10 +113,13 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
+                                  padding: EdgeInsets.only(
+                                      right: 8.0.arP,
+                                      top: 8.arP,
+                                      bottom: 8.arP),
                                   child: Container(
-                                    height: 0.06.width,
-                                    width: 0.06.width,
+                                    height: 24.arP,
+                                    width: 24.arP,
                                     alignment: Alignment.bottomRight,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,

@@ -8,6 +8,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -33,7 +34,7 @@ class HistoryFilterSheet extends StatelessWidget {
           height: 16.aR,
         ),
         Text(
-          "Asset type",
+          "Asset type".tr,
           style: titleSmall.copyWith(letterSpacing: 0.5, fontSize: 14.aR),
         ),
         SizedBox(
@@ -58,7 +59,7 @@ class HistoryFilterSheet extends StatelessWidget {
           height: 26.aR,
         ),
         Text(
-          "Transaction type",
+          "Transaction type".tr,
           style: titleSmall.copyWith(letterSpacing: 0.5, fontSize: 14.aR),
         ),
         SizedBox(
@@ -88,7 +89,7 @@ class HistoryFilterSheet extends StatelessWidget {
           height: 26.aR,
         ),
         Text(
-          "Date",
+          "Date".tr,
           style: labelMedium.copyWith(fontSize: 12.aR),
         ),
         SizedBox(
@@ -226,9 +227,9 @@ class HistoryFilterSheet extends StatelessWidget {
                     height: 4.aR,
                   ),
                   Text(
-                    title,
+                    title.tr,
                     style: labelMedium.copyWith(
-                        fontSize: 12.arP,
+                        fontSize: 11.arP,
                         color: isSelected
                             ? Colors.white
                             : ColorConst.NeutralVariant.shade60),
@@ -291,7 +292,7 @@ class HistoryFilterSheet extends StatelessWidget {
                         ? ColorConst.Primary.shade70
                         : ColorConst.NeutralVariant.shade30)),
             child: Text(
-              text,
+              text.tr,
               style: labelMedium.copyWith(
                   fontSize: 12.aR,
                   color: controller.dateType.value == dateType
@@ -308,12 +309,7 @@ class HistoryFilterSheet extends StatelessWidget {
     return Obx(
       () => BouncingWidget(
         onPressed: () {
-          Get.bottomSheet(
-            DateSelectionSheet(),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            barrierColor: Colors.transparent,
-          );
+          CommonFunctions.bottomSheet(DateSelectionSheet());
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12.aR),
@@ -333,7 +329,7 @@ class HistoryFilterSheet extends StatelessWidget {
           child: Text(
             controller.dateType.value == DateType.customDate
                 ? "${controller.fromDate.value.year}/${controller.fromDate.value.month}/${controller.fromDate.value.day} - ${controller.toDate.value.year}/${controller.toDate.value.month}/${controller.toDate.value.day}"
-                : "Select Date Range",
+                : "Select Date Range".tr,
             style: labelMedium.copyWith(
                 fontSize: 12.aR,
                 color: controller.dateType.value == DateType.customDate

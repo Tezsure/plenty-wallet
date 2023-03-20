@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/data/services/iaf/iaf_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/iaf/widgets/iaf_success_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 
 class IAFController extends GetxController {
   final IAFService _iafService = IAFService();
@@ -41,7 +42,7 @@ class IAFController extends GetxController {
     isLoading.value = false;
     if (isClaimSuccess) {
       Get.back();
-      Get.bottomSheet(const IAFClaimSuccessSheet(), isScrollControlled: true);
+      CommonFunctions.bottomSheet(const IAFClaimSuccessSheet(), );
     }
   }
 

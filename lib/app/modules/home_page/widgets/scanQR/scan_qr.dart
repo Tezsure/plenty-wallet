@@ -10,6 +10,8 @@ import 'package:naan_wallet/app/modules/home_page/controllers/scan_qr_controller
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/connected_dapps_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -47,45 +49,60 @@ class _ScanQrViewState extends State<ScanQrView> {
   @override
   Widget build(BuildContext context) {
     return OverrideTextScaleFactor(
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          elevation: 0,
-          leading: SizedBox.shrink(),
-          backgroundColor: Colors.transparent,
-        ),
-        // height: 01.height,
-        body: Column(
-          children: <Widget>[
-            Expanded(
-                child: Stack(
-              children: [
-                _buildQrView(context),
-                SafeArea(
-                  child: Column(
-                    children: [
-                      // 0.02.vspace,
-                      Container(
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            height: 5,
-                            width: 36,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: ColorConst.NeutralVariant.shade60
-                                  .withOpacity(0.3),
+      child: SizedBox(
+        height: AppConstant.naanBottomSheetHeight,
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          extendBodyBehindAppBar: true,
+          // appBar: AppBar(
+          //   elevation: 0,
+          //   leading: SizedBox.shrink(),
+          //   backgroundColor: Colors.transparent,
+          // ),
+          // height: 01.height,
+          body: ClipRRect(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(36.arP)),
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                    child: Stack(
+                  children: [
+                    _buildQrView(context),
+                    SafeArea(
+                      child: Column(
+                        children: [
+                          0.02.vspace,
+                          Container(
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Container(
+                                height: 5.arP,
+                                width: 36.arP,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.arP),
+                                  color: ColorConst.NeutralVariant.shade60,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          0.01.vspace,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              closeButton(),
+                              SizedBox(
+                                width: 16.arP,
+                              )
+                            ],
+                          )
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  ],
+                )),
               ],
-            )),
-          ],
+            ),
+          ),
         ),
       ),
     );
@@ -119,10 +136,8 @@ class _ScanQrViewState extends State<ScanQrView> {
           SafeArea(
             child: GestureDetector(
               onTap: () {
-                Get.bottomSheet(
+                CommonFunctions.bottomSheet(
                   ConnectedDappBottomSheet(),
-                  enterBottomSheetDuration: const Duration(milliseconds: 180),
-                  exitBottomSheetDuration: const Duration(milliseconds: 150),
                 );
               },
               child: Container(
@@ -151,7 +166,7 @@ class _ScanQrViewState extends State<ScanQrView> {
                       width: 8.arP,
                     ),
                     Text(
-                      "Connected apps",
+                      "Connected apps".tr,
                       style: labelSmall,
                     ),
                     SizedBox(

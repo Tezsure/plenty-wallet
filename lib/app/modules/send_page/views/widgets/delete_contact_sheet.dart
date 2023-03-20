@@ -24,12 +24,12 @@ class DeleteContactBottomSheet extends StatelessWidget {
     return NaanBottomSheet(
       title: 'Delete contact',
       bottomSheetHorizontalPadding: 32.arP,
-      height: 275,
+      height: 275.arP,
       bottomSheetWidgets: [
         0.01.vspace,
         Center(
           child: Text(
-            'Do you want to remove“${contactModel.name}”\nfrom your contacts?',
+            '${'Do you want to remove'.tr}“${contactModel.name}”\n${'from your contacts?'.tr}',
             style: labelMedium.copyWith(
                 fontSize: 12.aR,
                 fontWeight: FontWeight.w400,
@@ -65,7 +65,7 @@ class DeleteContactBottomSheet extends StatelessWidget {
                 height: 50,
                 alignment: Alignment.center,
                 child: Text(
-                  "Remove Contact",
+                  "Remove Contact".tr,
                   style: labelMedium.apply(color: ColorConst.Error.shade60),
                 ),
               ),
@@ -87,7 +87,7 @@ class DeleteContactBottomSheet extends StatelessWidget {
                 height: 50,
                 alignment: Alignment.center,
                 child: Text(
-                  "Cancel",
+                  "Cancel".tr,
                   style: labelMedium,
                 ),
               ),

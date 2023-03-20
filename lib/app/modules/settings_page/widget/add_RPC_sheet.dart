@@ -30,83 +30,73 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
     return NaanBottomSheet(
       title: 'Add Custom RPC',
       blurRadius: 5,
-      bottomSheetHorizontalPadding: 32,
-      height: .45.height,
+      // bottomSheetHorizontalPadding: 32.arP,
+      height: .42.height,
       bottomSheetWidgets: [
-        0.03.vspace,
-        NaanTextfield(
-          onTextChange: (_) {
-            setState(() {});
-          },
-          controller: _name,
-          height: 52,
-          hint: "My custom network",
-          hintTextSyle: labelLarge.copyWith(
-              color: ColorConst.lightGrey, fontWeight: FontWeight.w400),
-          backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-        ),
+        Column(
+          children: [
+            0.03.vspace,
+            NaanTextfield(
+              autofocus: true,
+              onTextChange: (_) {
+                setState(() {});
+              },
+              controller: _name,
+              height: 50.arP,
+              hint: "My custom network",
+              hintTextSyle: labelLarge.copyWith(
+                  color: ColorConst.lightGrey, fontWeight: FontWeight.w400),
+              backgroundColor:
+                  ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+            ),
+            0.025.vspace,
+            NaanTextfield(
+              onTextChange: (_) {
+                setState(() {});
+              },
+              controller: _url,
+              height: 50.arP,
+              hint: "http://localhost:4444",
+              hintTextSyle: labelLarge.copyWith(
+                  color: ColorConst.lightGrey, fontWeight: FontWeight.w400),
+              backgroundColor:
+                  ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+            ),
+            0.025.vspace,
+            SolidButton(
+                width: 1.width - 64.arP,
+                title: "Add RPC",
+                onPressed: (_name.text.isEmpty || (!_url.text.isURL))
+                    ? null
+                    : () async {
+                        try {
+                          final result = await http.get(Uri.parse(
+                            "${_url.text}/chains/main/blocks/head/header",
+                          ));
+                          print("hi ${result.body}");
+                          if (!result.body.contains("chain_id")) {
+                            Get.showSnackbar(const GetSnackBar(
+                              message: "Not a valid RPC",
+                              snackPosition: SnackPosition.TOP,
+                              duration: Duration(seconds: 2),
+                            ));
+                            return;
+                          }
+                        } catch (e) {
+                          print(e);
+                          Get.showSnackbar(const GetSnackBar(
+                            message: "Not a valid RPC",
+                            snackPosition: SnackPosition.TOP,
+                            duration: Duration(seconds: 2),
+                          ));
+                          return;
+                        }
 
-        NaanTextfield(
-          onTextChange: (_) {
-            setState(() {});
-          },
-          controller: _url,
-          height: 52,
-          hint: "http://localhost:4444",
-          hintTextSyle: labelLarge.copyWith(
-              color: ColorConst.lightGrey, fontWeight: FontWeight.w400),
-          backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-        ),
-        0.025.vspace,
-        SolidButton(
-            title: "Add RPC",
-            onPressed: (_name.text.isEmpty || (!_url.text.isURL))
-                ? null
-                : () async {
-                    try {
-                      final result = await http.get(Uri.parse(
-                        "${_url.text}/chains/main/blocks/head/header",
-                      ));
-                      print("hi ${result.body}");
-                      if (!result.body.contains("chain_id")) {
-                        Get.showSnackbar(const GetSnackBar(
-                          message: "Not a valid RPC",
-                          snackPosition: SnackPosition.TOP,
-                          duration: Duration(seconds: 2),
-                        ));
-                        return;
-                      }
-                    } catch (e) {
-                      print(e);
-                      Get.showSnackbar(const GetSnackBar(
-                        message: "Not a valid RPC",
-                        snackPosition: SnackPosition.TOP,
-                        duration: Duration(seconds: 2),
-                      ));
-                      return;
-                    }
-
-                    controller.addCustomNode(
-                        NodeModel(name: _name.text, url: _url.text));
-                  }),
-        // MaterialButton(
-        //   color: ColorConst.Primary,
-        //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        //   onPressed: () {
-        //     controller
-        //         .addCustomNode(NodeModel(name: _name.text, url: _url.text));
-        //   },
-        //   child: SizedBox(
-        //     width: double.infinity,
-        //     height: 48,
-        //     child: Center(
-        //       child: Text(
-        //         "Add RPC",
-        //         style: titleSmall,
-        //       ),
-        //     ),
-        //   ),
-        // ),
+                        controller.addCustomNode(
+                            NodeModel(name: _name.text, url: _url.text));
+                      }),
+          ],
+        )
       ],
     );
   }

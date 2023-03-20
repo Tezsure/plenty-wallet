@@ -20,6 +20,7 @@ import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biom
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/models/transfer_model.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'dart:math';
 
 import 'package:naan_wallet/utils/constants/constants.dart';
@@ -183,11 +184,8 @@ class OpreationRequestController extends GetxController {
       bool isBioEnabled = await authService.getBiometricAuth();
 
       if (isBioEnabled) {
-        final bioResult = await Get.bottomSheet(const BiometricView(),
-            enterBottomSheetDuration: const Duration(milliseconds: 180),
-            exitBottomSheetDuration: const Duration(milliseconds: 150),
-            barrierColor: Colors.white.withOpacity(0.09),
-            isScrollControlled: true,
+        final bioResult = await CommonFunctions.bottomSheet(const BiometricView(),
+      
             settings: RouteSettings(arguments: isBioEnabled));
         if (bioResult == null) {
           return;

@@ -7,10 +7,13 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
+import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/pages/contact_page_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/pages/token_collection_page_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -22,7 +25,8 @@ import 'widgets/paste_button.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
 class SendPage extends GetView<SendPageController> {
-  const SendPage({super.key});
+  final String? lastPageName;
+  const SendPage({super.key, this.lastPageName});
 
   @override
   Widget build(BuildContext context) {
@@ -36,19 +40,49 @@ class SendPage extends GetView<SendPageController> {
         return Future.value(false);
       },
       child: NaanBottomSheet(
-        title: 'Send',
+        title: lastPageName == null ? 'Send' : null,
+        leading: lastPageName != null
+            ? backButton(
+                ontap: () {
+                  if (controller.selectedPageIndex.value == 0) {
+                    Navigator.pop(context);
+                  } else {
+                    controller.selectedPageIndex.value -= 1;
+                  }
+                },
+                lastPageName: lastPageName)
+            : null,
+
+        prevPageName: lastPageName,
         // isScrollControlled: true,
-        height: 0.9.height - MediaQuery.of(context).viewInsets.bottom.arP,
-        bottomSheetHorizontalPadding: 16.arP,
+        height: AppConstant.naanBottomSheetHeight,
+        // bottomSheetHorizontalPadding: 16.arP,
         // margin: EdgeInsets.only(top: 27.arP),
         // decoration: const BoxDecoration(
         //     borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
         //     color: Colors.black),
 
         bottomSheetWidgets: [
+          if (lastPageName != null)
+            BottomSheetHeading(
+              title: "Send",
+              leading: lastPageName != null
+                  ? backButton(
+                      ontap: () {
+                        if (controller.selectedPageIndex.value == 0) {
+                          Navigator.pop(context);
+                        } else {
+                          controller.selectedPageIndex.value -= 1;
+                        }
+                      },
+                      lastPageName: lastPageName)
+                  : null,
+            ),
           searchBar(),
           SizedBox(
-            height: (0.8.height - MediaQuery.of(context).viewInsets.bottom).arP,
+            height: (AppConstant.naanBottomSheetChildHeight -
+                MediaQuery.of(context).viewInsets.bottom -
+                32.arP),
             child: Obx(() => IndexedStack(
                   index: controller.selectedPageIndex.value,
                   sizing: StackFit.loose,
@@ -71,7 +105,7 @@ class SendPage extends GetView<SendPageController> {
           Row(
             children: [
               Text(
-                'To',
+                'To'.tr,
                 style: bodyMedium.apply(
                   color: ColorConst.NeutralVariant.shade60,
                 ),
@@ -130,7 +164,7 @@ class SendPage extends GetView<SendPageController> {
                       ),
                       decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Tez domain or address',
+                          hintText: 'Tez domain or address'.tr,
                           hintStyle: TextStyle(
                             color: const Color(0xFF625C66),
                             fontWeight: FontWeight.w400,

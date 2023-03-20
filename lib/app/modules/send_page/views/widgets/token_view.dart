@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/list_tile.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
@@ -21,10 +22,11 @@ class TokenView extends StatelessWidget {
     return Column(
       children: [
         Material(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.arP),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
           child: Obx(
             () => NaanListTile(
+              dense: true,
               minVerticalPadding: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.arP)),
@@ -91,7 +93,7 @@ class TokenView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(24.arP),
                                     color: const Color(0xFF332F37)),
                                 child: Center(
-                                  child: Text('Max',
+                                  child: Text('Max'.tr,
                                       style: labelMedium.copyWith(
                                           color: const Color(0xFF625C66))),
                                 ),
@@ -115,9 +117,10 @@ class TokenView extends StatelessWidget {
         ),
         0.008.vspace,
         Material(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.arP),
           color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-          child: Obx(() => ListTile(
+          child: Obx(() => NaanListTile(
+                dense: true,
                 minVerticalPadding: 0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.arP)),
@@ -139,13 +142,24 @@ class TokenView extends StatelessWidget {
                         controller.amountController.text = "";
                         return;
                       }
+                      double multiplier = ServiceConfig.currency == Currency.usd
+                          ? 1
+                          : ServiceConfig.currency == Currency.tez
+                              ? 1 / controller.xtzPrice.value
+                              : ServiceConfig.currency == Currency.inr
+                                  ? ServiceConfig.inr
+                                  : ServiceConfig.currency == Currency.eur
+                                      ? ServiceConfig.eur
+                                      : 1;
                       if (double.parse(val) >
                           (controller.selectedTokenModel!.name == "Tezos"
                               ? controller.selectedTokenModel!.balance *
-                                  controller.xtzPrice.value
+                                  controller.xtzPrice.value *
+                                  multiplier
                               : controller.selectedTokenModel!.balance *
                                   controller.selectedTokenModel!.currentPrice! *
-                                  controller.xtzPrice.value)) {
+                                  controller.xtzPrice.value *
+                                  multiplier)) {
                         controller.amountUsdTileError.value = true;
                       } else {
                         controller.amountUsdTileError.value = false;
@@ -206,17 +220,17 @@ class TokenView extends StatelessWidget {
                                       color: ColorConst.NeutralVariant.shade60
                                           .withOpacity(0.2)),
                                   child: Center(
-                                    child: Text('Max',
+                                    child: Text('Max'.tr,
                                         style: labelMedium.copyWith(
                                             color: ColorConst
                                                 .NeutralVariant.shade60)),
                                   ),
                                 ),
                               )
-                            : SizedBox(),
+                            : const SizedBox(),
                         0.02.hspace,
                         Text(
-                          'USD',
+                          ServiceConfig.currency.name.toUpperCase(),
                           style: labelLarge.copyWith(
                               color: ColorConst.NeutralVariant.shade60),
                         )
@@ -264,21 +278,32 @@ class TokenView extends StatelessWidget {
   void calculateValuesAndUpdate(String value, [bool isUsd = false]) {
     double newAmountValue = 0.0;
     double newUsdValue = 0.0;
+    double multiplier = ServiceConfig.currency == Currency.usd
+        ? 1
+        : ServiceConfig.currency == Currency.tez
+            ? 1 / controller.xtzPrice.value
+            : ServiceConfig.currency == Currency.inr
+                ? ServiceConfig.inr
+                : ServiceConfig.currency == Currency.eur
+                    ? ServiceConfig.eur
+                    : 1;
     if (isUsd) {
       newAmountValue = controller.selectedTokenModel!.name == "Tezos"
-          ? double.parse(value) / controller.xtzPrice.value
+          ? double.parse(value) / (controller.xtzPrice.value * multiplier)
           : double.parse(value) /
               (controller.xtzPrice.value *
-                  controller.selectedTokenModel!.currentPrice!);
+                  controller.selectedTokenModel!.currentPrice! *
+                  multiplier);
       if (newAmountValue.isNaN || newAmountValue.isInfinite) {
         newAmountValue = 0;
       }
     } else {
       newUsdValue = controller.selectedTokenModel!.name == "Tezos"
-          ? double.parse(value) * controller.xtzPrice.value
+          ? double.parse(value) * controller.xtzPrice.value * multiplier
           : double.parse(value) *
               controller.selectedTokenModel!.currentPrice! *
-              controller.xtzPrice.value;
+              controller.xtzPrice.value *
+              multiplier;
       if (newUsdValue.isNaN || newUsdValue.isInfinite) {
         newUsdValue = 0;
       }

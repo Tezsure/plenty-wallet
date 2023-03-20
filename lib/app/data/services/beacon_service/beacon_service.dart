@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/beacon_bottom_sheet/payload_request/view
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/widgets/test_network_alert_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:uni_links/uni_links.dart';
 
 class BeaconService extends GetxService {
@@ -53,62 +54,36 @@ class BeaconService extends GetxService {
                   publicKey: null,
                   address: null,
                 );
-                Get.bottomSheet(
-                   NoAccountsFoundBottomSheet(),
-                  isScrollControlled: true,
-                  enterBottomSheetDuration: const Duration(milliseconds: 180),
-                  exitBottomSheetDuration: const Duration(milliseconds: 150),
-                );
+                CommonFunctions.bottomSheet(NoAccountsFoundBottomSheet());
 
                 return;
               }
               if (beaconRequest.request!.network!.type.toString() ==
                   (await RpcService.getCurrentNetworkType()).toString()) {
-                Get.bottomSheet(const PairRequestView(),
-                    enterBottomSheetDuration: const Duration(milliseconds: 180),
-                    exitBottomSheetDuration: const Duration(milliseconds: 150),
-                    barrierColor: Colors.white.withOpacity(0.09),
-                    isScrollControlled: true,
+                CommonFunctions.bottomSheet(const PairRequestView(),
                     settings: RouteSettings(arguments: beaconRequest));
               } else {
-                Get.bottomSheet(
-                    TestNetworkBottomSheet(
-                      request: beaconRequest,
-                    ),
-                    enterBottomSheetDuration: const Duration(milliseconds: 180),
-                    exitBottomSheetDuration: const Duration(milliseconds: 150),
-                    barrierColor: Colors.white.withOpacity(0.09),
-                    isScrollControlled: true);
+                CommonFunctions.bottomSheet(
+                    TestNetworkBottomSheet(request: beaconRequest));
               }
               break;
             case RequestType.signPayload:
               print("payload request $beaconRequest");
-              Get.bottomSheet(const PayloadRequestView(),
-                  enterBottomSheetDuration: const Duration(milliseconds: 180),
-                  exitBottomSheetDuration: const Duration(milliseconds: 150),
-                  barrierColor: Colors.white.withOpacity(0.09),
-                  isScrollControlled: true,
+              CommonFunctions.bottomSheet(const PayloadRequestView(),
                   settings: RouteSettings(arguments: beaconRequest));
               break;
             case RequestType.operation:
               print("operation request $beaconRequest");
               if (beaconRequest.request!.network!.type.toString() ==
                   (await RpcService.getCurrentNetworkType()).toString()) {
-                Get.bottomSheet(const OpreationRequestView(),
-                    enterBottomSheetDuration: const Duration(milliseconds: 180),
-                    exitBottomSheetDuration: const Duration(milliseconds: 150),
-                    barrierColor: Colors.white.withOpacity(0.09),
-                    isScrollControlled: true,
+                CommonFunctions.bottomSheet(const OpreationRequestView(),
                     settings: RouteSettings(arguments: beaconRequest));
               } else {
-                Get.bottomSheet(
-                    TestNetworkBottomSheet(
-                      request: beaconRequest,
-                    ),
-                    enterBottomSheetDuration: const Duration(milliseconds: 180),
-                    exitBottomSheetDuration: const Duration(milliseconds: 150),
-                    barrierColor: Colors.white.withOpacity(0.09),
-                    isScrollControlled: true);
+                CommonFunctions.bottomSheet(
+                  TestNetworkBottomSheet(
+                    request: beaconRequest,
+                  ),
+                );
               }
               break;
             case RequestType.broadcast:
@@ -149,6 +124,12 @@ class BeaconService extends GetxService {
       print('BeaconService error: $e');
       Get.snackbar("Error", e.toString());
     }
+  }
+
+  @override
+  void stop() {
+    beaconPlugin.stop();
+    super.onClose();
   }
 
   @override
