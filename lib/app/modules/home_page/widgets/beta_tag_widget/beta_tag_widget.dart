@@ -28,7 +28,7 @@ class BetaTagWidget extends StatefulWidget {
 }
 
 class _BetaTagWidgetState extends State<BetaTagWidget> {
-  String version = "2.0.5";
+  String version = "2.0.6";
   @override
   void initState() {
     PackageInfo.fromPlatform().then((packageInfo) {
