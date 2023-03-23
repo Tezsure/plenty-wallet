@@ -45,7 +45,6 @@ class SendPageController extends GetxController {
     super.onInit();
     senderAccountModel =
         homeController.userAccounts[homeController.selectedIndex.value];
-    
 
     callback(value) {
       xtzPrice.value = value;
@@ -243,6 +242,8 @@ class SendPageController extends GetxController {
     searchTextController.value.text = contactModel.name == "Account"
         ? contactModel.address
         : contactModel.name;
+
+    DataHandlerService().forcedUpdateDataPriceAndToken();
     setSelectedPageIndex(index: 1);
   }
 
