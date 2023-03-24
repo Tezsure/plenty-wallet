@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,12 +12,14 @@ import 'package:naan_wallet/app/data/services/foundation_service/art_foundation_
 import 'package:naan_wallet/app/data/services/iaf/iaf_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/translation/translation_helper.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
+import 'package:simple_gql/simple_gql.dart';
 
 import '../../../data/services/rpc_service/http_service.dart';
 
@@ -30,6 +33,8 @@ class SplashPageController extends GetxController {
     } catch (e) {} */
     print("languageCode: ${Get.locale?.countryCode}");
     await Future.delayed(const Duration(milliseconds: 800));
+
+    //await printPk();
     // un-comment below line to test onboarding flow multiple time
 
     // // await ServiceConfig().clearStorage();
@@ -61,6 +66,10 @@ class SplashPageController extends GetxController {
         (await getWidgetVisibility('vca-explore-and-buy-nft-widget-visiable'));
     AppConstant.naanCollection = (await ArtFoundationHandler.getCollectionNfts(
         "tz1YNsgF2iJUwuJf1SVNFjNfnzqDAdx6HNP8"));
+
+    // VCA stuff
+
+    ServiceConfig.randomVcaNft = await randomVCA();
 
     AppConstant.tfCollection = (await ArtFoundationHandler.getCollectionNfts(
         "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
@@ -116,6 +125,68 @@ class SplashPageController extends GetxController {
       return false;
     } catch (e) {
       return false;
+    }
+  }
+
+  static randomVCA() async {
+    var response =
+        await HttpService.performGetRequest("${ServiceConfig.naanApis}/vca");
+
+    var x = jsonDecode(response)["gallery"];
+    int random = Random().nextInt(x.length);
+    List<String> mainUrl = x[random]["url"]
+        .toString()
+        .replaceFirst("https://objkt.com/asset/", '')
+        .split("/");
+    return NftTokenModel(
+      faContract: mainUrl[0],
+      tokenId: mainUrl[1],
+    );
+  }
+
+  static printPk() async {
+    {
+      var response =
+          await HttpService.performGetRequest("${ServiceConfig.naanApis}/vca");
+
+      if (response.isNotEmpty) {
+        var x = jsonDecode(response)["gallery"];
+        x.forEach((e) async {
+          List<String> mainUrl = e
+              .toString()
+              .replaceFirst("https://objkt.com/asset/", '')
+              .split("/");
+          var response;
+          if (mainUrl[0].startsWith('KT1')) {
+            response = await GQLClient(
+              'https://data.objkt.com/v3/graphql',
+            ).query(
+              query: r'''
+          query NftDetails($address: String!, $tokenId: String!) {
+            token(where: {token_id: {_eq: $tokenId}, fa_contract: {_eq: $address}}) {
+              pk
+            }
+          }
+      ''',
+              variables: {'address': mainUrl[0], 'tokenId': mainUrl[1]},
+            );
+          } else {
+            response = await GQLClient(
+              'https://data.objkt.com/v3/graphql',
+            ).query(
+              query: r'''
+            query NftDetails($address: String!, $tokenId: String!) {
+              token(where: {token_id: {_eq: $tokenId}, fa: {path: {_eq: $address}}}) {
+                pk
+              }
+            }
+      ''',
+              variables: {'address': mainUrl[0], 'tokenId': mainUrl[1]},
+            );
+          }
+          print("{\"url\":$e ,\"pk\":${response.data["token"][0]["pk"]}},");
+        });
+      }
     }
   }
 }

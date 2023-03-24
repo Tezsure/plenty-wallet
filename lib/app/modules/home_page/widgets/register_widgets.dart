@@ -16,6 +16,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/vie
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/objkt_nft_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/tez_quake_aid_widget/tez_quake_aid_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/vca_gallery_widget/view/vca_galllery_widget_view.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -94,6 +95,8 @@ final List<Widget> registeredWidgets = [
     ),
   ),
 
+  homeWidgetsGap,
+  const VcaGalleryWidget(),
   homeWidgetsGap,
   Padding(
       padding: EdgeInsets.symmetric(horizontal: 22.arP),
