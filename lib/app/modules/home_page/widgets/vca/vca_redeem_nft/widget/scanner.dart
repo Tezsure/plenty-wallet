@@ -46,6 +46,13 @@ class _VCARedeemNFTScanQrViewState extends State<VCARedeemNFTScanQrView> {
   }
 
   @override
+  void dispose() {
+    Get.delete<VCARedeemNFTController>();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return OverrideTextScaleFactor(
       child: SizedBox(

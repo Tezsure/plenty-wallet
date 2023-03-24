@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:beacon_flutter/beacon_flutter.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/permission_sheet.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/vca_gallery_widget/view/vca_gallery_detail_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
@@ -69,6 +71,24 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
         await s.beaconPlugin.pair(pairingRequest: code);
         Get.back();
       }
+      if (scanData.code != null) {
+        try {
+          final res = jsonDecode(scanData.code!);
+
+          print("res:$res");
+          if (res["pk"] != null) {
+            result = scanData;
+            Get.back();
+            log("=================================");
+            controller.value.pauseCamera();
+            CommonFunctions.bottomSheet(
+                VcaDetailBottomSheet(
+                  pk: res["pk"],
+                ),
+                fullscreen: true);
+          }
+        } catch (e) {}
+      }
     });
     try {
       controller.value.resumeCamera();
@@ -80,7 +100,9 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
     if (!p) {
       Get.back();
       CommonFunctions.bottomSheet(
-         CameraPermissionHandler(callback: Get.find<HomePageController>().openScanner,),
+        CameraPermissionHandler(
+          callback: Get.find<HomePageController>().openScanner,
+        ),
       );
     }
   }

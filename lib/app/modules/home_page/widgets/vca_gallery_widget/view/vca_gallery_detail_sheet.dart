@@ -101,11 +101,13 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
       height: AppConstant.naanBottomSheetHeight,
       leading: Padding(
         padding: EdgeInsets.only(left: 16.arP),
-        child: backButton(
-            ontap: () {
-              Navigator.pop(context);
-            },
-            lastPageName: widget.prevPage),
+        child: widget.prevPage == null
+            ? null
+            : backButton(
+                ontap: () {
+                  Navigator.pop(context);
+                },
+                lastPageName: widget.prevPage),
       ),
       title: "",
       action: Padding(
