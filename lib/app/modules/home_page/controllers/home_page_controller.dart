@@ -198,7 +198,7 @@ class HomePageController extends GetxController {
 
     if (status.isPermanentlyDenied) {
       CommonFunctions.bottomSheet(
-        const CameraPermissionHandler(),
+         CameraPermissionHandler(callback:openScanner ,),
       );
 
       // We didn't ask for permission yet or the permission has been denied before but not permanently.

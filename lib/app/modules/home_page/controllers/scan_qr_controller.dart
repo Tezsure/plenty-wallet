@@ -80,7 +80,7 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
     if (!p) {
       Get.back();
       CommonFunctions.bottomSheet(
-        const CameraPermissionHandler(),
+         CameraPermissionHandler(callback: Get.find<HomePageController>().openScanner,),
       );
     }
   }

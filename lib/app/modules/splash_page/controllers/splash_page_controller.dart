@@ -49,9 +49,16 @@ class SplashPageController extends GetxController {
     await DataHandlerService().initDataServices();
     ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
     ServiceConfig.ipfsUrl = (await RpcService.getIpfsUrl()).trim();
-    ServiceConfig.isIAFWidgetVisible = (await IAFService.getWidgetVisibility());
+    ServiceConfig.isIAFWidgetVisible =
+        (await getWidgetVisibility('IAF-widget-visiable'));
     ServiceConfig.isTezQuakeWidgetVisible =
         (await getWidgetVisibility('tezquakeaid-widget-visiable'));
+    ServiceConfig.isVCAWebsiteWidgetVisible =
+        (await getWidgetVisibility('vca-website-widget-visiable'));
+    ServiceConfig.isVCARedeemPOAPWidgetVisible =
+        (await getWidgetVisibility('vca-redeem-poap-nft-widget-visiable'));
+    ServiceConfig.isVCAExploreNFTWidgetVisible =
+        (await getWidgetVisibility('vca-explore-and-buy-nft-widget-visiable'));
     AppConstant.naanCollection = (await ArtFoundationHandler.getCollectionNfts(
         "tz1YNsgF2iJUwuJf1SVNFjNfnzqDAdx6HNP8"));
 
@@ -98,13 +105,13 @@ class SplashPageController extends GetxController {
     }
   }
 
-  static Future<bool> getWidgetVisibility(String id) async {
+  String? response;
+  Future<bool> getWidgetVisibility(String id) async {
     try {
-      var response = await HttpService.performGetRequest(
+      response ??= await HttpService.performGetRequest(
           "https://cdn.naan.app/widgets_visibility");
-
-      if (response.isNotEmpty && jsonDecode(response).length != 0) {
-        return jsonDecode(response)[id] == 1;
+      if (response!.isNotEmpty && jsonDecode(response!).length != 0) {
+        return jsonDecode(response!)[id] == 1;
       }
       return false;
     } catch (e) {

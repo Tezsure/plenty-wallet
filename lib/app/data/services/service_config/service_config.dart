@@ -16,6 +16,9 @@ class ServiceConfig {
   static String currencyApi = "https://api.exchangerate.host/latest?base=USD";
 
   static bool isIAFWidgetVisible = false;
+  static bool isVCAWebsiteWidgetVisible = false;
+  static bool isVCARedeemPOAPWidgetVisible = false;
+  static bool isVCAExploreNFTWidgetVisible = false;
 
   static bool isTezQuakeWidgetVisible = false;
 
