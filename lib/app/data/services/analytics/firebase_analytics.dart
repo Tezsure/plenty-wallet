@@ -106,6 +106,7 @@ class NaanAnalyticsEvents {
   static const String VCA_WEBSITE = "vca_website";
   static const String VCA_CLAIM_NFT_CLICK = "vca_claim_nft_click";
   static const String VCA_CLAIM_NFT_SUCCESS = "vca_claim_nft_success";
+  static const String VCA_GALLERY_CLICK = "vca_gallery_click";
   static const String BETA_AGREE = "beta_agree";
   static const String TEZOS_DOMAIN = "tezos_domain";
 

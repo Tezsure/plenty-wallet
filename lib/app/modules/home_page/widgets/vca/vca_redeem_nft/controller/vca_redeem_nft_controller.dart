@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:beacon_flutter/beacon_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
@@ -123,6 +124,9 @@ class VCARedeemNFTController extends GetxController
     isLoading.value = false;
     if (result) {
       Get.back();
+      NaanAnalytics.logEvent(
+        NaanAnalyticsEvents.VCA_CLAIM_NFT_SUCCESS,
+      );
       CommonFunctions.bottomSheet(const NaanSuccessSheet(
         title: "Claim complete",
         subtitle:

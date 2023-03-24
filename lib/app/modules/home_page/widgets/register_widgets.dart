@@ -96,8 +96,8 @@ final List<Widget> registeredWidgets = [
   ),
 
   homeWidgetsGap,
-  const VcaGalleryWidget(),
-  homeWidgetsGap,
+  // const VcaGalleryWidget(),
+  // homeWidgetsGap,
   Padding(
       padding: EdgeInsets.symmetric(horizontal: 22.arP),
       child: const DiscoverEvents()),
