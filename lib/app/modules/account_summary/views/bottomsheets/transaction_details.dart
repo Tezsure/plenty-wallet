@@ -9,9 +9,12 @@ import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -40,208 +43,253 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      title: "Transaction details",
-      blurRadius: 50,
+      title: "",
+      // blurRadius: 50,
       width: 1.width,
-      height: 450.arP,
-      titleAlignment: Alignment.center,
-      titleStyle: titleMedium,
-      bottomSheetHorizontalPadding: 16.arP,
+      isScrollControlled: true,
+      // height: .8.height,
+
+      // bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
-        Center(
-          child: Text(
-              DateFormat('MM/dd/yyyy HH:mm')
-                  // displaying formatted date
-                  .format(
-                      DateTime.parse(transactionModel.timestamp!).toLocal()),
-              style: labelMedium.copyWith(
-                  fontSize: 12.aR, color: ColorConst.NeutralVariant.shade60)),
-        ),
-        0.02.vspace,
-        Row(
+        Column(
           children: [
-            CircleAvatar(
-              radius: 20.aR,
-              backgroundColor: ColorConst.NeutralVariant.shade60,
-              child: tokenInfo.imageUrl.startsWith("assets")
-                  ? Image.asset(
-                      tokenInfo.imageUrl,
-                      fit: BoxFit.cover,
-                    )
-                  : tokenInfo.imageUrl.endsWith(".svg")
-                      ? SvgPicture.network(
-                          tokenInfo.imageUrl,
-                          fit: BoxFit.cover,
-                        )
-                      : Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                fit: BoxFit.contain,
-                                image: NetworkImage(tokenInfo.imageUrl
-                                        .startsWith("ipfs")
-                                    ? "https://ipfs.io/ipfs/${tokenInfo.imageUrl.replaceAll("ipfs://", '')}"
-                                    : tokenInfo.imageUrl)),
-                          ),
-                        ),
+            0.02.vspace,
+            Image.asset(
+              tokenInfo.token!.operationStatus == "applied"
+                  ? "assets/transaction/success.png"
+                  : "assets/transaction/failed.png",
+              height: 60.arP,
+              width: 60.arP,
             ),
-            0.01.hspace,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                        transactionModel.sender!.address!
-                                .contains(userAccountAddress)
-                            ? Icons.arrow_upward
-                            : Icons.arrow_downward,
-                        size: 14.aR,
-                        color: ColorConst.NeutralVariant.shade60),
-                    Text(
-                        transactionModel.sender!.address!
-                                .contains(userAccountAddress)
-                            ? ' Sent'
-                            : ' Received',
-                        style: labelLarge.copyWith(
-                            fontSize: 14.aR,
-                            color: ColorConst.NeutralVariant.shade60,
-                            fontWeight: FontWeight.w600)),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 5.aR),
-                  child: Text(
-                    tokenInfo.isNft ? tokenInfo.tokenSymbol : tokenInfo.name,
-                    style: labelLarge.copyWith(
-                        fontSize: 14.aR, fontWeight: FontWeight.normal),
-                  ),
-                ),
-              ],
+            0.02.vspace,
+            Text(
+              transactionModel.actionType,
+              style: titleLarge,
             ),
+            0.01.vspace,
+            Center(
+              child: Text(
+                  DateFormat('MM/dd/yyyy HH:mm')
+                      // displaying formatted date
+                      .format(DateTime.parse(transactionModel.timestamp!)
+                          .toLocal()),
+                  style: labelMedium.copyWith(
+                      color: ColorConst.NeutralVariant.shade60)),
+            ),
+            0.02.vspace,
+            const Divider(
+              color: Color(0xff1E1C1F),
+            ),
+            0.02.vspace,
+            tokenInfo.token!.operationStatus != "applied" ||
+                    transactionModel.send.address!.isEmpty
+                ? const SizedBox()
+                : contactTile(transactionModel.send, "From"),
+            0.02.vspace,
+            tokenInfo.token!.operationStatus != "applied" ||
+                    transactionModel.reciever.address!.isEmpty
+                ? const SizedBox()
+                : contactTile(transactionModel.reciever, "To"),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.arP),
+                color: const Color(0xff1E1C1F),
+              ),
+              margin: EdgeInsets.symmetric(
+                vertical: 24.arP,
+              ),
+              child: Column(
+                children: [
+                  _buildTokenInfo(tokenInfo),
+                  ...tokenInfo.internalOperation
+                      .map((e) => _buildTokenInfo(e))
+                      .toList(),
+                ],
+              ),
+            ),
+            _buildFooter(),
           ],
-        ),
-        0.02.vspace,
-        Material(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          color: const Color(0xff1E1C1F),
-          child: SizedBox(
-            height: 60.aR,
-            child: Center(
-              child: ListTile(
-                  visualDensity: VisualDensity.compact,
-                  leading: SizedBox(
-                    width: 0.6.width,
-                    child: Text(
-                        tokenInfo.isNft
-                            ? tokenInfo.name
-                            : transactionModel.sender!.address!
-                                    .contains(userAccountAddress)
-                                ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}'
-                                : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: bodyLarge.copyWith(
-                            color: transactionModel.sender!.address!
-                                    .contains(userAccountAddress)
-                                ? Colors.white
-                                : ColorConst.naanCustomColor)),
-                  ),
-                  trailing: Text(
-                    tokenInfo.token!.operationStatus != "applied"
-                        ? "failed"
-                        : "${tokenInfo.dollarAmount.roundUpDollar(xtzPrice, decimals: 6)}",
-                    style: labelLarge.copyWith(
-                        letterSpacing: 0.5.aR,
-                        fontWeight: FontWeight.w400,
-                        color: tokenInfo.token!.operationStatus != "applied"
-                            ? ColorConst.NaanRed
-                            : Colors.white,
-                        fontSize: 14.aR),
-                  )),
-            ),
-          ),
-        ),
-        0.02.vspace,
-        const Divider(
-          color: Color(0xff1E1C1F),
-        ),
-        0.012.vspace,
-        tokenInfo.token!.operationStatus != "applied" ||
-                transactionModel.send.address!.isEmpty
-            ? const SizedBox()
-            : Obx(() {
-                if (controller.contacts.isEmpty) {
-                  return contactTile(
-                    null,
-                  );
-                } else {
-                  return contactTile(
-                    controller.contacts.firstWhereOrNull((element) =>
-                        element.address == transactionModel.send.address!),
-                  );
-                }
-              }),
-        0.02.vspace,
-        // const Spacer(),
-        Center(
-          child: BouncingWidget(
-            onPressed: () {
-              CommonFunctions.launchURL(
-                  "https://tzkt.io/${transactionModel.hash!}");
-            },
-            child: Container(
-                margin: EdgeInsets.only(top: 40.aR, bottom: 45.aR),
-                width: 0.32.width,
-                height: 31.aR,
-                decoration: BoxDecoration(
-                    color: const Color(0xff1E1C1F).withOpacity(0.8),
-                    borderRadius: BorderRadius.circular(8)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('view on tzkt.io',
-                        style: labelMedium.copyWith(
-                            fontSize: 12.aR,
-                            fontWeight: FontWeight.w600,
-                            color: ColorConst.NeutralVariant.shade60)),
-                    0.01.hspace,
-                    Icon(
-                      Icons.open_in_new_rounded,
-                      size: 12.aR,
-                      color: ColorConst.NeutralVariant.shade60,
-                    )
-                  ],
-                )),
-          ),
         ),
       ],
     );
   }
 
-  Widget contactTile(
-    ContactModel? contact,
-  ) {
+  Widget _buildFooter() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(
+          color: Color(0xff1E1C1F),
+        ),
+        0.02.vspace,
+        BouncingWidget(
+          onPressed: () {},
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Fees",
+                style: labelMedium.copyWith(
+                    color: ColorConst.NeutralVariant.shade60),
+              ),
+              Row(
+                children: [
+                  Text(
+                    0.0018.roundUpDollar(xtzPrice, decimals: 6),
+                    style: labelMedium,
+                  ),
+                  SizedBox(
+                    width: 4.arP,
+                  ),
+                  Icon(
+                    Icons.info_outline,
+                    color: ColorConst.NeutralVariant.shade60,
+                    size: 16.arP,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        0.02.vspace,
+        SolidButton(
+          title: 'view on tzkt.io',
+          onPressed: () {
+            CommonFunctions.bottomSheet(
+              const DappBrowserView(),
+              fullscreen: true,
+              settings: RouteSettings(
+                arguments: "https://tzkt.io/${transactionModel.hash!}",
+              ),
+            );
+          },
+        ),
+        const BottomButtonPadding()
+      ],
+    );
+  }
+
+  Widget _buildTokenInfo(TokenInfo info) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 20.arP, horizontal: 10.arP),
+      // margin: EdgeInsets.symmetric(
+      //   vertical: 24.arP,
+      // ),
+      // decoration: BoxDecoration(
+      //   borderRadius: BorderRadius.circular(8.arP),
+      //   color: const Color(0xff1E1C1F),
+      // ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 20.aR,
+            backgroundColor: ColorConst.NeutralVariant.shade60,
+            child: info.imageUrl.startsWith("assets")
+                ? Image.asset(
+                    info.imageUrl,
+                    fit: BoxFit.cover,
+                  )
+                : info.imageUrl.endsWith(".svg")
+                    ? SvgPicture.network(
+                        info.imageUrl,
+                        fit: BoxFit.cover,
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              fit: BoxFit.contain,
+                              image: NetworkImage(info.imageUrl
+                                      .startsWith("ipfs")
+                                  ? "https://ipfs.io/ipfs/${info.imageUrl.replaceAll("ipfs://", '')}"
+                                  : info.imageUrl)),
+                        ),
+                      ),
+          ),
+          0.01.hspace,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                      info.token!.sender!.address!.contains(userAccountAddress)
+                          ? Icons.arrow_upward
+                          : Icons.arrow_downward,
+                      size: 14.aR,
+                      color: ColorConst.NeutralVariant.shade60),
+                  Container(
+                    constraints: BoxConstraints(maxWidth: .5.width),
+                    child: Text(" ${info.token!.actionType}",
+                        style: labelMedium.copyWith(
+                          color: ColorConst.NeutralVariant.shade60,
+                        )),
+                  ),
+                ],
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 5.aR),
+                child: Text(
+                  info.isNft ? tokenInfo.tokenSymbol : tokenInfo.name,
+                  style: labelLarge.copyWith(
+                      fontSize: 14.aR, fontWeight: FontWeight.normal),
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                  info.isNft
+                      ? info.name
+                      : info.token!.sender!.address!
+                              .contains(userAccountAddress)
+                          ? '- ${info.tokenAmount.toStringAsFixed(6)} ${info.tokenSymbol}'
+                          : '+${info.tokenAmount.toStringAsFixed(6)} ${info.tokenSymbol}',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: bodySmall.copyWith(
+                      color: info.token!.sender!.address!
+                              .contains(userAccountAddress)
+                          ? ColorConst.NeutralVariant.shade60
+                          : ColorConst.naanCustomColor)),
+              Text(
+                info.token!.operationStatus != "applied"
+                    ? "failed"
+                    : tokenInfo.dollarAmount
+                        .roundUpDollar(xtzPrice, decimals: 6),
+                style: bodyMedium.copyWith(
+                  color: info.token!.operationStatus != "applied"
+                      ? ColorConst.NaanRed
+                      : Colors.white,
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget contactTile(AliasAddress contact, String type) {
     return Row(
       children: [
         ClipOval(
           child: CircleAvatar(
             backgroundColor: Colors.transparent,
             radius: 22.aR,
-            child: contact != null
-                ? Image.asset(
-                    contact.imagePath,
-                  )
-                : Image.network(
-                    "https://services.tzkt.io/v1/avatars/${transactionModel.send.address!}",
-                    errorBuilder: (context, error, stackTrace) {
-                      return SvgPicture.asset(
-                        'assets/svg/send.svg',
-                      );
-                    },
-                  ),
+            child: Image.network(
+              "https://services.tzkt.io/v1/avatars/${contact.address!}",
+              errorBuilder: (context, error, stackTrace) {
+                return SvgPicture.asset(
+                  'assets/svg/send.svg',
+                );
+              },
+            ),
           ),
         ),
         0.02.hspace,
@@ -249,7 +297,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "From",
+              type,
               style: bodySmall.copyWith(
                   fontSize: 12.aR,
                   color: ColorConst.NeutralVariant.shade60,
@@ -269,8 +317,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                 0.02.hspace,
                 BouncingWidget(
                   onPressed: () {
-                    Clipboard.setData(
-                        ClipboardData(text: transactionModel.send.address));
+                    Clipboard.setData(ClipboardData(text: contact.address));
                     Get.rawSnackbar(
                       maxWidth: 0.45.width,
                       backgroundColor: Colors.transparent,
@@ -316,7 +363,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
           ],
         ),
         const Spacer(),
-        transactionModel.send.address!.isValidWalletAddress
+        contact.address!.isValidWalletAddress
             ? Obx(() => PopupMenuButton(
                   position: PopupMenuPosition.under,
                   enableFeedback: true,
@@ -329,9 +376,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                     controller.isTransactionPopUpOpened.value = true;
 
                     return <PopupMenuEntry>[
-                      if (contact == null &&
-                          transactionModel
-                              .send.address!.isValidWalletAddress) ...[
+                      if (contact.address!.isValidWalletAddress) ...[
                         CustomPopupMenuItem(
                           height: 30.arP,
                           width: 120.arP,
@@ -359,9 +404,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                             style: labelMedium,
                           ),
                         ),
-                      ] else if (contact != null &&
-                          transactionModel
-                              .send.address!.isValidWalletAddress) ...[
+                      ] else if (contact.address!.isValidWalletAddress) ...[
                         CustomPopupMenuItem(
                           height: 30.aR,
                           width: 100.aR,
@@ -372,7 +415,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                   isEditContact: true,
                                   isTransactionContact: true,
                                   contactModel: ContactModel(
-                                      name: contact.name,
+                                      name: contact.alias ?? "Account",
                                       address: transactionModel.send.address!,
                                       imagePath:
                                           ServiceConfig.allAssetsProfileImages[
@@ -402,7 +445,12 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                           width: 100.aR,
                           onTap: () {
                             CommonFunctions.bottomSheet(
-                              RemoveContactBottomSheet(contactModel: contact),
+                              RemoveContactBottomSheet(
+                                  contactModel: ContactModel(
+                                      name: contact.alias ?? "",
+                                      address: contact.address!,
+                                      imagePath: ServiceConfig
+                                          .allAssetsProfileImages.first)),
                             );
                           },
                           child: Text(
@@ -434,51 +482,6 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
       ],
     );
   }
-
-  // String getSenderAddress() =>
-  //     transactionModel.sender!.address!.contains(userAccountAddress)
-  //         ? transactionModel.parameter?.value == null
-  //             ? transactionModel.target?.address ??
-  //                 transactionModel.newDelegate?.address ??
-  //                 ""
-  //             : senderAddress(
-  //                     transactionModel,
-  //                     transactionModel.sender!.address!
-  //                         .contains(userAccountAddress)) ??
-  //                 ""
-  //         : transactionModel.parameter?.value == null
-  //             ? transactionModel.sender!.address!
-  //             : senderAddress(
-  //                     transactionModel,
-  //                     transactionModel.sender!.address!
-  //                         .contains(userAccountAddress)) ??
-  //                 "";
-
-  // String? senderAddress(TxHistoryModel model, bool isSent) {
-  //   if (transactionModel.operationStatus != "applied") return "";
-  //   if (transactionModel.parameter?.value is List) {
-  //     return isSent
-  //         ? (transactionModel.parameter?.value[0]?['txs']?[0]?['to_'] ??
-  //             transactionModel.parameter?.value[0]?['add_operator']
-  //                 ?['operator'] ??
-  //             "")
-  //         : transactionModel.parameter?.value[0]['from_'];
-  //   } else if (transactionModel.parameter?.value is Map) {
-  //     return isSent
-  //         ? transactionModel.parameter?.value['to']
-  //         : transactionModel.parameter?.value['from'];
-  //   } else if (transactionModel.parameter?.value is String) {
-  //     var decoded = jsonDecode(transactionModel.parameter!.value);
-  //     if (decoded is Map) {
-  //       return isSent ? decoded['to'] : decoded['from'];
-  //     } else if (decoded is List) {
-  //       return isSent ? decoded[0]['txs'][0]['to_'] : decoded[0]['from_'];
-  //     }
-  //   } else {
-  //     return "";
-  //   }
-  //   return "";
-  // }
 }
 
 class RemoveContactBottomSheet extends GetView<TransactionController> {

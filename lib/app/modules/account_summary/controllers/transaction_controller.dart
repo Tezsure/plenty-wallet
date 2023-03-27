@@ -337,7 +337,7 @@ extension TransactionChecker on TxHistoryModel {
     return sender!;
   }
 
-  AliasAddress? get reciever {
+  AliasAddress get reciever {
     return sender!;
   }
 
