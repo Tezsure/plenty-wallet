@@ -429,7 +429,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
           ),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             menuIcon(
               "assets/nft_page/svg/collection_view.svg",
@@ -451,12 +451,21 @@ class NftGalleryView extends GetView<NftGalleryController> {
         onPressed: () {
           controller.selectedGalleryFilter.value = filter;
         },
-        child: SvgPicture.asset(asset,
-            width: 18.arP,
-            fit: BoxFit.fill,
-            color: controller.selectedGalleryFilter.value == filter
-                ? Colors.white
-                : const Color(0xFF958E99)),
+        child: Container(
+          width: 140.arP / 3,
+          child: Center(
+            child: SizedBox(
+              width: 18.arP,
+              child: SvgPicture.asset(asset,
+                  width: 18.arP,
+                  // height: 18.arP,
+                  fit: BoxFit.fill,
+                  color: controller.selectedGalleryFilter.value == filter
+                      ? Colors.white
+                      : const Color(0xFF958E99)),
+            ),
+          ),
+        ),
       );
 
   Widget _getNftListViewWidget(
