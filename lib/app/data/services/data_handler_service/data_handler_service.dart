@@ -29,7 +29,8 @@ class DataHandlerService {
   DataHandlerRenderService renderService = DataHandlerRenderService();
 
   /// list of ongoing txs
-  List<OnGoingTxStatusHelper> onGoingTxStatusHelpers = [];
+  RxList<OnGoingTxStatusHelper> onGoingTxStatusHelpers =
+      <OnGoingTxStatusHelper>[].obs;
 
   /// update value every 15 sec
   Timer? updateTimer;
@@ -64,6 +65,22 @@ class DataHandlerService {
 
     await ServiceConfig.localStorage.delete(key: ServiceConfig.inrPriceStorage);
     await ServiceConfig.localStorage.delete(key: ServiceConfig.eurPriceStorage); */
+    onGoingTxStatusHelpers.listen((p0) async {
+      if (p0.isNotEmpty) {
+        //for loop for 6 times call until onGoingTxStatusHelpers is empty
+        for (int i = 0; i < 6; i++) {
+          if (onGoingTxStatusHelpers.isNotEmpty) {
+            await updateOnGoingTxStatus();
+            if (onGoingTxStatusHelpers.isNotEmpty) {
+              await Future.delayed(const Duration(seconds: 5));
+            }
+          } else {
+            break;
+          }
+        }
+      }
+    });
+
     await renderService.updateUi();
 
     setUpTimer();
@@ -158,9 +175,9 @@ class DataHandlerService {
         ),
       ),
     );
-    if (onGoingTxStatusHelpers.isNotEmpty) {
+/*     if (onGoingTxStatusHelpers.isNotEmpty) {
       await updateOnGoingTxStatus();
-    }
+    } */
   }
 
   Future<void> updateTokens() async {
