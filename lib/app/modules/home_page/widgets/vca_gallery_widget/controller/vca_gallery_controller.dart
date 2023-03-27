@@ -35,6 +35,11 @@ class VcaGalleryController extends GetxController {
   RxBool isScrollingUp = false.obs;
   var selectedGalleryFilter = NftGalleryFilter.collection.obs;
 
+  RxMap<String, List<NftTokenModel>> searchNfts =
+      <String, List<NftTokenModel>>{}.obs;
+  RxBool isSearching = false.obs;
+  RxString searchText = ''.obs;
+
   @override
   void onClose() {
     debounceTimer?.cancel();
@@ -45,6 +50,24 @@ class VcaGalleryController extends GetxController {
   onReady() async {
     super.onReady();
     fetchAllNftForGallery();
+  }
+
+  Future<void> searchNftGallery(String searchText) async {
+    if (searchText.length < 3 && searchText.isNotEmpty) return;
+    isSearching.value = true;
+    searchNfts.value = {};
+    this.searchText.value = searchText;
+    if (searchText.isNotEmpty) {
+      List<NftTokenModel> filteredNfts =
+          await compute(search, [NFTsPk, searchText], debugLabel: "searchNFTs");
+      for (var i = 0; i < filteredNfts.length; i++) {
+        searchNfts[filteredNfts[i].faContract!] =
+            (searchNfts[filteredNfts[i].faContract!] ?? [])
+              ..add(filteredNfts[i]);
+      }
+      //isSearching.value = false;
+    }
+    isSearching.value = false;
   }
 
   Future<void> fetchAllNftForGallery() async {
@@ -102,27 +125,51 @@ class VcaGalleryController extends GetxController {
       /* int offsetContract,
       List<String> publicKeyHashes, List<String> contracts */
       List data) async {
-    {
-      int offset = 0;
-      List<NftTokenModel> nfts = [];
-      while (true) {
-        final response = await GQLClient(
-          'https://data.objkt.com/v3/graphql',
-        ).query(
-          query: ServiceConfig.getNftsFromPks,
-          variables: {
-            'pks': data[0],
-            'offset': offset,
-          },
-        );
-        nfts = [...nfts, ...json(response.data['token'])];
-        offset += 500;
-        if (response.data['token'].length != 500) {
-          break;
-        }
+    int offset = 0;
+    List<NftTokenModel> nfts = [];
+    while (true) {
+      final response = await GQLClient(
+        'https://data.objkt.com/v3/graphql',
+      ).query(
+        query: ServiceConfig.getNftsFromPks,
+        variables: {
+          'pks': data[0],
+          'offset': offset,
+        },
+      );
+      nfts = [...nfts, ...json(response.data['token'])];
+      offset += 500;
+      if (response.data['token'].length != 500) {
+        break;
       }
-      return nfts;
     }
+    return nfts;
+  }
+
+  static Future<List<NftTokenModel>> search(
+      /* int offsetContract,
+      List<String> publicKeyHashes, List<String> contracts */
+      List data) async {
+    int offset = 0;
+    List<NftTokenModel> nfts = [];
+    while (true) {
+      final response = await GQLClient(
+        'https://data.objkt.com/v3/graphql',
+      ).query(
+        query: ServiceConfig.searchQueryFromPks,
+        variables: {
+          'pks': data[0],
+          'query': data[1],
+          'offset': offset,
+        },
+      );
+      nfts = [...nfts, ...json(response.data['token'])];
+      offset += 500;
+      if (response.data['token'].length != 500) {
+        break;
+      }
+    }
+    return nfts;
   }
 }
 
