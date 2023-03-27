@@ -80,6 +80,7 @@ class SplashPageController extends GetxController {
 
     ServiceConfig.inr = await UserStorageService.getINR();
     ServiceConfig.eur = await UserStorageService.getEUR();
+    ServiceConfig.aud = await UserStorageService.getAUD();
 
     var walletAccountsLength =
         (await UserStorageService().getAllAccount()).length;

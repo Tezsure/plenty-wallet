@@ -1,10 +1,9 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
-import '../service_models/nft_token_model.dart';
-
-enum Currency { usd, tez, eur, inr }
+enum Currency { usd, tez, eur, inr, aud }
 
 enum Language { en, nl, fr }
 
@@ -29,6 +28,7 @@ class ServiceConfig {
 
   static double inr = 0.0;
   static double eur = 0.0;
+  static double aud = 0.0;
 
   /// Teztools api with endpoint for mainnet token prices
   static String tezToolsApi = "https://api.teztools.io/token/prices";
@@ -99,6 +99,7 @@ class ServiceConfig {
   static const String xtzPriceStorage = "${storageName}_xtz_price";
   static const String inrPriceStorage = "${storageName}_inr";
   static const String eurPriceStorage = "${storageName}_eur";
+  static const String audPriceStorage = "${storageName}_aud";
   static const String dayChangeStorage = "${storageName}_24_hr_change";
   static const String tokenPricesStorage = "${storageName}_token_prices";
 

@@ -105,7 +105,7 @@ class UserStorageService {
 
       var format = NumberFormat.simpleCurrency(locale: locale.toString());
       print(
-          "${format.currencyName} ${format.currencySymbol} ${locale.countryCode} ${format.currencyName == "INR"} ");
+          "${format.currencyName} ${format.currencySymbol} ${locale.countryCode} ${format.currencyName} ");
       return Currency.values.byName((await ServiceConfig.localStorage.read(
             key: ServiceConfig.currencySelectedStorage,
           )) ??
@@ -113,7 +113,9 @@ class UserStorageService {
               ? "inr"
               : format.currencyName == "EUR"
                   ? "eur"
-                  : "usd"));
+                  : format.currencyName == "AUD"
+                      ? "aud"
+                      : "usd"));
     } catch (e) {
 /*       print(e);
       print("default currency used"); */
@@ -124,7 +126,9 @@ class UserStorageService {
           ? Currency.inr
           : format.currencyName == "EUR"
               ? Currency.eur
-              : Currency.usd);
+              : format.currencyName == "AUD"
+                  ? Currency.aud
+                  : Currency.usd);
     }
   }
 
@@ -143,6 +147,17 @@ class UserStorageService {
     try {
       return double.parse(await ServiceConfig.localStorage.read(
             key: ServiceConfig.eurPriceStorage,
+          ) ??
+          "0");
+    } catch (e) {
+      return 0.0;
+    }
+  }
+
+  static Future<double> getAUD() async {
+    try {
+      return double.parse(await ServiceConfig.localStorage.read(
+            key: ServiceConfig.audPriceStorage,
           ) ??
           "0");
     } catch (e) {
