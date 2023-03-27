@@ -102,15 +102,19 @@ class DataHandlerService {
       dynamic response = jsonDecode(result);
       var inr = response['rates']['INR'];
       var eur = response['rates']['EUR'];
-      print("inr: $inr eur: $eur");
+      var aud = response['rates']['AUD'];
+      print("inr: $inr eur: $eur aud: $aud");
 
       ServiceConfig.inr = inr;
       ServiceConfig.eur = eur;
+      ServiceConfig.aud = aud;
 
       await ServiceConfig.localStorage
           .write(key: ServiceConfig.inrPriceStorage, value: inr.toString());
       await ServiceConfig.localStorage
           .write(key: ServiceConfig.eurPriceStorage, value: eur.toString());
+      await ServiceConfig.localStorage
+          .write(key: ServiceConfig.audPriceStorage, value: aud.toString());
     });
   }
 

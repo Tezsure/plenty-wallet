@@ -57,7 +57,8 @@ class TezosPriceWidget extends StatelessWidget {
                             : homePageController.xtzPrice.value
                                 .roundUpDollar(1),
                         style: headlineSmall.copyWith(
-                            fontSize: ServiceConfig.currency == Currency.inr
+                            fontSize: ServiceConfig.currency == Currency.inr ||
+                                    ServiceConfig.currency == Currency.aud
                                 ? 20.arP
                                 : 24.arP),
                       ),
