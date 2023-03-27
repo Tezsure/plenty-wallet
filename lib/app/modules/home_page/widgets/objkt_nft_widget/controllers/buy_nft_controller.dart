@@ -569,9 +569,14 @@ class BuyNFTController extends GetxController {
 
   getNFTdata() async {
     try {
-      DappBrowserController dappBrowserController =
-          Get.find<DappBrowserController>();
-      url = dappBrowserController.url.value;
+      try {
+        DappBrowserController dappBrowserController =
+            Get.find<DappBrowserController>();
+        url = dappBrowserController.url.value;
+      } catch (e) {
+        url = Get.arguments;
+      }
+
       mainUrl = url
           .toString()
           .replaceFirst("https://objkt.com/asset/", '')
@@ -681,7 +686,9 @@ class BuyNFTController extends GetxController {
     if (verified) {
       final txHash = await OperationService()
           .injectOperation(operation, ServiceConfig.currentSelectedNode);
-      Get.find<DappBrowserController>().showButton.value = false;
+      try {
+        Get.find<DappBrowserController>().showButton.value = false;
+      } catch (e) {}
 
       Get.back();
 
