@@ -120,6 +120,19 @@ class DataHandlerService {
     );
   }
 
+  Future<void> forcedUpdateDataPriceAndToken() async {
+    _isDataFetching = true;
+    TokenAndXtzPriceHandler(renderService).executeProcess(
+      postProcess: renderService.xtzPriceUpdater.updateProcess,
+      onDone: () async =>
+          await AccountDataHandler(renderService).executeProcess(
+              postProcess: renderService.accountUpdater.updateProcess,
+              onDone: () {
+                _isDataFetching = false;
+              }),
+    );
+  }
+
   /// Init all isolate for fetching data
   /// postProcess trigger ui for update new data
   Future<void> updateAllTheValues() async {
