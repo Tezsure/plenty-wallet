@@ -362,6 +362,33 @@ query GetCollectionNFT($address: String!) {
     }
 ''';
 
+  static const String searchQueryFromPks = r'''
+    query NftsFromPks($pks: [bigint!], $offset: Int, $query: String!) {
+      token(
+        where: {pk : {_in: $pks}, token_id: {_neq: ""},  _or: [{ name: {_iregex:$query} }, { fa:{name:{_iregex:$query}} },{fa_contract:{_eq:$query} }, ]},
+        offset: $offset
+      ) {
+        name
+        pk
+        fa_contract
+        display_uri
+        fa{
+          name
+          logo
+        }
+        token_id
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+      }
+    }
+''';
+
   static const String randomNfts = r'''
     query FetchColl($holders: [String!], $contracts: [String!], $offset: Int) {
       token(

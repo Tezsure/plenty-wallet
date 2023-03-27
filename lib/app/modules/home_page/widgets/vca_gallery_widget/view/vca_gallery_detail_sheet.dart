@@ -59,9 +59,9 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
   final _controller = Get.find<HomePageController>();
   String ipfsHost = ServiceConfig.ipfsUrl;
   String fxHash = "";
-  bool showButton = true;
+  bool showButton = false;
   bool showFloating = true;
-  bool isScrolling = false;
+
   NftTokenModel? nftModel;
 
   getNFT() async {
@@ -74,21 +74,43 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
       },
     );
 
+    NftTokenModel localNft = NftTokenModel.fromJson(response.data['token'][0]);
+
+    var response1 = await GQLClient(
+      'https://data.objkt.com/v3/graphql',
+    ).query(
+      query: r'''
+                              query NftDetails($address: String!, $tokenId: String!) {
+                                token(where: {token_id: {_eq: $tokenId}, fa_contract: {_eq: $address}}) {
+                                  listings(limit: 1, order_by: {price: asc}, where: {status: {_eq: "active"}}) {
+                                    bigmap_key
+                                    price
+                                    marketplace_contract
+                                  }
+                                }
+                              }
+                          ''',
+      variables: {
+        'address': localNft.fa!.contract,
+        'tokenId': localNft.tokenId
+      },
+    );
+    if (response1.data["token"][0]["listings"].length == 1 &&
+        response1.data["token"][0]["listings"][0]["marketplace_contract"] ==
+            "KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC") {
+      showButton = true;
+    } else {
+      showButton = false;
+    }
+
     setState(() {
-      nftModel = NftTokenModel.fromJson(response.data['token'][0]);
+      nftModel = localNft;
     });
   }
 
   @override
   void initState() {
     getNFT();
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        setState(() {
-          showButton = false;
-        });
-      }
-    });
 
     super.initState();
   }
@@ -138,163 +160,12 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
         )
       ],
     );
-    return DraggableScrollableSheet(
-      initialChildSize: 0.95,
-      maxChildSize: 0.95,
-      minChildSize: 0.6,
-      builder: ((context, scrollController) => _buildBody()),
-    );
   }
 
   Scaffold _buildBody() {
     return Scaffold(
       backgroundColor: Colors.black,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: nftModel != null && showFloating
-          ? AnimatedContainer(
-              curve: Curves.fastOutSlowIn,
-              duration: const Duration(milliseconds: 350),
-              transform: Matrix4.identity()
-                ..translate(
-                  0.0,
-                  isScrolling ? 220.0.arP : 0,
-                ),
-              child: SolidButton(
-                height: 45.arP,
-                borderRadius: 40.arP,
-                width: 125.arP,
-                primaryColor: ColorConst.Primary,
-                onPressed: () async {
-                  if (isScrolling == false) {
-                    setState(() {
-                      isScrolling = true;
-                    });
-/*                     String? hash =
-                        nftModel?.artifactUri?.replaceAll("ipfs://", "");
-                    if (nftModel!.faContract ==
-                            "KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi" ||
-                        nftModel!.faContract ==
-                            "KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE") {
-                      ipfsHost = ServiceConfig.ipfsUrl;
-                      if (hash!.contains("fxhash")) {
-                        var x = hash.split("?");
-
-                        hash = "${x[0]}/?${x[1]}";
-                      }
-                    }
-
-                    final String img = '$ipfsHost/$hash';
-                    //CommonFunctions.launchURL(img);
-                    await CommonFunctions.bottomSheet(
-                      const DappBrowserView(),
-                      fullscreen: true,
-                      settings: RouteSettings(
-                        arguments: img,
-                      ),
-                    ); */
-                    CommonFunctions.bottomSheet(
-                      AccountSwitch(
-                        title: "Buy NFT",
-                        subtitle:
-                            'This module will be powered by wert.io and you will be using wert’s interface.',
-                        onNext: () {
-/*           final controller = Get.put(AccountSummaryController());
-
-          List<String> displayCoins = [
-            "tezos",
-            'USDt',
-            'uUSD',
-            'kUSD',
-            'EURL',
-            "ctez",
-          ];
-          final accountTokens = <AccountTokenModel>[];
-          for (int index = 0; index < displayCoins.length; index++) {
-            final token = controller.tokensList.firstWhereOrNull((p0) =>
-                displayCoins[index].toLowerCase() == p0.symbol!.toLowerCase());
-
-            var accountToken = controller.userTokens.firstWhereOrNull((p0) =>
-                displayCoins[index].toLowerCase() == p0.symbol!.toLowerCase());
-
-            if (token != null && accountToken == null) {
-              accountToken = AccountTokenModel(
-                  name: token.name!,
-                  symbol: token.symbol!,
-                  iconUrl: token.thumbnailUri,
-                  balance: 0,
-                  currentPrice: token.currentPrice,
-                  contractAddress: token.tokenAddress!,
-                  tokenId: token.tokenId!,
-                  decimals: token.decimals!);
-            }
-
-            if (displayCoins[index].toLowerCase() == "tezos") {
-              accountToken = controller.userTokens.firstWhereOrNull(
-                      (element) => element.symbol!.toLowerCase() == "tezos") ??
-                  AccountTokenModel(
-                      name: "Tezos",
-                      symbol: "Tezos",
-                      iconUrl: "assets/tezos_logo.png",
-                      balance: 0,
-                      currentPrice: controller.xtzPrice.value,
-                      contractAddress: "xtz",
-                      tokenId: "0",
-                      decimals: 6);
-            }
-
-            if (accountToken != null) {
-              accountTokens.add(accountToken);
-            }
-          } */
-
-                          CommonFunctions.bottomSheet(
-                            ChoosePaymentMethod(),
-                            settings: RouteSettings(
-                              arguments:
-                                  "https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}",
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                    print("closed");
-                    setState(() {
-                      isScrolling = false;
-                    });
-                  }
-                },
-                child: Center(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "${PathConst.NFT_PAGE}svg/external-link.png",
-                        height: 20.arP,
-                        width: 20.arP,
-                      ),
-                      0.02.hspace,
-                      Text(
-                        "Buy".tr,
-                        style: labelLarge,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          : null,
       body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          final ScrollDirection direction = notification.direction;
-          if (direction == ScrollDirection.forward) {
-            isScrolling = false;
-          } else if (direction == ScrollDirection.reverse) {
-            isScrolling = true;
-          }
-          setState(() {});
-          return true;
-        },
         child: DefaultTabController(
           length: 2,
           child: Container(
@@ -499,11 +370,58 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
                                               ])),
                                     ],
                                   ),
+                                  SizedBox(
+                                    height: 20.arP,
+                                  ),
+                                  Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: SolidButton(
+                                        primaryColor: Colors.black,
+                                        // borderColor: ColorConst.Primary.shade60,
+                                        borderColor: const Color(0xFFE8A2B9),
+                                        borderWidth: 1.5,
+
+                                        onPressed: () async {
+                                          String? hash = nftModel?.artifactUri
+                                              ?.replaceAll("ipfs://", "");
+                                          if (nftModel!.faContract ==
+                                                  "KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi" ||
+                                              nftModel!.faContract ==
+                                                  "KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE") {
+                                            ipfsHost = ServiceConfig.ipfsUrl;
+                                            if (hash!.contains("fxhash")) {
+                                              var x = hash.split("?");
+
+                                              hash = "${x[0]}/?${x[1]}";
+                                            }
+                                          }
+
+                                          final String img = '$ipfsHost/$hash';
+                                          //CommonFunctions.launchURL(img);
+                                          await CommonFunctions.bottomSheet(
+                                            const DappBrowserView(),
+                                            fullscreen: true,
+                                            settings: RouteSettings(
+                                              arguments: img,
+                                            ),
+                                          );
+                                        },
+
+                                        title: "Open".tr,
+                                        titleStyle: const TextStyle(
+                                            color: Color(0xFFE8A2B9)),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 30.arP,
+                                  ),
                                   Center(
                                     child: Container(
                                       margin: EdgeInsets.symmetric(
                                           vertical: 0.02.height),
-                                      height: 100.aR,
                                       width: 1.width,
                                       padding: EdgeInsets.all(8.aR),
                                       decoration: BoxDecoration(
@@ -516,42 +434,112 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
                                       ),
                                       child: Padding(
                                         padding: EdgeInsets.all(8.aR),
-                                        child: RichText(
-                                            textAlign: TextAlign.start,
-                                            text: TextSpan(
-                                                text: '${'Current Price'.tr}\n',
-                                                style: labelSmall.copyWith(
-                                                    color: ColorConst
-                                                        .NeutralVariant
-                                                        .shade60),
-                                                children: [
-                                                  TextSpan(
-                                                      text: nftModel!
-                                                                  .lowestAsk ==
-                                                              null
-                                                          ? "0 "
-                                                          : "${(nftModel!.lowestAsk / 1e6)} ",
-                                                      style: headlineSmall
-                                                          .copyWith(
-                                                              fontSize: 24.aR)),
-                                                  WidgetSpan(
-                                                      child: SvgPicture.asset(
-                                                    '${PathConst.HOME_PAGE}svg/xtz.svg',
-                                                    height: 20.aR,
-                                                  )),
-                                                  TextSpan(
-                                                      text: nftModel?.lowestAsk ==
-                                                                  0 ||
-                                                              nftModel?.lowestAsk ==
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(
+                                                    text:
+                                                        '${'Current Price'.tr}\n',
+                                                    style: labelSmall.copyWith(
+                                                        color: ColorConst
+                                                            .NeutralVariant
+                                                            .shade60),
+                                                    children: [
+                                                      TextSpan(
+                                                          text: nftModel!
+                                                                      .lowestAsk ==
                                                                   null
-                                                          ? '\n0'
-                                                          : '\n${double.parse(((nftModel?.lowestAsk / 1e6) * _controller.xtzPrice.value).toString()).roundUpDollar(_controller.xtzPrice.value)}',
-                                                      style: labelSmall.copyWith(
-                                                          fontSize: 11.aR,
-                                                          color: ColorConst
-                                                              .NeutralVariant
-                                                              .shade60)),
-                                                ])),
+                                                              ? "0 "
+                                                              : "${(nftModel!.lowestAsk / 1e6)} ",
+                                                          style: headlineSmall
+                                                              .copyWith(
+                                                                  fontSize:
+                                                                      24.aR)),
+                                                      WidgetSpan(
+                                                          child:
+                                                              SvgPicture.asset(
+                                                        '${PathConst.HOME_PAGE}svg/xtz.svg',
+                                                        height: 20.aR,
+                                                      )),
+                                                      TextSpan(
+                                                          text: nftModel?.lowestAsk ==
+                                                                      0 ||
+                                                                  nftModel?.lowestAsk ==
+                                                                      null
+                                                              ? '\n0'
+                                                              : '\n${double.parse(((nftModel?.lowestAsk / 1e6) * _controller.xtzPrice.value).toString()).roundUpDollar(_controller.xtzPrice.value)}',
+                                                          style: labelSmall.copyWith(
+                                                              fontSize: 11.aR,
+                                                              color: ColorConst
+                                                                  .NeutralVariant
+                                                                  .shade60)),
+                                                    ])),
+                                            SizedBox(
+                                              height: 12.arP,
+                                            ),
+                                            !showButton
+                                                ? SolidButton(
+                                                    onPressed: () {
+                                                      CommonFunctions
+                                                          .bottomSheet(
+                                                        AccountSwitch(
+                                                          title: "Buy NFT",
+                                                          subtitle:
+                                                              'This module will be powered by wert.io and you will be using wert’s interface.',
+                                                          onNext: () {
+                                                            CommonFunctions
+                                                                .bottomSheet(
+                                                              ChoosePaymentMethod(),
+                                                              settings:
+                                                                  RouteSettings(
+                                                                arguments:
+                                                                    "https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}",
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      );
+                                                    },
+                                                    title: "Buy".tr,
+                                                  )
+                                                : Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        "NFT is already sold. You can offer to buy this NFT for a specific price on objkt.com",
+                                                        style: bodySmall.copyWith(
+                                                            color: const Color(
+                                                                0xff958E99)),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 12.arP,
+                                                      ),
+                                                      SolidButton(
+                                                        onPressed: () {
+                                                          CommonFunctions
+                                                              .bottomSheet(
+                                                            const DappBrowserView(),
+                                                            fullscreen: true,
+                                                            settings:
+                                                                RouteSettings(
+                                                              arguments:
+                                                                  "https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}",
+                                                            ),
+                                                          );
+                                                        },
+                                                        title:
+                                                            "View on objkt.com"
+                                                                .tr,
+                                                      )
+                                                    ],
+                                                  )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
