@@ -57,7 +57,14 @@ class SendPageController extends GetxController {
         .renderService
         .xtzPriceUpdater
         .registerCallback(callback);
+
     fetchAllNfts();
+
+    Get.find<HomePageController>().userAccounts.listen((accounts) {
+      senderAccountModel =
+          homeController.userAccounts[homeController.selectedIndex.value];
+      fetchAllTokens();
+    });
 
     updateSavedContacts();
   }
@@ -234,6 +241,7 @@ class SendPageController extends GetxController {
   Rx<ContactModel?> selectedReceiver = Rx<ContactModel?>(null);
 
   void onContactSelect({required ContactModel contactModel}) {
+    DataHandlerService().forcedUpdateDataPriceAndToken();
     selectedReceiver.value = contactModel;
     searchBarFocusNode.unfocus();
     searchText.value = contactModel.name == "Account"
@@ -243,7 +251,6 @@ class SendPageController extends GetxController {
         ? contactModel.address
         : contactModel.name;
 
-    DataHandlerService().forcedUpdateDataPriceAndToken();
     setSelectedPageIndex(index: 1);
   }
 

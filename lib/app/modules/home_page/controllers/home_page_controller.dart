@@ -91,6 +91,8 @@ class HomePageController extends GetxController {
           log(e.toString());
         }
         // });
+      } else {
+        userAccounts.value = [...accounts];
       }
       try {
         if (userAccounts.where((p0) => !p0.isWatchOnly).isNotEmpty) {
