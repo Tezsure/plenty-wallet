@@ -480,7 +480,7 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
                                             SizedBox(
                                               height: 12.arP,
                                             ),
-                                            !showButton
+                                            showButton
                                                 ? SolidButton(
                                                     onPressed: () {
                                                       CommonFunctions
