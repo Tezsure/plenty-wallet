@@ -42,7 +42,7 @@ class BuyNFTController extends GetxController {
   }.obs;
 
   final List<String> displayCoins = [
-    "tezos",
+    "tez",
     'USDt',
     'uUSD',
     'kUSD',
@@ -69,7 +69,7 @@ class BuyNFTController extends GetxController {
         ),
       );
       print("selected token: ${token.symbol}");
-      if (token.symbol!.toLowerCase() == "Tezos".toLowerCase()) {
+      if (token.symbol!.toLowerCase() == "tez".toLowerCase()) {
         priceInToken.value =
             ((int.parse(selectedNFT.value!.lowestAsk) / 1e6) * 1.01).toString();
       } else {
@@ -80,7 +80,7 @@ class BuyNFTController extends GetxController {
       } // todo check calculation
 
       print("price in token: ${priceInToken.value}");
-      if (token.symbol!.toLowerCase() == "Tezos".toLowerCase()) {
+      if (token.symbol!.toLowerCase() == "tez".toLowerCase()) {
         print("tezos balance: ${token.balance.toString()}");
 
         if (double.parse(token.balance.toString()) <
@@ -544,12 +544,12 @@ class BuyNFTController extends GetxController {
               decimals: token.decimals!);
         }
 
-        if (displayCoins[index].toLowerCase() == "tezos") {
+        if (displayCoins[index].toLowerCase() == "tez") {
           accountToken = controller.userTokens.firstWhereOrNull(
-                  (element) => element.symbol!.toLowerCase() == "tezos") ??
+                  (element) => element.symbol!.toLowerCase() == "tez") ??
               AccountTokenModel(
                   name: "Tezos",
-                  symbol: "tezos",
+                  symbol: "tez",
                   iconUrl: "assets/tezos_logo.png",
                   balance: 0,
                   currentPrice: controller.xtzPrice.value,

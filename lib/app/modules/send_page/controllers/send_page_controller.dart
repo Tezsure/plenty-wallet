@@ -61,9 +61,12 @@ class SendPageController extends GetxController {
     fetchAllNfts();
 
     Get.find<HomePageController>().userAccounts.listen((accounts) {
-      senderAccountModel =
-          homeController.userAccounts[homeController.selectedIndex.value];
-      fetchAllTokens();
+      if (homeController.userAccounts.isNotEmpty) {
+        senderAccountModel =
+            homeController.userAccounts[homeController.selectedIndex.value];
+
+        fetchAllTokens();
+      }
     });
 
     updateSavedContacts();
@@ -299,7 +302,7 @@ class SendPageController extends GetxController {
       name: "Tezos",
       balance: senderAccountModel!.accountDataModel!.xtzBalance!,
       contractAddress: "xtz",
-      symbol: "tezos",
+      symbol: "tez",
       currentPrice: xtzPrice.value,
       tokenId: "0",
       decimals: 6,

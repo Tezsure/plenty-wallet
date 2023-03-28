@@ -220,7 +220,7 @@ class AccountSummaryController extends GetxController {
       name: "Tezos",
       balance: args[2],
       contractAddress: "xtz",
-      symbol: "tezos",
+      symbol: "tez",
       currentPrice: args[1],
       tokenId: "0",
       decimals: 6,
