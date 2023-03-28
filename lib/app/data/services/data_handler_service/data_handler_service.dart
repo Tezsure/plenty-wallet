@@ -246,6 +246,102 @@ class DataHandlerService {
         key: ServiceConfig.dappsBannerStorage, value: jsonEncode(banners));
   }
 
+  Future<Map<String, List<EventModel>>> getVCAEventsDetail(
+      {required RxList tags,
+      required RxMap<String, List<EventModel>> events}) async {
+    var eventsStorage = jsonDecode(await ServiceConfig.localStorage
+            .read(key: ServiceConfig.vcaEventsStorage) ??
+        "{}");
+    if (eventsStorage.isNotEmpty) {
+      tags.value = eventsStorage['tags'];
+      //todo get stalls data
+      final Map<String, List<EventModel>> eventsByTime = {
+        "Today": [],
+        "Tomorrow": [],
+        "This Week": [],
+        "Next Week": [],
+        "This Month": [],
+        "Next Month": [],
+        "This Year": [],
+      };
+
+// Iterate through each event and categorize them based on their timestamp
+      eventsStorage['events'].forEach((json) {
+        final EventModel event = EventModel.fromJson(json);
+        final DateTime? eventTime = event.timestamp;
+        final DateTime? endTime = event.endTimestamp;
+        if (endTime!.isAfter(DateTime.now())) {
+          if (_isToday(eventTime!, endTime)) {
+            eventsByTime['Today']!.add(event);
+          } else if (_isTomorrow(eventTime)) {
+            eventsByTime['Tomorrow']!.add(event);
+          } else if (_isThisWeek(eventTime)) {
+            eventsByTime['This Week']!.add(event);
+          } else if (_isNextWeek(eventTime)) {
+            eventsByTime['Next Week']!.add(event);
+          } else if (_isThisMonth(eventTime)) {
+            eventsByTime['This Month']!.add(event);
+          } else if (_isNextMonth(eventTime)) {
+            eventsByTime['Next Month']!.add(event);
+          } else if (_isThisYear(eventTime)) {
+            eventsByTime['This Year']!.add(event);
+          }
+        }
+      });
+      events.value = eventsByTime;
+    }
+
+    final apiResult = jsonDecode(await HttpService.performGetRequest(
+        ServiceConfig.naanApis,
+        endpoint: "vca_events"));
+
+    if (eventsStorage.toString().hashCode != apiResult.toString().hashCode) {
+      tags.value = apiResult['tags'];
+      //todo get stalls data
+      final Map<String, List<EventModel>> eventsByTime = {
+        "Today": [],
+        "Tomorrow": [],
+        "This Week": [],
+        "Next Week": [],
+        "This Month": [],
+        "Next Month": [],
+        "This Year": [],
+      };
+
+// Iterate through each event and categorize them based on their timestamp
+      apiResult['events'].forEach((json) {
+        final EventModel event = EventModel.fromJson(json);
+        final DateTime? eventTime = event.timestamp;
+        final DateTime? endTime = event.endTimestamp;
+        if (endTime!.isAfter(DateTime.now())) {
+          if (_isToday(eventTime!, endTime)) {
+            eventsByTime['Today']!.add(event);
+          } else if (_isTomorrow(eventTime)) {
+            eventsByTime['Tomorrow']!.add(event);
+          } else if (_isThisWeek(eventTime)) {
+            eventsByTime['This Week']!.add(event);
+          } else if (_isNextWeek(eventTime)) {
+            eventsByTime['Next Week']!.add(event);
+          } else if (_isThisMonth(eventTime)) {
+            eventsByTime['This Month']!.add(event);
+          } else if (_isNextMonth(eventTime)) {
+            eventsByTime['Next Month']!.add(event);
+          } else if (_isThisYear(eventTime)) {
+            eventsByTime['This Year']!.add(event);
+          }
+        }
+      });
+      events.value = eventsByTime;
+    } else {}
+
+    // store in local storage
+
+    await ServiceConfig.localStorage.write(
+        key: ServiceConfig.vcaEventsStorage, value: jsonEncode(apiResult));
+
+    return events.value;
+  }
+
   Future<Map<String, List<EventModel>>> getEventsDetail(
       {required RxList tags,
       required RxString bottomText,

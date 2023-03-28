@@ -22,6 +22,7 @@ class EventModel {
   String? description;
   String? shareText;
   String? bannerImage;
+  String? location;
 
   EventModel(
       {this.title,
@@ -32,7 +33,8 @@ class EventModel {
       this.address,
       this.description,
       this.shareText,
-      this.bannerImage});
+      this.bannerImage,
+      this.location});
 
   EventModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
@@ -50,6 +52,7 @@ class EventModel {
     description = json['description'];
     shareText = json['shareText'];
     bannerImage = json['bannerImage'];
+    location = json['location'];
   }
 
   Map<String, dynamic> toJson() {
@@ -63,6 +66,7 @@ class EventModel {
     data['address'] = address;
     data['shareText'] = shareText;
     data['bannerImage'] = bannerImage;
+    data['location'] = location;
     return data;
   }
 
