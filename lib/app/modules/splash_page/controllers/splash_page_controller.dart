@@ -34,7 +34,9 @@ class SplashPageController extends GetxController {
 
       ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
           ServiceConfig.currentSelectedNode;
+
       await DataHandlerService().initDataServices();
+
       ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
       try {
         ServiceConfig.ipfsUrl = (await RpcService.getIpfsUrl()).trim();
