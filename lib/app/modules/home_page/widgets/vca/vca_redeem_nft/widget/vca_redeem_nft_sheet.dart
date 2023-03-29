@@ -35,6 +35,7 @@ class _VCARedeemSheetState extends State<VCARedeemSheet> {
         BottomSheetHeading(
           leading: backButton(
               ontap: () {
+                controller.onInit();
                 Navigator.pop(context);
               },
               lastPageName: "Scan QR"),

@@ -30,7 +30,7 @@ void main() async {
   PaintingBinding.instance.imageCache.clear();
   Get.put(LifeCycleController(), permanent: true);
   HttpOverrides.global = MyHttpOverrides();
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);

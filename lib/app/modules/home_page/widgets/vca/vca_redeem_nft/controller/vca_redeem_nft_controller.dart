@@ -152,9 +152,8 @@ class VCARedeemNFTController extends GetxController
           transactionStatusSnackbar(
             duration: const Duration(seconds: 2),
             status: TransactionStatus.error,
-            tezAddress: jsonDecode(response)['message'] ??
-                'You have already claimed an NFT',
-            transactionAmount: 'Cannot claim',
+            tezAddress: jsonDecode(response)['subtitle'] ?? "",
+            transactionAmount: jsonDecode(response)['title'] ?? "",
           );
         } else {
           return jsonDecode(response)['status'] == "success";
