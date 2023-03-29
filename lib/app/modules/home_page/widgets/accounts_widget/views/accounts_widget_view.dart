@@ -32,28 +32,32 @@ import 'widget/add_account_widget.dart';
 // ignore: must_be_immutable
 
 class AccountsWidget extends StatefulWidget {
-  const AccountsWidget({super.key});
+  AccountsWidget({super.key});
 
   @override
   State<AccountsWidget> createState() => _AccountsWidgetState();
 }
 
-class _AccountsWidgetState extends State<AccountsWidget>
-    with AutomaticKeepAliveClientMixin {
+class _AccountsWidgetState extends State<AccountsWidget> {
   @override
   void initState() {
-    controller.pageController = PageController(
-      keepPage: true,
-      viewportFraction: 1,
-      initialPage: controller.currIndex.value,
-    );
+    Future.delayed(Duration(milliseconds: 300)).then((value) {
+      controller.onInit();
+    });
+
+    // controller.pageController = PageController(
+    //   keepPage: true,
+    //   viewportFraction: 1,
+    //   initialPage: controller.currIndex.value,
+    // );
+
     // TODO: implement initState
     super.initState();
   }
 
   final HomePageController homePageController = Get.find<HomePageController>();
   final AccountsWidgetController controller =
-      Get.put(AccountsWidgetController());
+      Get.put(AccountsWidgetController(), permanent: true);
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -96,7 +100,7 @@ class _AccountsWidgetState extends State<AccountsWidget>
                                           .toList()
                                           .length +
                                       1,
-                                  controller: controller.pageController,
+                                  controller: controller.pageController.value,
                                   onPageChanged: (index) {
                                     controller.currIndex.value = index;
                                     homePageController
@@ -379,9 +383,9 @@ class _AccountsWidgetState extends State<AccountsWidget>
     );
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+  // @override
+  // // TODO: implement wantKeepAlive
+  // bool get wantKeepAlive => true;
 }
 
 
