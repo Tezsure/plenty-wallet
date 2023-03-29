@@ -1,18 +1,25 @@
+![naan feture image](feature_image.png)
+
 # naan - Your portal to Web3
 
 naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.
 
+## Download
+
+- [Google Play](https://play.google.com/store/apps/details?id=com.naan&hl=en_IN&gl=US)
+- [App Store](https://apps.apple.com/in/app/naan-a-tasty-tezos-wallet/id1573210354)
+
 ## Features:
 
-- Account Management: You can create and manage multiple accounts in Naan, or import existing ones from other wallets.
+- Account Management: You can create and manage multiple accounts in naan, or import existing ones from other wallets.
 
-- Social Sign-On: You can use your social media accounts from Facebook, Google, Twitter, or Apple to create a new account in Naan.
+- Social Sign-On: You can use your social media accounts from Facebook, Google, Twitter, or Apple to create a new account in naan.
 
 - Portfolio Management: You can track all your wallet assets and balances in one place, making it easier to manage your holdings.
 
 - Watch Addresses: You can import and track watch addresses from various sources, including Tezos domains and tz1, tz2, and tz3 addresses.
 
-- Token and NFT Transactions: You can send and receive tokens and NFTs easily and securely within Naan.
+- Token and NFT Transactions: You can send and receive tokens and NFTs easily and securely within naan.
 
 - Personal Gallery: You can create your own gallery of NFTs and other digital assets across multiple accounts.
 
@@ -20,11 +27,11 @@ naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, an
 
 - Delegation: You can delegate your Tezos tokens to bakers and earn rewards in a hassle-free manner.
 
-- Testnet Support: Although tokens are not displayed due to dependency on Teztools.io, Naan fully supports Tezos testnet.
+- Testnet Support: Although tokens are not displayed due to dependency on Teztools.io, naan fully supports Tezos testnet.
 
 - Events Section: You can stay up-to-date with upcoming events and news related to the Tezos ecosystem.
 
-- Buy NFTs: You can purchase NFTs on Tezos using stable coins or credit cards directly within Naan.
+- Buy NFTs: You can purchase NFTs on Tezos using stable coins or credit cards directly within naan.
 
 ## Getting Started
 
@@ -122,6 +129,16 @@ pod update // In your ios project directory
 ```
 
 <br/>
+
+## naan device compatibility report
+
+- Click here to view [doc](https://docs.google.com/spreadsheets/d/1YRgCUFTi1ylVOLF6SKFBjS06m_wd6yYoqFneFFLVuIc/edit?usp=sharing)
+  ![naan device compatibility report](naan_device_compatibility_report.png)
+
+## naan app testcase scenarios.
+
+- Click here to view [doc](https://docs.google.com/spreadsheets/d/1eBWR0VfTQsckqYQrqy-ycE9tjRI2FIyNJsSbPjdsSek/edit?usp=sharing)
+  ![naan Testcase Scenarios](naan_wallet_testcase_scenarios.png)
 
 _NOTE:
 This repository is open-sourced, and is under active improvements based on suggestions and bug-reports. Users are requested to double check the transaction details on their wallet's confirmation page. The authors take no responsibility for the loss of digital assets._
