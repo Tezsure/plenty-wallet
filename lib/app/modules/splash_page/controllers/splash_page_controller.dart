@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
+import 'package:instabug_flutter/instabug_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
@@ -27,91 +30,85 @@ class SplashPageController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-/*     try {
-      await Get.updateLocale(Locale("en", "US"));
-      
-    } catch (e) {} */
-    print("languageCode: ${Get.locale?.countryCode}");
-    await Future.delayed(const Duration(milliseconds: 800));
 
-    //await printPk();
-    // un-comment below line to test onboarding flow multiple time
+    try {
+      await Future.delayed(const Duration(milliseconds: 800));
 
-    // // await ServiceConfig().clearStorage();
-    // try {
-    //   final translationHelper = TranslationHelper();
+      ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
+          ServiceConfig.currentSelectedNode;
+      await DataHandlerService().initDataServices();
+      ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
+      try {
+        ServiceConfig.ipfsUrl = (await RpcService.getIpfsUrl()).trim();
+      } catch (e) {}
+      try {
+        ServiceConfig.isIAFWidgetVisible =
+            (await getWidgetVisibility('IAF-widget-visiable'));
+        ServiceConfig.isTezQuakeWidgetVisible =
+            (await getWidgetVisibility('tezquakeaid-widget-visiable'));
+        // ServiceConfig.isVCAWebsiteWidgetVisible =
+        //     (await getWidgetVisibility('vca-website-widget-visiable'));
+        // ServiceConfig.isVCARedeemPOAPWidgetVisible =
+        //     (await getWidgetVisibility('vca-redeem-poap-nft-widget-visiable'));
+        // ServiceConfig.isVCAExploreNFTWidgetVisible = (await getWidgetVisibility(
+        //     'vca-explore-and-buy-nft-widget-visiable'));
+      } catch (e) {}
+      try {
+        AppConstant.naanCollection =
+            (await ArtFoundationHandler.getCollectionNfts(
+                "tz1YNsgF2iJUwuJf1SVNFjNfnzqDAdx6HNP8"));
+      } catch (e) {}
 
-    //   final translations = await translationHelper.getTranslations();
-    //   if (translations != null) {
-    //     Get.clearTranslations();
-    //     Get.addTranslations(translations.keys);
-    //   }
-    // } catch (e) {
-    //   log(e.toString());
-    // }
-    ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
-        ServiceConfig.currentSelectedNode;
-    await DataHandlerService().initDataServices();
-    ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
-    ServiceConfig.ipfsUrl = (await RpcService.getIpfsUrl()).trim();
-    ServiceConfig.isIAFWidgetVisible =
-        (await getWidgetVisibility('IAF-widget-visiable'));
-    ServiceConfig.isTezQuakeWidgetVisible =
-        (await getWidgetVisibility('tezquakeaid-widget-visiable'));
-    ServiceConfig.isVCAWebsiteWidgetVisible =
-        (await getWidgetVisibility('vca-website-widget-visiable'));
-    ServiceConfig.isVCARedeemPOAPWidgetVisible =
-        (await getWidgetVisibility('vca-redeem-poap-nft-widget-visiable'));
-    ServiceConfig.isVCAExploreNFTWidgetVisible =
-        (await getWidgetVisibility('vca-explore-and-buy-nft-widget-visiable'));
-    AppConstant.naanCollection = (await ArtFoundationHandler.getCollectionNfts(
-        "tz1YNsgF2iJUwuJf1SVNFjNfnzqDAdx6HNP8"));
+      // VCA stuff
 
-    // VCA stuff
+      // ServiceConfig.randomVcaNft = await randomVCA();
+      try {
+        AppConstant.tfCollection =
+            (await ArtFoundationHandler.getCollectionNfts(
+                "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
+      } catch (e) {}
+      ServiceConfig.currency = await UserStorageService.getCurrency();
+      // ServiceConfig.language =
+      //     Language.values.byName(await UserStorageService.readLanguage());
 
-    ServiceConfig.randomVcaNft = await randomVCA();
+      ServiceConfig.inr = await UserStorageService.getINR();
+      ServiceConfig.eur = await UserStorageService.getEUR();
+      ServiceConfig.aud = await UserStorageService.getAUD();
 
-    AppConstant.tfCollection = (await ArtFoundationHandler.getCollectionNfts(
-        "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
+      var walletAccountsLength =
+          (await UserStorageService().getAllAccount()).length;
+      var watchAccountsLength =
+          (await UserStorageService().getAllAccount(watchAccountsList: true))
+              .length;
 
-    ServiceConfig.currency = await UserStorageService.getCurrency();
-    // ServiceConfig.language =
-    //     Language.values.byName(await UserStorageService.readLanguage());
+      Get.put(NftGalleryWidgetController(), permanent: true);
+      Get.put(HomePageController(), permanent: true);
 
-    ServiceConfig.inr = await UserStorageService.getINR();
-    ServiceConfig.eur = await UserStorageService.getEUR();
-    ServiceConfig.aud = await UserStorageService.getAUD();
+      if (walletAccountsLength != 0 || watchAccountsLength != 0) {
+        bool isPasscodeSet = await AuthService().getIsPassCodeSet();
 
-    var walletAccountsLength =
-        (await UserStorageService().getAllAccount()).length;
-    var watchAccountsLength =
-        (await UserStorageService().getAllAccount(watchAccountsList: true))
-            .length;
-
-    Get.put(NftGalleryWidgetController(), permanent: true);
-    Get.put(HomePageController(), permanent: true);
-
-    if (walletAccountsLength != 0 || watchAccountsLength != 0) {
-      bool isPasscodeSet = await AuthService().getIsPassCodeSet();
-
-      /// ask for auth and redirect to home page
-      Get.offAllNamed(
-        Routes.PASSCODE_PAGE,
-        arguments: [
-          isPasscodeSet,
-          Routes.HOME_PAGE,
-        ],
-      );
-    } else {
-      Get.offAndToNamed(
-        Routes.ONBOARDING_PAGE,
-      );
-      // Future.delayed(
-      //   const Duration(seconds: 1),
-      //   () => Get.offAndToNamed(
-      //     Routes.ONBOARDING_PAGE,
-      //   ),
-      // );
+        /// ask for auth and redirect to home page
+        Get.offAllNamed(
+          Routes.PASSCODE_PAGE,
+          arguments: [
+            isPasscodeSet,
+            Routes.HOME_PAGE,
+          ],
+        );
+      } else {
+        Get.offAndToNamed(
+          Routes.ONBOARDING_PAGE,
+        );
+        // Future.delayed(
+        //   const Duration(seconds: 1),
+        //   () => Get.offAndToNamed(
+        //     Routes.ONBOARDING_PAGE,
+        //   ),
+        // );
+      }
+    } catch (e) {
+      Zone.current.handleUncaughtError(e, StackTrace.current);
+      Phoenix.rebirth(Get.context!);
     }
   }
 
@@ -129,21 +126,21 @@ class SplashPageController extends GetxController {
     }
   }
 
-  static randomVCA() async {
-    var response =
-        await HttpService.performGetRequest("${ServiceConfig.naanApis}/vca");
+  // static randomVCA() async {
+  //   var response =
+  //       await HttpService.performGetRequest("${ServiceConfig.naanApis}/vca");
 
-    var x = jsonDecode(response)["gallery"];
-    int random = Random().nextInt(x.length);
-    List<String> mainUrl = x[random]["url"]
-        .toString()
-        .replaceFirst("https://objkt.com/asset/", '')
-        .split("/");
-    return NftTokenModel(
-      faContract: mainUrl[0],
-      tokenId: mainUrl[1],
-    );
-  }
+  //   var x = jsonDecode(response)["gallery"];
+  //   int random = Random().nextInt(x.length);
+  //   List<String> mainUrl = x[random]["url"]
+  //       .toString()
+  //       .replaceFirst("https://objkt.com/asset/", '')
+  //       .split("/");
+  //   return NftTokenModel(
+  //     faContract: mainUrl[0],
+  //     tokenId: mainUrl[1],
+  //   );
+  // }
 
   static printPk() async {
     {
