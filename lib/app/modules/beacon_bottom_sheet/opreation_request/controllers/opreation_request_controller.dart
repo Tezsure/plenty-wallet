@@ -69,7 +69,7 @@ class OpreationRequestController extends GetxController {
           transfers.add(TransferModel(
               amount: amount,
               dollarAmount: (double.parse(amount) * value).toStringAsFixed(2),
-              symbol: "TEZ"));
+              symbol: "tez"));
         }
         getXtz = true;
       }

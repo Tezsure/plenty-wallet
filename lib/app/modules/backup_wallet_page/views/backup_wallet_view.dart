@@ -72,7 +72,7 @@ class BackupWalletView extends GetView<BackupWalletController> {
         ),
         0.04.vspace,
         Text(
-          'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.'
+          'These ${controller.seedPhrase.length} words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.'
               .tr,
           textAlign: TextAlign.center,
           style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
@@ -89,9 +89,11 @@ class BackupWalletView extends GetView<BackupWalletController> {
             shrinkWrap: true,
             primary: false,
             itemCount: controller.seedPhrase.length,
-            padding: EdgeInsets.symmetric(horizontal: 30.arP),
+            padding: EdgeInsets.symmetric(
+                horizontal:
+                    controller.seedPhrase.length == 24 ? 20.arP : 30.arP),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+              crossAxisCount: controller.seedPhrase.length == 24 ? 3 : 2,
               childAspectRatio: (130 / 40).arP,
               crossAxisSpacing: 20.arP,
               mainAxisSpacing: 12.arP,

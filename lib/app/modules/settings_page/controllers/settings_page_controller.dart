@@ -210,6 +210,7 @@ class SettingsPageController extends GetxController {
       Get.find<HomePageController>().resetUserAccounts();
     } catch (e) {}
     await Get.delete<HomePageController>(force: true);
+    await Get.delete<AccountsWidgetController>(force: true);
     await Get.deleteAll(force: true);
 
     Phoenix.rebirth(Get.context!);

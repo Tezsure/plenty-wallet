@@ -95,7 +95,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                           children: controller.transfers
                                               .map((element) => Row(
                                                     children: [
-                                                      element.symbol == "TEZ"
+                                                      element.symbol == "tez"
                                                           ? Image.asset(
                                                               'assets/tezos_logo.png',
                                                               height: 25.arP,

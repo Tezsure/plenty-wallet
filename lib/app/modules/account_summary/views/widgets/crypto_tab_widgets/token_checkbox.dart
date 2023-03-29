@@ -32,7 +32,7 @@ class TokenCheckbox extends StatelessWidget {
     String balance = "0";
     if (tokenModel.decimals <= 20) {
       balance = tokenModel.balance
-          .toStringAsFixed(tokenModel.decimals)
+          .toStringAsFixed(tokenModel.decimals > 20 ? 20 : tokenModel.decimals)
           .removeTrailing0;
     } else {
       balance = tokenModel.balance.toString().removeTrailing0;
