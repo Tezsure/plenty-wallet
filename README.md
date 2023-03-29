@@ -1,50 +1,73 @@
+![naan feture image](feature_image.png)
+
 # naan - Your portal to Web3
 
 naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.
 
-Features:
+## Download
 
-1. Multiple account
-2. Send & Receive FA1.2,FA2 token
-3. Dapps for exlplore tezos
-4. NFT gallery
-5. Import NFT galley using publicKey or tezos domains
-6. Delegation to bakers
-7. Testnet support (Tokens are not displayed due to dependency on Teztools.io which only supports mainnet)
+- [Google Play](https://play.google.com/store/apps/details?id=com.naan&hl=en_IN&gl=US)
+- [App Store](https://apps.apple.com/in/app/naan-a-tasty-tezos-wallet/id1573210354)
+
+## Features:
+
+- Account Management: You can create and manage multiple accounts in naan, or import existing ones from other wallets.
+
+- Social Sign-On: You can use your social media accounts from Facebook, Google, Twitter, or Apple to create a new account in naan.
+
+- Portfolio Management: You can track all your wallet assets and balances in one place, making it easier to manage your holdings.
+
+- Watch Addresses: You can import and track watch addresses from various sources, including Tezos domains and tz1, tz2, and tz3 addresses.
+
+- Token and NFT Transactions: You can send and receive tokens and NFTs easily and securely within naan.
+
+- Personal Gallery: You can create your own gallery of NFTs and other digital assets across multiple accounts.
+
+- Dapp Explorer: You can discover new and popular dapps on the Tezos network using the built-in Dapp Explorer.
+
+- Delegation: You can delegate your Tezos tokens to bakers and earn rewards in a hassle-free manner.
+
+- Testnet Support: Although tokens are not displayed due to dependency on Teztools.io, naan fully supports Tezos testnet.
+
+- Events Section: You can stay up-to-date with upcoming events and news related to the Tezos ecosystem.
+
+- Buy NFTs: You can purchase NFTs on Tezos using stable coins or credit cards directly within naan.
 
 ## Getting Started
 
 This project is a starting point for a Flutter application. A few resources to get you started if this is your first Flutter project:
 
-- Lab: [Write your first Flutter app](https://flutter.dev/docs/get-started/hello-world)
-- Cookbook: [Useful Flutter samples](https://flutter.dev/docs/cookbook/design/useful-elements).
+- Lab: [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- Cookbook: [Useful Flutter samples](https://docs.flutter.dev/cookbook).
 - API: [Flutter API reference](https://api.flutter.dev/).
 - Docs: [Flutter documentation](https://flutter.dev/docs/).
 
-For help getting started with Flutter, view our [online documentation](https://flutter.dev/docs), which offers tutorials, samples, guidance on mobile development, and a full API reference.´
+For help getting started with Flutter, view our [online documentation](https://flutter.dev/docs), which offers tutorials, samples, guidance on mobile development, and a full API reference.
 
 ## Requirements
 
 - Flutter v3.7.x
 - [Android Studio](https://developer.android.com/studio?gclid=CjwKCAjw3K2XBhAzEiwAmmgrAt5_YcC3ioQZtDywUHoioOSz6PQ4fG2VxJL_Sx3j7HKfaC3ZeHTo1BoCfWwQAvD_BwE&gclsrc=aw.ds#downloads)
-- [Xcode](https://developer.apple.com/xcode/resources/) 
+- [Xcode](https://developer.apple.com/xcode/resources/)
 
 ## Install
 
 Check if the version number is correct, and the version that requires flutter is 3.7.x the version.
 
-`Flutter --version`
+```bash
+flutter --version
+```
 
 The recommended version of flutter here is 3.7.7, the download address is as follows:
 
-[windows_3.7.7-stable](https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.7.7-stable.zip)
+- [windows_3.7.7-stable](https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.7.7-stable.zip)
 
-[macos_3.7.7-stable](https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.7.7-stable.zip)
+- [macos_3.7.7-stable](https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.7.7-stable.zip)
 
 [Note] If your flutter version is a 1.x.xversion, please upgrade your flutter version, or you will encounter errors.
 
 ```sh
-Flutter upgrade
+flutter upgrade
 ```
 
 Run the following command to see if you need to install other dependencies to complete the installation
@@ -104,7 +127,18 @@ pod install // In your ios project directory
 ```sh
 pod update // In your ios project directory
 ```
+
 <br/>
 
-*NOTE:
-This repository is open-sourced, and is under active improvements based on suggestions and bug-reports. Users are requested to double check the transaction details on their wallet's confirmation page. The authors take no responsibility for the loss of digital assets.*
+## naan device compatibility report
+
+- Click here to view [doc](https://docs.google.com/spreadsheets/d/1YRgCUFTi1ylVOLF6SKFBjS06m_wd6yYoqFneFFLVuIc/edit?usp=sharing)
+  ![naan device compatibility report](naan_device_compatibility_report.png)
+
+## naan app testcase scenarios.
+
+- Click here to view [doc](https://docs.google.com/spreadsheets/d/1eBWR0VfTQsckqYQrqy-ycE9tjRI2FIyNJsSbPjdsSek/edit?usp=sharing)
+  ![naan Testcase Scenarios](naan_wallet_testcase_scenarios.png)
+
+_NOTE:
+This repository is open-sourced, and is under active improvements based on suggestions and bug-reports. Users are requested to double check the transaction details on their wallet's confirmation page. The authors take no responsibility for the loss of digital assets._
