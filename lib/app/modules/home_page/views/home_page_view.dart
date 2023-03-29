@@ -1,85 +1,86 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/widgets/register_widgets.dart';
+import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
+import 'package:naan_wallet/utils/bottom_sheet_manager.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../controllers/home_page_controller.dart';
+import '../widgets/home_app_bar_widget/home_app_bar_widget.dart';
+import '../widgets/register_widgets.dart';
 
-class HomePageView extends GetView<HomePageController> {
+class HomePageView extends StatefulWidget {
+  HomePageView({super.key});
+
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Container(
-          width: 1.width,
-          decoration: BoxDecoration(
-            gradient: background,
-          ),
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Stack(
+  State<HomePageView> createState() => _HomePageViewState();
+}
+
+class _HomePageViewState extends State<HomePageView> {
+  late HomePageController controller;
+  @override
+  void initState() {
+    controller = Get.find<HomePageController>();
+    controller.onReady();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    controller;
+
+    return OverrideTextScaleFactor(
+        child: CupertinoPageScaffold(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Column(
               children: [
-                //background gradient color
-                Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: background,
-                    ),
+                // SizedBox(height: 0.025.height),
+                Expanded(
+                    child: ListView(
+                  addAutomaticKeepAlives: true,
+                  padding: EdgeInsets.only(
+                    top: kToolbarHeight + 100.arP,
                   ),
-                ),
-                Column(
-                  children: [
-                    (MediaQuery.of(context).padding.top + 20)
-                        .vspace, //notification bar padding + 20
-
-                    appBar(),
-
-                    32.vspace, //header spacing
-
-                    Padding(
-                      padding: const EdgeInsets.only(left: 24.0, right: 24),
-                      child: Wrap(
-                        runSpacing: 28,
-                        spacing: 20,
-                        children: registeredWidgets,
-                      ),
-                    ),
-                    28.vspace,
-                  ],
-                ),
+                  physics: AppConstant.scrollPhysics,
+                  children: registeredWidgets,
+                )),
               ],
             ),
-          ),
-        ),
-      );
 
-  /// App Bar for Home Page
-  Widget appBar() => Container(
-        height: 34,
-        padding: EdgeInsets.symmetric(
-            horizontal:
-                35), // 24 + 11 = 35.24 is Foundation padding and 11 is internal widget padding
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/home_page/scanner.png",
-              height: 25,
-            ),
             Container(
-              height: 34,
-              width: 34,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white,
-              ),
-            ),
+                child: const HomepageAppBar(),
+                height: kToolbarHeight + 100.arP,
+                width: 1.width,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: const [0.0, 0.8, 1],
+                    colors: [
+                      CupertinoTheme.of(context).scaffoldBackgroundColor,
+                      CupertinoTheme.of(context)
+                          .scaffoldBackgroundColor
+                          .withOpacity(0.5),
+                      CupertinoTheme.of(context)
+                          .scaffoldBackgroundColor
+                          .withOpacity(0.0),
+                      // ColorConst.Primary.shade0,
+                      // ColorConst.Primary.shade0.withOpacity(0.5),
+                      // ColorConst.Primary.shade0.withOpacity(0.0),
+                    ],
+                  ),
+                )),
+            // ignore: prefer_const_constructors
           ],
         ),
-      );
+      ),
+    ));
+  }
 }

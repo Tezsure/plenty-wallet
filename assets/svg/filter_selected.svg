@@ -1,0 +1,12 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.39453 19.4307V13.6512" stroke="#FF006E" stroke-width="1.65128" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M5.39453 10.3487V4.56921" stroke="#FF006E" stroke-width="1.65128" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 19.4308V12" stroke="#FF006E" stroke-width="1.65128" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 8.69741V4.56921" stroke="#FF006E" stroke-width="1.65128" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18.6055 19.4308V15.3026" stroke="#FF006E" stroke-width="1.65128" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18.6055 12V4.56921" stroke="#FF006E" stroke-width="1.65128" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2.91797 13.6512H7.8718" stroke="#FF006E" stroke-width="1.65128" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9.52344 8.69739H14.4773" stroke="#FF006E" stroke-width="1.65128" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.1279 15.3026H21.0818" stroke="#FF006E" stroke-width="1.65128" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="19" cy="6" r="3.5" fill="#FF006E" stroke="black"/>
+</svg>

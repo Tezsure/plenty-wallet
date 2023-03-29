@@ -7,6 +7,7 @@ enum TOKEN_TYPE {
   FA1,
   FA2,
 }
+
 enum TypeModel { TOKEN, NFT }
 
 class TokensModel {
@@ -73,25 +74,23 @@ class TokensModel {
     if (json['formats'] != null) {
       formats = <Formats>[];
       json['formats'].forEach((v) {
-        formats?.add(new Formats.fromJson(v));
+        formats?.add(Formats.fromJson(v));
       });
     }
     balance = json['balance'];
-    if (balance!.endsWith('.')) balance = balance! + '0';
+    if (balance!.endsWith('.')) balance = '${balance!}0';
     if ((artifactUri != null && artifactUri!.isNotEmpty) ||
         (creators != null && creators!.isNotEmpty) ||
         (formats != null && formats!.isNotEmpty) ||
         decimals == 0) tokenType = TypeModel.NFT;
     if (artifactUri != null &&
         artifactUri!.isNotEmpty &&
-        artifactUri!.startsWith("ipfs"))
+        artifactUri!.startsWith("ipfs")) {
       iconUrl = 'https://cloudflare-ipfs.com/ipfs/${artifactUri!.substring(7)}';
-    else if (displayUri != null &&
+    } else if (displayUri != null &&
         displayUri!.isNotEmpty &&
         displayUri!.startsWith("ipfs")) {
-      if (tokenType == null) {
-        tokenType = TypeModel.TOKEN;
-      }
+      tokenType ??= TypeModel.TOKEN;
       iconUrl = 'https://cloudflare-ipfs.com/ipfs/${displayUri!.substring(7)}';
     } else if (tokenType == TypeModel.NFT && iconUrl == null) {
       iconUrl = 'https://services.tzkt.io/v1/avatars/$contract';
@@ -99,15 +98,16 @@ class TokensModel {
       tokenType = TypeModel.TOKEN;
       if (thumbnailUri != null &&
           thumbnailUri!.isNotEmpty &&
-          thumbnailUri!.startsWith("ipfs"))
+          thumbnailUri!.startsWith("ipfs")) {
         iconUrl =
             'https://cloudflare-ipfs.com/ipfs/${thumbnailUri!.substring(7)}';
-      else if (thumbnailUri != null &&
+      } else if (thumbnailUri != null &&
           thumbnailUri!.isNotEmpty &&
-          thumbnailUri!.startsWith("http"))
+          thumbnailUri!.startsWith("http")) {
         iconUrl = thumbnailUri;
-      else
+      } else {
         iconUrl = 'https://services.tzkt.io/v1/avatars/$contract';
+      }
     }
   }
 
@@ -115,8 +115,9 @@ class TokensModel {
     contract = json['token']['contract']['address'];
     // network = json['network'];
     // level = json['level'];
-    if (json['token']['standard'] != 'fa1.2')
+    if (json['token']['standard'] != 'fa1.2') {
       tokenId = int.parse(json['token']['tokenId'] ?? '0');
+    }
     // try {
     //   tokenId = json['token_id'];
     // } catch (e) {
@@ -137,28 +138,29 @@ class TokensModel {
     if (json['formats'] != null) {
       formats = <Formats>[];
       json['formats'].forEach((v) {
-        formats!.add(new Formats.fromJson(v));
+        formats!.add(Formats.fromJson(v));
       });
     }
     balance = json['balance'];
-    if (balance!.endsWith('.')) balance = balance! + '0';
+    if (balance!.endsWith('.')) balance = '${balance!}0';
     if ((artifactUri != null && artifactUri!.isNotEmpty) ||
         (creators != null && creators!.isNotEmpty) ||
         (formats != null && formats!.isNotEmpty) ||
         decimals == 0) tokenType = TypeModel.NFT;
     if (artifactUri != null &&
         artifactUri!.isNotEmpty &&
-        artifactUri!.startsWith("ipfs"))
+        artifactUri!.startsWith("ipfs")) {
       iconUrl = 'https://cloudflare-ipfs.com/ipfs/${artifactUri!.substring(7)}';
-    else if (displayUri != null &&
+    } else if (displayUri != null &&
         displayUri!.isNotEmpty &&
         displayUri!.startsWith("ipfs")) {
       if (tokenType == null) {
         tokenType = TypeModel.TOKEN;
-        if (int.parse(balance!) != 0 && decimals != null)
+        if (int.parse(balance!) != 0 && decimals != null) {
           balance = (int.parse(balance!) / pow(10, decimals!))
               .toStringAsFixed(decimals!)
               .replaceAll(RegExp(r'0*$'), '');
+        }
       }
 
       iconUrl = 'https://cloudflare-ipfs.com/ipfs/${displayUri!.substring(7)}';
@@ -169,25 +171,27 @@ class TokensModel {
       if (balance!.startsWith('-')) balance = '0';
       var balanceTrimLength = 0;
       if (balance!.length > 18) {
-        var _b = balance!.substring(0, 18);
-        balanceTrimLength = balance!.length - _b.length;
-        balance = _b;
+        var b = balance!.substring(0, 18);
+        balanceTrimLength = balance!.length - b.length;
+        balance = b;
       }
-      if (int.parse(balance!) != 0 && decimals != null)
+      if (int.parse(balance!) != 0 && decimals != null) {
         balance = (int.parse(balance!) / pow(10, decimals! - balanceTrimLength))
             .toStringAsFixed(decimals!)
             .replaceAll(RegExp(r'0*$'), '');
+      }
       if (thumbnailUri != null &&
           thumbnailUri!.isNotEmpty &&
-          thumbnailUri!.startsWith("ipfs"))
+          thumbnailUri!.startsWith("ipfs")) {
         iconUrl =
             'https://cloudflare-ipfs.com/ipfs/${thumbnailUri!.substring(7)}';
-      else if (thumbnailUri != null &&
+      } else if (thumbnailUri != null &&
           thumbnailUri!.isNotEmpty &&
-          thumbnailUri!.startsWith("http"))
+          thumbnailUri!.startsWith("http")) {
         iconUrl = thumbnailUri;
-      else
+      } else {
         iconUrl = 'https://services.tzkt.io/v1/avatars/$contract';
+      }
     }
   }
 
@@ -196,25 +200,25 @@ class TokensModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['contract'] = this.contract;
-    data['network'] = this.network;
-    data['level'] = this.level;
-    data['token_id'] = this.tokenId;
-    data['symbol'] = this.symbol;
-    data['name'] = this.name;
-    data['decimals'] = this.decimals;
-    data['description'] = this.description;
-    data['artifact_uri'] = this.artifactUri;
-    data['thumbnail_uri'] = this.thumbnailUri;
-    data['is_transferable'] = this.isTransferable;
-    data['creators'] = this.creators;
-    data['tags'] = this.tags;
-    data['price'] = this.price;
-    if (this.formats != null) {
-      data['formats'] = this.formats!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['contract'] = contract;
+    data['network'] = network;
+    data['level'] = level;
+    data['token_id'] = tokenId;
+    data['symbol'] = symbol;
+    data['name'] = name;
+    data['decimals'] = decimals;
+    data['description'] = description;
+    data['artifact_uri'] = artifactUri;
+    data['thumbnail_uri'] = thumbnailUri;
+    data['is_transferable'] = isTransferable;
+    data['creators'] = creators;
+    data['tags'] = tags;
+    data['price'] = price;
+    if (formats != null) {
+      data['formats'] = formats!.map((v) => v.toJson()).toList();
     }
-    data['balance'] = this.balance;
+    data['balance'] = balance;
     return data;
   }
 }
@@ -231,9 +235,9 @@ class Formats {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['mimeType'] = this.mimeType;
-    data['uri'] = this.uri;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['mimeType'] = mimeType;
+    data['uri'] = uri;
     return data;
   }
 }

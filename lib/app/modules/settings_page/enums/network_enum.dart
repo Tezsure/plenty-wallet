@@ -1,0 +1,4 @@
+enum NetworkType {
+  mainnet,
+  testnet,
+}

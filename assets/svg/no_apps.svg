@@ -1,0 +1,23 @@
+<svg width="249" height="232" viewBox="0 0 249 232" fill="none" xmlns="http://www.w3.org/2000/svg">
+<ellipse cx="124.5" cy="115.861" rx="124.5" ry="115.861" fill="#1E1C1F"/>
+<mask id="mask0_3775_19273" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="249" height="232">
+<ellipse cx="124.5" cy="115.861" rx="124.5" ry="115.861" fill="white"/>
+</mask>
+<g mask="url(#mask0_3775_19273)">
+<path d="M48.5332 77.1304C48.5332 60.5618 61.9647 47.1304 78.5332 47.1304H170.465C187.034 47.1304 200.465 60.5618 200.465 77.1304V233.686H48.5332V77.1304Z" fill="#1E1C1F" stroke="#5A585A" stroke-width="2"/>
+<rect x="55.9199" y="84.4409" width="136.106" height="149.244" fill="#1E1C1F"/>
+<rect x="56.4199" y="84.9409" width="135.106" height="148.244" stroke="#3766BC" stroke-opacity="0.1"/>
+<rect x="66.4707" y="94.2593" width="42.2034" height="39.2748" rx="3" fill="#FF006E"/>
+<rect x="119.225" y="104.078" width="62.25" height="3.92748" rx="1.96374" fill="#5A585A"/>
+<rect x="119.225" y="111.933" width="45.3686" height="3.92748" rx="1.96374" fill="#5A585A"/>
+<rect opacity="0.55" x="119.225" y="121.751" width="17.9364" height="3.92748" rx="1.96374" fill="#5A585A"/>
+<rect x="66.4707" y="143.353" width="42.2034" height="39.2748" rx="3" fill="#FF006E"/>
+<rect x="119.225" y="153.171" width="62.25" height="3.92748" rx="1.96374" fill="#3F3D40"/>
+<rect x="119.225" y="161.026" width="45.3686" height="3.92748" rx="1.96374" fill="#3F3D40"/>
+<rect opacity="0.55" x="119.225" y="170.845" width="17.9364" height="3.92748" rx="1.96374" fill="#3F3D40"/>
+<rect x="66.4707" y="192.447" width="42.2034" height="39.2748" rx="3" fill="#FF006E"/>
+<rect x="119.225" y="202.266" width="62.25" height="3.92748" rx="1.96374" fill="#3F3D40"/>
+<rect x="119.225" y="210.12" width="45.3686" height="3.92748" rx="1.96374" fill="#3F3D40"/>
+<rect opacity="0.55" x="119.225" y="219.939" width="17.9364" height="3.92748" rx="1.96374" fill="#3F3D40"/>
+</g>
+</svg>

@@ -1,16 +1,363 @@
 PODS:
+  - add_2_calendar (0.0.1):
+    - Flutter
+  - Base58Swift (2.1.10):
+    - BigInt (~> 5.0.0)
+  - beacon_flutter (1.0.8):
+    - BeaconBlockchainSubstrate (= 3.2.3)
+    - BeaconBlockchainTezos (= 3.2.3)
+    - BeaconClientDApp (= 3.2.3)
+    - BeaconClientWallet (= 3.2.3)
+    - BeaconCore (= 3.2.3)
+    - BeaconTransportP2PMatrix (= 3.2.3)
+    - Flutter
+  - BeaconBlockchainSubstrate (3.2.3):
+    - BeaconCore (~> 3.2.3)
+  - BeaconBlockchainTezos (3.2.3):
+    - BeaconCore (~> 3.2.3)
+  - BeaconClientDApp (3.2.3):
+    - BeaconCore (~> 3.2.3)
+  - BeaconClientWallet (3.2.3):
+    - BeaconCore (~> 3.2.3)
+  - BeaconCore (3.2.3):
+    - Base58Swift (~> 2.1.0)
+    - Sodium (~> 0.9.1)
+  - BeaconTransportP2PMatrix (3.2.3):
+    - BeaconCore (~> 3.2.3)
+  - BigInt (5.0.0)
+  - bonsoir (1.0.1):
+    - Flutter
+  - CryptoSwift (1.5.1)
+  - Firebase/Analytics (10.3.0):
+    - Firebase/Core
+  - Firebase/Core (10.3.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (~> 10.3.0)
+  - Firebase/CoreOnly (10.3.0):
+    - FirebaseCore (= 10.3.0)
+  - firebase_analytics (10.1.5):
+    - Firebase/Analytics (= 10.3.0)
+    - firebase_core
+    - Flutter
+  - firebase_core (2.7.1):
+    - Firebase/CoreOnly (= 10.3.0)
+    - Flutter
+  - FirebaseAnalytics (10.3.0):
+    - FirebaseAnalytics/AdIdSupport (= 10.3.0)
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseAnalytics/AdIdSupport (10.3.0):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleAppMeasurement (= 10.3.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseCore (10.3.0):
+    - FirebaseCoreInternal (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/Logger (~> 7.8)
+  - FirebaseCoreInternal (10.6.0):
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+  - FirebaseInstallations (10.6.0):
+    - FirebaseCore (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - PromisesObjC (~> 2.1)
   - Flutter (1.0.0)
+  - flutter_inappwebview (0.0.1):
+    - Flutter
+    - flutter_inappwebview/Core (= 0.0.1)
+    - OrderedSet (~> 5.0)
+  - flutter_inappwebview/Core (0.0.1):
+    - Flutter
+    - OrderedSet (~> 5.0)
+  - flutter_keyboard_visibility (0.0.1):
+    - Flutter
+  - flutter_secure_storage (6.0.0):
+    - Flutter
+  - flutter_sodium (0.0.1):
+    - Flutter
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - GenericJSON (2.0.2)
+  - GoogleAppMeasurement (10.3.0):
+    - GoogleAppMeasurement/AdIdSupport (= 10.3.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleAppMeasurement/AdIdSupport (10.3.0):
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 10.3.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleAppMeasurement/WithoutAdIdSupport (10.3.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleUtilities/AppDelegateSwizzler (7.11.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (7.11.0):
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/Logger (7.11.0):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (7.11.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (7.11.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (7.11.0)"
+  - GoogleUtilities/Reachability (7.11.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.11.0):
+    - GoogleUtilities/Logger
+  - image_picker_ios (0.0.1):
+    - Flutter
+  - in_app_review (0.2.0):
+    - Flutter
+  - Instabug (11.9.0)
+  - instabug_flutter (11.9.0):
+    - Flutter
+    - Instabug (= 11.9.0)
+  - KeychainSwift (20.0.0)
+  - local_auth_ios (0.0.1):
+    - Flutter
+  - MTBBarcodeScanner (5.0.11)
+  - nanopb (2.30909.0):
+    - nanopb/decode (= 2.30909.0)
+    - nanopb/encode (= 2.30909.0)
+  - nanopb/decode (2.30909.0)
+  - nanopb/encode (2.30909.0)
+  - onesignal_flutter (3.5.0):
+    - Flutter
+    - OneSignalXCFramework (= 3.12.3)
+  - OneSignalXCFramework (3.12.3):
+    - OneSignalXCFramework/OneSignalCore (= 3.12.3)
+    - OneSignalXCFramework/OneSignalExtension (= 3.12.3)
+    - OneSignalXCFramework/OneSignalOutcomes (= 3.12.3)
+  - OneSignalXCFramework/OneSignalCore (3.12.3)
+  - OneSignalXCFramework/OneSignalExtension (3.12.3):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalOutcomes
+  - OneSignalXCFramework/OneSignalOutcomes (3.12.3):
+    - OneSignalXCFramework/OneSignalCore
+  - OrderedSet (5.0.0)
+  - package_info_plus (0.4.5):
+    - Flutter
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - permission_handler_apple (9.0.4):
+    - Flutter
+  - PromisesObjC (2.2.0)
+  - qr_code_scanner (0.2.0):
+    - Flutter
+    - MTBBarcodeScanner
+  - secp256k1.swift (0.1.4)
+  - share_plus (0.0.1):
+    - Flutter
+  - Sodium (0.9.1)
+  - sqflite (0.0.2):
+    - Flutter
+    - FMDB (>= 2.7.5)
+  - uni_links (0.0.1):
+    - Flutter
+  - url_launcher_ios (0.0.1):
+    - Flutter
+  - web3.swift (0.9.3):
+    - BigInt (~> 5.0.0)
+    - GenericJSON (~> 2.0)
+    - secp256k1.swift (~> 0.1)
+  - Web3Auth (5.0.0):
+    - CryptoSwift (~> 1.5.1)
+    - KeychainSwift (~> 20.0.0)
+    - web3.swift (~> 0.9.3)
+  - web3auth_flutter (0.1.1):
+    - Flutter
+    - Web3Auth (~> 5.0.0)
 
 DEPENDENCIES:
+  - add_2_calendar (from `.symlinks/plugins/add_2_calendar/ios`)
+  - beacon_flutter (from `.symlinks/plugins/beacon_flutter/ios`)
+  - bonsoir (from `.symlinks/plugins/bonsoir/ios`)
+  - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
+  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
+  - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_sodium (from `.symlinks/plugins/flutter_sodium/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
+  - instabug_flutter (from `.symlinks/plugins/instabug_flutter/ios`)
+  - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
+  - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
+  - OneSignalXCFramework (< 4.0, >= 3.4.3)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - qr_code_scanner (from `.symlinks/plugins/qr_code_scanner/ios`)
+  - share_plus (from `.symlinks/plugins/share_plus/ios`)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - uni_links (from `.symlinks/plugins/uni_links/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+  - Web3Auth
+  - web3auth_flutter (from `.symlinks/plugins/web3auth_flutter/ios`)
+
+SPEC REPOS:
+  trunk:
+    - Base58Swift
+    - BeaconBlockchainSubstrate
+    - BeaconBlockchainTezos
+    - BeaconClientDApp
+    - BeaconClientWallet
+    - BeaconCore
+    - BeaconTransportP2PMatrix
+    - BigInt
+    - CryptoSwift
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseCoreInternal
+    - FirebaseInstallations
+    - FMDB
+    - GenericJSON
+    - GoogleAppMeasurement
+    - GoogleUtilities
+    - Instabug
+    - KeychainSwift
+    - MTBBarcodeScanner
+    - nanopb
+    - OneSignalXCFramework
+    - OrderedSet
+    - PromisesObjC
+    - secp256k1.swift
+    - Sodium
+    - web3.swift
+    - Web3Auth
 
 EXTERNAL SOURCES:
+  add_2_calendar:
+    :path: ".symlinks/plugins/add_2_calendar/ios"
+  beacon_flutter:
+    :path: ".symlinks/plugins/beacon_flutter/ios"
+  bonsoir:
+    :path: ".symlinks/plugins/bonsoir/ios"
+  firebase_analytics:
+    :path: ".symlinks/plugins/firebase_analytics/ios"
+  firebase_core:
+    :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  flutter_inappwebview:
+    :path: ".symlinks/plugins/flutter_inappwebview/ios"
+  flutter_keyboard_visibility:
+    :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_sodium:
+    :path: ".symlinks/plugins/flutter_sodium/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
+  in_app_review:
+    :path: ".symlinks/plugins/in_app_review/ios"
+  instabug_flutter:
+    :path: ".symlinks/plugins/instabug_flutter/ios"
+  local_auth_ios:
+    :path: ".symlinks/plugins/local_auth_ios/ios"
+  onesignal_flutter:
+    :path: ".symlinks/plugins/onesignal_flutter/ios"
+  package_info_plus:
+    :path: ".symlinks/plugins/package_info_plus/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
+  qr_code_scanner:
+    :path: ".symlinks/plugins/qr_code_scanner/ios"
+  share_plus:
+    :path: ".symlinks/plugins/share_plus/ios"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
+  uni_links:
+    :path: ".symlinks/plugins/uni_links/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
+  web3auth_flutter:
+    :path: ".symlinks/plugins/web3auth_flutter/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  add_2_calendar: e9d68636aed37fb18e12f5a3d74c2e0589487af0
+  Base58Swift: 53d551f0b33d9478fa63b3445e453a772d6b31a7
+  beacon_flutter: 5d8748f51ff25724266676afc02088d3fade29b1
+  BeaconBlockchainSubstrate: 76d202c65a939fb6ccbe57ef1016f93212400bac
+  BeaconBlockchainTezos: ca57ca89d804f54e9c66f99375c911b715629353
+  BeaconClientDApp: ef976c485eb3c8f9238442d29f1d1ad9cd3aa6fc
+  BeaconClientWallet: fa3e528d11909cf9500933c742ef6a60cef7d4b8
+  BeaconCore: e4eb30dd44595984322ea3c3149ae19d8d78c821
+  BeaconTransportP2PMatrix: eb1be2bf6b91964970961980f46298d867b0bdf7
+  BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
+  bonsoir: c97724f65041a4068af8ab5f3449ae7f58b725b1
+  CryptoSwift: c4f2debceb38bf44c80659afe009f71e23e4a082
+  Firebase: f92fc551ead69c94168d36c2b26188263860acd9
+  firebase_analytics: e409b2098cace68b28209f9238cce19fce542c1b
+  firebase_core: 1ae9f9aa76e6e1edc14fb181637ad466fd6c6fa4
+  FirebaseAnalytics: 036232b6a1e2918e5f67572417be1173576245f3
+  FirebaseCore: 988754646ab3bd4bdcb740f1bfe26b9f6c0d5f2a
+  FirebaseCoreInternal: c7cd505e2136811096b225ac388d6254a2622362
+  FirebaseInstallations: 13dde135fa0524e15bddb133ccc8465c53a1b3f3
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
+  flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
+  flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
+  flutter_sodium: c84426b4de738514b5b66cfdeb8a06634e72fe0b
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  GenericJSON: 79a840eeb77030962e8cf02a62d36bd413b67626
+  GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
+  GoogleUtilities: c2bdc4cf2ce786c4d2e6b3bcfd599a25ca78f06f
+  image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
+  in_app_review: 318597b3a06c22bb46dc454d56828c85f444f99d
+  Instabug: 1d21096fdadbc1f26cd2fc2322ff8e060a611237
+  instabug_flutter: 40394da80e1cf39b540a3836caf4c555739b01de
+  KeychainSwift: 0ce6a4d13f7228054d1a71bb1b500448fb2ab837
+  local_auth_ios: c6cf091ded637a88f24f86a8875d8b0f526e2605
+  MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
+  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
+  onesignal_flutter: e01b19b76406d2f303edabe36da8dc747443d679
+  OneSignalXCFramework: 75844c29607ca95e6176f6f21257b4382c7fdbfb
+  OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
+  package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
+  path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
+  PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+  qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
+  secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
+  share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
+  Sodium: 23d11554ecd556196d313cf6130d406dfe7ac6da
+  sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
+  uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
+  url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
+  web3.swift: c6c3bf1f853743f8a7a58d263e5f7e46545e22c7
+  Web3Auth: 3ef09358f409cf6b2b57f3bcc074281ac73681a1
+  web3auth_flutter: c40401ed4bb3aff723349a382ddae9809eeee959
 
-PODFILE CHECKSUM: 0571e4626e2a5de4f94f87fa113719a869402c30
+PODFILE CHECKSUM: 014fcfe4947d4ed440fe4493fb3cf5e9482f6707
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.12.0

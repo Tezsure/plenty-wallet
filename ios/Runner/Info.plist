@@ -2,10 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Naan</string>
+	<string>naan</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,11 +15,11 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>tezster_wallet</string>
+	<string>naan_wallet</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
+	<string>0.2.74</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -30,34 +32,52 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>naan</string>
+				<string>fxhash</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>15</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_googlecast._tcp</string>
+		<string>com.naan._googlecast._tcp</string>
+		<string>_dartobservatory._tcp</string>
+	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>Need camera access to scan qr code</string>
+	<string>naan requires access to camera for scanning QR</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>The app needs faceId for authenticating users and providing an extra layer of security to the app</string>
+	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>$(PRODUCT_NAME) uses the local network to discover Cast-enabled devices on your WiFi
+			network.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>naan requires acess to microphone.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>*your app name* would like to save photos from the app to your gallery</string>
+	<string>This app requires read and write access to the photo library to upload account
+			picture</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>*your app name* would like to access your photo gallery for uploading images to the app</string>
-	<key>UIFileSharingEnabled</key>
+	<string>This app requires access to the photo library to upload account picture</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UISceneConfigurations</key>
+		<dict/>
+	</dict>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>LaunchScreen.storyboard</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+	
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -73,7 +93,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>For adding events to the calendar</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Used for adding events to calendar</string>
 </dict>
 </plist>

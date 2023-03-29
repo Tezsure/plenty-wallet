@@ -3,20 +3,116 @@ version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
 environment:
-  sdk: ">=2.13.0 <3.0.0"
+  sdk: ">=2.19.0 <3.0.0"
 
 dependencies:
-  get: 4.6.5
+  get: ^4.6.5
+  lottie: ^2.2.0
+  flutter_lints: ^2.0.1
   flutter:
     sdk: flutter
+  web3auth_flutter:
+    git:
+      url: https://github.com/Web3Auth/web3auth-flutter-sdk.git
+      ref: master
+  flutter_svg: ^1.1.1+1
+  cached_network_image: ^3.2.1
+  flutter_secure_storage: ^8.0.0
+  share_plus: ^4.0.10+1
+  qr_flutter: ^4.0.0
+  dartez:
+    git:
+      url: https://github.com/Tezsure/Dartez.git
+      ref: feat/tz2_support
+  local_auth: ^2.1.2
+  image_picker: ^0.8.5+3
+  path_provider: ^2.0.11
+  http: ^0.13.5
+  flutter_staggered_grid_view: ^0.6.2
+  simple_gql: ^1.2.0
+  url_launcher: ^6.1.6
+  intl: ^0.18.0
+  hex: ^0.2.0
+  shimmer: ^2.0.0
+  flutter_inappwebview: ^5.7.2+3
+  beacon_flutter: ^1.0.8
+  in_app_review: ^2.0.6
+  firebase_core: ^2.3.0
+  firebase_analytics: ^10.0.6
+  qr_code_scanner: ^1.0.1
+  package_info_plus: ^1.4.2
+  permission_handler: ^10.2.0
+  flutter_keyboard_visibility: ^5.4.0
+  uni_links: ^0.5.1
+  cast: ^1.1.1
+  jovial_svg: ^1.1.9
+  collection:
+  instabug_flutter:
+  onesignal_flutter: ^3.5.0
+  add_2_calendar: ^2.1.2
+  modal_bottom_sheet:
+    #  ^3.0.0-pre
+    path: package/modal_bottom_sheet/modal_bottom_sheet
+  flutter_phoenix:
+    "^1.0.0"
+
+    # path: packages/modal_bottom_sheet/modal_bottom_sheet
+
+  # Firebase
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.11.0"
+
+flutter_icons:
+  android: "launcher_icon"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/ic_launcher-playstore.png"
+  image_path: "assets/ic_launcher-playstore.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
 flutter:
   assets:
+    - assets/
+    #common
+    - assets/temp/
+    - assets/svg/
+    #home page
     - assets/home_page/
+    - assets/home_page/info_story/
+    - assets/home_page/svg/
+    - assets/home_page/images/
+    #settings page
+    - assets/settings_page/
+    - assets/settings_page/currencies/
+    - assets/settings_page/svg/
+    #onboarding page
+    - assets/onboarding_page/
+    - assets/onboarding_page/lottie/
+    #create wallet page
+    - assets/create_wallet/
+    - assets/create_wallet/lottie/
+    #nft page
+    - assets/nft_page/
+    - assets/nft_page/svg/
+    #send page
+    - assets/send_page/lottie/
+    - assets/send_page/
+
+    - assets/svg/accounts/
+
+    - assets/contact_page/
+    - assets/contact_page/svg/
+    #profile images
+    - assets/profile_images/
+
+    #empty states images
+    - assets/empty_states/
+    #dapp
+    - assets/dapps/
+    - assets/dapp_browser/
+
   uses-material-design: true
 
   fonts:
@@ -37,3 +133,15 @@ flutter:
       fonts:
         - asset: fonts/Inter-Regular.ttf
           weight: 700
+    - family: Space Grotesk
+      fonts:
+        - asset: fonts/space_grotesk/SpaceGrotesk-Bold.ttf
+          weight: 700
+        - asset: fonts/space_grotesk/SpaceGrotesk-Light.ttf
+          weight: 300
+        - asset: fonts/space_grotesk/SpaceGrotesk-Regular.ttf
+          weight: 400
+        - asset: fonts/space_grotesk/SpaceGrotesk-Medium.ttf
+          weight: 500
+        - asset: fonts/space_grotesk/SpaceGrotesk-SemiBold.ttf
+          weight: 600
