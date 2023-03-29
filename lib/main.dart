@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
@@ -77,8 +78,14 @@ void main() async {
     }; */
 
     //FirebaseCrashlytics.instance.crash();
-    await Instabug.start(
-        '74da8bcfe330c611f60eaee532e451db', [InvocationEvent.shake]);
+    try {
+      await Instabug.init(
+        token: '74da8bcfe330c611f60eaee532e451db',
+        invocationEvents: [InvocationEvent.shake],
+      );
+    } catch (e) {
+      log(e.toString());
+    }
 
     //Remove this method to stop OneSignal Debugging
 

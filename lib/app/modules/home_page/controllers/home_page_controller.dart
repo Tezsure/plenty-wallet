@@ -85,12 +85,16 @@ class HomePageController extends GetxController {
         //   Duration(milliseconds: 100),
         // ).then((value) {
         try {
-          Get.find<AccountsWidgetController>().onPageChanged(index);
-          changeSelectedAccount(index);
+          if (Get.isRegistered<AccountsWidgetController>()) {
+            Get.find<AccountsWidgetController>().onPageChanged(index);
+            changeSelectedAccount(index);
+          }
         } catch (e) {
           log(e.toString());
         }
         // });
+      } else {
+        userAccounts.value = [...accounts];
       }
       try {
         if (userAccounts.where((p0) => !p0.isWatchOnly).isNotEmpty) {

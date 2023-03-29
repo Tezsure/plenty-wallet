@@ -29,7 +29,8 @@ class DataHandlerService {
   DataHandlerRenderService renderService = DataHandlerRenderService();
 
   /// list of ongoing txs
-  List<OnGoingTxStatusHelper> onGoingTxStatusHelpers = [];
+  RxList<OnGoingTxStatusHelper> onGoingTxStatusHelpers =
+      <OnGoingTxStatusHelper>[].obs;
 
   /// update value every 15 sec
   Timer? updateTimer;
@@ -64,6 +65,22 @@ class DataHandlerService {
 
     await ServiceConfig.localStorage.delete(key: ServiceConfig.inrPriceStorage);
     await ServiceConfig.localStorage.delete(key: ServiceConfig.eurPriceStorage); */
+    onGoingTxStatusHelpers.listen((p0) async {
+      if (p0.isNotEmpty) {
+        //for loop for 6 times call until onGoingTxStatusHelpers is empty
+        for (int i = 0; i < 6; i++) {
+          if (onGoingTxStatusHelpers.isNotEmpty) {
+            await updateOnGoingTxStatus();
+            if (onGoingTxStatusHelpers.isNotEmpty) {
+              await Future.delayed(const Duration(seconds: 5));
+            }
+          } else {
+            break;
+          }
+        }
+      }
+    });
+
     await renderService.updateUi();
 
     setUpTimer();
@@ -85,15 +102,19 @@ class DataHandlerService {
       dynamic response = jsonDecode(result);
       var inr = response['rates']['INR'];
       var eur = response['rates']['EUR'];
-      print("inr: $inr eur: $eur");
+      var aud = response['rates']['AUD'];
+      print("inr: $inr eur: $eur aud: $aud");
 
       ServiceConfig.inr = inr;
       ServiceConfig.eur = eur;
+      ServiceConfig.aud = aud;
 
       await ServiceConfig.localStorage
           .write(key: ServiceConfig.inrPriceStorage, value: inr.toString());
       await ServiceConfig.localStorage
           .write(key: ServiceConfig.eurPriceStorage, value: eur.toString());
+      await ServiceConfig.localStorage
+          .write(key: ServiceConfig.audPriceStorage, value: aud.toString());
     });
   }
 
@@ -117,6 +138,19 @@ class DataHandlerService {
               onDone: () => {
                     _isDataFetching = false,
                   }),
+    );
+  }
+
+  Future<void> forcedUpdateDataPriceAndToken() async {
+    _isDataFetching = true;
+    TokenAndXtzPriceHandler(renderService).executeProcess(
+      postProcess: renderService.xtzPriceUpdater.updateProcess,
+      onDone: () async =>
+          await AccountDataHandler(renderService).executeProcess(
+              postProcess: renderService.accountUpdater.updateProcess,
+              onDone: () {
+                _isDataFetching = false;
+              }),
     );
   }
 
@@ -145,9 +179,9 @@ class DataHandlerService {
         ),
       ),
     );
-    if (onGoingTxStatusHelpers.isNotEmpty) {
+/*     if (onGoingTxStatusHelpers.isNotEmpty) {
       await updateOnGoingTxStatus();
-    }
+    } */
   }
 
   Future<void> updateTokens() async {

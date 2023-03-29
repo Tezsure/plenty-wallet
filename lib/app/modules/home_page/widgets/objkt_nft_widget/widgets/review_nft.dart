@@ -71,7 +71,7 @@ class ReviewNFTSheet extends StatelessWidget {
               Obx(
                 () => Text(
                   controller.selectedToken.value!.symbol!.toLowerCase() ==
-                          "Tezos".toLowerCase()
+                          "tez".toLowerCase()
                       ? (double.parse(controller.priceInToken.value) *
                               homeController.xtzPrice.value)
                           .roundUpDollar(homeController.xtzPrice.value)

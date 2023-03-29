@@ -206,8 +206,11 @@ class SettingsPageController extends GetxController {
     await changeNode(node);
     Get.find<BeaconService>().stop();
     await Get.delete<BeaconService>(force: true);
-    Get.find<HomePageController>().resetUserAccounts();
+    try {
+      Get.find<HomePageController>().resetUserAccounts();
+    } catch (e) {}
     await Get.delete<HomePageController>(force: true);
+    await Get.delete<AccountsWidgetController>(force: true);
     await Get.deleteAll(force: true);
 
     Phoenix.rebirth(Get.context!);

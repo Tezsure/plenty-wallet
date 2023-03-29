@@ -43,7 +43,7 @@ class FeesSummarySheet extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      controller.selectedToken.value!.symbol == "Tezos"
+                      controller.selectedToken.value!.symbol == "tez"
                           ? (double.parse(controller.priceInToken.value) *
                                   homeController.xtzPrice.value)
                               .roundUpDollar(homeController.xtzPrice.value)

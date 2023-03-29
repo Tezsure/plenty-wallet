@@ -7,19 +7,36 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 
 class AccountsWidgetController extends GetxController {
   final homeController = Get.find<HomePageController>();
-  late PageController pageController;
+  Rx<PageController> pageController = PageController(
+    keepPage: true,
+    viewportFraction: 1,
+    initialPage: 0,
+  ).obs;
   final List<String> imagePath = [
     'assets/svg/accounts/account_1.svg',
     'assets/svg/accounts/account_2.svg',
     'assets/svg/accounts/account_3.svg'
   ]; // Background Images for Accounts container
 
-  final RxInt currIndex = 0.obs; // Current Visible Account Container
+  RxInt currIndex = 0.obs; // Current Visible Account Container
+  @override
+  void onInit() async {
+    currIndex.value = homeController.selectedIndex.value;
+    pageController.value = PageController(
+      keepPage: true,
+      viewportFraction: 1,
+      initialPage: currIndex.value,
+    );
+    await Future.delayed(const Duration(milliseconds: 300)).then((value) {
+      onPageChanged(homeController.selectedIndex.value);
+    });
+    super.onInit();
+  }
 
   /// Change the current index to the new index of visible account container
   void onPageChanged(int index) {
-    if (pageController.page != index) {
-      pageController.jumpToPage(
+    if (pageController.value.page != index) {
+      pageController.value.jumpToPage(
         index,
         // duration: const Duration(milliseconds: 100),
         // curve: Curves.easeIn,
