@@ -64,7 +64,9 @@ class VCAEventsView extends GetView<VCAEventsController> {
                               );
                       }),
                 ),
-                0.02.vspace,
+                SizedBox(
+                  height: 20.arP,
+                ),
                 Expanded(
                     child: controller.events.values
                             .toList()
@@ -72,13 +74,18 @@ class VCAEventsView extends GetView<VCAEventsController> {
                         ? _buildEmpty()
                         : ListView.builder(
                             padding: EdgeInsets.symmetric(horizontal: 16.arP),
-                            itemCount: controller.events.length + 1,
+                            itemCount: controller.events.length + 2,
                             itemBuilder: (context, index) {
-                              if (index == controller.events.length) {
+                              if (index == controller.events.length + 1) {
                                 return _addNowButton();
                               }
+                              if (index == 0) {
+                                return StallsBanner(
+                                  banner: controller.banner.value,
+                                );
+                              }
                               final key =
-                                  controller.events.keys.toList()[index];
+                                  controller.events.keys.toList()[index - 1];
                               final events = controller.events[key];
 
                               if (events!.isEmpty) {
@@ -308,6 +315,69 @@ class EventWidget extends StatelessWidget {
                   ),
                 ),
               )
+            ],
+          )),
+    );
+  }
+}
+
+class StallsBanner extends StatelessWidget {
+  const StallsBanner({
+    super.key,
+    required this.banner,
+  });
+
+  final String banner;
+
+  @override
+  Widget build(BuildContext context) {
+    return BouncingWidget(
+      onPressed: () {
+        //CommonFunctions.bottomSheet(VCAEventBottomSheet(eventModel: event));
+      },
+      child: Container(
+          width: double.infinity,
+          // margin: EdgeInsets.only(
+          //   bottom: 20.arP,
+          // ),
+          decoration: BoxDecoration(
+            color: const Color(0xFF1E1A22),
+            borderRadius: BorderRadius.circular(
+              22.arP,
+            ),
+          ),
+          child: Stack(
+            alignment: AlignmentDirectional.bottomStart,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  22.arP,
+                ),
+                child: banner.endsWith(".svg")
+                    ? SvgPicture.network(
+                        "${ServiceConfig.naanApis}/vca_images/$banner",
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: 400.arP,
+                      )
+                    : CachedNetworkImage(
+                        imageUrl:
+                            "${ServiceConfig.naanApis}/vca_images/$banner",
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: 400.arP,
+                      ),
+              ),
+/*               ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  22.arP,
+                ),
+                child: Container(
+                  height: 400.arP,
+                  width: double.infinity,
+                  decoration: BoxDecoration(gradient: imagesGradient),
+                ),
+              ), */
             ],
           )),
     );

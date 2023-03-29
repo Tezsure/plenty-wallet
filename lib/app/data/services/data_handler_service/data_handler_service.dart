@@ -246,15 +246,25 @@ class DataHandlerService {
         key: ServiceConfig.dappsBannerStorage, value: jsonEncode(banners));
   }
 
-  Future<Map<String, List<EventModel>>> getVCAEventsDetail(
-      {required RxList tags,
-      required RxMap<String, List<EventModel>> events}) async {
+  Future<Map<String, List<EventModel>>> getVCAEventsDetail({
+    required RxList tags,
+    required RxMap<String, List<EventModel>> events,
+    required RxList<StallsModel> stalls,
+    required RxString banner,
+    required RxString mapImage,
+  }) async {
     var eventsStorage = jsonDecode(await ServiceConfig.localStorage
             .read(key: ServiceConfig.vcaEventsStorage) ??
         "{}");
     if (eventsStorage.isNotEmpty) {
       tags.value = eventsStorage['tags'];
-      //todo get stalls data
+      banner.value = eventsStorage['stalls']['banner'];
+
+      mapImage.value = eventsStorage['stalls']['mapImage'];
+      stalls.value = eventsStorage['stalls']['stallsList']
+          .map<StallsModel>((json) => StallsModel.fromJson(json))
+          .toList();
+
       final Map<String, List<EventModel>> eventsByTime = {
         "Today": [],
         "Tomorrow": [],
@@ -297,7 +307,12 @@ class DataHandlerService {
 
     if (eventsStorage.toString().hashCode != apiResult.toString().hashCode) {
       tags.value = apiResult['tags'];
-      //todo get stalls data
+      banner.value = eventsStorage['stalls']['banner'];
+      mapImage.value = eventsStorage['stalls']['mapImage'];
+      stalls.value = eventsStorage['stalls']['stallsList']
+          .map<StallsModel>((json) => StallsModel.fromJson(json))
+          .toList();
+
       final Map<String, List<EventModel>> eventsByTime = {
         "Today": [],
         "Tomorrow": [],

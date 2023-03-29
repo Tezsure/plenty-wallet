@@ -75,3 +75,17 @@ class EventModel {
     return 'DappModel(name: $name, logo: $logo, url: $url, backgroundImage: $backgroundImage, description: $description, discord: $discord, twitter: $twitter, telegram: $telegram)';
   } */
 }
+
+class StallsModel {
+  String? title;
+  String? description;
+  String? image;
+
+  StallsModel({this.title, this.description, this.image});
+
+  StallsModel.fromJson(Map<String, dynamic> json) {
+    title = json['title'];
+    description = json['description'];
+    image = json['image'];
+  }
+}

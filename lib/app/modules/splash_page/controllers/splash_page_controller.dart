@@ -1,17 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/foundation_service/art_foundation_handler.dart';
 import 'package:naan_wallet/app/data/services/iaf/iaf_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/translation/translation_helper.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';

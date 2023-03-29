@@ -27,13 +27,22 @@ class VCAEventsController extends GetxController {
   RxInt selectedTab = 0.obs;
 
   RxList tags = [].obs;
+
+  RxList<StallsModel> stalls = <StallsModel>[].obs;
+
+  RxString banner = "".obs;
+
+  RxString mapImage = "".obs;
+
   @override
   void onInit() async {
     super.onInit();
     eventsUnfiltered = await DataHandlerService().getVCAEventsDetail(
       events: events,
       tags: tags,
-      //todo send stalls params
+      stalls: stalls,
+      banner: banner,
+      mapImage: mapImage,
     );
   }
 
