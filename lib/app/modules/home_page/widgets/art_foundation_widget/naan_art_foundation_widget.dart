@@ -17,6 +17,7 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+import '../../../vca_events/views/events_view.dart';
 import '../account_switch_widget/account_switch_widget.dart';
 
 class NaanArtFoundationWidget extends StatelessWidget {
@@ -26,7 +27,7 @@ class NaanArtFoundationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        final address = Get.find<HomePageController>().userAccounts.isEmpty
+/*         final address = Get.find<HomePageController>().userAccounts.isEmpty
             ? null
             : Get.find<HomePageController>().userAccounts.first.publicKeyHash;
         NaanAnalytics.logEvent(NaanAnalyticsEvents.NAAN_COLLECTION,
@@ -39,7 +40,10 @@ class NaanArtFoundationWidget extends StatelessWidget {
           settings: RouteSettings(
             arguments: url,
           ),
-        );
+        ); */
+        CommonFunctions.bottomSheet(const VCAEventsView(), fullscreen: true);
+
+        //todo replace later
       },
       child: HomeWidgetFrame(
         child: Container(
