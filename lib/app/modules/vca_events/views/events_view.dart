@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:naan_wallet/app/data/services/service_models/event_models.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
@@ -12,6 +13,7 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/nested_route_observer.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,105 +32,125 @@ class VCAEventsView extends GetView<VCAEventsController> {
   @override
   Widget build(BuildContext context) {
     Get.put(VCAEventsController());
-    return NaanBottomSheet(
-      title: "Guide",
-      action: Padding(
-        padding: EdgeInsets.only(right: 16.arP),
-        child: closeButton(),
-      ),
-      height: AppConstant.naanBottomSheetHeight,
-      bottomSheetHorizontalPadding: 0,
-      bottomSheetWidgets: [
-        Obx(
-          () => SizedBox(
-            height: AppConstant.naanBottomSheetChildHeight + 12.arP,
-            // margin: EdgeInsets.symmetric(horizontal: 16.arP),
-            child: Column(
-              children: [
-                0.02.vspace,
+    return Navigator(
+        observers: [NestedRouteObserver()],
+        onGenerateRoute: (_) {
+          return MaterialPageRoute(
+            builder: (context) => NaanBottomSheet(
+              height: AppConstant.naanBottomSheetHeight,
+              bottomSheetHorizontalPadding: 0,
+              bottomSheetWidgets: [
                 SizedBox(
-                  height: 40.arP,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: controller.tags.length + 1,
-                      itemBuilder: (context, index) {
-                        return index == controller.tags.length
-                            ? Padding(
-                                padding: EdgeInsets.only(
-                                    right: 12.0.arP, left: 12.0.arP),
-                                child: filterChip(index),
-                              )
-                            : Padding(
-                                padding: EdgeInsets.only(left: 12.0.arP),
-                                child: filterChip(index),
-                              );
-                      }),
-                ),
-                SizedBox(
-                  height: 20.arP,
-                ),
-                Expanded(
-                    child: controller.events.values
-                            .toList()
-                            .every((element) => element.isEmpty)
-                        ? _buildEmpty()
-                        : ListView.builder(
+                  height: AppConstant.naanBottomSheetHeight - 20.arP,
+                  // margin: EdgeInsets.symmetric(horizontal: 16.arP),
+                  child: SizedBox(
+                    height: AppConstant.naanBottomSheetHeight,
+                    child: Obx(
+                      () => Column(
+                        children: [
+                          Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.arP),
-                            itemCount: controller.events.length + 2,
-                            itemBuilder: (context, index) {
-                              if (index == controller.events.length + 1) {
-                                return _addNowButton();
-                              }
-                              if (index == 0) {
-                                return StallsBanner(
-                                  banner: controller.banner.value,
-                                );
-                              }
-                              final key =
-                                  controller.events.keys.toList()[index - 1];
-                              final events = controller.events[key];
-
-                              if (events!.isEmpty) {
-                                return const SizedBox
-                                    .shrink(); // Don't show empty lists
-                              }
-
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 24.0.arP),
-                                    child: Text(key,
-                                        style: headlineMedium.copyWith(
-                                            fontWeight: FontWeight.w700)),
-                                  ),
-                                  ListView.builder(
-                                      shrinkWrap: true,
-                                      padding: EdgeInsets.zero,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: events.length,
-                                      itemBuilder: (context, index1) {
-                                        final event = events[index1];
-                                        return Padding(
+                            child: const BottomSheetHeading(
+                              title: "Guide",
+                            ),
+                          ),
+                          0.02.vspace,
+                          SizedBox(
+                            height: 40.arP,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: controller.tags.length + 1,
+                                itemBuilder: (context, index) {
+                                  return index == controller.tags.length
+                                      ? Padding(
                                           padding: EdgeInsets.only(
-                                              bottom:
-                                                  events.length - 1 == index1
-                                                      ? 0
-                                                      : 24.0.arP),
-                                          child: EventWidget(event: event),
+                                              right: 12.0.arP, left: 12.0.arP),
+                                          child: filterChip(index),
+                                        )
+                                      : Padding(
+                                          padding:
+                                              EdgeInsets.only(left: 12.0.arP),
+                                          child: filterChip(index),
                                         );
-                                      }),
-                                ],
-                              );
-                            }))
+                                }),
+                          ),
+                          SizedBox(
+                            height: 20.arP,
+                          ),
+                          Expanded(
+                              child: controller.events.values
+                                      .toList()
+                                      .every((element) => element.isEmpty)
+                                  ? _buildEmpty()
+                                  : ListView.builder(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.arP),
+                                      itemCount: controller.events.length + 2,
+                                      itemBuilder: (context, index) {
+                                        if (index ==
+                                            controller.events.length + 1) {
+                                          return _addNowButton();
+                                        }
+                                        if (index == 0) {
+                                          return StallsBanner(
+                                            banner: controller.banner.value,
+                                            stalls: controller.stalls.value,
+                                            map: controller.mapImage.value,
+                                          );
+                                        }
+                                        final key = controller.events.keys
+                                            .toList()[index - 1];
+                                        final events = controller.events[key];
+
+                                        if (events!.isEmpty) {
+                                          return const SizedBox
+                                              .shrink(); // Don't show empty lists
+                                        }
+
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 24.0.arP),
+                                              child: Text(key,
+                                                  style:
+                                                      headlineMedium.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w700)),
+                                            ),
+                                            ListView.builder(
+                                                shrinkWrap: true,
+                                                padding: EdgeInsets.zero,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                itemCount: events.length,
+                                                itemBuilder: (context, index1) {
+                                                  final event = events[index1];
+                                                  return Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom:
+                                                            events.length - 1 ==
+                                                                    index1
+                                                                ? 0
+                                                                : 24.0.arP),
+                                                    child: EventWidget(
+                                                        event: event),
+                                                  );
+                                                }),
+                                          ],
+                                        );
+                                      }))
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
-          ),
-        ),
-      ],
-    );
+          );
+        });
   }
 
   SizedBox _addNowButton() {
@@ -271,7 +293,7 @@ class EventWidget extends StatelessWidget {
                         height: 8.0.arP,
                       ),
                       Text(
-                          "${DateFormat('E, dd MMM • h:mm a').format(event.timestamp!)} ${event.timestamp!.timeZoneName}",
+                          "${intl.DateFormat('E, dd MMM • h:mm a').format(event.timestamp!)} ${event.timestamp!.timeZoneName}",
                           style:
                               labelMedium.copyWith(color: ColorConst.Primary)),
                       SizedBox(
@@ -325,15 +347,24 @@ class StallsBanner extends StatelessWidget {
   const StallsBanner({
     super.key,
     required this.banner,
+    required this.stalls,
+    required this.map,
   });
 
   final String banner;
-
+  final List<StallsModel> stalls;
+  final String map;
   @override
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        //CommonFunctions.bottomSheet(VCAEventBottomSheet(eventModel: event));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Stalls(
+                      stalls: stalls,
+                      map: map,
+                    )));
       },
       child: Container(
           width: double.infinity,
@@ -381,5 +412,243 @@ class StallsBanner extends StatelessWidget {
             ],
           )),
     );
+  }
+}
+
+class Stalls extends StatelessWidget {
+  const Stalls({
+    super.key,
+    required this.stalls,
+    required this.map,
+  });
+  final List<StallsModel> stalls;
+  final String map;
+
+  @override
+  Widget build(BuildContext context) {
+    return NaanBottomSheet(
+      height: AppConstant.naanBottomSheetHeight,
+      bottomSheetWidgets: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.arP),
+          child: BottomSheetHeading(
+            title: "Discover Stalls",
+            leading: backButton(
+                ontap: () => Navigator.pop(context), lastPageName: "Guide"),
+          ),
+        ),
+        0.02.vspace,
+        Container(
+          height: AppConstant.naanBottomSheetChildHeight,
+          margin: EdgeInsets.only(top: 20.arP),
+          child: Scaffold(
+            backgroundColor: Colors.black,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: SolidButton(
+              height: 45.arP,
+              borderRadius: 40.arP,
+              width: 125.arP,
+              primaryColor: ColorConst.Primary,
+              title: "View map",
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FullScreenView(
+                          child: CachedNetworkImage(
+                              imageUrl:
+                                  "${ServiceConfig.naanApis}/vca_images/$map")),
+                    ));
+              },
+            ),
+            body: ListView.builder(
+                itemCount: stalls.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == stalls.length) {
+                    return SizedBox(
+                      height: 55.arP,
+                    );
+                  }
+                  StallsModel stall = stalls[index];
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                            22.arP,
+                          ),
+                          child: stall.image!.endsWith(".svg")
+                              ? SvgPicture.network(
+                                  "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: 230.arP,
+                                )
+                              : CachedNetworkImage(
+                                  imageUrl:
+                                      "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: 230.arP,
+                                )),
+                      SizedBox(
+                        height: 12.arP,
+                      ),
+                      Text(
+                        stall.title!,
+                        style: titleSmall,
+                      ),
+                      StallDescription(description: stall.description!),
+                      SizedBox(
+                        height: 12.arP,
+                      ),
+                    ],
+                  );
+                }),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class StallDescription extends StatefulWidget {
+  const StallDescription({
+    super.key,
+    required this.description,
+  });
+
+  final String description;
+
+  @override
+  State<StallDescription> createState() => _StallDescriptionState();
+}
+
+class _StallDescriptionState extends State<StallDescription> {
+  bool showMore = false;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.0.arP),
+          child: Text(
+            widget.description,
+            maxLines: showMore ? null : 3,
+            style: bodySmall.copyWith(color: const Color(0xff958E99)),
+          ),
+        ),
+        hasTextOverflow(widget.description, bodySmall,
+                maxWidth: Get.width - 32.arP)
+            ? GestureDetector(
+                onTap: () {
+                  setState(() {
+                    showMore = !showMore;
+                  });
+                },
+                child: Text(
+                  !showMore ? "Show more" : "Show less",
+                  maxLines: 3,
+                  style: labelMedium.copyWith(color: ColorConst.Primary),
+                ),
+              )
+            : Container(),
+      ],
+    );
+  }
+}
+
+bool hasTextOverflow(String text, TextStyle style,
+    {double minWidth = 0,
+    double maxWidth = double.infinity,
+    int maxLines = 3}) {
+  final TextPainter textPainter = TextPainter(
+    text: TextSpan(text: text, style: style),
+    maxLines: maxLines,
+    textDirection: TextDirection.ltr,
+  )..layout(minWidth: minWidth, maxWidth: maxWidth);
+  return textPainter.didExceedMaxLines;
+}
+
+/* class EventMap extends StatelessWidget {
+  final String map;
+  const EventMap({super.key, required this.map});
+
+  @override
+  Widget build(BuildContext context) {
+    return NaanBottomSheet(
+      prevPageName: "Discover stalls",
+      height: AppConstant.naanBottomSheetHeight,
+      leading: backButton(
+          ontap: () {
+            Navigator.pop(context);
+          },
+          lastPageName: "Discover stalls"),
+      title: "",
+      bottomSheetWidgets: [
+        InteractiveViewer(
+            child: Image.network("${ServiceConfig.naanApis}/vca_images/$map")),
+      ],
+    );
+  }
+} */
+
+class FullScreenView extends StatelessWidget {
+  final Widget child;
+  const FullScreenView({required this.child, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: Colors.black,
+        height: Get.height,
+        child: Stack(children: [
+          SizedBox(
+            height: Get.height,
+            child: Column(
+              // alignment: Alignment.topLeft,
+              children: [
+                Expanded(
+                  child: Stack(
+                    children: [
+                      AnimatedPositioned(
+                        duration: const Duration(milliseconds: 333),
+                        curve: Curves.fastOutSlowIn,
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: InteractiveViewer(
+                          panEnabled: true,
+                          minScale: 0.5,
+                          maxScale: 4,
+                          constrained: false,
+                          child: child,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          BottomSheetHeading(
+            action: Padding(
+              padding: EdgeInsets.only(right: 16.arP),
+              child: closeButton(),
+            ),
+            title: "",
+            leading: Padding(
+              padding: EdgeInsets.only(left: 16.arP),
+              child: backButton(
+                  isBlack: true,
+                  ontap: () => Navigator.pop(context),
+                  lastPageName: "Discover stalls"),
+            ),
+          )
+        ]));
   }
 }

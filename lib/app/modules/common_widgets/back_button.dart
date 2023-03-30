@@ -7,7 +7,8 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-Widget backButton({Function()? ontap, String? lastPageName}) {
+Widget backButton(
+    {Function()? ontap, String? lastPageName, bool isBlack = false}) {
   return BouncingWidget(
     onPressed: ontap ?? Get.back,
     child: Row(
@@ -17,7 +18,7 @@ Widget backButton({Function()? ontap, String? lastPageName}) {
           "${PathConst.SVG}arrow_back.svg",
           fit: BoxFit.cover,
           height: 18.arP,
-          color: Colors.white,
+          color: isBlack ? Colors.black : Colors.white,
           alignment: Alignment.centerLeft,
         ),
         if (lastPageName != null)
@@ -31,7 +32,8 @@ Widget backButton({Function()? ontap, String? lastPageName}) {
                 child: Text(
                   lastPageName.tr,
                   overflow: TextOverflow.ellipsis,
-                  style: bodyMedium,
+                  style: bodyMedium.copyWith(
+                      color: isBlack ? Colors.black : Colors.white),
                 ),
               )
       ],

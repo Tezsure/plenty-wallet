@@ -274,7 +274,12 @@ class DataHandlerService {
         "Next Month": [],
         "This Year": [],
       };
-
+      // sort eventsStorage by timestamp in ascending order
+      eventsStorage['events'].sort((a, b) {
+        final DateTime aTime = DateTime.parse(a['timestamp']);
+        final DateTime bTime = DateTime.parse(b['timestamp']);
+        return aTime.compareTo(bTime);
+      });
 // Iterate through each event and categorize them based on their timestamp
       eventsStorage['events'].forEach((json) {
         final EventModel event = EventModel.fromJson(json);
@@ -307,9 +312,9 @@ class DataHandlerService {
 
     if (eventsStorage.toString().hashCode != apiResult.toString().hashCode) {
       tags.value = apiResult['tags'];
-      banner.value = eventsStorage['stalls']['banner'];
-      mapImage.value = eventsStorage['stalls']['mapImage'];
-      stalls.value = eventsStorage['stalls']['stallsList']
+      banner.value = apiResult['stalls']['banner'];
+      mapImage.value = apiResult['stalls']['mapImage'];
+      stalls.value = apiResult['stalls']['stallsList']
           .map<StallsModel>((json) => StallsModel.fromJson(json))
           .toList();
 
@@ -322,7 +327,11 @@ class DataHandlerService {
         "Next Month": [],
         "This Year": [],
       };
-
+      apiResult['events'].sort((a, b) {
+        final DateTime aTime = DateTime.parse(a['timestamp']);
+        final DateTime bTime = DateTime.parse(b['timestamp']);
+        return aTime.compareTo(bTime);
+      });
 // Iterate through each event and categorize them based on their timestamp
       apiResult['events'].forEach((json) {
         final EventModel event = EventModel.fromJson(json);
@@ -378,7 +387,11 @@ class DataHandlerService {
         "Next Month": [],
         "This Year": [],
       };
-
+      eventsStorage['events'].sort((a, b) {
+        final DateTime aTime = DateTime.parse(a['timestamp']);
+        final DateTime bTime = DateTime.parse(b['timestamp']);
+        return aTime.compareTo(bTime);
+      });
 // Iterate through each event and categorize them based on their timestamp
       eventsStorage['events'].forEach((json) {
         final EventModel event = EventModel.fromJson(json);
@@ -422,6 +435,12 @@ class DataHandlerService {
         "Next Month": [],
         "This Year": [],
       };
+
+      apiResult['events'].sort((a, b) {
+        final DateTime aTime = DateTime.parse(a['timestamp']);
+        final DateTime bTime = DateTime.parse(b['timestamp']);
+        return aTime.compareTo(bTime);
+      });
 
 // Iterate through each event and categorize them based on their timestamp
       apiResult['events'].forEach((json) {
