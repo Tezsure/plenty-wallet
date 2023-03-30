@@ -18,6 +18,7 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../dapp_browser/views/dapp_browser_view.dart';
+import 'vca_redeem_nft/widget/info_sheet.dart';
 
 class VCAWidget extends StatelessWidget {
   VCAWidget({Key? key}) : super(key: key);
@@ -43,8 +44,6 @@ class VCAWidget extends StatelessWidget {
                   child: Image.asset(
                     "${PathConst.HOME_PAGE}vca/background.png",
                     fit: BoxFit.cover,
-                    // cacheHeight: 335,
-                    // cacheWidth: 709,
                   ),
                 ),
                 Column(
@@ -136,8 +135,7 @@ class VCAWidget extends StatelessWidget {
       case 1:
         NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_CLAIM_NFT_CLICK,
             param: {NaanAnalytics.address: address});
-        final controller = Get.put(VCARedeemNFTController());
-        controller.openScanner();
+        CommonFunctions.bottomSheet(VCAPOAPInfoSheet());
         break;
       case 3:
         NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_GALLERY_CLICK,
