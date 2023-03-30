@@ -60,6 +60,7 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
   String ipfsHost = ServiceConfig.ipfsUrl;
   String fxHash = "";
   bool showButton = false;
+  bool isScrolling = false;
   bool showFloating = true;
 
   NftTokenModel? nftModel;
@@ -167,7 +168,137 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
   Scaffold _buildBody() {
     return Scaffold(
       backgroundColor: Colors.black,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: nftModel != null
+          ? AnimatedContainer(
+              curve: Curves.fastOutSlowIn,
+              duration: const Duration(milliseconds: 350),
+              transform: Matrix4.identity()
+                ..translate(
+                  0.0,
+                  isScrolling ? 220.0.arP : 0,
+                ),
+              child: SolidButton(
+                height: 45.arP,
+                borderRadius: 40.arP,
+                width: showButton ? 220.arP : 125.arP,
+                primaryColor: ColorConst.Primary,
+                disabledButtonColor: ColorConst.Primary,
+                onPressed: null,
+                child: Center(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      BouncingWidget(
+                        onPressed: () async {
+                          if (isScrolling == false) {
+                            setState(() {
+                              isScrolling = true;
+                            });
+                            String? hash = nftModel?.artifactUri
+                                ?.replaceAll("ipfs://", "");
+                            if (nftModel!.faContract ==
+                                    "KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi" ||
+                                nftModel!.faContract ==
+                                    "KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE") {
+                              ipfsHost = ServiceConfig.ipfsUrl;
+                              if (hash!.contains("fxhash")) {
+                                var x = hash.split("?");
+
+                                hash = "${x[0]}/?${x[1]}";
+                              }
+                            }
+
+                            final String img = '$ipfsHost/$hash';
+                            //CommonFunctions.launchURL(img);
+                            await CommonFunctions.bottomSheet(
+                              const DappBrowserView(),
+                              fullscreen: true,
+                              settings: RouteSettings(
+                                arguments: img,
+                              ),
+                            );
+                            print("closed");
+                            setState(() {
+                              isScrolling = false;
+                            });
+                          }
+                        },
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              "${PathConst.NFT_PAGE}svg/external-link.png",
+                              height: 20.arP,
+                              width: 20.arP,
+                            ),
+                            0.02.hspace,
+                            Text(
+                              "Open".tr,
+                              style: labelLarge,
+                            ),
+                            SizedBox(
+                              width: 16.arP,
+                            ),
+                          ],
+                        ),
+                      ),
+                      showButton
+                          ? BouncingWidget(
+                              onPressed: () {
+                                CommonFunctions.bottomSheet(
+                                  AccountSwitch(
+                                    title: "Buy NFT",
+                                    subtitle:
+                                        'This module will be powered by wert.io and you will be using wert’s interface.',
+                                    onNext: () {
+                                      CommonFunctions.bottomSheet(
+                                        ChoosePaymentMethod(),
+                                        settings: RouteSettings(
+                                          arguments:
+                                              "https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}",
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 16.arP,
+                                  ),
+                                  SvgPicture.asset(
+                                    "${PathConst.HOME_PAGE}svg/plus.svg",
+                                    height: 20.arP,
+                                    width: 20.arP,
+                                  ),
+                                  0.02.hspace,
+                                  Text(
+                                    "Buy".tr,
+                                    style: labelLarge,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : SizedBox(),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          : null,
       body: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          final ScrollDirection direction = notification.direction;
+          if (direction == ScrollDirection.forward) {
+            isScrolling = false;
+          } else if (direction == ScrollDirection.reverse) {
+            isScrolling = true;
+          }
+          setState(() {});
+          return true;
+        },
         child: DefaultTabController(
           length: 2,
           child: Container(
@@ -375,7 +506,7 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
                                   SizedBox(
                                     height: 20.arP,
                                   ),
-                                  Center(
+/*                                   Center(
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 8.0),
@@ -419,7 +550,7 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
                                   ),
                                   SizedBox(
                                     height: 30.arP,
-                                  ),
+                                  ), */
                                   Center(
                                     child: Container(
                                       margin: EdgeInsets.symmetric(
@@ -479,35 +610,13 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
                                                                   .NeutralVariant
                                                                   .shade60)),
                                                     ])),
-                                            SizedBox(
-                                              height: 12.arP,
-                                            ),
-                                            showButton
-                                                ? SolidButton(
-                                                    onPressed: () {
-                                                      CommonFunctions
-                                                          .bottomSheet(
-                                                        AccountSwitch(
-                                                          title: "Buy NFT",
-                                                          subtitle:
-                                                              'This module will be powered by wert.io and you will be using wert’s interface.',
-                                                          onNext: () {
-                                                            CommonFunctions
-                                                                .bottomSheet(
-                                                              ChoosePaymentMethod(),
-                                                              settings:
-                                                                  RouteSettings(
-                                                                arguments:
-                                                                    "https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}",
-                                                              ),
-                                                            );
-                                                          },
-                                                        ),
-                                                      );
-                                                    },
-                                                    title: "Buy".tr,
+                                            !showButton
+                                                ? SizedBox(
+                                                    height: 12.arP,
                                                   )
-                                                : Column(
+                                                : SizedBox(),
+                                            !showButton
+                                                ? Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,
@@ -540,6 +649,7 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
                                                       )
                                                     ],
                                                   )
+                                                : SizedBox()
                                           ],
                                         ),
                                       ),

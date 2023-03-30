@@ -27,7 +27,7 @@ class NaanArtFoundationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-/*         final address = Get.find<HomePageController>().userAccounts.isEmpty
+        final address = Get.find<HomePageController>().userAccounts.isEmpty
             ? null
             : Get.find<HomePageController>().userAccounts.first.publicKeyHash;
         NaanAnalytics.logEvent(NaanAnalyticsEvents.NAAN_COLLECTION,
@@ -40,10 +40,7 @@ class NaanArtFoundationWidget extends StatelessWidget {
           settings: RouteSettings(
             arguments: url,
           ),
-        ); */
-        CommonFunctions.bottomSheet(const VCAEventsView(), fullscreen: true);
-
-        //todo replace later
+        );
       },
       child: HomeWidgetFrame(
         child: Container(

@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart
 import 'package:naan_wallet/app/modules/home_page/widgets/register_widgets.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/controller/vca_redeem_nft_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca_gallery_widget/view/vca_gallery_view.dart';
+import 'package:naan_wallet/app/modules/vca_events/views/events_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
@@ -139,12 +140,21 @@ class VCAWidget extends StatelessWidget {
         final controller = Get.put(VCARedeemNFTController());
         controller.openScanner();
         break;
+      case 2:
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_EVENTS_CLICK,
+            param: {NaanAnalytics.address: address});
+
+        CommonFunctions.bottomSheet(
+          const VCAEventsView(),
+          fullscreen: true,
+        );
+        break;
       case 3:
         NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_GALLERY_CLICK,
             param: {NaanAnalytics.address: address});
 
         CommonFunctions.bottomSheet(
-          VcaGalleryView(),
+          const VcaGalleryView(),
           fullscreen: true,
         );
         break;

@@ -83,6 +83,7 @@ flutter:
     - assets/home_page/info_story/
     - assets/home_page/svg/
     - assets/home_page/images/
+    - assets/home_page/vca/
     #settings page
     - assets/settings_page/
     - assets/settings_page/currencies/
