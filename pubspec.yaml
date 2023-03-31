@@ -17,7 +17,7 @@ dependencies:
       ref: master
   flutter_svg: ^1.1.1+1
   cached_network_image: ^3.2.1
-  flutter_secure_storage: ^7.0.1
+  flutter_secure_storage: ^8.0.0
   share_plus: ^4.0.10+1
   qr_flutter: ^4.0.0
   dartez:
