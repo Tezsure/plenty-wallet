@@ -89,7 +89,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                           onPressed: () async {
                             final selectedIndex =
                                 await CommonFunctions.bottomSheet(
-                              AccountSelector(
+                              AccountSwitchSelector(
                                 accountModels: controller.userAccounts
                                     .where((e) => !e.isWatchOnly)
                                     .toList(),

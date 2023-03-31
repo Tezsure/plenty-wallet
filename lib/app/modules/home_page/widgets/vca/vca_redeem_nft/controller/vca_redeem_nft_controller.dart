@@ -89,15 +89,15 @@ class VCARedeemNFTController extends GetxController
   }
 
   Future<void> openScanner() async {
-    if (homeController
-        .userAccounts[homeController.selectedIndex.value].isWatchOnly) {
-      return CommonFunctions.bottomSheet(AccountSelectorSheet(
-        onNext: () {
-          Get.back();
-          openScanner();
-        },
-      ), fullscreen: true);
-    }
+    // if (homeController
+    //     .userAccounts[homeController.selectedIndex.value].isWatchOnly) {
+    //   return CommonFunctions.bottomSheet(AccountSelectorSheet(
+    //     onNext: () {
+    //       Get.back();
+    //       openScanner();
+    //     },
+    //   ), fullscreen: true);
+    // }
     await Permission.camera.request();
     final status = await Permission.camera.status;
 
