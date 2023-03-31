@@ -190,95 +190,106 @@ class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      BouncingWidget(
-                        onPressed: () async {
-                          if (isScrolling == false) {
-                            setState(() {
-                              isScrolling = true;
-                            });
-                            String? hash = nftModel?.artifactUri
-                                ?.replaceAll("ipfs://", "");
-                            if (nftModel!.faContract ==
-                                    "KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi" ||
-                                nftModel!.faContract ==
-                                    "KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE") {
-                              ipfsHost = ServiceConfig.ipfsUrl;
-                              if (hash!.contains("fxhash")) {
-                                var x = hash.split("?");
+                      Expanded(
+                        child: BouncingWidget(
+                          onPressed: () async {
+                            if (isScrolling == false) {
+                              setState(() {
+                                isScrolling = true;
+                              });
+                              String? hash = nftModel?.artifactUri
+                                  ?.replaceAll("ipfs://", "");
+                              if (nftModel!.faContract ==
+                                      "KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi" ||
+                                  nftModel!.faContract ==
+                                      "KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE") {
+                                ipfsHost = ServiceConfig.ipfsUrl;
+                                if (hash!.contains("fxhash")) {
+                                  var x = hash.split("?");
 
-                                hash = "${x[0]}/?${x[1]}";
+                                  hash = "${x[0]}/?${x[1]}";
+                                }
                               }
-                            }
 
-                            final String img = '$ipfsHost/$hash';
-                            //CommonFunctions.launchURL(img);
-                            await CommonFunctions.bottomSheet(
-                              const DappBrowserView(),
-                              fullscreen: true,
-                              settings: RouteSettings(
-                                arguments: img,
+                              final String img = '$ipfsHost/$hash';
+                              //CommonFunctions.launchURL(img);
+                              await CommonFunctions.bottomSheet(
+                                const DappBrowserView(),
+                                fullscreen: true,
+                                settings: RouteSettings(
+                                  arguments: img,
+                                ),
+                              );
+                              print("closed");
+                              setState(() {
+                                isScrolling = false;
+                              });
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              showButton
+                                  ? SizedBox(
+                                      width: 4.arP,
+                                    )
+                                  : SizedBox(),
+                              Image.asset(
+                                "${PathConst.NFT_PAGE}svg/external-link.png",
+                                height: 20.arP,
+                                width: 20.arP,
                               ),
-                            );
-                            print("closed");
-                            setState(() {
-                              isScrolling = false;
-                            });
-                          }
-                        },
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              "${PathConst.NFT_PAGE}svg/external-link.png",
-                              height: 20.arP,
-                              width: 20.arP,
-                            ),
-                            0.02.hspace,
-                            Text(
-                              "Open".tr,
-                              style: labelLarge,
-                            ),
-                            SizedBox(
-                              width: 16.arP,
-                            ),
-                          ],
+                              0.02.hspace,
+                              Text(
+                                "Open".tr,
+                                style: labelLarge,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       showButton
-                          ? BouncingWidget(
-                              onPressed: () {
-                                CommonFunctions.bottomSheet(
-                                  AccountSwitch(
-                                    title: "Buy NFT",
-                                    subtitle:
-                                        'This module will be powered by wert.io and you will be using wert’s interface.',
-                                    onNext: () {
-                                      CommonFunctions.bottomSheet(
-                                        ChoosePaymentMethod(),
-                                        settings: RouteSettings(
-                                          arguments:
-                                              "https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}",
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 16.arP,
-                                  ),
-                                  SvgPicture.asset(
-                                    "${PathConst.HOME_PAGE}svg/plus.svg",
-                                    height: 20.arP,
-                                    width: 20.arP,
-                                  ),
-                                  0.02.hspace,
-                                  Text(
-                                    "Buy".tr,
-                                    style: labelLarge,
-                                  ),
-                                ],
+                          ? Expanded(
+                              child: BouncingWidget(
+                                onPressed: () {
+                                  CommonFunctions.bottomSheet(
+                                    AccountSwitch(
+                                      title: "Buy NFT",
+                                      subtitle:
+                                          'This module will be powered by wert.io and you will be using wert’s interface.',
+                                      onNext: () {
+                                        CommonFunctions.bottomSheet(
+                                          ChoosePaymentMethod(),
+                                          settings: RouteSettings(
+                                            arguments:
+                                                "https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}",
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+/*                                     SizedBox(
+                                      width: 16.arP,
+                                    ), */
+                                    SvgPicture.asset(
+                                      "${PathConst.HOME_PAGE}svg/plus.svg",
+                                      height: 20.arP,
+                                      width: 20.arP,
+                                    ),
+                                    0.02.hspace,
+                                    Text(
+                                      "Buy".tr,
+                                      style: labelLarge,
+                                    ),
+                                    SizedBox(
+                                      width: 4.arP,
+                                    )
+                                  ],
+                                ),
                               ),
                             )
                           : SizedBox(),
