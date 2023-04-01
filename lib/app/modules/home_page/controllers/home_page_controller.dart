@@ -50,8 +50,9 @@ class HomePageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-
-    Get.put(BeaconService(), permanent: true);
+    try {
+      Get.put(BeaconService(), permanent: true);
+    } catch (e) {}
     DataHandlerService()
         .renderService
         .accountUpdater
@@ -202,7 +203,9 @@ class HomePageController extends GetxController {
 
     if (status.isPermanentlyDenied) {
       CommonFunctions.bottomSheet(
-         CameraPermissionHandler(callback:openScanner ,),
+        CameraPermissionHandler(
+          callback: openScanner,
+        ),
       );
 
       // We didn't ask for permission yet or the permission has been denied before but not permanently.

@@ -61,10 +61,10 @@ packages:
     dependency: "direct main"
     description:
       name: beacon_flutter
-      sha256: a2ef5f592a945fd701b936133361a24e79bddbefd3f0df081a94650f8d588475
+      sha256: "81897557464db8a224d11a1b56985de14104f9671fbc3c30b7f2fed70b3533cc"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.8"
+    version: "1.0.9"
   bip39:
     dependency: transitive
     description:
