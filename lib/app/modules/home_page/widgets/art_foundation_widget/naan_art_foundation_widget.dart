@@ -17,6 +17,7 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+import '../../../vca_events/views/events_view.dart';
 import '../account_switch_widget/account_switch_widget.dart';
 
 class NaanArtFoundationWidget extends StatelessWidget {

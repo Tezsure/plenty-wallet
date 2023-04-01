@@ -31,35 +31,14 @@ import 'widget/add_account_widget.dart';
 
 // ignore: must_be_immutable
 
-class AccountsWidget extends StatefulWidget {
-  AccountsWidget({super.key});
-
-  @override
-  State<AccountsWidget> createState() => _AccountsWidgetState();
-}
-
-class _AccountsWidgetState extends State<AccountsWidget> {
-  @override
-  void initState() {
-    Future.delayed(Duration(milliseconds: 300)).then((value) {
-      controller.onInit();
-    });
-
-    // controller.pageController = PageController(
-    //   keepPage: true,
-    //   viewportFraction: 1,
-    //   initialPage: controller.currIndex.value,
-    // );
-
-    // TODO: implement initState
-    super.initState();
-  }
-
+class AccountsWidget extends StatelessWidget {
   final HomePageController homePageController = Get.find<HomePageController>();
-  final AccountsWidgetController controller =
-      Get.put(AccountsWidgetController(), permanent: true);
+  AccountsWidget({super.key});
   @override
   Widget build(BuildContext context) {
+    final AccountsWidgetController controller =
+        Get.put(AccountsWidgetController(), permanent: true);
+    controller.onInit();
     return Obx(() {
       return Container(
         margin: EdgeInsets.only(
@@ -105,7 +84,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                     controller.currIndex.value = index;
                                     homePageController
                                         .changeSelectedAccount(index);
-                                    setState(() {});
+                                    // setState(() {});
                                   },
                                   physics: AppConstant.scrollPhysics,
                                   scrollDirection: Axis.vertical,

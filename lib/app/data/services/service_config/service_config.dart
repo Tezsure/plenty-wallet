@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
@@ -16,6 +17,9 @@ class ServiceConfig {
   static String currencyApi = "https://api.exchangerate.host/latest?base=USD";
 
   static bool isIAFWidgetVisible = false;
+  static bool isVCAWebsiteWidgetVisible = false;
+  static bool isVCARedeemPOAPWidgetVisible = false;
+  static bool isVCAExploreNFTWidgetVisible = false;
 
   static bool isTezQuakeWidgetVisible = false;
 
@@ -42,6 +46,8 @@ class ServiceConfig {
   static String nodeSelector = "https://cdn.naan.app/rpc-list";
 
   static String ipfsUrlApi = "https://cdn.naan.app/ipfs_url";
+
+  static NftTokenModel randomVcaNft = NftTokenModel();
 
   static String tzktApiForToken(String pkh, String network) =>
       "https://api.${network}tzkt.io/v1/tokens/balances?account=$pkh&balance.ne=0&limit=10000&token.metadata.tags.null=true&token.metadata.creators.null=true&token.metadata.artifactUri.null=true&token.contract.ne=KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS";
@@ -110,6 +116,7 @@ class ServiceConfig {
   static const String dappsStorage = "${storageName}_dapps";
 // events
   static const String eventsStorage = "${storageName}_events";
+  static const String vcaEventsStorage = "${storageName}_vca_events";
   // dapps banner
   static const String dappsBannerStorage = "${storageName}_dapps_banner";
 
@@ -333,6 +340,60 @@ query GetCollectionNFT($address: String!) {
     }
 ''';
 
+  static const String getNftsFromPks = r'''
+    query NftsFromPks($pks: [bigint!], $offset: Int) {
+      token(
+        where: {pk : {_in: $pks}, token_id: {_neq: ""}},
+        offset: $offset
+      ) {
+        name
+        pk
+        fa_contract
+        display_uri
+        fa{
+          name
+          logo
+        }
+        token_id
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+      }
+    }
+''';
+
+  static const String searchQueryFromPks = r'''
+    query NftsFromPks($pks: [bigint!], $offset: Int, $query: String!) {
+      token(
+        where: {pk : {_in: $pks}, token_id: {_neq: ""},  _or: [{ name: {_iregex:$query} }, { fa:{name:{_iregex:$query}} },{fa_contract:{_eq:$query} }, ]},
+        offset: $offset
+      ) {
+        name
+        pk
+        fa_contract
+        display_uri
+        fa{
+          name
+          logo
+        }
+        token_id
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+      }
+    }
+''';
+
   static const String randomNfts = r'''
     query FetchColl($holders: [String!], $contracts: [String!], $offset: Int) {
       token(
@@ -389,6 +450,65 @@ query GetCollectionNFT($address: String!) {
           }
         }
         holders(where: {holder_address: {_in: $addresses}, quantity: {_gt: "0"}} limit:1) {
+          quantity
+          holder_address
+        }
+        events {
+          id
+          fa_contract
+          price
+          recipient_address
+          timestamp
+          creator {
+            address
+            alias
+          }
+          event_type
+          marketplace_event_type
+          amount
+        }
+        fa {
+          name
+          collection_type
+          logo
+          floor_price
+          contract
+        }
+        metadata
+      }
+    }
+''';
+
+  static const String getNFTfromPkwithoutHolder = r'''
+    query GetNftForUser($pk:bigint) {
+      token(where: {pk:{_eq:$pk}}) {
+        artifact_uri
+        description
+        display_uri
+        lowest_ask
+        level
+        mime
+        pk
+        royalties {
+          id
+          decimals
+          amount
+        }
+        supply
+        thumbnail_uri
+        timestamp
+        fa_contract
+        token_id
+        name
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+        holders(limit:1) {
           quantity
           holder_address
         }

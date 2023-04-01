@@ -1,20 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
-import 'package:instabug_flutter/instabug_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/foundation_service/art_foundation_handler.dart';
 import 'package:naan_wallet/app/data/services/iaf/iaf_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/translation/translation_helper.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
@@ -46,8 +39,8 @@ class SplashPageController extends GetxController {
             (await getWidgetVisibility('IAF-widget-visiable'));
         ServiceConfig.isTezQuakeWidgetVisible =
             (await getWidgetVisibility('tezquakeaid-widget-visiable'));
-        // ServiceConfig.isVCAWebsiteWidgetVisible =
-        //     (await getWidgetVisibility('vca-website-widget-visiable'));
+        ServiceConfig.isVCAWebsiteWidgetVisible =
+            (await getWidgetVisibility('vca-website-widget-visiable'));
         // ServiceConfig.isVCARedeemPOAPWidgetVisible =
         //     (await getWidgetVisibility('vca-redeem-poap-nft-widget-visiable'));
         // ServiceConfig.isVCAExploreNFTWidgetVisible = (await getWidgetVisibility(
@@ -112,13 +105,13 @@ class SplashPageController extends GetxController {
     }
   }
 
-  static Future<bool> getWidgetVisibility(String id) async {
+  String? response;
+  Future<bool> getWidgetVisibility(String id) async {
     try {
-      var response = await HttpService.performGetRequest(
+      response ??= await HttpService.performGetRequest(
           "https://cdn.naan.app/widgets_visibility");
-
-      if (response.isNotEmpty && jsonDecode(response).length != 0) {
-        return jsonDecode(response)[id] == 1;
+      if (response!.isNotEmpty && jsonDecode(response!).length != 0) {
+        return jsonDecode(response!)[id] == 1;
       }
       return false;
     } catch (e) {

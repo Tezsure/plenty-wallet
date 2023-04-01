@@ -138,103 +138,6 @@ class NftGalleryView extends GetView<NftGalleryController> {
         ],
       );
     });
-    // return BackdropFilter(
-    //   filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-    //   child: Container(
-    //     // height: 0.6.height,
-    //     constraints: BoxConstraints(
-    //       minHeight: 0.2.height,
-    //       maxHeight: 0.9.height - MediaQuery.of(context).viewInsets.bottom,
-    //     ),
-    //     decoration: BoxDecoration(
-    //       color: Colors.black,
-    //       borderRadius: BorderRadius.only(
-    //         topLeft: Radius.circular(
-    //           10.arP,
-    //         ),
-    //         topRight: Radius.circular(
-    //           10.arP,
-    //         ),
-    //       ),
-    //     ),
-    //     child: Stack(
-    //       children: [
-    //         Column(
-    //           mainAxisAlignment: MainAxisAlignment.start,
-    //           mainAxisSize: MainAxisSize.max,
-    //           crossAxisAlignment: CrossAxisAlignment.center,
-    //           children: [
-    //             Container(
-    //               width: 40.arP,
-    //               height: 5.spH,
-    //               margin: EdgeInsets.only(
-    //                 top: 5.arP,
-    //               ),
-    //               decoration: BoxDecoration(
-    //                 color: const Color(0xFFEBEBF5).withOpacity(0.3),
-    //                 borderRadius: BorderRadius.circular(
-    //                   100.arP,
-    //                 ),
-    //               ),
-    //             ),
-    //             SizedBox(
-    //               height: 16.arP,
-    //             ),
-    //             _searchAppBarWidget(),
-    //             SizedBox(
-    //               height: 25.arP,
-    //             ),
-    //             controller.searchText.value.isEmpty
-    //                 ? Container(
-    //                     margin: EdgeInsets.only(top: 0.03.height),
-    //                     child: Text(
-    //                       "Try searching for an artist, \ncollection name or NFT name",
-    //                       textAlign: TextAlign.center,
-    //                       style: bodyMedium.copyWith(color: ColorConst.grey),
-    //                     ),
-    //                   )
-    //                 : controller.searchNfts.isEmpty
-    //                     ? Container(
-    //                         margin: EdgeInsets.only(top: 0.03.height),
-    //                         child: Column(
-    //                           children: [
-    //                             SvgPicture.asset(
-    //                               "assets/nft_page/svg/no_results.svg",
-    //                               width: 0.5.width,
-    //                             ),
-    //                             SizedBox(
-    //                               height: 0.02.height,
-    //                             ),
-    //                             Text(
-    //                               "Probably Nothing",
-    //                               textAlign: TextAlign.center,
-    //                               style: titleLarge,
-    //                             ),
-    //                             SizedBox(
-    //                               height: 0.01.height,
-    //                             ),
-    //                             Text(
-    //                               "We didn’t find any results. Did you \nmisspell your query?",
-    //                               textAlign: TextAlign.center,
-    //                               style: bodySmall.copyWith(
-    //                                   color: ColorConst.grey),
-    //                             ),
-    //                           ],
-    //                         ),
-    //                       )
-    //                     : controller.searchNfts.length == 1 &&
-    //                             controller.searchNfts.entries.first.value
-    //                                     .length ==
-    //                                 1
-    //                         ? _getNftListViewWidget(1.1, controller.searchNfts)
-    //                         : _getCollectionGridViewWidget(
-    //                             controller.searchNfts),
-    //           ],
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   Widget _buildGalleryWithoutSearch(BuildContext context) {
@@ -429,7 +332,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
           ),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             menuIcon(
               "assets/nft_page/svg/collection_view.svg",
@@ -451,12 +354,21 @@ class NftGalleryView extends GetView<NftGalleryController> {
         onPressed: () {
           controller.selectedGalleryFilter.value = filter;
         },
-        child: SvgPicture.asset(asset,
-            width: 18.arP,
-            fit: BoxFit.fill,
-            color: controller.selectedGalleryFilter.value == filter
-                ? Colors.white
-                : const Color(0xFF958E99)),
+        child: Container(
+          width: 140.arP / 3,
+          child: Center(
+            child: SizedBox(
+              width: 18.arP,
+              child: SvgPicture.asset(asset,
+                  width: 18.arP,
+                  // height: 18.arP,
+                  fit: BoxFit.fill,
+                  color: controller.selectedGalleryFilter.value == filter
+                      ? Colors.white
+                      : const Color(0xFF958E99)),
+            ),
+          ),
+        ),
       );
 
   Widget _getNftListViewWidget(

@@ -25,12 +25,12 @@ class ChoosePaymentMethod extends StatelessWidget {
 
     final buyNftController = Get.put(BuyNFTController());
     return SizedBox(
-      height: 0.7.height,
+      // height: 0.7.height,
       child: NaanBottomSheet(
-        height: 0.7.height,
+        // height: 0.7.height,
         isScrollControlled: true,
         title: "Choose payment",
-        bottomSheetHorizontalPadding: 16.arP,
+        // bottomSheetHorizontalPadding: 16.arP,
         bottomSheetWidgets: [
           0.012.vspace,
           NaanListTile(

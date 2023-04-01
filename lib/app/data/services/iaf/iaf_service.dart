@@ -46,17 +46,5 @@ class IAFService {
     return false;
   }
 
-  static Future<bool> getWidgetVisibility() async {
-    try {
-      var response = await HttpService.performGetRequest(
-          "https://cdn.naan.app/widgets_visibility");
 
-      if (response.isNotEmpty && jsonDecode(response).length != 0) {
-        return jsonDecode(response)['IAF-widget-visiable'] == 1;
-      }
-      return false;
-    } catch (e) {
-      return false;
-    }
-  }
 }

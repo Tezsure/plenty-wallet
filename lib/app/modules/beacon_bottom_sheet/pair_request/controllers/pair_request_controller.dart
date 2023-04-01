@@ -40,7 +40,7 @@ class PairRequestController extends GetxController {
 
   changeAccount() async {
     final selectedIndex = await CommonFunctions.bottomSheet(
-      AccountSelector(
+      AccountSwitchSelector(
         accountModels: accountModels,
         index: selectedAccount.value,
       ),

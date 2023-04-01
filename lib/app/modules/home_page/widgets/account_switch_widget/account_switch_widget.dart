@@ -89,7 +89,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                           onPressed: () async {
                             final selectedIndex =
                                 await CommonFunctions.bottomSheet(
-                              AccountSelector(
+                              AccountSwitchSelector(
                                 accountModels: controller.userAccounts
                                     .where((e) => !e.isWatchOnly)
                                     .toList(),
@@ -262,7 +262,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                 child: SolidButton(
                                     title: "Proceed",
                                     onPressed: () {
-                                      Get.back();
+                                      Get.back(result: true);
                                       widget.onNext();
                                     }),
                               ),

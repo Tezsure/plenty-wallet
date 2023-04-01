@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,6 +20,7 @@ import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../dapp_browser/views/dapp_browser_view.dart';
 
@@ -46,7 +48,7 @@ class BuyTezWidget extends StatelessWidget {
               title: "Buy tez",
               subtitle:
                   'This module will be powered by wert.io and you will be using wert’s interface.',
-              onNext: () {
+              onNext: () async {
                 NaanAnalytics.logEvent(NaanAnalyticsEvents.BUY_TEZ_CLICKED,
                     param: {
                       NaanAnalytics.address: home
@@ -54,13 +56,23 @@ class BuyTezWidget extends StatelessWidget {
                     });
                 String url =
                     "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
-                CommonFunctions.bottomSheet(
+/*                 CommonFunctions.bottomSheet(
                   const DappBrowserView(),
                   fullscreen: true,
                   settings: RouteSettings(
                     arguments: url,
                   ),
-                );
+                ); */
+                Platform.isIOS
+                    ? await launchUrl(Uri.parse(url),
+                        mode: LaunchMode.inAppWebView)
+                    : CommonFunctions.bottomSheet(
+                        const DappBrowserView(),
+                        fullscreen: true,
+                        settings: RouteSettings(
+                          arguments: url,
+                        ),
+                      );
               },
             ),
           );
