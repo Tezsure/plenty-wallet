@@ -9,6 +9,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/register_widgets.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/controller/vca_redeem_nft_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/widget/info_sheet.dart';
 import 'package:naan_wallet/app/modules/custom_gallery/custom_nft_gallery_view.dart';
 import 'package:naan_wallet/app/modules/vca_events/views/events_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -19,15 +20,19 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../dapp_browser/views/dapp_browser_view.dart';
-import 'vca_redeem_nft/widget/info_sheet.dart';
 
-class VCAWidget extends StatelessWidget {
-  VCAWidget({Key? key}) : super(key: key);
-  List<String> titles = ["Website", "POAP NFT", "Guide", "Gallery"];
-  List<String> icons = ["globe.svg", "gift.svg", "map.svg", "gallery.svg"];
+class TeztownWidget extends StatelessWidget {
+  TeztownWidget({Key? key}) : super(key: key);
+  List<String> titles = ["Details", "Gallery", "Buy Ticket", "Burn Ticket"];
+  List<String> icons = [
+    "${PathConst.HOME_PAGE}teztown/details.svg",
+    "${PathConst.HOME_PAGE}vca/gallery.svg",
+    "${PathConst.HOME_PAGE}teztown/buy.svg",
+    "${PathConst.HOME_PAGE}teztown/burn.svg"
+  ];
   @override
   Widget build(BuildContext context) {
-    if (!ServiceConfig.isVCAWebsiteWidgetVisible) return Container();
+    // if (!ServiceConfig.isVCAWebsiteWidgetVisible) return Container();
     return Column(
       children: [
         HomeWidgetFrame(
@@ -43,19 +48,18 @@ class VCAWidget extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(22.arP),
                   child: Image.asset(
-                    "${PathConst.HOME_PAGE}vca/background.png",
+                    "${PathConst.HOME_PAGE}teztown/background.png",
                     fit: BoxFit.cover,
                   ),
                 ),
                 Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(32.arP),
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Image.asset("${PathConst.HOME_PAGE}vca/name.png",
-                            fit: BoxFit.cover, width: 1.width),
-                      ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Image.asset(
+                          "${PathConst.HOME_PAGE}teztown/name.png",
+                          fit: BoxFit.cover,
+                          height: AppConstant.homeWidgetDimension),
                     ),
                     const Spacer(),
                     GridView.builder(
@@ -97,7 +101,7 @@ class VCAWidget extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: ColorConst.NeutralVariant.shade20),
               child: SvgPicture.asset(
-                "${PathConst.HOME_PAGE}vca/${icons[index]}",
+                icons[index],
                 height: 22.arP,
                 width: 22.arP,
               ),
@@ -152,7 +156,9 @@ class VCAWidget extends StatelessWidget {
             param: {NaanAnalytics.address: address});
 
         CommonFunctions.bottomSheet(
-           CustomNFTGalleryView(title:  "Proof of People x Refraction",),
+          const CustomNFTGalleryView(
+            title: "Sprint Fever",
+          ),
           fullscreen: true,
         );
         break;

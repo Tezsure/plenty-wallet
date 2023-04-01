@@ -34,15 +34,15 @@ import 'package:naan_wallet/utils/utils.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_gql/simple_gql.dart';
 
-import '../../../../common_widgets/solid_button.dart';
-import '../../../../dapp_browser/views/dapp_browser_view.dart';
+import '../../common_widgets/solid_button.dart';
+import '../../dapp_browser/views/dapp_browser_view.dart';
 
-class VcaDetailBottomSheet extends StatefulWidget {
+class CustomNFTDetailBottomSheet extends StatefulWidget {
   final GestureTapCallback? onBackTap;
   final int? pk;
 
   final String? prevPage;
-  const VcaDetailBottomSheet({
+  const CustomNFTDetailBottomSheet({
     super.key,
     this.onBackTap,
     this.prevPage,
@@ -50,10 +50,12 @@ class VcaDetailBottomSheet extends StatefulWidget {
   });
 
   @override
-  State<VcaDetailBottomSheet> createState() => _VcaDetailBottomSheetState();
+  State<CustomNFTDetailBottomSheet> createState() =>
+      _CustomNFTDetailBottomSheetState();
 }
 
-class _VcaDetailBottomSheetState extends State<VcaDetailBottomSheet> {
+class _CustomNFTDetailBottomSheetState
+    extends State<CustomNFTDetailBottomSheet> {
   bool isExpanded = false;
   // late String imageUrl;
   final _controller = Get.find<HomePageController>();

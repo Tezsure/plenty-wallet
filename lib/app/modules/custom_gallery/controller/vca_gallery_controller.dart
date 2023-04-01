@@ -13,7 +13,7 @@ import 'package:simple_gql/simple_gql.dart';
 
 enum NftGalleryFilter { collection, list, thumbnail }
 
-class VcaGalleryController extends GetxController {
+class CustomNFTGalleryController extends GetxController {
   RxInt selectedGalleryIndex = 0.obs;
   RxList<NftGalleryModel> nftGalleryList = <NftGalleryModel>[].obs;
 

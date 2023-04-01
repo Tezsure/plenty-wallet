@@ -8,7 +8,7 @@ import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dar
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/vca_gallery_widget/view/vca_gallery_detail_sheet.dart';
+import 'package:naan_wallet/app/modules/custom_gallery/widgets/custom_nft_detail_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
@@ -72,7 +72,7 @@ class NFTCollectionSheet extends StatelessWidget {
                       return BouncingWidget(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => VcaDetailBottomSheet(
+                              builder: (context) => CustomNFTDetailBottomSheet(
                                     onBackTap: Get.back,
                                     prevPage: nftTokenModel.fa!.name ??
                                         nftTokenModel.fa!.contract

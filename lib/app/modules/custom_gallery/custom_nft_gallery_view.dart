@@ -20,7 +20,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 
-import 'package:naan_wallet/app/modules/home_page/widgets/vca_gallery_widget/view/vca_gallery_detail_sheet.dart';
+import 'package:naan_wallet/app/modules/custom_gallery/widgets/custom_nft_detail_sheet.dart';
 
 import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -34,16 +34,17 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../controller/vca_gallery_controller.dart';
-import 'vca_collection_sheet.dart';
+import 'controller/vca_gallery_controller.dart';
+import '../home_page/widgets/vca_gallery_widget/view/vca_collection_sheet.dart';
 
 ///https://objkt.com/asset/hicetnunc/706649
-class VcaGalleryView extends GetView<VcaGalleryController> {
-  const VcaGalleryView({super.key});
+class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
+  final String title;
+  const CustomNFTGalleryView({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(VcaGalleryController());
+    Get.put(CustomNFTGalleryController());
 
     return _buildGalleryWithoutSearch(context);
   }
@@ -71,8 +72,8 @@ class VcaGalleryView extends GetView<VcaGalleryController> {
                           children: [
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.arP),
-                              child: const BottomSheetHeading(
-                                title: "Proof of People x Refraction",
+                              child: BottomSheetHeading(
+                                title: title,
                               ),
                             ),
                             SizedBox(
@@ -346,7 +347,8 @@ class VcaGalleryView extends GetView<VcaGalleryController> {
                             return BouncingWidget(
                               onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
-                                    builder: (context) => VcaDetailBottomSheet(
+                                    builder: (context) =>
+                                        CustomNFTDetailBottomSheet(
                                           prevPage: "VCA Gallery",
                                           onBackTap: Get.back,
                                           pk: nftTokenModel.pk!,
@@ -762,7 +764,7 @@ class NftCollectionItemWidget extends StatelessWidget {
           // );
         } else {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => VcaDetailBottomSheet(
+              builder: (context) => CustomNFTDetailBottomSheet(
                     onBackTap: Get.back,
                     prevPage: galleryName,
                     pk: nftTokens[0].pk,
