@@ -49,6 +49,7 @@ class VCARedeemNFTController extends GetxController
 
   void onQRViewCreated(QRViewController c, BuildContext context) {
     controller = c.obs;
+
     // controller.value.resumeCamera();
     controller.value.scannedDataStream.listen((scanData) async {
       if (scanData.code == "https://qr.page/g/2QDaMqohAi5") {
@@ -56,17 +57,22 @@ class VCARedeemNFTController extends GetxController
         controller.value.pauseCamera();
         result = scanData;
         await CommonFunctions.bottomSheet(AccountSwitch(
-            onNext: () async {
-              controller.value.pauseCamera();
-              await Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => VCARedeemSheet()));
-              controller.value.resumeCamera();
-              result = null;
-            },
-            title: "Claim POAP NFT",
-            subtitle: "Choose an account to claim your POAP NFT"));
-        controller.value.resumeCamera();
-        result = null;
+                onNext: () async {},
+                title: "Claim POAP NFT",
+                subtitle: "Choose an account to claim your POAP NFT"))
+            .then((value) async {
+          if (value == true) {
+            controller.value.pauseCamera();
+            result = scanData;
+            await Navigator.push(context,
+                MaterialPageRoute(builder: (context) => VCARedeemSheet()));
+            controller.value.resumeCamera();
+            result = null;
+          } else {
+            controller.value.resumeCamera();
+            result = null;
+          }
+        });
 
         // CommonFunctions.bottomSheet(VCARedeemSheet(), fullscreen: true);
       }
