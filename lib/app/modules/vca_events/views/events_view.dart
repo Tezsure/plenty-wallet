@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_phoenix/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -415,7 +416,7 @@ class StallsBanner extends StatelessWidget {
   }
 }
 
-class Stalls extends StatelessWidget {
+class Stalls extends StatefulWidget {
   const Stalls({
     super.key,
     required this.stalls,
@@ -423,6 +424,18 @@ class Stalls extends StatelessWidget {
   });
   final List<StallsModel> stalls;
   final String map;
+
+  @override
+  State<Stalls> createState() => _StallsState();
+}
+
+class _StallsState extends State<Stalls> {
+  bool isScrollingUp = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -445,68 +458,90 @@ class Stalls extends StatelessWidget {
             backgroundColor: Colors.black,
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: SolidButton(
-              height: 45.arP,
-              borderRadius: 40.arP,
-              width: 125.arP,
-              primaryColor: ColorConst.Primary,
-              title: "View map",
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FullScreenView(
-                          child: CachedNetworkImage(
-                              imageUrl:
-                                  "${ServiceConfig.naanApis}/vca_images/$map")),
-                    ));
-              },
+            floatingActionButton: AnimatedContainer(
+              duration: const Duration(milliseconds: 350),
+              margin: EdgeInsets.only(bottom: 32.arP),
+              transform: Matrix4.identity()
+                ..translate(
+                  0.0,
+                  !isScrollingUp ? 0.0 : 200.arP,
+                ),
+              child: SolidButton(
+                height: 45.arP,
+                borderRadius: 40.arP,
+                width: 125.arP,
+                primaryColor: ColorConst.Primary,
+                title: "View map",
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FullScreenView(
+                            child: CachedNetworkImage(
+                                imageUrl:
+                                    "${ServiceConfig.naanApis}/vca_images/${widget.map}")),
+                      ));
+                },
+              ),
             ),
-            body: ListView.builder(
-                itemCount: stalls.length + 1,
-                itemBuilder: (context, index) {
-                  if (index == stalls.length) {
-                    return SizedBox(
-                      height: 55.arP,
-                    );
-                  }
-                  StallsModel stall = stalls[index];
+            body: NotificationListener<UserScrollNotification>(
+              onNotification: (notification) {
+                final ScrollDirection direction = notification.direction;
+                if (direction == ScrollDirection.forward) {
+                  isScrollingUp = false;
+                  setState(() {});
+                } else if (direction == ScrollDirection.reverse) {
+                  isScrollingUp = true;
+                  setState(() {});
+                }
+                return false;
+              },
+              child: ListView.builder(
+                  itemCount: widget.stalls.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == widget.stalls.length) {
+                      return SizedBox(
+                        height: 55.arP,
+                      );
+                    }
+                    StallsModel stall = widget.stalls[index];
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                            22.arP,
-                          ),
-                          child: stall.image!.endsWith(".svg")
-                              ? SvgPicture.network(
-                                  "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: 230.arP,
-                                )
-                              : CachedNetworkImage(
-                                  imageUrl:
-                                      "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: 230.arP,
-                                )),
-                      SizedBox(
-                        height: 12.arP,
-                      ),
-                      Text(
-                        stall.title!,
-                        style: titleSmall,
-                      ),
-                      StallDescription(description: stall.description!),
-                      SizedBox(
-                        height: 12.arP,
-                      ),
-                    ],
-                  );
-                }),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                              22.arP,
+                            ),
+                            child: stall.image!.endsWith(".svg")
+                                ? SvgPicture.network(
+                                    "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    height: 230.arP,
+                                  )
+                                : CachedNetworkImage(
+                                    imageUrl:
+                                        "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    height: 230.arP,
+                                  )),
+                        SizedBox(
+                          height: 12.arP,
+                        ),
+                        Text(
+                          stall.title!,
+                          style: titleSmall,
+                        ),
+                        StallDescription(description: stall.description!),
+                        SizedBox(
+                          height: 12.arP,
+                        ),
+                      ],
+                    );
+                  }),
+            ),
           ),
         )
       ],
