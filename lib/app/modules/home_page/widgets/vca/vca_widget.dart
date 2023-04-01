@@ -129,7 +129,7 @@ class VCAWidget extends StatelessWidget {
           const DappBrowserView(),
           fullscreen: true,
           settings: const RouteSettings(
-            arguments: "https://www.verticalcrypto.art",
+            arguments: "https://proofofpeople.verticalcrypto.art/newyork.html",
           ),
         );
         break;
