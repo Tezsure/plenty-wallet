@@ -132,7 +132,7 @@ class TeztownWidget extends StatelessWidget {
             .userAccounts[homeController.selectedIndex.value].publicKeyHash;
     switch (index) {
       case 0:
-        NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_WEBSITE,
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZTOWN_DETAILS,
             param: {NaanAnalytics.address: address});
         CommonFunctions.bottomSheet(
           const TeztownDetailSheet(),
@@ -140,7 +140,7 @@ class TeztownWidget extends StatelessWidget {
         );
         break;
       case 1:
-        NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_CLAIM_NFT_CLICK,
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZTOWN_GALLERY,
             param: {NaanAnalytics.address: address});
         CommonFunctions.bottomSheet(
           const CustomNFTGalleryView(
@@ -151,18 +151,18 @@ class TeztownWidget extends StatelessWidget {
         );
         break;
       case 2:
-        NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_EVENTS_CLICK,
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZTOWN_BUY_TICKET,
             param: {NaanAnalytics.address: address});
 
         break;
       case 3:
-        NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_GALLERY_CLICK,
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZTOWN_BURN_TICKET,
             param: {NaanAnalytics.address: address});
         CommonFunctions.bottomSheet(
           const DappBrowserView(),
           fullscreen: true,
           settings: RouteSettings(
-            arguments: controller.teztownData.value.burnWebsite,
+            arguments: controller.teztownData.value.burnWebsite ?? "",
           ),
         );
 
