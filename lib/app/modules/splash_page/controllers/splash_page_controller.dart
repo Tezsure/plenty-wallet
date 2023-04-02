@@ -27,8 +27,9 @@ class SplashPageController extends GetxController {
 
       ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
           ServiceConfig.currentSelectedNode;
-
-      await DataHandlerService().initDataServices();
+      try {
+        await DataHandlerService().initDataServices();
+      } catch (e) {}
 
       ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
       try {

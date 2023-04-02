@@ -12,6 +12,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -102,7 +103,10 @@ class _AccountSwitchState extends State<AccountSwitch> {
                               ),
                             );
                             if (selectedIndex != null) {
-                              controller.selectedIndex.value = selectedIndex;
+                              Get.find<AccountsWidgetController>()
+                                  .onPageChanged(selectedIndex);
+                              controller.changeSelectedAccount(selectedIndex);
+                              // controller.selectedIndex.value = selectedIndex;
                             }
                           },
                           child: Obx(() => Container(

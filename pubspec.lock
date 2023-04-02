@@ -209,6 +209,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  csslib:
+    dependency: transitive
+    description:
+      name: csslib
+      sha256: b36c7f7e24c0bdf1bf9a3da461c837d1de64b9f8beb190c9011d8c72a3dfd745
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.17.2"
   dartez:
     dependency: "direct main"
     description:
@@ -497,6 +505,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_widget_from_html_core:
+    dependency: "direct main"
+    description:
+      name: flutter_widget_from_html_core
+      sha256: "2ee1f47662f5ba34fe535915b034fae0450bc0a15ae6935ca4abcc7fa987e948"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.0"
+  fwfh_text_style:
+    dependency: transitive
+    description:
+      name: fwfh_text_style
+      sha256: "37806ee0222f79b6e8d4c698c322c897eae6a817258156f40aeece4e588fac60"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.22.08+1"
   get:
     dependency: "direct main"
     description:
@@ -513,6 +537,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
+  html:
+    dependency: transitive
+    description:
+      name: html
+      sha256: "79d498e6d6761925a34ee5ea8fa6dfef38607781d2fa91e37523474282af55cb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.15.2"
   http:
     dependency: "direct main"
     description:

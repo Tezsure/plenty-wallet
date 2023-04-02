@@ -8,6 +8,8 @@ import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/register_widgets.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/teztown/controllers/teztown_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/teztown/widgets/details/teztown_details_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/controller/vca_redeem_nft_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/widget/info_sheet.dart';
 import 'package:naan_wallet/app/modules/custom_gallery/custom_nft_gallery_view.dart';
@@ -33,6 +35,7 @@ class TeztownWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // if (!ServiceConfig.isVCAWebsiteWidgetVisible) return Container();
+    Get.put(TeztownController());
     return Column(
       children: [
         HomeWidgetFrame(
@@ -130,11 +133,8 @@ class TeztownWidget extends StatelessWidget {
         NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_WEBSITE,
             param: {NaanAnalytics.address: address});
         CommonFunctions.bottomSheet(
-          const DappBrowserView(),
+          const TeztownDetailSheet(),
           fullscreen: true,
-          settings: const RouteSettings(
-            arguments: "https://www.verticalcrypto.art",
-          ),
         );
         break;
       case 1:
@@ -147,9 +147,13 @@ class TeztownWidget extends StatelessWidget {
             param: {NaanAnalytics.address: address});
 
         CommonFunctions.bottomSheet(
-          const VCAEventsView(),
+          const DappBrowserView(),
           fullscreen: true,
+          settings: const RouteSettings(
+            arguments: "https://www.verticalcrypto.art",
+          ),
         );
+
         break;
       case 3:
         NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_GALLERY_CLICK,
