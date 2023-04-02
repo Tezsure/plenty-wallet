@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/app/modules/custom_gallery/controller/custom_gallery_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/register_widgets.dart';
@@ -152,7 +153,11 @@ class VCAWidget extends StatelessWidget {
             param: {NaanAnalytics.address: address});
 
         CommonFunctions.bottomSheet(
-           CustomNFTGalleryView(title:  "Proof of People x Refraction",),
+          const CustomNFTGalleryView(
+            title: "Proof of People x Refraction",
+            nftGalleryType: NFTGalleryType.fromPKs,
+            nftGalleryFilter: NftGalleryFilter.list,
+          ),
           fullscreen: true,
         );
         break;

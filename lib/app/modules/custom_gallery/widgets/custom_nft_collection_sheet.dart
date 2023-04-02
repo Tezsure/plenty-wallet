@@ -17,11 +17,12 @@ import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
-class NFTCollectionSheet extends StatelessWidget {
+class CustomNFTCollectionSheet extends StatelessWidget {
   final String? prevPage;
   final List<NftTokenModel> nfts;
 
-  const NFTCollectionSheet({super.key, this.nfts = const [], this.prevPage});
+  const CustomNFTCollectionSheet(
+      {super.key, this.nfts = const [], this.prevPage});
 
   @override
   Widget build(BuildContext context) {

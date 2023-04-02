@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/app/modules/custom_gallery/controller/custom_gallery_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/register_widgets.dart';
@@ -32,10 +33,11 @@ class TeztownWidget extends StatelessWidget {
     "${PathConst.HOME_PAGE}teztown/buy.svg",
     "${PathConst.HOME_PAGE}teztown/burn.svg"
   ];
+  final controller = Get.put(TeztownController());
+
   @override
   Widget build(BuildContext context) {
     // if (!ServiceConfig.isVCAWebsiteWidgetVisible) return Container();
-    Get.put(TeztownController());
     return Column(
       children: [
         HomeWidgetFrame(
@@ -140,31 +142,30 @@ class TeztownWidget extends StatelessWidget {
       case 1:
         NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_CLAIM_NFT_CLICK,
             param: {NaanAnalytics.address: address});
-        CommonFunctions.bottomSheet(VCAPOAPInfoSheet());
+        CommonFunctions.bottomSheet(
+          const CustomNFTGalleryView(
+            nftGalleryType: NFTGalleryType.fromGalleryAddress,
+            title: "Sprint Fever",
+          ),
+          fullscreen: true,
+        );
         break;
       case 2:
         NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_EVENTS_CLICK,
             param: {NaanAnalytics.address: address});
 
-        CommonFunctions.bottomSheet(
-          const DappBrowserView(),
-          fullscreen: true,
-          settings: const RouteSettings(
-            arguments: "https://www.verticalcrypto.art",
-          ),
-        );
-
         break;
       case 3:
         NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_GALLERY_CLICK,
             param: {NaanAnalytics.address: address});
-
         CommonFunctions.bottomSheet(
-          const CustomNFTGalleryView(
-            title: "Sprint Fever",
-          ),
+          const DappBrowserView(),
           fullscreen: true,
+          settings: RouteSettings(
+            arguments: controller.teztownData.value.burnWebsite,
+          ),
         );
+
         break;
       default:
     }

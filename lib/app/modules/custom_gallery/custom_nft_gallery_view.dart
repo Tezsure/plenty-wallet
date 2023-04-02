@@ -34,17 +34,27 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'controller/vca_gallery_controller.dart';
-import '../home_page/widgets/vca_gallery_widget/view/vca_collection_sheet.dart';
+import 'controller/custom_gallery_controller.dart';
+import 'widgets/custom_nft_collection_sheet.dart';
 
 ///https://objkt.com/asset/hicetnunc/706649
 class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
   final String title;
-  const CustomNFTGalleryView({super.key, required this.title});
+  final NFTGalleryType nftGalleryType;
+  final NftGalleryFilter? nftGalleryFilter;
+  const CustomNFTGalleryView({
+    super.key,
+    required this.title,
+    required this.nftGalleryType,
+    this.nftGalleryFilter,
+  });
 
   @override
   Widget build(BuildContext context) {
-    Get.put(CustomNFTGalleryController());
+    Get.put(CustomNFTGalleryController(
+      nftGalleryType: nftGalleryType,
+      nftGalleryFilter: nftGalleryFilter,
+    ));
 
     return _buildGalleryWithoutSearch(context);
   }
@@ -88,38 +98,15 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                                 ? NftGallerySkeleton()
                                 : controller.searchText.value.isNotEmpty
                                     ? controller.searchNfts.isEmpty
-                                        ? Container(
-                                            margin: EdgeInsets.only(
-                                                top: 0.03.height),
-                                            child: Column(
-                                              children: [
-                                                SvgPicture.asset(
-                                                  "assets/nft_page/svg/no_results.svg",
-                                                  width: 0.5.width,
-                                                ),
-                                                SizedBox(
-                                                  height: 0.02.height,
-                                                ),
-                                                Text(
-                                                  "Probably Nothing".tr,
-                                                  textAlign: TextAlign.center,
-                                                  style: titleLarge,
-                                                ),
-                                                SizedBox(
-                                                  height: 0.01.height,
-                                                ),
-                                                Text(
-                                                  "We didn’t find any results. Did you \nmisspell your query?"
-                                                      .tr,
-                                                  textAlign: TextAlign.center,
-                                                  style: bodySmall.copyWith(
-                                                      color: ColorConst.grey),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        : _getNftListViewWidget(
-                                            1.1, controller.searchNfts)
+                                        ? _buildEmptyPlaceHolder()
+                                        : controller.searchNfts.length == 1 &&
+                                                controller.searchNfts.entries
+                                                        .first.value.length ==
+                                                    1
+                                            ? _getNftListViewWidget(
+                                                1.1, controller.searchNfts)
+                                            : _getCollectionGridViewWidget(
+                                                controller.searchNfts)
                                     : NotificationListener<
                                         UserScrollNotification>(
                                         onNotification: (notification) {
@@ -146,12 +133,29 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                                           return false;
                                         },
                                         child: Obx(
-                                          () => _getNftListViewWidget(
-                                              1.1, controller.galleryNfts),
+                                          () => controller.selectedGalleryFilter
+                                                      .value ==
+                                                  NftGalleryFilter.collection
+                                              ? _getCollectionGridViewWidget(
+                                                  controller.galleryNfts)
+                                              : controller.selectedGalleryFilter
+                                                          .value ==
+                                                      NftGalleryFilter.list
+                                                  ? _getNftListViewWidget(2.1,
+                                                      controller.galleryNfts)
+                                                  : _getNftListViewWidget(1.1,
+                                                      controller.galleryNfts),
                                         ),
                                       ),
                           ],
                         ),
+                        if (nftGalleryFilter == null)
+                          Obx(
+                            () => Align(
+                              alignment: Alignment.bottomCenter,
+                              child: _getHoverFilterWidget(),
+                            ),
+                          ),
                       ],
                     );
                   });
@@ -159,6 +163,36 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
               }),
         )
       ],
+    );
+  }
+
+  Container _buildEmptyPlaceHolder() {
+    return Container(
+      margin: EdgeInsets.only(top: 0.03.height),
+      child: Column(
+        children: [
+          SvgPicture.asset(
+            "assets/nft_page/svg/no_results.svg",
+            width: 0.5.width,
+          ),
+          SizedBox(
+            height: 0.02.height,
+          ),
+          Text(
+            "Probably Nothing".tr,
+            textAlign: TextAlign.center,
+            style: titleLarge,
+          ),
+          SizedBox(
+            height: 0.01.height,
+          ),
+          Text(
+            "We didn’t find any results. Did you \nmisspell your query?".tr,
+            textAlign: TextAlign.center,
+            style: bodySmall.copyWith(color: ColorConst.grey),
+          ),
+        ],
+      ),
     );
   }
 
@@ -252,7 +286,7 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
           ),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             menuIcon(
               "assets/nft_page/svg/collection_view.svg",
@@ -274,12 +308,21 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
         onPressed: () {
           controller.selectedGalleryFilter.value = filter;
         },
-        child: SvgPicture.asset(asset,
-            width: 18.arP,
-            fit: BoxFit.fill,
-            color: controller.selectedGalleryFilter.value == filter
-                ? Colors.white
-                : const Color(0xFF958E99)),
+        child: Container(
+          width: 140.arP / 3,
+          child: Center(
+            child: SizedBox(
+              width: 18.arP,
+              child: SvgPicture.asset(asset,
+                  width: 18.arP,
+                  // height: 18.arP,
+                  fit: BoxFit.fill,
+                  color: controller.selectedGalleryFilter.value == filter
+                      ? Colors.white
+                      : const Color(0xFF958E99)),
+            ),
+          ),
+        ),
       );
 
   Widget _getNftListViewWidget(
@@ -349,7 +392,7 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         CustomNFTDetailBottomSheet(
-                                          prevPage: "VCA Gallery",
+                                          prevPage: "Gallery",
                                           onBackTap: Get.back,
                                           pk: nftTokenModel.pk!,
                                         )),
@@ -752,7 +795,7 @@ class NftCollectionItemWidget extends StatelessWidget {
       onPressed: () {
         if (nftTokens.length != 1) {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => NFTCollectionSheet(
+              builder: (context) => CustomNFTCollectionSheet(
                     prevPage: "Gallery",
                     nfts: nftTokens,
                   )));
