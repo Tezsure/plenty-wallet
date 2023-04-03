@@ -34,7 +34,7 @@ class TeztownWidget extends StatelessWidget {
     "${PathConst.HOME_PAGE}teztown/buy.svg",
     "${PathConst.HOME_PAGE}teztown/burn.svg"
   ];
-  final controller = Get.put(TeztownController());
+  final controller = Get.put(TeztownController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
