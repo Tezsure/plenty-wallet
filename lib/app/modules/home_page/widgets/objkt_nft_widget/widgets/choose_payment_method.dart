@@ -17,7 +17,8 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import '../../../../../../utils/styles/styles.dart';
 
 class ChoosePaymentMethod extends StatelessWidget {
-  ChoosePaymentMethod({super.key});
+  String senderAddress;
+  ChoosePaymentMethod({this.senderAddress = "", super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +125,8 @@ class ChoosePaymentMethod extends StatelessWidget {
         xtzPrice: xtzPrice,
         tokenModel: token,
         isEditable: false,
-        onCheckboxTap: () => {buyNftController.selectMethod(token)},
+        onCheckboxTap: () => {
+          buyNftController.selectMethod(token, senderAddress: senderAddress)
+        },
       );
 }

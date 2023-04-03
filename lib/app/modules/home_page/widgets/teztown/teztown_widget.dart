@@ -158,6 +158,7 @@ class TeztownWidget extends StatelessWidget {
         CommonFunctions.bottomSheet(
             CustomNFTDetailBottomSheet(
               nftUrl: controller.teztownData.value.ticket,
+              saveAddress: true,
             ),
             fullscreen: true);
 

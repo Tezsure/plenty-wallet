@@ -43,8 +43,14 @@ class CustomNFTDetailBottomSheet extends StatefulWidget {
 
   final String? prevPage;
   final String? nftUrl;
+  final bool saveAddress;
   const CustomNFTDetailBottomSheet(
-      {super.key, this.onBackTap, this.prevPage, this.pk, this.nftUrl});
+      {super.key,
+      this.onBackTap,
+      this.prevPage,
+      this.pk,
+      this.nftUrl,
+      this.saveAddress = false});
 
   @override
   State<CustomNFTDetailBottomSheet> createState() =>
@@ -181,13 +187,13 @@ class _CustomNFTDetailBottomSheetState
         0.02.vspace,
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight,
-          child: _buildBody(),
+          child: _buildBody(widget.saveAddress),
         )
       ],
     );
   }
 
-  Scaffold _buildBody() {
+  Scaffold _buildBody(bool saveAddress) {
     return Scaffold(
       backgroundColor: Colors.black,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -277,11 +283,16 @@ class _CustomNFTDetailBottomSheetState
                                   CommonFunctions.bottomSheet(
                                     AccountSwitch(
                                       title: "Buy NFT",
+                                      isAddressSave: saveAddress,
                                       subtitle:
                                           'This module will be powered by wert.io and you will be using wert’s interface.',
-                                      onNext: () {
+                                      onNext: ({String senderAddress = ""}) {
                                         CommonFunctions.bottomSheet(
-                                          ChoosePaymentMethod(),
+                                          ChoosePaymentMethod(
+                                            senderAddress: saveAddress
+                                                ? senderAddress
+                                                : "",
+                                          ),
                                           settings: RouteSettings(
                                             arguments:
                                                 "https://objkt.com/asset/${nftModel!.fa!.contract}/${nftModel!.tokenId}",
@@ -703,8 +714,12 @@ class _CustomNFTDetailBottomSheetState
                                       "https://services.tzkt.io/v1/avatars/${nftModel!.creators![index].creatorAddress}";
                                   return BouncingWidget(
                                     onPressed: () {
-                                      CommonFunctions.launchURL(
-                                          "https://objkt.com/profile/${nftModel!.creators![index].creatorAddress}");
+                                      CommonFunctions.bottomSheet(
+                                          DappBrowserView(),
+                                          fullscreen: true,
+                                          settings: RouteSettings(
+                                              arguments:
+                                                  "https://objkt.com/profile/${nftModel!.creators![index].creatorAddress}"));
                                     },
                                     child: ListTile(
                                       leading: CircleAvatar(
@@ -758,8 +773,12 @@ class _CustomNFTDetailBottomSheetState
                             if (nftModel!.holders?.isNotEmpty ?? false)
                               BouncingWidget(
                                 onPressed: () {
-                                  CommonFunctions.launchURL(
-                                      "https://objkt.com/profile/${nftModel!.holders!.first.holderAddress}");
+                                  CommonFunctions.bottomSheet(
+                                      const DappBrowserView(),
+                                      fullscreen: true,
+                                      settings: RouteSettings(
+                                          arguments:
+                                              "https://objkt.com/profile/${nftModel!.holders!.first.holderAddress}"));
                                 },
                                 child: ListTile(
                                   leading: CircleAvatar(

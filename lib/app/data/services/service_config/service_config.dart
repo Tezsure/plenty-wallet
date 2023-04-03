@@ -61,6 +61,8 @@ class ServiceConfig {
 
   static String naanApis = "https://cdn.naan.app";
 
+  static String springFeverApi = "https://burn.reveb.la/addresses";
+
   // Main storage keys
   static const String oldStorageName = "tezsure-wallet-storage-v1.0.0";
   static const String storageName = "naan_wallet_version_2.0.0";

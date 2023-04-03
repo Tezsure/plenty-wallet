@@ -107,7 +107,7 @@ class DelegateWidgetController extends GetxController {
     try {
       final isVerified = await AuthService().verifyBiometricOrPassCode();
       if (!isVerified) return;
-    CommonFunctions.  toggleLoaderOverlay(
+      CommonFunctions.toggleLoaderOverlay(
         () async {
           await confirmDelegate(baker);
         },
@@ -387,7 +387,7 @@ class DelegateWidgetController extends GetxController {
           title: "Delegate",
           subtitle:
               "In Tezos, we delegate an account to a baker\nand earn interest on the available Tez in the account.",
-          onNext: () {
+          onNext: ({String senderAddress = ""}) {
             checkBaker(context);
           },
         ),
@@ -396,8 +396,6 @@ class DelegateWidgetController extends GetxController {
       checkBaker(context);
     }
   }
-
- 
 }
 
 enum BakerListBy { Rank, Yield, Space, Staking, Fees }

@@ -25,10 +25,10 @@ import 'package:naan_wallet/utils/utils.dart';
 import '../controllers/buy_nft_controller.dart';
 
 class ReviewNFTSheet extends StatelessWidget {
-  ReviewNFTSheet({super.key});
+  ReviewNFTSheet({super.key, this.senderAddress = ""});
   final controller = Get.find<BuyNFTController>();
   final homeController = Get.find<HomePageController>();
-
+  final String senderAddress;
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
@@ -290,7 +290,7 @@ class ReviewNFTSheet extends StatelessWidget {
               title: "Confirm",
               onPressed: () {
                 if (controller.operation.isNotEmpty) {
-                  controller.openSuccessSheet();
+                  controller.openSuccessSheet(sendAddress: senderAddress);
                 }
               },
               child: controller.operation.isEmpty

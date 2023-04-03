@@ -48,7 +48,7 @@ class BuyTezWidget extends StatelessWidget {
               title: "Buy tez",
               subtitle:
                   'This module will be powered by wert.io and you will be using wert’s interface.',
-              onNext: () async {
+              onNext: ({String senderAddress = ""}) async {
                 NaanAnalytics.logEvent(NaanAnalyticsEvents.BUY_TEZ_CLICKED,
                     param: {
                       NaanAnalytics.address: home

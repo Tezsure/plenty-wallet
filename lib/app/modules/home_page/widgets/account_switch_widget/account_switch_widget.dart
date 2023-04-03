@@ -19,14 +19,16 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class AccountSwitch extends StatefulWidget {
-  final Function() onNext;
+  final Function({String senderAddress}) onNext;
   final String title;
   final String subtitle;
+  final bool isAddressSave;
   const AccountSwitch({
     super.key,
     required this.onNext,
     required this.title,
     required this.subtitle,
+    this.isAddressSave = false,
   });
   // final HomePageController controller;
   @override
@@ -269,7 +271,13 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                     title: "Proceed",
                                     onPressed: () {
                                       Get.back(result: true);
-                                      widget.onNext();
+                                      widget.onNext(
+                                          senderAddress: widget.isAddressSave
+                                              ? controller
+                                                  .userAccounts[controller
+                                                      .selectedIndex.value]
+                                                  .publicKeyHash!
+                                              : "");
                                     }),
                               ),
                             ],

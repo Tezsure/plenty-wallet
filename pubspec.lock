@@ -222,7 +222,7 @@ packages:
     description:
       path: "."
       ref: "feat/tz2_support"
-      resolved-ref: c689352b3ac9ee352c5fcc723e9d785e6285fca8
+      resolved-ref: fba9f21fdaec38e52cf2e3826fe912e673b0fd76
       url: "https://github.com/Tezsure/Dartez.git"
     source: git
     version: "1.1.0"
@@ -1367,5 +1367,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.0 <4.0.0"
+  dart: ">=2.19.0 <3.0.0"
   flutter: ">=3.7.0"
