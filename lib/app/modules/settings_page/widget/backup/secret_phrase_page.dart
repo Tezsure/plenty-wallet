@@ -34,7 +34,7 @@ class SecretPhrasePage extends StatelessWidget {
   const SecretPhrasePage({super.key, required this.pkHash, this.prevPage});
   @override
   Widget build(BuildContext context) {
-    _backupController.setup();
+    _backupController.setup(context);
     NaanAnalytics.logEvent(NaanAnalyticsEvents.VIEW_SEED_PHRASE,
         param: {NaanAnalytics.address: pkHash});
     return NaanBottomSheet(
@@ -71,7 +71,7 @@ class SecretPhrasePage extends StatelessWidget {
                       0.04.vspace,
 
                       Text(
-                        'These 12 words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.'
+                        'These ${data?.length} words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.'
                             .tr,
                         textAlign: TextAlign.center,
                         style: bodySmall.copyWith(
@@ -86,14 +86,17 @@ class SecretPhrasePage extends StatelessWidget {
                       GridView.builder(
                           shrinkWrap: true,
                           primary: false,
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: data?.length,
-                          padding: const EdgeInsets.symmetric(horizontal: 57),
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  (data?.length ?? 0) == 24 ? 20.arP : 57.arP),
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: (data?.length ?? 0) == 24 ? 3 : 2,
                             childAspectRatio: 130 / 40,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 12,
+                            crossAxisSpacing: 20.arP,
+                            mainAxisSpacing: 12.arP,
                           ),
                           itemBuilder: (_, index) {
                             return PhraseContainer(
@@ -106,8 +109,8 @@ class SecretPhrasePage extends StatelessWidget {
                         style: labelMedium.copyWith(
                             color: ColorConst.NeutralVariant.shade60),
                       ),
-                      const SizedBox(
-                        height: 8,
+                      SizedBox(
+                        height: 8.arP,
                       ),
                       Text(
                         "m/44'/1729'/${snapshotData.data?.derivationPathIndex}/0'",

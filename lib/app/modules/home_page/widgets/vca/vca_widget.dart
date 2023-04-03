@@ -5,11 +5,13 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/app/modules/custom_gallery/controller/custom_gallery_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/register_widgets.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/controller/vca_redeem_nft_controller.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/vca_gallery_widget/view/vca_gallery_view.dart';
+import 'package:naan_wallet/app/modules/custom_gallery/custom_nft_gallery_view.dart';
+import 'package:naan_wallet/app/modules/vca_events/views/events_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
@@ -18,6 +20,7 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../dapp_browser/views/dapp_browser_view.dart';
+import 'vca_redeem_nft/widget/info_sheet.dart';
 
 class VCAWidget extends StatelessWidget {
   VCAWidget({Key? key}) : super(key: key);
@@ -25,7 +28,7 @@ class VCAWidget extends StatelessWidget {
   List<String> icons = ["globe.svg", "gift.svg", "map.svg", "gallery.svg"];
   @override
   Widget build(BuildContext context) {
-    if (!ServiceConfig.isVCAWebsiteWidgetVisible) return Container();
+    if (!ServiceConfig.isVCAWidgetVisible) return Container();
     return Column(
       children: [
         HomeWidgetFrame(
@@ -43,8 +46,6 @@ class VCAWidget extends StatelessWidget {
                   child: Image.asset(
                     "${PathConst.HOME_PAGE}vca/background.png",
                     fit: BoxFit.cover,
-                    // cacheHeight: 335,
-                    // cacheWidth: 709,
                   ),
                 ),
                 Column(
@@ -129,22 +130,34 @@ class VCAWidget extends StatelessWidget {
           const DappBrowserView(),
           fullscreen: true,
           settings: const RouteSettings(
-            arguments: "https://www.verticalcrypto.art",
+            arguments: "https://proofofpeople.verticalcrypto.art/newyork.html",
           ),
         );
         break;
       case 1:
         NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_CLAIM_NFT_CLICK,
             param: {NaanAnalytics.address: address});
-        final controller = Get.put(VCARedeemNFTController());
-        controller.openScanner();
+        CommonFunctions.bottomSheet(VCAPOAPInfoSheet());
+        break;
+      case 2:
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_EVENTS_CLICK,
+            param: {NaanAnalytics.address: address});
+
+        CommonFunctions.bottomSheet(
+          const VCAEventsView(),
+          fullscreen: true,
+        );
         break;
       case 3:
         NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_GALLERY_CLICK,
             param: {NaanAnalytics.address: address});
 
         CommonFunctions.bottomSheet(
-          VcaGalleryView(),
+          const CustomNFTGalleryView(
+            title: "Proof of People x Refraction",
+            nftGalleryType: NFTGalleryType.fromPKs,
+            nftGalleryFilter: NftGalleryFilter.list,
+          ),
           fullscreen: true,
         );
         break;

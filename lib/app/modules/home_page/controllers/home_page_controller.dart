@@ -50,8 +50,9 @@ class HomePageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-
-    Get.put(BeaconService(), permanent: true);
+    try {
+      Get.put(BeaconService(), permanent: true);
+    } catch (e) {}
     DataHandlerService()
         .renderService
         .accountUpdater
@@ -85,12 +86,16 @@ class HomePageController extends GetxController {
         //   Duration(milliseconds: 100),
         // ).then((value) {
         try {
-          Get.find<AccountsWidgetController>().onPageChanged(index);
-          changeSelectedAccount(index);
+          if (Get.isRegistered<AccountsWidgetController>()) {
+            Get.find<AccountsWidgetController>().onPageChanged(index);
+            changeSelectedAccount(index);
+          }
         } catch (e) {
           log(e.toString());
         }
         // });
+      } else {
+        userAccounts.value = [...accounts];
       }
       try {
         if (userAccounts.where((p0) => !p0.isWatchOnly).isNotEmpty) {
@@ -198,7 +203,9 @@ class HomePageController extends GetxController {
 
     if (status.isPermanentlyDenied) {
       CommonFunctions.bottomSheet(
-         CameraPermissionHandler(callback:openScanner ,),
+        CameraPermissionHandler(
+          callback: openScanner,
+        ),
       );
 
       // We didn't ask for permission yet or the permission has been denied before but not permanently.

@@ -17,7 +17,7 @@ dependencies:
       ref: master
   flutter_svg: ^1.1.1+1
   cached_network_image: ^3.2.1
-  flutter_secure_storage: ^7.0.1
+  flutter_secure_storage: ^8.0.0
   share_plus: ^4.0.10+1
   qr_flutter: ^4.0.0
   dartez:
@@ -35,7 +35,7 @@ dependencies:
   hex: ^0.2.0
   shimmer: ^2.0.0
   flutter_inappwebview: ^5.7.2+3
-  beacon_flutter: ^1.0.8
+  beacon_flutter: ^1.0.9
   in_app_review: ^2.0.6
   firebase_core: ^2.3.0
   firebase_analytics: ^10.0.6
@@ -53,8 +53,9 @@ dependencies:
   modal_bottom_sheet:
     #  ^3.0.0-pre
     path: package/modal_bottom_sheet/modal_bottom_sheet
-  flutter_phoenix:
-    "^1.0.0"
+  flutter_phoenix: "^1.0.0"
+  flutter_widget_from_html_core:
+    ^0.10.0
 
     # path: packages/modal_bottom_sheet/modal_bottom_sheet
 
@@ -83,6 +84,8 @@ flutter:
     - assets/home_page/info_story/
     - assets/home_page/svg/
     - assets/home_page/images/
+    - assets/home_page/vca/
+    - assets/home_page/teztown/
     #settings page
     - assets/settings_page/
     - assets/settings_page/currencies/

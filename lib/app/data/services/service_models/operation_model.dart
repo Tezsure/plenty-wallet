@@ -31,8 +31,10 @@ class OperationModel<T> {
         (model as AccountTokenModel).name != "Tezos") {
       var tokenModel = model as AccountTokenModel;
       var newAmount = ((amount! *
-              double.parse(
-                  1.toStringAsFixed(tokenModel.decimals).replaceAll('.', ''))))
+              double.parse(1
+                  .toStringAsFixed(
+                      tokenModel.decimals > 20 ? 20 : tokenModel.decimals)
+                  .replaceAll('.', ''))))
           .toInt();
       parameters = Parameters(
           entryPoint: "transfer",

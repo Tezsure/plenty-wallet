@@ -45,7 +45,6 @@ class SendPageController extends GetxController {
     super.onInit();
     senderAccountModel =
         homeController.userAccounts[homeController.selectedIndex.value];
-    
 
     callback(value) {
       xtzPrice.value = value;
@@ -58,7 +57,17 @@ class SendPageController extends GetxController {
         .renderService
         .xtzPriceUpdater
         .registerCallback(callback);
+
     fetchAllNfts();
+
+    Get.find<HomePageController>().userAccounts.listen((accounts) {
+      if (homeController.userAccounts.isNotEmpty) {
+        senderAccountModel =
+            homeController.userAccounts[homeController.selectedIndex.value];
+
+        fetchAllTokens();
+      }
+    });
 
     updateSavedContacts();
   }
@@ -235,6 +244,7 @@ class SendPageController extends GetxController {
   Rx<ContactModel?> selectedReceiver = Rx<ContactModel?>(null);
 
   void onContactSelect({required ContactModel contactModel}) {
+    DataHandlerService().forcedUpdateDataPriceAndToken();
     selectedReceiver.value = contactModel;
     searchBarFocusNode.unfocus();
     searchText.value = contactModel.name == "Account"
@@ -243,6 +253,7 @@ class SendPageController extends GetxController {
     searchTextController.value.text = contactModel.name == "Account"
         ? contactModel.address
         : contactModel.name;
+
     setSelectedPageIndex(index: 1);
   }
 
@@ -280,30 +291,32 @@ class SendPageController extends GetxController {
   }
 
   Future<void> fetchAllTokens() async {
-    userTokens.clear();
-    userTokens.addAll(await UserStorageService()
+    List<AccountTokenModel> tempTokens = <AccountTokenModel>[];
+    //userTokens.clear();
+    tempTokens.addAll(await UserStorageService()
         .getUserTokens(userAddress: senderAccountModel!.publicKeyHash!));
 
-    userTokens.removeWhere((element) =>
+    tempTokens.removeWhere((element) =>
         element.name != null && element.name!.toLowerCase() == "tezos");
 
     AccountTokenModel tezos = AccountTokenModel(
       name: "Tezos",
       balance: senderAccountModel!.accountDataModel!.xtzBalance!,
       contractAddress: "xtz",
-      symbol: "tezos",
+      symbol: "tez",
       currentPrice: xtzPrice.value,
       tokenId: "0",
       decimals: 6,
       iconUrl: "assets/tezos_logo.png",
     );
     // userTokens = [...userTokens.toSet().toList()];
-    userTokens.insert(0, tezos);
+    tempTokens.insert(0, tezos);
 
     if (ServiceConfig.currentNetwork == NetworkType.testnet) {
-      userTokens.removeWhere((element) =>
+      tempTokens.removeWhere((element) =>
           element.name == null || element.name!.toLowerCase() != "tezos");
     }
+    userTokens.value = tempTokens;
   }
 
   Future<void> fetchAllNfts() async {

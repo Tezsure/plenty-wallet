@@ -245,7 +245,9 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                       children: [
                         TextSpan(
                           text: tokenModel.balance
-                              .toStringAsFixed(tokenModel.decimals)
+                              .toStringAsFixed(tokenModel.decimals > 20
+                                  ? 20
+                                  : tokenModel.decimals)
                               .removeTrailing0,
                           style: labelSmall.apply(
                               color: ColorConst.NeutralVariant.shade60),

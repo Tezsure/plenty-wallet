@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
+import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
 import 'package:naan_wallet/app/modules/common_widgets/success_sheet.dart';
@@ -15,6 +16,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/permission_shee
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/widget/scanner.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/widget/vca_redeem_nft_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -22,14 +24,10 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class VCARedeemNFTController extends GetxController
     with WidgetsBindingObserver {
-  // RxBool flash = false.obs;
   late Rx<QRViewController> controller;
-  // Future<void> toggleFlash() async {
-  //   flash.value = !flash.value;
-  //   controller.value.toggleFlash();
-  // }
-  final TextEditingController emailController = TextEditingController();
 
+  final TextEditingController emailController = TextEditingController();
+  final homeController = Get.find<HomePageController>();
   RxBool isButtonEnabled = false.obs;
   RxBool isLoading = false.obs;
   @override
@@ -51,20 +49,31 @@ class VCARedeemNFTController extends GetxController
 
   void onQRViewCreated(QRViewController c, BuildContext context) {
     controller = c.obs;
+
     // controller.value.resumeCamera();
     controller.value.scannedDataStream.listen((scanData) async {
       if (scanData.code == "https://qr.page/g/2QDaMqohAi5") {
+        if (result != null) return;
         controller.value.pauseCamera();
-        CommonFunctions.bottomSheet(AccountSwitch(
-            onNext: () async {
-              controller.value.pauseCamera();
-              await Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => VCARedeemSheet()));
-              controller.value.resumeCamera();
-            },
-            title: "Claim POAP NFT",
-            subtitle: "Choose an account to claim your POAP NFT"));
-        controller.value.resumeCamera();
+        result = scanData;
+        await CommonFunctions.bottomSheet(AccountSwitch(
+                onNext: ({String senderAddress = ""}) async {},
+                title: "Claim POAP NFT",
+                subtitle: "Choose an account to claim your POAP NFT"))
+            .then((value) async {
+          if (value == true) {
+            controller.value.pauseCamera();
+            result = scanData;
+            await Navigator.push(context,
+                MaterialPageRoute(builder: (context) => VCARedeemSheet()));
+            controller.value.resumeCamera();
+            result = null;
+          } else {
+            controller.value.resumeCamera();
+            result = null;
+          }
+        });
+
         // CommonFunctions.bottomSheet(VCARedeemSheet(), fullscreen: true);
       }
     });
@@ -86,16 +95,15 @@ class VCARedeemNFTController extends GetxController
   }
 
   Future<void> openScanner() async {
-    final homeController = Get.find<HomePageController>();
-    if (homeController
-        .userAccounts[homeController.selectedIndex.value].isWatchOnly) {
-      return CommonFunctions.bottomSheet(AccountSelectorSheet(
-        onNext: () {
-          Get.back();
-          openScanner();
-        },
-      ), fullscreen: true);
-    }
+    // if (homeController
+    //     .userAccounts[homeController.selectedIndex.value].isWatchOnly) {
+    //   return CommonFunctions.bottomSheet(AccountSelectorSheet(
+    //     onNext: () {
+    //       Get.back();
+    //       openScanner();
+    //     },
+    //   ), fullscreen: true);
+    // }
     await Permission.camera.request();
     final status = await Permission.camera.status;
 
@@ -136,7 +144,31 @@ class VCARedeemNFTController extends GetxController
   }
 
   Future<bool> validateEmail() async {
-    /// API call
-    return true;
+    try {
+      var response = await HttpService.performPostRequest(
+          "https://api.naan.app/api/v1/claimNft",
+          body: {
+            "emailAddress": emailController.text,
+            "userAddress": homeController
+                .userAccounts[homeController.selectedIndex.value].publicKeyHash
+          });
+      log(response);
+      if (response.isNotEmpty && jsonDecode(response).length != 0) {
+        if (jsonDecode(response)['status'] == null) {
+          transactionStatusSnackbar(
+            duration: const Duration(seconds: 2),
+            status: TransactionStatus.error,
+            tezAddress: jsonDecode(response)['subtitle'] ?? "",
+            transactionAmount: jsonDecode(response)['title'] ?? "",
+          );
+        } else {
+          return jsonDecode(response)['status'] == "success";
+        }
+      }
+      return false;
+    } catch (e) {
+      log(e.toString());
+    }
+    return false;
   }
 }

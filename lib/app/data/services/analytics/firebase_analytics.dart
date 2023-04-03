@@ -103,10 +103,22 @@ class NaanAnalyticsEvents {
   static const String NAAN_COLLECTION = "naan_collection";
   static const String TF_COLLECTION = "tf_collection";
   static const String TEZ_QUAKE = "tez_quake";
+
+  ///VCA
   static const String VCA_WEBSITE = "vca_website";
   static const String VCA_CLAIM_NFT_CLICK = "vca_claim_nft_click";
   static const String VCA_CLAIM_NFT_SUCCESS = "vca_claim_nft_success";
   static const String VCA_GALLERY_CLICK = "vca_gallery_click";
+  static const String VCA_EVENTS_CLICK = "vca_events_click";
+
+  ///Teztown
+  static const String TEZTOWN_DETAILS = "teztown_details_click";
+  static const String TEZTOWN_GALLERY = "teztown_gallery_click";
+  static const String TEZTOWN_BUY_TICKET = "teztown_buy_ticket_click";
+  static const String TEZTOWN_BURN_TICKET = "teztown_burn_ticket_click";
+
+
+
   static const String BETA_AGREE = "beta_agree";
   static const String TEZOS_DOMAIN = "tezos_domain";
 

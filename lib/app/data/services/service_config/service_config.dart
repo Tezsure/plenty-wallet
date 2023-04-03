@@ -1,10 +1,9 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 
-import '../service_models/nft_token_model.dart';
-
-enum Currency { usd, tez, eur, inr }
+enum Currency { usd, tez, eur, inr, aud }
 
 enum Language { en, nl, fr }
 
@@ -18,9 +17,8 @@ class ServiceConfig {
   static String currencyApi = "https://api.exchangerate.host/latest?base=USD";
 
   static bool isIAFWidgetVisible = false;
-  static bool isVCAWebsiteWidgetVisible = false;
-  static bool isVCARedeemPOAPWidgetVisible = false;
-  static bool isVCAExploreNFTWidgetVisible = false;
+  static bool isVCAWidgetVisible = false;
+  static bool isTeztownWidgetVisible = false;
 
   static bool isTezQuakeWidgetVisible = false;
 
@@ -29,6 +27,7 @@ class ServiceConfig {
 
   static double inr = 0.0;
   static double eur = 0.0;
+  static double aud = 0.0;
 
   /// Teztools api with endpoint for mainnet token prices
   static String tezToolsApi = "https://api.teztools.io/token/prices";
@@ -61,6 +60,8 @@ class ServiceConfig {
   }
 
   static String naanApis = "https://cdn.naan.app";
+
+  static String springFeverApi = "https://burn.reveb.la/addresses";
 
   // Main storage keys
   static const String oldStorageName = "tezsure-wallet-storage-v1.0.0";
@@ -99,6 +100,7 @@ class ServiceConfig {
   static const String xtzPriceStorage = "${storageName}_xtz_price";
   static const String inrPriceStorage = "${storageName}_inr";
   static const String eurPriceStorage = "${storageName}_eur";
+  static const String audPriceStorage = "${storageName}_aud";
   static const String dayChangeStorage = "${storageName}_24_hr_change";
   static const String tokenPricesStorage = "${storageName}_token_prices";
 
@@ -115,6 +117,7 @@ class ServiceConfig {
   static const String dappsStorage = "${storageName}_dapps";
 // events
   static const String eventsStorage = "${storageName}_events";
+  static const String vcaEventsStorage = "${storageName}_vca_events";
   // dapps banner
   static const String dappsBannerStorage = "${storageName}_dapps_banner";
 
@@ -368,7 +371,7 @@ query GetCollectionNFT($address: String!) {
   static const String searchQueryFromPks = r'''
     query NftsFromPks($pks: [bigint!], $offset: Int, $query: String!) {
       token(
-        where: {pk : {_in: $pks}, token_id: {_neq: ""},  _or: [{ name: {_iregex:$query} }, { fa:{name:{_iregex:$query}} },{fa_contract:{_eq:$query} }, ]},
+        where: {pk : {_in: $pks}, token_id: {_neq: ""},  _or: [{ name: {_iregex:$query} },{ creators: {holder:{alias:{_iregex:$query}}} }, { fa:{name:{_iregex:$query}} },{fa_contract:{_eq:$query} }, ]},
         offset: $offset
       ) {
         name
@@ -380,6 +383,37 @@ query GetCollectionNFT($address: String!) {
           logo
         }
         token_id
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+      }
+    }
+''';
+  static const String searchQueryFromAddress = r'''
+    query NftsFromAddress($address: String!, $offset: Int, $query: String!) {
+      token(
+        where: {holders: {holder_address: {_eq: $address}, token: {}, quantity:{_gt:"0"}}, token_id: {_neq: ""},  _or: [{ name: {_iregex:$query} },{ creators: {holder:{alias:{_iregex:$query}}} }, { fa:{name:{_iregex:$query}} },{fa_contract:{_eq:$query} }, ]},
+        offset: $offset
+      ) {
+        name
+        pk
+        fa_contract
+        display_uri
+        fa{
+          name
+          logo
+        }
+        token_id
+        holders(where: {holder_address: {_eq: $address}, quantity: {_gt: "0"}}) 
+        {
+          quantity
+          holder_address
+        }
         creators {
           creator_address
           token_pk
@@ -480,6 +514,124 @@ query GetCollectionNFT($address: String!) {
   static const String getNFTfromPkwithoutHolder = r'''
     query GetNftForUser($pk:bigint) {
       token(where: {pk:{_eq:$pk}}) {
+        artifact_uri
+        description
+        display_uri
+        lowest_ask
+        level
+        mime
+        pk
+        royalties {
+          id
+          decimals
+          amount
+        }
+        supply
+        thumbnail_uri
+        timestamp
+        fa_contract
+        token_id
+        name
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+        holders(limit:1) {
+          quantity
+          holder_address
+        }
+        events {
+          id
+          fa_contract
+          price
+          recipient_address
+          timestamp
+          creator {
+            address
+            alias
+          }
+          event_type
+          marketplace_event_type
+          amount
+        }
+        fa {
+          name
+          collection_type
+          logo
+          floor_price
+          contract
+        }
+        metadata
+      }
+    }
+''';
+
+  static const String getNFTFromContractWithoutHolder = r'''
+    query GetNftForUser($address: String!, $tokenId: String!) {
+      token(where: {token_id: {_eq: $tokenId}, fa_contract: {_eq: $address}}) {
+        artifact_uri
+        description
+        display_uri
+        lowest_ask
+        level
+        mime
+        pk
+        royalties {
+          id
+          decimals
+          amount
+        }
+        supply
+        thumbnail_uri
+        timestamp
+        fa_contract
+        token_id
+        name
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+        holders(limit:1) {
+          quantity
+          holder_address
+        }
+        events {
+          id
+          fa_contract
+          price
+          recipient_address
+          timestamp
+          creator {
+            address
+            alias
+          }
+          event_type
+          marketplace_event_type
+          amount
+        }
+        fa {
+          name
+          collection_type
+          logo
+          floor_price
+          contract
+        }
+        metadata
+      }
+    }
+''';
+
+  static const String getNFTFromCollectionWithoutHolder = r'''
+    query GetNftForUser($address: String!, $tokenId: String!) {
+      token(where: {token_id: {_eq: $tokenId}, fa: {path: {_eq: $address}}}) {
         artifact_uri
         description
         display_uri

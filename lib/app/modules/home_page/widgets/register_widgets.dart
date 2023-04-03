@@ -16,7 +16,6 @@ import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/vie
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/objkt_nft_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/tez_quake_aid_widget/tez_quake_aid_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_widget.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/vca_gallery_widget/view/vca_galllery_widget_view.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
@@ -24,6 +23,7 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'accounts_widget/views/accounts_widget_view.dart';
 // import 'info_stories/models/story_page/views/story_page_view.dart';
 import 'tezos_price/tezos_price_widget.dart';
+import 'teztown/teztown_widget.dart';
 
 /// Check examples from lib/app/modules/widgets/ before adding your custom widget
 final List<Widget> registeredWidgets = [
@@ -31,7 +31,7 @@ final List<Widget> registeredWidgets = [
   //   profileImagePath: MockData.naanInfoStory.values.toList(),
   //   storyTitle: MockData.naanInfoStory.keys.toList(),
   // ),
-  const AccountsWidget(),
+  AccountsWidget(),
   // const Accessiblity(),
   homeWidgetsGap,
   Padding(
@@ -59,6 +59,10 @@ final List<Widget> registeredWidgets = [
   if (ServiceConfig.isTezQuakeWidgetVisible) homeWidgetsGap,
   Padding(
       padding: EdgeInsets.symmetric(horizontal: 22.arP), child: VCAWidget()),
+
+  Padding(
+      padding: EdgeInsets.symmetric(horizontal: 22.arP),
+      child: TeztownWidget()),
 
   const NftGalleryWidget(),
   homeWidgetsGap,

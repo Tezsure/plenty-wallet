@@ -319,10 +319,14 @@ class TokenView extends StatelessWidget {
     if (isUsd &&
         controller.amountController.text !=
             newAmountValue
-                .toStringAsFixed(controller.selectedTokenModel!.decimals)
+                .toStringAsFixed(controller.selectedTokenModel!.decimals > 20
+                    ? 20
+                    : controller.selectedTokenModel!.decimals)
                 .removeTrailing0) {
       controller.amountController.text = newAmountValue
-          .toStringAsFixed(controller.selectedTokenModel!.decimals)
+          .toStringAsFixed(controller.selectedTokenModel!.decimals > 20
+                    ? 20
+                    : controller.selectedTokenModel!.decimals)
           .removeTrailing0;
       controller.amountController.selection = TextSelection.fromPosition(
           TextPosition(offset: controller.amountController.text.length));

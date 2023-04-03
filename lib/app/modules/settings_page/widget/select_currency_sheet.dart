@@ -76,6 +76,15 @@ class _SelectCurrencyBottomSheetState extends State<SelectCurrencyBottomSheet> {
               value: "eur",
               title: "Euro (EUR)",
             ),
+            const Divider(
+              color: Colors.black,
+              height: 1,
+              thickness: 1,
+            ),
+            optionMethod(
+              value: "aud",
+              title: "Australian Dollar (AUD)",
+            ),
 
 /*               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.arP),

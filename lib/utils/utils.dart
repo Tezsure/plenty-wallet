@@ -76,6 +76,15 @@ extension DecimalsRoundUp on num {
                     ? r"€ " + (this * ServiceConfig.eur).toStringAsFixed(0)
                     : r"€ " +
                         (this * ServiceConfig.eur).toStringAsFixed(decimals);
+      } else if (ServiceConfig.currency == Currency.aud) {
+        return this == 0
+            ? r"A$ 0.00"
+            : this * ServiceConfig.aud < 0.01
+                ? r"<A$0.01"
+                : this * ServiceConfig.aud >= 100
+                    ? r"A$ " + (this * ServiceConfig.aud).toStringAsFixed(0)
+                    : r"A$ " +
+                        (this * ServiceConfig.aud).toStringAsFixed(decimals);
       } else {
         return this == 0
             ? r"0.00 tez"
@@ -110,6 +119,14 @@ extension DecimalsRoundUp on num {
                 : this >= 100
                     ? r"€ " + (this).toStringAsFixed(0)
                     : r"€ " + (this).toStringAsFixed(decimals);
+      } else if (ServiceConfig.currency == Currency.aud) {
+        return this == 0
+            ? r"A$ 0.00"
+            : this < 0.01
+                ? r"<A$0.01"
+                : this >= 100
+                    ? r"A$ " + (this).toStringAsFixed(0)
+                    : r"A$ " + (this).toStringAsFixed(decimals);
       } else {
         return this == 0
             ? r"0.00 tez"

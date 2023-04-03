@@ -12,20 +12,23 @@ import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 class AccountSwitch extends StatefulWidget {
-  final Function() onNext;
+  final Function({String senderAddress}) onNext;
   final String title;
   final String subtitle;
+  final bool isAddressSave;
   const AccountSwitch({
     super.key,
     required this.onNext,
     required this.title,
     required this.subtitle,
+    this.isAddressSave = false,
   });
   // final HomePageController controller;
   @override
@@ -89,7 +92,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                           onPressed: () async {
                             final selectedIndex =
                                 await CommonFunctions.bottomSheet(
-                              AccountSelector(
+                              AccountSwitchSelector(
                                 accountModels: controller.userAccounts
                                     .where((e) => !e.isWatchOnly)
                                     .toList(),
@@ -102,7 +105,12 @@ class _AccountSwitchState extends State<AccountSwitch> {
                               ),
                             );
                             if (selectedIndex != null) {
-                              controller.selectedIndex.value = selectedIndex;
+                              controller.changeSelectedAccount(selectedIndex);
+                              try {
+                                Get.find<AccountsWidgetController>()
+                                    .onPageChanged(selectedIndex);
+                              } catch (e) {}
+                              // controller.selectedIndex.value = selectedIndex;
                             }
                           },
                           child: Obx(() => Container(
@@ -262,8 +270,14 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                 child: SolidButton(
                                     title: "Proceed",
                                     onPressed: () {
-                                      Get.back();
-                                      widget.onNext();
+                                      Get.back(result: true);
+                                      widget.onNext(
+                                          senderAddress: widget.isAddressSave
+                                              ? controller
+                                                  .userAccounts[controller
+                                                      .selectedIndex.value]
+                                                  .publicKeyHash!
+                                              : "");
                                     }),
                               ),
                             ],

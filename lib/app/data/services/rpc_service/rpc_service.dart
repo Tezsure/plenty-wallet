@@ -28,8 +28,12 @@ class RpcService {
   }
 
   static Future<String?> getCurrentNode() async {
-    return (await ServiceConfig.localStorage
-        .read(key: ServiceConfig.nodeStorage));
+    try {
+      return (await ServiceConfig.localStorage
+          .read(key: ServiceConfig.nodeStorage));
+    } catch (e) {
+      return null;
+    }
   }
 
   static Future<void> setNode(String url) async {
