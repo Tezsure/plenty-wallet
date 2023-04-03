@@ -33,15 +33,15 @@ class PrivateKeyPage extends StatefulWidget {
 class _PrivateKeyPageState extends State<PrivateKeyPage> {
   @override
   void dispose() {
-    if (PrivateKeyPage._backupController.timer.isActive) {
-      PrivateKeyPage._backupController.timer.cancel();
+    if (PrivateKeyPage._backupController.timer?.isActive??false) {
+      PrivateKeyPage._backupController.timer?.cancel();
     }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    PrivateKeyPage._backupController.setup();
+    PrivateKeyPage._backupController.setup(context);
     NaanAnalytics.logEvent(NaanAnalyticsEvents.VIEW_PRIVATE_KEY,
         param: {NaanAnalytics.address: widget.pkh});
     return NaanBottomSheet(
