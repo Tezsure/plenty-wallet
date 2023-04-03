@@ -70,4 +70,17 @@ class CommonFunctions {
       return value;
     });
   }
+
+  static Future<void> toggleLoaderOverlay(Function() asyncFunction) async {
+    await Get.showOverlay(
+        asyncFunction: () async => await asyncFunction(),
+        loadingWidget: const SizedBox(
+          height: 50,
+          width: 50,
+          child: Center(
+              child: CupertinoActivityIndicator(
+            color: ColorConst.Primary,
+          )),
+        ));
+  }
 }

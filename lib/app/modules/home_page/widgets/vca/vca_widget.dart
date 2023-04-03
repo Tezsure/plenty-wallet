@@ -28,7 +28,7 @@ class VCAWidget extends StatelessWidget {
   List<String> icons = ["globe.svg", "gift.svg", "map.svg", "gallery.svg"];
   @override
   Widget build(BuildContext context) {
-    if (!ServiceConfig.isVCAWebsiteWidgetVisible) return Container();
+    if (!ServiceConfig.isVCAWidgetVisible) return Container();
     return Column(
       children: [
         HomeWidgetFrame(

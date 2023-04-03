@@ -8,7 +8,7 @@ import 'teztown_model.dart';
 class TeztownController extends GetxController {
   static String imageBaseUrl = "https://cdn.naan.app/spring_fever_images";
   @override
-  void onInit() async {
+  Future<void> onInit() async {
     teztownData.value = await getTeztownData();
     super.onInit();
   }
