@@ -131,7 +131,7 @@ class TeztownWidget extends StatelessWidget {
         ? null
         : homeController
             .userAccounts[homeController.selectedIndex.value].publicKeyHash;
-    await CommonFunctions.toggleLoaderOverlay(() async => controller.onInit());
+    // await CommonFunctions.toggleLoaderOverlay(() async => controller.onInit());
     switch (index) {
       case 0:
         NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZTOWN_DETAILS,
