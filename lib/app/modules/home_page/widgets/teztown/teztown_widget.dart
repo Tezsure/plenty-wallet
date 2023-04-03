@@ -6,6 +6,7 @@ import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart'
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/custom_gallery/controller/custom_gallery_controller.dart';
+import 'package:naan_wallet/app/modules/custom_gallery/widgets/custom_nft_detail_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/register_widgets.dart';
@@ -153,6 +154,11 @@ class TeztownWidget extends StatelessWidget {
       case 2:
         NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZTOWN_BUY_TICKET,
             param: {NaanAnalytics.address: address});
+        CommonFunctions.bottomSheet(
+            CustomNFTDetailBottomSheet(
+              nftUrl: controller.teztownData.value.ticket,
+            ),
+            fullscreen: true);
 
         break;
       case 3:

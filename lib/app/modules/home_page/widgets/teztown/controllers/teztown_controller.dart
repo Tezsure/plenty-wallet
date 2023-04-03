@@ -10,11 +10,11 @@ class TeztownController extends GetxController {
   @override
   void onInit() async {
     teztownData.value = await getTeztownData();
-    // TODO: implement onInit
     super.onInit();
   }
 
   Rx<TeztownModel> teztownData = TeztownModel().obs;
+
   Future<TeztownModel> getTeztownData() async {
     var response = await HttpService.performGetRequest(
         "https://cdn.naan.app/spring_fever");
@@ -22,6 +22,7 @@ class TeztownController extends GetxController {
     if (response.isNotEmpty && jsonDecode(response).length != 0) {
       return teztownModelFromJson(response);
     }
+
     return TeztownModel();
   }
 }

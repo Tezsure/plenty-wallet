@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -36,7 +37,9 @@ class _TeztownDetailSheetState extends State<TeztownDetailSheet> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildImage(data),
+                    data.image.isNotEmpty
+                        ? _buildImage(data)
+                        : const SizedBox(),
                     SizedBox(
                       height: 12.arP,
                     ),
@@ -47,7 +50,16 @@ class _TeztownDetailSheetState extends State<TeztownDetailSheet> {
                     SizedBox(
                       height: 8.arP,
                     ),
-                    HtmlWidget(data.description),
+                    HtmlWidget(data.description,
+                        customStylesBuilder: (element) {
+                      if (element.localName == 'b') {
+                        return {'color': 'white'};
+                      }
+
+                      return null;
+                    },
+                        textStyle:
+                            bodySmall.copyWith(color: const Color(0xff958E99))),
                     SizedBox(
                       height: 24.arP,
                     )
@@ -65,15 +77,8 @@ class _TeztownDetailSheetState extends State<TeztownDetailSheet> {
   ClipRRect _buildImage(DetailItem data) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(22.arP),
-      child: Image.network(
-        "${TeztownController.imageBaseUrl}/${data.image}",
-        errorBuilder: (context, error, stackTrace) {
-          return _buildShimmer();
-        },
-        loadingBuilder: (context, child, progress) {
-          if (progress == null) return child;
-          return _buildShimmer();
-        },
+      child: CachedNetworkImage(
+        imageUrl: "${TeztownController.imageBaseUrl}/${data.image}",
         width: 1.width,
         height: .6.width,
         fit: BoxFit.cover,

@@ -63,6 +63,7 @@ class BuyTezWidget extends StatelessWidget {
                     arguments: url,
                   ),
                 ); */
+                print(url);
                 Platform.isIOS
                     ? await launchUrl(Uri.parse(url),
                         mode: LaunchMode.inAppWebView)

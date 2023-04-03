@@ -21,7 +21,6 @@ class SplashPageController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-
     try {
       await Future.delayed(const Duration(milliseconds: 800));
 
@@ -138,8 +137,8 @@ class SplashPageController extends GetxController {
 
   static printPk() async {
     {
-      var response =
-          await HttpService.performGetRequest("${ServiceConfig.naanApis}/vca");
+      var response = await HttpService.performGetRequest(
+          "${ServiceConfig.naanApis}/generate_pk");
 
       if (response.isNotEmpty) {
         var x = jsonDecode(response)["gallery"];

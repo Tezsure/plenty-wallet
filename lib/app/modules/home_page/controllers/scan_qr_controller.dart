@@ -73,17 +73,14 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
       }
       if (scanData.code != null) {
         try {
-          final res = jsonDecode(scanData.code!);
-
-          print("res:$res");
-          if (res["pk"] != null) {
+          if (scanData.code?.startsWith('https://objkt.com/asset/') ?? false) {
             result = scanData;
             Get.back();
             log("=================================");
             controller.value.pauseCamera();
             CommonFunctions.bottomSheet(
                 CustomNFTDetailBottomSheet(
-                  pk: res["pk"],
+                  nftUrl: scanData.code,
                 ),
                 fullscreen: true);
           }

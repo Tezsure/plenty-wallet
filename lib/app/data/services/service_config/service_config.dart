@@ -569,6 +569,124 @@ query GetCollectionNFT($address: String!) {
     }
 ''';
 
+  static const String getNFTFromContractWithoutHolder = r'''
+    query GetNftForUser($address: String!, $tokenId: String!) {
+      token(where: {token_id: {_eq: $tokenId}, fa_contract: {_eq: $address}}) {
+        artifact_uri
+        description
+        display_uri
+        lowest_ask
+        level
+        mime
+        pk
+        royalties {
+          id
+          decimals
+          amount
+        }
+        supply
+        thumbnail_uri
+        timestamp
+        fa_contract
+        token_id
+        name
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+        holders(limit:1) {
+          quantity
+          holder_address
+        }
+        events {
+          id
+          fa_contract
+          price
+          recipient_address
+          timestamp
+          creator {
+            address
+            alias
+          }
+          event_type
+          marketplace_event_type
+          amount
+        }
+        fa {
+          name
+          collection_type
+          logo
+          floor_price
+          contract
+        }
+        metadata
+      }
+    }
+''';
+
+  static const String getNFTFromCollectionWithoutHolder = r'''
+    query GetNftForUser($address: String!, $tokenId: String!) {
+      token(where: {token_id: {_eq: $tokenId}, fa: {path: {_eq: $address}}}) {
+        artifact_uri
+        description
+        display_uri
+        lowest_ask
+        level
+        mime
+        pk
+        royalties {
+          id
+          decimals
+          amount
+        }
+        supply
+        thumbnail_uri
+        timestamp
+        fa_contract
+        token_id
+        name
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+        holders(limit:1) {
+          quantity
+          holder_address
+        }
+        events {
+          id
+          fa_contract
+          price
+          recipient_address
+          timestamp
+          creator {
+            address
+            alias
+          }
+          event_type
+          marketplace_event_type
+          amount
+        }
+        fa {
+          name
+          collection_type
+          logo
+          floor_price
+          contract
+        }
+        metadata
+      }
+    }
+''';
+
   static const String searchQuery = r'''
     query FetchColl($holders: [String!], $contracts: [String!], $offset: Int, $query: String!) {
       token(

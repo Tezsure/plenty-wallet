@@ -14,20 +14,20 @@ class TeztownModel {
     this.detailItems = const [],
     this.burnWebsite,
     this.galleryAddress,
-    this.nftPk,
+    this.ticket,
   });
 
   List<DetailItem>? detailItems;
   String? burnWebsite;
   String? galleryAddress;
-  int? nftPk;
+  String? ticket;
 
   factory TeztownModel.fromJson(Map<String, dynamic> json) => TeztownModel(
         detailItems: List<DetailItem>.from(
             json["detail_items"].map((x) => DetailItem.fromJson(x))),
         burnWebsite: json["burn_website"],
         galleryAddress: json["gallery_address"],
-        nftPk: json["nftPk"],
+        ticket: json["ticket"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -35,7 +35,7 @@ class TeztownModel {
             List<dynamic>.from(detailItems?.map((x) => x.toJson()) ?? []),
         "burn_website": burnWebsite,
         "gallery_address": galleryAddress,
-        "nftPk": nftPk,
+        "ticket": ticket,
       };
 }
 

@@ -42,12 +42,9 @@ class CustomNFTDetailBottomSheet extends StatefulWidget {
   final int? pk;
 
   final String? prevPage;
-  const CustomNFTDetailBottomSheet({
-    super.key,
-    this.onBackTap,
-    this.prevPage,
-    this.pk,
-  });
+  final String? nftUrl;
+  const CustomNFTDetailBottomSheet(
+      {super.key, this.onBackTap, this.prevPage, this.pk, this.nftUrl});
 
   @override
   State<CustomNFTDetailBottomSheet> createState() =>
@@ -68,14 +65,37 @@ class _CustomNFTDetailBottomSheetState
   NftTokenModel? nftModel;
 
   getNFT() async {
-    final response = await GQLClient(
-      'https://data.objkt.com/v3/graphql',
-    ).query(
-      query: ServiceConfig.getNFTfromPkwithoutHolder,
-      variables: {
-        'pk': widget.pk,
-      },
-    );
+    late final GQLResponse response;
+    if (widget.pk != null) {
+      response = await GQLClient(
+        'https://data.objkt.com/v3/graphql',
+      ).query(
+        query: ServiceConfig.getNFTfromPkwithoutHolder,
+        variables: {
+          'pk': widget.pk,
+        },
+      );
+    } else {
+      List<String> mainUrl = widget.nftUrl
+          .toString()
+          .replaceFirst("https://objkt.com/asset/", '')
+          .split("/");
+      if (mainUrl[0].startsWith('KT1') || mainUrl[0].startsWith('kt1')) {
+        response = await GQLClient(
+          'https://data.objkt.com/v3/graphql',
+        ).query(
+          query: ServiceConfig.getNFTFromContractWithoutHolder,
+          variables: {'address': mainUrl[0], 'tokenId': mainUrl[1]},
+        );
+      } else {
+        response = await GQLClient(
+          'https://data.objkt.com/v3/graphql',
+        ).query(
+          query: ServiceConfig.getNFTFromCollectionWithoutHolder,
+          variables: {'address': mainUrl[0], 'tokenId': mainUrl[1]},
+        );
+      }
+    }
 
     NftTokenModel localNft = NftTokenModel.fromJson(response.data['token'][0]);
 
