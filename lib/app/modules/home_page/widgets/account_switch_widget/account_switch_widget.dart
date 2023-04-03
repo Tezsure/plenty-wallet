@@ -103,9 +103,11 @@ class _AccountSwitchState extends State<AccountSwitch> {
                               ),
                             );
                             if (selectedIndex != null) {
-                              Get.find<AccountsWidgetController>()
-                                  .onPageChanged(selectedIndex);
                               controller.changeSelectedAccount(selectedIndex);
+                              try {
+                                Get.find<AccountsWidgetController>()
+                                    .onPageChanged(selectedIndex);
+                              } catch (e) {}
                               // controller.selectedIndex.value = selectedIndex;
                             }
                           },
