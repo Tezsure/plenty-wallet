@@ -56,7 +56,108 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
       nftGalleryFilter: nftGalleryFilter,
     ));
 
-    return _buildGalleryWithoutSearch(context);
+    return Obx(() {
+      return controller.search.value
+          ? _buildGalleryWithSearch(context)
+          : _buildGalleryWithoutSearch(context);
+    });
+  }
+
+  Widget _buildGalleryWithSearch(BuildContext context) {
+    return Builder(builder: (context) {
+      return NaanBottomSheet(
+        bottomSheetHorizontalPadding: 0,
+        // isScrollControlled: true,
+        height: AppConstant.naanBottomSheetHeight,
+        bottomSheetWidgets: [
+          SizedBox(
+            height: AppConstant.naanBottomSheetChildHeight -
+                MediaQuery.of(context).viewInsets.bottom +
+                60.7.arP,
+            child: Navigator(
+                observers: [NestedRouteObserver()],
+                onGenerateRoute: (_) {
+                  return MaterialPageRoute(builder: (context) {
+                    return Obx(() {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.arP),
+                            child: BottomSheetHeading(
+                              title: title,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 24.arP,
+                          ),
+                          _searchAppBarWidget(),
+                          SizedBox(
+                            height: 25.arP,
+                          ),
+                          controller.searchText.value.isEmpty
+                              ? Container(
+                                  margin: EdgeInsets.only(top: 0.03.height),
+                                  child: Text(
+                                    "Try searching for an artist, \ncollection name or NFT name"
+                                        .tr,
+                                    textAlign: TextAlign.center,
+                                    style: bodyMedium.copyWith(
+                                        color: ColorConst.grey),
+                                  ),
+                                )
+                              : controller.isSearching.value
+                                  ? NftGallerySkeleton()
+                                  : controller.searchNfts.isEmpty
+                                      ? Container(
+                                          margin:
+                                              EdgeInsets.only(top: 0.03.height),
+                                          child: Column(
+                                            children: [
+                                              SvgPicture.asset(
+                                                "assets/nft_page/svg/no_results.svg",
+                                                width: 0.5.width,
+                                              ),
+                                              SizedBox(
+                                                height: 0.02.height,
+                                              ),
+                                              Text(
+                                                "Probably Nothing".tr,
+                                                textAlign: TextAlign.center,
+                                                style: titleLarge,
+                                              ),
+                                              SizedBox(
+                                                height: 0.01.height,
+                                              ),
+                                              Text(
+                                                "We didn’t find any results. Did you \nmisspell your query?"
+                                                    .tr,
+                                                textAlign: TextAlign.center,
+                                                style: bodySmall.copyWith(
+                                                    color: ColorConst.grey),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : controller.searchNfts.length == 1 &&
+                                              controller.searchNfts.entries
+                                                      .first.value.length ==
+                                                  1
+                                          ? _getNftListViewWidget(
+                                              1.1, controller.searchNfts)
+                                          : _getCollectionGridViewWidget(
+                                              controller.searchNfts),
+                        ],
+                      );
+                    });
+                  });
+                }),
+          ),
+        ],
+      );
+    });
   }
 
   Widget _buildGalleryWithoutSearch(BuildContext context) {
@@ -89,64 +190,51 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                             SizedBox(
                               height: 24.arP,
                             ),
-                            _searchAppBarWidget(),
+                            _searchAppBarWidgetMock(),
                             SizedBox(
                               height: 24.arP,
                             ),
-                            controller.galleryNfts.value.isEmpty ||
-                                    controller.isSearching.value
-                                ? NftGallerySkeleton()
-                                : controller.searchText.value.isNotEmpty
-                                    ? controller.searchNfts.isEmpty
-                                        ? _buildEmptyPlaceHolder()
-                                        : controller.searchNfts.length == 1 &&
-                                                controller.searchNfts.entries
-                                                        .first.value.length ==
-                                                    1
-                                            ? _getNftListViewWidget(
-                                                1.1, controller.searchNfts)
-                                            : _getCollectionGridViewWidget(
-                                                controller.searchNfts)
-                                    : NotificationListener<
-                                        UserScrollNotification>(
-                                        onNotification: (notification) {
-                                          if (notification
-                                                      .metrics.extentAfter <=
-                                                  20 &&
-                                              controller.offsetNFT <
-                                                  controller.NFTsPk.length &&
-                                              !controller.loadingMore) {
-                                            controller.fetchAllNftForGallery();
-                                          }
+                            controller.galleryNfts.value.isEmpty
+                                ? controller.selectedGalleryFilter.value !=
+                                        NftGalleryFilter.list
+                                    ? NftGallerySkeletonList()
+                                    : NftGallerySkeleton()
+                                : NotificationListener<UserScrollNotification>(
+                                    onNotification: (notification) {
+                                      if (notification.metrics.extentAfter <=
+                                              20 &&
+                                          controller.offsetNFT <
+                                              controller.NFTsPk.length &&
+                                          !controller.loadingMore) {
+                                        controller.fetchAllNftForGallery();
+                                      }
 
-                                          final ScrollDirection direction =
-                                              notification.direction;
-                                          if (direction ==
-                                              ScrollDirection.forward) {
-                                            controller.isScrollingUp.value =
-                                                false;
-                                          } else if (direction ==
-                                              ScrollDirection.reverse) {
-                                            controller.isScrollingUp.value =
-                                                true;
-                                          }
-                                          return false;
-                                        },
-                                        child: Obx(
-                                          () => controller.selectedGalleryFilter
+                                      final ScrollDirection direction =
+                                          notification.direction;
+                                      if (direction ==
+                                          ScrollDirection.forward) {
+                                        controller.isScrollingUp.value = false;
+                                      } else if (direction ==
+                                          ScrollDirection.reverse) {
+                                        controller.isScrollingUp.value = true;
+                                      }
+                                      return false;
+                                    },
+                                    child: Obx(
+                                      () => controller.selectedGalleryFilter
+                                                  .value ==
+                                              NftGalleryFilter.collection
+                                          ? _getCollectionGridViewWidget(
+                                              controller.galleryNfts)
+                                          : controller.selectedGalleryFilter
                                                       .value ==
-                                                  NftGalleryFilter.collection
-                                              ? _getCollectionGridViewWidget(
-                                                  controller.galleryNfts)
-                                              : controller.selectedGalleryFilter
-                                                          .value ==
-                                                      NftGalleryFilter.list
-                                                  ? _getNftListViewWidget(2.1,
-                                                      controller.galleryNfts)
-                                                  : _getNftListViewWidget(1.1,
-                                                      controller.galleryNfts),
-                                        ),
-                                      ),
+                                                  NftGalleryFilter.list
+                                              ? _getNftListViewWidget(
+                                                  2.1, controller.galleryNfts)
+                                              : _getNftListViewWidget(
+                                                  1.1, controller.galleryNfts),
+                                    ),
+                                  ),
                           ],
                         ),
                         if (nftGalleryFilter == null)
@@ -215,6 +303,7 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                           ),
                           child: Center(
                             child: TextField(
+                              autofocus: true,
                               cursorColor: ColorConst.Primary,
                               onChanged: ((value) {
                                 controller.debounceTimer?.cancel();
@@ -224,6 +313,76 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                                       value.toLowerCase().trim());
                                 });
                               }),
+                              textAlignVertical: TextAlignVertical.center,
+                              style: bodyMedium.copyWith(
+                                color: Colors.white,
+                              ),
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                isDense: true,
+                                prefixIcon: Icon(
+                                  Icons.search_rounded,
+                                  color: const Color(0xFFB0A9B3),
+                                  size: 20.arP,
+                                ),
+                                hintText: "Search".tr,
+                                hintStyle: bodyMedium.copyWith(
+                                  color: const Color(0xFFB0A9B3),
+                                ),
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      BouncingWidget(
+                        onPressed: () {
+                          controller.search.value = false;
+                          controller.searchText.value = "";
+                          controller.searchNfts.clear();
+                        },
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(left: 12.0, right: 7.0),
+                          child: Text(
+                            "Cancel".tr,
+                            style:
+                                bodyMedium.copyWith(color: ColorConst.Primary),
+                          ),
+                        ),
+                      )
+                    ]),
+              )),
+        ],
+      );
+
+  Widget _searchAppBarWidgetMock() => Row(
+        children: [
+          SizedBox(
+              width: 1.width,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0.arP),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xff958E99).withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(10.arP),
+                          ),
+                          child: Center(
+                            child: TextField(
+                              cursorColor: ColorConst.Primary,
+                              onTap: () {
+                                controller.search.value = true;
+                              },
                               textAlignVertical: TextAlignVertical.center,
                               style: bodyMedium.copyWith(
                                 color: Colors.white,
@@ -617,7 +776,7 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                             child: nfts.isEmpty
                                 ? Container()
                                 : NftCollectionItemWidget(
-                                    galleryName: "Proof of People x Refraction",
+                                    galleryName: "Gallery",
                                     nftTokens: nfts.values.toList()[index],
                                   ),
                           );
@@ -664,6 +823,143 @@ class NftGallerySkeleton extends StatelessWidget {
         child: MasonryGridView.count(
             physics: const NeverScrollableScrollPhysics(),
             crossAxisCount: 1,
+            mainAxisSpacing: 12.arP,
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
+            shrinkWrap: true,
+            crossAxisSpacing: 12.arP,
+            // cacheExtent: 100.0.arP,
+            itemCount: 6,
+            itemBuilder: (context, index) {
+              return Container(
+                width: double.infinity,
+                constraints: const BoxConstraints(minHeight: 1),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF958E99).withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(
+                    12.arP,
+                  ),
+                ),
+                child: Container(
+                  padding: EdgeInsets.all(
+                    12.arP,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xff1E1C1F),
+                    borderRadius: BorderRadius.circular(
+                      12.arP,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: skeletonHeights[index],
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                                decoration: BoxDecoration(
+                              color: const Color(0xff474548),
+                              borderRadius: BorderRadius.circular(
+                                8.arP,
+                              ),
+                            )),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12.arP,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          width: 135.arP,
+                          height: 16.arP,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              50.arP,
+                            ),
+                          ),
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                                decoration: BoxDecoration(
+                              color: const Color(0xff474548),
+                              borderRadius: BorderRadius.circular(
+                                50.arP,
+                              ),
+                            )),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4.arP,
+                      ),
+                      // created by text
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          width: 105.arP,
+                          height: 16.arP,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              50.arP,
+                            ),
+                          ),
+                          child: Shimmer.fromColors(
+                            baseColor: const Color(0xff474548),
+                            highlightColor:
+                                const Color(0xFF958E99).withOpacity(0.2),
+                            child: Container(
+                                decoration: BoxDecoration(
+                              color: const Color(0xff474548),
+                              borderRadius: BorderRadius.circular(
+                                50.arP,
+                              ),
+                            )),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+      ),
+    );
+  }
+}
+
+class NftGallerySkeletonList extends StatelessWidget {
+  NftGallerySkeletonList({
+    super.key,
+  });
+  List<double> skeletonHeights = <double>[
+    158.arP,
+    90.arP,
+    150.arP,
+    90.arP,
+    180.arP,
+    200.arP,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 16.arP,
+        ),
+        child: MasonryGridView.count(
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: Get.width > 768 ? 3 : 2,
             mainAxisSpacing: 12.arP,
             addAutomaticKeepAlives: false,
             addRepaintBoundaries: false,

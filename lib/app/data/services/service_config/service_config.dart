@@ -370,7 +370,7 @@ query GetCollectionNFT($address: String!) {
   static const String searchQueryFromPks = r'''
     query NftsFromPks($pks: [bigint!], $offset: Int, $query: String!) {
       token(
-        where: {pk : {_in: $pks}, token_id: {_neq: ""},  _or: [{ name: {_iregex:$query} }, { fa:{name:{_iregex:$query}} },{fa_contract:{_eq:$query} }, ]},
+        where: {pk : {_in: $pks}, token_id: {_neq: ""},  _or: [{ name: {_iregex:$query} },{ creators: {holder:{alias:{_iregex:$query}}} }, { fa:{name:{_iregex:$query}} },{fa_contract:{_eq:$query} }, ]},
         offset: $offset
       ) {
         name
@@ -396,7 +396,7 @@ query GetCollectionNFT($address: String!) {
   static const String searchQueryFromAddress = r'''
     query NftsFromAddress($address: String!, $offset: Int, $query: String!) {
       token(
-        where: {holders: {holder_address: {_eq: $address}, token: {}, quantity:{_gt:"0"}}, token_id: {_neq: ""},  _or: [{ name: {_iregex:$query} }, { fa:{name:{_iregex:$query}} },{fa_contract:{_eq:$query} }, ]},
+        where: {holders: {holder_address: {_eq: $address}, token: {}, quantity:{_gt:"0"}}, token_id: {_neq: ""},  _or: [{ name: {_iregex:$query} },{ creators: {holder:{alias:{_iregex:$query}}} }, { fa:{name:{_iregex:$query}} },{fa_contract:{_eq:$query} }, ]},
         offset: $offset
       ) {
         name

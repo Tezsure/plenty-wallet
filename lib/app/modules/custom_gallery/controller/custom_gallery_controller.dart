@@ -48,6 +48,7 @@ class CustomNFTGalleryController extends GetxController {
   RxMap<String, List<NftTokenModel>> searchNfts =
       <String, List<NftTokenModel>>{}.obs;
   RxBool isSearching = false.obs;
+  RxBool search = false.obs;
   RxString searchText = ''.obs;
 
   @override
