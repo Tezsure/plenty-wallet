@@ -701,30 +701,51 @@ class _CustomNFTDetailBottomSheetState
                                 itemBuilder: ((context, index) {
                                   var creator =
                                       "https://services.tzkt.io/v1/avatars/${nftModel!.creators![index].creatorAddress}";
-                                  return ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      child: ClipOval(
-                                        child: CachedNetworkImage(
-                                          imageUrl: creator,
+                                  return BouncingWidget(
+                                    onPressed: () {
+                                      CommonFunctions.launchURL(
+                                          "https://objkt.com/profile/${nftModel!.creators![index].creatorAddress}");
+                                    },
+                                    child: ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        child: ClipOval(
+                                          child: CachedNetworkImage(
+                                            imageUrl: creator,
+                                          ),
                                         ),
                                       ),
+                                      title: Row(
+                                        children: [
+                                          RichText(
+                                              textAlign: TextAlign.start,
+                                              text: TextSpan(
+                                                  text: 'Created By '.tr,
+                                                  style: labelSmall.copyWith(
+                                                      fontSize: 11.aR,
+                                                      color: ColorConst
+                                                          .NeutralVariant
+                                                          .shade60),
+                                                  children: [
+                                                    TextSpan(
+                                                        text: tz1Shortner(
+                                                            "${nftModel!.creators![index].creatorAddress}"),
+                                                        style: labelMedium
+                                                            .copyWith(
+                                                                fontSize:
+                                                                    12.aR))
+                                                  ])),
+                                          SizedBox(
+                                            width: 8.arP,
+                                          ),
+                                          Image.asset(
+                                            "${PathConst.NFT_PAGE}svg/external-link.png",
+                                            height: 16.arP,
+                                            width: 16.arP,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    title: RichText(
-                                        textAlign: TextAlign.start,
-                                        text: TextSpan(
-                                            text: 'Created By '.tr,
-                                            style: labelSmall.copyWith(
-                                                fontSize: 11.aR,
-                                                color: ColorConst
-                                                    .NeutralVariant.shade60),
-                                            children: [
-                                              TextSpan(
-                                                  text: tz1Shortner(
-                                                      "${nftModel!.creators![index].creatorAddress}"),
-                                                  style: labelMedium.copyWith(
-                                                      fontSize: 12.aR))
-                                            ])),
                                   );
                                 })),
                             Padding(
@@ -735,27 +756,45 @@ class _CustomNFTDetailBottomSheetState
                               ),
                             ),
                             if (nftModel!.holders?.isNotEmpty ?? false)
-                              ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  foregroundImage: NetworkImage(
-                                      "https://services.tzkt.io/v1/avatars/${nftModel!.holders!.first.holderAddress}"),
+                              BouncingWidget(
+                                onPressed: () {
+                                  CommonFunctions.launchURL(
+                                      "https://objkt.com/profile/${nftModel!.holders!.first.holderAddress}");
+                                },
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    foregroundImage: NetworkImage(
+                                        "https://services.tzkt.io/v1/avatars/${nftModel!.holders!.first.holderAddress}"),
+                                  ),
+                                  title: Row(
+                                    children: [
+                                      RichText(
+                                          textAlign: TextAlign.start,
+                                          text: TextSpan(
+                                              text: 'Owned By '.tr,
+                                              style: labelSmall.copyWith(
+                                                  fontSize: 11.aR,
+                                                  color: ColorConst
+                                                      .NeutralVariant.shade60),
+                                              children: [
+                                                TextSpan(
+                                                    text: tz1Shortner(
+                                                        "${nftModel!.holders!.first.holderAddress}"),
+                                                    style: labelMedium.copyWith(
+                                                        fontSize: 12.aR))
+                                              ])),
+                                      SizedBox(
+                                        width: 8.arP,
+                                      ),
+                                      Image.asset(
+                                        "${PathConst.NFT_PAGE}svg/external-link.png",
+                                        height: 16.arP,
+                                        width: 16.arP,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                title: RichText(
-                                    textAlign: TextAlign.start,
-                                    text: TextSpan(
-                                        text: 'Owned By '.tr,
-                                        style: labelSmall.copyWith(
-                                            fontSize: 11.aR,
-                                            color: ColorConst
-                                                .NeutralVariant.shade60),
-                                        children: [
-                                          TextSpan(
-                                              text: tz1Shortner(
-                                                  "${nftModel!.holders!.first.holderAddress}"),
-                                              style: labelMedium.copyWith(
-                                                  fontSize: 12.aR))
-                                        ])),
                               ),
                             _buildTabs(),
                             SizedBox(

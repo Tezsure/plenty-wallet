@@ -39,8 +39,10 @@ class SplashPageController extends GetxController {
             (await getWidgetVisibility('IAF-widget-visiable'));
         ServiceConfig.isTezQuakeWidgetVisible =
             (await getWidgetVisibility('tezquakeaid-widget-visiable'));
-        ServiceConfig.isVCAWebsiteWidgetVisible =
+        ServiceConfig.isVCAWidgetVisible =
             (await getWidgetVisibility('vca-website-widget-visiable'));
+        ServiceConfig.isTeztownWidgetVisible =
+            (await getWidgetVisibility('sprint-fever-visible'));
         // ServiceConfig.isVCARedeemPOAPWidgetVisible =
         //     (await getWidgetVisibility('vca-redeem-poap-nft-widget-visiable'));
         // ServiceConfig.isVCAExploreNFTWidgetVisible = (await getWidgetVisibility(

@@ -38,7 +38,7 @@ class TeztownWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // if (!ServiceConfig.isVCAWebsiteWidgetVisible) return Container();
+    if (!ServiceConfig.isTeztownWidgetVisible) return Container();
     return Column(
       children: [
         HomeWidgetFrame(
@@ -125,12 +125,13 @@ class TeztownWidget extends StatelessWidget {
     );
   }
 
-  void _onTap(int index) {
+  void _onTap(int index) async {
     final homeController = Get.find<HomePageController>();
     final address = homeController.userAccounts.isEmpty
         ? null
         : homeController
             .userAccounts[homeController.selectedIndex.value].publicKeyHash;
+    await CommonFunctions.toggleLoaderOverlay(() async => controller.onInit());
     switch (index) {
       case 0:
         NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZTOWN_DETAILS,

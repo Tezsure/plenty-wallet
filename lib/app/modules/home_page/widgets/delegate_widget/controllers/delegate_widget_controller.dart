@@ -107,7 +107,7 @@ class DelegateWidgetController extends GetxController {
     try {
       final isVerified = await AuthService().verifyBiometricOrPassCode();
       if (!isVerified) return;
-      toggleLoaderOverlay(
+    CommonFunctions.  toggleLoaderOverlay(
         () async {
           await confirmDelegate(baker);
         },
@@ -331,7 +331,7 @@ class DelegateWidgetController extends GetxController {
     } else {
       DelegateBakerModel? delegatedBaker;
       if (delegateBakerList.isEmpty) {
-        await toggleLoaderOverlay(getBakerList);
+        await CommonFunctions.toggleLoaderOverlay(getBakerList);
       }
       NaanAnalytics.logEvent(NaanAnalyticsEvents.REDELEGATE);
       if (delegateBakerList.any((element) => element.address == bakerAddress)) {
@@ -354,7 +354,7 @@ class DelegateWidgetController extends GetxController {
               fullscreen: true);
         }
       } else {
-        await toggleLoaderOverlay(() async {
+        await CommonFunctions.toggleLoaderOverlay(() async {
           delegatedBaker = (await getBakerDetail(bakerAddress!)) ??
               DelegateBakerModel(address: bakerAddress);
           delegateBakerList.add(delegatedBaker!);
@@ -397,21 +397,7 @@ class DelegateWidgetController extends GetxController {
     }
   }
 
-  Future<void> toggleLoaderOverlay(Function() asyncFunction) async {
-    await Get.showOverlay(
-        asyncFunction: () async => await asyncFunction(),
-        loadingWidget: const SizedBox(
-          height: 50,
-          width: 50,
-          child: Center(
-              child: CupertinoActivityIndicator(
-            color: ColorConst.Primary,
-          )),
-        ));
-    // if (Get.isOverlaysOpen) {
-    //   Get.back();
-    // }
-  }
+ 
 }
 
 enum BakerListBy { Rank, Yield, Space, Staking, Fees }
