@@ -524,6 +524,13 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                       SizedBox(
                         height: index == 0 ? 0 : 10.arP,
                       ),
+                      _getCollectionDetailsRow(
+                        nfts.values.toList()[index][0],
+                        nfts.values.toList()[index].length,
+                      ),
+                      SizedBox(
+                        height: 15.arP,
+                      ),
                       MasonryGridView.count(
                           shrinkWrap: true,
                           addAutomaticKeepAlives: false,
@@ -663,6 +670,9 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                           })),
                       SizedBox(
                         height: 16.arP,
+                      ),
+                      Divider(
+                        color: Colors.white.withOpacity(0.4),
                       ),
                     ],
                   );

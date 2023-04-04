@@ -478,8 +478,12 @@ class _StallsState extends State<Stalls> {
                       MaterialPageRoute(
                         builder: (context) => FullScreenView(
                             child: CachedNetworkImage(
-                                imageUrl:
-                                    "${ServiceConfig.naanApis}/vca_images/${widget.map}")),
+                          imageUrl:
+                              "${ServiceConfig.naanApis}/vca_images/${widget.map}",
+                          width: 1.2.width,
+                          fit: BoxFit.cover,
+                          height: 1.2.height,
+                        )),
                       ));
                 },
               ),

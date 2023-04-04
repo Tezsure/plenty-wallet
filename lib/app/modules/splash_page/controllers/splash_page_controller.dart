@@ -207,64 +207,45 @@ class SplashWarningWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(22.arP)),
-          backgroundColor: ColorConst.darkGrey,
-          title: Text(
-            "Something went wrong!",
-            style: titleMedium,
+    return AlertDialog(
+      shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(22.arP)),
+      backgroundColor: ColorConst.darkGrey,
+      title: Text(
+        "Something went wrong!",
+        style: titleMedium,
+      ),
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '1. Open "Settings".\n2. Select "Apps".\n3. Tap "naan" to clear cache.\n4. Select "Storage".\n5. Tap "Clear cache".',
+            style: bodyMedium,
           ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '1. Open "Settings".\n2. Select "Apps".\n3. Tap "naan" to clear cache.\n4. Select "Storage".\n5. Tap "Clear cache".',
-                style: bodyMedium,
-              ),
-              0.02.vspace,
-              Text(
-                "If you've backed-up your wallet, we recommend to reset naan",
-                style: bodyMedium.copyWith(color: ColorConst.NaanRed),
-              ),
-              0.02.vspace,
-              optionMethod(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Platform.isAndroid
-                          ? SvgPicture.asset(
-                              "${PathConst.SVG}fingerprint.svg",
-                              color: ColorConst.Error.shade60,
-                              width: 24.arP,
-                            )
-                          : SvgPicture.asset(
-                              "${PathConst.SVG}faceid.svg",
-                              color: ColorConst.Error.shade60,
-                              width: 24.arP,
-                            ),
-                      0.02.hspace,
-                      Text(
-                        "Hold to reset naan".tr,
-                        style:
-                            labelMedium.apply(color: ColorConst.Error.shade60),
-                      ),
-                    ],
+          0.02.vspace,
+          Text(
+            "If you've backed-up your wallet, we recommend to reset naan",
+            style: bodyMedium.copyWith(color: ColorConst.NaanRed),
+          ),
+          0.02.vspace,
+          optionMethod(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Hold to reset naan".tr,
+                    style: labelMedium.apply(color: ColorConst.Error.shade60),
                   ),
-                  onLongPress: () async {
-                    NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
-                    await ServiceConfig().clearStorage();
-                    Get.offAllNamed(Routes.ONBOARDING_PAGE);
-                  }),
-            ],
-          ),
-        ),
-      ],
+                ],
+              ),
+              onLongPress: () async {
+                NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
+                await ServiceConfig().clearStorage();
+                Get.offAllNamed(Routes.ONBOARDING_PAGE);
+              }),
+        ],
+      ),
     );
   }
 
@@ -284,5 +265,3 @@ class SplashWarningWidget extends StatelessWidget {
     );
   }
 }
-
-
