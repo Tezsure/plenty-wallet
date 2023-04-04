@@ -36,6 +36,7 @@ class SplashPageController extends GetxController {
     try {
       await Future.delayed(const Duration(milliseconds: 800));
 
+      // throw Exception();
       ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
           ServiceConfig.currentSelectedNode;
       try {
@@ -116,7 +117,12 @@ class SplashPageController extends GetxController {
     } catch (e) {
       Zone.current.handleUncaughtError(e, StackTrace.current);
       Get.dialog(
-        SplashWarningWidget(),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SplashWarningWidget(),
+          ],
+        ),
         barrierDismissible: false,
       );
       // Phoenix.rebirth(Get.context!);
@@ -212,55 +218,18 @@ class SplashWarningWidget extends StatelessWidget {
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(22.arP)),
       backgroundColor: ColorConst.darkGrey,
       title: Text(
-        "Something went wrong!",
+        "Sorry! Looks like an error has occurred.",
         style: titleMedium,
       ),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '1. Open "Settings".\n2. Select "Apps".\n3. Tap "naan" to clear cache.\n4. Select "Storage".\n5. Tap "Clear cache".',
+            'We apologize for the inconvenience. This issue is currently affecting some of our users. To resolve the problem, please try the following steps:\n\n1. Long press on the Naan app icon and select "App Info."\n2. Navigate to "Storage."\n3. Attempt to clear the app cache and open the app again.\n4. If step 3 doesn\'t work, try clearing the app data and opening the app. (Note: If you haven\'t backed up your seed phrase, don\'t perform this step as clearing app data will delete all data.)\n\nWe are actively working on a solution and will address this issue in our next update. Thank you for your patience.',
             style: bodyMedium,
           ),
           0.02.vspace,
-          Text(
-            "If you've backed-up your wallet, we recommend to reset naan",
-            style: bodyMedium.copyWith(color: ColorConst.NaanRed),
-          ),
-          0.02.vspace,
-          optionMethod(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Hold to reset naan".tr,
-                    style: labelMedium.apply(color: ColorConst.Error.shade60),
-                  ),
-                ],
-              ),
-              onLongPress: () async {
-                NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
-                await ServiceConfig().clearStorage();
-                Get.offAllNamed(Routes.ONBOARDING_PAGE);
-              }),
         ],
-      ),
-    );
-  }
-
-  Widget optionMethod({
-    Widget? child,
-    GestureTapCallback? onTap,
-    GestureTapCallback? onLongPress,
-  }) {
-    return Center(
-      child: SolidButton(
-        width: 1.width - 64.arP,
-        primaryColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-        onLongPressed: onLongPress,
-        onPressed: onTap,
-        child: child,
       ),
     );
   }
