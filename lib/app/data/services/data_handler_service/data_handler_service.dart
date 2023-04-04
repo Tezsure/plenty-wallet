@@ -13,6 +13,7 @@ import 'package:naan_wallet/app/data/services/service_config/service_config.dart
 import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
 import 'package:naan_wallet/app/data/services/service_models/event_models.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/teztown/controllers/teztown_model.dart';
 
 import 'data_handler_render_service.dart';
 
@@ -244,6 +245,16 @@ class DataHandlerService {
         .write(key: ServiceConfig.dappsStorage, value: dappString);
     await ServiceConfig.localStorage.write(
         key: ServiceConfig.dappsBannerStorage, value: jsonEncode(banners));
+  }
+
+  Future<TeztownModel> getTeztownData(Rx<TeztownModel> data) async {
+    final apiResult = jsonDecode(await HttpService.performGetRequest(
+        ServiceConfig.naanApis,
+        endpoint: "spring_fever"));
+    if (data.toJson().toString().hashCode != apiResult.toString().hashCode) {
+      data.value = TeztownModel.fromJson(apiResult);
+    }
+    return data.value;
   }
 
   Future<Map<String, List<EventModel>>> getVCAEventsDetail({

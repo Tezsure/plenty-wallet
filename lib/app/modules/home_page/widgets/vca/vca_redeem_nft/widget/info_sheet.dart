@@ -43,7 +43,7 @@ class VCAPOAPInfoSheet extends StatelessWidget {
         Column(
           children: [
             Text(
-              "What is POAP NFT?",
+              "What is a POAP NFT?",
               style: headlineSmall,
             ),
             0.016.vspace,
@@ -131,6 +131,7 @@ class VCAPOAPInfoSheet extends StatelessWidget {
             ),
             0.058.vspace,
             SolidButton(
+              width: 1.width - 64.arP,
               title: "Continue",
               onPressed: () {
                 Get.back();

@@ -22,29 +22,38 @@ class NFTabPage extends GetView<AccountSummaryController> {
     return Obx(() => controller.nftLoading.value
         ? NftSkeleton()
         : controller.userNfts.isEmpty
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  0.04.vspace,
-                  SvgPicture.asset(
-                    "assets/empty_states/empty2.svg",
-                    height: 120.aR,
-                  ),
-                  RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                          text: "No Collections".tr,
-                          style: titleLarge.copyWith(
-                              fontWeight: FontWeight.w700, fontSize: 22.aR),
-                          children: [
-                            TextSpan(
-                                text: "\nExplore new collectibles on objkt".tr,
-                                style: labelMedium.copyWith(
-                                    fontSize: 12.aR,
-                                    color: ColorConst.NeutralVariant.shade60))
-                          ]))
-                ],
+            ? RefreshIndicator(
+                color: ColorConst.Primary,
+                backgroundColor: Colors.transparent,
+                onRefresh: () async {
+                  controller.contractOffset = 0;
+                  controller.contracts.clear();
+                  controller.userNfts.clear();
+                  controller.fetchAllNfts();
+                },
+                child: ListView(
+                  children: [
+                    0.08.vspace,
+                    SvgPicture.asset(
+                      "assets/empty_states/empty2.svg",
+                      height: 120.aR,
+                    ),
+                    RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                            text: "No Collections".tr,
+                            style: titleLarge.copyWith(
+                                fontWeight: FontWeight.w700, fontSize: 22.aR),
+                            children: [
+                              TextSpan(
+                                  text:
+                                      "\nExplore new collectibles on objkt".tr,
+                                  style: labelMedium.copyWith(
+                                      fontSize: 12.aR,
+                                      color: ColorConst.NeutralVariant.shade60))
+                            ])),
+                  ],
+                ),
               )
             : RefreshIndicator(
                 color: ColorConst.Primary,

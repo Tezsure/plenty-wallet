@@ -50,7 +50,7 @@ class DappBrowserController extends GetxController {
         title: "Buy NFT",
         subtitle:
             'This module will be powered by wert.io and you will be using wert’s interface.',
-        onNext: () {
+        onNext: ({String senderAddress = ""}) {
 /*           final controller = Get.put(AccountSummaryController());
 
           List<String> displayCoins = [
@@ -101,7 +101,9 @@ class DappBrowserController extends GetxController {
           } */
 
           CommonFunctions.bottomSheet(
-            ChoosePaymentMethod(),
+            ChoosePaymentMethod(
+              senderAddress: senderAddress,
+            ),
             settings: RouteSettings(
               arguments: url,
             ),

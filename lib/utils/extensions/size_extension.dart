@@ -14,17 +14,23 @@ extension SizeExtension on num {
   double get spH => this * (Get.height / 6) / 100;
 
   double get arP {
-    // log(Get.size.height.toString());
-    // log(Get.pixelRatio.toString());
+/*     print("Get.size.height.toString():${Get.size.height.toString()}");
+    log(Get.size.aspectRatio.toString()); */
     double ratio = 1;
-    if (Get.size.height < 740) {
-      ratio = Platform.isIOS ? 1.35 : 1;
+    if (Get.size.height < 690) {
+      ratio = 1.2;
+    } else if (Get.size.height < 740 && Get.size.height > 690) {
+      ratio = Platform.isIOS ? 1.35 : 1.35;
+    } else if (Get.size.height > 780 && Get.size.height < 800) {
+      ratio = 1.6;
     } else if (Get.size.height > 1100) {
       ratio = 1.6;
     } else {
       ratio = 2;
     }
-    return this * (Get.size.aspectRatio * ratio);
+    double aspectRatio = Get.size.aspectRatio;
+
+    return this * (aspectRatio * ratio);
   }
 
   double get txtArp => arP;

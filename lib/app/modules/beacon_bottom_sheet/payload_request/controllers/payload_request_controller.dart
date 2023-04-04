@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/helpers/on_going_tx_helper.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 
 import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
@@ -94,8 +96,13 @@ class PayloadRequestController extends GetxController {
       } else {
         Get.back();
       }
-      Get.snackbar('Error', '$e',
-          backgroundColor: ColorConst.Error, colorText: Colors.white);
+/*       Get.snackbar('Error', '$e',
+          backgroundColor: ColorConst.Error, colorText: Colors.white); */
+
+      transactionStatusSnackbar(
+          status: TransactionStatus.error,
+          transactionAmount: "Error",
+          tezAddress: e.toString());
     }
   }
 

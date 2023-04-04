@@ -184,8 +184,8 @@ class OpreationRequestController extends GetxController {
       bool isBioEnabled = await authService.getBiometricAuth();
 
       if (isBioEnabled) {
-        final bioResult = await CommonFunctions.bottomSheet(const BiometricView(),
-      
+        final bioResult = await CommonFunctions.bottomSheet(
+            const BiometricView(),
             settings: RouteSettings(arguments: isBioEnabled));
         if (bioResult == null) {
           return;

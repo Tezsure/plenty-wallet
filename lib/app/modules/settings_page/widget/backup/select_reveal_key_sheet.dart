@@ -60,8 +60,8 @@ class _SelectToRevealKeyBottomSheetState
                   alignment: Alignment.centerRight,
                   child: InfoButton(
                       onPressed: () => CommonFunctions.bottomSheet(
-                            InfoBottomSheet(),fullscreen: true
-                          )),
+                          InfoBottomSheet(),
+                          fullscreen: true)),
                 ),
               ],
             ),
@@ -117,7 +117,9 @@ class _SelectToRevealKeyBottomSheetState
                                         pkHash:
                                             widget.accountModel.publicKeyHash!,
                                       ))).then((value) {
-                            controller.dispose();
+                            try {
+                              controller.dispose();
+                            } catch (e) {}
                           });
                           // CommonFunctions.bottomSheet(
                           //   SecretPhrasePage(
@@ -150,7 +152,9 @@ class _SelectToRevealKeyBottomSheetState
                                             widget.accountModel.name ?? "",
                                         pkh: widget.accountModel.publicKeyHash!,
                                       ))).then((value) {
-                            controller.dispose();
+                            try {
+                              controller.dispose();
+                            } catch (e) {}
                           });
                           // CommonFunctions.bottomSheet(
                           // PrivateKeyPage(

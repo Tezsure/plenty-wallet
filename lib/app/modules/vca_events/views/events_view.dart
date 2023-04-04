@@ -319,9 +319,6 @@ class EventWidget extends StatelessWidget {
                             }
                           },
                         ),
-                        SizedBox(
-                          width: 20.arP,
-                        ),
                         BouncingWidget(
                           onPressed: () {
                             NaanAnalytics.logEvent(
@@ -330,8 +327,11 @@ class EventWidget extends StatelessWidget {
                             Share.share(event.shareText ??
                                 "Check out this event ${event.title}}");
                           },
-                          child: SvgPicture.asset("assets/svg/share.svg",
-                              height: 18.arP, width: 18.arP),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 18.arP),
+                            child: SvgPicture.asset("assets/svg/share.svg",
+                                height: 18.arP, width: 18.arP),
+                          ),
                         ),
                       ])
                     ],
@@ -478,8 +478,11 @@ class _StallsState extends State<Stalls> {
                       MaterialPageRoute(
                         builder: (context) => FullScreenView(
                             child: CachedNetworkImage(
-                                imageUrl:
-                                    "${ServiceConfig.naanApis}/vca_images/${widget.map}")),
+                          imageUrl:
+                              "${ServiceConfig.naanApis}/vca_images/${widget.map}",
+                          fit: BoxFit.cover,
+                          height: 1.2.height,
+                        )),
                       ));
                 },
               ),
@@ -509,32 +512,43 @@ class _StallsState extends State<Stalls> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              22.arP,
-                            ),
-                            child: stall.image!.endsWith(".svg")
-                                ? SvgPicture.network(
-                                    "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 230.arP,
-                                  )
-                                : CachedNetworkImage(
-                                    imageUrl:
-                                        "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 230.arP,
-                                  )),
-                        SizedBox(
-                          height: 12.arP,
-                        ),
-                        Text(
-                          stall.title!,
-                          style: titleSmall,
-                        ),
-                        StallDescription(description: stall.description!),
+                        stall.image!.isNotEmpty
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                        22.arP,
+                                      ),
+                                      child: stall.image!.endsWith(".svg")
+                                          ? SvgPicture.network(
+                                              "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: 230.arP,
+                                            )
+                                          : CachedNetworkImage(
+                                              imageUrl:
+                                                  "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: 230.arP,
+                                            )),
+                                  SizedBox(
+                                    height: 12.arP,
+                                  ),
+                                ],
+                              )
+                            : const SizedBox(),
+                        stall.title!.isNotEmpty
+                            ? Text(
+                                stall.title!,
+                                style: titleSmall,
+                              )
+                            : const SizedBox(),
+                        stall.description!.isNotEmpty
+                            ? StallDescription(description: stall.description!)
+                            : const SizedBox(),
                         SizedBox(
                           height: 12.arP,
                         ),
