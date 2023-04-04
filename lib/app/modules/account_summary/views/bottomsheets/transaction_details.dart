@@ -309,8 +309,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
             Row(
               children: [
                 Text(
-                  transactionModel.send.alias ??
-                      transactionModel.send.address!.tz1Short(),
+                  contact.alias ?? contact.address!.tz1Short(),
                   style: bodyMedium.copyWith(
                       fontSize: 14.aR, letterSpacing: 0.5.aR),
                 ),

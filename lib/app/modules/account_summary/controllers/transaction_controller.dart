@@ -321,24 +321,36 @@ extension TransactionChecker on TxHistoryModel {
   }
 
   AliasAddress get send {
-    final homeController = Get.find<HomePageController>();
-    final transactionController = Get.find<TransactionController>();
-    if (homeController.userAccounts
-        .any((element) => element.publicKeyHash!.contains(sender!.address!))) {
-      final account = homeController.userAccounts.firstWhere(
-          (element) => element.publicKeyHash!.contains(sender!.address!));
-      return AliasAddress(address: account.publicKeyHash, alias: account.name);
-    } else if (transactionController.contacts
-        .any((element) => element.address.contains(sender!.address!))) {
-      final contact = transactionController.contacts
-          .firstWhere((element) => element.address.contains(sender!.address!));
-      return AliasAddress(address: contact.address, alias: contact.name);
-    }
-    return sender!;
+    return getAddressAlias(sender!);
   }
 
   AliasAddress get reciever {
-    return sender!;
+    print("hash: $hash");
+    if (parameter != null &&
+        parameter?.value is Map<String, List> &&
+        parameter?.value?["txs"]?[0]?["to_"] != null) {
+      return getAddressAlias(
+          AliasAddress(address: parameter?.value?["txs"]?[0]?["to_"]));
+    }
+    if (target != null) return getAddressAlias(target!);
+    return getAddressAlias(sender!);
+  }
+
+  AliasAddress getAddressAlias(AliasAddress address) {
+    final homeController = Get.find<HomePageController>();
+    final transactionController = Get.find<TransactionController>();
+    if (homeController.userAccounts
+        .any((element) => element.publicKeyHash!.contains(address.address!))) {
+      final account = homeController.userAccounts.firstWhere(
+          (element) => element.publicKeyHash!.contains(address.address!));
+      return AliasAddress(address: account.publicKeyHash, alias: account.name);
+    } else if (transactionController.contacts
+        .any((element) => element.address.contains(address.address!))) {
+      final contact = transactionController.contacts
+          .firstWhere((element) => element.address.contains(address.address!));
+      return AliasAddress(address: contact.address, alias: contact.name);
+    }
+    return address;
   }
 
   String get actionType {
