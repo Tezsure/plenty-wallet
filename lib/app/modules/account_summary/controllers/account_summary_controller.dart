@@ -380,6 +380,7 @@ class AccountSummaryController extends GetxController {
     if (!_isSelectedAccount(index)) {
       Get.back();
       Get.find<AccountsWidgetController>().onPageChanged(index);
+      Get.find<HomePageController>().changeSelectedAccount(index);
       //selectedAccountIndex.value = index;
       selectedAccount.value = homePageController.userAccounts[index];
       contracts.clear();

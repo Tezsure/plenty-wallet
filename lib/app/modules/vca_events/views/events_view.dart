@@ -480,7 +480,6 @@ class _StallsState extends State<Stalls> {
                             child: CachedNetworkImage(
                           imageUrl:
                               "${ServiceConfig.naanApis}/vca_images/${widget.map}",
-                          width: 1.2.width,
                           fit: BoxFit.cover,
                           height: 1.2.height,
                         )),

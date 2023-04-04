@@ -53,6 +53,10 @@ class HomePageController extends GetxController {
     try {
       Get.put(BeaconService(), permanent: true);
     } catch (e) {}
+
+    selectedIndex.listen((index) {
+      print("${selectedIndex.value}${index}selectedIndex called");
+    });
     DataHandlerService()
         .renderService
         .accountUpdater
@@ -172,9 +176,11 @@ class HomePageController extends GetxController {
     // Get.find<AccountsWidgetController>().onPageChanged(index);
     if (userAccounts.isNotEmpty && userAccounts.length > index) {
       selectedIndex.value = index;
+
       userAccounts[index].delegatedBakerAddress =
           await Get.put(DelegateWidgetController())
               .getCurrentBakerAddress(userAccounts[index].publicKeyHash!);
+      //Get.find<AccountsWidgetController>().onPageChanged(index);
       print("baker address :${userAccounts[index].delegatedBakerAddress}");
     }
   }
