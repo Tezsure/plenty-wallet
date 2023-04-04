@@ -58,16 +58,16 @@ class BuyNFTController extends GetxController {
   RxMap<String, dynamic> operation = <String, dynamic>{}.obs;
   final error = "".obs;
 
-  void selectMethod(AccountTokenModel token) async {
+  void selectMethod(AccountTokenModel token,
+      {String senderAddress = ""}) async {
     if (selectedNFT.value == null) return;
     try {
       selectedToken.value = token;
       final accountToken = Get.find<AccountSummaryController>();
       Get.back();
       CommonFunctions.bottomSheet(
-        ReviewNFTSheet(),
-        settings: RouteSettings(
-          arguments: url,
+        ReviewNFTSheet(
+          senderAddress: senderAddress,
         ),
       );
       print("selected token: ${token.symbol}");
@@ -692,7 +692,7 @@ class BuyNFTController extends GetxController {
     );
   }
 
-  void openSuccessSheet() async {
+  void openSuccessSheet({String sendAddress = ""}) async {
     final verified = await AuthService().verifyBiometricOrPassCode();
     if (verified) {
       final txHash = await OperationService()
@@ -711,16 +711,20 @@ class BuyNFTController extends GetxController {
       );
       // start tracking tx here
       onConfirm(selectedToken.value!,
-          double.parse(priceInToken.value).toStringAsFixed(3), txHash);
+          double.parse(priceInToken.value).toStringAsFixed(3), txHash,
+          senderAddress: sendAddress);
     }
   }
 
-  onConfirm(AccountTokenModel token, String amount, String opHash) {
+  onConfirm(AccountTokenModel token, String amount, String opHash,
+      {String senderAddress = ""}) {
     DataHandlerService().onGoingTxStatusHelpers.add(OnGoingTxStatusHelper(
         opHash: opHash,
         status: TransactionStatus.pending,
         transactionAmount: "$amount ${token.symbol!}",
         isBrowser: true,
+        saveAddress: senderAddress.isNotEmpty,
+        senderAddress: senderAddress,
         tezAddress: "${opHash.substring(0, 6)}...."));
     transactionStatusSnackbar(
         status: TransactionStatus.pending,

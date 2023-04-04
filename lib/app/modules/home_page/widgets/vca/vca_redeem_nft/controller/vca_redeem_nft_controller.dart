@@ -57,7 +57,7 @@ class VCARedeemNFTController extends GetxController
         controller.value.pauseCamera();
         result = scanData;
         await CommonFunctions.bottomSheet(AccountSwitch(
-                onNext: () async {},
+                onNext: ({String senderAddress = ""}) async {},
                 title: "Claim POAP NFT",
                 subtitle: "Choose an account to claim your POAP NFT"))
             .then((value) async {

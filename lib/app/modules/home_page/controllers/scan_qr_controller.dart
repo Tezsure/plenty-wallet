@@ -8,7 +8,7 @@ import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/permission_sheet.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/vca_gallery_widget/view/vca_gallery_detail_sheet.dart';
+import 'package:naan_wallet/app/modules/custom_gallery/widgets/custom_nft_detail_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
@@ -73,17 +73,14 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
       }
       if (scanData.code != null) {
         try {
-          final res = jsonDecode(scanData.code!);
-
-          print("res:$res");
-          if (res["pk"] != null) {
+          if (scanData.code?.startsWith('https://objkt.com/asset/') ?? false) {
             result = scanData;
             Get.back();
             log("=================================");
             controller.value.pauseCamera();
             CommonFunctions.bottomSheet(
-                VcaDetailBottomSheet(
-                  pk: res["pk"],
+                CustomNFTDetailBottomSheet(
+                  nftUrl: scanData.code,
                 ),
                 fullscreen: true);
           }

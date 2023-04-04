@@ -6,10 +6,14 @@ import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart'
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/custom_gallery/controller/custom_gallery_controller.dart';
+import 'package:naan_wallet/app/modules/custom_gallery/widgets/custom_nft_detail_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/register_widgets.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/teztown/controllers/teztown_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/teztown/widgets/details/teztown_details_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/controller/vca_redeem_nft_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/widget/info_sheet.dart';
 import 'package:naan_wallet/app/modules/custom_gallery/custom_nft_gallery_view.dart';
 import 'package:naan_wallet/app/modules/vca_events/views/events_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -20,15 +24,29 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../dapp_browser/views/dapp_browser_view.dart';
-import 'vca_redeem_nft/widget/info_sheet.dart';
 
-class VCAWidget extends StatelessWidget {
-  VCAWidget({Key? key}) : super(key: key);
-  List<String> titles = ["Website", "POAP NFT", "Guide", "Gallery"];
-  List<String> icons = ["globe.svg", "gift.svg", "map.svg", "gallery.svg"];
+class TeztownWidget extends StatefulWidget {
+  TeztownWidget({Key? key}) : super(key: key);
+
+  @override
+  State<TeztownWidget> createState() => _TeztownWidgetState();
+}
+
+class _TeztownWidgetState extends State<TeztownWidget> {
+  List<String> titles = ["Details", "Gallery", "Buy Ticket", "Burn Ticket"];
+
+  List<String> icons = [
+    "${PathConst.HOME_PAGE}teztown/details.svg",
+    "${PathConst.HOME_PAGE}vca/gallery.svg",
+    "${PathConst.HOME_PAGE}teztown/buy.svg",
+    "${PathConst.HOME_PAGE}teztown/burn.svg"
+  ];
+
+  late TeztownController controller;
   @override
   Widget build(BuildContext context) {
-    if (!ServiceConfig.isVCAWidgetVisible) return Container();
+    if (!ServiceConfig.isTeztownWidgetVisible) return Container();
+    controller = Get.put(TeztownController(), permanent: true);
     return Column(
       children: [
         HomeWidgetFrame(
@@ -44,19 +62,23 @@ class VCAWidget extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(22.arP),
                   child: Image.asset(
-                    "${PathConst.HOME_PAGE}vca/background.png",
+                    "${PathConst.HOME_PAGE}teztown/background.png",
                     fit: BoxFit.cover,
                   ),
                 ),
                 Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(32.arP),
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Image.asset("${PathConst.HOME_PAGE}vca/name.png",
-                            fit: BoxFit.cover, width: 1.width),
-                      ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Image.asset(
+                          "${PathConst.HOME_PAGE}teztown/name.png",
+                          fit: BoxFit.cover,
+                          height: AppConstant.homeWidgetDimension - 28.arP),
+                    ),
+                    Image.asset(
+                      "${PathConst.HOME_PAGE}teztown/by_teztown.png",
+                      height: 28.arP,
+                      width: 56.arP,
                     ),
                     const Spacer(),
                     GridView.builder(
@@ -98,7 +120,7 @@ class VCAWidget extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: ColorConst.NeutralVariant.shade20),
               child: SvgPicture.asset(
-                "${PathConst.HOME_PAGE}vca/${icons[index]}",
+                icons[index],
                 height: 22.arP,
                 width: 22.arP,
               ),
@@ -116,50 +138,55 @@ class VCAWidget extends StatelessWidget {
     );
   }
 
-  void _onTap(int index) {
+  void _onTap(int index) async {
     final homeController = Get.find<HomePageController>();
     final address = homeController.userAccounts.isEmpty
         ? null
         : homeController
             .userAccounts[homeController.selectedIndex.value].publicKeyHash;
+    // await CommonFunctions.toggleLoaderOverlay(() async => controller.onInit());
     switch (index) {
       case 0:
-        NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_WEBSITE,
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZTOWN_DETAILS,
+            param: {NaanAnalytics.address: address});
+        CommonFunctions.bottomSheet(
+          const TeztownDetailSheet(),
+          fullscreen: true,
+        );
+        break;
+      case 1:
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZTOWN_GALLERY,
+            param: {NaanAnalytics.address: address});
+        CommonFunctions.bottomSheet(
+          const CustomNFTGalleryView(
+            nftGalleryType: NFTGalleryType.fromGalleryAddress,
+            title: "Spring Fever",
+          ),
+          fullscreen: true,
+        );
+        break;
+      case 2:
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZTOWN_BUY_TICKET,
+            param: {NaanAnalytics.address: address});
+        CommonFunctions.bottomSheet(
+            CustomNFTDetailBottomSheet(
+              nftUrl: controller.teztownData.value.ticket,
+              saveAddress: true,
+            ),
+            fullscreen: true);
+
+        break;
+      case 3:
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.TEZTOWN_BURN_TICKET,
             param: {NaanAnalytics.address: address});
         CommonFunctions.bottomSheet(
           const DappBrowserView(),
           fullscreen: true,
-          settings: const RouteSettings(
-            arguments: "https://proofofpeople.verticalcrypto.art/newyork.html",
+          settings: RouteSettings(
+            arguments: controller.teztownData.value.burnWebsite ?? "",
           ),
         );
-        break;
-      case 1:
-        NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_CLAIM_NFT_CLICK,
-            param: {NaanAnalytics.address: address});
-        CommonFunctions.bottomSheet(VCAPOAPInfoSheet());
-        break;
-      case 2:
-        NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_EVENTS_CLICK,
-            param: {NaanAnalytics.address: address});
 
-        CommonFunctions.bottomSheet(
-          const VCAEventsView(),
-          fullscreen: true,
-        );
-        break;
-      case 3:
-        NaanAnalytics.logEvent(NaanAnalyticsEvents.VCA_GALLERY_CLICK,
-            param: {NaanAnalytics.address: address});
-
-        CommonFunctions.bottomSheet(
-          const CustomNFTGalleryView(
-            title: "Proof of People x Refraction",
-            nftGalleryType: NFTGalleryType.fromPKs,
-            nftGalleryFilter: NftGalleryFilter.list,
-          ),
-          fullscreen: true,
-        );
         break;
       default:
     }

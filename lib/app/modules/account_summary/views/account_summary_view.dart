@@ -40,6 +40,11 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
 
   @override
   Widget build(BuildContext context) {
+    if (Get.isRegistered<AccountSummaryController>()) {
+      controller.fetchAllTokens();
+      controller.fetchAllNfts();
+      controller.selectedTokenIndexSet.clear();
+    }
     Get.put((AccountSummaryController()));
     Get.put(TransactionController());
 
