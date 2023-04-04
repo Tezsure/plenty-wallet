@@ -48,8 +48,10 @@ class AccountsWidgetController extends GetxController {
       // if (currIndex.value != index) {
       // print("onPageChanged: $index");
       currIndex.value = index;
-    } catch (e) {}
-    // }
+    } catch (e) {
+      print(e.toString());
+    }
+    }
     // update();
   }
 
