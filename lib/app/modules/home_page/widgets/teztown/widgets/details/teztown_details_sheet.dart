@@ -51,26 +51,40 @@ class _TeztownDetailSheetState extends State<TeztownDetailSheet> {
                     SizedBox(
                       height: 12.arP,
                     ),
-                    Text(
-                      data.title,
-                      style: titleSmall,
-                    ),
-                    SizedBox(
-                      height: 8.arP,
-                    ),
-                    HtmlWidget(data.description,
-                        customStylesBuilder: (element) {
-                      if (element.localName == 'b') {
-                        return {'color': 'white'};
-                      }
+                    data.title.isNotEmpty
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data.title,
+                                style: titleSmall,
+                              ),
+                              SizedBox(
+                                height: 8.arP,
+                              ),
+                            ],
+                          )
+                        : const SizedBox(),
+                    data.description.isNotEmpty
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              HtmlWidget(data.description,
+                                  customStylesBuilder: (element) {
+                                if (element.localName == 'b') {
+                                  return {'color': 'white'};
+                                }
 
-                      return null;
-                    },
-                        textStyle:
-                            bodySmall.copyWith(color: const Color(0xff958E99))),
-                    SizedBox(
-                      height: 24.arP,
-                    )
+                                return null;
+                              },
+                                  textStyle: bodySmall.copyWith(
+                                      color: const Color(0xff958E99))),
+                              SizedBox(
+                                height: 24.arP,
+                              )
+                            ],
+                          )
+                        : const SizedBox(),
                   ],
                 );
               },

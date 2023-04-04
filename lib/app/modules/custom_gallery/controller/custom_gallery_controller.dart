@@ -192,11 +192,11 @@ class CustomNFTGalleryController extends GetxController {
     String address = data[0];
     List<NftTokenModel> nfts = [];
     while (true) {
-      final response = await ObjktNftApiService().getNfts(address);
+      final response = await ObjktNftApiService().getNftsFast(address, offset);
 
       nfts = [...nfts, ...json(jsonDecode(response))];
       offset += 500;
-      if (jsonDecode(response).length != 500) {
+      if (json(jsonDecode(response)).length != 500) {
         break;
       }
     }

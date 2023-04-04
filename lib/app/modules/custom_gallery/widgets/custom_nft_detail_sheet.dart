@@ -666,7 +666,7 @@ class _CustomNFTDetailBottomSheetState
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        "NFT is already sold. You can offer to buy this NFT for a specific price on objkt.com",
+                                                        "NFT is not listed. You can offer to buy this NFT for a specific price on objkt.com",
                                                         style: bodySmall.copyWith(
                                                             color: const Color(
                                                                 0xff958E99)),

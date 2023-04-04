@@ -14,8 +14,8 @@ extension SizeExtension on num {
   double get spH => this * (Get.height / 6) / 100;
 
   double get arP {
-    print("Get.size.height.toString():${Get.size.height.toString()}");
-    log(Get.size.aspectRatio.toString());
+/*     print("Get.size.height.toString():${Get.size.height.toString()}");
+    log(Get.size.aspectRatio.toString()); */
     double ratio = 1;
     if (Get.size.height < 690) {
       ratio = 1.2;

@@ -513,32 +513,43 @@ class _StallsState extends State<Stalls> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              22.arP,
-                            ),
-                            child: stall.image!.endsWith(".svg")
-                                ? SvgPicture.network(
-                                    "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 230.arP,
-                                  )
-                                : CachedNetworkImage(
-                                    imageUrl:
-                                        "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 230.arP,
-                                  )),
-                        SizedBox(
-                          height: 12.arP,
-                        ),
-                        Text(
-                          stall.title!,
-                          style: titleSmall,
-                        ),
-                        StallDescription(description: stall.description!),
+                        stall.image!.isNotEmpty
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                        22.arP,
+                                      ),
+                                      child: stall.image!.endsWith(".svg")
+                                          ? SvgPicture.network(
+                                              "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: 230.arP,
+                                            )
+                                          : CachedNetworkImage(
+                                              imageUrl:
+                                                  "${ServiceConfig.naanApis}/vca_images/${stall.image!}",
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: 230.arP,
+                                            )),
+                                  SizedBox(
+                                    height: 12.arP,
+                                  ),
+                                ],
+                              )
+                            : const SizedBox(),
+                        stall.title!.isNotEmpty
+                            ? Text(
+                                stall.title!,
+                                style: titleSmall,
+                              )
+                            : const SizedBox(),
+                        stall.description!.isNotEmpty
+                            ? StallDescription(description: stall.description!)
+                            : const SizedBox(),
                         SizedBox(
                           height: 12.arP,
                         ),
