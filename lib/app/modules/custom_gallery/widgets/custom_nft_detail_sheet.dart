@@ -778,7 +778,7 @@ class _CustomNFTDetailBottomSheetState
                                       fullscreen: true,
                                       settings: RouteSettings(
                                           arguments:
-                                              "https://objkt.com/profile/${nftModel!.holders!.first.holderAddress}"));
+                                              "https://objkt.com/profile/${nftModel!.holders!.first.holderAddress}/owned"));
                                 },
                                 child: ListTile(
                                   leading: CircleAvatar(

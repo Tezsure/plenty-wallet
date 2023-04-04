@@ -119,6 +119,7 @@ class CustomNFTGalleryController extends GetxController {
         );
         break;
       case NFTGalleryType.fromGalleryAddress:
+        await Get.find<TeztownController>().onInit();
         nftList = await compute(
           fetchAllNftFromAddress,
           [Get.find<TeztownController>().teztownData.value.galleryAddress],

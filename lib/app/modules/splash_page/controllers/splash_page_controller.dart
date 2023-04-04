@@ -1,7 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/foundation_service/art_foundation_handler.dart';
@@ -9,10 +15,16 @@ import 'package:naan_wallet/app/data/services/iaf/iaf_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:simple_gql/simple_gql.dart';
 
 import '../../../data/services/rpc_service/http_service.dart';
@@ -103,7 +115,11 @@ class SplashPageController extends GetxController {
       }
     } catch (e) {
       Zone.current.handleUncaughtError(e, StackTrace.current);
-      Phoenix.rebirth(Get.context!);
+      Get.dialog(
+        SplashWarningWidget(),
+        barrierDismissible: false,
+      );
+      // Phoenix.rebirth(Get.context!);
     }
   }
 
@@ -183,3 +199,90 @@ class SplashPageController extends GetxController {
     }
   }
 }
+
+class SplashWarningWidget extends StatelessWidget {
+  const SplashWarningWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(22.arP)),
+          backgroundColor: ColorConst.darkGrey,
+          title: Text(
+            "Something went wrong!",
+            style: titleMedium,
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '1. Open "Settings".\n2. Select "Apps".\n3. Tap "naan" to clear cache.\n4. Select "Storage".\n5. Tap "Clear cache".',
+                style: bodyMedium,
+              ),
+              0.02.vspace,
+              Text(
+                "If you've backed-up your wallet, we recommend to reset naan",
+                style: bodyMedium.copyWith(color: ColorConst.NaanRed),
+              ),
+              0.02.vspace,
+              optionMethod(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Platform.isAndroid
+                          ? SvgPicture.asset(
+                              "${PathConst.SVG}fingerprint.svg",
+                              color: ColorConst.Error.shade60,
+                              width: 24.arP,
+                            )
+                          : SvgPicture.asset(
+                              "${PathConst.SVG}faceid.svg",
+                              color: ColorConst.Error.shade60,
+                              width: 24.arP,
+                            ),
+                      0.02.hspace,
+                      Text(
+                        "Hold to reset naan".tr,
+                        style:
+                            labelMedium.apply(color: ColorConst.Error.shade60),
+                      ),
+                    ],
+                  ),
+                  onLongPress: () async {
+                    NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
+                    await ServiceConfig().clearStorage();
+                    Get.offAllNamed(Routes.ONBOARDING_PAGE);
+                  }),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget optionMethod({
+    Widget? child,
+    GestureTapCallback? onTap,
+    GestureTapCallback? onLongPress,
+  }) {
+    return Center(
+      child: SolidButton(
+        width: 1.width - 64.arP,
+        primaryColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+        onLongPressed: onLongPress,
+        onPressed: onTap,
+        child: child,
+      ),
+    );
+  }
+}
+
+

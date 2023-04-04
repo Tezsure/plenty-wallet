@@ -23,6 +23,12 @@ class TeztownDetailSheet extends StatefulWidget {
 class _TeztownDetailSheetState extends State<TeztownDetailSheet> {
   final controller = Get.find<TeztownController>();
   @override
+  void initState() {
+    controller.onInit(); // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Obx(() {
       return NaanBottomSheet(
@@ -33,7 +39,7 @@ class _TeztownDetailSheetState extends State<TeztownDetailSheet> {
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight - 0.02.height.arP,
             child: ListView.builder(
-              padding: EdgeInsets.zero,
+              padding: EdgeInsets.only(bottom: 32.arP),
               itemBuilder: (context, index) {
                 final data = controller.teztownData.value.detailItems![index];
                 return Column(

@@ -241,7 +241,7 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                           Obx(
                             () => Align(
                               alignment: Alignment.bottomCenter,
-                              child: _getHoverFilterWidget(),
+                              child: _getHoverFilterWidget(context),
                             ),
                           ),
                       ],
@@ -414,12 +414,12 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
         ],
       );
 
-  Widget _getHoverFilterWidget() => AnimatedContainer(
+  Widget _getHoverFilterWidget(BuildContext context) => AnimatedContainer(
         duration: const Duration(milliseconds: 350),
         width: 145.arP,
         height: 50.arP,
         margin: EdgeInsets.only(
-          bottom: 32.arP,
+          bottom: 32.arP + MediaQuery.of(context).viewInsets.bottom,
         ),
         transform: Matrix4.identity()
           ..translate(

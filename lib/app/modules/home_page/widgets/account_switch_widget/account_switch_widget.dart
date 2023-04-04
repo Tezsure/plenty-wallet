@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
@@ -106,10 +107,12 @@ class _AccountSwitchState extends State<AccountSwitch> {
                             );
                             if (selectedIndex != null) {
                               controller.changeSelectedAccount(selectedIndex);
-                              try {
-                                Get.find<AccountsWidgetController>()
-                                    .onPageChanged(selectedIndex);
-                              } catch (e) {}
+                              // try {
+                              Get.find<AccountsWidgetController>()
+                                  .onPageChanged(selectedIndex);
+                              // } catch (e) {
+                              //   log(e.toString());
+                              // }
                               // controller.selectedIndex.value = selectedIndex;
                             }
                           },

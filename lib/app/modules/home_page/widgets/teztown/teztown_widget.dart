@@ -25,20 +25,28 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../dapp_browser/views/dapp_browser_view.dart';
 
-class TeztownWidget extends StatelessWidget {
+class TeztownWidget extends StatefulWidget {
   TeztownWidget({Key? key}) : super(key: key);
+
+  @override
+  State<TeztownWidget> createState() => _TeztownWidgetState();
+}
+
+class _TeztownWidgetState extends State<TeztownWidget> {
   List<String> titles = ["Details", "Gallery", "Buy Ticket", "Burn Ticket"];
+
   List<String> icons = [
     "${PathConst.HOME_PAGE}teztown/details.svg",
     "${PathConst.HOME_PAGE}vca/gallery.svg",
     "${PathConst.HOME_PAGE}teztown/buy.svg",
     "${PathConst.HOME_PAGE}teztown/burn.svg"
   ];
-  final controller = Get.put(TeztownController(), permanent: true);
 
+  late TeztownController controller;
   @override
   Widget build(BuildContext context) {
     if (!ServiceConfig.isTeztownWidgetVisible) return Container();
+    controller = Get.put(TeztownController(), permanent: true);
     return Column(
       children: [
         HomeWidgetFrame(
@@ -65,7 +73,12 @@ class TeztownWidget extends StatelessWidget {
                       child: Image.asset(
                           "${PathConst.HOME_PAGE}teztown/name.png",
                           fit: BoxFit.cover,
-                          height: AppConstant.homeWidgetDimension),
+                          height: AppConstant.homeWidgetDimension - 28.arP),
+                    ),
+                    Image.asset(
+                      "${PathConst.HOME_PAGE}teztown/by_teztown.png",
+                      height: 28.arP,
+                      width: 56.arP,
                     ),
                     const Spacer(),
                     GridView.builder(
@@ -147,7 +160,7 @@ class TeztownWidget extends StatelessWidget {
         CommonFunctions.bottomSheet(
           const CustomNFTGalleryView(
             nftGalleryType: NFTGalleryType.fromGalleryAddress,
-            title: "Sprint Fever",
+            title: "Spring Fever",
           ),
           fullscreen: true,
         );

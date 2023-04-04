@@ -319,9 +319,6 @@ class EventWidget extends StatelessWidget {
                             }
                           },
                         ),
-                        SizedBox(
-                          width: 20.arP,
-                        ),
                         BouncingWidget(
                           onPressed: () {
                             NaanAnalytics.logEvent(
@@ -330,8 +327,11 @@ class EventWidget extends StatelessWidget {
                             Share.share(event.shareText ??
                                 "Check out this event ${event.title}}");
                           },
-                          child: SvgPicture.asset("assets/svg/share.svg",
-                              height: 18.arP, width: 18.arP),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 18.arP),
+                            child: SvgPicture.asset("assets/svg/share.svg",
+                                height: 18.arP, width: 18.arP),
+                          ),
                         ),
                       ])
                     ],
