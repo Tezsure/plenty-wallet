@@ -81,10 +81,11 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
               color: Color(0xff1E1C1F),
             ),
             0.02.vspace,
-            tokenInfo.token!.operationStatus != "applied" ||
-                    transactionModel.send.address!.isEmpty
-                ? const SizedBox()
-                : contactTile(transactionModel.send, "From"),
+            if (!transactionModel.actionType.contains("Delegated"))
+              tokenInfo.token!.operationStatus != "applied" ||
+                      transactionModel.send.address!.isEmpty
+                  ? const SizedBox()
+                  : contactTile(transactionModel.send, "From"),
             0.02.vspace,
             tokenInfo.token!.operationStatus != "applied" ||
                     transactionModel.reciever.address!.isEmpty

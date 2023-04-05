@@ -18,6 +18,8 @@ import '../../../data/services/user_storage_service/user_storage_service.dart';
 import 'history_filter_controller.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
+enum TxIconNameEnum { ArrowDown, ArrowUp, Deal, Clipboard }
+
 class TransactionController extends GetxController {
   final accController = Get.find<AccountSummaryController>();
 
@@ -119,7 +121,7 @@ class TransactionController extends GetxController {
     List<TokenInfo> sortedTransactionList = <TokenInfo>[];
     late TokenInfo tokenInfo;
     String? isHashSame;
-    for (int i = 0; i < transactionList.length; i++) {
+    for (int i = transactionList.length - 1; i >= 0; i--) {
       var tx = transactionList[i];
       tokenInfo = TokenInfo(
         isHashSame: isHashSame == null ? false : tx.hash!.contains(isHashSame),
@@ -278,6 +280,23 @@ extension TransactionChecker on TxHistoryModel {
     }
   }
 
+  TxIconNameEnum? get icon {
+    final homeController = Get.find<HomePageController>();
+    if (type == "transaction") {
+      if (sender!.address ==
+          homeController
+              .userAccounts[homeController.selectedIndex.value].publicKeyHash) {
+        return TxIconNameEnum.ArrowUp;
+      } else {
+        TxIconNameEnum.ArrowDown;
+      }
+    } else if (type == "delegation") {
+      return TxIconNameEnum.Deal;
+    } else {
+      TxIconNameEnum.Clipboard;
+    }
+  }
+
   bool get isNft => Get.find<AccountSummaryController>()
       .tokensList
       .where((p0) => (p0.tokenAddress!.contains(target!.address!) &&
@@ -414,10 +433,123 @@ extension TransactionChecker on TxHistoryModel {
           p0.tokenId!.contains(parameter!.value is List
               ? parameter?.value[0]["txs"][0]["token_id"]
               : jsonDecode(parameter!.value)[0]["txs"][0]["token_id"])));
+  TxInterface mapOperationsToActivities() {
+    TxInterface data = TxInterface();
+    final homeController = Get.find<HomePageController>();
+    final selectedAccount =
+        homeController.userAccounts[homeController.selectedIndex.value];
+    data.source = sender;
+    switch (type) {
+      case "transaction":
+        data.destination = target;
+        data.amount = amount?.toString();
+        final fa2Parameter = parameter;
+        final fa12Parameter = parameter;
+        final bakingParameter = parameter;
+        if (fa2Parameter != null &&
+            fa2Parameter.value is List &&
+            fa2Parameter.value.length > 0 &&
+            fa2Parameter.value[0]["txs"] != null) {
+          data.contractAddress = target?.address;
+          bool isUserSenderOrReceiverOfFa2Operation = false;
+          if (fa2Parameter.value[0]["from_"] == selectedAccount.publicKeyHash) {
+            data.amount = (fa2Parameter.value[0]["txs"] as List)
+                .reduce(
+                  (acc, tx) => acc + (tx.amount),
+                )
+                .toString();
+            data.source!.address = selectedAccount.publicKeyHash;
+            isUserSenderOrReceiverOfFa2Operation = true;
+            data.tokenId = fa2Parameter.value[0]["txs"][0]["token_id"];
+          }
+          for (final param in fa2Parameter.value) {
+            final val = param["txs"].firstWhere((tx) =>
+                tx["to_"] == selectedAccount.publicKeyHash &&
+                (amount = tx["amount"]));
+            if (val != null) {
+              isUserSenderOrReceiverOfFa2Operation = true;
+              amount = val["amount"];
+              data.tokenId = val["token_id"];
+            }
+          }
+          if (!isUserSenderOrReceiverOfFa2Operation) {
+            break;
+          }
+        } else if (fa12Parameter != null &&
+            fa12Parameter.value["value"] != null) {
+          if (fa12Parameter.entrypoint == 'approve') {
+            break;
+          }
+          if (fa12Parameter.value["from"] != null ||
+              fa12Parameter.value["to"] != null) {
+            if (fa12Parameter.value["from"] == selectedAccount.publicKeyHash) {
+              data.source!.address = selectedAccount.publicKeyHash;
+            } else if (fa12Parameter.value["to"] ==
+                selectedAccount.publicKeyHash) {
+              data.source!.address = fa12Parameter.value.from;
+            } else {
+              break;
+            }
+          }
+          data.contractAddress = target!.address;
+          data.amount = fa12Parameter.value["value"];
+        } else if (bakingParameter != null &&
+            bakingParameter.value["quantity"] != null) {
+          data.contractAddress = target!.address;
+          final tokenOrTezAmount =
+              parameter != null && (parameter!.value["value"])
+                  ? parameter!.value["value"]
+                  : amount.toString();
+          data.amount = (parameter != null) && (parameter!.value["quantity"])
+              ? (parameter)!.value["quantity"]
+              : target!.address == selectedAccount.publicKeyHash ||
+                      ((parameter != null) &&
+                          (parameter)!.value["to"] ==
+                              selectedAccount.publicKeyHash)
+                  ? tokenOrTezAmount
+                  : '-$tokenOrTezAmount';
+        }
+        break;
+      case "delegation":
+        if (selectedAccount.publicKeyHash != data.source!.address) {
+          break;
+        }
+        if (newDelegate != null) (data.destination = newDelegate);
+        break;
+
+      // case "origination":
+      //   if(originatedContract!=null)  (data.destination = originatedContract);
+      //   if(contractBalance!=null)  (data.amount = contractBalance.toString());
+      //   break;
+      default:
+    }
+    data.tokenId = nftTokenId.isEmpty ? null : nftTokenId;
+    data.amount = data.source!.address == selectedAccount.publicKeyHash
+        ? "-${data.amount}"
+        : data.amount;
+        
+    return data;
+  }
 }
 
 extension DateOnlyCompare on DateTime {
   bool isSameMonth(DateTime other) {
     return year == other.year && month == other.month;
   }
+}
+
+class TxInterface {
+  String? type;
+  String? status;
+  String? hash;
+  String? amount;
+  String? address;
+  double? id;
+  String? tokenId;
+  String? contractAddress;
+  int? timeStamp;
+  String? entrypoint;
+  AliasAddress? source;
+  AliasAddress? destination;
+  int? lebel;
 }
