@@ -51,8 +51,7 @@ class AccountsWidgetController extends GetxController {
     } catch (e) {
       print(e.toString());
     }
-    }
-    // update();
+  
   }
 
   /// add account functions
