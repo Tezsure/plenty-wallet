@@ -18,6 +18,7 @@ import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_view.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/teztown/controllers/teztown_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
@@ -211,6 +212,7 @@ class SettingsPageController extends GetxController {
     } catch (e) {}
     await Get.delete<HomePageController>(force: true);
     await Get.delete<AccountsWidgetController>(force: true);
+    await Get.delete<TeztownController>(force: true);
     await Get.deleteAll(force: true);
 
     Phoenix.rebirth(Get.context!);

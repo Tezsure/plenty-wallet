@@ -39,7 +39,7 @@ class IAFWidget extends StatelessWidget {
             AccountSwitch(
               title: "Claim NFT",
               subtitle: 'Choose an account to claim your free \nNFT and tez ',
-              onNext: () {
+              onNext: ({senderAddress = ""}) {
                 if (Get.isRegistered<IAFController>()) {
                   Get.find<IAFController>()
                       .setUp(home.userAccounts[home.selectedIndex.value]);

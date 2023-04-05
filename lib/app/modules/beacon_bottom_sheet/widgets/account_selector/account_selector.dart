@@ -12,10 +12,10 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-class AccountSelector extends StatelessWidget {
+class AccountSwitchSelector extends StatelessWidget {
   final List<AccountModel>? accountModels;
   final int? index;
-  const AccountSelector({this.accountModels, this.index, super.key});
+  const AccountSwitchSelector({this.accountModels, this.index, super.key});
 
   @override
   Widget build(BuildContext context) {

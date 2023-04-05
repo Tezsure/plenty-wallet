@@ -107,7 +107,7 @@ class DelegateWidgetController extends GetxController {
     try {
       final isVerified = await AuthService().verifyBiometricOrPassCode();
       if (!isVerified) return;
-      toggleLoaderOverlay(
+      CommonFunctions.toggleLoaderOverlay(
         () async {
           await confirmDelegate(baker);
         },
@@ -331,7 +331,7 @@ class DelegateWidgetController extends GetxController {
     } else {
       DelegateBakerModel? delegatedBaker;
       if (delegateBakerList.isEmpty) {
-        await toggleLoaderOverlay(getBakerList);
+        await CommonFunctions.toggleLoaderOverlay(getBakerList);
       }
       NaanAnalytics.logEvent(NaanAnalyticsEvents.REDELEGATE);
       if (delegateBakerList.any((element) => element.address == bakerAddress)) {
@@ -354,7 +354,7 @@ class DelegateWidgetController extends GetxController {
               fullscreen: true);
         }
       } else {
-        await toggleLoaderOverlay(() async {
+        await CommonFunctions.toggleLoaderOverlay(() async {
           delegatedBaker = (await getBakerDetail(bakerAddress!)) ??
               DelegateBakerModel(address: bakerAddress);
           delegateBakerList.add(delegatedBaker!);
@@ -387,7 +387,7 @@ class DelegateWidgetController extends GetxController {
           title: "Delegate",
           subtitle:
               "In Tezos, we delegate an account to a baker\nand earn interest on the available Tez in the account.",
-          onNext: () {
+          onNext: ({String senderAddress = ""}) {
             checkBaker(context);
           },
         ),
@@ -395,22 +395,6 @@ class DelegateWidgetController extends GetxController {
     } else {
       checkBaker(context);
     }
-  }
-
-  Future<void> toggleLoaderOverlay(Function() asyncFunction) async {
-    await Get.showOverlay(
-        asyncFunction: () async => await asyncFunction(),
-        loadingWidget: const SizedBox(
-          height: 50,
-          width: 50,
-          child: Center(
-              child: CupertinoActivityIndicator(
-            color: ColorConst.Primary,
-          )),
-        ));
-    // if (Get.isOverlaysOpen) {
-    //   Get.back();
-    // }
   }
 }
 
