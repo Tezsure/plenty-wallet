@@ -86,7 +86,7 @@ class HomePageController extends GetxController {
         //   Duration(milliseconds: 100),
         // ).then((value) {
         try {
-          if (Get.isRegistered<AccountsWidgetController>()) {
+          if (Get.isRegistered<AccountsWidgetController>() && index != -1) {
             Get.find<AccountsWidgetController>().onPageChanged(index);
             changeSelectedAccount(index);
           }

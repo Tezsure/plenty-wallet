@@ -302,6 +302,33 @@ query GetCollectionNFT($address: String!) {
     }
 ''';
 
+  static const String gQueryFast = r'''
+    query GetNftForUser($address: String!, $offset: Int) {
+      token(
+        where: {holders: {holder_address: {_eq: $address}, token: {}, quantity:{_gt:"0"}}, fa_contract: {_neq: "KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS"}, decimals:{_lte:"0"}}
+        offset: $offset
+        ) {
+        name
+        pk
+        fa_contract
+        display_uri
+        fa{
+          name
+          logo
+        }
+        token_id
+        creators {
+          creator_address
+          token_pk
+          holder {
+            alias
+            address
+          }
+        }
+      }
+    }
+''';
+
   static const String getContractQuery = r'''
     query GetContracts($address: String!, $offset: Int) {
       token(

@@ -241,7 +241,7 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                           Obx(
                             () => Align(
                               alignment: Alignment.bottomCenter,
-                              child: _getHoverFilterWidget(),
+                              child: _getHoverFilterWidget(context),
                             ),
                           ),
                       ],
@@ -414,12 +414,12 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
         ],
       );
 
-  Widget _getHoverFilterWidget() => AnimatedContainer(
+  Widget _getHoverFilterWidget(BuildContext context) => AnimatedContainer(
         duration: const Duration(milliseconds: 350),
         width: 145.arP,
         height: 50.arP,
         margin: EdgeInsets.only(
-          bottom: 32.arP,
+          bottom: 32.arP + MediaQuery.of(context).viewInsets.bottom,
         ),
         transform: Matrix4.identity()
           ..translate(
@@ -523,6 +523,13 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                     children: [
                       SizedBox(
                         height: index == 0 ? 0 : 10.arP,
+                      ),
+                      _getCollectionDetailsRow(
+                        nfts.values.toList()[index][0],
+                        nfts.values.toList()[index].length,
+                      ),
+                      SizedBox(
+                        height: 15.arP,
                       ),
                       MasonryGridView.count(
                           shrinkWrap: true,
@@ -663,6 +670,9 @@ class CustomNFTGalleryView extends GetView<CustomNFTGalleryController> {
                           })),
                       SizedBox(
                         height: 16.arP,
+                      ),
+                      Divider(
+                        color: Colors.white.withOpacity(0.4),
                       ),
                     ],
                   );

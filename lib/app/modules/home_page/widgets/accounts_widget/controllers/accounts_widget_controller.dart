@@ -35,20 +35,23 @@ class AccountsWidgetController extends GetxController {
 
   /// Change the current index to the new index of visible account container
   void onPageChanged(int index) {
-    if (pageController.value.page != index) {
-      pageController.value.jumpToPage(
-        index,
-        // duration: const Duration(milliseconds: 100),
-        // curve: Curves.easeIn,
-      );
-    }
+    try {
+      if (pageController.value.page != index) {
+        pageController.value.jumpToPage(
+          index,
+          // duration: const Duration(milliseconds: 100),
+          // curve: Curves.easeIn,
+        );
+      }
 
-    // homeController.selectedIndex.value = index;
-    // if (currIndex.value != index) {
-    // print("onPageChanged: $index");
-    currIndex.value = index;
-    // }
-    // update();
+      // homeController.selectedIndex.value = index;
+      // if (currIndex.value != index) {
+      // print("onPageChanged: $index");
+      currIndex.value = index;
+    } catch (e) {
+      print(e.toString());
+    }
+  
   }
 
   /// add account functions

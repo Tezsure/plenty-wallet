@@ -131,6 +131,7 @@ class VCAPOAPInfoSheet extends StatelessWidget {
             ),
             0.058.vspace,
             SolidButton(
+              width: 1.width - 64.arP,
               title: "Continue",
               onPressed: () {
                 Get.back();

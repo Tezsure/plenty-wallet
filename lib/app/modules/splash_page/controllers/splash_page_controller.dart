@@ -1,7 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/foundation_service/art_foundation_handler.dart';
@@ -9,10 +15,16 @@ import 'package:naan_wallet/app/data/services/iaf/iaf_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
+import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:simple_gql/simple_gql.dart';
 
 import '../../../data/services/rpc_service/http_service.dart';
@@ -24,6 +36,7 @@ class SplashPageController extends GetxController {
     try {
       await Future.delayed(const Duration(milliseconds: 800));
 
+      // throw Exception();
       ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
           ServiceConfig.currentSelectedNode;
       try {
@@ -103,7 +116,16 @@ class SplashPageController extends GetxController {
       }
     } catch (e) {
       Zone.current.handleUncaughtError(e, StackTrace.current);
-      Phoenix.rebirth(Get.context!);
+      Get.dialog(
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SplashWarningWidget(),
+          ],
+        ),
+        barrierDismissible: false,
+      );
+      // Phoenix.rebirth(Get.context!);
     }
   }
 
@@ -181,5 +203,34 @@ class SplashPageController extends GetxController {
         });
       }
     }
+  }
+}
+
+class SplashWarningWidget extends StatelessWidget {
+  const SplashWarningWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(22.arP)),
+      backgroundColor: ColorConst.darkGrey,
+      title: Text(
+        "Sorry! Looks like an error has occurred.",
+        style: titleMedium,
+      ),
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'We apologize for the inconvenience. This issue is currently affecting some of our users. To resolve the problem, please try the following steps:\n\n1. Long press on the Naan app icon and select "App Info."\n2. Navigate to "Storage."\n3. Attempt to clear the app cache and open the app again.\n4. If step 3 doesn\'t work, try clearing the app data and opening the app. (Note: If you haven\'t backed up your seed phrase, don\'t perform this step as clearing app data will delete all data.)\n\nWe are actively working on a solution and will address this issue in our next update. Thank you for your patience.',
+            style: bodyMedium,
+          ),
+          0.02.vspace,
+        ],
+      ),
+    );
   }
 }
