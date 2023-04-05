@@ -33,7 +33,7 @@ class TeztownWidget extends StatefulWidget {
 }
 
 class _TeztownWidgetState extends State<TeztownWidget> {
-  List<String> titles = ["Details", "Gallery", "Buy Ticket", "Burn Ticket"];
+  List<String> titles = ["Rules", "Gallery", "Buy Ticket", "Burn Ticket"];
 
   List<String> icons = [
     "${PathConst.HOME_PAGE}teztown/details.svg",

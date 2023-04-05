@@ -33,7 +33,7 @@ class _TeztownDetailSheetState extends State<TeztownDetailSheet> {
     return Obx(() {
       return NaanBottomSheet(
         height: AppConstant.naanBottomSheetHeight,
-        title: "Details",
+        title: "Rules",
         bottomSheetWidgets: [
           0.02.vspace,
           SizedBox(

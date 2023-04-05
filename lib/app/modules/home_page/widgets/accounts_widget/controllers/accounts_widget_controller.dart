@@ -43,8 +43,7 @@ class AccountsWidgetController extends GetxController {
           // curve: Curves.easeIn,
         );
       }
-
-      // homeController.selectedIndex.value = index;
+      //homeController.selectedIndex.value = index;
       // if (currIndex.value != index) {
       // print("onPageChanged: $index");
       currIndex.value = index;

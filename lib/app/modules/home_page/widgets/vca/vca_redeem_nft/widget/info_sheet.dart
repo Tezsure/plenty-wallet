@@ -43,7 +43,7 @@ class VCAPOAPInfoSheet extends StatelessWidget {
         Column(
           children: [
             Text(
-              "What is POAP NFT?",
+              "What is a POAP NFT?",
               style: headlineSmall,
             ),
             0.016.vspace,
