@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:dartez/models/key_store_model.dart';
@@ -24,6 +25,7 @@ import 'package:naan_wallet/app/modules/wert/views/wert_browser_view.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:simple_gql/simple_gql.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BuyNFTController extends GetxController {
   final selectedToken = Rxn<AccountTokenModel>(null);
@@ -56,16 +58,16 @@ class BuyNFTController extends GetxController {
   RxMap<String, dynamic> operation = <String, dynamic>{}.obs;
   final error = "".obs;
 
-  void selectMethod(AccountTokenModel token) async {
+  void selectMethod(AccountTokenModel token,
+      {String senderAddress = ""}) async {
     if (selectedNFT.value == null) return;
     try {
       selectedToken.value = token;
       final accountToken = Get.find<AccountSummaryController>();
       Get.back();
       CommonFunctions.bottomSheet(
-        ReviewNFTSheet(),
-        settings: RouteSettings(
-          arguments: url,
+        ReviewNFTSheet(
+          senderAddress: senderAddress,
         ),
       );
       print("selected token: ${token.symbol}");
@@ -569,9 +571,14 @@ class BuyNFTController extends GetxController {
 
   getNFTdata() async {
     try {
-      DappBrowserController dappBrowserController =
-          Get.find<DappBrowserController>();
-      url = dappBrowserController.url.value;
+      try {
+        DappBrowserController dappBrowserController =
+            Get.find<DappBrowserController>();
+        url = dappBrowserController.url.value;
+      } catch (e) {
+        url = Get.arguments;
+      }
+
       mainUrl = url
           .toString()
           .replaceFirst("https://objkt.com/asset/", '')
@@ -633,7 +640,7 @@ class BuyNFTController extends GetxController {
     }
   }
 
-  void buyWithCreditCard() {
+  void buyWithCreditCard() async {
     print("buy with credit card");
     if (selectedNFT.value == null) return;
     Get.back();
@@ -657,13 +664,22 @@ class BuyNFTController extends GetxController {
         base64Url.encode(utf8.encode(selectedNFT.value!.name.toString()));
     final url =
         "https://naan-nft-credit-card.netlify.app/?fa=${mainUrl[0]}&tokenId=${mainUrl[1]}&address=${accountToken.selectedAccount.value.publicKeyHash!}&askId=${selectedNFT.value!.tokenId}&askPrice=${selectedNFT.value!.lowestAsk}&name=${encodedName}&ipfs=${selectedNFT.value!.artifactUri!.replaceAll("ipfs://", "")}";
-    CommonFunctions.bottomSheet(
+/*     CommonFunctions.bottomSheet(
       const WertBrowserView(),
       fullscreen: true,
       settings: RouteSettings(
         arguments: url,
       ),
-    );
+    ); */
+    Platform.isIOS
+        ? await launchUrl(Uri.parse(url), mode: LaunchMode.inAppWebView)
+        : CommonFunctions.bottomSheet(
+            const WertBrowserView(),
+            fullscreen: true,
+            settings: RouteSettings(
+              arguments: url,
+            ),
+          );
   }
 
   void openFeeSummary() {
@@ -676,12 +692,14 @@ class BuyNFTController extends GetxController {
     );
   }
 
-  void openSuccessSheet() async {
+  void openSuccessSheet({String sendAddress = ""}) async {
     final verified = await AuthService().verifyBiometricOrPassCode();
     if (verified) {
       final txHash = await OperationService()
           .injectOperation(operation, ServiceConfig.currentSelectedNode);
-      Get.find<DappBrowserController>().showButton.value = false;
+      try {
+        Get.find<DappBrowserController>().showButton.value = false;
+      } catch (e) {}
 
       Get.back();
 
@@ -693,16 +711,20 @@ class BuyNFTController extends GetxController {
       );
       // start tracking tx here
       onConfirm(selectedToken.value!,
-          double.parse(priceInToken.value).toStringAsFixed(3), txHash);
+          double.parse(priceInToken.value).toStringAsFixed(3), txHash,
+          senderAddress: sendAddress);
     }
   }
 
-  onConfirm(AccountTokenModel token, String amount, String opHash) {
+  onConfirm(AccountTokenModel token, String amount, String opHash,
+      {String senderAddress = ""}) {
     DataHandlerService().onGoingTxStatusHelpers.add(OnGoingTxStatusHelper(
         opHash: opHash,
         status: TransactionStatus.pending,
         transactionAmount: "$amount ${token.symbol!}",
         isBrowser: true,
+        saveAddress: senderAddress.isNotEmpty,
+        senderAddress: senderAddress,
         tezAddress: "${opHash.substring(0, 6)}...."));
     transactionStatusSnackbar(
         status: TransactionStatus.pending,

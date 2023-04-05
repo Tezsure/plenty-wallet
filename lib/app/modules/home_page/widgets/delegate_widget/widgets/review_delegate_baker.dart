@@ -99,6 +99,8 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
   }
 
   Widget _accountOption() {
+    final account = _homePageController
+        .userAccounts[_homePageController.selectedIndex.value];
     return Row(
       children: [
         SizedBox(
@@ -106,8 +108,8 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
           child: Align(
               alignment: Alignment.centerLeft,
               child: CustomImageWidget(
-                imageType: _homePageController.userAccounts[0].imageType!,
-                imagePath: _homePageController.userAccounts[0].profileImage!,
+                imageType: account.imageType!,
+                imagePath: account.profileImage!,
                 imageRadius: 23.arP,
               )),
         ),
@@ -119,7 +121,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
             SizedBox(
               // height: 14.arP,
               child: Text(
-                _homePageController.userAccounts[0].name ?? 'Account',
+                account.name ?? 'Account',
                 style: labelSmall.apply(
                   color: ColorConst.NeutralVariant.shade60,
                 ),
@@ -130,17 +132,14 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
               child: Row(
                 children: [
                   Text(
-                    tz1Shortner(
-                        _homePageController.userAccounts[0].publicKeyHash ??
-                            ""),
+                    tz1Shortner(account.publicKeyHash ?? ""),
                     style: labelLarge,
                   ),
                   0.02.hspace,
                   BouncingWidget(
                     onPressed: () {
-                      Clipboard.setData(ClipboardData(
-                          text: _homePageController
-                              .userAccounts[0].publicKeyHash));
+                      Clipboard.setData(
+                          ClipboardData(text: account.publicKeyHash));
                       Get.rawSnackbar(
                         maxWidth: 0.45.width,
                         backgroundColor: Colors.transparent,

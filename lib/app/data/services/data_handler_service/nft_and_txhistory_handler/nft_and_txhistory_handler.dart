@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:isolate';
+import 'dart:typed_data';
 
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_render_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
@@ -129,6 +130,23 @@ class ObjktNftApiService {
       ).query(
         query: ServiceConfig.gQuery,
         variables: {'address': pkH},
+      );
+
+      return jsonEncode(
+          response.data['token'].where((e) => e['token_id'] != "").toList());
+    } catch (e) {
+      print(" gql error $e");
+      return "[]";
+    }
+  }
+
+  Future<String> getNftsFast(String pkH, int offset) async {
+    try {
+      final response = await GQLClient(
+        'https://data.objkt.com/v3/graphql',
+      ).query(
+        query: ServiceConfig.gQueryFast,
+        variables: {'address': pkH, 'offset': offset},
       );
 
       return jsonEncode(

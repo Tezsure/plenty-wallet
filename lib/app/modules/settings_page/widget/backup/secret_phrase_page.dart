@@ -34,7 +34,7 @@ class SecretPhrasePage extends StatelessWidget {
   const SecretPhrasePage({super.key, required this.pkHash, this.prevPage});
   @override
   Widget build(BuildContext context) {
-    _backupController.setup();
+    _backupController.setup(context);
     NaanAnalytics.logEvent(NaanAnalyticsEvents.VIEW_SEED_PHRASE,
         param: {NaanAnalytics.address: pkHash});
     return NaanBottomSheet(

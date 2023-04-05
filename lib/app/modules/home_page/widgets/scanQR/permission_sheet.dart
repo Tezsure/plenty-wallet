@@ -13,7 +13,8 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class CameraPermissionHandler extends StatelessWidget {
-  const CameraPermissionHandler({super.key});
+  final Function() callback;
+  const CameraPermissionHandler({super.key, required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +65,9 @@ class CameraPermissionHandler extends StatelessWidget {
                     onPressed: () async {
                       if (await openAppSettings()) {
                         Get.back();
-                        Get.find<HomePageController>().openScanner();
+                        callback
+                            .call();
+                             // Get.find<HomePageController>().openScanner();
                       }
                     },
                     title: "Enable camera",

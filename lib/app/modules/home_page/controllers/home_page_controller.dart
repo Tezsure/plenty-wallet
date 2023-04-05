@@ -50,8 +50,13 @@ class HomePageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    try {
+      Get.put(BeaconService(), permanent: true);
+    } catch (e) {}
 
-    Get.put(BeaconService(), permanent: true);
+    selectedIndex.listen((index) {
+      print("${selectedIndex.value}${index}selectedIndex called");
+    });
     DataHandlerService()
         .renderService
         .accountUpdater
@@ -85,7 +90,7 @@ class HomePageController extends GetxController {
         //   Duration(milliseconds: 100),
         // ).then((value) {
         try {
-          if (Get.isRegistered<AccountsWidgetController>()) {
+          if (Get.isRegistered<AccountsWidgetController>() && index != -1) {
             Get.find<AccountsWidgetController>().onPageChanged(index);
             changeSelectedAccount(index);
           }
@@ -171,9 +176,11 @@ class HomePageController extends GetxController {
     // Get.find<AccountsWidgetController>().onPageChanged(index);
     if (userAccounts.isNotEmpty && userAccounts.length > index) {
       selectedIndex.value = index;
+
       userAccounts[index].delegatedBakerAddress =
           await Get.put(DelegateWidgetController())
               .getCurrentBakerAddress(userAccounts[index].publicKeyHash!);
+      //Get.find<AccountsWidgetController>().onPageChanged(index);
       print("baker address :${userAccounts[index].delegatedBakerAddress}");
     }
   }
@@ -202,7 +209,9 @@ class HomePageController extends GetxController {
 
     if (status.isPermanentlyDenied) {
       CommonFunctions.bottomSheet(
-        const CameraPermissionHandler(),
+        CameraPermissionHandler(
+          callback: openScanner,
+        ),
       );
 
       // We didn't ask for permission yet or the permission has been denied before but not permanently.

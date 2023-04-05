@@ -1,19 +1,19 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BackupPageController extends GetxController {
-  // static final operation = () {};
-  static final operation = Get.back;
-  Timer timer = Timer(const Duration(seconds: 30), operation);
+
+  Timer? timer ;
   RxInt timeLeft = 30.obs;
 
-  void setup() {
+  void setup(BuildContext context) {
     timeLeft = 30.obs;
-    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (timeLeft.value == 0) {
         timer.cancel();
-        operation();
+     Navigator.pop(context);
       } else {
         timeLeft.value = timeLeft.value - 1;
       }
@@ -22,7 +22,7 @@ class BackupPageController extends GetxController {
 
   @override
   void dispose() {
-    timer.cancel();
+    timer?.cancel();
     super.dispose();
   }
 }
