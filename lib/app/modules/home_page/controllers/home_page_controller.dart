@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -158,7 +159,7 @@ class HomePageController extends GetxController {
         showBackUpWalletBottomSheet(Get.arguments[1].toString());
       }
       await UserStorageService.getBetaTagAgree().then((value) async {
-        if (!value) {
+        if (!value && Platform.isAndroid) {
           await CommonFunctions.bottomSheet(
             BetaTagSheet(),
           );
