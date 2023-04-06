@@ -21,6 +21,7 @@ import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_she
 import 'package:naan_wallet/app/modules/veNFT.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -47,7 +48,6 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
     tokenInfo = tokenInfo.copyWith(
         interface: tokenInfo.token?.mapOperationsToActivities());
     return NaanBottomSheet(
-      title: "",
       // blurRadius: 50,
       width: 1.width,
       isScrollControlled: true,
@@ -55,65 +55,86 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
 
       // bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
-        Column(
-          children: [
-            0.02.vspace,
-            Image.asset(
-              tokenInfo.token!.operationStatus == "applied"
-                  ? "assets/transaction/success.png"
-                  : "assets/transaction/failed.png",
-              height: 60.arP,
-              width: 60.arP,
-            ),
-            0.02.vspace,
-            Text(
-              transactionModel.actionType,
-              style: titleLarge,
-            ),
-            0.01.vspace,
-            Center(
-              child: Text(
-                  DateFormat('MM/dd/yyyy HH:mm')
-                      // displaying formatted date
-                      .format(DateTime.parse(transactionModel.timestamp!)
-                          .toLocal()),
-                  style: labelMedium.copyWith(
-                      color: ColorConst.NeutralVariant.shade60)),
-            ),
-            0.02.vspace,
-            const Divider(
-              color: Color(0xff1E1C1F),
-            ),
-            0.02.vspace,
-            if (!transactionModel.actionType.contains("Delegated"))
-              tokenInfo.token!.operationStatus != "applied" ||
-                      (tokenInfo.interface?.source?.address!.isEmpty ?? true)
-                  ? const SizedBox()
-                  : contactTile(tokenInfo.interface!.source!, "From"),
-            0.02.vspace,
-            tokenInfo.token!.operationStatus != "applied" ||
-                    (tokenInfo.interface?.destination?.address!.isEmpty ?? true)
-                ? const SizedBox()
-                : contactTile(tokenInfo.interface!.destination!, "To"),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.arP),
-                color: const Color(0xff1E1C1F),
-              ),
-              margin: EdgeInsets.symmetric(
-                vertical: 24.arP,
-              ),
-              child: Column(
+        Container(
+          constraints:
+              BoxConstraints(maxHeight: AppConstant.naanBottomSheetChildHeight),
+          child: Navigator(onGenerateRoute: (context) {
+            return MaterialPageRoute(builder: (context) {
+              return Column(
                 children: [
-                  _buildTokenInfo(tokenInfo),
-                  ...tokenInfo.internalOperation
-                      .map((e) => _buildTokenInfo(e))
-                      .toList(),
+                  const BottomSheetHeading(
+                    title: "",
+                  ),
+                  0.02.vspace,
+                  Image.asset(
+                    tokenInfo.token!.operationStatus == "applied"
+                        ? "assets/transaction/success.png"
+                        : "assets/transaction/failed.png",
+                    height: 60.arP,
+                    width: 60.arP,
+                  ),
+                  0.02.vspace,
+                  Text(
+                    transactionModel.actionType,
+                    style: titleLarge,
+                  ),
+                  0.01.vspace,
+                  Center(
+                    child: Text(
+                        DateFormat('MM/dd/yyyy HH:mm')
+                            // displaying formatted date
+                            .format(DateTime.parse(transactionModel.timestamp!)
+                                .toLocal()),
+                        style: labelMedium.copyWith(
+                            color: ColorConst.NeutralVariant.shade60)),
+                  ),
+                  0.02.vspace,
+                  const Divider(
+                    color: Color(0xff1E1C1F),
+                  ),
+                  0.02.vspace,
+                  if (!transactionModel.actionType.contains("Delegated"))
+                    tokenInfo.token!.operationStatus != "applied" ||
+                            (tokenInfo.interface?.source?.address!.isEmpty ??
+                                true)
+                        ? const SizedBox()
+                        : contactTile(tokenInfo.interface!.source!, "From"),
+                  0.02.vspace,
+                  tokenInfo.token!.operationStatus != "applied" ||
+                          (tokenInfo.interface?.destination?.address!.isEmpty ??
+                              true)
+                      ? const SizedBox()
+                      : contactTile(tokenInfo.interface!.destination!, "To"),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.arP),
+                      color: const Color(0xff1E1C1F),
+                    ),
+                    margin: EdgeInsets.symmetric(
+                      vertical: 24.arP,
+                    ),
+                    child: Column(
+                      children: [
+                        TxTokenInfo(
+                            tokenInfo: tokenInfo,
+                            userAccountAddress: userAccountAddress,
+                            xtzPrice: xtzPrice,
+                            info: tokenInfo),
+                        ...tokenInfo.internalOperation
+                            .map((e) => TxTokenInfo(
+                                tokenInfo: tokenInfo,
+                                userAccountAddress: userAccountAddress,
+                                xtzPrice: xtzPrice,
+                                info: e))
+                            .toList(),
+                      ],
+                    ),
+                  ),
+                  _buildFooter(context),
                 ],
-              ),
-            ),
-            _buildFooter(context),
-          ],
+              );
+            });
+          }),
         ),
       ],
     );
@@ -132,7 +153,12 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => TransactionFeeDetailShet()));
+                    builder: (context) => TransactionFeeDetailShet(
+                          tokenInfo: tokenInfo,
+                          transactionModel: transactionModel,
+                          userAccountAddress: userAccountAddress,
+                          xtzPrice: xtzPrice,
+                        )));
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,114 +202,6 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
         ),
         const BottomButtonPadding()
       ],
-    );
-  }
-
-  Widget _buildTokenInfo(TokenInfo info) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 20.arP, horizontal: 10.arP),
-      // margin: EdgeInsets.symmetric(
-      //   vertical: 24.arP,
-      // ),
-      // decoration: BoxDecoration(
-      //   borderRadius: BorderRadius.circular(8.arP),
-      //   color: const Color(0xff1E1C1F),
-      // ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 20.aR,
-            backgroundColor: ColorConst.NeutralVariant.shade60,
-            child: info.imageUrl.startsWith("assets")
-                ? Image.asset(
-                    info.imageUrl,
-                    fit: BoxFit.cover,
-                  )
-                : info.imageUrl.endsWith(".svg")
-                    ? SvgPicture.network(
-                        info.imageUrl,
-                        fit: BoxFit.cover,
-                      )
-                    : info.nftContractAddress ==
-                            "KT18kkvmUoefkdok5mrjU6fxsm7xmumy1NEw"
-                        ? ClipOval(child: VeNFT(url: info.imageUrl))
-                        : Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  fit: BoxFit.contain,
-                                  image: NetworkImage(info.imageUrl
-                                          .startsWith("ipfs")
-                                      ? "https://ipfs.io/ipfs/${info.imageUrl.replaceAll("ipfs://", '')}"
-                                      : info.imageUrl)),
-                            ),
-                          ),
-          ),
-          0.01.hspace,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(info.token!.iconImage,
-                      width: 14.aR,
-                      height: 14.arP,
-                      color: ColorConst.NeutralVariant.shade60),
-                  Container(
-                    constraints: BoxConstraints(maxWidth: .5.width),
-                    child: Text(" ${info.token!.actionType}",
-                        maxLines: 1,
-                        style: labelMedium.copyWith(
-                          color: ColorConst.NeutralVariant.shade60,
-                        )),
-                  ),
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 5.aR),
-                child: Text(
-                  info.isNft ? tokenInfo.tokenSymbol : tokenInfo.name,
-                  style: labelLarge.copyWith(
-                      fontSize: 14.aR, fontWeight: FontWeight.normal),
-                ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                  info.isNft
-                      ? info.name
-                      : info.token!.sender!.address!
-                              .contains(userAccountAddress)
-                          ? '- ${info.tokenAmount.toStringAsFixed(6)} ${info.tokenSymbol}'
-                          : '+${info.tokenAmount.toStringAsFixed(6)} ${info.tokenSymbol}',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: bodySmall.copyWith(
-                      color: info.token!.sender!.address!
-                              .contains(userAccountAddress)
-                          ? ColorConst.NeutralVariant.shade60
-                          : ColorConst.naanCustomColor)),
-              Text(
-                info.token!.operationStatus != "applied"
-                    ? "failed"
-                    : tokenInfo.dollarAmount
-                        .roundUpDollar(xtzPrice, decimals: 6),
-                style: bodyMedium.copyWith(
-                  color: info.token!.operationStatus != "applied"
-                      ? ColorConst.NaanRed
-                      : Colors.white,
-                ),
-              )
-            ],
-          )
-        ],
-      ),
     );
   }
 
@@ -491,6 +409,137 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                 ))
             : const SizedBox(),
       ],
+    );
+  }
+}
+
+class TxTokenInfo extends StatelessWidget {
+  TxTokenInfo({
+    super.key,
+    required this.tokenInfo,
+    required this.userAccountAddress,
+    required this.xtzPrice,
+    required this.info,
+    this.showAmount = true,
+  });
+
+  final TokenInfo tokenInfo;
+  final String userAccountAddress;
+  final double xtzPrice;
+  final TokenInfo info;
+  bool showAmount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 20.arP, horizontal: 10.arP),
+      // margin: EdgeInsets.symmetric(
+      //   vertical: 24.arP,
+      // ),
+      // decoration: showAmount
+      //     ? null
+          // : BoxDecoration(
+          //     borderRadius: BorderRadius.circular(8.arP),
+          //     color: const Color(0xff1E1C1F),
+          //   ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 20.aR,
+            backgroundColor: ColorConst.NeutralVariant.shade60,
+            child: info.imageUrl.startsWith("assets")
+                ? Image.asset(
+                    info.imageUrl,
+                    fit: BoxFit.cover,
+                  )
+                : info.imageUrl.endsWith(".svg")
+                    ? SvgPicture.network(
+                        info.imageUrl,
+                        fit: BoxFit.cover,
+                      )
+                    : info.nftContractAddress ==
+                            "KT18kkvmUoefkdok5mrjU6fxsm7xmumy1NEw"
+                        ? ClipOval(child: VeNFT(url: info.imageUrl))
+                        : Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  fit: BoxFit.contain,
+                                  image: NetworkImage(info.imageUrl
+                                          .startsWith("ipfs")
+                                      ? "https://ipfs.io/ipfs/${info.imageUrl.replaceAll("ipfs://", '')}"
+                                      : info.imageUrl)),
+                            ),
+                          ),
+          ),
+          SizedBox(
+            width: 12.arP,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(info.token!.iconImage,
+                      width: 14.aR,
+                      height: 14.arP,
+                      color: ColorConst.NeutralVariant.shade60),
+                  Container(
+                    constraints: BoxConstraints(maxWidth: .5.width),
+                    child: Text(" ${info.token!.actionType}",
+                        maxLines: 1,
+                        style: labelMedium.copyWith(
+                          color: ColorConst.NeutralVariant.shade60,
+                        )),
+                  ),
+                ],
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 6.aR),
+                child: Text(
+                  info.isNft ? tokenInfo.tokenSymbol : tokenInfo.name,
+                  style: labelLarge.copyWith(
+                      fontSize: 14.aR, fontWeight: FontWeight.normal),
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+          if (showAmount)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                    info.isNft
+                        ? info.name
+                        : info.token!.sender!.address!
+                                .contains(userAccountAddress)
+                            ? '- ${info.tokenAmount.toStringAsFixed(6)} ${info.tokenSymbol}'
+                            : '+${info.tokenAmount.toStringAsFixed(6)} ${info.tokenSymbol}',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: bodySmall.copyWith(
+                        color: info.token!.sender!.address!
+                                .contains(userAccountAddress)
+                            ? ColorConst.NeutralVariant.shade60
+                            : ColorConst.naanCustomColor)),
+                Text(
+                  info.token!.operationStatus != "applied"
+                      ? "failed"
+                      : tokenInfo.dollarAmount
+                          .roundUpDollar(xtzPrice, decimals: 6),
+                  style: bodyMedium.copyWith(
+                    color: info.token!.operationStatus != "applied"
+                        ? ColorConst.NaanRed
+                        : Colors.white,
+                  ),
+                )
+              ],
+            )
+        ],
+      ),
     );
   }
 }
