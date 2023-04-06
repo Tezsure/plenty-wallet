@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/fee_detail_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
@@ -111,14 +112,14 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                 ],
               ),
             ),
-            _buildFooter(),
+            _buildFooter(context),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildFooter() {
+  Widget _buildFooter(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -127,7 +128,12 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
         ),
         0.02.vspace,
         BouncingWidget(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TransactionFeeDetailShet()));
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -221,8 +227,10 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(info.token!.iconImage,
-                      size: 14.aR, color: ColorConst.NeutralVariant.shade60),
+                  Image.asset(info.token!.iconImage,
+                      width: 14.aR,
+                      height: 14.arP,
+                      color: ColorConst.NeutralVariant.shade60),
                   Container(
                     constraints: BoxConstraints(maxWidth: .5.width),
                     child: Text(" ${info.token!.actionType}",

@@ -18,7 +18,7 @@ import '../../../data/services/user_storage_service/user_storage_service.dart';
 import 'history_filter_controller.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
-enum TxIconNameEnum { ArrowDown, ArrowUp, Deal, Clipboard }
+enum TxIconNameEnum { ArrowDown, ArrowUp, Deal, Swap, Clipboard }
 
 class TransactionController extends GetxController {
   final accController = Get.find<AccountSummaryController>();
@@ -283,6 +283,7 @@ extension TransactionChecker on TxHistoryModel {
   TxIconNameEnum? get icon {
     final homeController = Get.find<HomePageController>();
     if (type == "transaction") {
+      if (actionType == "Swapped") return TxIconNameEnum.Swap;
       if (sender!.address ==
           homeController
               .userAccounts[homeController.selectedIndex.value].publicKeyHash) {
@@ -297,17 +298,19 @@ extension TransactionChecker on TxHistoryModel {
     }
   }
 
-  IconData get iconImage {
+  String get iconImage {
     switch (icon) {
       case TxIconNameEnum.ArrowDown:
-        return Icons.arrow_downward;
+        return "assets/transaction/down.png";
       case TxIconNameEnum.ArrowUp:
-        return Icons.arrow_upward;
+        return "assets/transaction/up.png";
       case TxIconNameEnum.Deal:
-        return Icons.people;
+        return "assets/transaction/contract.png";
+      case TxIconNameEnum.Swap:
+        return "assets/transaction/swap.png";
 
       default:
-        return Icons.assignment;
+        return "assets/transaction/contract.png";
     }
   }
 

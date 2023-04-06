@@ -44,13 +44,13 @@ class _HistoryTileState extends State<HistoryTile>
             // height: 61.arP,
             child: Padding(
               padding: EdgeInsets.only(
-                  left: 12.arP, right: 9.arP, top: 10.arP, bottom: 10.arP),
+                  left: 12.arP, right: 12.arP, top: 12.arP, bottom: 12.arP),
               child: Column(
                 children: [
                   // Text((widget.tokenInfo.token?.hash ?? "").tz1Short()),
                   _buildBody(widget.tokenInfo),
                   ...widget.tokenInfo.internalOperation.map((e) => Padding(
-                        padding: EdgeInsets.only(top: 8.0.arP),
+                        padding: EdgeInsets.only(top: 20.arP),
                         child: _buildBody(e),
                       ))
                 ],
@@ -62,8 +62,9 @@ class _HistoryTileState extends State<HistoryTile>
     );
   }
 
-  Row _buildBody(TokenInfo data) {
+  Widget _buildBody(TokenInfo data) {
     data = data.copyWith(interface: data.token?.mapOperationsToActivities());
+    // if (data.name == "Tezos" && data.tokenAmount == 0.0) return Container();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -113,17 +114,20 @@ class _HistoryTileState extends State<HistoryTile>
                       ),
                     ),
         ),
-        0.02.hspace,
+        SizedBox(
+          width: 12.arP,
+        ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(data.token?.iconImage,
-                    size: 14.arP,
+                Image.asset(data.token!.iconImage,
+                    width: 14.arP,
+                    height: 14.arP,
                     color: data.internalOperation.isNotEmpty
                         ? ColorConst.Primary
                         : ColorConst.NeutralVariant.shade60),
@@ -136,18 +140,18 @@ class _HistoryTileState extends State<HistoryTile>
                         fontWeight: FontWeight.w600)),
               ],
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 4.arP),
-              child: SizedBox(
-                width: 180.arP,
-                child: Text(
-                  data.name,
-                  style: labelLarge.copyWith(
-                      letterSpacing: 0.5, fontWeight: FontWeight.w400),
-                  softWrap: false,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+            SizedBox(
+              height: 4.arP,
+            ),
+            SizedBox(
+              width: 180.arP,
+              child: Text(
+                data.name,
+                style: labelLarge.copyWith(
+                    letterSpacing: 0.5, fontWeight: FontWeight.w400),
+                softWrap: false,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
@@ -166,6 +170,9 @@ class _HistoryTileState extends State<HistoryTile>
                   overflow: TextOverflow.ellipsis,
                   style: labelSmall.copyWith(
                       color: ColorConst.NeutralVariant.shade60)),
+              SizedBox(
+                height: 4.arP,
+              ),
               Text(
                 data.token!.operationStatus == 'applied'
                     ? data.tokenSymbol == "tez"
