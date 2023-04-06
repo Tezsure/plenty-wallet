@@ -97,5 +97,7 @@
 	<string>For adding events to the calendar</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Used for adding events to calendar</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Required to send notification based on location</string>
 </dict>
 </plist>
