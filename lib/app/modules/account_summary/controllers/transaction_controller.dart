@@ -288,12 +288,26 @@ extension TransactionChecker on TxHistoryModel {
               .userAccounts[homeController.selectedIndex.value].publicKeyHash) {
         return TxIconNameEnum.ArrowUp;
       } else {
-        TxIconNameEnum.ArrowDown;
+        return TxIconNameEnum.ArrowDown;
       }
     } else if (type == "delegation") {
       return TxIconNameEnum.Deal;
     } else {
       TxIconNameEnum.Clipboard;
+    }
+  }
+
+  IconData get iconImage {
+    switch (icon) {
+      case TxIconNameEnum.ArrowDown:
+        return Icons.arrow_downward;
+      case TxIconNameEnum.ArrowUp:
+        return Icons.arrow_upward;
+      case TxIconNameEnum.Deal:
+        return Icons.people;
+
+      default:
+        return Icons.assignment;
     }
   }
 
@@ -316,17 +330,34 @@ extension TransactionChecker on TxHistoryModel {
 
   String get nftTokenId {
     if (parameter?.value is String) {
-      var decodedString = jsonDecode(parameter!.value);
-      return decodedString is Map
-          ? decodedString["txs"][0]["token_id"]
-          : decodedString[0]["txs"][0]["token_id"];
-    } else if (parameter?.value is Map) {
-      return parameter?.value["txs"][0]["token_id"];
-    } else if (parameter?.value is List) {
-      return parameter?.value[0]["txs"][0]["token_id"];
-    } else {
-      return "";
+      var decodedString;
+      try {
+        decodedString = jsonDecode(parameter!.value);
+      } catch (e) {
+        return "";
+      }
+
+      if (decodedString is Map && decodedString["value"] is String) {
+        return decodedString["value"];
+      }
+      parameter?.value = decodedString;
+      // return decodedString is Map
+      //     ? decodedString["txs"] == null
+      //         ? ""
+      //         : decodedString["txs"][0]["token_id"]
+      //     : decodedString[0]["txs"][0]["token_id"];
     }
+    if (parameter?.value is Map && parameter?.value["txs"] != null) {
+      return parameter?.value["txs"][0]["token_id"];
+    }
+    if (parameter?.value is List && parameter?.value[0]["txs"] != null) {
+      return parameter?.value[0]["txs"][0]["token_id"];
+    }
+    if (parameter?.value is List && parameter?.value[0]["request"] != null) {
+      return parameter?.value[0]["request"]["token_id"];
+    }
+
+    return "";
   }
 
   String get fa1TokenAmount {
@@ -407,14 +438,12 @@ extension TransactionChecker on TxHistoryModel {
         }
       }
     }
-    if (homeController.userAccounts
-        .any((element) => element.publicKeyHash!.contains(sender!.address!))) {
+    if (homeController
+        .userAccounts[homeController.selectedIndex.value].publicKeyHash!
+        .contains(sender!.address!)) {
       return "Sent";
-    }
-    if (target != null &&
-        homeController.userAccounts.any(
-            (element) => element.publicKeyHash!.contains(target!.address!))) {
-      return "Received";
+    } else {
+      return target?.alias ?? "Received";
     }
     if (target != null) {
       return target!.alias ?? "Contract interaction";
@@ -438,10 +467,10 @@ extension TransactionChecker on TxHistoryModel {
     final homeController = Get.find<HomePageController>();
     final selectedAccount =
         homeController.userAccounts[homeController.selectedIndex.value];
-    data.source = sender;
+    data.source = getAddressAlias(sender!);
     switch (type) {
       case "transaction":
-        data.destination = target;
+        data.destination = target != null ? getAddressAlias(target!) : null;
         data.amount = amount?.toString();
         final fa2Parameter = parameter;
         final fa12Parameter = parameter;
@@ -458,17 +487,20 @@ extension TransactionChecker on TxHistoryModel {
                   (acc, tx) => acc + (tx.amount),
                 )
                 .toString();
-            data.source!.address = selectedAccount.publicKeyHash;
+            data.source = AliasAddress(
+                address: selectedAccount.publicKeyHash,
+                alias: selectedAccount.name);
             isUserSenderOrReceiverOfFa2Operation = true;
             data.tokenId = fa2Parameter.value[0]["txs"][0]["token_id"];
           }
           for (final param in fa2Parameter.value) {
-            final val = param["txs"].firstWhere((tx) =>
-                tx["to_"] == selectedAccount.publicKeyHash &&
-                (amount = tx["amount"]));
+            final val = (param["txs"] as List).firstWhere((tx) {
+              data.amount = tx["amount"];
+              return tx["to_"] == selectedAccount.publicKeyHash;
+            }, orElse: () => null);
             if (val != null) {
               isUserSenderOrReceiverOfFa2Operation = true;
-              amount = val["amount"];
+              data.amount = val["amount"];
               data.tokenId = val["token_id"];
             }
           }
@@ -476,6 +508,7 @@ extension TransactionChecker on TxHistoryModel {
             break;
           }
         } else if (fa12Parameter != null &&
+            fa12Parameter.value is Map &&
             fa12Parameter.value["value"] != null) {
           if (fa12Parameter.entrypoint == 'approve') {
             break;
@@ -483,10 +516,12 @@ extension TransactionChecker on TxHistoryModel {
           if (fa12Parameter.value["from"] != null ||
               fa12Parameter.value["to"] != null) {
             if (fa12Parameter.value["from"] == selectedAccount.publicKeyHash) {
-              data.source!.address = selectedAccount.publicKeyHash;
+              data.source = AliasAddress(
+                  address: selectedAccount.publicKeyHash,
+                  alias: selectedAccount.name);
             } else if (fa12Parameter.value["to"] ==
                 selectedAccount.publicKeyHash) {
-              data.source!.address = fa12Parameter.value.from;
+              data.source!.address = fa12Parameter.value["from"];
             } else {
               break;
             }
@@ -494,6 +529,7 @@ extension TransactionChecker on TxHistoryModel {
           data.contractAddress = target!.address;
           data.amount = fa12Parameter.value["value"];
         } else if (bakingParameter != null &&
+            bakingParameter.value is Map &&
             bakingParameter.value["quantity"] != null) {
           data.contractAddress = target!.address;
           final tokenOrTezAmount =
@@ -514,7 +550,12 @@ extension TransactionChecker on TxHistoryModel {
         if (selectedAccount.publicKeyHash != data.source!.address) {
           break;
         }
-        if (newDelegate != null) (data.destination = newDelegate);
+        if (prevDelegate != null) {
+          (data.destination = getAddressAlias(prevDelegate!));
+        }
+        if (newDelegate != null) {
+          (data.destination = getAddressAlias(newDelegate!));
+        }
         break;
 
       // case "origination":
@@ -523,11 +564,13 @@ extension TransactionChecker on TxHistoryModel {
       //   break;
       default:
     }
-    data.tokenId = nftTokenId.isEmpty ? null : nftTokenId;
+    data.tokenId = data.tokenId ?? (nftTokenId.isEmpty ? null : nftTokenId);
     data.amount = data.source!.address == selectedAccount.publicKeyHash
         ? "-${data.amount}"
         : data.amount;
-        
+    data.source = getAddressAlias(data.source!);
+    data.destination =
+        data.destination != null ? getAddressAlias(data.destination!) : null;
     return data;
   }
 }

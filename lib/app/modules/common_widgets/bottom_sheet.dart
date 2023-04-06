@@ -100,8 +100,8 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
                   maxChildSize: widget.maxChildSize ?? 1,
                   builder: (_, scrollController) => Container(
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(36.arP)),
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(36.arP)),
                         color: Colors.black),
                     padding: EdgeInsets.symmetric(horizontal: 0.05.width),
                     child: Column(
@@ -158,22 +158,28 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
                 )
               : SafeArea(
                   bottom: false,
-                  minimum:  widget.isScrollControlled?EdgeInsets.only(top: kToolbarHeight):EdgeInsets.zero,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(36.arP)),
-                        color: Colors.black),
-                    width: widget.width ?? 1.width,
-                    height: widget.height,
-                    padding: EdgeInsets.symmetric(
-                        horizontal:
-                            widget.bottomSheetHorizontalPadding ?? 16.arP),
-                    child: widget.isScrollControlled
-                        ? SingleChildScrollView(
-                            child: isScrollControlledUI(),
-                          )
-                        : isScrollControlledUI(),
+                  minimum: widget.isScrollControlled
+                      ? EdgeInsets.only(top: kToolbarHeight)
+                      : EdgeInsets.zero,
+                  child: ClipRRect(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(36.arP)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(36.arP)),
+                          color: Colors.black),
+                      width: widget.width ?? 1.width,
+                      height: widget.height,
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                              widget.bottomSheetHorizontalPadding ?? 16.arP),
+                      child: widget.isScrollControlled
+                          ? SingleChildScrollView(
+                              child: isScrollControlledUI(),
+                            )
+                          : isScrollControlledUI(),
+                    ),
                   ),
                 ),
         ));

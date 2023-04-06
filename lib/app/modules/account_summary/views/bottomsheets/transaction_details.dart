@@ -17,6 +17,7 @@ import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
+import 'package:naan_wallet/app/modules/veNFT.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -30,10 +31,10 @@ import '../../models/token_info.dart';
 
 class TransactionDetailsBottomSheet extends GetView<TransactionController> {
   final TxHistoryModel transactionModel;
-  final TokenInfo tokenInfo;
+  TokenInfo tokenInfo;
   final String userAccountAddress;
   final double xtzPrice;
-  const TransactionDetailsBottomSheet(
+  TransactionDetailsBottomSheet(
       {super.key,
       required this.transactionModel,
       required this.tokenInfo,
@@ -42,6 +43,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
 
   @override
   Widget build(BuildContext context) {
+    tokenInfo = tokenInfo.copyWith(
+        interface: tokenInfo.token?.mapOperationsToActivities());
     return NaanBottomSheet(
       title: "",
       // blurRadius: 50,
@@ -83,14 +86,14 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
             0.02.vspace,
             if (!transactionModel.actionType.contains("Delegated"))
               tokenInfo.token!.operationStatus != "applied" ||
-                      transactionModel.send.address!.isEmpty
+                      (tokenInfo.interface?.source?.address!.isEmpty ?? true)
                   ? const SizedBox()
-                  : contactTile(transactionModel.send, "From"),
+                  : contactTile(tokenInfo.interface!.source!, "From"),
             0.02.vspace,
             tokenInfo.token!.operationStatus != "applied" ||
-                    transactionModel.reciever.address!.isEmpty
+                    (tokenInfo.interface?.destination?.address!.isEmpty ?? true)
                 ? const SizedBox()
-                : contactTile(transactionModel.reciever, "To"),
+                : contactTile(tokenInfo.interface!.destination!, "To"),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.arP),
@@ -195,17 +198,20 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                         info.imageUrl,
                         fit: BoxFit.cover,
                       )
-                    : Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.contain,
-                              image: NetworkImage(info.imageUrl
-                                      .startsWith("ipfs")
-                                  ? "https://ipfs.io/ipfs/${info.imageUrl.replaceAll("ipfs://", '')}"
-                                  : info.imageUrl)),
-                        ),
-                      ),
+                    : info.nftContractAddress ==
+                            "KT18kkvmUoefkdok5mrjU6fxsm7xmumy1NEw"
+                        ? ClipOval(child: VeNFT(url: info.imageUrl))
+                        : Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  fit: BoxFit.contain,
+                                  image: NetworkImage(info.imageUrl
+                                          .startsWith("ipfs")
+                                      ? "https://ipfs.io/ipfs/${info.imageUrl.replaceAll("ipfs://", '')}"
+                                      : info.imageUrl)),
+                            ),
+                          ),
           ),
           0.01.hspace,
           Column(
@@ -215,15 +221,12 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
-                      info.token!.sender!.address!.contains(userAccountAddress)
-                          ? Icons.arrow_upward
-                          : Icons.arrow_downward,
-                      size: 14.aR,
-                      color: ColorConst.NeutralVariant.shade60),
+                  Icon(info.token!.iconImage,
+                      size: 14.aR, color: ColorConst.NeutralVariant.shade60),
                   Container(
                     constraints: BoxConstraints(maxWidth: .5.width),
                     child: Text(" ${info.token!.actionType}",
+                        maxLines: 1,
                         style: labelMedium.copyWith(
                           color: ColorConst.NeutralVariant.shade60,
                         )),

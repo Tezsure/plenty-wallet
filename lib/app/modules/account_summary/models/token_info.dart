@@ -1,4 +1,5 @@
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 
 import '../../../../utils/constants/path_const.dart';
 
@@ -18,6 +19,7 @@ class TokenInfo {
   final String? nftTokenId;
   final bool? isHashSame;
   final DateTime? timeStamp;
+  TxInterface? interface;
   final List<TokenInfo> internalOperation;
 
   TokenInfo({
@@ -25,6 +27,7 @@ class TokenInfo {
     this.imageUrl = "${PathConst.ASSETS}tezos_logo.png",
     this.isNft = false,
     this.skip = false,
+    this.interface,
     this.dollarAmount = 0,
     this.tokenSymbol = "tez",
     this.tokenAmount = 0,
@@ -55,6 +58,7 @@ class TokenInfo {
     String? nftTokenId,
     bool? isHashSame,
     DateTime? timeStamp,
+    TxInterface? interface,
     List<TokenInfo>? internalOperation,
   }) {
     return TokenInfo(
@@ -68,6 +72,7 @@ class TokenInfo {
         lastId: lastId ?? this.lastId,
         isSent: isReceived ?? isSent,
         token: token ?? this.token,
+        interface: interface ?? this.interface,
         isDelegated: isDelegated ?? this.isDelegated,
         nftContractAddress: address ?? nftContractAddress,
         nftTokenId: nftTokenId ?? this.nftTokenId,

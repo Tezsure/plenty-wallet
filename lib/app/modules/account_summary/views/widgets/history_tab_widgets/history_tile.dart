@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/app/modules/veNFT.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
@@ -62,6 +63,7 @@ class _HistoryTileState extends State<HistoryTile>
   }
 
   Row _buildBody(TokenInfo data) {
+    data = data.copyWith(interface: data.token?.mapOperationsToActivities());
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -97,14 +99,17 @@ class _HistoryTileState extends State<HistoryTile>
                             : const Border(),
                       ),
                       child: ClipOval(
-                        child: CachedNetworkImage(
-                          imageUrl: data.imageUrl.startsWith("ipfs")
-                              ? "https://ipfs.io/ipfs/${widget.tokenInfo.imageUrl.replaceAll("ipfs://", '')}"
-                              : widget.tokenInfo.imageUrl,
-                          memCacheHeight: 82,
-                          memCacheWidth: 82,
-                          fit: BoxFit.cover,
-                        ),
+                        child: data.nftContractAddress ==
+                                "KT18kkvmUoefkdok5mrjU6fxsm7xmumy1NEw"
+                            ? VeNFT(url: data.imageUrl)
+                            : CachedNetworkImage(
+                                imageUrl: data.imageUrl.startsWith("ipfs")
+                                    ? "https://ipfs.io/ipfs/${data.imageUrl.replaceAll("ipfs://", '')}"
+                                    : data.imageUrl,
+                                memCacheHeight: 82,
+                                memCacheWidth: 82,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
         ),
@@ -117,12 +122,13 @@ class _HistoryTileState extends State<HistoryTile>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(data.isSent ? Icons.arrow_upward : Icons.arrow_downward,
+                Icon(data.token?.iconImage,
                     size: 14.arP,
                     color: data.internalOperation.isNotEmpty
                         ? ColorConst.Primary
                         : ColorConst.NeutralVariant.shade60),
                 Text(" ${data.token?.actionType ?? ""}",
+                    maxLines: 1,
                     style: labelMedium.copyWith(
                         color: data.internalOperation.isNotEmpty
                             ? ColorConst.Primary
