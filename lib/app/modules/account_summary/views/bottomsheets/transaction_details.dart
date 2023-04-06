@@ -50,91 +50,115 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
     return NaanBottomSheet(
       // blurRadius: 50,
       width: 1.width,
-      isScrollControlled: true,
+      // isScrollControlled: true,
       // height: .8.height,
-
+      // bottomSheetHorizontalPadding: 0,
+      height: AppConstant.naanBottomSheetHeight,
       // bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
-        Container(
-          constraints:
-              BoxConstraints(maxHeight: AppConstant.naanBottomSheetChildHeight),
-          child: Navigator(onGenerateRoute: (context) {
-            return MaterialPageRoute(builder: (context) {
-              return Column(
-                children: [
-                  const BottomSheetHeading(
-                    title: "",
-                  ),
-                  0.02.vspace,
-                  Image.asset(
-                    tokenInfo.token!.operationStatus == "applied"
-                        ? "assets/transaction/success.png"
-                        : "assets/transaction/failed.png",
-                    height: 60.arP,
-                    width: 60.arP,
-                  ),
-                  0.02.vspace,
-                  Text(
-                    transactionModel.actionType,
-                    style: titleLarge,
-                  ),
-                  0.01.vspace,
-                  Center(
-                    child: Text(
-                        DateFormat('MM/dd/yyyy HH:mm')
-                            // displaying formatted date
-                            .format(DateTime.parse(transactionModel.timestamp!)
-                                .toLocal()),
-                        style: labelMedium.copyWith(
-                            color: ColorConst.NeutralVariant.shade60)),
-                  ),
-                  0.02.vspace,
-                  const Divider(
-                    color: Color(0xff1E1C1F),
-                  ),
-                  0.02.vspace,
-                  if (!transactionModel.actionType.contains("Delegated"))
-                    tokenInfo.token!.operationStatus != "applied" ||
-                            (tokenInfo.interface?.source?.address!.isEmpty ??
-                                true)
-                        ? const SizedBox()
-                        : contactTile(tokenInfo.interface!.source!, "From"),
-                  0.02.vspace,
-                  tokenInfo.token!.operationStatus != "applied" ||
-                          (tokenInfo.interface?.destination?.address!.isEmpty ??
-                              true)
-                      ? const SizedBox()
-                      : contactTile(tokenInfo.interface!.destination!, "To"),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.arP),
-                      color: const Color(0xff1E1C1F),
+        Column(
+          children: [
+            Container(
+              // padding: EdgeInsets.symmetric(horizontal: 16.arP),
+              constraints: BoxConstraints(
+                  maxHeight: AppConstant.naanBottomSheetHeight - 0.0145.height),
+              child: Navigator(onGenerateRoute: (context) {
+                return MaterialPageRoute(builder: (context) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(22.arP),
+                    child: Container(
+                      constraints: BoxConstraints(
+                          maxHeight: AppConstant.naanBottomSheetHeight),
+                      child: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),
+                        child: Column(
+                          children: [
+                            const BottomSheetHeading(
+                              title: "",
+                            ),
+                            0.02.vspace,
+                            Image.asset(
+                              tokenInfo.token!.operationStatus == "applied"
+                                  ? "assets/transaction/success.png"
+                                  : "assets/transaction/failed.png",
+                              height: 60.arP,
+                              width: 60.arP,
+                            ),
+                            0.02.vspace,
+                            Text(
+                              transactionModel.actionType,
+                              style: titleLarge,
+                            ),
+                            0.01.vspace,
+                            Center(
+                              child: Text(
+                                  DateFormat('MM/dd/yyyy HH:mm')
+                                      // displaying formatted date
+                                      .format(DateTime.parse(
+                                              transactionModel.timestamp!)
+                                          .toLocal()),
+                                  style: labelMedium.copyWith(
+                                      color:
+                                          ColorConst.NeutralVariant.shade60)),
+                            ),
+                            0.02.vspace,
+                            const Divider(
+                              color: Color(0xff1E1C1F),
+                            ),
+                            0.02.vspace,
+                            if (!transactionModel.actionType
+                                .contains("Delegated"))
+                              tokenInfo.token!.operationStatus != "applied" ||
+                                      (tokenInfo.interface?.source?.address!
+                                              .isEmpty ??
+                                          true)
+                                  ? const SizedBox()
+                                  : contactTile(
+                                      tokenInfo.interface!.source!, "From"),
+                            0.02.vspace,
+                            tokenInfo.token!.operationStatus != "applied" ||
+                                    (tokenInfo.interface?.destination?.address!
+                                            .isEmpty ??
+                                        true)
+                                ? const SizedBox()
+                                : contactTile(
+                                    tokenInfo.interface!.destination!, "To"),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.arP),
+                                color: const Color(0xff1E1C1F),
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                vertical: 24.arP,
+                              ),
+                              child: Column(
+                                children: [
+                                  TxTokenInfo(
+                                      tokenInfo: tokenInfo,
+                                      userAccountAddress: userAccountAddress,
+                                      xtzPrice: xtzPrice,
+                                      info: tokenInfo),
+                                  ...tokenInfo.internalOperation
+                                      .map((e) => TxTokenInfo(
+                                          tokenInfo: tokenInfo,
+                                          userAccountAddress:
+                                              userAccountAddress,
+                                          xtzPrice: xtzPrice,
+                                          info: e))
+                                      .toList(),
+                                ],
+                              ),
+                            ),
+                            _buildFooter(context),
+                          ],
+                        ),
+                      ),
                     ),
-                    margin: EdgeInsets.symmetric(
-                      vertical: 24.arP,
-                    ),
-                    child: Column(
-                      children: [
-                        TxTokenInfo(
-                            tokenInfo: tokenInfo,
-                            userAccountAddress: userAccountAddress,
-                            xtzPrice: xtzPrice,
-                            info: tokenInfo),
-                        ...tokenInfo.internalOperation
-                            .map((e) => TxTokenInfo(
-                                tokenInfo: tokenInfo,
-                                userAccountAddress: userAccountAddress,
-                                xtzPrice: xtzPrice,
-                                info: e))
-                            .toList(),
-                      ],
-                    ),
-                  ),
-                  _buildFooter(context),
-                ],
-              );
-            });
-          }),
+                  );
+                });
+              }),
+            ),
+          ],
         ),
       ],
     );
@@ -438,10 +462,10 @@ class TxTokenInfo extends StatelessWidget {
       // ),
       // decoration: showAmount
       //     ? null
-          // : BoxDecoration(
-          //     borderRadius: BorderRadius.circular(8.arP),
-          //     color: const Color(0xff1E1C1F),
-          //   ),
+      // : BoxDecoration(
+      //     borderRadius: BorderRadius.circular(8.arP),
+      //     color: const Color(0xff1E1C1F),
+      //   ),
       child: Row(
         children: [
           CircleAvatar(
