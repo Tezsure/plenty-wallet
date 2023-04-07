@@ -28,7 +28,7 @@ class DappsPageView extends GetView<DappsPageController> {
   Widget build(BuildContext context) {
     Get.put(DappsPageController());
     return NaanBottomSheet(
-      title: "Discover apps",
+      title: "Discover web3",
       action: Padding(
         padding: EdgeInsets.only(right: 16.arP),
         child: closeButton(),
