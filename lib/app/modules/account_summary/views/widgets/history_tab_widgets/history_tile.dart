@@ -1,8 +1,14 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/veNFT.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/utils.dart';
@@ -64,6 +70,26 @@ class _HistoryTileState extends State<HistoryTile>
 
   Widget _buildBody(TokenInfo data) {
     data = data.copyWith(interface: data.token?.mapOperationsToActivities());
+
+    final selectedAccount = Get.find<HomePageController>()
+        .userAccounts[Get.find<HomePageController>().selectedIndex.value]
+        .publicKeyHash!;
+    final tokenList = Get.find<AccountSummaryController>().tokensList;
+    final transactionInterface = data.token!.transactionInterface(tokenList);
+    if (!data.isNft) {
+      data = data.copyWith(
+        imageUrl: transactionInterface.imageUrl,
+        name: transactionInterface.name,
+        tokenAmount: data.token!.getAmount(
+          tokenList,
+          selectedAccount,
+        ),
+      );
+      data = data.copyWith(
+          dollarAmount:
+              transactionInterface.rate! * widget.xtzPrice * data.tokenAmount);
+    }
+
     // if (data.name == "Tezos" && data.tokenAmount == 0.0) return Container();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,13 +151,13 @@ class _HistoryTileState extends State<HistoryTile>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(data.token!.iconImage,
+                Image.asset(data.token!.getTxIcon(selectedAccount),
                     width: 14.arP,
                     height: 14.arP,
                     color: data.internalOperation.isNotEmpty
                         ? ColorConst.Primary
                         : ColorConst.NeutralVariant.shade60),
-                Text(" ${data.token?.actionType ?? ""}",
+                Text(" ${data.token?.getTxType(selectedAccount) ?? ""}",
                     maxLines: 1,
                     style: labelMedium.copyWith(
                         color: data.internalOperation.isNotEmpty
@@ -164,7 +190,7 @@ class _HistoryTileState extends State<HistoryTile>
             children: [
               Text(
                   data.isNft
-                      ? data.tokenSymbol
+                      ? "${data.token!.getAmount(tokenList, selectedAccount).toStringAsFixed(0)} ${data.tokenSymbol}"
                       : "${data.tokenAmount.toStringAsFixed(6)} ${data.tokenSymbol}",
                   textAlign: TextAlign.end,
                   overflow: TextOverflow.ellipsis,
@@ -175,18 +201,15 @@ class _HistoryTileState extends State<HistoryTile>
               ),
               Text(
                 data.token!.operationStatus == 'applied'
-                    ? data.tokenSymbol == "tez"
-                        ? data.isSent
-                            ? '- ${(data.dollarAmount).roundUpDollar(widget.xtzPrice)}'
-                            : (data.dollarAmount).roundUpDollar(widget.xtzPrice)
-                        : ""
+                    ? getColor(data.token!, selectedAccount) ==
+                            ColorConst.NaanRed
+                        ? '- ${(data.dollarAmount).roundUpDollar(widget.xtzPrice)}'
+                        : (data.dollarAmount).roundUpDollar(widget.xtzPrice)
                     : "failed",
                 style: labelLarge.copyWith(
                     fontWeight: FontWeight.w400,
                     color: data.token!.operationStatus == 'applied'
-                        ? data.isSent
-                            ? Colors.white
-                            : ColorConst.naanCustomColor
+                        ? getColor(data.token!, selectedAccount)
                         : ColorConst.NaanRed),
                 textAlign: TextAlign.end,
                 overflow: TextOverflow.ellipsis,
@@ -196,6 +219,21 @@ class _HistoryTileState extends State<HistoryTile>
         )),
       ],
     );
+  }
+
+  Color getColor(TxHistoryModel data, String selectedAccount) {
+    if (data.isSent(selectedAccount)) {
+      return ColorConst.NaanRed;
+    }
+    if (data.isReceived(selectedAccount)) {
+      return ColorConst.naanCustomColor;
+    }
+    if (data.getTxType(selectedAccount) == "Contract interaction" &&
+        (data.amount ?? 0) > 0 &&
+        data.sender!.address == selectedAccount) {
+      return ColorConst.NaanRed;
+    }
+    return Colors.white;
   }
 
   @override

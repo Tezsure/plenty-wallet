@@ -157,15 +157,15 @@ class TransactionController extends GetxController {
                 isNft: true,
                 address: tx.target!.address!,
                 nftTokenId: tx.nftTokenId,
-                tokenSymbol: transfer["token"]["metadata"]["name"] ?? "",
-                name: transfer["token"]["metadata"]["name"] ?? "",
+                tokenSymbol: transfer["token"]["metadata"]?["name"] ?? "",
+                name: transfer["token"]["metadata"]?["name"] ?? "",
                 tokenAmount: double.parse(transfer["amount"] ?? "0"),
                 isReceived: accController.selectedAccount.value.publicKeyHash!
                     .contains(transfer["to"]["address"]),
                 isSent: accController.selectedAccount.value.publicKeyHash!
                     .contains(transfer["from"]["address"]),
                 dollarAmount: 0.0,
-                imageUrl: transfer["token"]["metadata"]["thumbnailUri"]);
+                imageUrl: transfer["token"]["metadata"]?["thumbnailUri"]);
           } else {
             TokenPriceModel token = tx.getFa2TokenName;
             String amount = tx.fa2TokenAmount;
@@ -488,6 +488,7 @@ extension TransactionChecker on TxHistoryModel {
           p0.tokenId!.contains(parameter!.value is List
               ? parameter?.value[0]["txs"][0]["token_id"]
               : jsonDecode(parameter!.value)[0]["txs"][0]["token_id"])));
+
   TxInterface mapOperationsToActivities() {
     TxInterface data = TxInterface();
     final homeController = Get.find<HomePageController>();
