@@ -133,7 +133,7 @@ pod update // In your ios project directory
 ## naan app test execution summary report
 
 - Click here to view [doc](https://docs.google.com/spreadsheets/d/1eBWR0VfTQsckqYQrqy-ycE9tjRI2FIyNJsSbPjdsSek/edit?usp=sharing)
-  ![naan Testcase Scenarios](naan_wallet_testcase_scenarios.png)
+  ![naan Testcase Scenarios](naan_app_test_exe_summary_report.png)
 
 _NOTE:
 This repository is open-sourced, and is under active improvements based on suggestions and bug-reports. Users are requested to double check the transaction details on their wallet's confirmation page. The authors take no responsibility for the loss of digital assets._
