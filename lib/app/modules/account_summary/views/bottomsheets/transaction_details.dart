@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/fee_detail_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
@@ -16,6 +17,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
+import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
 import 'package:naan_wallet/app/modules/veNFT.dart';
@@ -45,119 +47,104 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
 
   @override
   Widget build(BuildContext context) {
-    tokenInfo = tokenInfo.copyWith(
-        interface: tokenInfo.token?.mapOperationsToActivities());
+    final source = tokenInfo.token!.source(
+        userAccounts: Get.find<HomePageController>().userAccounts,
+        contacts: Get.find<TransactionController>().contacts);
+    final destination = tokenInfo.token!.destination(
+        userAccounts: Get.find<HomePageController>().userAccounts,
+        contacts: Get.find<TransactionController>().contacts);
     return NaanBottomSheet(
       // blurRadius: 50,
       width: 1.width,
-      // isScrollControlled: true,
+      isScrollControlled: true,
       // height: .8.height,
       // bottomSheetHorizontalPadding: 0,
-      height: AppConstant.naanBottomSheetHeight,
+
       // bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
         Column(
           children: [
-            Container(
-              // padding: EdgeInsets.symmetric(horizontal: 16.arP),
-              constraints: BoxConstraints(
-                  maxHeight: AppConstant.naanBottomSheetHeight - 0.0145.height),
-              child: Navigator(onGenerateRoute: (context) {
-                return MaterialPageRoute(builder: (context) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(22.arP),
-                    child: Container(
-                      constraints: BoxConstraints(
-                          maxHeight: AppConstant.naanBottomSheetHeight),
-                      child: SingleChildScrollView(
-                        physics: ClampingScrollPhysics(),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(22.arP),
+              child: Container(
+                constraints: BoxConstraints(
+                    maxHeight: AppConstant.naanBottomSheetHeight),
+                child: SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      const BottomSheetHeading(
+                        title: "",
+                      ),
+                      0.02.vspace,
+                      Image.asset(
+                        tokenInfo.token!.operationStatus == "applied"
+                            ? "assets/transaction/success.png"
+                            : "assets/transaction/failed.png",
+                        height: 60.arP,
+                        width: 60.arP,
+                      ),
+                      0.02.vspace,
+                      Text(
+                        transactionModel.getTxType(userAccountAddress),
+                        style: titleLarge,
+                      ),
+                      0.01.vspace,
+                      Center(
+                        child: Text(
+                            DateFormat('MM/dd/yyyy HH:mm')
+                                // displaying formatted date
+                                .format(
+                                    DateTime.parse(transactionModel.timestamp!)
+                                        .toLocal()),
+                            style: labelMedium.copyWith(
+                                color: ColorConst.NeutralVariant.shade60)),
+                      ),
+                      0.02.vspace,
+                      const Divider(
+                        color: Color(0xff1E1C1F),
+                      ),
+                      0.02.vspace,
+                      tokenInfo.token!.operationStatus != "applied" ||
+                              (source.address?.isEmpty ?? true)
+                          ? const SizedBox()
+                          : contactTile(source, "From"),
+                      0.02.vspace,
+                      tokenInfo.token!.operationStatus != "applied" ||
+                              (destination.address?.isEmpty ?? true)
+                          ? const SizedBox()
+                          : contactTile(destination, "To"),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.arP),
+                          color: const Color(0xff1E1C1F),
+                        ),
+                        margin: EdgeInsets.symmetric(
+                          vertical: 24.arP,
+                        ),
                         child: Column(
                           children: [
-                            const BottomSheetHeading(
-                              title: "",
+                            TxTokenInfo(
+                              tokenInfo: tokenInfo,
+                              userAccountAddress: userAccountAddress,
+                              xtzPrice: xtzPrice,
                             ),
-                            0.02.vspace,
-                            Image.asset(
-                              tokenInfo.token!.operationStatus == "applied"
-                                  ? "assets/transaction/success.png"
-                                  : "assets/transaction/failed.png",
-                              height: 60.arP,
-                              width: 60.arP,
-                            ),
-                            0.02.vspace,
-                            Text(
-                              transactionModel.actionType,
-                              style: titleLarge,
-                            ),
-                            0.01.vspace,
-                            Center(
-                              child: Text(
-                                  DateFormat('MM/dd/yyyy HH:mm')
-                                      // displaying formatted date
-                                      .format(DateTime.parse(
-                                              transactionModel.timestamp!)
-                                          .toLocal()),
-                                  style: labelMedium.copyWith(
-                                      color:
-                                          ColorConst.NeutralVariant.shade60)),
-                            ),
-                            0.02.vspace,
-                            const Divider(
-                              color: Color(0xff1E1C1F),
-                            ),
-                            0.02.vspace,
-                            if (!transactionModel.actionType
-                                .contains("Delegated"))
-                              tokenInfo.token!.operationStatus != "applied" ||
-                                      (tokenInfo.interface?.source?.address!
-                                              .isEmpty ??
-                                          true)
-                                  ? const SizedBox()
-                                  : contactTile(
-                                      tokenInfo.interface!.source!, "From"),
-                            0.02.vspace,
-                            tokenInfo.token!.operationStatus != "applied" ||
-                                    (tokenInfo.interface?.destination?.address!
-                                            .isEmpty ??
-                                        true)
-                                ? const SizedBox()
-                                : contactTile(
-                                    tokenInfo.interface!.destination!, "To"),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.arP),
-                                color: const Color(0xff1E1C1F),
-                              ),
-                              margin: EdgeInsets.symmetric(
-                                vertical: 24.arP,
-                              ),
-                              child: Column(
-                                children: [
-                                  TxTokenInfo(
-                                      tokenInfo: tokenInfo,
+                            ...tokenInfo.internalOperation
+                                .map((e) => TxTokenInfo(
+                                      tokenInfo: e,
                                       userAccountAddress: userAccountAddress,
                                       xtzPrice: xtzPrice,
-                                      info: tokenInfo),
-                                  ...tokenInfo.internalOperation
-                                      .map((e) => TxTokenInfo(
-                                          tokenInfo: tokenInfo,
-                                          userAccountAddress:
-                                              userAccountAddress,
-                                          xtzPrice: xtzPrice,
-                                          info: e))
-                                      .toList(),
-                                ],
-                              ),
-                            ),
-                            _buildFooter(context),
+                                    ))
+                                .toList(),
                           ],
                         ),
                       ),
-                    ),
-                  );
-                });
-              }),
-            ),
+                      _buildFooter(context),
+                    ],
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ],
@@ -174,15 +161,12 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
         0.02.vspace,
         BouncingWidget(
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => TransactionFeeDetailShet(
-                          tokenInfo: tokenInfo,
-                          transactionModel: transactionModel,
-                          userAccountAddress: userAccountAddress,
-                          xtzPrice: xtzPrice,
-                        )));
+            CommonFunctions.bottomSheet(TransactionFeeDetailShet(
+              tokenInfo: tokenInfo,
+              transactionModel: transactionModel,
+              userAccountAddress: userAccountAddress,
+              xtzPrice: xtzPrice,
+            ));
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -339,8 +323,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                               AddContactBottomSheet(
                                   isTransactionContact: true,
                                   contactModel: ContactModel(
-                                      name: transactionModel.send.alias ?? "",
-                                      address: transactionModel.send.address!,
+                                      name: contact.alias ?? "",
+                                      address: contact.address!,
                                       imagePath:
                                           ServiceConfig.allAssetsProfileImages[
                                               Random().nextInt(
@@ -350,7 +334,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                       )])),
                             ).whenComplete(() => controller.contact?.value =
                                 controller.getContact(
-                                    transactionModel.send.address!));
+                                    contact.address!));
                           },
                           child: Text(
                             "Add to contacts",
@@ -369,7 +353,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                   isTransactionContact: true,
                                   contactModel: ContactModel(
                                       name: contact.alias ?? "Account",
-                                      address: transactionModel.send.address!,
+                                      address: contact.address!,
                                       imagePath:
                                           ServiceConfig.allAssetsProfileImages[
                                               Random().nextInt(
@@ -379,7 +363,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                       )])),
                             ).whenComplete(() => controller.contact?.value =
                                 controller.getContact(
-                                    transactionModel.send.address!));
+                                   contact.address!));
                           },
                           child: Text(
                             "Edit ",
@@ -443,18 +427,36 @@ class TxTokenInfo extends StatelessWidget {
     required this.tokenInfo,
     required this.userAccountAddress,
     required this.xtzPrice,
-    required this.info,
     this.showAmount = true,
   });
 
-  final TokenInfo tokenInfo;
+  TokenInfo tokenInfo;
   final String userAccountAddress;
   final double xtzPrice;
-  final TokenInfo info;
+
   bool showAmount;
 
   @override
   Widget build(BuildContext context) {
+    final selectedAccount = Get.find<HomePageController>()
+        .userAccounts[Get.find<HomePageController>().selectedIndex.value]
+        .publicKeyHash!;
+    final tokenList = Get.find<AccountSummaryController>().tokensList;
+    final transactionInterface =
+        tokenInfo.token!.transactionInterface(tokenList);
+    if (!tokenInfo.isNft) {
+      tokenInfo = tokenInfo.copyWith(
+        imageUrl: transactionInterface.imageUrl,
+        name: transactionInterface.name,
+        tokenAmount: tokenInfo.token!.getAmount(
+          tokenList,
+          selectedAccount,
+        ),
+      );
+      tokenInfo = tokenInfo.copyWith(
+          dollarAmount:
+              transactionInterface.rate! * xtzPrice * tokenInfo.tokenAmount);
+    }
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.arP, horizontal: 10.arP),
       // margin: EdgeInsets.symmetric(
@@ -471,28 +473,28 @@ class TxTokenInfo extends StatelessWidget {
           CircleAvatar(
             radius: 20.aR,
             backgroundColor: ColorConst.NeutralVariant.shade60,
-            child: info.imageUrl.startsWith("assets")
+            child: tokenInfo.imageUrl.startsWith("assets")
                 ? Image.asset(
-                    info.imageUrl,
+                    tokenInfo.imageUrl,
                     fit: BoxFit.cover,
                   )
-                : info.imageUrl.endsWith(".svg")
+                : tokenInfo.imageUrl.endsWith(".svg")
                     ? SvgPicture.network(
-                        info.imageUrl,
+                        tokenInfo.imageUrl,
                         fit: BoxFit.cover,
                       )
-                    : info.nftContractAddress ==
+                    : tokenInfo.nftContractAddress ==
                             "KT18kkvmUoefkdok5mrjU6fxsm7xmumy1NEw"
-                        ? ClipOval(child: VeNFT(url: info.imageUrl))
+                        ? ClipOval(child: VeNFT(url: tokenInfo.imageUrl))
                         : Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                   fit: BoxFit.contain,
-                                  image: NetworkImage(info.imageUrl
+                                  image: NetworkImage(tokenInfo.imageUrl
                                           .startsWith("ipfs")
-                                      ? "https://ipfs.io/ipfs/${info.imageUrl.replaceAll("ipfs://", '')}"
-                                      : info.imageUrl)),
+                                      ? "https://ipfs.io/ipfs/${tokenInfo.imageUrl.replaceAll("ipfs://", '')}"
+                                      : tokenInfo.imageUrl)),
                             ),
                           ),
           ),
@@ -506,24 +508,25 @@ class TxTokenInfo extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(info.token!.iconImage,
+                  Image.asset(tokenInfo.token!.getTxIcon(selectedAccount),
                       width: 14.aR,
                       height: 14.arP,
                       color: ColorConst.NeutralVariant.shade60),
                   Container(
                     constraints: BoxConstraints(maxWidth: .5.width),
-                    child: Text(" ${info.token!.actionType}",
-                        maxLines: 1,
-                        style: labelMedium.copyWith(
-                          color: ColorConst.NeutralVariant.shade60,
-                        )),
+                    child:
+                        Text(" ${tokenInfo.token!.getTxType(selectedAccount)}",
+                            maxLines: 1,
+                            style: labelMedium.copyWith(
+                              color: ColorConst.NeutralVariant.shade60,
+                            )),
                   ),
                 ],
               ),
               Container(
                 padding: EdgeInsets.only(top: 6.aR),
                 child: Text(
-                  info.isNft ? tokenInfo.tokenSymbol : tokenInfo.name,
+                  tokenInfo.isNft ? tokenInfo.name : tokenInfo.name,
                   style: labelLarge.copyWith(
                       fontSize: 14.aR, fontWeight: FontWeight.normal),
                 ),
@@ -536,27 +539,26 @@ class TxTokenInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                    info.isNft
-                        ? info.name
-                        : info.token!.sender!.address!
-                                .contains(userAccountAddress)
-                            ? '- ${info.tokenAmount.toStringAsFixed(6)} ${info.tokenSymbol}'
-                            : '+${info.tokenAmount.toStringAsFixed(6)} ${info.tokenSymbol}',
+                    tokenInfo.isNft
+                        ? "${tokenInfo.token!.getAmount(tokenList, selectedAccount).toStringAsFixed(0)} ${tokenInfo.tokenSymbol}"
+                        : getColor(tokenInfo.token!) == ColorConst.NaanRed
+                            ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}'
+                            : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: bodySmall.copyWith(
-                        color: info.token!.sender!.address!
+                        color: tokenInfo.token!.sender!.address!
                                 .contains(userAccountAddress)
                             ? ColorConst.NeutralVariant.shade60
                             : ColorConst.naanCustomColor)),
                 Text(
-                  info.token!.operationStatus != "applied"
+                  tokenInfo.token!.operationStatus != "applied"
                       ? "failed"
                       : tokenInfo.dollarAmount
                           .roundUpDollar(xtzPrice, decimals: 6),
                   style: bodyMedium.copyWith(
-                    color: info.token!.operationStatus != "applied"
-                        ? ColorConst.NaanRed
+                    color: tokenInfo.token!.operationStatus != "applied"
+                        ? getColor(tokenInfo.token!)
                         : Colors.white,
                   ),
                 )
@@ -565,6 +567,24 @@ class TxTokenInfo extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Color getColor(TxHistoryModel data) {
+    final selectedAccount = Get.find<HomePageController>()
+        .userAccounts[Get.find<HomePageController>().selectedIndex.value]
+        .publicKeyHash!;
+    if (data.isSent(selectedAccount)) {
+      return ColorConst.NaanRed;
+    }
+    if (data.isReceived(selectedAccount)) {
+      return ColorConst.naanCustomColor;
+    }
+    if (data.getTxType(selectedAccount) == "Contract interaction" &&
+        (data.amount ?? 0) > 0 &&
+        data.sender!.address == selectedAccount) {
+      return ColorConst.NaanRed;
+    }
+    return Colors.white;
   }
 }
 

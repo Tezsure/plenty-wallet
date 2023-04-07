@@ -1,9 +1,12 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
@@ -68,15 +71,53 @@ class _HistoryTileState extends State<HistoryTile>
     );
   }
 
-  Widget _buildBody(TokenInfo data) {
-    data = data.copyWith(interface: data.token?.mapOperationsToActivities());
+  Widget _loadNFTTransaction(TokenInfo data) {
+    return FutureBuilder(
+        future: ObjktNftApiService()
+            .getTransactionNFT(data.nftContractAddress!, data.nftTokenId!),
+        builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CupertinoActivityIndicator(
+                color: ColorConst.Primary,
+              ),
+            );
+          } else if (snapshot.data!.name == null) {
+            return Container();
+          } else {
+            data = data.copyWith(
+                isNft: true,
+                tokenSymbol: snapshot.data!.fa!.name.toString(),
+                dollarAmount: (snapshot.data!.lowestAsk == null
+                        ? 0
+                        : (snapshot.data!.lowestAsk / 1e6)) *
+                    widget.xtzPrice,
+                tokenAmount: snapshot.data!.lowestAsk != null &&
+                        snapshot.data!.lowestAsk != 0
+                    ? snapshot.data!.lowestAsk / 1e6
+                    : 0,
+                name: snapshot.data!.name.toString(),
+                imageUrl: snapshot.data!.displayUri);
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildBody(
+                  data,
+                ),
+              ],
+            );
+          }
+        }));
+  }
 
+  Widget _buildBody(TokenInfo data) {
     final selectedAccount = Get.find<HomePageController>()
         .userAccounts[Get.find<HomePageController>().selectedIndex.value]
         .publicKeyHash!;
     final tokenList = Get.find<AccountSummaryController>().tokensList;
     final transactionInterface = data.token!.transactionInterface(tokenList);
-    if (!data.isNft) {
+    if (!data.token!.isNFTTx(tokenList)) {
       data = data.copyWith(
         imageUrl: transactionInterface.imageUrl,
         name: transactionInterface.name,
@@ -88,6 +129,13 @@ class _HistoryTileState extends State<HistoryTile>
       data = data.copyWith(
           dollarAmount:
               transactionInterface.rate! * widget.xtzPrice * data.tokenAmount);
+    } else {
+      if (data.name.isEmpty) {
+        data = data.copyWith(
+            nftTokenId: transactionInterface.tokenID,
+            address: transactionInterface.contractAddress);
+        return _loadNFTTransaction(data);
+      }
     }
 
     // if (data.name == "Tezos" && data.tokenAmount == 0.0) return Container();

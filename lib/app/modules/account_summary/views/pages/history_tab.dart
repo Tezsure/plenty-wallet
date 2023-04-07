@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
@@ -259,6 +261,13 @@ class HistoryPage extends GetView<TransactionController> {
       );
 
   Widget _loadNFTTransaction(int index) {
+    final tokenList = Get.find<AccountSummaryController>().tokensList;
+    final transactionInterface = controller.defaultTransactionList[index].token!
+        .transactionInterface(tokenList);
+    controller.defaultTransactionList[index] =
+        controller.defaultTransactionList[index].copyWith(
+            nftTokenId: transactionInterface.tokenID,
+            address: transactionInterface.contractAddress);
     return FutureBuilder(
         future: ObjktNftApiService().getTransactionNFT(
             controller.defaultTransactionList[index].nftContractAddress!,

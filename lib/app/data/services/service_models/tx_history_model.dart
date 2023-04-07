@@ -91,6 +91,7 @@ extension TxChecker on TxHistoryModel {
         orElse: () => TokenPriceModel(
             address: target!.address!,
             name: target!.alias!,
+            symbol: target?.alias?.split(" ").last,
             currentPrice: 0,
             thumbnailUri:
                 "https://services.tzkt.io/v1/avatars/${target?.address}",
@@ -217,20 +218,32 @@ extension TxChecker on TxHistoryModel {
         entrypoint: parameter?.entrypoint ?? "");
   }
 
-  AliasAddress reciever(
-      {List<AccountModel> userAccounts = const [],
-      List<ContactModel> contacts = const []}) {
+  AliasAddress source(
+          {List<AccountModel> userAccounts = const [],
+          List<ContactModel> contacts = const []}) =>
+      getAddressAlias(sender!, userAccounts: userAccounts, contacts: contacts);
+  AliasAddress destination({
+    List<AccountModel> userAccounts = const [],
+    List<ContactModel> contacts = const [],
+  }) {
     if (isDelegate) {
       return newDelegate!;
     }
     if (isFA2TokenTransfer) {
       return getAddressAlias(
-          AliasAddress(address: parameter?.value?["txs"]?[0]?["to_"]));
+          AliasAddress(
+              address: (parameter?.value is List)
+                  ? parameter?.value?[0]?["txs"]?[0]?["to_"]
+                  : parameter?.value?["txs"]?[0]?["to_"]),
+          userAccounts: userAccounts,
+          contacts: contacts);
     }
     if (isFA1TokenTransfer) {
-      return getAddressAlias(AliasAddress(address: parameter?.value?["to"]));
+      return getAddressAlias(AliasAddress(address: parameter?.value?["to"]),
+          userAccounts: userAccounts, contacts: contacts);
     }
-    return getAddressAlias(target!);
+    return getAddressAlias(target!,
+        userAccounts: userAccounts, contacts: contacts);
   }
 
   AliasAddress getAddressAlias(AliasAddress address,

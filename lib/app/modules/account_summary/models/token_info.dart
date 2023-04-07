@@ -19,15 +19,14 @@ class TokenInfo {
   final String? nftTokenId;
   final bool? isHashSame;
   final DateTime? timeStamp;
-  TxInterface? interface;
+
   final List<TokenInfo> internalOperation;
 
   TokenInfo({
-    this.name = "Tezos",
+    this.name = "",
     this.imageUrl = "${PathConst.ASSETS}tezos_logo.png",
     this.isNft = false,
     this.skip = false,
-    this.interface,
     this.dollarAmount = 0,
     this.tokenSymbol = "tez",
     this.tokenAmount = 0,
@@ -58,8 +57,7 @@ class TokenInfo {
     String? address,
     String? nftTokenId,
     bool? isHashSame,
-    DateTime? timeStamp,
-    TxInterface? interface,
+
     List<TokenInfo>? internalOperation,
   }) {
     return TokenInfo(
@@ -73,7 +71,6 @@ class TokenInfo {
         lastId: lastId ?? this.lastId,
         isSent: isSent ?? false,
         token: token ?? this.token,
-        interface: interface ?? this.interface,
         isDelegated: isDelegated ?? this.isDelegated,
         nftContractAddress: address ?? nftContractAddress,
         nftTokenId: nftTokenId ?? this.nftTokenId,

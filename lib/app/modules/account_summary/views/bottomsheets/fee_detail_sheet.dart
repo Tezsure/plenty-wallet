@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/models/token_info.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -27,37 +28,27 @@ class TransactionFeeDetailShet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 0,
-      prevPageName: "Back",
+      // bottomSheetHorizontalPadding: 0,
+      title: "Fees",
+      isScrollControlled: true,
       bottomSheetWidgets: [
-        Column(
-          children: [
-            BottomSheetHeading(
-                title: "Fees",
-                leading: backButton(
-                  ontap: () {
-                    Navigator.pop(context);
-                  },
-                  lastPageName: "Back",
-                )),
-            0.02.vspace,
-            TxTokenInfo(
-                showAmount: false,
-                tokenInfo: tokenInfo,
-                userAccountAddress: userAccountAddress,
-                xtzPrice: xtzPrice,
-                info: tokenInfo),
-            _buildAmount(),
-            SizedBox(
-              height: 8.arP,
-            ),
-            _buildFeeDetail(
-                title: "Storage fee",
-                subtitle:
-                    "Storage fees refer to the cost of storing data on the blockchain network",
-                amount: 0.00181)
-          ],
-        )
+        0.02.vspace,
+        TxTokenInfo(
+          showAmount: false,
+          tokenInfo: tokenInfo,
+          userAccountAddress: userAccountAddress,
+          xtzPrice: xtzPrice,
+        ),
+        _buildAmount(),
+        SizedBox(
+          height: 8.arP,
+        ),
+        _buildFeeDetail(
+            title: "Storage fee",
+            subtitle:
+                "Storage fees refer to the cost of storing data on the blockchain network",
+            amount: 0.00181),
+        BottomButtonPadding()
       ],
     );
   }
