@@ -130,7 +130,7 @@ pod update // In your ios project directory
 
 <br/>
 
-## naan app test execution summary
+## naan app test execution summary report
 
 - Click here to view [doc](https://docs.google.com/spreadsheets/d/1eBWR0VfTQsckqYQrqy-ycE9tjRI2FIyNJsSbPjdsSek/edit?usp=sharing)
   ![naan Testcase Scenarios](naan_wallet_testcase_scenarios.png)
