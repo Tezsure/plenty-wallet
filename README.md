@@ -1,4 +1,4 @@
-![naan feture image](feature_image.png)
+![naan feature image](feature_image.png)
 
 # naan - Your portal to Web3
 
@@ -130,15 +130,12 @@ pod update // In your ios project directory
 
 <br/>
 
-## naan device compatibility report
+## Test report
+- Click here to view [doc](https://docs.google.com/spreadsheets/d/1eBWR0VfTQsckqYQrqy-ycE9tjRI2FIyNJsSbPjdsSek/edit?usp=sharing) <br/>
+  ![naan Testcase Scenarios](test_report.png)
+- Summary: Entire app is stable except transaction history. There are few  crashes and dapps connectivity issues, which are happening intermittently and the impact is for few users only. 
+To understand all the current issues, refer issues section on this repo.
+<br/>
+<br/>
 
-- Click here to view [doc](https://docs.google.com/spreadsheets/d/1YRgCUFTi1ylVOLF6SKFBjS06m_wd6yYoqFneFFLVuIc/edit?usp=sharing)
-  ![naan device compatibility report](naan_device_compatibility_report.png)
-
-## naan app testcase scenarios.
-
-- Click here to view [doc](https://docs.google.com/spreadsheets/d/1eBWR0VfTQsckqYQrqy-ycE9tjRI2FIyNJsSbPjdsSek/edit?usp=sharing)
-  ![naan Testcase Scenarios](naan_wallet_testcase_scenarios.png)
-
-_NOTE:
-This repository is open-sourced, and is under active improvements based on suggestions and bug-reports. Users are requested to double check the transaction details on their wallet's confirmation page. The authors take no responsibility for the loss of digital assets._
+_NOTE:This repository is open-sourced, and is under active improvements based on suggestions and bug-reports. Users are requested to double check the transaction details on their wallet's confirmation page. The authors take no responsibility for the loss of digital assets._
