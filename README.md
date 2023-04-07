@@ -132,7 +132,7 @@ pod update // In your ios project directory
 
 ## Test report
 - Click here to view [doc](https://docs.google.com/spreadsheets/d/1eBWR0VfTQsckqYQrqy-ycE9tjRI2FIyNJsSbPjdsSek/edit?usp=sharing) <br/>
-  ![naan Testcase Scenarios](naan_app_test_exe_summary_report.png)
+  ![naan Testcase Scenarios](test_report.png)
 - Summary: Entire app is stable except transaction history. There are few  crashes and dapps connectivity issues, which are happening intermittently and the impact is for few users only. 
 To understand all the current issues, refer issues section on this repo.
 <br/>
