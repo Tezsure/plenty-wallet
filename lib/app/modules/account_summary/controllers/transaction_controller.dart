@@ -4,6 +4,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
+import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
@@ -17,6 +19,7 @@ import '../../../data/services/service_models/contact_model.dart';
 import '../../../data/services/user_storage_service/user_storage_service.dart';
 import 'history_filter_controller.dart';
 import 'package:naan_wallet/utils/utils.dart';
+import 'package:http/http.dart' as http;
 
 enum TxIconNameEnum { ArrowDown, ArrowUp, Deal, Swap, Clipboard }
 
@@ -59,7 +62,8 @@ class TransactionController extends GetxController {
     if (Get.isRegistered<HistoryFilterController>()) {
       Get.find<HistoryFilterController>().clear();
     }
-    defaultTransactionList.addAll(_sortTransaction(userTransactionHistory));
+    defaultTransactionList
+        .addAll(await _sortTransaction(userTransactionHistory));
     // Lazy Loading
     paginationController.value.addListener(() async {
       if (paginationController.value.position.pixels ==
@@ -81,7 +85,7 @@ class TransactionController extends GetxController {
   Future<void> loadSearchResults(String searchName) async {
     var loadMoreTransaction = await fetchUserTransactionsHistory(
         lastId: searchTransactionList.last.token!.lastid.toString());
-    searchTransactionList.addAll(_sortTransaction(loadMoreTransaction)
+    searchTransactionList.addAll((await _sortTransaction(loadMoreTransaction))
         .where(
             (element) => element.name.isCaseInsensitiveContainsAny(searchName))
         .toList());
@@ -99,7 +103,7 @@ class TransactionController extends GetxController {
         ? noMoreResults.value = true
         : noMoreResults.value = false;
     filteredTransactionList.addAll(historyFilterController.fetchFilteredList(
-        nextHistoryList: _sortTransaction(loadMoreTransaction)));
+        nextHistoryList: await _sortTransaction(loadMoreTransaction)));
     isTransactionLoading.value = false;
   }
 
@@ -111,13 +115,14 @@ class TransactionController extends GetxController {
         ? noMoreResults.value = true
         : noMoreResults.value = false;
     userTransactionHistory.addAll(loadMoreTransaction);
-    defaultTransactionList.addAll(_sortTransaction(loadMoreTransaction));
+    defaultTransactionList.addAll(await _sortTransaction(loadMoreTransaction));
     isTransactionLoading.value = false;
   }
 
   RxBool noMoreResults = false.obs;
 
-  List<TokenInfo> _sortTransaction(List<TxHistoryModel> transactionList) {
+  Future<List<TokenInfo>> _sortTransaction(
+      List<TxHistoryModel> transactionList) async {
     List<TokenInfo> sortedTransactionList = <TokenInfo>[];
     late TokenInfo tokenInfo;
     String? isHashSame;
@@ -146,11 +151,21 @@ class TransactionController extends GetxController {
       else if (tx.isAnyTokenOrNFTTransaction) {
         if (tx.isFa2Token) {
           if (tx.isNft) {
+            var transfer = await getTransfer(id: tx.lastid!);
+
             tokenInfo = tokenInfo.copyWith(
-              isNft: true,
-              address: tx.target!.address!,
-              nftTokenId: tx.nftTokenId,
-            );
+                isNft: true,
+                address: tx.target!.address!,
+                nftTokenId: tx.nftTokenId,
+                tokenSymbol: transfer["token"]["metadata"]["name"] ?? "",
+                name: transfer["token"]["metadata"]["name"] ?? "",
+                tokenAmount: double.parse(transfer["amount"] ?? "0"),
+                isReceived: accController.selectedAccount.value.publicKeyHash!
+                    .contains(transfer["to"]["address"]),
+                isSent: accController.selectedAccount.value.publicKeyHash!
+                    .contains(transfer["from"]["address"]),
+                dollarAmount: 0.0,
+                imageUrl: transfer["token"]["metadata"]["thumbnailUri"]);
           } else {
             TokenPriceModel token = tx.getFa2TokenName;
             String amount = tx.fa2TokenAmount;
@@ -256,11 +271,19 @@ class TransactionController extends GetxController {
               ServiceConfig.allAssetsProfileImages.length - 1,
             )]));
   }
+
+  getTransfer({required int id}) async {
+    var url = ServiceConfig.tzktApiForTransfers(id: id.toString());
+    print(url);
+    var response =
+        await HttpService.performGetRequest(url, callSetupTimer: true);
+
+    return jsonDecode(response)[0];
+  }
 }
 
 extension TransactionChecker on TxHistoryModel {
-  bool get isTezosTransaction =>
-      amount != null && amount! > 0 && parameter == null;
+  bool get isTezosTransaction => amount != null && amount! > 0;
   bool get isAnyTokenOrNFTTransaction =>
       parameter != null && parameter?.entrypoint == "transfer";
   bool get isFa2Token {

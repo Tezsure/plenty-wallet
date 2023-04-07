@@ -59,6 +59,11 @@ class ServiceConfig {
     return "https://api.${network}tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId&sort=$sort";
   }
 
+  static String tzktApiForTransfers(
+      {required String id, String network = "mainnet"}) {
+    return "https://api.${network}.tzkt.io/v1/tokens/transfers?transactionId=$id";
+  }
+
   static String naanApis = "https://cdn.naan.app";
 
   static String springFeverApi = "https://burn.reveb.la/addresses";

@@ -115,6 +115,7 @@ flutter:
     #dapp
     - assets/dapps/
     - assets/dapp_browser/
+    - assets/transaction/
 
   uses-material-design: true
 
