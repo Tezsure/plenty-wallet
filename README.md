@@ -1,4 +1,5 @@
 ![naan feature image](feature_image.png)
+
 # naan - Your portal to Web3
 
 naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.
@@ -129,12 +130,7 @@ pod update // In your ios project directory
 
 <br/>
 
-## naan device compatibility report
-
-- Click here to view [doc](https://docs.google.com/spreadsheets/d/1YRgCUFTi1ylVOLF6SKFBjS06m_wd6yYoqFneFFLVuIc/edit?usp=sharing)
-  ![naan device compatibility report](naan_device_compatibility_report.png)
-
-## naan app testcase scenarios.
+## naan app test execution summary
 
 - Click here to view [doc](https://docs.google.com/spreadsheets/d/1eBWR0VfTQsckqYQrqy-ycE9tjRI2FIyNJsSbPjdsSek/edit?usp=sharing)
   ![naan Testcase Scenarios](naan_wallet_testcase_scenarios.png)
