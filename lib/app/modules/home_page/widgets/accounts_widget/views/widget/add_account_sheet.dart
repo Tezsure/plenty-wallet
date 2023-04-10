@@ -90,7 +90,7 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
 
                   Get.toNamed(Routes.IMPORT_WALLET_PAGE);
                 },
-                title: "I already have an wallet",
+                title: "I already have a wallet",
               ),
               0.035.vspace,
               _buildDivider(),

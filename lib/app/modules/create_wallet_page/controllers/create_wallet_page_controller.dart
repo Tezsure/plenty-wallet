@@ -26,7 +26,7 @@ class CreateWalletPageController extends GetxController {
   login({required Provider socialAppName}) {
     CommonFunctions.bottomSheet(
       NaanBottomSheet(
-        height: 380.arP,
+        height: 420.arP,
         bottomSheetHorizontalPadding: 32.arP,
         bottomSheetWidgets: [
           0.04.vspace,
@@ -82,6 +82,7 @@ class CreateWalletPageController extends GetxController {
               Get.back();
             },
           ),
+          0.04.vspace,
         ],
       ),
     );
