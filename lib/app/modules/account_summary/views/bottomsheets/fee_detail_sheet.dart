@@ -40,28 +40,41 @@ class TransactionFeeDetailShet extends StatelessWidget {
           xtzPrice: xtzPrice,
         ),
         _buildAmount(),
-        SizedBox(
-          height: 8.arP,
-        ),
+        _buildFeeDetail(
+            title: "Baker fee",
+            subtitle:
+                "The baker fee in Tezos is the percentage of rewards that a baker charges for delegating Tezos tokens to them.",
+            amount: tokenInfo.token!.bakerFee?.toDouble()),
         _buildFeeDetail(
             title: "Storage fee",
             subtitle:
                 "Storage fees refer to the cost of storing data on the blockchain network",
-            amount: 0.00181),
+            amount: tokenInfo.token!.storageFee?.toDouble()),
+        _buildFeeDetail(
+            title: "Allocation fee",
+            subtitle:
+                "Allocation fees refer to one-time fee paid at the time of contract creation",
+            amount: tokenInfo.token!.allocationFee?.toDouble()),
+        _buildFeeDetail(
+            title: "Gas fee",
+            subtitle:
+                "Gas fee refers to the cost necessary to perform a transaction on the network",
+            amount: tokenInfo.token!.gasUsed?.toDouble()),
         BottomButtonPadding()
       ],
     );
   }
 
-  Column _buildFeeDetail(
+  Widget _buildFeeDetail(
       {required String title,
       required String subtitle,
-      required double amount}) {
+      required double? amount}) {
+    if (amount == null || amount == 0.0) return Container();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 12.arP,
+          height: 20.arP,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,7 +85,7 @@ class TransactionFeeDetailShet extends StatelessWidget {
                   color: ColorConst.NeutralVariant.shade60),
             ),
             Text(
-              amount.roundUpDollar(xtzPrice, decimals: 6),
+              (amount / 1e6).roundUpDollar(xtzPrice, decimals: 6),
               style: labelMedium,
             )
           ],

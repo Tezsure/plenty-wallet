@@ -50,6 +50,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
 
   @override
   Widget build(BuildContext context) {
+    print(tokenInfo.token!.toJson());
     final source = tokenInfo.token!.source(
         userAccounts: Get.find<HomePageController>().userAccounts,
         contacts: Get.find<TransactionController>().contacts);
@@ -182,7 +183,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
               Row(
                 children: [
                   Text(
-                    0.0018.roundUpDollar(xtzPrice, decimals: 6),
+                    calculateFees().roundUpDollar(xtzPrice, decimals: 6),
                     style: labelMedium,
                   ),
                   SizedBox(
@@ -214,6 +215,20 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
         const BottomButtonPadding()
       ],
     );
+  }
+
+  double calculateFees() {
+    double fees = 0.0;
+    if (tokenInfo.token!.bakerFee != null) fees += tokenInfo.token!.bakerFee!;
+    if (tokenInfo.token!.storageFee != null) {
+      fees += tokenInfo.token!.storageFee!;
+    }
+    if (tokenInfo.token!.allocationFee != null) {
+      fees += tokenInfo.token!.allocationFee!;
+    }
+    if (tokenInfo.token!.gasUsed != null) fees += tokenInfo.token!.gasUsed!;
+    fees = fees / 1e6;
+    return fees;
   }
 
   Widget contactTile(AliasAddress contact, String type) {
