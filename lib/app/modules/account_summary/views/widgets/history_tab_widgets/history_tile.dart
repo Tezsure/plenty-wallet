@@ -73,6 +73,7 @@ class _HistoryTileState extends State<HistoryTile>
 
   Widget _loadNFTTransaction(TokenInfo data) {
     return FutureBuilder(
+        key: Key(data.nftContractAddress! + data.nftTokenId!),
         future: ObjktNftApiService()
             .getTransactionNFT(data.nftContractAddress!, data.nftTokenId!),
         builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {

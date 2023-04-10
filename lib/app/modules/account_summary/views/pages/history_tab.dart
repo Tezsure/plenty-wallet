@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:naan_wallet/app/modules/account_summary/views/pages/crypto_tab.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
@@ -32,156 +33,173 @@ class HistoryPage extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return CustomScrollView(
-        controller: controller.paginationController.value,
-        physics: AppConstant.scrollPhysics,
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.aR),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  0.02.vspace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      BouncingWidget(
-                        onPressed: () {
-                          return Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => SearchBottomSheet()));
-                          return CommonFunctions.bottomSheet(
-                              const SearchBottomSheet());
-                        },
-                        child: Container(
-                          height: 0.06.height,
-                          width: 0.8.width,
-                          padding: EdgeInsets.only(left: 14.5.aR),
-                          decoration: BoxDecoration(
-                            color: ColorConst.NeutralVariant.shade60
-                                .withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(10.aR),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.search,
-                                color: ColorConst.NeutralVariant.shade60,
-                                size: 22.aR,
-                              ),
-                              0.02.hspace,
-                              Text(
-                                'Search'.tr,
-                                style: labelLarge.copyWith(
-                                    letterSpacing: 0.25.aR,
-                                    fontSize: 14.aR,
-                                    fontWeight: FontWeight.w400,
-                                    color: ColorConst.NeutralVariant.shade70),
-                              )
-                            ],
+      return RefreshIndicator(
+        backgroundColor: Colors.transparent,
+        color: ColorConst.Primary,
+        onRefresh: () async {
+          await controller.userTransactionLoader();
+        },
+        child: CustomScrollView(
+          controller: controller.paginationController.value,
+          physics: AppConstant.scrollPhysics,
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.aR),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    0.02.vspace,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        BouncingWidget(
+                          onPressed: () {
+                            return Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => SearchBottomSheet()));
+                            // return CommonFunctions.bottomSheet(
+                            //     const SearchBottomSheet());
+                          },
+                          child: Container(
+                            height: 0.06.height,
+                            width: 0.8.width,
+                            padding: EdgeInsets.only(left: 14.5.aR),
+                            decoration: BoxDecoration(
+                              color: ColorConst.NeutralVariant.shade60
+                                  .withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(10.aR),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.search,
+                                  color: ColorConst.NeutralVariant.shade60,
+                                  size: 22.aR,
+                                ),
+                                0.02.hspace,
+                                Text(
+                                  'Search'.tr,
+                                  style: labelLarge.copyWith(
+                                      letterSpacing: 0.25.aR,
+                                      fontSize: 14.aR,
+                                      fontWeight: FontWeight.w400,
+                                      color: ColorConst.NeutralVariant.shade70),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      0.02.hspace,
-                      BouncingWidget(
-                        onPressed: () {
-                          CommonFunctions.bottomSheet(HistoryFilterSheet());
-                        },
-                        child: SvgPicture.asset(
-                          controller.isFilterApplied.value
-                              ? "${PathConst.SVG}filter_selected.svg"
-                              : '${PathConst.SVG}filter.svg',
-                          fit: BoxFit.contain,
-                          height: 24.aR,
-                          color: ColorConst.Primary,
+                        0.02.hspace,
+                        BouncingWidget(
+                          onPressed: () {
+                            CommonFunctions.bottomSheet(HistoryFilterSheet());
+                          },
+                          child: SvgPicture.asset(
+                            controller.isFilterApplied.value
+                                ? "${PathConst.SVG}filter_selected.svg"
+                                : '${PathConst.SVG}filter.svg',
+                            fit: BoxFit.contain,
+                            height: 24.aR,
+                            color: ColorConst.Primary,
+                          ),
                         ),
-                      ),
-                      0.01.hspace,
-                    ],
-                  ),
-                  0.02.vspace,
-                ],
+                        0.01.hspace,
+                      ],
+                    ),
+                    0.02.vspace,
+                  ],
+                ),
               ),
             ),
-          ),
-          controller.userTransactionHistory.isEmpty
-              ? _emptyState
-              : controller.isFilterApplied.value &&
-                      controller.filteredTransactionList.isEmpty
-                  ? _emptyState
-                  : SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          if (controller.isFilterApplied.isTrue) {
-                            if (index ==
-                                controller.filteredTransactionList.length) {
-                              return controller.noMoreResults.isTrue
-                                  ? SizedBox(
-                                      height: 40.aR,
-                                      child: Center(
-                                        child: Text(
-                                          'No more results'.tr,
-                                          style: labelLarge.copyWith(
-                                              fontSize: 14.aR,
-                                              fontWeight: FontWeight.w400,
-                                              color: ColorConst
-                                                  .NeutralVariant.shade70),
-                                        ),
-                                      ),
-                                    )
-                                  : const SizedBox();
+            controller.userTransactionHistory.isEmpty
+                ? _emptyState
+                : controller.isFilterApplied.value &&
+                        controller.filteredTransactionList.isEmpty
+                    ? _emptyState
+                    : SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            if (controller.isFilterApplied.isTrue) {
+                              if (index ==
+                                  controller.filteredTransactionList.length) {
+                                return controller.isTransactionLoading.value
+                                    ? CupertinoActivityIndicator(
+                                        color: ColorConst.Primary)
+                                    : controller.noMoreResults.isTrue
+                                        ? SizedBox(
+                                            height: 40.aR,
+                                            child: Center(
+                                              child: Text(
+                                                'No more results'.tr,
+                                                style: labelLarge.copyWith(
+                                                    fontSize: 14.aR,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: ColorConst
+                                                        .NeutralVariant
+                                                        .shade70),
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox();
+                              } else {
+                                return _loadTokenTransaction(
+                                    controller.filteredTransactionList[index],
+                                    index,
+                                    controller.filteredTransactionList[index]
+                                        .timeStamp!
+                                        .isSameMonth(controller
+                                            .filteredTransactionList[
+                                                index == 0 ? 0 : index - 1]
+                                            .timeStamp!));
+                              }
                             } else {
-                              return _loadTokenTransaction(
-                                  controller.filteredTransactionList[index],
-                                  index,
-                                  controller
-                                      .filteredTransactionList[index].timeStamp!
-                                      .isSameMonth(controller
-                                          .filteredTransactionList[
-                                              index == 0 ? 0 : index - 1]
-                                          .timeStamp!));
+                              if (index ==
+                                  controller.defaultTransactionList.length) {
+                                return controller.isTransactionLoading.value
+                                    ? CupertinoActivityIndicator(
+                                        color: ColorConst.Primary,
+                                      )
+                                    : controller.noMoreResults.isTrue
+                                        ? SizedBox(
+                                            height: 40.aR,
+                                            child: Center(
+                                              child: Text(
+                                                'No more results'.tr,
+                                                style: labelLarge.copyWith(
+                                                    fontSize: 14.aR,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: ColorConst
+                                                        .NeutralVariant
+                                                        .shade70),
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox();
+                              } else {
+                                return controller
+                                        .defaultTransactionList[index].isNft
+                                    ? _loadNFTTransaction(index)
+                                    : _loadTokenTransaction(
+                                        controller
+                                            .defaultTransactionList[index],
+                                        index,
+                                        controller.defaultTransactionList[index]
+                                            .timeStamp!
+                                            .isSameMonth(controller
+                                                .defaultTransactionList[
+                                                    index == 0 ? 0 : index - 1]
+                                                .timeStamp!));
+                              }
                             }
-                          } else {
-                            if (index ==
-                                controller.defaultTransactionList.length) {
-                              return controller.noMoreResults.isTrue
-                                  ? SizedBox(
-                                      height: 40.aR,
-                                      child: Center(
-                                        child: Text(
-                                          'No more results'.tr,
-                                          style: labelLarge.copyWith(
-                                              fontSize: 14.aR,
-                                              fontWeight: FontWeight.w400,
-                                              color: ColorConst
-                                                  .NeutralVariant.shade70),
-                                        ),
-                                      ),
-                                    )
-                                  : const SizedBox();
-                            } else {
-                              return controller
-                                      .defaultTransactionList[index].isNft
-                                  ? _loadNFTTransaction(index)
-                                  : _loadTokenTransaction(
-                                      controller.defaultTransactionList[index],
-                                      index,
-                                      controller.defaultTransactionList[index]
-                                          .timeStamp!
-                                          .isSameMonth(controller
-                                              .defaultTransactionList[
-                                                  index == 0 ? 0 : index - 1]
-                                              .timeStamp!));
-                            }
-                          }
-                        },
-                        childCount: controller.isFilterApplied.value
-                            ? controller.filteredTransactionList.length + 1
-                            : controller.defaultTransactionList.length + 1,
+                          },
+                          childCount: controller.isFilterApplied.value
+                              ? controller.filteredTransactionList.length + 1
+                              : controller.defaultTransactionList.length + 1,
+                        ),
                       ),
-                    ),
-        ],
+          ],
+        ),
       );
     });
   }

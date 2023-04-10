@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
+import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
@@ -70,7 +73,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                 constraints: BoxConstraints(
                     maxHeight: AppConstant.naanBottomSheetHeight),
                 child: SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   child: Column(
                     children: [
                       const BottomSheetHeading(
@@ -333,8 +336,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                             1,
                                       )])),
                             ).whenComplete(() => controller.contact?.value =
-                                controller.getContact(
-                                    contact.address!));
+                                controller.getContact(contact.address!));
                           },
                           child: Text(
                             "Add to contacts",
@@ -362,8 +364,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                                             1,
                                       )])),
                             ).whenComplete(() => controller.contact?.value =
-                                controller.getContact(
-                                   contact.address!));
+                                controller.getContact(contact.address!));
                           },
                           child: Text(
                             "Edit ",
@@ -457,6 +458,12 @@ class TxTokenInfo extends StatelessWidget {
           dollarAmount:
               transactionInterface.rate! * xtzPrice * tokenInfo.tokenAmount);
     }
+    if (tokenInfo.name.isEmpty) {
+      tokenInfo = tokenInfo.copyWith(
+          nftTokenId: transactionInterface.tokenID,
+          address: transactionInterface.contractAddress);
+      return _loadNFTTransaction();
+    }
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.arP, horizontal: 10.arP),
       // margin: EdgeInsets.symmetric(
@@ -469,6 +476,7 @@ class TxTokenInfo extends StatelessWidget {
       //     color: const Color(0xff1E1C1F),
       //   ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CircleAvatar(
             radius: 20.aR,
@@ -524,9 +532,11 @@ class TxTokenInfo extends StatelessWidget {
                 ],
               ),
               Container(
+                constraints: BoxConstraints(maxWidth: .5.width),
                 padding: EdgeInsets.only(top: 6.aR),
                 child: Text(
-                  tokenInfo.isNft ? tokenInfo.name : tokenInfo.name,
+                  tokenInfo.name,
+                  maxLines: 1,
                   style: labelLarge.copyWith(
                       fontSize: 14.aR, fontWeight: FontWeight.normal),
                 ),
@@ -551,6 +561,9 @@ class TxTokenInfo extends StatelessWidget {
                                 .contains(userAccountAddress)
                             ? ColorConst.NeutralVariant.shade60
                             : ColorConst.naanCustomColor)),
+                SizedBox(
+                  height: 6.arP,
+                ),
                 Text(
                   tokenInfo.token!.operationStatus != "applied"
                       ? "failed"
@@ -567,6 +580,71 @@ class TxTokenInfo extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _loadNFTTransaction() {
+    final tokenList = Get.find<AccountSummaryController>().tokensList;
+    final transactionInterface =
+        tokenInfo.token!.transactionInterface(tokenList);
+    tokenInfo = tokenInfo.copyWith(
+        nftTokenId: transactionInterface.tokenID,
+        address: transactionInterface.contractAddress);
+    return FutureBuilder(
+        future: ObjktNftApiService().getTransactionNFT(
+            tokenInfo.nftContractAddress!, tokenInfo.nftTokenId!),
+        builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.all(8.0.arP),
+                child: const CupertinoActivityIndicator(
+                  color: ColorConst.Primary,
+                ),
+              ),
+            );
+          } else if (snapshot.data!.name == null) {
+            return Container();
+          } else {
+            tokenInfo = tokenInfo.copyWith(
+                isNft: true,
+                tokenSymbol: snapshot.data!.fa!.name.toString(),
+                dollarAmount: (snapshot.data!.lowestAsk == null
+                        ? 0
+                        : (snapshot.data!.lowestAsk / 1e6)) *
+                    xtzPrice,
+                tokenAmount: snapshot.data!.lowestAsk != null &&
+                        snapshot.data!.lowestAsk != 0
+                    ? snapshot.data!.lowestAsk / 1e6
+                    : 0,
+                name: snapshot.data!.name.toString(),
+                imageUrl: snapshot.data!.displayUri);
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DateTime.parse(tokenInfo.token!.timestamp!).isSameMonth(
+                        DateTime.parse(tokenInfo.token!.timestamp!))
+                    ? const SizedBox()
+                    : Padding(
+                        padding: EdgeInsets.only(
+                            top: 16.arP, left: 16.arP, bottom: 16.arP),
+                        child: Text(
+                          DateFormat.MMMM()
+                              // displaying formatted date
+                              .format(
+                                  DateTime.parse(tokenInfo.token!.timestamp!)),
+                          style: labelLarge,
+                        ),
+                      ),
+                TxTokenInfo(
+                  tokenInfo: tokenInfo,
+                  xtzPrice: xtzPrice,
+                  userAccountAddress: userAccountAddress,
+                ),
+              ],
+            );
+          }
+        }));
   }
 
   Color getColor(TxHistoryModel data) {

@@ -77,8 +77,9 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         prevPageName: "Accounts",
         bottomSheetWidgets: [
           SizedBox(
-            height: AppConstant.naanBottomSheetChildHeight -
-                MediaQuery.of(context).viewInsets.bottom,
+            height: AppConstant.naanBottomSheetHeight -
+                MediaQuery.of(context).viewInsets.bottom -
+                16.arP,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
