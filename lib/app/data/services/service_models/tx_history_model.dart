@@ -242,8 +242,11 @@ extension TxChecker on TxHistoryModel {
       return getAddressAlias(AliasAddress(address: parameter?.value?["to"]),
           userAccounts: userAccounts, contacts: contacts);
     }
-    return getAddressAlias(target!,
-        userAccounts: userAccounts, contacts: contacts);
+    if (target != null) {
+      return getAddressAlias(target!,
+          userAccounts: userAccounts, contacts: contacts);
+    }
+    return AliasAddress();
   }
 
   AliasAddress getAddressAlias(AliasAddress address,
