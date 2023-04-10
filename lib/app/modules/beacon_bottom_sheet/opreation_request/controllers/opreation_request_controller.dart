@@ -47,7 +47,7 @@ class OpreationRequestController extends GetxController {
   int? callbackHash;
   @override
   void onInit() async {
-    try {
+    /* try */ {
       print(" req: ${beaconRequest.request}");
       isBiometric.value = await AuthService().getBiometricAuth();
       accountModels.value = Get.find<HomePageController>()
@@ -169,11 +169,11 @@ class OpreationRequestController extends GetxController {
         fees.value = "0.0";
         throw Exception("Operation details is null");
       }
-    } catch (e) {
+    } /* catch (e) {
       error.value = "Error: $e";
       fees.value = "0.0";
       print("errorc $e");
-    }
+    } */
     super.onInit();
   }
 

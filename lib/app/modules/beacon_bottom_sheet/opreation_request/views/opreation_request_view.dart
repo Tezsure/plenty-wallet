@@ -145,7 +145,7 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                     ]),
                               ),
                               Text(
-                                'Account'.tr,
+                                'Wallet'.tr,
                                 style:
                                     bodySmall.copyWith(color: ColorConst.grey),
                               ),

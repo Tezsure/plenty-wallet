@@ -99,7 +99,7 @@ class _NftCollectiblesState extends State<NftCollectibles> {
                         onTap: (model) {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => NFTDetailBottomSheet(
-                              prevPage: "Accounts",
+                              prevPage: "Wallet",
                               onBackTap: Get.back,
                               pk: widget.nftList[index].pk,
                               publicKeyHashs: [widget.account],

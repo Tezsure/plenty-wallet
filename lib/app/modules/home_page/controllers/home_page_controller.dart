@@ -240,7 +240,7 @@ class BackupWalletBottomSheet extends StatelessWidget {
       bottomSheetWidgets: [
         0.03.vspace,
         Text(
-          'Backup your account'.tr,
+          'Backup your wallet'.tr,
           style: titleLarge,
         ),
         0.012.vspace,

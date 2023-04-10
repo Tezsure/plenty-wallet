@@ -95,7 +95,7 @@ class ResetWalletBottomSheet extends StatelessWidget {
                   0.016.vspace,
                   optionMethod(
                       child: Text(
-                        "Backup Account".tr,
+                        "Backup Wallet".tr,
                         style: labelMedium,
                       ),
                       onTap: () {

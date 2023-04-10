@@ -195,7 +195,7 @@ class ImportWalletPageController extends GetxController
       for (var i = 0; i < selectedAccounts.length; i++) {
         selectedAccounts[i] = selectedAccounts[i]
           ..importedAt = DateTime.now()
-          ..name = "Account ${accountLength + i}";
+          ..name = "Wallet ${accountLength + i}";
       }
       selectedAccounts.sort((a, b) =>
           b.importedAt!.millisecondsSinceEpoch -
@@ -240,8 +240,8 @@ class ImportWalletPageController extends GetxController
         transactionStatusSnackbar(
           duration: const Duration(seconds: 2),
           status: TransactionStatus.error,
-          tezAddress: 'Account with same address already exists',
-          transactionAmount: 'Cannot import account',
+          tezAddress: 'Wallet with same address already exists',
+          transactionAmount: 'Cannot import wallet',
         );
         return true;
       }
@@ -253,8 +253,8 @@ class ImportWalletPageController extends GetxController
         transactionStatusSnackbar(
           duration: const Duration(seconds: 2),
           status: TransactionStatus.error,
-          tezAddress: 'Account with same private key already exists',
-          transactionAmount: 'Cannot import account',
+          tezAddress: 'Wallet with same private key already exists',
+          transactionAmount: 'Cannot import wallet',
         );
         return true;
       }

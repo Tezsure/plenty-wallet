@@ -149,7 +149,7 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                 children: [
                   0.05.vspace,
                   Text(
-                    (isWatchAddress ? "Add a watch address" : "Import account")
+                    (isWatchAddress ? "Add a watch address" : "Import wallet")
                         .tr,
                     style: titleLarge,
                   ),
