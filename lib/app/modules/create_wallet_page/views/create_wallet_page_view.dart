@@ -187,27 +187,19 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
         children: [
           if (Platform.isIOS)
             SocialLoginButton(
-              onTap: () {
-                controller.login(socialAppName: Provider.apple);
-              },
+              onTap: controller.login(socialAppName: Provider.apple),
               socialIconPath: "apple.svg",
             ),
           SocialLoginButton(
-            onTap: () {
-              controller.login(socialAppName: Provider.google);
-            },
+            onTap: controller.login(socialAppName: Provider.google),
             socialIconPath: "google.svg",
           ),
           SocialLoginButton(
-            onTap: () {
-              controller.login(socialAppName: Provider.facebook);
-            },
+            onTap: controller.login(socialAppName: Provider.facebook),
             socialIconPath: "facebook.svg",
           ),
           SocialLoginButton(
-            onTap: () {
-              controller.login(socialAppName: Provider.twitter);
-            },
+            onTap: controller.login(socialAppName: Provider.twitter),
             socialIconPath: "twitter.svg",
           ),
         ],

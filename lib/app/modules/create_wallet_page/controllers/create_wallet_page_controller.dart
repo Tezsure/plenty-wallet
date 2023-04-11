@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/web3auth_services/web3auth.dart';
 import 'package:web3auth_flutter/enums.dart';
@@ -9,7 +10,7 @@ class CreateWalletPageController extends GetxController {
     super.onInit();
   }
 
-  login({required Provider socialAppName}) {
+  VoidCallback login({required Provider socialAppName}) {
     // CommonFunctions.bottomSheet(
     //   NaanBottomSheet(
     //     height: 420.arP,
