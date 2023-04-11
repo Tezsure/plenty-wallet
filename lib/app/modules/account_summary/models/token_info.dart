@@ -12,6 +12,8 @@ class TokenInfo {
   final double dollarAmount;
   final String tokenSymbol;
   final String lastId;
+  final AliasAddress? source;
+  final AliasAddress? destination;
   final bool isSent;
   final TxHistoryModel? token;
   final bool isDelegated;
@@ -32,6 +34,8 @@ class TokenInfo {
     this.tokenAmount = 0,
     this.lastId = "",
     this.token,
+    this.source,
+    this.destination,
     this.internalOperation = const [],
     this.isDelegated = false,
     this.nftContractAddress,
@@ -45,6 +49,8 @@ class TokenInfo {
     String? name,
     String? imageUrl,
     bool? isNft,
+    AliasAddress? source,
+    AliasAddress? destination,
     bool? skip,
     double? tokenAmount,
     double? dollarAmount,
@@ -57,7 +63,6 @@ class TokenInfo {
     String? address,
     String? nftTokenId,
     bool? isHashSame,
-
     List<TokenInfo>? internalOperation,
   }) {
     return TokenInfo(
@@ -68,6 +73,8 @@ class TokenInfo {
         tokenAmount: tokenAmount ?? this.tokenAmount,
         dollarAmount: dollarAmount ?? this.dollarAmount,
         tokenSymbol: tokenSymbol ?? this.tokenSymbol,
+        source: source ?? this.source,
+        destination: destination ?? this.destination,
         lastId: lastId ?? this.lastId,
         isSent: isSent ?? false,
         token: token ?? this.token,

@@ -435,8 +435,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                 tokenInfo: controller.searchTransactionList[index],
                 userAccountAddress: controller
                     .accController.selectedAccount.value.publicKeyHash!,
-                transactionModel:
-                    controller.searchTransactionList[index].token!,
+           
               ),
             ),
           ),

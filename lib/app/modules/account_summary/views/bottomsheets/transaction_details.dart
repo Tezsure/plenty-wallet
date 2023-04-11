@@ -37,26 +37,23 @@ import '../../controllers/transaction_controller.dart';
 import '../../models/token_info.dart';
 
 class TransactionDetailsBottomSheet extends GetView<TransactionController> {
-  final TxHistoryModel transactionModel;
+  // final TxHistoryModel transactionModel;
   TokenInfo tokenInfo;
   final String userAccountAddress;
   final double xtzPrice;
   TransactionDetailsBottomSheet(
       {super.key,
-      required this.transactionModel,
+      // required this.transactionModel,
       required this.tokenInfo,
       required this.userAccountAddress,
       required this.xtzPrice});
 
   @override
   Widget build(BuildContext context) {
-    print(tokenInfo.token!.toJson());
-    final source = tokenInfo.token!.source(
-        userAccounts: Get.find<HomePageController>().userAccounts,
-        contacts: Get.find<TransactionController>().contacts);
-    final destination = tokenInfo.token!.destination(
-        userAccounts: Get.find<HomePageController>().userAccounts,
-        contacts: Get.find<TransactionController>().contacts);
+    // print(tokenInfo.token!.toJson());
+
+    final source = tokenInfo.source;
+    final destination = tokenInfo.destination;
     return NaanBottomSheet(
       // blurRadius: 50,
       width: 1.width,
@@ -82,7 +79,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                       ),
                       0.02.vspace,
                       Image.asset(
-                        tokenInfo.token!.operationStatus == "applied"
+                        tokenInfo.token == null ||
+                                tokenInfo.token!.operationStatus == "applied"
                             ? "assets/transaction/success.png"
                             : "assets/transaction/failed.png",
                         height: 60.arP,
@@ -90,7 +88,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                       ),
                       0.02.vspace,
                       Text(
-                        transactionModel.getTxType(userAccountAddress),
+                        tokenInfo.token?.getTxType(userAccountAddress) ??
+                            "Received",
                         style: titleLarge,
                       ),
                       0.01.vspace,
@@ -98,9 +97,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                         child: Text(
                             DateFormat('MM/dd/yyyy HH:mm')
                                 // displaying formatted date
-                                .format(
-                                    DateTime.parse(transactionModel.timestamp!)
-                                        .toLocal()),
+                                .format(tokenInfo.timeStamp!.toLocal()),
                             style: labelMedium.copyWith(
                                 color: ColorConst.NeutralVariant.shade60)),
                       ),
@@ -109,15 +106,17 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                         color: Color(0xff1E1C1F),
                       ),
                       0.02.vspace,
-                      tokenInfo.token!.operationStatus != "applied" ||
-                              (source.address?.isEmpty ?? true)
+                      // tokenInfo.token != null ||
+                      //         tokenInfo.token?.operationStatus != "applied" ||
+                      (source?.address?.isEmpty ?? true)
                           ? const SizedBox()
-                          : contactTile(source, "From"),
+                          : contactTile(source!, "From"),
                       0.02.vspace,
-                      tokenInfo.token!.operationStatus != "applied" ||
-                              (destination.address?.isEmpty ?? true)
+                      // tokenInfo.token != null ||
+                      //         tokenInfo.token?.operationStatus != "applied" ||
+                      (destination?.address?.isEmpty ?? true)
                           ? const SizedBox()
-                          : contactTile(destination, "To"),
+                          : contactTile(destination!, "To"),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.arP),
@@ -164,14 +163,15 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
         ),
         0.02.vspace,
         BouncingWidget(
-          onPressed: () {
-            CommonFunctions.bottomSheet(TransactionFeeDetailShet(
-              tokenInfo: tokenInfo,
-              transactionModel: transactionModel,
-              userAccountAddress: userAccountAddress,
-              xtzPrice: xtzPrice,
-            ));
-          },
+          onPressed: tokenInfo.token == null
+              ? null
+              : () {
+                  CommonFunctions.bottomSheet(TransactionFeeDetailShet(
+                    tokenInfo: tokenInfo,
+                    userAccountAddress: userAccountAddress,
+                    xtzPrice: xtzPrice,
+                  ));
+                },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -207,7 +207,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
               const DappBrowserView(),
               fullscreen: true,
               settings: RouteSettings(
-                arguments: "https://tzkt.io/${transactionModel.hash!}",
+                arguments: "https://tzkt.io/${tokenInfo.token?.hash!}",
               ),
             );
           },
@@ -219,6 +219,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
 
   double calculateFees() {
     double fees = 0.0;
+    if (tokenInfo.token == null) return fees;
+    // For-loop
     if (tokenInfo.token!.bakerFee != null) fees += tokenInfo.token!.bakerFee!;
     if (tokenInfo.token!.storageFee != null) {
       fees += tokenInfo.token!.storageFee!;
@@ -458,26 +460,28 @@ class TxTokenInfo extends StatelessWidget {
         .userAccounts[Get.find<HomePageController>().selectedIndex.value]
         .publicKeyHash!;
     final tokenList = Get.find<AccountSummaryController>().tokensList;
-    final transactionInterface =
-        tokenInfo.token!.transactionInterface(tokenList);
-    if (!tokenInfo.isNft) {
-      tokenInfo = tokenInfo.copyWith(
-        imageUrl: transactionInterface.imageUrl,
-        name: transactionInterface.name,
-        tokenAmount: tokenInfo.token!.getAmount(
-          tokenList,
-          selectedAccount,
-        ),
-      );
-      tokenInfo = tokenInfo.copyWith(
-          dollarAmount:
-              transactionInterface.rate! * xtzPrice * tokenInfo.tokenAmount);
-    }
-    if (tokenInfo.name.isEmpty) {
-      tokenInfo = tokenInfo.copyWith(
-          nftTokenId: transactionInterface.tokenID,
-          address: transactionInterface.contractAddress);
-      return _loadNFTTransaction();
+    if (tokenInfo.token != null) {
+      final transactionInterface =
+          tokenInfo.token!.transactionInterface(tokenList);
+      if (!tokenInfo.isNft) {
+        tokenInfo = tokenInfo.copyWith(
+          imageUrl: transactionInterface.imageUrl,
+          name: transactionInterface.name,
+          tokenAmount: tokenInfo.token!.getAmount(
+            tokenList,
+            selectedAccount,
+          ),
+        );
+        tokenInfo = tokenInfo.copyWith(
+            dollarAmount:
+                transactionInterface.rate! * xtzPrice * tokenInfo.tokenAmount);
+      }
+      if (tokenInfo.name.isEmpty) {
+        tokenInfo = tokenInfo.copyWith(
+            nftTokenId: transactionInterface.tokenID,
+            address: transactionInterface.contractAddress);
+        return _loadNFTTransaction();
+      }
     }
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.arP, horizontal: 10.arP),
@@ -531,18 +535,20 @@ class TxTokenInfo extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(tokenInfo.token!.getTxIcon(selectedAccount),
+                  Image.asset(
+                      tokenInfo.token?.getTxIcon(selectedAccount) ??
+                          "assets/transaction/down.png",
                       width: 14.aR,
                       height: 14.arP,
                       color: ColorConst.NeutralVariant.shade60),
                   Container(
                     constraints: BoxConstraints(maxWidth: .5.width),
-                    child:
-                        Text(" ${tokenInfo.token!.getTxType(selectedAccount)}",
-                            maxLines: 1,
-                            style: labelMedium.copyWith(
-                              color: ColorConst.NeutralVariant.shade60,
-                            )),
+                    child: Text(
+                        " ${tokenInfo.token?.getTxType(selectedAccount) ?? "Received"}",
+                        maxLines: 1,
+                        style: labelMedium.copyWith(
+                          color: ColorConst.NeutralVariant.shade60,
+                        )),
                   ),
                 ],
               ),
@@ -566,13 +572,13 @@ class TxTokenInfo extends StatelessWidget {
                 Text(
                     tokenInfo.isNft
                         ? "${tokenInfo.token!.getAmount(tokenList, selectedAccount).toStringAsFixed(0)} ${tokenInfo.tokenSymbol}"
-                        : getColor(tokenInfo.token!) == ColorConst.NaanRed
+                        : getColor(tokenInfo.token) == ColorConst.NaanRed
                             ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}'
                             : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: bodySmall.copyWith(
-                        color: tokenInfo.token!.sender!.address!
+                        color: tokenInfo.source!.address!
                                 .contains(userAccountAddress)
                             ? ColorConst.NeutralVariant.shade60
                             : ColorConst.naanCustomColor)),
@@ -580,13 +586,15 @@ class TxTokenInfo extends StatelessWidget {
                   height: 6.arP,
                 ),
                 Text(
-                  tokenInfo.token!.operationStatus != "applied"
+                  tokenInfo.token != null &&
+                          tokenInfo.token?.operationStatus != "applied"
                       ? "failed"
                       : tokenInfo.dollarAmount
                           .roundUpDollar(xtzPrice, decimals: 6),
                   style: bodyMedium.copyWith(
-                    color: tokenInfo.token!.operationStatus != "applied"
-                        ? getColor(tokenInfo.token!)
+                    color: tokenInfo.token == null ||
+                            tokenInfo.token!.operationStatus != "applied"
+                        ? getColor(tokenInfo.token)
                         : Colors.white,
                   ),
                 )
@@ -662,7 +670,8 @@ class TxTokenInfo extends StatelessWidget {
         }));
   }
 
-  Color getColor(TxHistoryModel data) {
+  Color getColor(TxHistoryModel? data) {
+    if (data == null) return ColorConst.naanCustomColor;
     final selectedAccount = Get.find<HomePageController>()
         .userAccounts[Get.find<HomePageController>().selectedIndex.value]
         .publicKeyHash!;

@@ -117,25 +117,30 @@ class _HistoryTileState extends State<HistoryTile>
         .userAccounts[Get.find<HomePageController>().selectedIndex.value]
         .publicKeyHash!;
     final tokenList = Get.find<AccountSummaryController>().tokensList;
-    final transactionInterface = data.token!.transactionInterface(tokenList);
-    if (!data.token!.isNFTTx(tokenList)) {
-      data = data.copyWith(
-        imageUrl: transactionInterface.imageUrl,
-        name: transactionInterface.name,
-        tokenAmount: data.token!.getAmount(
-          tokenList,
-          selectedAccount,
-        ),
-      );
-      data = data.copyWith(
-          dollarAmount:
-              transactionInterface.rate! * widget.xtzPrice * data.tokenAmount);
+    if (data.token == null) {
     } else {
-      if (data.name.isEmpty) {
+      final transactionInterface = data.token!.transactionInterface(tokenList);
+
+      if (!data.token!.isNFTTx(tokenList)) {
         data = data.copyWith(
-            nftTokenId: transactionInterface.tokenID,
-            address: transactionInterface.contractAddress);
-        return _loadNFTTransaction(data);
+          imageUrl: transactionInterface.imageUrl,
+          name: transactionInterface.name,
+          tokenAmount: data.token!.getAmount(
+            tokenList,
+            selectedAccount,
+          ),
+        );
+        data = data.copyWith(
+            dollarAmount: transactionInterface.rate! *
+                widget.xtzPrice *
+                data.tokenAmount);
+      } else {
+        if (data.name.isEmpty) {
+          data = data.copyWith(
+              nftTokenId: transactionInterface.tokenID,
+              address: transactionInterface.contractAddress);
+          return _loadNFTTransaction(data);
+        }
       }
     }
 
@@ -200,13 +205,15 @@ class _HistoryTileState extends State<HistoryTile>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(data.token!.getTxIcon(selectedAccount),
+                Image.asset(
+                    data.token?.getTxIcon(selectedAccount) ??
+                        "assets/transaction/down.png",
                     width: 14.arP,
                     height: 14.arP,
                     color: data.internalOperation.isNotEmpty
                         ? ColorConst.Primary
                         : ColorConst.NeutralVariant.shade60),
-                Text(" ${data.token?.getTxType(selectedAccount) ?? ""}",
+                Text(" ${data.token?.getTxType(selectedAccount) ?? "Received"}",
                     maxLines: 1,
                     style: labelMedium.copyWith(
                         color: data.internalOperation.isNotEmpty
@@ -249,16 +256,17 @@ class _HistoryTileState extends State<HistoryTile>
                 height: 4.arP,
               ),
               Text(
-                data.token!.operationStatus == 'applied'
-                    ? getColor(data.token!, selectedAccount) ==
+                data.token == null || data.token?.operationStatus == 'applied'
+                    ? getColor(data.token, selectedAccount) ==
                             ColorConst.NaanRed
                         ? '- ${(data.dollarAmount).roundUpDollar(widget.xtzPrice)}'
                         : (data.dollarAmount).roundUpDollar(widget.xtzPrice)
                     : "failed",
                 style: labelLarge.copyWith(
                     fontWeight: FontWeight.w400,
-                    color: data.token!.operationStatus == 'applied'
-                        ? getColor(data.token!, selectedAccount)
+                    color: data.token == null ||
+                            data.token?.operationStatus == 'applied'
+                        ? getColor(data.token, selectedAccount)
                         : ColorConst.NaanRed),
                 textAlign: TextAlign.end,
                 overflow: TextOverflow.ellipsis,
@@ -270,7 +278,8 @@ class _HistoryTileState extends State<HistoryTile>
     );
   }
 
-  Color getColor(TxHistoryModel data, String selectedAccount) {
+  Color getColor(TxHistoryModel? data, String selectedAccount) {
+    if (data == null) return ColorConst.naanCustomColor;
     if (data.isSent(selectedAccount)) {
       return ColorConst.NaanRed;
     }

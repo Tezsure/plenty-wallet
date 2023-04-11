@@ -43,75 +43,7 @@ class HistoryPage extends GetView<TransactionController> {
           controller: controller.paginationController.value,
           physics: AppConstant.scrollPhysics,
           slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.aR),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    0.02.vspace,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        BouncingWidget(
-                          onPressed: () {
-                            return Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SearchBottomSheet()));
-                            // return CommonFunctions.bottomSheet(
-                            //     const SearchBottomSheet());
-                          },
-                          child: Container(
-                            height: 0.06.height,
-                            width: 0.8.width,
-                            padding: EdgeInsets.only(left: 14.5.aR),
-                            decoration: BoxDecoration(
-                              color: ColorConst.NeutralVariant.shade60
-                                  .withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10.aR),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.search,
-                                  color: ColorConst.NeutralVariant.shade60,
-                                  size: 22.aR,
-                                ),
-                                0.02.hspace,
-                                Text(
-                                  'Search'.tr,
-                                  style: labelLarge.copyWith(
-                                      letterSpacing: 0.25.aR,
-                                      fontSize: 14.aR,
-                                      fontWeight: FontWeight.w400,
-                                      color: ColorConst.NeutralVariant.shade70),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        0.02.hspace,
-                        BouncingWidget(
-                          onPressed: () {
-                            CommonFunctions.bottomSheet(HistoryFilterSheet());
-                          },
-                          child: SvgPicture.asset(
-                            controller.isFilterApplied.value
-                                ? "${PathConst.SVG}filter_selected.svg"
-                                : '${PathConst.SVG}filter.svg',
-                            fit: BoxFit.contain,
-                            height: 24.aR,
-                            color: ColorConst.Primary,
-                          ),
-                        ),
-                        0.01.hspace,
-                      ],
-                    ),
-                    0.02.vspace,
-                  ],
-                ),
-              ),
-            ),
+            _buildHeader(context),
             controller.userTransactionHistory.isEmpty
                 ? _emptyState
                 : controller.isFilterApplied.value &&
@@ -124,7 +56,7 @@ class HistoryPage extends GetView<TransactionController> {
                               if (index ==
                                   controller.filteredTransactionList.length) {
                                 return controller.isTransactionLoading.value
-                                    ? CupertinoActivityIndicator(
+                                    ? const CupertinoActivityIndicator(
                                         color: ColorConst.Primary)
                                     : controller.noMoreResults.isTrue
                                         ? SizedBox(
@@ -156,26 +88,29 @@ class HistoryPage extends GetView<TransactionController> {
                             } else {
                               if (index ==
                                   controller.defaultTransactionList.length) {
-                                return controller.isTransactionLoading.value
-                                    ? CupertinoActivityIndicator(
-                                        color: ColorConst.Primary,
-                                      )
-                                    : controller.noMoreResults.isTrue
-                                        ? SizedBox(
-                                            height: 40.aR,
-                                            child: Center(
-                                              child: Text(
-                                                'No more results'.tr,
-                                                style: labelLarge.copyWith(
-                                                    fontSize: 14.aR,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: ColorConst
-                                                        .NeutralVariant
-                                                        .shade70),
+                                return Obx(() {
+                                  return controller.isTransactionLoading.value
+                                      ? const TokensSkeleton(
+                                          isScrollable: false,
+                                        )
+                                      : controller.noMoreResults.isTrue
+                                          ? SizedBox(
+                                              height: 40.aR,
+                                              child: Center(
+                                                child: Text(
+                                                  'No more results'.tr,
+                                                  style: labelLarge.copyWith(
+                                                      fontSize: 14.aR,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: ColorConst
+                                                          .NeutralVariant
+                                                          .shade70),
+                                                ),
                                               ),
-                                            ),
-                                          )
-                                        : const SizedBox();
+                                            )
+                                          : const SizedBox();
+                                });
                               } else {
                                 return controller
                                         .defaultTransactionList[index].isNft
@@ -202,6 +137,77 @@ class HistoryPage extends GetView<TransactionController> {
         ),
       );
     });
+  }
+
+  SliverToBoxAdapter _buildHeader(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.aR),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            0.02.vspace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                BouncingWidget(
+                  onPressed: () {
+                    return Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const SearchBottomSheet()));
+                    // return CommonFunctions.bottomSheet(
+                    //     const SearchBottomSheet());
+                  },
+                  child: Container(
+                    height: 0.06.height,
+                    width: 0.8.width,
+                    padding: EdgeInsets.only(left: 14.5.aR),
+                    decoration: BoxDecoration(
+                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(10.aR),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.search,
+                          color: ColorConst.NeutralVariant.shade60,
+                          size: 22.aR,
+                        ),
+                        0.02.hspace,
+                        Text(
+                          'Search'.tr,
+                          style: labelLarge.copyWith(
+                              letterSpacing: 0.25.aR,
+                              fontSize: 14.aR,
+                              fontWeight: FontWeight.w400,
+                              color: ColorConst.NeutralVariant.shade70),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                0.02.hspace,
+                BouncingWidget(
+                  onPressed: () {
+                    CommonFunctions.bottomSheet(HistoryFilterSheet());
+                  },
+                  child: SvgPicture.asset(
+                    controller.isFilterApplied.value
+                        ? "${PathConst.SVG}filter_selected.svg"
+                        : '${PathConst.SVG}filter.svg',
+                    fit: BoxFit.contain,
+                    height: 24.aR,
+                    color: ColorConst.Primary,
+                  ),
+                ),
+                0.01.hspace,
+              ],
+            ),
+            0.02.vspace,
+          ],
+        ),
+      ),
+    );
   }
 
   Widget get _emptyState => SliverToBoxAdapter(
@@ -271,7 +277,6 @@ class HistoryPage extends GetView<TransactionController> {
                 tokenInfo: token,
                 userAccountAddress: controller
                     .accController.selectedAccount.value.publicKeyHash!,
-                transactionModel: token.token!,
               ),
             ),
           ),
@@ -347,8 +352,6 @@ class HistoryPage extends GetView<TransactionController> {
                       tokenInfo: controller.defaultTransactionList[index],
                       userAccountAddress: controller
                           .accController.selectedAccount.value.publicKeyHash!,
-                      transactionModel:
-                          controller.defaultTransactionList[index].token!,
                     ),
                   ),
                 ),

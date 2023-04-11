@@ -26,6 +26,8 @@ class TransactionController extends GetxController {
 
   RxList<TxHistoryModel> userTransactionHistory =
       <TxHistoryModel>[].obs; // List of user transactions
+  RxList<TransactionTransferModel> userTransferHistory =
+      <TransactionTransferModel>[].obs; // List of user transactions
   RxBool isTransactionPopUpOpened = false.obs; // To show popup
   Rx<ScrollController> paginationController =
       ScrollController().obs; // For Transaction history lazy loading
@@ -33,7 +35,14 @@ class TransactionController extends GetxController {
   Timer? searchDebounceTimer;
   Set<String> tokenTransactionID = <String>{};
   RxList<TokenInfo> filteredTransactionList = <TokenInfo>[].obs;
+  RxList<TokenInfo> searchTransactionList = <TokenInfo>[].obs;
 
+  RxBool isTransactionLoading = false.obs;
+  List<TokenInfo> defaultTransactionList = <TokenInfo>[];
+  static final Set<String> _tokenTransactionID = <String>{};
+  RxBool noMoreResults = false.obs;
+  RxList<ContactModel> contacts = <ContactModel>[].obs;
+  Rx<ContactModel?>? contact;
   @override
   void onInit() {
     updateSavedContacts();
@@ -46,22 +55,23 @@ class TransactionController extends GetxController {
     super.onClose();
   }
 
-  RxBool isTransactionLoading = false.obs;
-  List<TokenInfo> defaultTransactionList = <TokenInfo>[];
-  static final Set<String> _tokenTransactionID = <String>{};
-
   /// Loades the user transaction history, and updates the UI after user taps on history tab
   Future<void> userTransactionLoader() async {
-    defaultTransactionList.clear();
+    isTransactionLoading.value = true;
+
     _tokenTransactionID.clear();
+
     paginationController.value.removeListener(() {});
     userTransactionHistory.value = await fetchUserTransactionsHistory();
+    userTransferHistory.value = await fetchUserTransferHistory(
+        timeStamp: userTransactionHistory.last.timestamp ?? "");
     isFilterApplied.value = false;
     if (Get.isRegistered<HistoryFilterController>()) {
       Get.find<HistoryFilterController>().clear();
     }
-    defaultTransactionList
-        .addAll(await _sortTransaction(userTransactionHistory));
+    defaultTransactionList.clear();
+    defaultTransactionList.addAll(
+        await _sortTransaction(userTransactionHistory, userTransferHistory));
     // Lazy Loading
     paginationController.value.addListener(() async {
       if (paginationController.value.position.pixels ==
@@ -77,13 +87,16 @@ class TransactionController extends GetxController {
         }
       }
     });
+    isTransactionLoading.value = false;
   }
 
-  RxList<TokenInfo> searchTransactionList = <TokenInfo>[].obs;
   Future<void> loadSearchResults(String searchName) async {
     var loadMoreTransaction = await fetchUserTransactionsHistory(
-        lastId: searchTransactionList.last.token!.lastid.toString());
-    searchTransactionList.addAll((await _sortTransaction(loadMoreTransaction))
+        lastId: searchTransactionList.last.lastId.toString());
+    var loadMoreTransfer = await fetchUserTransferHistory(
+        timeStamp: loadMoreTransaction.last.timestamp!);
+    searchTransactionList.addAll((await _sortTransaction(
+            loadMoreTransaction, loadMoreTransfer))
         .where(
             (element) => element.name.isCaseInsensitiveContainsAny(searchName))
         .toList());
@@ -95,13 +108,18 @@ class TransactionController extends GetxController {
 
     var loadMoreTransaction = filteredTransactionList.isNotEmpty
         ? await fetchUserTransactionsHistory(
-            lastId: filteredTransactionList.last.token!.lastid.toString())
+            lastId: filteredTransactionList.last.lastId.toString())
         : <TxHistoryModel>[];
+    var loadMoreTransfers = filteredTransactionList.isNotEmpty
+        ? await fetchUserTransferHistory(
+            timeStamp: loadMoreTransaction.last.timestamp!)
+        : <TransactionTransferModel>[];
     loadMoreTransaction.isEmpty
         ? noMoreResults.value = true
         : noMoreResults.value = false;
     filteredTransactionList.addAll(historyFilterController.fetchFilteredList(
-        nextHistoryList: await _sortTransaction(loadMoreTransaction)));
+        nextHistoryList:
+            await _sortTransaction(loadMoreTransaction, loadMoreTransfers)));
     isTransactionLoading.value = false;
   }
 
@@ -109,18 +127,20 @@ class TransactionController extends GetxController {
     isTransactionLoading.value = true;
     var loadMoreTransaction = await fetchUserTransactionsHistory(
         lastId: userTransactionHistory.last.lastid.toString());
+    var loadMoreTransfer = await fetchUserTransferHistory(
+        timeStamp: loadMoreTransaction.last.timestamp!);
     loadMoreTransaction.isEmpty
         ? noMoreResults.value = true
         : noMoreResults.value = false;
+    userTransferHistory.addAll(loadMoreTransfer);
     userTransactionHistory.addAll(loadMoreTransaction);
-    defaultTransactionList.addAll(await _sortTransaction(loadMoreTransaction));
+    defaultTransactionList
+        .addAll(await _sortTransaction(loadMoreTransaction, loadMoreTransfer));
     isTransactionLoading.value = false;
   }
 
-  RxBool noMoreResults = false.obs;
-
-  Future<List<TokenInfo>> _sortTransaction(
-      List<TxHistoryModel> transactionList) async {
+  Future<List<TokenInfo>> _sortTransaction(List<TxHistoryModel> transactionList,
+      List<TransactionTransferModel> transferlist) async {
     List<TokenInfo> sortedTransactionList = <TokenInfo>[];
     late TokenInfo tokenInfo;
     String? isHashSame;
@@ -128,6 +148,7 @@ class TransactionController extends GetxController {
     final selectedAccount = Get.find<HomePageController>()
         .userAccounts[Get.find<HomePageController>().selectedIndex.value]
         .publicKeyHash!;
+    // operation filter
     for (int i = transactionList.length - 1; i >= 0; i--) {
       var tx = transactionList[i];
       tokenInfo = TokenInfo(
@@ -153,28 +174,8 @@ class TransactionController extends GetxController {
       else if (!tx.isTezTransaction) {
         if (tx.isFA2TokenTransfer) {
           if (tx.isNFTTx(tokensList)) {
-            // checking if it works or not //   WORKING
-            // var transfer = await getTransfer(id: tx.lastid!);
-            // tokenInfo = tokenInfo.copyWith(
-            //   isNft: true,
-            //   address: tx.target!.address!,
-            //   nftTokenId: tx.parameter?.value[0]["txs"][0]["token_id"],
-            // );
-            // tokenInfo = tokenInfo.copyWith(
-            //     isNft: true,
-            // address: tx.target!.address!,
-            // nftTokenId: tx.nftTokenId,
-            //     tokenSymbol: transfer["token"]["metadata"]?["name"] ?? "",
-            //     name: transfer["token"]["metadata"]?["name"] ?? "",
-            //     tokenAmount: double.parse(transfer["amount"] ?? "0"),
-            //     isReceived: accController.selectedAccount.value.publicKeyHash!
-            //         .contains(transfer["to"]["address"]),
-            //     isSent: accController.selectedAccount.value.publicKeyHash!
-            //         .contains(transfer["from"]["address"]),
-            //     dollarAmount: 0.0,
-            //     imageUrl: transfer["token"]["metadata"]?["thumbnailUri"]);
           } else {
-            TokenPriceModel token = tx.fA1Token(tokensList);
+            TokenPriceModel token = fA1Token(tokensList, tx.target);
             double amount = tx.getAmount(tokensList, selectedAccount);
             tokenInfo = tokenInfo.copyWith(
                 name: token.name ?? token.tokenAddress?.tz1Short() ?? "",
@@ -188,7 +189,7 @@ class TransactionController extends GetxController {
           }
         } else {
           if (tx.isFA1TokenTransfer) {
-            TokenPriceModel token = tx.fA1Token(tokensList);
+            TokenPriceModel token = fA1Token(tokensList, tx.target);
             double amount = tx.getAmount(tokensList, selectedAccount);
             tokenInfo = tokenInfo.copyWith(
                 token: tx,
@@ -215,6 +216,17 @@ class TransactionController extends GetxController {
       } else {
         tokenInfo = tokenInfo.copyWith(skip: true);
       }
+      tokenInfo = tokenInfo.copyWith(
+        source: tokenInfo.token!.source(
+          userAccounts: Get.find<HomePageController>().userAccounts,
+          contacts: contacts,
+        ),
+        destination: tokenInfo.token!.destination(
+          userAccounts: Get.find<HomePageController>().userAccounts,
+          contacts: contacts,
+        ),
+      );
+      // sortedTransactionList.add(tokenInfo);
       sortedTransactionList.addIf(
           !_tokenTransactionID.contains(tx.lastid.toString()), tokenInfo);
       _tokenTransactionID.add(tx.lastid.toString());
@@ -222,14 +234,71 @@ class TransactionController extends GetxController {
     List<TokenInfo> temp = [];
     for (var i = 0; i < sortedTransactionList.length; i++) {
       if (sortedTransactionList[i].isHashSame ?? false) {
-        temp.last = temp.last.copyWith(internalOperation: [
-          ...temp.last.internalOperation,
-          sortedTransactionList[i]
-        ]);
+        if (temp.isNotEmpty) {
+          temp.last = temp.last.copyWith(internalOperation: [
+            ...temp.last.internalOperation,
+            sortedTransactionList[i]
+          ]);
+        }
       } else {
         temp.add(sortedTransactionList[i]);
       }
     }
+    sortedTransactionList = [...temp];
+// transfer
+    for (var i = 0; i < transferlist.length; i++) {
+      final transfer = transferlist[i];
+      final interface = transfer.transactionInterface(tokensList);
+      tokenInfo = TokenInfo(
+        isNft: transfer.token!.metadata?.decimals == null,
+        name: interface.name,
+        source: transfer.from == null
+            ? null
+            : getAddressAlias(transfer.from!,
+                contacts: contacts,
+                userAccounts: Get.find<HomePageController>().userAccounts),
+        destination: transfer.to == null
+            ? null
+            : getAddressAlias(transfer.to!,
+                contacts: contacts,
+                userAccounts: Get.find<HomePageController>().userAccounts),
+        tokenSymbol: interface.symbol,
+        imageUrl: interface.imageUrl ?? "",
+        lastId: transfer.transactionId?.toString() ?? "",
+        tokenAmount: double.parse(transfer.amount!),
+        nftTokenId: transfer.token!.tokenId,
+        nftContractAddress: transfer.token!.contract?.address,
+        internalOperation: [],
+        isHashSame: false,
+        timeStamp:
+            transfer.timestamp == null ? DateTime.now() : transfer.timestamp!,
+        isSent: transfer.from!.address!
+            .contains(accController.selectedAccount.value.publicKeyHash!),
+      );
+      sortedTransactionList.addIf(
+          !_tokenTransactionID.contains(transfer.transactionId.toString()),
+          tokenInfo);
+      _tokenTransactionID.add(transfer.transactionId.toString());
+    }
+    sortedTransactionList.sort(
+      (a, b) {
+        return a.timeStamp!.microsecondsSinceEpoch -
+            b.timeStamp!.microsecondsSinceEpoch;
+      },
+    );
+    temp = [...sortedTransactionList];
+    // for (var i = 0; i < sortedTransactionList.length; i++) {
+    //   if (sortedTransactionList[i].isHashSame ?? false) {
+    //     if (temp.isNotEmpty) {
+    //       temp.last = temp.last.copyWith(internalOperation: [
+    //         ...temp.last.internalOperation,
+    //         sortedTransactionList[i]
+    //       ]);
+    //     }
+    //   } else {
+    //     temp.add(sortedTransactionList[i]);
+    //   }
+    // }
     sortedTransactionList = [...temp].reversed.toList();
     return sortedTransactionList;
   }
@@ -255,9 +324,6 @@ class TransactionController extends GetxController {
     noMoreResults.value = false;
   }
 
-  RxList<ContactModel> contacts = <ContactModel>[].obs;
-  Rx<ContactModel?>? contact;
-
   Future<void> updateSavedContacts() async {
     contacts.value = await UserStorageService().getAllSavedContacts();
     if (Get.isRegistered<SendPageController>()) {
@@ -279,13 +345,16 @@ class TransactionController extends GetxController {
             )]));
   }
 
-  getTransfer({required int id}) async {
-    var url = ServiceConfig.tzktApiForTransfers(id: id.toString());
+  Future<List<TransactionTransferModel>> fetchUserTransferHistory(
+      {required String timeStamp}) async {
+    var url = ServiceConfig.tzktApiForTransfers(
+        timeStamp: timeStamp,
+        address: accController.selectedAccount.value.publicKeyHash!);
     print(url);
     var response =
         await HttpService.performGetRequest(url, callSetupTimer: true);
 
-    return jsonDecode(response)[0];
+    return transactionTransferModelFromJson(response);
   }
 }
 

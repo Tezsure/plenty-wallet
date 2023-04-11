@@ -14,14 +14,14 @@ import 'package:naan_wallet/utils/utils.dart';
 import 'transaction_details.dart';
 
 class TransactionFeeDetailShet extends StatelessWidget {
-  final TxHistoryModel transactionModel;
+
   TokenInfo tokenInfo;
   final String userAccountAddress;
   final double xtzPrice;
   TransactionFeeDetailShet(
       {super.key,
       required this.tokenInfo,
-      required this.transactionModel,
+
       required this.userAccountAddress,
       required this.xtzPrice});
 

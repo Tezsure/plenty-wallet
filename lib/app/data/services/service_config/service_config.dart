@@ -59,9 +59,14 @@ class ServiceConfig {
     return "https://api.${network}tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId&sort=$sort";
   }
 
-  static String tzktApiForTransfers(
-      {required String id, String network = "mainnet"}) {
-    return "https://api.${network}.tzkt.io/v1/tokens/transfers?transactionId=$id";
+  static String tzktApiForTransfers({
+    required String address,
+    String network = "mainnet",
+    String? timeStamp,
+    int limit = 20,
+  }) {
+    return "https://back.tzkt.io/v1/tokens/transfers?to=$address&timestamp.gt=${timeStamp}&sort.desc=timestamp&limit=$limit";
+    // return "https://api.${network}.tzkt.io/v1/tokens/transfers?transactionId=$id";
   }
 
   static String naanApis = "https://cdn.naan.app";

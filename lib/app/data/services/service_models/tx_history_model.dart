@@ -10,6 +10,58 @@ import 'account_model.dart';
 import 'contact_model.dart';
 import 'token_price_model.dart';
 
+extension TxTransferChecker on TransactionTransferModel {
+  TransactionInterface transactionInterface(
+    List<TokenPriceModel> tokensList,
+  ) {
+    if (token?.standard == "fa1.2") {
+      final tk = fA1Token(tokensList, token!.contract!);
+      return TransactionInterface(
+        name: token!.metadata?.name ?? "",
+        entrypoint: '',
+        symbol: token!.metadata?.symbol ?? "",
+        imageUrl: token!.metadata?.thumbnailUri,
+        tokenID: token!.tokenId,
+        rate: tk.currentPrice!,
+      );
+    }
+    if (token?.standard == "fa2") {
+      if (token?.metadata?.decimals != null) {
+        final tk = tokensList.firstWhere(
+            (p0) => (p0.tokenAddress!.contains(token!.contract!.address!)),
+            orElse: () => TokenPriceModel(
+                address: token!.contract!.address!,
+                name: token!.contract!.alias ?? "",
+                symbol: token!.metadata!.symbol,
+                currentPrice: 0,
+                thumbnailUri:
+                    "https://services.tzkt.io/v1/avatars/${token!.contract!.address!}",
+                decimals: 0));
+        return TransactionInterface(
+          name: token!.metadata?.name ?? "",
+          entrypoint: '',
+          symbol: token!.metadata?.symbol ?? "",
+          imageUrl: token!.metadata?.thumbnailUri,
+          tokenID: token!.tokenId,
+          rate: tk.currentPrice!,
+        );
+      }
+      return TransactionInterface(
+        name: token!.metadata?.name ?? "",
+        entrypoint: '',
+        symbol: token!.metadata?.symbol ?? "",
+        imageUrl: token!.metadata?.thumbnailUri,
+        tokenID: token!.tokenId,
+      );
+    }
+    return TransactionInterface(
+      name: "",
+      entrypoint: '',
+      symbol: '',
+    );
+  }
+}
+
 extension TxChecker on TxHistoryModel {
   bool get isTezTransaction =>
       amount != null && amount! > 0 && parameter == null;
@@ -41,8 +93,11 @@ extension TxChecker on TxHistoryModel {
       "tokenToCash"
     ];
     if (parameter != null &&
-        (swapTypes.any(
-            (element) => parameter!.entrypoint?.contains(element) ?? false))) {
+        (swapTypes.any((element) =>
+            parameter!.entrypoint
+                ?.toLowerCase()
+                .contains(element.toLowerCase()) ??
+            false))) {
       return true;
     }
     return false;
@@ -83,21 +138,6 @@ extension TxChecker on TxHistoryModel {
     return "assets/transaction/contract.png";
   }
 
-  TokenPriceModel fA1Token(
-    List<TokenPriceModel> tokensList,
-  ) {
-    return tokensList.firstWhere(
-        (p0) => (p0.tokenAddress!.contains(target!.address!)),
-        orElse: () => TokenPriceModel(
-            address: target!.address!,
-            name: target!.alias!,
-            symbol: target?.alias?.split(" ").last,
-            currentPrice: 0,
-            thumbnailUri:
-                "https://services.tzkt.io/v1/avatars/${target?.address}",
-            decimals: 0));
-  }
-
   TokenPriceModel fA2Token(
     List<TokenPriceModel> tokensList,
   ) =>
@@ -110,7 +150,7 @@ extension TxChecker on TxHistoryModel {
   double getAmount(List<TokenPriceModel> tokensList, String selectedAccount) {
     // if (isTezTransaction) return amount! / 1e6;
     if (isFA1TokenTransfer) {
-      final token = fA1Token(tokensList);
+      final token = fA1Token(tokensList, target);
       String value = "0.0";
       try {
         value = (parameter?.value is Map
@@ -168,7 +208,7 @@ extension TxChecker on TxHistoryModel {
           entrypoint: "");
     }
     if (isFA1TokenTransfer) {
-      final token = fA1Token(tokensList);
+      final token = fA1Token(tokensList, target);
       return TransactionInterface(
           rate: token.currentPrice,
           name: token.name ?? "",
@@ -249,6 +289,8 @@ extension TxChecker on TxHistoryModel {
     return AliasAddress();
   }
 
+
+}
   AliasAddress getAddressAlias(AliasAddress address,
       {List<AccountModel> userAccounts = const [],
       List<ContactModel> contacts = const []}) {
@@ -265,6 +307,17 @@ extension TxChecker on TxHistoryModel {
     }
     return address;
   }
+TokenPriceModel fA1Token(
+    List<TokenPriceModel> tokensList, AliasAddress? target) {
+  return tokensList.firstWhere(
+      (p0) => (p0.tokenAddress!.contains(target!.address!)),
+      orElse: () => TokenPriceModel(
+          address: target!.address!,
+          name: target.alias!,
+          symbol: target.alias?.split(" ").last,
+          currentPrice: 0,
+          thumbnailUri: "https://services.tzkt.io/v1/avatars/${target.address}",
+          decimals: 0));
 }
 
 class TransactionInterface {
@@ -473,21 +526,489 @@ class Parameter {
   }
 }
 
-class Initiator {
-  String? alias;
-  String? address;
+// To parse this JSON data, do
+//
+//     final transactionTransferModel = transactionTransferModelFromJson(jsonString);
 
-  Initiator({this.alias, this.address});
+List<TransactionTransferModel> transactionTransferModelFromJson(String str) =>
+    List<TransactionTransferModel>.from(
+        json.decode(str).map((x) => TransactionTransferModel.fromJson(x)));
 
-  Initiator.fromJson(Map<String, dynamic> json) {
-    alias = json['alias'];
-    address = json['address'];
-  }
+String transactionTransferModelToJson(List<TransactionTransferModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['alias'] = alias;
-    data['address'] = address;
-    return data;
-  }
+class TransactionTransferModel {
+  TransactionTransferModel({
+    this.id,
+    this.level,
+    this.timestamp,
+    this.token,
+    this.from,
+    this.to,
+    this.amount,
+    this.transactionId,
+  });
+
+  int? id;
+  int? level;
+  DateTime? timestamp;
+  Token? token;
+  AliasAddress? from;
+  AliasAddress? to;
+  String? amount;
+  int? transactionId;
+
+  TransactionTransferModel copyWith({
+    int? id,
+    int? level,
+    DateTime? timestamp,
+    Token? token,
+    AliasAddress? from,
+    AliasAddress? to,
+    String? amount,
+    int? transactionId,
+  }) =>
+      TransactionTransferModel(
+        id: id ?? this.id,
+        level: level ?? this.level,
+        timestamp: timestamp ?? this.timestamp,
+        token: token ?? this.token,
+        from: from ?? this.from,
+        to: to ?? this.to,
+        amount: amount ?? this.amount,
+        transactionId: transactionId ?? this.transactionId,
+      );
+
+  factory TransactionTransferModel.fromJson(Map<String, dynamic> json) =>
+      TransactionTransferModel(
+        id: json["id"],
+        level: json["level"],
+        timestamp: json["timestamp"] == null
+            ? null
+            : DateTime.parse(json["timestamp"]),
+        token: json["token"] == null ? null : Token.fromJson(json["token"]),
+        from: json["from"] == null ? null : AliasAddress.fromJson(json["from"]),
+        to: json["to"] == null ? null : AliasAddress.fromJson(json["to"]),
+        amount: json["amount"],
+        transactionId: json["transactionId"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "level": level,
+        "timestamp": timestamp?.toIso8601String(),
+        "token": token?.toJson(),
+        "from": from?.toJson(),
+        "to": to?.toJson(),
+        "amount": amount,
+        "transactionId": transactionId,
+      };
+}
+
+class Token {
+  Token({
+    this.id,
+    this.contract,
+    this.tokenId,
+    this.standard,
+    this.totalSupply,
+    this.metadata,
+  });
+
+  int? id;
+  AliasAddress? contract;
+  String? tokenId;
+  String? standard;
+  String? totalSupply;
+  Metadata? metadata;
+
+  Token copyWith({
+    int? id,
+    AliasAddress? contract,
+    String? tokenId,
+    String? standard,
+    String? totalSupply,
+    Metadata? metadata,
+  }) =>
+      Token(
+        id: id ?? this.id,
+        contract: contract ?? this.contract,
+        tokenId: tokenId ?? this.tokenId,
+        standard: standard ?? this.standard,
+        totalSupply: totalSupply ?? this.totalSupply,
+        metadata: metadata ?? this.metadata,
+      );
+
+  factory Token.fromJson(Map<String, dynamic> json) => Token(
+        id: json["id"],
+        contract: json["contract"] == null
+            ? null
+            : AliasAddress.fromJson(json["contract"]),
+        tokenId: json["tokenId"],
+        standard: json["standard"],
+        totalSupply: json["totalSupply"],
+        metadata: json["metadata"] == null
+            ? null
+            : Metadata.fromJson(json["metadata"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "contract": contract?.toJson(),
+        "tokenId": tokenId,
+        "standard": standard,
+        "totalSupply": totalSupply,
+        "metadata": metadata?.toJson(),
+      };
+}
+
+class Metadata {
+  Metadata({
+    this.name,
+    this.symbol,
+    this.decimals,
+    this.thumbnailUri,
+    this.icon,
+    this.tags,
+    this.formats,
+    this.creators,
+    this.displayUri,
+    this.artifactUri,
+    this.description,
+    this.isBooleanAmount,
+    this.shouldPreferSymbol,
+    this.version,
+    this.attributes,
+    this.generatorUri,
+    this.iterationHash,
+    this.authenticityHash,
+    this.date,
+    this.image,
+    this.minter,
+    this.rights,
+    this.royalties,
+    this.mintingTool,
+  });
+
+  String? name;
+  String? symbol;
+  String? decimals;
+  String? thumbnailUri;
+  String? icon;
+  List<String>? tags;
+  List<Format>? formats;
+  List<String>? creators;
+  String? displayUri;
+  String? artifactUri;
+  String? description;
+  bool? isBooleanAmount;
+  dynamic shouldPreferSymbol;
+  String? version;
+  List<Attribute>? attributes;
+  String? generatorUri;
+  String? iterationHash;
+  String? authenticityHash;
+  DateTime? date;
+  String? image;
+  String? minter;
+  String? rights;
+  Royalties? royalties;
+  String? mintingTool;
+
+  Metadata copyWith({
+    String? name,
+    String? symbol,
+    String? decimals,
+    String? thumbnailUri,
+    String? icon,
+    List<String>? tags,
+    List<Format>? formats,
+    List<String>? creators,
+    String? displayUri,
+    String? artifactUri,
+    String? description,
+    bool? isBooleanAmount,
+    dynamic shouldPreferSymbol,
+    String? version,
+    List<Attribute>? attributes,
+    String? generatorUri,
+    String? iterationHash,
+    String? authenticityHash,
+    DateTime? date,
+    String? image,
+    String? minter,
+    String? rights,
+    Royalties? royalties,
+    String? mintingTool,
+  }) =>
+      Metadata(
+        name: name ?? this.name,
+        symbol: symbol ?? this.symbol,
+        decimals: decimals ?? this.decimals,
+        thumbnailUri: thumbnailUri ?? this.thumbnailUri,
+        icon: icon ?? this.icon,
+        tags: tags ?? this.tags,
+        formats: formats ?? this.formats,
+        creators: creators ?? this.creators,
+        displayUri: displayUri ?? this.displayUri,
+        artifactUri: artifactUri ?? this.artifactUri,
+        description: description ?? this.description,
+        isBooleanAmount: isBooleanAmount ?? this.isBooleanAmount,
+        shouldPreferSymbol: shouldPreferSymbol ?? this.shouldPreferSymbol,
+        version: version ?? this.version,
+        attributes: attributes ?? this.attributes,
+        generatorUri: generatorUri ?? this.generatorUri,
+        iterationHash: iterationHash ?? this.iterationHash,
+        authenticityHash: authenticityHash ?? this.authenticityHash,
+        date: date ?? this.date,
+        image: image ?? this.image,
+        minter: minter ?? this.minter,
+        rights: rights ?? this.rights,
+        royalties: royalties ?? this.royalties,
+        mintingTool: mintingTool ?? this.mintingTool,
+      );
+
+  factory Metadata.fromJson(Map<String, dynamic> json) => Metadata(
+        name: json["name"],
+        symbol: json["symbol"],
+        decimals: json["decimals"],
+        thumbnailUri: json["thumbnailUri"],
+        icon: json["icon"],
+        tags: json["tags"] == null
+            ? []
+            : List<String>.from(json["tags"]!.map((x) => x)),
+        formats: json["formats"] == null
+            ? []
+            : List<Format>.from(
+                json["formats"]!.map((x) => Format.fromJson(x))),
+        creators: json["creators"] == null
+            ? []
+            : List<String>.from(json["creators"]!.map((x) => x)),
+        displayUri: json["displayUri"],
+        artifactUri: json["artifactUri"],
+        description: json["description"],
+        isBooleanAmount: json["isBooleanAmount"],
+        shouldPreferSymbol: json["shouldPreferSymbol"],
+        version: json["version"],
+        attributes: json["attributes"] == null || (json["attributes"] is! List)
+            ? []
+            : List<Attribute>.from(
+                json["attributes"]!.map((x) => Attribute.fromJson(x))),
+        generatorUri: json["generatorUri"],
+        iterationHash: json["iterationHash"],
+        authenticityHash: json["authenticityHash"],
+        date: json["date"] == null ? null : DateTime.parse(json["date"]),
+        image: json["image"],
+        minter: json["minter"],
+        rights: json["rights"],
+        royalties: json["royalties"] == null
+            ? null
+            : Royalties.fromJson(json["royalties"]),
+        mintingTool: json["mintingTool"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "symbol": symbol,
+        "decimals": decimals,
+        "thumbnailUri": thumbnailUri,
+        "icon": icon,
+        "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
+        "formats": formats == null
+            ? []
+            : List<dynamic>.from(formats!.map((x) => x.toJson())),
+        "creators":
+            creators == null ? [] : List<dynamic>.from(creators!.map((x) => x)),
+        "displayUri": displayUri,
+        "artifactUri": artifactUri,
+        "description": description,
+        "isBooleanAmount": isBooleanAmount,
+        "shouldPreferSymbol": shouldPreferSymbol,
+        "version": version,
+        "attributes": attributes == null
+            ? []
+            : List<dynamic>.from(attributes!.map((x) => x.toJson())),
+        "generatorUri": generatorUri,
+        "iterationHash": iterationHash,
+        "authenticityHash": authenticityHash,
+        "date": date?.toIso8601String(),
+        "image": image,
+        "minter": minter,
+        "rights": rights,
+        "royalties": royalties?.toJson(),
+        "mintingTool": mintingTool,
+      };
+}
+
+class Attribute {
+  Attribute({
+    this.name,
+    this.value,
+  });
+
+  String? name;
+  String? value;
+
+  Attribute copyWith({
+    String? name,
+    String? value,
+  }) =>
+      Attribute(
+        name: name ?? this.name,
+        value: value ?? this.value,
+      );
+
+  factory Attribute.fromJson(Map<String, dynamic> json) => Attribute(
+        name: json["name"],
+        value: json["value"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "value": value,
+      };
+}
+
+class Format {
+  Format({
+    this.uri,
+    this.mimeType,
+    this.fileName,
+    this.fileSize,
+    this.dimensions,
+  });
+
+  String? uri;
+  String? mimeType;
+  String? fileName;
+  String? fileSize;
+  Dimensions? dimensions;
+
+  Format copyWith({
+    String? uri,
+    String? mimeType,
+    String? fileName,
+    String? fileSize,
+    Dimensions? dimensions,
+  }) =>
+      Format(
+        uri: uri ?? this.uri,
+        mimeType: mimeType ?? this.mimeType,
+        fileName: fileName ?? this.fileName,
+        fileSize: fileSize ?? this.fileSize,
+        dimensions: dimensions ?? this.dimensions,
+      );
+
+  factory Format.fromJson(Map<String, dynamic> json) => Format(
+        uri: json["uri"],
+        mimeType: json["mimeType"],
+        fileName: json["fileName"],
+        fileSize: json["fileSize"],
+        dimensions: json["dimensions"] == null
+            ? null
+            : Dimensions.fromJson(json["dimensions"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "uri": uri,
+        "mimeType": mimeType,
+        "fileName": fileName,
+        "fileSize": fileSize,
+        "dimensions": dimensions?.toJson(),
+      };
+}
+
+class Dimensions {
+  Dimensions({
+    this.unit,
+    this.value,
+  });
+
+  String? unit;
+  String? value;
+
+  Dimensions copyWith({
+    String? unit,
+    String? value,
+  }) =>
+      Dimensions(
+        unit: unit ?? this.unit,
+        value: value ?? this.value,
+      );
+
+  factory Dimensions.fromJson(Map<String, dynamic> json) => Dimensions(
+        unit: json["unit"],
+        value: json["value"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "unit": unit,
+        "value": value,
+      };
+}
+
+class Royalties {
+  Royalties({
+    this.shares,
+    this.decimals,
+  });
+
+  Shares? shares;
+  String? decimals;
+
+  Royalties copyWith({
+    Shares? shares,
+    String? decimals,
+  }) =>
+      Royalties(
+        shares: shares ?? this.shares,
+        decimals: decimals ?? this.decimals,
+      );
+
+  factory Royalties.fromJson(Map<String, dynamic> json) => Royalties(
+        shares: json["shares"] == null ? null : Shares.fromJson(json["shares"]),
+        decimals: json["decimals"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "shares": shares?.toJson(),
+        "decimals": decimals,
+      };
+}
+
+class Shares {
+  Shares({
+    this.tz1NcuhmDakffJjPfNBzhoV8FYpCvPtdEjfa,
+    this.tz1EL7CuBohL1ZCis7PFffrNd6Ad5UqHdYfC,
+  });
+
+  String? tz1NcuhmDakffJjPfNBzhoV8FYpCvPtdEjfa;
+  String? tz1EL7CuBohL1ZCis7PFffrNd6Ad5UqHdYfC;
+
+  Shares copyWith({
+    String? tz1NcuhmDakffJjPfNBzhoV8FYpCvPtdEjfa,
+    String? tz1EL7CuBohL1ZCis7PFffrNd6Ad5UqHdYfC,
+  }) =>
+      Shares(
+        tz1NcuhmDakffJjPfNBzhoV8FYpCvPtdEjfa:
+            tz1NcuhmDakffJjPfNBzhoV8FYpCvPtdEjfa ??
+                this.tz1NcuhmDakffJjPfNBzhoV8FYpCvPtdEjfa,
+        tz1EL7CuBohL1ZCis7PFffrNd6Ad5UqHdYfC:
+            tz1EL7CuBohL1ZCis7PFffrNd6Ad5UqHdYfC ??
+                this.tz1EL7CuBohL1ZCis7PFffrNd6Ad5UqHdYfC,
+      );
+
+  factory Shares.fromJson(Map<String, dynamic> json) => Shares(
+        tz1NcuhmDakffJjPfNBzhoV8FYpCvPtdEjfa:
+            json["tz1NCUHMDakffJJPfNBzhoV8FYpCvPTDEjfa"],
+        tz1EL7CuBohL1ZCis7PFffrNd6Ad5UqHdYfC:
+            json["tz1eL7CUBohL1ZCis7pFffrNd6Ad5uqHdYfC"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "tz1NCUHMDakffJJPfNBzhoV8FYpCvPTDEjfa":
+            tz1NcuhmDakffJjPfNBzhoV8FYpCvPtdEjfa,
+        "tz1eL7CUBohL1ZCis7pFffrNd6Ad5uqHdYfC":
+            tz1EL7CuBohL1ZCis7PFffrNd6Ad5UqHdYfC,
+      };
 }
