@@ -176,7 +176,7 @@ class NftGalleryWidgetController extends GetxController {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
-        tezAddress: 'No NFTs found in selected accounts',
+        tezAddress: 'No NFTs found in selected wallets',
         transactionAmount: 'Cannot create gallery',
       );
       isCreating.value = false;
@@ -219,7 +219,7 @@ class NftGalleryWidgetController extends GetxController {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
-        tezAddress: 'Gallery with same Accounts already exists',
+        tezAddress: 'Gallery with same wallets already exists',
         transactionAmount: 'Cannot create gallery',
       );
       isCreating.value = false;
@@ -231,7 +231,7 @@ class NftGalleryWidgetController extends GetxController {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
-        tezAddress: 'No NFTs found in selected accounts',
+        tezAddress: 'No NFTs found in selected wallets',
         transactionAmount: 'Cannot create gallery',
       );
       isCreating.value = false;

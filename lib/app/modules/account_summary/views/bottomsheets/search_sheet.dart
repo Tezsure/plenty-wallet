@@ -66,7 +66,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         leading: Padding(
           padding: EdgeInsets.only(left: 16.arP),
           child: backButton(
-              ontap: () => Navigator.pop(context), lastPageName: "Accounts"),
+              ontap: () => Navigator.pop(context), lastPageName: "Wallets"),
         ),
         // title: "",
         height: AppConstant.naanBottomSheetHeight,
@@ -74,7 +74,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         // height: AppConstant.naanBottomSheetHeight -
         //     MediaQuery.of(context).viewInsets.bottom,
         bottomSheetHorizontalPadding: 0,
-        prevPageName: "Accounts",
+        prevPageName: "Wallets",
         bottomSheetWidgets: [
           SizedBox(
             height: AppConstant.naanBottomSheetChildHeight -
@@ -91,7 +91,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                         ontap: () {
                           Navigator.pop(context);
                         },
-                        lastPageName: "Accounts"),
+                        lastPageName: "Wallets"),
                   ),
                 ),
                 0.02.vspace,

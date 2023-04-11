@@ -111,7 +111,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Account Name".tr,
+                "Wallet Name".tr,
                 style:
                     labelSmall.apply(color: ColorConst.NeutralVariant.shade60),
               ),
@@ -120,7 +120,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               height: 8,
             ),
             NaanTextfield(
-                hint: "Account Name",
+                hint: "Wallet Name",
                 controller: _controller.accountNameController,
                 onSubmitted: (val) {
                   setState(() {
@@ -170,7 +170,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             Row(
               children: [
                 Text(
-                  "Primary Account".tr,
+                  "Primary Wallet".tr,
                   textAlign: TextAlign.left,
                   style: bodySmall,
                 ),
@@ -198,7 +198,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             Row(
               children: [
                 Text(
-                  "Hide this account".tr,
+                  "Hide this wallet".tr,
                   textAlign: TextAlign.left,
                   style: bodySmall,
                 ),

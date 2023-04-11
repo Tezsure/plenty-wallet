@@ -76,7 +76,7 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
 
   Widget _buildAddAccount(BuildContext context) {
     return NaanBottomSheet(
-      title: "Name your account",
+      title: "Name your wallet",
       // isScrollControlled: true,
       height: AppConstant.naanBottomSheetHeight,
       bottomSheetWidgets: [
@@ -136,7 +136,7 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
                 onTextChange: (e) {
                   controller.phrase.value = e;
                 },
-                hint: "Account Name",
+                hint: "Wallet Name",
                 controller: controller.accountNameController,
               ),
               const Spacer(),

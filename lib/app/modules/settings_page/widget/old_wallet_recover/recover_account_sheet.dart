@@ -45,7 +45,7 @@ class RecoverOldAccountSheet extends StatelessWidget {
               0.016.vspace,
               SolidButton(
                 width: 1.width - 64.arP,
-                title: 'Recover accounts',
+                title: 'Recover wallets',
                 onPressed: () async {
                   await UserStorageService()
                       .writeNewAccount(accounts, false, true);
@@ -77,7 +77,7 @@ class RecoverOldAccountSheet extends StatelessWidget {
         ),
       ],
       height: 0.52.height,
-      title: "Recover accounts",
+      title: "Recover wallets",
     );
   }
 

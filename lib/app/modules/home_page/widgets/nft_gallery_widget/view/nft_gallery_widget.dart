@@ -68,7 +68,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget>
                       height: 4.arP,
                     ),
                     Text(
-                      "Display NFTs from multiple\naccounts".tr,
+                      "Display NFTs from multiple\nwallets".tr,
                       style: TextStyle(
                         color: const Color(0xFF958E99),
                         fontWeight: FontWeight.w400,

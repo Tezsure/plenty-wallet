@@ -205,10 +205,9 @@ class ReviewNFTSheet extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Account'.tr,
+          'Wallet'.tr,
           style: bodySmall.copyWith(color: ColorConst.grey),
         ),
-        0.008.vspace,
         Obx(() => Container(
               // height: 42.arP,
               padding:
