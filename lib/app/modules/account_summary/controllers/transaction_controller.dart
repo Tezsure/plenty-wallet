@@ -217,6 +217,7 @@ class TransactionController extends GetxController {
         tokenInfo = tokenInfo.copyWith(skip: true);
       }
       tokenInfo = tokenInfo.copyWith(
+        lastId: tokenInfo.token!.lastid.toString(),
         source: tokenInfo.token!.source(
           userAccounts: Get.find<HomePageController>().userAccounts,
           contacts: contacts,
