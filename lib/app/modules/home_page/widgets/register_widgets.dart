@@ -81,10 +81,10 @@ final List<Widget> registeredWidgets = [
   ),
   homeWidgetsGap,
 
-  Padding(
-      padding: EdgeInsets.symmetric(horizontal: 22.arP),
-      child: const DiscoverAppsWidget()),
-  homeWidgetsGap,
+  // Padding(
+  //     padding: EdgeInsets.symmetric(horizontal: 22.arP),
+  //     child: const DiscoverAppsWidget()),
+  // homeWidgetsGap,
 
   Container(
     padding: EdgeInsets.symmetric(horizontal: 22.arP),
