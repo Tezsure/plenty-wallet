@@ -43,27 +43,31 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    ShaderMask(
-                      shaderCallback: (Rect bounds) {
-                        return LinearGradient(
-                          colors: [
-                            const Color(0xffD9D9D9).withOpacity(0),
-                            const Color(0xffD9D9D9).withOpacity(0.08),
-                            const Color(0xffD9D9D9).withOpacity(0.4),
-                            const Color(0xffD9D9D9).withOpacity(0.9),
-                          ],
-                          begin: Alignment.bottomCenter,
-                          end: const Alignment(0, 0.2),
-                        ).createShader(bounds);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.arP),
-                        child: Container(
-                          margin: EdgeInsets.only(top: 25.arP),
-                          child: SvgPicture.asset(
-                            "${PathConst.SVG}create_wallet_background.svg",
-                            height: 0.4.height,
-                            fit: BoxFit.contain,
+                    Expanded(
+                      child: Center(
+                        child: ShaderMask(
+                          shaderCallback: (Rect bounds) {
+                            return LinearGradient(
+                              colors: [
+                                const Color(0xffD9D9D9).withOpacity(0),
+                                const Color(0xffD9D9D9).withOpacity(0.08),
+                                const Color(0xffD9D9D9).withOpacity(0.4),
+                                const Color(0xffD9D9D9).withOpacity(0.9),
+                              ],
+                              begin: Alignment.bottomCenter,
+                              end: const Alignment(0, 0.2),
+                            ).createShader(bounds);
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.arP),
+                            child: Container(
+                              margin: EdgeInsets.only(top: 25.arP),
+                              child: SvgPicture.asset(
+                                "${PathConst.SVG}create_wallet_background.svg",
+                                height: 0.4.height,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -93,10 +97,10 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
                         ],
                       ),
                     ),
-                    _buildDivider(),
+/*                     _buildDivider(),
                     0.035.vspace,
-                    _builsSocialLogins(),
-                    0.018.vspace,
+                    _builsSocialLogins(), */
+                    0.01.vspace,
                     BouncingWidget(
                       onPressed: () {
                         NaanAnalytics.logEvent(

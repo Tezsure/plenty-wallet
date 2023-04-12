@@ -120,7 +120,7 @@ class _VCARedeemNFTScanQrViewState extends State<VCARedeemNFTScanQrView> {
                                       height: 16.arP,
                                     ),
                                     Text(
-                                      "Scan the QR at the venue to\nclaim your POAP NFT",
+                                      "Scan the QR at the venue to\nclaim your Souvenir NFT",
                                       textAlign: TextAlign.center,
                                       style: bodySmall,
                                     )
