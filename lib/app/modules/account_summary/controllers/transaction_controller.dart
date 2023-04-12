@@ -119,8 +119,11 @@ class TransactionController extends GetxController {
         .toIso8601String();
     var loadMoreTransaction =
         await fetchUserTransactionsHistory(lastId: lastId.toString());
+    userTransactionHistory.addAll(loadMoreTransaction);
     var loadMoreTransfer =
         await fetchUserTransferHistory(timeStamp: lastTimeStamp);
+    userTransferHistory.addAll(loadMoreTransfer);
+
     searchTransactionList.addAll((_sortTransaction(
             loadMoreTransaction, loadMoreTransfer))
         .where(
@@ -202,6 +205,7 @@ class TransactionController extends GetxController {
     for (int i = transactionList.length - 1; i >= 0; i--) {
       var tx = transactionList[i];
       tokenInfo = TokenInfo(
+        hash: tx.hash,
         isHashSame: isHashSame == null ? false : tx.hash!.contains(isHashSame),
         token: tx,
         timeStamp: tx.timestamp == null

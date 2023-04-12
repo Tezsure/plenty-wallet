@@ -155,6 +155,13 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
   }
 
   Widget _buildFooter(BuildContext context) {
+    tokenInfo = tokenInfo.copyWith(
+        hash: Get.find<TransactionController>()
+            .userTransactionHistory
+            .firstWhere(
+                (element) => element.lastid?.toString() == tokenInfo.lastId,
+                orElse: () => TxHistoryModel())
+            .hash);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -200,18 +207,25 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
         //   ),
         // ),
         // 0.02.vspace,
-        SolidButton(
-          title: 'view on tzkt.io',
-          onPressed: () {
-            CommonFunctions.bottomSheet(
-              const DappBrowserView(),
-              fullscreen: true,
-              settings: RouteSettings(
-                arguments: "https://tzkt.io/${tokenInfo.token?.hash!}",
-              ),
-            );
-          },
-        ),
+        if (tokenInfo.hash != null)
+          SolidButton(
+            title: 'view on tzkt.io',
+            onPressed: () {
+              tokenInfo = tokenInfo.copyWith(
+                  hash: Get.find<TransactionController>()
+                      .userTransactionHistory
+                      .firstWhere((element) =>
+                          element.lastid?.toString() == tokenInfo.lastId)
+                      .hash);
+              CommonFunctions.bottomSheet(
+                const DappBrowserView(),
+                fullscreen: true,
+                settings: RouteSettings(
+                  arguments: "https://tzkt.io/${tokenInfo.hash ?? ""}",
+                ),
+              );
+            },
+          ),
         const BottomButtonPadding()
       ],
     );

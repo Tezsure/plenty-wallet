@@ -19,6 +19,7 @@ class TokenInfo {
   final bool isDelegated;
   final String? nftContractAddress;
   final String? nftTokenId;
+  final String? hash;
   final bool? isHashSame;
   final DateTime? timeStamp;
 
@@ -35,6 +36,7 @@ class TokenInfo {
     this.lastId = "",
     this.token,
     this.source,
+    this.hash,
     this.destination,
     this.internalOperation = const [],
     this.isDelegated = false,
@@ -48,6 +50,7 @@ class TokenInfo {
   TokenInfo copyWith({
     String? name,
     String? imageUrl,
+    String? hash,
     bool? isNft,
     AliasAddress? source,
     AliasAddress? destination,
@@ -67,6 +70,7 @@ class TokenInfo {
   }) {
     return TokenInfo(
         name: name ?? this.name,
+        hash: hash ?? this.hash,
         imageUrl: imageUrl ?? this.imageUrl,
         isNft: isNft ?? this.isNft,
         skip: skip ?? this.skip,
