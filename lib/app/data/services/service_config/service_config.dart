@@ -55,18 +55,23 @@ class ServiceConfig {
       {int limit = 20,
       String lastId = "",
       String sort = "Descending",
-      String network = ""}) {
-    return "https://api.${network}tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId&sort=$sort";
+      String network = "",
+      String? query = ""}) {
+    return "https://api.${network}tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId&sort=$sort${query ?? ""}";
   }
 
-  static String tzktApiForTransfers({
-    required String address,
-    String network = "mainnet",
-    String? timeStamp,
-    int limit = 20,
-  }) {
-    return "https://back.tzkt.io/v1/tokens/transfers?to=$address&timestamp.gt=${timeStamp}&sort.desc=timestamp&limit=$limit";
-    // return "https://api.${network}.tzkt.io/v1/tokens/transfers?transactionId=$id";
+  static String tzktApiForTransfers(
+      {required String address,
+      String network = "mainnet",
+      String? timeStamp,
+      int limit = 20,
+      String? query}) {
+   
+    if (query?.contains("timestamp") ?? false) {
+      return "https://back.tzkt.io/v1/tokens/transfers?to=$address&sort.desc=timestamp&limit=$limit$query";
+    } else {
+      return "https://back.tzkt.io/v1/tokens/transfers?to=$address&timestamp.ge=$timeStamp&sort.desc=timestamp&limit=$limit${query ?? ""}";
+    } // return "https://api.${network}.tzkt.io/v1/tokens/transfers?transactionId=$id";
   }
 
   static String naanApis = "https://cdn.naan.app";

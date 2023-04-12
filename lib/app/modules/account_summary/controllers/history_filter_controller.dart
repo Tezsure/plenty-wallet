@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 
 import '../models/token_info.dart';
@@ -48,64 +49,109 @@ class HistoryFilterController extends GetxController {
     accountController.isFilterApplied.value = false;
   }
 
-  List<TokenInfo> _applyFilter(List<TokenInfo> transactions) {
+  Map<String, String> query = {};
+  void applyFilter() {
     DateTime time = DateTime.now();
+    query = {};
     //print(transactions);
     switch (dateType.value) {
       case DateType.today:
-        transactions = transactions
-            .where((e) =>
-                (DateTime(
-                    e.timeStamp!.year, e.timeStamp!.month, e.timeStamp!.day)) ==
-                (DateTime(time.year, time.month, time.day)))
-            .toList();
+        final now = DateTime.now();
+        query.addAll({
+          "timestamp.ge":
+              DateTime(now.year, now.month, now.day).toIso8601String()
+        });
         break;
       case DateType.currentMonth:
-        transactions = transactions
-            .where((e) =>
-                (DateTime.now().month == e.timeStamp!.month) &&
-                (DateTime.now().year == e.timeStamp!.year) &&
-                (e.timeStamp!.day <= 31))
-            .toList();
+        final now = DateTime.now();
+        query.addAll({
+          "timestamp.ge": DateTime(now.year, now.month, 1).toIso8601String()
+        });
         break;
       case DateType.last3Months:
-        transactions = transactions
-            .where((e) =>
-                (DateTime.now().month - 3 <= e.timeStamp!.month) &&
-                (DateTime.now().year == e.timeStamp!.year) &&
-                (e.timeStamp!.day <= 31))
-            .toList();
+        final now = DateTime.now().subtract(const Duration(days: 90));
+        query.addAll({
+          "timestamp.ge": DateTime(now.year, now.month, 1).toIso8601String()
+        });
+        // transactions = transactions
+        //     .where((e) =>
+        //         (DateTime.now().month - 3 <= e.timeStamp!.month) &&
+        //         (DateTime.now().year == e.timeStamp!.year) &&
+        //         (e.timeStamp!.day <= 31))
+        //     .toList();
         break;
       case DateType.customDate:
-        transactions = transactions
-            .where((e) =>
-                (e.timeStamp!.isAfter(fromDate.value)) &&
-                (e.timeStamp!.isBefore(toDate.value)))
-            .toList();
+        query.addAll({
+          "timestamp.in":
+              "${DateFormat("yyyy-MM-dd").format(fromDate.value)},${DateFormat("yyyy-MM-dd").format(toDate.value)}"
+        });
+
         break;
       default:
         break;
     }
-    List<TokenInfo> tempTransactions = [];
+
     if (transactionType
         .any((element) => element == TransactionType.delegation)) {
-      tempTransactions = [
-        ...tempTransactions,
-        ...transactions.where((e) => e.isDelegated).toList()
-      ];
+      query.addAll({"type": "delegation"});
     }
     if (transactionType.any((element) => element == TransactionType.receive)) {
-      tempTransactions = [
-        ...tempTransactions,
-        ...transactions.where((e) => !e.isSent).toList()
-      ];
+      query.remove("type");
+      query.addAll({
+        "sender.ne":
+            accountController.accController.selectedAccount.value.publicKeyHash!
+      });
     }
     if (transactionType.any((element) => element == TransactionType.send)) {
-      tempTransactions = [
-        ...tempTransactions,
-        ...transactions.where((e) => e.isSent).toList()
-      ];
+      query.remove("type");
+
+      if (query["sender.ne"] != null) {
+        query.remove("sender.ne");
+      } else {
+        query.addAll({
+          "sender": accountController
+              .accController.selectedAccount.value.publicKeyHash!
+        });
+      }
     }
+    // if (assetType.length != 2) {
+    //   if (assetType.any((element) => element == AssetType.token)) {
+    //     tempTransactions = [
+    //       ...tempTransactions.where((e) => !e.isNft).toList()
+    //     ];
+    //   }
+    //   if (assetType.any((element) => element == AssetType.nft)) {
+    //     tempTransactions = [...tempTransactions.where((e) => e.isNft).toList()];
+    //   }
+    // }
+
+    //print(tempTransactions);
+    // transactions = tempTransactions.toSet().toList();
+
+    // print(transactions);
+    // switch (assetType.value) {
+    //   case AssetType.token:
+    //     transactions = transactions.where((e) => !e.isNft).toList();
+    //     break;
+    //   case AssetType.nft:
+    //     transactions = transactions.where((e) => e.isNft).toList();
+    //     break;
+    //   default:
+    // }
+    // return transactions;
+  }
+
+  Future<void> apply() async {
+    accountController.isFilterApplied.value = true;
+    accountController.filteredTransactionList.clear();
+    accountController.tokenTransactionID.clear();
+    // accountController.filteredTransactionList.value =
+    applyFilter();
+    Get.back();
+    await accountController.loadFilteredTransaction();
+    List<TokenInfo> tempTransactions = [
+      ...accountController.filteredTransactionList
+    ];
     if (assetType.length != 2) {
       if (assetType.any((element) => element == AssetType.token)) {
         tempTransactions = [
@@ -116,33 +162,9 @@ class HistoryFilterController extends GetxController {
         tempTransactions = [...tempTransactions.where((e) => e.isNft).toList()];
       }
     }
-
-    //print(tempTransactions);
-    transactions = tempTransactions.toSet().toList();
-    print(transactions);
-    // switch (assetType.value) {
-    //   case AssetType.token:
-    //     transactions = transactions.where((e) => !e.isNft).toList();
-    //     break;
-    //   case AssetType.nft:
-    //     transactions = transactions.where((e) => e.isNft).toList();
-    //     break;
-    //   default:
-    // }
-    return transactions;
-  }
-
-  void apply() async {
-    accountController.isFilterApplied.value = true;
-    accountController.filteredTransactionList.value =
-        _applyFilter(accountController.defaultTransactionList);
+    accountController.filteredTransactionList.value = [...tempTransactions];
     accountController.filteredTransactionList.refresh();
-    Get.back();
   }
-
-  List<TokenInfo> fetchFilteredList(
-          {required List<TokenInfo> nextHistoryList}) =>
-      _applyFilter(nextHistoryList);
 }
 
 enum AssetType {

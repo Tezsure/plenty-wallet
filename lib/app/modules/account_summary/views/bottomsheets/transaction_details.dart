@@ -482,6 +482,10 @@ class TxTokenInfo extends StatelessWidget {
             address: transactionInterface.contractAddress);
         return _loadNFTTransaction();
       }
+    } else {
+      if (tokenInfo.name.isEmpty) {
+        return _loadNFTTransaction();
+      }
     }
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.arP, horizontal: 10.arP),
@@ -571,7 +575,7 @@ class TxTokenInfo extends StatelessWidget {
               children: [
                 Text(
                     tokenInfo.isNft
-                        ? "${tokenInfo.token!.getAmount(tokenList, selectedAccount).toStringAsFixed(0)} ${tokenInfo.tokenSymbol}"
+                        ? "${tokenInfo.tokenAmount.toStringAsFixed(0)} ${tokenInfo.tokenSymbol}"
                         : getColor(tokenInfo.token) == ColorConst.NaanRed
                             ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}'
                             : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',
@@ -607,11 +611,13 @@ class TxTokenInfo extends StatelessWidget {
 
   Widget _loadNFTTransaction() {
     final tokenList = Get.find<AccountSummaryController>().tokensList;
-    final transactionInterface =
-        tokenInfo.token!.transactionInterface(tokenList);
-    tokenInfo = tokenInfo.copyWith(
-        nftTokenId: transactionInterface.tokenID,
-        address: transactionInterface.contractAddress);
+    if (tokenInfo.token != null) {
+      final transactionInterface =
+          tokenInfo.token!.transactionInterface(tokenList);
+      tokenInfo = tokenInfo.copyWith(
+          nftTokenId: transactionInterface.tokenID,
+          address: transactionInterface.contractAddress);
+    }
     return FutureBuilder(
         future: ObjktNftApiService().getTransactionNFT(
             tokenInfo.nftContractAddress!, tokenInfo.nftTokenId!),
@@ -645,8 +651,7 @@ class TxTokenInfo extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DateTime.parse(tokenInfo.token!.timestamp!).isSameMonth(
-                        DateTime.parse(tokenInfo.token!.timestamp!))
+                tokenInfo.timeStamp!.isSameMonth(tokenInfo.timeStamp!)
                     ? const SizedBox()
                     : Padding(
                         padding: EdgeInsets.only(

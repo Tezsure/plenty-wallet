@@ -118,6 +118,9 @@ class _HistoryTileState extends State<HistoryTile>
         .publicKeyHash!;
     final tokenList = Get.find<AccountSummaryController>().tokensList;
     if (data.token == null) {
+      if (data.name.isEmpty) {
+        return _loadNFTTransaction(data);
+      }
     } else {
       final transactionInterface = data.token!.transactionInterface(tokenList);
 
@@ -246,7 +249,7 @@ class _HistoryTileState extends State<HistoryTile>
             children: [
               Text(
                   data.isNft
-                      ? "${data.token!.getAmount(tokenList, selectedAccount).toStringAsFixed(0)} ${data.tokenSymbol}"
+                      ? "${data.tokenAmount.toStringAsFixed(0)} ${data.tokenSymbol}"
                       : "${data.tokenAmount.toStringAsFixed(6)} ${data.tokenSymbol}",
                   textAlign: TextAlign.end,
                   overflow: TextOverflow.ellipsis,

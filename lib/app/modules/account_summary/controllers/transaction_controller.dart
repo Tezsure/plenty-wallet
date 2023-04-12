@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:beacon_flutter/enums/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
@@ -12,6 +13,7 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/account_summ
 import 'package:naan_wallet/app/modules/account_summary/models/token_info.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../utils/constants/path_const.dart';
 import '../../../data/services/service_config/service_config.dart';
@@ -23,23 +25,23 @@ import 'package:http/http.dart' as http;
 
 class TransactionController extends GetxController {
   final accController = Get.find<AccountSummaryController>();
+  RefreshController refreshController = RefreshController();
 
   RxList<TxHistoryModel> userTransactionHistory =
       <TxHistoryModel>[].obs; // List of user transactions
   RxList<TransactionTransferModel> userTransferHistory =
       <TransactionTransferModel>[].obs; // List of user transactions
   RxBool isTransactionPopUpOpened = false.obs; // To show popup
-  Rx<ScrollController> paginationController =
-      ScrollController().obs; // For Transaction history lazy loading
+  // Rx<ScrollController> paginationController =
+  //     ScrollController().obs; // For Transaction history lazy loading
   RxBool isFilterApplied = false.obs;
   Timer? searchDebounceTimer;
-  Set<String> tokenTransactionID = <String>{};
   RxList<TokenInfo> filteredTransactionList = <TokenInfo>[].obs;
   RxList<TokenInfo> searchTransactionList = <TokenInfo>[].obs;
 
   RxBool isTransactionLoading = false.obs;
   List<TokenInfo> defaultTransactionList = <TokenInfo>[];
-  static final Set<String> _tokenTransactionID = <String>{};
+  final Set<String> tokenTransactionID = <String>{};
   RxBool noMoreResults = false.obs;
   RxList<ContactModel> contacts = <ContactModel>[].obs;
   Rx<ContactModel?>? contact;
@@ -51,17 +53,18 @@ class TransactionController extends GetxController {
 
   @override
   void onClose() {
-    paginationController.value.dispose();
+    refreshController.dispose();
     super.onClose();
   }
 
   /// Loades the user transaction history, and updates the UI after user taps on history tab
   Future<void> userTransactionLoader() async {
     isTransactionLoading.value = true;
+    refreshController.resetNoData();
+    refreshController.refreshToIdle();
+    tokenTransactionID.clear();
+    defaultTransactionList.clear();
 
-    _tokenTransactionID.clear();
-
-    paginationController.value.removeListener(() {});
     userTransactionHistory.value = await fetchUserTransactionsHistory();
     userTransferHistory.value = await fetchUserTransferHistory(
         timeStamp: userTransactionHistory.last.timestamp ?? "");
@@ -69,24 +72,24 @@ class TransactionController extends GetxController {
     if (Get.isRegistered<HistoryFilterController>()) {
       Get.find<HistoryFilterController>().clear();
     }
-    defaultTransactionList.clear();
+
     defaultTransactionList.addAll(
         await _sortTransaction(userTransactionHistory, userTransferHistory));
     // Lazy Loading
-    paginationController.value.addListener(() async {
-      if (paginationController.value.position.pixels ==
-          paginationController.value.position.maxScrollExtent) {
-        if (Get.isRegistered<HistoryFilterController>()) {
-          if (noMoreResults.isFalse) {
-            await loadFilteredTransaction();
-          }
-        } else {
-          if (noMoreResults.isFalse) {
-            await loadMoreTransaction();
-          }
-        }
-      }
-    });
+    // paginationController.value.addListener(() async {
+    //   if (paginationController.value.position.pixels ==
+    //       paginationController.value.position.maxScrollExtent) {
+    //     if (Get.isRegistered<HistoryFilterController>()) {
+    //       if (noMoreResults.isFalse) {
+    //         await loadFilteredTransaction();
+    //       }
+    //     } else {
+    //       if (noMoreResults.isFalse) {
+    //         await loadMoreTransaction();
+    //       }
+    //     }
+    //   }
+    // });
     isTransactionLoading.value = false;
   }
 
@@ -103,44 +106,57 @@ class TransactionController extends GetxController {
   }
 
   Future<void> loadFilteredTransaction() async {
-    var historyFilterController = Get.find<HistoryFilterController>();
     isTransactionLoading.value = true;
-
-    var loadMoreTransaction = filteredTransactionList.isNotEmpty
-        ? await fetchUserTransactionsHistory(
-            lastId: filteredTransactionList.last.lastId.toString())
-        : <TxHistoryModel>[];
-    var loadMoreTransfers = filteredTransactionList.isNotEmpty
-        ? await fetchUserTransferHistory(
-            timeStamp: loadMoreTransaction.last.timestamp!)
-        : <TransactionTransferModel>[];
+    String lastId = filteredTransactionList
+        .lastWhere(
+          (element) => element.lastId.isNotEmpty,
+          orElse: () => TokenInfo(lastId: ""),
+        )
+        .lastId;
+    String lastTimeStamp = filteredTransactionList
+        .lastWhere(
+          (element) => element.lastId.isNotEmpty,
+          orElse: () => TokenInfo(timeStamp: DateTime.now()),
+        )
+        .timeStamp!
+        .toIso8601String();
+    var loadMoreTransaction =
+        await fetchUserTransactionsHistory(lastId: lastId.toString());
+    var loadMoreTransfers =
+        await fetchUserTransferHistory(timeStamp: lastTimeStamp);
     loadMoreTransaction.isEmpty
         ? noMoreResults.value = true
         : noMoreResults.value = false;
-    filteredTransactionList.addAll(historyFilterController.fetchFilteredList(
-        nextHistoryList:
-            await _sortTransaction(loadMoreTransaction, loadMoreTransfers)));
+    filteredTransactionList
+        .addAll(_sortTransaction(loadMoreTransaction, loadMoreTransfers));
     isTransactionLoading.value = false;
   }
 
   Future<void> loadMoreTransaction() async {
     isTransactionLoading.value = true;
-    var loadMoreTransaction = await fetchUserTransactionsHistory(
-        lastId: userTransactionHistory.last.lastid.toString());
-    var loadMoreTransfer = await fetchUserTransferHistory(
-        timeStamp: loadMoreTransaction.last.timestamp!);
+    int lastId = userTransactionHistory
+        .lastWhere((element) => element.lastid != null)
+        .lastid!;
+    String lastTimeStamp = userTransactionHistory
+        .lastWhere((element) => element.lastid != null)
+        .timestamp!;
+
+    var loadMoreTransaction =
+        await fetchUserTransactionsHistory(lastId: lastId.toString());
+    var loadMoreTransfer =
+        await fetchUserTransferHistory(timeStamp: lastTimeStamp);
     loadMoreTransaction.isEmpty
         ? noMoreResults.value = true
         : noMoreResults.value = false;
     userTransferHistory.addAll(loadMoreTransfer);
     userTransactionHistory.addAll(loadMoreTransaction);
     defaultTransactionList
-        .addAll(await _sortTransaction(loadMoreTransaction, loadMoreTransfer));
+        .addAll(_sortTransaction(loadMoreTransaction, loadMoreTransfer));
     isTransactionLoading.value = false;
   }
 
-  Future<List<TokenInfo>> _sortTransaction(List<TxHistoryModel> transactionList,
-      List<TransactionTransferModel> transferlist) async {
+  List<TokenInfo> _sortTransaction(List<TxHistoryModel> transactionList,
+      List<TransactionTransferModel> transferlist) {
     List<TokenInfo> sortedTransactionList = <TokenInfo>[];
     late TokenInfo tokenInfo;
     String? isHashSame;
@@ -174,6 +190,7 @@ class TransactionController extends GetxController {
       else if (!tx.isTezTransaction) {
         if (tx.isFA2TokenTransfer) {
           if (tx.isNFTTx(tokensList)) {
+            tokenInfo = tokenInfo.copyWith(isNft: true);
           } else {
             TokenPriceModel token = fA1Token(tokensList, tx.target);
             double amount = tx.getAmount(tokensList, selectedAccount);
@@ -229,8 +246,8 @@ class TransactionController extends GetxController {
       );
       // sortedTransactionList.add(tokenInfo);
       sortedTransactionList.addIf(
-          !_tokenTransactionID.contains(tx.lastid.toString()), tokenInfo);
-      _tokenTransactionID.add(tx.lastid.toString());
+          !tokenTransactionID.contains(tx.lastid.toString()), tokenInfo);
+      tokenTransactionID.add(tx.lastid.toString());
     }
     List<TokenInfo> temp = [];
     for (var i = 0; i < sortedTransactionList.length; i++) {
@@ -251,7 +268,8 @@ class TransactionController extends GetxController {
       final transfer = transferlist[i];
       final interface = transfer.transactionInterface(tokensList);
       tokenInfo = TokenInfo(
-        isNft: transfer.token!.metadata?.decimals == null,
+        isNft: transfer.token!.metadata?.decimals == null ||
+            transfer.token!.metadata?.decimals == "0",
         name: interface.name,
         source: transfer.from == null
             ? null
@@ -273,13 +291,14 @@ class TransactionController extends GetxController {
         isHashSame: false,
         timeStamp:
             transfer.timestamp == null ? DateTime.now() : transfer.timestamp!,
-        isSent: transfer.from!.address!
-            .contains(accController.selectedAccount.value.publicKeyHash!),
+        isSent: transfer.from?.address!
+                .contains(accController.selectedAccount.value.publicKeyHash!) ??
+            false,
       );
       sortedTransactionList.addIf(
-          !_tokenTransactionID.contains(transfer.transactionId.toString()),
+          !tokenTransactionID.contains(transfer.transactionId.toString()),
           tokenInfo);
-      _tokenTransactionID.add(transfer.transactionId.toString());
+      tokenTransactionID.add(transfer.transactionId.toString());
     }
     sortedTransactionList.sort(
       (a, b) {
@@ -305,12 +324,32 @@ class TransactionController extends GetxController {
   }
 
   /// Fetches user account transaction history
-  Future<List<TxHistoryModel>> fetchUserTransactionsHistory(
-          {String? lastId, int? limit}) async =>
-      await UserStorageService().getAccountTransactionHistory(
-          accountAddress: accController.selectedAccount.value.publicKeyHash!,
-          lastId: lastId,
-          limit: limit);
+  Future<List<TxHistoryModel>> fetchUserTransactionsHistory({
+    String? lastId,
+    int? limit,
+  }) async {
+    String query = "";
+    if (Get.isRegistered<HistoryFilterController>()) {
+      // Get.find<HistoryFilterController>().apply();
+      Get.find<HistoryFilterController>().query.forEach((key, value) {
+        query = "$query&$key=$value";
+      });
+    }
+    return
+        // userTransactionHistory.isNotEmpty
+        //     ?
+        (await TzktTxHistoryApiService(
+                accController.selectedAccount.value.publicKeyHash!,
+                ServiceConfig.currentNetwork == NetworkType.mainnet
+                    ? ""
+                    : ServiceConfig.currentSelectedNode)
+            .getTxHistory(
+                lastId: lastId ?? "", limit: limit ?? 20, query: query));
+    // : await UserStorageService().getAccountTransactionHistory(
+    //     accountAddress: accController.selectedAccount.value.publicKeyHash!,
+    //     lastId: lastId,
+    //     limit: limit);
+  }
 
   Future<void> searchTransactionHistory(String searchKey) async {
     searchTransactionList.value = defaultTransactionList
@@ -348,9 +387,20 @@ class TransactionController extends GetxController {
 
   Future<List<TransactionTransferModel>> fetchUserTransferHistory(
       {required String timeStamp}) async {
+    String query = "";
+    if (Get.isRegistered<HistoryFilterController>()) {
+      // Get.find<HistoryFilterController>().apply();
+      Get.find<HistoryFilterController>().query.forEach((key, value) {
+        query = "$query&$key=$value";
+      });
+    }
+    if (query.contains("sender=") || query.contains("type=delegation")) {
+      return <TransactionTransferModel>[];
+    }
     var url = ServiceConfig.tzktApiForTransfers(
         timeStamp: timeStamp,
-        address: accController.selectedAccount.value.publicKeyHash!);
+        address: accController.selectedAccount.value.publicKeyHash!,
+        query: query);
     print(url);
     var response =
         await HttpService.performGetRequest(url, callSetupTimer: true);
