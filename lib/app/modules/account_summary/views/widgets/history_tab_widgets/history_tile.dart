@@ -249,7 +249,7 @@ class _HistoryTileState extends State<HistoryTile>
             children: [
               Text(
                   data.isNft
-                      ? "${data.tokenAmount.toStringAsFixed(0)} ${data.tokenSymbol}"
+                    ? "${data.tokenAmount == 0.0 ? "1" : data.tokenAmount.toStringAsFixed(0)} ${data.tokenSymbol}"
                       : "${data.tokenAmount.toStringAsFixed(6)} ${data.tokenSymbol}",
                   textAlign: TextAlign.end,
                   overflow: TextOverflow.ellipsis,

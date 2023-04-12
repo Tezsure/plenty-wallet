@@ -162,44 +162,44 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
           color: Color(0xff1E1C1F),
         ),
         0.02.vspace,
-        BouncingWidget(
-          onPressed: tokenInfo.token == null
-              ? null
-              : () {
-                  CommonFunctions.bottomSheet(TransactionFeeDetailShet(
-                    tokenInfo: tokenInfo,
-                    userAccountAddress: userAccountAddress,
-                    xtzPrice: xtzPrice,
-                  ));
-                },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Fees",
-                style: labelMedium.copyWith(
-                    color: ColorConst.NeutralVariant.shade60),
-              ),
-              Row(
-                children: [
-                  Text(
-                    calculateFees().roundUpDollar(xtzPrice, decimals: 6),
-                    style: labelMedium,
-                  ),
-                  SizedBox(
-                    width: 4.arP,
-                  ),
-                  Icon(
-                    Icons.info_outline,
-                    color: ColorConst.NeutralVariant.shade60,
-                    size: 16.arP,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        0.02.vspace,
+        // BouncingWidget(
+        //   onPressed: tokenInfo.token == null
+        //       ? null
+        //       : () {
+        //           CommonFunctions.bottomSheet(TransactionFeeDetailShet(
+        //             tokenInfo: tokenInfo,
+        //             userAccountAddress: userAccountAddress,
+        //             xtzPrice: xtzPrice,
+        //           ));
+        //         },
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       Text(
+        //         "Fees",
+        //         style: labelMedium.copyWith(
+        //             color: ColorConst.NeutralVariant.shade60),
+        //       ),
+        //       Row(
+        //         children: [
+        //           Text(
+        //             calculateFees().roundUpDollar(xtzPrice, decimals: 6),
+        //             style: labelMedium,
+        //           ),
+        //           SizedBox(
+        //             width: 4.arP,
+        //           ),
+        //           Icon(
+        //             Icons.info_outline,
+        //             color: ColorConst.NeutralVariant.shade60,
+        //             size: 16.arP,
+        //           ),
+        //         ],
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        // 0.02.vspace,
         SolidButton(
           title: 'view on tzkt.io',
           onPressed: () {
@@ -575,7 +575,7 @@ class TxTokenInfo extends StatelessWidget {
               children: [
                 Text(
                     tokenInfo.isNft
-                        ? "${tokenInfo.tokenAmount.toStringAsFixed(0)} ${tokenInfo.tokenSymbol}"
+                        ? "${tokenInfo.tokenAmount == 0.0 ? "1" : tokenInfo.tokenAmount.toStringAsFixed(0)} ${tokenInfo.tokenSymbol}"
                         : getColor(tokenInfo.token) == ColorConst.NaanRed
                             ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}'
                             : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',

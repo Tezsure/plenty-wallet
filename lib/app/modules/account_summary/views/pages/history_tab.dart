@@ -110,56 +110,58 @@ class HistoryPage extends GetView<TransactionController> {
     return Column(
       children: [
         _buildHeader(context),
-        Expanded(
-          child: SmartRefresher(
-            enablePullDown: true,
-            enablePullUp: true,
-            enableTwoLevel: true,
-            // header: SizedBox(
-            //     height: 50.arP,
-            //     width: 50.arP,
-            //     child: CupertinoActivityIndicator(color: ColorConst.Primary)),
-            // footer: SizedBox(
-            //   height: 50.arP,
-            //   width: 50.arP,
-            //   child: Container(),
-            // ),
-            controller: controller.refreshController,
-            onLoading: () async {
-              if (controller.noMoreResults.isTrue) {
-                return controller.refreshController.loadNoData();
-              }
-              if (Get.isRegistered<HistoryFilterController>()) {
-                if (controller.noMoreResults.isFalse) {
-                  await controller.loadFilteredTransaction();
+        Obx(() {
+          return Expanded(
+            child: SmartRefresher(
+              enablePullDown: true,
+              enablePullUp: true,
+              enableTwoLevel: true,
+              // header: SizedBox(
+              //     height: 50.arP,
+              //     width: 50.arP,
+              //     child: CupertinoActivityIndicator(color: ColorConst.Primary)),
+              // footer: SizedBox(
+              //   height: 50.arP,
+              //   width: 50.arP,
+              //   child: Container(),
+              // ),
+              controller: controller.refreshController.value,
+              onLoading: () async {
+                if (controller.noMoreResults.isTrue) {
+                  // return controller.refreshController.value.loadNoData();
                 }
-              } else {
-                if (controller.noMoreResults.isFalse) {
-                  await controller.loadMoreTransaction();
+                if (Get.isRegistered<HistoryFilterController>()) {
+                  if (controller.noMoreResults.isFalse) {
+                    await controller.loadFilteredTransaction();
+                  }
+                } else {
+                  if (controller.noMoreResults.isFalse) {
+                    await controller.loadMoreTransaction();
+                  }
                 }
-              }
-              controller.refreshController.loadComplete();
-            },
-            onRefresh: () async {
-              await controller.userTransactionLoader();
-              controller.refreshController.refreshToIdle();
-              controller.refreshController.resetNoData();
-            },
-            child: controller.userTransactionHistory.isEmpty
-                ? _emptyState
-                : controller.isFilterApplied.value &&
-                        controller.filteredTransactionList.isEmpty
-                    ? _emptyState
-                    : Obx(() {
-                        return ListView.builder(
+                controller.refreshController.value.loadComplete();
+              },
+              onRefresh: () async {
+                controller.userTransactionLoader(resetController: false);
+                controller.refreshController.value.refreshCompleted();
+                // controller.refreshController.refreshToIdle();
+                controller.refreshController.value.resetNoData();
+              },
+              child: controller.userTransactionHistory.isEmpty &&
+                      controller.userTransferHistory.isEmpty &&controller.isTransactionLoading.isFalse
+                  ? _emptyState
+                  : controller.isFilterApplied.value &&
+                          controller.filteredTransactionList.isEmpty
+                      ? _emptyState
+                      : ListView.builder(
                           itemBuilder: _itemBuilder,
                           itemCount: controller.isFilterApplied.value
                               ? controller.filteredTransactionList.length + 1
                               : controller.defaultTransactionList.length + 1,
-                        );
-                      }),
-          ),
-        ),
+                        ),
+            ),
+          );
+        }),
       ],
     );
   }

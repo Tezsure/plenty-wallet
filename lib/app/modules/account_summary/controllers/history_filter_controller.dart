@@ -144,7 +144,11 @@ class HistoryFilterController extends GetxController {
   Future<void> apply() async {
     accountController.isFilterApplied.value = true;
     accountController.filteredTransactionList.clear();
+    accountController.defaultTransactionList.clear();
+    accountController.userTransactionHistory.clear();
+    accountController.userTransferHistory.clear();
     accountController.tokenTransactionID.clear();
+    
     // accountController.filteredTransactionList.value =
     applyFilter();
     Get.back();

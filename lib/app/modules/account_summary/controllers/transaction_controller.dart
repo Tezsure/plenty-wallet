@@ -25,7 +25,7 @@ import 'package:http/http.dart' as http;
 
 class TransactionController extends GetxController {
   final accController = Get.find<AccountSummaryController>();
-  RefreshController refreshController = RefreshController();
+  Rx<RefreshController> refreshController = RefreshController().obs;
 
   RxList<TxHistoryModel> userTransactionHistory =
       <TxHistoryModel>[].obs; // List of user transactions
@@ -53,28 +53,38 @@ class TransactionController extends GetxController {
 
   @override
   void onClose() {
-    refreshController.dispose();
+    // refreshController.dispose();
     super.onClose();
   }
 
   /// Loades the user transaction history, and updates the UI after user taps on history tab
-  Future<void> userTransactionLoader() async {
+  Future<void> userTransactionLoader({bool resetController = true}) async {
     isTransactionLoading.value = true;
-    refreshController.resetNoData();
-    refreshController.refreshToIdle();
+    if (resetController) {
+      refreshController.value = RefreshController();
+    }
+    // refreshController.value.resetNoData();
+    // refreshController.refreshToIdle();
     tokenTransactionID.clear();
     defaultTransactionList.clear();
 
     userTransactionHistory.value = await fetchUserTransactionsHistory();
-    userTransferHistory.value = await fetchUserTransferHistory(
-        timeStamp: userTransactionHistory.last.timestamp ?? "");
+    final timestamp = userTransactionHistory
+        .lastWhere((element) => true,
+            orElse: () => TxHistoryModel(timestamp: ""))
+        .timestamp;
+    userTransferHistory.value =
+        await fetchUserTransferHistory(timeStamp: timestamp ?? "");
+
     isFilterApplied.value = false;
     if (Get.isRegistered<HistoryFilterController>()) {
       Get.find<HistoryFilterController>().clear();
     }
 
-    defaultTransactionList.addAll(
-        await _sortTransaction(userTransactionHistory, userTransferHistory));
+    defaultTransactionList
+        .addAll(_sortTransaction(userTransactionHistory, userTransferHistory));
+
+    defaultTransactionList = [...defaultTransactionList];
     // Lazy Loading
     // paginationController.value.addListener(() async {
     //   if (paginationController.value.position.pixels ==
@@ -135,11 +145,15 @@ class TransactionController extends GetxController {
         .toIso8601String();
     var loadMoreTransaction =
         await fetchUserTransactionsHistory(lastId: lastId.toString());
+    userTransactionHistory.addAll(loadMoreTransaction);
     var loadMoreTransfers =
         await fetchUserTransferHistory(timeStamp: lastTimeStamp);
+    userTransferHistory.addAll(loadMoreTransfers);
+
     loadMoreTransaction.isEmpty
         ? noMoreResults.value = true
         : noMoreResults.value = false;
+
     filteredTransactionList
         .addAll(_sortTransaction(loadMoreTransaction, loadMoreTransfers));
     isTransactionLoading.value = false;
