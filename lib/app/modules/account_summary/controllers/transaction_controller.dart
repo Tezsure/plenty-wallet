@@ -94,11 +94,24 @@ class TransactionController extends GetxController {
   }
 
   Future<void> loadSearchResults(String searchName) async {
-    var loadMoreTransaction = await fetchUserTransactionsHistory(
-        lastId: searchTransactionList.last.lastId.toString());
-    var loadMoreTransfer = await fetchUserTransferHistory(
-        timeStamp: loadMoreTransaction.last.timestamp!);
-    searchTransactionList.addAll((await _sortTransaction(
+    String lastId = searchTransactionList
+        .lastWhere(
+          (element) => element.lastId.isNotEmpty,
+          orElse: () => TokenInfo(lastId: ""),
+        )
+        .lastId;
+    String lastTimeStamp = searchTransactionList
+        .lastWhere(
+          (element) => element.lastId.isNotEmpty,
+          orElse: () => TokenInfo(timeStamp: DateTime.now()),
+        )
+        .timeStamp!
+        .toIso8601String();
+    var loadMoreTransaction =
+        await fetchUserTransactionsHistory(lastId: lastId.toString());
+    var loadMoreTransfer =
+        await fetchUserTransferHistory(timeStamp: lastTimeStamp);
+    searchTransactionList.addAll((_sortTransaction(
             loadMoreTransaction, loadMoreTransfer))
         .where(
             (element) => element.name.isCaseInsensitiveContainsAny(searchName))
@@ -134,12 +147,19 @@ class TransactionController extends GetxController {
 
   Future<void> loadMoreTransaction() async {
     isTransactionLoading.value = true;
-    int lastId = userTransactionHistory
-        .lastWhere((element) => element.lastid != null)
-        .lastid!;
-    String lastTimeStamp = userTransactionHistory
-        .lastWhere((element) => element.lastid != null)
-        .timestamp!;
+    String lastId = defaultTransactionList
+        .lastWhere(
+          (element) => element.lastId.isNotEmpty,
+          orElse: () => TokenInfo(lastId: ""),
+        )
+        .lastId;
+    String lastTimeStamp = defaultTransactionList
+        .lastWhere(
+          (element) => element.lastId.isNotEmpty,
+          orElse: () => TokenInfo(timeStamp: DateTime.now()),
+        )
+        .timeStamp!
+        .toIso8601String();
 
     var loadMoreTransaction =
         await fetchUserTransactionsHistory(lastId: lastId.toString());
