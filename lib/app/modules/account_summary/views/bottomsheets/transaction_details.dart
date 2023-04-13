@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
+import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
@@ -36,7 +37,7 @@ import '../../controllers/transaction_controller.dart';
 import '../../models/token_info.dart';
 import '../pages/crypto_tab.dart';
 
-class TransactionDetailsBottomSheet extends GetView<TransactionController> {
+class TransactionDetailsBottomSheet extends StatefulWidget {
   // final TxHistoryModel transactionModel;
   TokenInfo tokenInfo;
   final String userAccountAddress;
@@ -49,11 +50,39 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
       required this.xtzPrice});
 
   @override
+  State<TransactionDetailsBottomSheet> createState() =>
+      _TransactionDetailsBottomSheetState();
+}
+
+class _TransactionDetailsBottomSheetState
+    extends State<TransactionDetailsBottomSheet> {
+  final controller = Get.find<TransactionController>();
+
+  @override
+  void initState() {
+    if (widget.tokenInfo.hash == null) {
+      try {
+        HttpService.performGetRequest(
+                "https://api.tzkt.io/v1/operations/transactions?id=${widget.tokenInfo.lastId}")
+            .then((value) {
+          widget.tokenInfo =
+              widget.tokenInfo.copyWith(hash: jsonDecode(value)[0]["hash"]);
+          setState(() {});
+        });
+      } catch (e) {
+        print(e.toString());
+      }
+    }
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // print(tokenInfo.token!.toJson());
-
-    final source = tokenInfo.source;
-    final destination = tokenInfo.destination;
+//https://api.tzkt.io/v1/operations/transactions?id=505096501723136
+    final source = widget.tokenInfo.source;
+    final destination = widget.tokenInfo.destination;
     return NaanBottomSheet(
       // blurRadius: 50,
       width: 1.width,
@@ -79,8 +108,9 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                       ),
                       0.02.vspace,
                       Image.asset(
-                        tokenInfo.token == null ||
-                                tokenInfo.token!.operationStatus == "applied"
+                        widget.tokenInfo.token == null ||
+                                widget.tokenInfo.token!.operationStatus ==
+                                    "applied"
                             ? "assets/transaction/success.png"
                             : "assets/transaction/failed.png",
                         height: 60.arP,
@@ -88,7 +118,8 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                       ),
                       0.02.vspace,
                       Text(
-                        tokenInfo.token?.getTxType(userAccountAddress) ??
+                        widget.tokenInfo.token
+                                ?.getTxType(widget.userAccountAddress) ??
                             "Received",
                         style: titleLarge,
                       ),
@@ -97,7 +128,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                         child: Text(
                             DateFormat('MM/dd/yyyy HH:mm')
                                 // displaying formatted date
-                                .format(tokenInfo.timeStamp!.toLocal()),
+                                .format(widget.tokenInfo.timeStamp!.toLocal()),
                             style: labelMedium.copyWith(
                                 color: ColorConst.NeutralVariant.shade60)),
                       ),
@@ -128,15 +159,16 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                         child: Column(
                           children: [
                             TxTokenInfo(
-                              tokenInfo: tokenInfo,
-                              userAccountAddress: userAccountAddress,
-                              xtzPrice: xtzPrice,
+                              tokenInfo: widget.tokenInfo,
+                              userAccountAddress: widget.userAccountAddress,
+                              xtzPrice: widget.xtzPrice,
                             ),
-                            ...tokenInfo.internalOperation
+                            ...widget.tokenInfo.internalOperation
                                 .map((e) => TxTokenInfo(
                                       tokenInfo: e,
-                                      userAccountAddress: userAccountAddress,
-                                      xtzPrice: xtzPrice,
+                                      userAccountAddress:
+                                          widget.userAccountAddress,
+                                      xtzPrice: widget.xtzPrice,
                                     ))
                                 .toList(),
                           ],
@@ -155,13 +187,6 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
   }
 
   Widget _buildFooter(BuildContext context) {
-    tokenInfo = tokenInfo.copyWith(
-        hash: Get.find<TransactionController>()
-            .userTransactionHistory
-            .firstWhere(
-                (element) => element.lastid?.toString() == tokenInfo.lastId,
-                orElse: () => TxHistoryModel())
-            .hash);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -207,7 +232,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
         //   ),
         // ),
         // 0.02.vspace,
-        if (tokenInfo.hash != null)
+        if (widget.tokenInfo.hash != null)
           SolidButton(
             title: 'view on tzkt.io',
             onPressed: () {
@@ -215,7 +240,7 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
                 const DappBrowserView(),
                 fullscreen: true,
                 settings: RouteSettings(
-                  arguments: "https://tzkt.io/${tokenInfo.hash ?? ""}",
+                  arguments: "https://tzkt.io/${widget.tokenInfo.hash ?? ""}",
                 ),
               );
             },
@@ -227,16 +252,20 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
 
   double calculateFees() {
     double fees = 0.0;
-    if (tokenInfo.token == null) return fees;
+    if (widget.tokenInfo.token == null) return fees;
     // For-loop
-    if (tokenInfo.token!.bakerFee != null) fees += tokenInfo.token!.bakerFee!;
-    if (tokenInfo.token!.storageFee != null) {
-      fees += tokenInfo.token!.storageFee!;
+    if (widget.tokenInfo.token!.bakerFee != null) {
+      fees += widget.tokenInfo.token!.bakerFee!;
     }
-    if (tokenInfo.token!.allocationFee != null) {
-      fees += tokenInfo.token!.allocationFee!;
+    if (widget.tokenInfo.token!.storageFee != null) {
+      fees += widget.tokenInfo.token!.storageFee!;
     }
-    if (tokenInfo.token!.gasUsed != null) fees += tokenInfo.token!.gasUsed!;
+    if (widget.tokenInfo.token!.allocationFee != null) {
+      fees += widget.tokenInfo.token!.allocationFee!;
+    }
+    if (widget.tokenInfo.token!.gasUsed != null) {
+      fees += widget.tokenInfo.token!.gasUsed!;
+    }
     fees = fees / 1e6;
     return fees;
   }

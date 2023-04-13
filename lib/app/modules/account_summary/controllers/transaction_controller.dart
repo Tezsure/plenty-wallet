@@ -70,6 +70,7 @@ class TransactionController extends GetxController {
     defaultTransactionList.clear();
     isScrollingUp.value = false;
     isFilterApplied.value = false;
+    noMoreResults.value = false;
     if (Get.isRegistered<HistoryFilterController>()) {
       Get.find<HistoryFilterController>().clear();
     }
@@ -358,7 +359,10 @@ class TransactionController extends GetxController {
                     ? ""
                     : ServiceConfig.currentSelectedNode)
             .getTxHistory(
-                lastId: lastId ?? "", limit: limit ?? 20, query: query, ));
+      lastId: lastId ?? "",
+      limit: limit ?? 20,
+      query: query,
+    ));
     // : await UserStorageService().getAccountTransactionHistory(
     //     accountAddress: accController.selectedAccount.value.publicKeyHash!,
     //     lastId: lastId,
