@@ -146,13 +146,15 @@ class CryptoTabPage extends GetView<AccountSummaryController> {
 
 class TokensSkeleton extends StatelessWidget {
   final bool isScrollable;
-  const TokensSkeleton({super.key, this.isScrollable = true});
+  final int itemCount;
+  const TokensSkeleton(
+      {super.key, this.isScrollable = true, this.itemCount = 5});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        top: 24.aR,
+        top: itemCount == 1 ? 16.arP : 24.aR,
       ),
       child: ListView.builder(
         shrinkWrap: !isScrollable,
@@ -161,7 +163,12 @@ class TokensSkeleton extends StatelessWidget {
             : const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return Padding(
-            padding: EdgeInsets.only(left: 17.aR, right: 16.aR, bottom: 20.arP),
+            padding: itemCount == 1
+                ? EdgeInsets.only(
+                    left: 16.aR,
+                    right: 16.aR,
+                  )
+                : EdgeInsets.only(left: 16.aR, right: 16.aR, bottom: 16.arP),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -236,7 +243,7 @@ class TokensSkeleton extends StatelessWidget {
             ),
           );
         },
-        itemCount: 5,
+        itemCount: itemCount,
       ),
     );
   }

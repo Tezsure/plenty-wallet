@@ -43,7 +43,9 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
     if (Get.isRegistered<AccountSummaryController>()) {
       controller.fetchAllTokens();
       controller.fetchAllNfts();
-      controller.loadUserTransaction();
+      if(Get.isRegistered<TransactionController>()) {
+        controller.loadUserTransaction();
+      }
       controller.selectedTokenIndexSet.clear();
     }
     Get.put((AccountSummaryController()));

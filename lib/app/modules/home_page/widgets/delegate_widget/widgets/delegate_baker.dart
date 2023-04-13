@@ -133,8 +133,8 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
           secondChild: SafeArea(
             child: Padding(
               padding: EdgeInsets.only(bottom: 48.arP),
-              child: GestureDetector(
-                onTap: () =>
+              child: BouncingWidget(
+                onPressed: () =>
                     CommonFunctions.bottomSheet(const BakerFilterBottomSheet()),
                 child: Container(
                   decoration: BoxDecoration(

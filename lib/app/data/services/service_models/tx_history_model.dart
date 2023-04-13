@@ -122,11 +122,12 @@ extension TxChecker on TxHistoryModel {
   }
 
   String getTxType(String selectedAccount) {
-    if (isReceived(selectedAccount)) return "Received";
-    if (isSent(selectedAccount)) return "Sent";
     if (isReveal) return "Reveal";
     if (isDelegate) return "Delegated to ${newDelegate?.alias ?? ""}";
     if (isSwap) return "Swapped";
+    if (isReceived(selectedAccount)) return "Received";
+    if (isSent(selectedAccount)) return "Sent";
+
     return "Contract interaction";
   }
 
@@ -288,25 +289,25 @@ extension TxChecker on TxHistoryModel {
     }
     return AliasAddress();
   }
-
-
 }
-  AliasAddress getAddressAlias(AliasAddress address,
-      {List<AccountModel> userAccounts = const [],
-      List<ContactModel> contacts = const []}) {
-    if (userAccounts
-        .any((element) => element.publicKeyHash!.contains(address.address!))) {
-      final account = userAccounts.firstWhere(
-          (element) => element.publicKeyHash!.contains(address.address!));
-      return AliasAddress(address: account.publicKeyHash, alias: account.name);
-    } else if (contacts
-        .any((element) => element.address.contains(address.address!))) {
-      final contact = contacts
-          .firstWhere((element) => element.address.contains(address.address!));
-      return AliasAddress(address: contact.address, alias: contact.name);
-    }
-    return address;
+
+AliasAddress getAddressAlias(AliasAddress address,
+    {List<AccountModel> userAccounts = const [],
+    List<ContactModel> contacts = const []}) {
+  if (userAccounts
+      .any((element) => element.publicKeyHash!.contains(address.address!))) {
+    final account = userAccounts.firstWhere(
+        (element) => element.publicKeyHash!.contains(address.address!));
+    return AliasAddress(address: account.publicKeyHash, alias: account.name);
+  } else if (contacts
+      .any((element) => element.address.contains(address.address!))) {
+    final contact = contacts
+        .firstWhere((element) => element.address.contains(address.address!));
+    return AliasAddress(address: contact.address, alias: contact.name);
   }
+  return address;
+}
+
 TokenPriceModel fA1Token(
     List<TokenPriceModel> tokensList, AliasAddress? target) {
   return tokensList.firstWhere(

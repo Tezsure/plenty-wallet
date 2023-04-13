@@ -35,14 +35,15 @@ class TransactionController extends GetxController {
   // Rx<ScrollController> paginationController =
   //     ScrollController().obs; // For Transaction history lazy loading
   RxBool isFilterApplied = false.obs;
-  Timer? searchDebounceTimer;
+
   RxList<TokenInfo> filteredTransactionList = <TokenInfo>[].obs;
-  RxList<TokenInfo> searchTransactionList = <TokenInfo>[].obs;
 
   RxBool isTransactionLoading = false.obs;
   List<TokenInfo> defaultTransactionList = <TokenInfo>[];
   final Set<String> tokenTransactionID = <String>{};
   RxBool noMoreResults = false.obs;
+  RxBool isScrollingUp = false.obs;
+
   RxList<ContactModel> contacts = <ContactModel>[].obs;
   Rx<ContactModel?>? contact;
   @override
@@ -67,7 +68,11 @@ class TransactionController extends GetxController {
     // refreshController.refreshToIdle();
     tokenTransactionID.clear();
     defaultTransactionList.clear();
-
+    isScrollingUp.value = false;
+    isFilterApplied.value = false;
+    if (Get.isRegistered<HistoryFilterController>()) {
+      Get.find<HistoryFilterController>().clear();
+    }
     userTransactionHistory.value = await fetchUserTransactionsHistory();
     final timestamp = userTransactionHistory
         .lastWhere((element) => true,
@@ -75,11 +80,6 @@ class TransactionController extends GetxController {
         .timestamp;
     userTransferHistory.value =
         await fetchUserTransferHistory(timeStamp: timestamp ?? "");
-
-    isFilterApplied.value = false;
-    if (Get.isRegistered<HistoryFilterController>()) {
-      Get.find<HistoryFilterController>().clear();
-    }
 
     defaultTransactionList
         .addAll(_sortTransaction(userTransactionHistory, userTransferHistory));
@@ -101,34 +101,6 @@ class TransactionController extends GetxController {
     //   }
     // });
     isTransactionLoading.value = false;
-  }
-
-  Future<void> loadSearchResults(String searchName) async {
-    String lastId = searchTransactionList
-        .lastWhere(
-          (element) => element.lastId.isNotEmpty,
-          orElse: () => TokenInfo(lastId: ""),
-        )
-        .lastId;
-    String lastTimeStamp = searchTransactionList
-        .lastWhere(
-          (element) => element.lastId.isNotEmpty,
-          orElse: () => TokenInfo(timeStamp: DateTime.now()),
-        )
-        .timeStamp!
-        .toIso8601String();
-    var loadMoreTransaction =
-        await fetchUserTransactionsHistory(lastId: lastId.toString());
-    userTransactionHistory.addAll(loadMoreTransaction);
-    var loadMoreTransfer =
-        await fetchUserTransferHistory(timeStamp: lastTimeStamp);
-    userTransferHistory.addAll(loadMoreTransfer);
-
-    searchTransactionList.addAll((_sortTransaction(
-            loadMoreTransaction, loadMoreTransfer))
-        .where(
-            (element) => element.name.isCaseInsensitiveContainsAny(searchName))
-        .toList());
   }
 
   Future<void> loadFilteredTransaction() async {
@@ -157,8 +129,9 @@ class TransactionController extends GetxController {
         ? noMoreResults.value = true
         : noMoreResults.value = false;
 
-    filteredTransactionList
-        .addAll(_sortTransaction(loadMoreTransaction, loadMoreTransfers));
+    filteredTransactionList.value = [
+      ..._sortTransaction(userTransactionHistory, userTransferHistory)
+    ];
     isTransactionLoading.value = false;
   }
 
@@ -187,8 +160,9 @@ class TransactionController extends GetxController {
         : noMoreResults.value = false;
     userTransferHistory.addAll(loadMoreTransfer);
     userTransactionHistory.addAll(loadMoreTransaction);
-    defaultTransactionList
-        .addAll(_sortTransaction(loadMoreTransaction, loadMoreTransfer));
+    defaultTransactionList = [
+      ..._sortTransaction(userTransactionHistory, userTransferHistory)
+    ];
     isTransactionLoading.value = false;
   }
 
@@ -197,6 +171,7 @@ class TransactionController extends GetxController {
     List<TokenInfo> sortedTransactionList = <TokenInfo>[];
     late TokenInfo tokenInfo;
     String? isHashSame;
+    tokenTransactionID.clear();
     final tokensList = Get.find<AccountSummaryController>().tokensList;
     final selectedAccount = Get.find<HomePageController>()
         .userAccounts[Get.find<HomePageController>().selectedIndex.value]
@@ -208,6 +183,7 @@ class TransactionController extends GetxController {
         hash: tx.hash,
         isHashSame: isHashSame == null ? false : tx.hash!.contains(isHashSame),
         token: tx,
+        lastId: tx.lastid?.toString() ?? "",
         timeStamp: tx.timestamp == null
             ? DateTime.now()
             : DateTime.parse(tx.timestamp!),
@@ -382,24 +358,11 @@ class TransactionController extends GetxController {
                     ? ""
                     : ServiceConfig.currentSelectedNode)
             .getTxHistory(
-                lastId: lastId ?? "", limit: limit ?? 20, query: query));
+                lastId: lastId ?? "", limit: limit ?? 20, query: query, ));
     // : await UserStorageService().getAccountTransactionHistory(
     //     accountAddress: accController.selectedAccount.value.publicKeyHash!,
     //     lastId: lastId,
     //     limit: limit);
-  }
-
-  Future<void> searchTransactionHistory(String searchKey) async {
-    searchTransactionList.value = defaultTransactionList
-        .where((p0) => p0.name.isCaseInsensitiveContainsAny(searchKey))
-        .toList();
-    while (searchTransactionList.length < 10 && noMoreResults.isFalse) {
-      await loadMoreTransaction();
-      searchTransactionList.value = defaultTransactionList
-          .where((p0) => p0.name.isCaseInsensitiveContainsAny(searchKey))
-          .toList();
-    }
-    noMoreResults.value = false;
   }
 
   Future<void> updateSavedContacts() async {
@@ -435,7 +398,15 @@ class TransactionController extends GetxController {
     if (query.contains("sender=") || query.contains("type=delegation")) {
       return <TransactionTransferModel>[];
     }
+    String rpc = ServiceConfig.currentNetwork == NetworkType.mainnet
+        ? "mainnet"
+        : ServiceConfig.currentSelectedNode;
+    String network = "";
+    if (Uri.parse(rpc).path.isNotEmpty) {
+      network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
+    }
     var url = ServiceConfig.tzktApiForTransfers(
+        network: network.contains("ak-csrjehxhpw0dl3") ? "mainnet" : network,
         timeStamp: timeStamp,
         address: accController.selectedAccount.value.publicKeyHash!,
         query: query);

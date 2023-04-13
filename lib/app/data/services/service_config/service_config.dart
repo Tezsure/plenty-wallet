@@ -66,11 +66,14 @@ class ServiceConfig {
       String? timeStamp,
       int limit = 20,
       String? query}) {
-   
+    String host = "back.tzkt.io";
+    if (network != "mainnet") {
+      host = "api.${network}tzkt.io";
+    }
     if (query?.contains("timestamp") ?? false) {
-      return "https://back.tzkt.io/v1/tokens/transfers?to=$address&sort.desc=timestamp&limit=$limit$query";
+      return "https://$host/v1/tokens/transfers?to=$address&sort.desc=timestamp&limit=$limit$query";
     } else {
-      return "https://back.tzkt.io/v1/tokens/transfers?to=$address&timestamp.ge=$timeStamp&sort.desc=timestamp&limit=$limit${query ?? ""}";
+      return "https://$host/v1/tokens/transfers?to=$address&timestamp.ge=$timeStamp&sort.desc=timestamp&limit=$limit${query ?? ""}";
     } // return "https://api.${network}.tzkt.io/v1/tokens/transfers?transactionId=$id";
   }
 

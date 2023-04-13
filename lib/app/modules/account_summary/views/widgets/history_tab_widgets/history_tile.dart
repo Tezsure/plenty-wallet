@@ -19,6 +19,7 @@ import 'package:naan_wallet/utils/utils.dart';
 import '../../../../../../utils/colors/colors.dart';
 import '../../../../../../utils/styles/styles.dart';
 import '../../../models/token_info.dart';
+import '../../pages/crypto_tab.dart';
 
 class HistoryTile extends StatefulWidget {
   final VoidCallback? onTap;
@@ -78,10 +79,9 @@ class _HistoryTileState extends State<HistoryTile>
             .getTransactionNFT(data.nftContractAddress!, data.nftTokenId!),
         builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
           if (!snapshot.hasData) {
-            return const Center(
-              child: CupertinoActivityIndicator(
-                color: ColorConst.Primary,
-              ),
+            return const TokensSkeleton(
+              itemCount: 1,
+              isScrollable: false,
             );
           } else if (snapshot.data!.name == null) {
             return Container();
@@ -90,13 +90,13 @@ class _HistoryTileState extends State<HistoryTile>
                 isNft: true,
                 tokenSymbol: snapshot.data!.fa!.name.toString(),
                 dollarAmount: (snapshot.data!.lowestAsk == null
-                        ? 0
+                        ? 0.0
                         : (snapshot.data!.lowestAsk / 1e6)) *
                     widget.xtzPrice,
                 tokenAmount: snapshot.data!.lowestAsk != null &&
                         snapshot.data!.lowestAsk != 0
                     ? snapshot.data!.lowestAsk / 1e6
-                    : 0,
+                    : 0.0,
                 name: snapshot.data!.name.toString(),
                 imageUrl: snapshot.data!.displayUri);
             return Column(
@@ -249,7 +249,7 @@ class _HistoryTileState extends State<HistoryTile>
             children: [
               Text(
                   data.isNft
-                    ? "${data.tokenAmount == 0.0 ? "1" : data.tokenAmount.toStringAsFixed(0)} ${data.tokenSymbol}"
+                      ? "${data.tokenAmount == 0.0 ? "1" : data.tokenAmount.toStringAsFixed(0)} ${data.tokenSymbol}"
                       : "${data.tokenAmount.toStringAsFixed(6)} ${data.tokenSymbol}",
                   textAlign: TextAlign.end,
                   overflow: TextOverflow.ellipsis,

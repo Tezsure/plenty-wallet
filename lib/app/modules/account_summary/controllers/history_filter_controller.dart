@@ -47,6 +47,7 @@ class HistoryFilterController extends GetxController {
     dateType.value = DateType.none;
     accountController.noMoreResults.value = false;
     accountController.isFilterApplied.value = false;
+    query = {};
   }
 
   Map<String, String> query = {};
@@ -148,7 +149,7 @@ class HistoryFilterController extends GetxController {
     accountController.userTransactionHistory.clear();
     accountController.userTransferHistory.clear();
     accountController.tokenTransactionID.clear();
-    
+
     // accountController.filteredTransactionList.value =
     applyFilter();
     Get.back();

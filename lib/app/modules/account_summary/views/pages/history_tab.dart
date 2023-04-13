@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -34,16 +34,33 @@ class HistoryPage extends GetView<TransactionController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return _buildBody(context);
-    });
+    return NotificationListener<UserScrollNotification>(
+      onNotification: (notification) {
+        final ScrollDirection direction = notification.direction;
+        if (direction == ScrollDirection.forward) {
+          controller.isScrollingUp.value = false;
+        } else if (direction == ScrollDirection.reverse) {
+          controller.isScrollingUp.value = true;
+        }
+        return false;
+      },
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          _buildBody(context),
+          _buildSortByWidget(context),
+        ],
+      ),
+    );
   }
 
   Widget? _itemBuilder(context, index) {
     if (controller.isFilterApplied.isTrue) {
       if (index == controller.filteredTransactionList.length) {
         return controller.isTransactionLoading.value
-            ? const CupertinoActivityIndicator(color: ColorConst.Primary)
+            ? const TokensSkeleton(
+                isScrollable: false,
+              )
             :
             // controller.noMoreResults.isTrue
             //     ? SizedBox(
@@ -109,22 +126,13 @@ class HistoryPage extends GetView<TransactionController> {
   Widget _buildBody(BuildContext context) {
     return Column(
       children: [
-        _buildHeader(context),
+        // _buildHeader(context),
         Obx(() {
           return Expanded(
             child: SmartRefresher(
               enablePullDown: true,
               enablePullUp: true,
               enableTwoLevel: true,
-              // header: SizedBox(
-              //     height: 50.arP,
-              //     width: 50.arP,
-              //     child: CupertinoActivityIndicator(color: ColorConst.Primary)),
-              // footer: SizedBox(
-              //   height: 50.arP,
-              //   width: 50.arP,
-              //   child: Container(),
-              // ),
               controller: controller.refreshController.value,
               onLoading: () async {
                 if (controller.noMoreResults.isTrue) {
@@ -148,7 +156,8 @@ class HistoryPage extends GetView<TransactionController> {
                 controller.refreshController.value.resetNoData();
               },
               child: controller.userTransactionHistory.isEmpty &&
-                      controller.userTransferHistory.isEmpty &&controller.isTransactionLoading.isFalse
+                      controller.userTransferHistory.isEmpty &&
+                      controller.isTransactionLoading.isFalse
                   ? _emptyState
                   : controller.isFilterApplied.value &&
                           controller.filteredTransactionList.isEmpty
@@ -166,74 +175,74 @@ class HistoryPage extends GetView<TransactionController> {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.aR),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          0.02.vspace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              BouncingWidget(
-                onPressed: () {
-                  return Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const SearchBottomSheet()));
-                  // return CommonFunctions.bottomSheet(
-                  //     const SearchBottomSheet());
-                },
-                child: Container(
-                  height: 0.06.height,
-                  width: 0.8.width,
-                  padding: EdgeInsets.only(left: 14.5.aR),
-                  decoration: BoxDecoration(
-                    color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10.aR),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.search,
-                        color: ColorConst.NeutralVariant.shade60,
-                        size: 22.aR,
-                      ),
-                      0.02.hspace,
-                      Text(
-                        'Search'.tr,
-                        style: labelLarge.copyWith(
-                            letterSpacing: 0.25.aR,
-                            fontSize: 14.aR,
-                            fontWeight: FontWeight.w400,
-                            color: ColorConst.NeutralVariant.shade70),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              0.02.hspace,
-              BouncingWidget(
-                onPressed: () {
-                  CommonFunctions.bottomSheet(HistoryFilterSheet());
-                },
-                child: SvgPicture.asset(
-                  controller.isFilterApplied.value
-                      ? "${PathConst.SVG}filter_selected.svg"
-                      : '${PathConst.SVG}filter.svg',
-                  fit: BoxFit.contain,
-                  height: 24.aR,
-                  color: ColorConst.Primary,
-                ),
-              ),
-              0.01.hspace,
-            ],
-          ),
-          0.02.vspace,
-        ],
-      ),
-    );
-  }
+  // Widget _buildHeader(BuildContext context) {
+  //   return Padding(
+  //     padding: EdgeInsets.symmetric(horizontal: 16.aR),
+  //     child: Column(
+  //       mainAxisAlignment: MainAxisAlignment.start,
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         0.02.vspace,
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //           children: [
+  //             BouncingWidget(
+  //               onPressed: () {
+  //                 return Navigator.of(context).push(MaterialPageRoute(
+  //                     builder: (context) => const SearchBottomSheet()));
+  //                 // return CommonFunctions.bottomSheet(
+  //                 //     const SearchBottomSheet());
+  //               },
+  //               child: Container(
+  //                 height: 0.06.height,
+  //                 width: 0.8.width,
+  //                 padding: EdgeInsets.only(left: 14.5.aR),
+  //                 decoration: BoxDecoration(
+  //                   color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+  //                   borderRadius: BorderRadius.circular(10.aR),
+  //                 ),
+  //                 child: Row(
+  //                   children: [
+  //                     Icon(
+  //                       Icons.search,
+  //                       color: ColorConst.NeutralVariant.shade60,
+  //                       size: 22.aR,
+  //                     ),
+  //                     0.02.hspace,
+  //                     Text(
+  //                       'Search'.tr,
+  //                       style: labelLarge.copyWith(
+  //                           letterSpacing: 0.25.aR,
+  //                           fontSize: 14.aR,
+  //                           fontWeight: FontWeight.w400,
+  //                           color: ColorConst.NeutralVariant.shade70),
+  //                     )
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //             0.02.hspace,
+  //             BouncingWidget(
+  //               onPressed: () {
+  //                 CommonFunctions.bottomSheet(HistoryFilterSheet());
+  //               },
+  //               child: SvgPicture.asset(
+  //                 controller.isFilterApplied.value
+  //                     ? "${PathConst.SVG}filter_selected.svg"
+  //                     : '${PathConst.SVG}filter.svg',
+  //                 fit: BoxFit.contain,
+  //                 height: 24.aR,
+  //                 color: ColorConst.Primary,
+  //               ),
+  //             ),
+  //             0.01.hspace,
+  //           ],
+  //         ),
+  //         0.02.vspace,
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget get _emptyState => Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -323,10 +332,9 @@ class HistoryPage extends GetView<TransactionController> {
             controller.defaultTransactionList[index].nftTokenId!),
         builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
           if (!snapshot.hasData) {
-            return const Center(
-              child: CupertinoActivityIndicator(
-                color: ColorConst.Primary,
-              ),
+            return const TokensSkeleton(
+              itemCount: 1,
+              isScrollable: false,
             );
           } else if (snapshot.data!.name == null) {
             return Container();
@@ -381,5 +389,56 @@ class HistoryPage extends GetView<TransactionController> {
             );
           }
         }));
+  }
+
+  Widget _buildSortByWidget(BuildContext context) {
+    return Obx(() => AnimatedContainer(
+          duration: const Duration(milliseconds: 350),
+          transform: Matrix4.identity()
+            ..translate(
+              0.0,
+              !controller.isScrollingUp.value ? 0.0 : 200.arP,
+            ),
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 36.arP),
+              child: BouncingWidget(
+                onPressed: () =>
+                    CommonFunctions.bottomSheet(HistoryFilterSheet()),
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: ColorConst.NeutralVariant.shade30,
+                          width: 1.arP),
+                      color: const Color(0xff1E1C1F),
+                      borderRadius: BorderRadius.circular(20)),
+                  width: 105.arP,
+                  height: 42.arP,
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SvgPicture.asset(
+                        controller.isFilterApplied.value
+                            ? "${PathConst.SVG}filter_selected.svg"
+                            : '${PathConst.SVG}filter.svg',
+                        fit: BoxFit.contain,
+                        height: 20.aR,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 8.arP,
+                      ),
+                      Text(
+                        "Filter".tr,
+                        style: labelMedium,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ));
   }
 }

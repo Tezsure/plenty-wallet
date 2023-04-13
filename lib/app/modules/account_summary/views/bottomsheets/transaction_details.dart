@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,6 +34,7 @@ import '../../../../../utils/constants/path_const.dart';
 import '../../../../data/services/service_config/service_config.dart';
 import '../../controllers/transaction_controller.dart';
 import '../../models/token_info.dart';
+import '../pages/crypto_tab.dart';
 
 class TransactionDetailsBottomSheet extends GetView<TransactionController> {
   // final TxHistoryModel transactionModel;
@@ -211,12 +211,6 @@ class TransactionDetailsBottomSheet extends GetView<TransactionController> {
           SolidButton(
             title: 'view on tzkt.io',
             onPressed: () {
-              tokenInfo = tokenInfo.copyWith(
-                  hash: Get.find<TransactionController>()
-                      .userTransactionHistory
-                      .firstWhere((element) =>
-                          element.lastid?.toString() == tokenInfo.lastId)
-                      .hash);
               CommonFunctions.bottomSheet(
                 const DappBrowserView(),
                 fullscreen: true,
@@ -590,32 +584,32 @@ class TxTokenInfo extends StatelessWidget {
                 Text(
                     tokenInfo.isNft
                         ? "${tokenInfo.tokenAmount == 0.0 ? "1" : tokenInfo.tokenAmount.toStringAsFixed(0)} ${tokenInfo.tokenSymbol}"
-                        : getColor(tokenInfo.token) == ColorConst.NaanRed
+                        : getColor(tokenInfo.token, userAccountAddress) ==
+                                ColorConst.NaanRed
                             ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}'
                             : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: bodySmall.copyWith(
-                        color: tokenInfo.source!.address!
-                                .contains(userAccountAddress)
-                            ? ColorConst.NeutralVariant.shade60
-                            : ColorConst.naanCustomColor)),
+                        color: ColorConst.NeutralVariant.shade60)),
                 SizedBox(
                   height: 6.arP,
                 ),
                 Text(
-                  tokenInfo.token != null &&
-                          tokenInfo.token?.operationStatus != "applied"
-                      ? "failed"
-                      : tokenInfo.dollarAmount
-                          .roundUpDollar(xtzPrice, decimals: 6),
-                  style: bodyMedium.copyWith(
-                    color: tokenInfo.token == null ||
-                            tokenInfo.token!.operationStatus != "applied"
-                        ? getColor(tokenInfo.token)
-                        : Colors.white,
-                  ),
-                )
+                  tokenInfo.token == null ||
+                          tokenInfo.token?.operationStatus == 'applied'
+                      ? getColor(tokenInfo.token, selectedAccount) ==
+                              ColorConst.NaanRed
+                          ? '- ${(tokenInfo.dollarAmount).roundUpDollar(xtzPrice)}'
+                          : (tokenInfo.dollarAmount).roundUpDollar(xtzPrice)
+                      : "failed",
+                  style: labelLarge.copyWith(
+                      fontWeight: FontWeight.w400,
+                      color: tokenInfo.token == null ||
+                              tokenInfo.token?.operationStatus == 'applied'
+                          ? getColor(tokenInfo.token, userAccountAddress)
+                          : ColorConst.NaanRed),
+                ),
               ],
             )
         ],
@@ -637,13 +631,9 @@ class TxTokenInfo extends StatelessWidget {
             tokenInfo.nftContractAddress!, tokenInfo.nftTokenId!),
         builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
-              child: Padding(
-                padding: EdgeInsets.all(8.0.arP),
-                child: const CupertinoActivityIndicator(
-                  color: ColorConst.Primary,
-                ),
-              ),
+            return const TokensSkeleton(
+              itemCount: 1,
+              isScrollable: false,
             );
           } else if (snapshot.data!.name == null) {
             return Container();
@@ -689,11 +679,8 @@ class TxTokenInfo extends StatelessWidget {
         }));
   }
 
-  Color getColor(TxHistoryModel? data) {
+  Color getColor(TxHistoryModel? data, String selectedAccount) {
     if (data == null) return ColorConst.naanCustomColor;
-    final selectedAccount = Get.find<HomePageController>()
-        .userAccounts[Get.find<HomePageController>().selectedIndex.value]
-        .publicKeyHash!;
     if (data.isSent(selectedAccount)) {
       return ColorConst.NaanRed;
     }
