@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
@@ -128,6 +130,7 @@ class HistoryPage extends GetView<TransactionController> {
       children: [
         // _buildHeader(context),
         Obx(() {
+         
           return Expanded(
             child: SmartRefresher(
               enablePullDown: true,
@@ -166,7 +169,10 @@ class HistoryPage extends GetView<TransactionController> {
                           itemBuilder: _itemBuilder,
                           itemCount: controller.isFilterApplied.value
                               ? controller.filteredTransactionList.length + 1
-                              : controller.defaultTransactionList.length + 1,
+                              : controller.isTransactionLoading.isFalse
+                                  ? controller.defaultTransactionList.length + 1
+                                  : controller.defaultTransactionList.length +
+                                      1,
                         ),
             ),
           );

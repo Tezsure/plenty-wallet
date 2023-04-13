@@ -39,6 +39,7 @@ class TransactionController extends GetxController {
   RxList<TokenInfo> filteredTransactionList = <TokenInfo>[].obs;
 
   RxBool isTransactionLoading = false.obs;
+
   List<TokenInfo> defaultTransactionList = <TokenInfo>[];
   final Set<String> tokenTransactionID = <String>{};
   RxBool noMoreResults = false.obs;
@@ -85,7 +86,7 @@ class TransactionController extends GetxController {
     defaultTransactionList
         .addAll(_sortTransaction(userTransactionHistory, userTransferHistory));
 
-    defaultTransactionList = [...defaultTransactionList];
+    // defaultTransactionList = [...defaultTransactionList];
     // Lazy Loading
     // paginationController.value.addListener(() async {
     //   if (paginationController.value.position.pixels ==
@@ -101,6 +102,7 @@ class TransactionController extends GetxController {
     //     }
     //   }
     // });
+
     isTransactionLoading.value = false;
   }
 
@@ -343,26 +345,31 @@ class TransactionController extends GetxController {
     String? lastId,
     int? limit,
   }) async {
-    String query = "";
-    if (Get.isRegistered<HistoryFilterController>()) {
-      // Get.find<HistoryFilterController>().apply();
-      Get.find<HistoryFilterController>().query.forEach((key, value) {
-        query = "$query&$key=$value";
-      });
+    try {
+      String query = "";
+      if (Get.isRegistered<HistoryFilterController>()) {
+        // Get.find<HistoryFilterController>().apply();
+        Get.find<HistoryFilterController>().query.forEach((key, value) {
+          query = "$query&$key=$value";
+        });
+      }
+      return
+          // userTransactionHistory.isNotEmpty
+          //     ?
+          (await TzktTxHistoryApiService(
+                  accController.selectedAccount.value.publicKeyHash!,
+                  ServiceConfig.currentNetwork == NetworkType.mainnet
+                      ? ""
+                      : ServiceConfig.currentSelectedNode)
+              .getTxHistory(
+        lastId: lastId ?? "",
+        limit: limit ?? 20,
+        query: query,
+      ));
+    } catch (e) {
+      print(e.toString());
+      return [];
     }
-    return
-        // userTransactionHistory.isNotEmpty
-        //     ?
-        (await TzktTxHistoryApiService(
-                accController.selectedAccount.value.publicKeyHash!,
-                ServiceConfig.currentNetwork == NetworkType.mainnet
-                    ? ""
-                    : ServiceConfig.currentSelectedNode)
-            .getTxHistory(
-      lastId: lastId ?? "",
-      limit: limit ?? 20,
-      query: query,
-    ));
     // : await UserStorageService().getAccountTransactionHistory(
     //     accountAddress: accController.selectedAccount.value.publicKeyHash!,
     //     lastId: lastId,
@@ -392,33 +399,38 @@ class TransactionController extends GetxController {
 
   Future<List<TransactionTransferModel>> fetchUserTransferHistory(
       {required String timeStamp}) async {
-    String query = "";
-    if (Get.isRegistered<HistoryFilterController>()) {
-      // Get.find<HistoryFilterController>().apply();
-      Get.find<HistoryFilterController>().query.forEach((key, value) {
-        query = "$query&$key=$value";
-      });
-    }
-    if (query.contains("sender=") || query.contains("type=delegation")) {
-      return <TransactionTransferModel>[];
-    }
-    String rpc = ServiceConfig.currentNetwork == NetworkType.mainnet
-        ? "mainnet"
-        : ServiceConfig.currentSelectedNode;
-    String network = "";
-    if (Uri.parse(rpc).path.isNotEmpty) {
-      network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
-    }
-    var url = ServiceConfig.tzktApiForTransfers(
-        network: network.contains("ak-csrjehxhpw0dl3") ? "mainnet" : network,
-        timeStamp: timeStamp,
-        address: accController.selectedAccount.value.publicKeyHash!,
-        query: query);
-    print(url);
-    var response =
-        await HttpService.performGetRequest(url, callSetupTimer: true);
+    try {
+      String query = "";
+      if (Get.isRegistered<HistoryFilterController>()) {
+        // Get.find<HistoryFilterController>().apply();
+        Get.find<HistoryFilterController>().query.forEach((key, value) {
+          query = "$query&$key=$value";
+        });
+      }
+      if (query.contains("sender=") || query.contains("type=delegation")) {
+        return <TransactionTransferModel>[];
+      }
+      String rpc = ServiceConfig.currentNetwork == NetworkType.mainnet
+          ? "mainnet"
+          : ServiceConfig.currentSelectedNode;
+      String network = "";
+      if (Uri.parse(rpc).path.isNotEmpty) {
+        network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
+      }
+      var url = ServiceConfig.tzktApiForTransfers(
+          network: network.contains("ak-csrjehxhpw0dl3") ? "mainnet" : network,
+          timeStamp: timeStamp,
+          address: accController.selectedAccount.value.publicKeyHash!,
+          query: query);
+      print(url);
+      var response =
+          await HttpService.performGetRequest(url, callSetupTimer: true);
 
-    return transactionTransferModelFromJson(response);
+      return transactionTransferModelFromJson(response);
+    } catch (e) {
+      print(e.toString());
+      return [];
+    }
   }
 }
 
