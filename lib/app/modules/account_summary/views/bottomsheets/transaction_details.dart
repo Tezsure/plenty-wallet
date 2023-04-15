@@ -241,18 +241,20 @@ class _TransactionDetailsBottomSheetState
         // ),
         // 0.02.vspace,
         if (widget.tokenInfo.hash != null)
-          SolidButton(
-            width: 1.width - 64.arP,
-            title: 'view on tzkt.io',
-            onPressed: () {
-              CommonFunctions.bottomSheet(
-                const DappBrowserView(),
-                fullscreen: true,
-                settings: RouteSettings(
-                  arguments: "https://tzkt.io/${widget.tokenInfo.hash ?? ""}",
-                ),
-              );
-            },
+          Center(
+            child: SolidButton(
+              width: 1.width - 64.arP,
+              title: 'view on tzkt.io',
+              onPressed: () {
+                CommonFunctions.bottomSheet(
+                  const DappBrowserView(),
+                  fullscreen: true,
+                  settings: RouteSettings(
+                    arguments: "https://tzkt.io/${widget.tokenInfo.hash ?? ""}",
+                  ),
+                );
+              },
+            ),
           ),
         const BottomButtonPadding()
       ],
