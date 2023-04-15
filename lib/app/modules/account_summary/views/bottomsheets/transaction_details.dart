@@ -684,7 +684,7 @@ class TxTokenInfo extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                tokenInfo.timeStamp!.isSameMonth(tokenInfo.timeStamp!)
+                tokenInfo.timeStamp!.isSameDay(tokenInfo.timeStamp!)
                     ? const SizedBox()
                     : Padding(
                         padding: EdgeInsets.only(

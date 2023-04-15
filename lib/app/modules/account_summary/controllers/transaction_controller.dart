@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:beacon_flutter/enums/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
@@ -722,8 +723,33 @@ class TransactionController extends GetxController {
 // }
 
 extension DateOnlyCompare on DateTime {
-  bool isSameMonth(DateTime other) {
-    return year == other.year && month == other.month;
+  bool isSameDay(DateTime other) {
+    if (year == other.year && month == other.month && day == other.day) {
+      return true;
+    }
+    if (year == other.year && month == other.month && day - other.day == 1) {
+      return true;
+    }
+    if (year == other.year && month == other.month) return true;
+    return false;
+  }
+
+  String relativeDate() {
+    final now = DateTime.now();
+    Duration diff = now.difference(this);
+    if (diff.inDays == 0) return "Today";
+    if (diff.inDays == 1) return "Yesterday";
+    if (month == now.month && year == now.year) return "This Month";
+    if (year == now.year && month != now.month) {
+      ///APRIL
+      return DateFormat.MMMM().format(this);
+    }
+    if (year != now.year) {
+      ///2022, NOV
+      return DateFormat.yMMM().format(this);
+    }
+
+    return "";
   }
 }
 

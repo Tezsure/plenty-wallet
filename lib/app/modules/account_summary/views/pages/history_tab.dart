@@ -83,7 +83,7 @@ class HistoryPage extends GetView<TransactionController> {
         return _loadTokenTransaction(
             controller.filteredTransactionList[index],
             index,
-            controller.filteredTransactionList[index].timeStamp!.isSameMonth(
+            controller.filteredTransactionList[index].timeStamp!.isSameDay(
                 controller.filteredTransactionList[index == 0 ? 0 : index - 1]
                     .timeStamp!));
       }
@@ -117,7 +117,7 @@ class HistoryPage extends GetView<TransactionController> {
             : _loadTokenTransaction(
                 controller.defaultTransactionList[index],
                 index,
-                controller.defaultTransactionList[index].timeStamp!.isSameMonth(
+                controller.defaultTransactionList[index].timeStamp!.isSameDay(
                     controller
                         .defaultTransactionList[index == 0 ? 0 : index - 1]
                         .timeStamp!));
@@ -130,7 +130,6 @@ class HistoryPage extends GetView<TransactionController> {
       children: [
         // _buildHeader(context),
         Obx(() {
-         
           return Expanded(
             child: SmartRefresher(
               enablePullDown: true,
@@ -153,7 +152,7 @@ class HistoryPage extends GetView<TransactionController> {
                 controller.refreshController.value.loadComplete();
               },
               onRefresh: () async {
-                controller.userTransactionLoader(resetController: false);
+                await controller.userTransactionLoader(resetController: false);
                 controller.refreshController.value.refreshCompleted();
                 // controller.refreshController.refreshToIdle();
                 controller.refreshController.value.resetNoData();
@@ -288,9 +287,7 @@ class HistoryPage extends GetView<TransactionController> {
                   padding:
                       EdgeInsets.only(top: 8.arP, left: 16.arP, bottom: 16.arP),
                   child: Text(
-                    DateFormat.MMMM()
-                        // displaying formatted date
-                        .format(token.timeStamp!),
+                    token.timeStamp!.relativeDate(),
                     style: labelLarge,
                   ),
                 )
@@ -300,9 +297,7 @@ class HistoryPage extends GetView<TransactionController> {
                       padding: EdgeInsets.only(
                           top: 20.arP, left: 16.arP, bottom: 12.arP),
                       child: Text(
-                        DateFormat.MMMM()
-                            // displaying formatted date
-                            .format(token.timeStamp!),
+                        token.timeStamp!.relativeDate(),
                         style: labelLarge,
                       ),
                     ),
@@ -363,7 +358,7 @@ class HistoryPage extends GetView<TransactionController> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                controller.defaultTransactionList[index].timeStamp!.isSameMonth(
+                controller.defaultTransactionList[index].timeStamp!.isSameDay(
                         controller
                             .defaultTransactionList[index == 0 ? 0 : index - 1]
                             .timeStamp!)
