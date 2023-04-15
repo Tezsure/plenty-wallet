@@ -21,6 +21,8 @@ import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
+import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
 import 'package:naan_wallet/app/modules/veNFT.dart';
@@ -77,12 +79,10 @@ class _TransactionDetailsBottomSheetState
     super.initState();
   }
 
+  final scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    // print(tokenInfo.token!.toJson());
-//https://api.tzkt.io/v1/operations/transactions?id=505096501723136
-    final source = widget.tokenInfo.source;
-    final destination = widget.tokenInfo.destination;
     return NaanBottomSheet(
       // blurRadius: 50,
       width: 1.width,
@@ -92,15 +92,25 @@ class _TransactionDetailsBottomSheetState
 
       // bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
-        Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(22.arP),
-              child: Container(
-                constraints: BoxConstraints(
-                    maxHeight: AppConstant.naanBottomSheetHeight),
-                child: SingleChildScrollView(
-                  physics: const ClampingScrollPhysics(),
+        Obx(() {
+          widget.tokenInfo = widget.tokenInfo.copyWith(
+              lastId: widget.tokenInfo.token!.lastid.toString(),
+              source: widget.tokenInfo.token!.source(
+                userAccounts: Get.find<HomePageController>().userAccounts,
+                contacts: controller.contacts,
+              ),
+              destination: widget.tokenInfo.token!.destination(
+                userAccounts: Get.find<HomePageController>().userAccounts,
+                contacts: controller.contacts,
+              ));
+          // print(tokenInfo.token!.toJson());
+//https://api.tzkt.io/v1/operations/transactions?id=505096501723136
+          final source = widget.tokenInfo.source;
+          final destination = widget.tokenInfo.destination;
+          return Column(
+            children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(22.arP),
                   child: Column(
                     children: [
                       const BottomSheetHeading(
@@ -176,12 +186,10 @@ class _TransactionDetailsBottomSheetState
                       ),
                       _buildFooter(context),
                     ],
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
+                  ))
+            ],
+          );
+        }),
       ],
     );
   }
@@ -234,6 +242,7 @@ class _TransactionDetailsBottomSheetState
         // 0.02.vspace,
         if (widget.tokenInfo.hash != null)
           SolidButton(
+            width: 1.width - 64.arP,
             title: 'view on tzkt.io',
             onPressed: () {
               CommonFunctions.bottomSheet(
@@ -271,207 +280,233 @@ class _TransactionDetailsBottomSheetState
   }
 
   Widget contactTile(AliasAddress contact, String type) {
-    return Row(
-      children: [
-        ClipOval(
-          child: CircleAvatar(
-            backgroundColor: Colors.transparent,
-            radius: 22.aR,
-            child: Image.network(
-              "https://services.tzkt.io/v1/avatars/${contact.address!}",
-              errorBuilder: (context, error, stackTrace) {
-                return SvgPicture.asset(
-                  'assets/svg/send.svg',
-                );
+    bool isContactSaved =
+        controller.contacts.any((e) => e.address == contact.address);
+    final contactImage = controller.contacts
+        .firstWhere((e) => e.address == contact.address,
+            orElse: () => ContactModel(
+                name: "",
+                imagePath: ServiceConfig.allAssetsProfileImages.first,
+                address: ""))
+        .imagePath;
+    return PopupMenuButton(
+      tooltip: "", enabled: contact.address!.isValidWalletAddress,
+      position: PopupMenuPosition.over,
+      enableFeedback: true,
+      // onCanceled: () => controller.isTransactionPopUpOpened.value = false,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.arP)),
+      color: const Color(0xff1E1C1F),
+      itemBuilder: (BuildContext context) {
+        // controller.isTransactionPopUpOpened.value = true;
+        if (!contact.address!.isValidWalletAddress) return [];
+        return <PopupMenuEntry>[
+          _buildPopupMenu(contact, "Copy address", '${PathConst.SVG}copy.svg',
+              () {
+            copyAddress(contact);
+          }, subtitle: contact.address?.tz1Short()),
+          _buildDivider(),
+          if (contact.address!.isValidWalletAddress & !isContactSaved) ...[
+            _buildPopupMenu(contact, "Add to contacts",
+                "assets/transaction/add_contact.png", () {
+              CommonFunctions.bottomSheet(
+                AddContactBottomSheet(
+                    isTransactionContact: true,
+                    contactModel: ContactModel(
+                        name: contact.alias ?? "",
+                        address: contact.address!,
+                        imagePath: contactImage)),
+              ).whenComplete(() => controller.contact?.value =
+                  controller.getContact(contact.address!));
+            }),
+          ] else if (contact.address!.isValidWalletAddress &&
+              isContactSaved) ...[
+            _buildPopupMenu(
+              contact,
+              "Edit",
+              "assets/transaction/edit.png",
+              () {
+                CommonFunctions.bottomSheet(
+                  AddContactBottomSheet(
+                      isEditContact: true,
+                      isTransactionContact: true,
+                      contactModel: ContactModel(
+                          name: contact.alias ?? "Account",
+                          address: contact.address!,
+                          imagePath: contactImage)),
+                ).whenComplete(() => controller.contact?.value =
+                    controller.getContact(contact.address!));
               },
             ),
+            _buildDivider(),
+            _buildPopupMenu(
+                contact,
+                "Remove",
+                "assets/transaction/trash.png",
+                () => CommonFunctions.bottomSheet(
+                      RemoveContactBottomSheet(
+                          contactModel: ContactModel(
+                              name: contact.alias ?? "",
+                              address: contact.address!,
+                              imagePath: contactImage)),
+                    )),
+          ],
+          _buildDivider(),
+          _buildPopupMenu(
+            contact,
+            "Send",
+            "${PathConst.HOME_PAGE}send.png",
+            () {
+              final home = Get.find<HomePageController>();
+              CommonFunctions.bottomSheet(
+                const SendPage(),
+                fullscreen: true,
+                settings: RouteSettings(
+                  arguments: home.userAccounts[home.selectedIndex.value],
+                ),
+              );
+              Future.delayed(const Duration(milliseconds: 300), () async {
+                Get.find<SendPageController>().scanner(contact.address!);
+              });
+            },
           ),
-        ),
-        0.02.hspace,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        ];
+      },
+      child: Row(
+        children: [
+          ClipOval(
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 22.aR,
+              child: isContactSaved
+                  ? Image.asset(contactImage)
+                  : Image.network(
+                      "https://services.tzkt.io/v1/avatars/${contact.address!}",
+                      errorBuilder: (context, error, stackTrace) {
+                        return SvgPicture.asset(
+                          'assets/svg/send.svg',
+                        );
+                      },
+                    ),
+            ),
+          ),
+          0.02.hspace,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                type,
+                style: bodySmall.copyWith(
+                    fontSize: 12.aR,
+                    color: ColorConst.NeutralVariant.shade60,
+                    fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 4.arP,
+              ),
+              Text(
+                contact.alias ?? contact.address!.tz1Short(),
+                style: bodyMedium,
+              ),
+            ],
+          ),
+          const Spacer(),
+        ],
+      ),
+    );
+  }
+
+  CustomPopupMenuDivider _buildDivider() {
+    return CustomPopupMenuDivider(
+      height: 1.arP,
+      color: const Color(0xFF373737),
+      padding: EdgeInsets.zero,
+      thickness: 1,
+    );
+  }
+
+  CustomPopupMenuItem _buildPopupMenu(
+      AliasAddress contact, String title, String icon, Function() onTap,
+      {String? subtitle}) {
+    return CustomPopupMenuItem(
+      height: subtitle != null ? 56.arP : 34.arP,
+      width: .3.width,
+      padding: EdgeInsets.symmetric(horizontal: 10.arP),
+      onTap: onTap,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: bodySmall,
+              ),
+              if (subtitle != null)
+                Padding(
+                  padding: EdgeInsets.only(top: 4.arP),
+                  child: Text(
+                    subtitle,
+                    style: bodySmall.copyWith(
+                        color: ColorConst.NeutralVariant.shade60),
+                  ),
+                )
+            ],
+          ),
+          icon.contains(".svg")
+              ? SvgPicture.asset(
+                  icon,
+                  color: Colors.white,
+                  height: 16.arP,
+                  width: 16.arP,
+                )
+              : Image.asset(
+                  icon,
+                  height: 16.arP,
+                  color: Colors.white,
+                  width: 16.arP,
+                )
+        ],
+      ),
+    );
+  }
+
+  void copyAddress(
+    AliasAddress contact,
+  ) {
+    Clipboard.setData(ClipboardData(text: contact.address));
+    Get.rawSnackbar(
+      maxWidth: 0.45.width,
+      backgroundColor: Colors.transparent,
+      snackPosition: SnackPosition.BOTTOM,
+      snackStyle: SnackStyle.FLOATING,
+      padding: const EdgeInsets.only(bottom: 60),
+      messageText: Container(
+        height: 36,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+            color: ColorConst.Neutral.shade10,
+            borderRadius: BorderRadius.circular(8)),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              type,
-              style: bodySmall.copyWith(
-                  fontSize: 12.aR,
-                  color: ColorConst.NeutralVariant.shade60,
-                  fontWeight: FontWeight.w600),
+            const Icon(
+              Icons.check_circle_outline_rounded,
+              size: 14,
+              color: Colors.white,
             ),
             const SizedBox(
-              height: 4,
+              width: 5,
             ),
-            Row(
-              children: [
-                Text(
-                  contact.alias ?? contact.address!.tz1Short(),
-                  style: bodyMedium.copyWith(
-                      fontSize: 14.aR, letterSpacing: 0.5.aR),
-                ),
-                0.02.hspace,
-                BouncingWidget(
-                  onPressed: () {
-                    Clipboard.setData(ClipboardData(text: contact.address));
-                    Get.rawSnackbar(
-                      maxWidth: 0.45.width,
-                      backgroundColor: Colors.transparent,
-                      snackPosition: SnackPosition.BOTTOM,
-                      snackStyle: SnackStyle.FLOATING,
-                      padding: const EdgeInsets.only(bottom: 60),
-                      messageText: Container(
-                        height: 36,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                            color: ColorConst.Neutral.shade10,
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.check_circle_outline_rounded,
-                              size: 14,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "Copied to clipboard",
-                              style: labelSmall,
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  child: SvgPicture.asset(
-                    '${PathConst.SVG}copy.svg',
-                    color: Colors.white,
-                    fit: BoxFit.contain,
-                    height: 16.aR,
-                  ),
-                ),
-              ],
-            ),
+            Text(
+              "Copied to clipboard",
+              style: labelSmall,
+            )
           ],
         ),
-        const Spacer(),
-        contact.address!.isValidWalletAddress
-            ? Obx(() => PopupMenuButton(
-                  position: PopupMenuPosition.under,
-                  enableFeedback: true,
-                  onCanceled: () =>
-                      controller.isTransactionPopUpOpened.value = false,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  color: const Color(0xff421121),
-                  itemBuilder: (_) {
-                    controller.isTransactionPopUpOpened.value = true;
-
-                    return <PopupMenuEntry>[
-                      if (contact.address!.isValidWalletAddress) ...[
-                        CustomPopupMenuItem(
-                          height: 30.arP,
-                          width: 120.arP,
-                          padding: EdgeInsets.symmetric(horizontal: 10.arP),
-                          onTap: () {
-                            CommonFunctions.bottomSheet(
-                              AddContactBottomSheet(
-                                  isTransactionContact: true,
-                                  contactModel: ContactModel(
-                                      name: contact.alias ?? "",
-                                      address: contact.address!,
-                                      imagePath:
-                                          ServiceConfig.allAssetsProfileImages[
-                                              Random().nextInt(
-                                        ServiceConfig
-                                                .allAssetsProfileImages.length -
-                                            1,
-                                      )])),
-                            ).whenComplete(() => controller.contact?.value =
-                                controller.getContact(contact.address!));
-                          },
-                          child: Text(
-                            "Add to contacts",
-                            style: labelMedium,
-                          ),
-                        ),
-                      ] else if (contact.address!.isValidWalletAddress) ...[
-                        CustomPopupMenuItem(
-                          height: 30.aR,
-                          width: 100.aR,
-                          padding: EdgeInsets.symmetric(horizontal: 11.aR),
-                          onTap: () {
-                            CommonFunctions.bottomSheet(
-                              AddContactBottomSheet(
-                                  isEditContact: true,
-                                  isTransactionContact: true,
-                                  contactModel: ContactModel(
-                                      name: contact.alias ?? "Account",
-                                      address: contact.address!,
-                                      imagePath:
-                                          ServiceConfig.allAssetsProfileImages[
-                                              Random().nextInt(
-                                        ServiceConfig
-                                                .allAssetsProfileImages.length -
-                                            1,
-                                      )])),
-                            ).whenComplete(() => controller.contact?.value =
-                                controller.getContact(contact.address!));
-                          },
-                          child: Text(
-                            "Edit ",
-                            style: labelMedium.copyWith(fontSize: 12.aR),
-                          ),
-                        ),
-                        CustomPopupMenuDivider(
-                          height: 1,
-                          color: ColorConst.Neutral.shade50,
-                          padding: EdgeInsets.symmetric(horizontal: 0.arP),
-                          thickness: 1,
-                        ),
-                        CustomPopupMenuItem(
-                          padding: EdgeInsets.symmetric(horizontal: 10.arP),
-                          height: 30.aR,
-                          width: 100.aR,
-                          onTap: () {
-                            CommonFunctions.bottomSheet(
-                              RemoveContactBottomSheet(
-                                  contactModel: ContactModel(
-                                      name: contact.alias ?? "",
-                                      address: contact.address!,
-                                      imagePath: ServiceConfig
-                                          .allAssetsProfileImages.first)),
-                            );
-                          },
-                          child: Text(
-                            "Remove ",
-                            style: labelMedium.copyWith(
-                                fontSize: 12.aR,
-                                color: ColorConst.Error.shade60),
-                          ),
-                        ),
-                      ],
-                    ];
-                  },
-                  child: Container(
-                    height: 24.aR,
-                    width: 24.aR,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: controller.isTransactionPopUpOpened.value
-                            ? ColorConst.Neutral.shade10
-                            : Colors.transparent),
-                    child: Icon(
-                      Icons.more_horiz,
-                      size: 24.aR,
-                      color: Colors.white,
-                    ),
-                  ),
-                ))
-            : const SizedBox(),
-      ],
+      ),
     );
   }
 }
@@ -614,7 +649,7 @@ class TxTokenInfo extends StatelessWidget {
                     tokenInfo.isNft
                         ? "${tokenInfo.tokenAmount == 0.0 ? "1" : tokenInfo.tokenAmount.toStringAsFixed(0)} ${tokenInfo.tokenSymbol}"
                         : getColor(tokenInfo.token, userAccountAddress) ==
-                                ColorConst.NaanRed
+                                ColorConst.NeutralVariant.shade99
                             ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}'
                             : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',
                     overflow: TextOverflow.ellipsis,
@@ -628,7 +663,7 @@ class TxTokenInfo extends StatelessWidget {
                   tokenInfo.token == null ||
                           tokenInfo.token?.operationStatus == 'applied'
                       ? getColor(tokenInfo.token, selectedAccount) ==
-                              ColorConst.NaanRed
+                              ColorConst.NeutralVariant.shade99
                           ? '- ${(tokenInfo.dollarAmount).roundUpDollar(xtzPrice)}'
                           : (tokenInfo.dollarAmount).roundUpDollar(xtzPrice)
                       : "failed",
@@ -711,7 +746,7 @@ class TxTokenInfo extends StatelessWidget {
   Color getColor(TxHistoryModel? data, String selectedAccount) {
     if (data == null) return ColorConst.naanCustomColor;
     if (data.isSent(selectedAccount)) {
-      return ColorConst.NaanRed;
+      return ColorConst.NeutralVariant.shade99;
     }
     if (data.isReceived(selectedAccount)) {
       return ColorConst.naanCustomColor;
@@ -719,7 +754,7 @@ class TxTokenInfo extends StatelessWidget {
     if (data.getTxType(selectedAccount) == "Contract interaction" &&
         (data.amount ?? 0) > 0 &&
         data.sender!.address == selectedAccount) {
-      return ColorConst.NaanRed;
+      return ColorConst.NeutralVariant.shade99;
     }
     return Colors.white;
   }
@@ -732,17 +767,12 @@ class RemoveContactBottomSheet extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      height: 262.arP,
-      bottomSheetHorizontalPadding: 32,
-      blurRadius: 5,
+      height: 262.arP, title: "Delete contact",
+      // bottomSheetHorizontalPadding: 32,
+      // blurRadius: 5,
       crossAxisAlignment: CrossAxisAlignment.center,
       bottomSheetWidgets: [
-        0.01.vspace,
-        Text(
-          'Delete Contact',
-          style: titleLarge.copyWith(fontSize: 22.arP),
-        ),
-        0.03.vspace,
+        0.02.vspace,
         Text(
           'Do you want to remove "${contactModel.name}"\n from your contacts?',
           textAlign: TextAlign.center,
@@ -753,9 +783,9 @@ class RemoveContactBottomSheet extends GetView<TransactionController> {
         ),
         0.025.vspace,
         SolidButton(
+            width: 1.width - 64.arP,
             primaryColor: const Color(0xff1E1C1F),
             title: "Remove contact",
-            height: 52.aR,
             textColor: ColorConst.Error.shade60,
             onPressed: () async {
               controller.contacts.removeWhere(
@@ -768,7 +798,7 @@ class RemoveContactBottomSheet extends GetView<TransactionController> {
             }),
         0.02.vspace,
         SolidButton(
-          height: 52.aR,
+          width: 1.width - 64.arP,
           primaryColor: const Color(0xff1E1C1F),
           title: "Cancel",
           onPressed: Get.back,

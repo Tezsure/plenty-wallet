@@ -165,6 +165,8 @@ class _NaanBottomSheetState extends State<NaanBottomSheet> {
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(36.arP)),
                     child: Container(
+                      constraints: BoxConstraints(
+                          maxHeight: AppConstant.naanBottomSheetHeight),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.vertical(
                               top: Radius.circular(36.arP)),

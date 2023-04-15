@@ -32,7 +32,7 @@ class TransactionController extends GetxController {
       <TxHistoryModel>[].obs; // List of user transactions
   RxList<TransactionTransferModel> userTransferHistory =
       <TransactionTransferModel>[].obs; // List of user transactions
-  RxBool isTransactionPopUpOpened = false.obs; // To show popup
+  // RxBool isTransactionPopUpOpened = false.obs; // To show popup
   // Rx<ScrollController> paginationController =
   //     ScrollController().obs; // For Transaction history lazy loading
   RxBool isFilterApplied = false.obs;
@@ -385,6 +385,7 @@ class TransactionController extends GetxController {
   }
 
   ContactModel? getContact(String address) {
+    updateSavedContacts();
     return contacts.firstWhereOrNull((element) => element.address == address);
   }
 

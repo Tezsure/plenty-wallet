@@ -261,7 +261,7 @@ class _HistoryTileState extends State<HistoryTile>
               Text(
                 data.token == null || data.token?.operationStatus == 'applied'
                     ? getColor(data.token, selectedAccount) ==
-                            ColorConst.NaanRed
+                           ColorConst.NeutralVariant.shade99
                         ? '- ${(data.dollarAmount).roundUpDollar(widget.xtzPrice)}'
                         : (data.dollarAmount).roundUpDollar(widget.xtzPrice)
                     : "failed",
@@ -284,7 +284,7 @@ class _HistoryTileState extends State<HistoryTile>
   Color getColor(TxHistoryModel? data, String selectedAccount) {
     if (data == null) return ColorConst.naanCustomColor;
     if (data.isSent(selectedAccount)) {
-      return ColorConst.NaanRed;
+      return ColorConst.NeutralVariant.shade99;
     }
     if (data.isReceived(selectedAccount)) {
       return ColorConst.naanCustomColor;
@@ -292,7 +292,7 @@ class _HistoryTileState extends State<HistoryTile>
     if (data.getTxType(selectedAccount) == "Contract interaction" &&
         (data.amount ?? 0) > 0 &&
         data.sender!.address == selectedAccount) {
-      return ColorConst.NaanRed;
+      return ColorConst.NeutralVariant.shade99;
     }
     return Colors.white;
   }
