@@ -32,8 +32,10 @@ import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
 import 'package:naan_wallet/utils/nested_route_observer.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../account_summary/views/pages/nft_tab.dart';
 import 'nft_collection_sheet.dart';
 
 ///https://objkt.com/asset/hicetnunc/706649
@@ -162,7 +164,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                           children: [
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.arP),
-                              child: BottomSheetHeading(
+                              child: const BottomSheetHeading(
                                 title: "Gallery",
                               ),
                             ),
@@ -370,211 +372,202 @@ class NftGalleryView extends GetView<NftGalleryController> {
           ),
         ),
       );
-
+  final refreshListController = RefreshController();
   Widget _getNftListViewWidget(
           [double crossAxisCount = 2.1,
           Map<String, List<NftTokenModel>> nfts = const {}]) =>
       Expanded(
-        child: RefreshIndicator(
+        child: SmartRefresher(
+          controller: refreshListController,
           onRefresh: () async {
             controller.offsetContract = 0;
             controller.contracts.clear();
             controller.galleryNfts.clear();
             controller.nftList.clear();
-            controller.fetchAllNftForGallery();
+            await controller.fetchAllNftForGallery();
+            refreshListController.refreshCompleted();
           },
-          color: ColorConst.Primary,
-          backgroundColor: Colors.transparent,
-          child: Container(
-            margin: EdgeInsets.symmetric(
+          child: ListView.builder(
+            padding: EdgeInsets.symmetric(
               horizontal: 16.arP,
             ),
-            child: ListView.builder(
-              // cacheExtent: 10.arP,
-              shrinkWrap: true,
-              // addAutomaticKeepAlives: false,
-              // addRepaintBoundaries: false,
-              physics: AppConstant.scrollPhysics,
-              itemBuilder: ((context, index) {
-                if (index == nfts.length) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(vertical: 6.0.arP),
-                    child: const Center(
-                      child: CupertinoActivityIndicator(
-                        color: ColorConst.Primary,
-                      ),
+            // cacheExtent: 10.arP,
+            shrinkWrap: true,
+            // addAutomaticKeepAlives: false,
+            // addRepaintBoundaries: false,
+            physics: AppConstant.scrollPhysics,
+            itemBuilder: ((context, index) {
+              if (index == nfts.length) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 6.0.arP),
+                  child: const NftSkeleton(),
+                );
+              } else {
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: index == 0 ? 0 : 10.arP,
                     ),
-                  );
-                } else {
-                  return Column(
-                    children: [
-                      SizedBox(
-                        height: index == 0 ? 0 : 10.arP,
-                      ),
-                      _getCollectionDetailsRow(
-                        nfts.values.toList()[index][0],
-                        nfts.values.toList()[index].length,
-                      ),
-                      SizedBox(
-                        height: 15.arP,
-                      ),
-                      MasonryGridView.count(
-                          shrinkWrap: true,
-                          addAutomaticKeepAlives: false,
-                          addRepaintBoundaries: false,
-                          physics: const NeverScrollableScrollPhysics(),
-                          crossAxisCount: (Get.width > 768
-                                  ? crossAxisCount == 1.1
-                                      ? 2
-                                      : 3
-                                  : crossAxisCount == 2.1 &&
-                                          nfts.values.toList()[index].length ==
-                                              1
-                                      ? 1
-                                      : crossAxisCount == 1.1
-                                          ? 1
-                                          : 2)
-                              .toInt(),
-                          mainAxisSpacing: 12.arP,
-                          crossAxisSpacing: 12.arP,
-                          itemCount: nfts.values.toList()[index].length,
-                          itemBuilder: ((context, i) {
-                            var nftTokenModel = nfts.values.toList()[index][i];
-                            return BouncingWidget(
-                              onPressed: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => NFTDetailBottomSheet(
-                                          prevPage: controller
-                                              .selectedNftGallery.value.name,
-                                          onBackTap: Get.back,
-                                          pk: nftTokenModel.pk!,
-                                          publicKeyHashs: controller
-                                              .selectedNftGallery
-                                              .value
-                                              .publicKeyHashs,
-                                        )),
-                              ),
-                              child: Container(
-                                width: double.infinity,
-                                // constraints: const BoxConstraints(minHeight: 1),
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color(0xFF958E99).withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(
-                                    12.arP,
-                                  ),
-                                ),
-                                padding: EdgeInsets.all(
+                    _getCollectionDetailsRow(
+                      nfts.values.toList()[index][0],
+                      nfts.values.toList()[index].length,
+                    ),
+                    SizedBox(
+                      height: 15.arP,
+                    ),
+                    MasonryGridView.count(
+                        shrinkWrap: true,
+                        addAutomaticKeepAlives: false,
+                        addRepaintBoundaries: false,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: (Get.width > 768
+                                ? crossAxisCount == 1.1
+                                    ? 2
+                                    : 3
+                                : crossAxisCount == 2.1 &&
+                                        nfts.values.toList()[index].length == 1
+                                    ? 1
+                                    : crossAxisCount == 1.1
+                                        ? 1
+                                        : 2)
+                            .toInt(),
+                        mainAxisSpacing: 12.arP,
+                        crossAxisSpacing: 12.arP,
+                        itemCount: nfts.values.toList()[index].length,
+                        itemBuilder: ((context, i) {
+                          var nftTokenModel = nfts.values.toList()[index][i];
+                          return BouncingWidget(
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => NFTDetailBottomSheet(
+                                        prevPage: controller
+                                            .selectedNftGallery.value.name,
+                                        onBackTap: Get.back,
+                                        pk: nftTokenModel.pk!,
+                                        publicKeyHashs: controller
+                                            .selectedNftGallery
+                                            .value
+                                            .publicKeyHashs,
+                                      )),
+                            ),
+                            child: Container(
+                              width: double.infinity,
+                              // constraints: const BoxConstraints(minHeight: 1),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF958E99).withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(
                                   12.arP,
                                 ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      constraints: BoxConstraints(
-                                        minHeight: (Get.width > 768
-                                                        ? crossAxisCount == 1.1
-                                                            ? 2
-                                                            : 3
-                                                        : crossAxisCount ==
-                                                                    2.1 &&
-                                                                nfts.values
-                                                                        .toList()[
-                                                                            index]
-                                                                        .length ==
-                                                                    1
-                                                            ? 1
-                                                            : crossAxisCount ==
-                                                                    1.1
-                                                                ? 1
-                                                                : 2)
-                                                    .toInt() ==
-                                                2
-                                            ? 150.arP
-                                            : 350.arP,
-                                      ),
-                                      width: double.infinity,
-                                      child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                            8.arP,
-                                          ),
-                                          child: NFTImage(
-                                              memCacheHeight: 250,
-                                              memCacheWidth: 250,
-                                              nftTokenModel: nftTokenModel)
-                                          //  nftTokenModel.artifactUri
-                                          //             ?.startsWith("data") ??
-                                          //         false
-                                          //     ? SvgPicture.network(
-                                          //         nftTokenModel.artifactUri!,
-                                          //         fit: BoxFit.cover,
-                                          //       )
-                                          //     : CachedNetworkImage(
-                                          //         imageUrl:
-                                          //             "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
-                                          //         fit: BoxFit.fitWidth,
-                                          //       ),
-                                          ),
-                                    ),
-                                    SizedBox(
-                                      height: 12.arP,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        nftTokenModel.fa!.name ?? "N/A",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12.arP,
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing: 0.5.arP,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 4.arP,
-                                    ),
-                                    // created by text
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        nftTokenModel.creators!.isEmpty
-                                            ? "N/A"
-                                            : nftTokenModel.creators![0].holder!
-                                                    .alias ??
-                                                nftTokenModel.creators![0]
-                                                    .holder!.address!
-                                                    .tz1Short(),
-                                        style: TextStyle(
-                                          color: const Color(0xFF958E99),
-                                          fontSize: 10.arP,
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing: 0.5.arP,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
                               ),
-                            );
-                          })),
-                      SizedBox(
-                        height: 16.arP,
-                      ),
-                      Divider(
-                        color: Colors.white.withOpacity(0.4),
-                      ),
-                    ],
-                  );
-                }
-              }),
-              itemCount: nfts.length +
-                  (controller.offsetContract < controller.contracts.length &&
-                          !controller.isSearch.value
-                      ? 1
-                      : 0),
-            ),
+                              padding: EdgeInsets.all(
+                                12.arP,
+                              ),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    constraints: BoxConstraints(
+                                      minHeight: (Get.width > 768
+                                                      ? crossAxisCount == 1.1
+                                                          ? 2
+                                                          : 3
+                                                      : crossAxisCount == 2.1 &&
+                                                              nfts.values
+                                                                      .toList()[
+                                                                          index]
+                                                                      .length ==
+                                                                  1
+                                                          ? 1
+                                                          : crossAxisCount ==
+                                                                  1.1
+                                                              ? 1
+                                                              : 2)
+                                                  .toInt() ==
+                                              2
+                                          ? 150.arP
+                                          : 350.arP,
+                                    ),
+                                    width: double.infinity,
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          8.arP,
+                                        ),
+                                        child: NFTImage(
+                                            memCacheHeight: 250,
+                                            memCacheWidth: 250,
+                                            nftTokenModel: nftTokenModel)
+                                        //  nftTokenModel.artifactUri
+                                        //             ?.startsWith("data") ??
+                                        //         false
+                                        //     ? SvgPicture.network(
+                                        //         nftTokenModel.artifactUri!,
+                                        //         fit: BoxFit.cover,
+                                        //       )
+                                        //     : CachedNetworkImage(
+                                        //         imageUrl:
+                                        //             "https://assets.objkt.media/file/assets-003/${nftTokenModel.faContract}/${nftTokenModel.tokenId.toString()}/thumb${crossAxisCount == 1.1 ? 400 : 288}",
+                                        //         fit: BoxFit.fitWidth,
+                                        //       ),
+                                        ),
+                                  ),
+                                  SizedBox(
+                                    height: 12.arP,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      nftTokenModel.fa!.name ?? "N/A",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.arP,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.5.arP,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 4.arP,
+                                  ),
+                                  // created by text
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      nftTokenModel.creators!.isEmpty
+                                          ? "N/A"
+                                          : nftTokenModel
+                                                  .creators![0].holder!.alias ??
+                                              nftTokenModel
+                                                  .creators![0].holder!.address!
+                                                  .tz1Short(),
+                                      style: TextStyle(
+                                        color: const Color(0xFF958E99),
+                                        fontSize: 10.arP,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.5.arP,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        })),
+                    SizedBox(
+                      height: 16.arP,
+                    ),
+                    Divider(
+                      color: Colors.white.withOpacity(0.4),
+                    ),
+                  ],
+                );
+              }
+            }),
+            itemCount: nfts.length +
+                (controller.offsetContract < controller.contracts.length &&
+                        !controller.isSearch.value
+                    ? 1
+                    : 0),
           ),
         ),
       );
@@ -633,79 +626,72 @@ class NftGalleryView extends GetView<NftGalleryController> {
     );
   }
 
+  final refreshCollectionController = RefreshController();
+
   Widget _getCollectionGridViewWidget(Map<String, List<NftTokenModel>> nfts) =>
       Obx(
         () => Expanded(
-          child: RefreshIndicator(
+          child: SmartRefresher(
+            enablePullUp: true,
+            enablePullDown: true,
+            enableTwoLevel: true,
+            controller: refreshCollectionController,
             onRefresh: () async {
               controller.offsetContract = 0;
               controller.contracts.clear();
               controller.galleryNfts.clear();
               controller.nftList.clear();
-              controller.fetchAllNftForGallery();
+              await controller.fetchAllNftForGallery();
+              refreshCollectionController.refreshCompleted();
             },
-            backgroundColor: Colors.transparent,
-            color: ColorConst.Primary,
-            child: SingleChildScrollView(
-              physics: AppConstant.scrollPhysics,
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 16.arP,
+            child: MasonryGridView.count(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.arP,
+                ),
+                // physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: Get.width > 768 ? 3 : 2,
+                mainAxisSpacing: 12.arP,
+                addAutomaticKeepAlives: false,
+                addRepaintBoundaries: false,
+                // shrinkWrap: true,
+                crossAxisSpacing: 12.arP,
+                // cacheExtent: 100.0.arP,
+                itemCount: nfts.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    width: double.infinity,
+                    constraints: const BoxConstraints(minHeight: 1),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF958E99).withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(
+                        12.arP,
+                      ),
                     ),
-                    child: MasonryGridView.count(
-                        physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: Get.width > 768 ? 3 : 2,
-                        mainAxisSpacing: 12.arP,
-                        addAutomaticKeepAlives: false,
-                        addRepaintBoundaries: false,
-                        shrinkWrap: true,
-                        crossAxisSpacing: 12.arP,
-                        // cacheExtent: 100.0.arP,
-                        itemCount: nfts.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            width: double.infinity,
-                            constraints: const BoxConstraints(minHeight: 1),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF958E99).withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(
-                                12.arP,
-                              ),
-                            ),
-                            child: nfts.isEmpty
-                                ? Container()
-                                : NftCollectionItemWidget(
-                                    galleryName: controller
-                                            .selectedNftGallery.value.name ??
-                                        "",
-                                    nftTokens: nfts.values.toList()[index],
-                                    publicKeyHashes: controller
-                                        .selectedNftGallery
-                                        .value
-                                        .publicKeyHashs!,
-                                  ),
-                          );
-                        }),
-                  ),
-                  controller.offsetContract < controller.contracts.length &&
-                          !controller.isSearch.value
-                      ? Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 30.arP),
-                            child: const CupertinoActivityIndicator(
-                              color: ColorConst.Primary,
-                            ),
+                    child: nfts.isEmpty
+                        ? Container()
+                        : NftCollectionItemWidget(
+                            galleryName:
+                                controller.selectedNftGallery.value.name ?? "",
+                            nftTokens: nfts.values.toList()[index],
+                            publicKeyHashes: controller
+                                .selectedNftGallery.value.publicKeyHashs!,
                           ),
-                        )
-                      : const SizedBox()
-                ],
-              ),
-            ),
+                  );
+                }),
           ),
         ),
       );
+  // controller.offsetContract < controller.contracts.length &&
+  //                     !controller.isSearch.value
+  //                 ? Center(
+  //                     child: Padding(
+  //                       padding: EdgeInsets.only(bottom: 30.arP),
+  //                       child: const CupertinoActivityIndicator(
+  //                         color: ColorConst.Primary,
+  //                       ),
+  //                     ),
+  //                   )
+  //                 : const SizedBox()
 
   Widget _getNftTypesChips() => SizedBox(
         width: double.infinity,
@@ -914,7 +900,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                 ListView.builder(
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return BouncingWidget(
                       onPressed: () async {
@@ -1106,7 +1092,7 @@ class NftGalleryView extends GetView<NftGalleryController> {
                     ),
                   ),
                 ),
-                BottomButtonPadding()
+                const BottomButtonPadding()
               ],
             ),
           )
@@ -1285,7 +1271,7 @@ class RemoveGallerySheet extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.arP),
                 child: Column(
@@ -1313,7 +1299,7 @@ class RemoveGallerySheet extends StatelessWidget {
                   ],
                 ),
               ),
-              BottomButtonPadding()
+              const BottomButtonPadding()
             ],
           ),
         ),
