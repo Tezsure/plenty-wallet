@@ -43,7 +43,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
     if (Get.isRegistered<AccountSummaryController>()) {
       controller.fetchAllTokens();
       controller.fetchAllNfts();
-      if(Get.isRegistered<TransactionController>()) {
+      if (Get.isRegistered<TransactionController>()) {
         // controller.loadUserTransaction();
       }
       controller.selectedTokenIndexSet.clear();
@@ -450,14 +450,14 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                               ),
                                             ]),
                                       ),
-                                      const Expanded(
+                                      Expanded(
                                         child: TabBarView(
                                           physics:
-                                              NeverScrollableScrollPhysics(),
+                                              const NeverScrollableScrollPhysics(),
                                           children: [
-                                            CryptoTabPage(),
+                                            const CryptoTabPage(),
                                             NFTabPage(),
-                                            HistoryPage(),
+                                            const HistoryPage(),
                                           ],
                                         ),
                                       ),
