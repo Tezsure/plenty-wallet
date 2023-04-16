@@ -455,7 +455,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                           physics:
                                               const NeverScrollableScrollPhysics(),
                                           children: [
-                                            const CryptoTabPage(),
+                                             CryptoTabPage(),
                                             NFTabPage(),
                                             const HistoryPage(),
                                           ],
