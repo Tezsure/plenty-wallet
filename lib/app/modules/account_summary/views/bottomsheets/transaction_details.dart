@@ -101,20 +101,28 @@ class _TransactionDetailsBottomSheetState
       // bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
         Obx(() {
-          widget.tokenInfo = widget.tokenInfo.copyWith(
-              lastId: widget.tokenInfo.token?.lastid.toString(),
-              source: widget.tokenInfo.token?.source(
-                userAccounts: Get.find<HomePageController>().userAccounts,
-                contacts: controller.contacts,
-              ),
-              destination: widget.tokenInfo.token?.destination(
-                userAccounts: Get.find<HomePageController>().userAccounts,
-                contacts: controller.contacts,
-              ));
+          // widget.tokenInfo = widget.tokenInfo.copyWith(
+          //     lastId: widget.tokenInfo.token?.lastid.toString(),
+          //     source: widget.tokenInfo.token?.source(
+          //       userAccounts: Get.find<HomePageController>().userAccounts,
+          //       contacts: controller.contacts,
+          //     ),
+          //     destination: widget.tokenInfo.token?.destination(
+          //       userAccounts: Get.find<HomePageController>().userAccounts,
+          //       contacts: controller.contacts,
+          //     ));
           // print(tokenInfo.token!.toJson());
 //https://api.tzkt.io/v1/operations/transactions?id=505096501723136
-          final source = widget.tokenInfo.source;
-          final destination = widget.tokenInfo.destination;
+          final source = widget.tokenInfo.source == null
+              ? null
+              : getAddressAlias(widget.tokenInfo.source!,
+                  userAccounts: Get.find<HomePageController>().userAccounts,
+                  contacts: controller.contacts);
+          final destination = widget.tokenInfo.destination == null
+              ? null
+              : getAddressAlias(widget.tokenInfo.destination!,
+                  userAccounts: Get.find<HomePageController>().userAccounts,
+                  contacts: controller.contacts);
           return SizedBox(
             height: AppConstant.naanBottomSheetChildHeight,
             child: Column(
@@ -327,12 +335,14 @@ class _TransactionDetailsBottomSheetState
                 address: ""))
         .imagePath;
     return PopupMenuButton(
+      offset: Offset(-1.width, 50),
       tooltip: "", enabled: contact.address!.isValidWalletAddress,
       position: PopupMenuPosition.over,
       enableFeedback: true,
       // onCanceled: () => controller.isTransactionPopUpOpened.value = false,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.arP)),
       color: const Color(0xff1E1C1F),
+      padding: EdgeInsets.symmetric(horizontal: 16.arP),
       itemBuilder: (BuildContext context) {
         // controller.isTransactionPopUpOpened.value = true;
         if (!contact.address!.isValidWalletAddress) return [];

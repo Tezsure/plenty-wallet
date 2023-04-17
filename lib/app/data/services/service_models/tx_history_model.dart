@@ -294,16 +294,15 @@ extension TxChecker on TxHistoryModel {
 AliasAddress getAddressAlias(AliasAddress address,
     {List<AccountModel> userAccounts = const [],
     List<ContactModel> contacts = const []}) {
-  if (userAccounts
+  if (contacts.any((element) => element.address.contains(address.address!))) {
+    final contact = contacts
+        .firstWhere((element) => element.address.contains(address.address!));
+    return AliasAddress(address: contact.address, alias: contact.name);
+  } else if (userAccounts
       .any((element) => element.publicKeyHash!.contains(address.address!))) {
     final account = userAccounts.firstWhere(
         (element) => element.publicKeyHash!.contains(address.address!));
     return AliasAddress(address: account.publicKeyHash, alias: account.name);
-  } else if (contacts
-      .any((element) => element.address.contains(address.address!))) {
-    final contact = contacts
-        .firstWhere((element) => element.address.contains(address.address!));
-    return AliasAddress(address: contact.address, alias: contact.name);
   }
   return address;
 }
@@ -393,7 +392,6 @@ class TxHistoryModel {
     this.prevDelegate,
     this.newDelegate,
   });
-
 
   TxHistoryModel.fromJson(Map<String, dynamic> json) {
     type = json['type'];
