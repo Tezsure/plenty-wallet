@@ -59,7 +59,7 @@ class TransactionDetailsBottomSheet extends StatefulWidget {
 class _TransactionDetailsBottomSheetState
     extends State<TransactionDetailsBottomSheet> {
   final controller = Get.find<TransactionController>();
-
+  TxHistoryModel? txHistoryModel;
   @override
   void initState() {
     if (widget.tokenInfo.hash == null) {
@@ -67,8 +67,15 @@ class _TransactionDetailsBottomSheetState
         HttpService.performGetRequest(
                 "https://api.tzkt.io/v1/operations/transactions?id=${widget.tokenInfo.lastId}")
             .then((value) {
-          widget.tokenInfo =
-              widget.tokenInfo.copyWith(hash: jsonDecode(value)[0]["hash"]);
+          final data = jsonDecode(value)[0];
+          widget.tokenInfo = widget.tokenInfo.copyWith(
+            hash: data["hash"],
+          );
+          txHistoryModel = TxHistoryModel(
+              bakerFee: data["bakerFee"],
+              storageFee: data["storageFee"],
+              allocationFee: data["allocationFee"],
+              gasUsed: data["gasUsed"]);
           setState(() {});
         });
       } catch (e) {
@@ -85,21 +92,22 @@ class _TransactionDetailsBottomSheetState
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       // blurRadius: 50,
-      width: 1.width,
-      isScrollControlled: true,
-      // height: .8.height,
+      width: 1.width, title: "",
+      // isScrollControlled: true,
+
+      height: AppConstant.naanBottomSheetHeight,
       // bottomSheetHorizontalPadding: 0,
 
       // bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
         Obx(() {
           widget.tokenInfo = widget.tokenInfo.copyWith(
-              lastId: widget.tokenInfo.token!.lastid.toString(),
-              source: widget.tokenInfo.token!.source(
+              lastId: widget.tokenInfo.token?.lastid.toString(),
+              source: widget.tokenInfo.token?.source(
                 userAccounts: Get.find<HomePageController>().userAccounts,
                 contacts: controller.contacts,
               ),
-              destination: widget.tokenInfo.token!.destination(
+              destination: widget.tokenInfo.token?.destination(
                 userAccounts: Get.find<HomePageController>().userAccounts,
                 contacts: controller.contacts,
               ));
@@ -107,87 +115,96 @@ class _TransactionDetailsBottomSheetState
 //https://api.tzkt.io/v1/operations/transactions?id=505096501723136
           final source = widget.tokenInfo.source;
           final destination = widget.tokenInfo.destination;
-          return Column(
-            children: [
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(22.arP),
-                  child: Column(
-                    children: [
-                      const BottomSheetHeading(
-                        title: "",
-                      ),
-                      0.02.vspace,
-                      Image.asset(
-                        widget.tokenInfo.token == null ||
-                                widget.tokenInfo.token!.operationStatus ==
-                                    "applied"
-                            ? "assets/transaction/success.png"
-                            : "assets/transaction/failed.png",
-                        height: 60.arP,
-                        width: 60.arP,
-                      ),
-                      0.02.vspace,
-                      Text(
-                        widget.tokenInfo.token
-                                ?.getTxType(widget.userAccountAddress) ??
-                            "Received",
-                        style: titleLarge,
-                      ),
-                      0.01.vspace,
-                      Center(
-                        child: Text(
-                            DateFormat('MM/dd/yyyy HH:mm')
-                                // displaying formatted date
-                                .format(widget.tokenInfo.timeStamp!.toLocal()),
-                            style: labelMedium.copyWith(
-                                color: ColorConst.NeutralVariant.shade60)),
-                      ),
-                      0.02.vspace,
-                      const Divider(
-                        color: Color(0xff1E1C1F),
-                      ),
-                      0.02.vspace,
-                      // tokenInfo.token != null ||
-                      //         tokenInfo.token?.operationStatus != "applied" ||
-                      (source?.address?.isEmpty ?? true)
-                          ? const SizedBox()
-                          : contactTile(source!, "From"),
-                      0.02.vspace,
-                      // tokenInfo.token != null ||
-                      //         tokenInfo.token?.operationStatus != "applied" ||
-                      (destination?.address?.isEmpty ?? true)
-                          ? const SizedBox()
-                          : contactTile(destination!, "To"),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.arP),
-                          color: const Color(0xff1E1C1F),
-                        ),
-                        margin: EdgeInsets.symmetric(
-                          vertical: 24.arP,
-                        ),
-                        child: Column(
-                          children: [
-                            TxTokenInfo(
-                              tokenInfo: widget.tokenInfo,
-                              userAccountAddress: widget.userAccountAddress,
-                              xtzPrice: widget.xtzPrice,
+          return SizedBox(
+            height: AppConstant.naanBottomSheetChildHeight,
+            child: Column(
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.arP),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          // const BottomSheetHeading(
+                          //   title: "",
+                          // ),
+                          0.02.vspace,
+                          Image.asset(
+                            widget.tokenInfo.token == null ||
+                                    widget.tokenInfo.token!.operationStatus ==
+                                        "applied"
+                                ? "assets/transaction/success.png"
+                                : "assets/transaction/failed.png",
+                            height: 60.arP,
+                            width: 60.arP,
+                          ),
+                          0.02.vspace,
+                          Text(
+                            widget.tokenInfo.token
+                                    ?.getTxType(widget.userAccountAddress) ??
+                                "Received",
+                            style: titleLarge,
+                          ),
+                          0.01.vspace,
+                          Center(
+                            child: Text(
+                                DateFormat('MM/dd/yyyy HH:mm')
+                                    // displaying formatted date
+                                    .format(
+                                        widget.tokenInfo.timeStamp!.toLocal()),
+                                style: labelMedium.copyWith(
+                                    color: ColorConst.NeutralVariant.shade60)),
+                          ),
+                          0.02.vspace,
+                          const Divider(
+                            color: Color(0xff1E1C1F),
+                          ),
+                          0.02.vspace,
+                          // tokenInfo.token != null ||
+                          //         tokenInfo.token?.operationStatus != "applied" ||
+                          (source?.address?.isEmpty ?? true)
+                              ? const SizedBox()
+                              : contactTile(source!, "From"),
+                          0.02.vspace,
+                          // tokenInfo.token != null ||
+                          //         tokenInfo.token?.operationStatus != "applied" ||
+                          (destination?.address?.isEmpty ?? true)
+                              ? const SizedBox()
+                              : contactTile(destination!, "To"),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.arP),
+                              color: const Color(0xff1E1C1F),
                             ),
-                            ...widget.tokenInfo.internalOperation
-                                .map((e) => TxTokenInfo(
-                                      tokenInfo: e,
-                                      userAccountAddress:
-                                          widget.userAccountAddress,
-                                      xtzPrice: widget.xtzPrice,
-                                    ))
-                                .toList(),
-                          ],
-                        ),
+                            margin: EdgeInsets.symmetric(
+                              vertical: 24.arP,
+                            ),
+                            child: Column(
+                              children: [
+                                TxTokenInfo(
+                                  tokenInfo: widget.tokenInfo,
+                                  userAccountAddress: widget.userAccountAddress,
+                                  xtzPrice: widget.xtzPrice,
+                                ),
+                                ...widget.tokenInfo.internalOperation
+                                    .map((e) => TxTokenInfo(
+                                          tokenInfo: e,
+                                          userAccountAddress:
+                                              widget.userAccountAddress,
+                                          xtzPrice: widget.xtzPrice,
+                                        ))
+                                    .toList(),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      _buildFooter(context),
-                    ],
-                  ))
-            ],
+                    ),
+                  ),
+                ),
+                _buildFooter(context)
+              ],
+            ),
           );
         }),
       ],
@@ -195,6 +212,7 @@ class _TransactionDetailsBottomSheetState
   }
 
   Widget _buildFooter(BuildContext context) {
+    if (widget.tokenInfo.hash == null) return Container();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -202,60 +220,76 @@ class _TransactionDetailsBottomSheetState
           color: Color(0xff1E1C1F),
         ),
         0.02.vspace,
-        // BouncingWidget(
-        //   onPressed: tokenInfo.token == null
-        //       ? null
-        //       : () {
-        //           CommonFunctions.bottomSheet(TransactionFeeDetailShet(
-        //             tokenInfo: tokenInfo,
-        //             userAccountAddress: userAccountAddress,
-        //             xtzPrice: xtzPrice,
-        //           ));
-        //         },
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       Text(
-        //         "Fees",
-        //         style: labelMedium.copyWith(
-        //             color: ColorConst.NeutralVariant.shade60),
-        //       ),
-        //       Row(
-        //         children: [
-        //           Text(
-        //             calculateFees().roundUpDollar(xtzPrice, decimals: 6),
-        //             style: labelMedium,
-        //           ),
-        //           SizedBox(
-        //             width: 4.arP,
-        //           ),
-        //           Icon(
-        //             Icons.info_outline,
-        //             color: ColorConst.NeutralVariant.shade60,
-        //             size: 16.arP,
-        //           ),
-        //         ],
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        // 0.02.vspace,
-        if (widget.tokenInfo.hash != null)
-          Center(
-            child: SolidButton(
-              width: 1.width - 64.arP,
-              title: 'view on tzkt.io',
-              onPressed: () {
-                CommonFunctions.bottomSheet(
-                  const DappBrowserView(),
-                  fullscreen: true,
-                  settings: RouteSettings(
-                    arguments: "https://tzkt.io/${widget.tokenInfo.hash ?? ""}",
+        BouncingWidget(
+          onPressed: () {
+            if (widget.tokenInfo.token == null) {
+              CommonFunctions.bottomSheet(TransactionFeeDetailShet(
+                tokenInfo: widget.tokenInfo.copyWith(token: txHistoryModel),
+                userAccountAddress: widget.userAccountAddress,
+                xtzPrice: widget.xtzPrice,
+              ));
+            } else {
+              int bakerFees = widget.tokenInfo.token?.bakerFee ?? 0;
+              int allocationFee = widget.tokenInfo.token?.allocationFee ?? 0;
+              int gasUsed = widget.tokenInfo.token?.gasUsed ?? 0;
+              int storageFee = widget.tokenInfo.token?.storageFee ?? 0;
+              for (var element in widget.tokenInfo.internalOperation) {
+                bakerFees += element.token!.bakerFee ?? 0;
+                allocationFee += element.token!.allocationFee ?? 0;
+                gasUsed += element.token!.gasUsed ?? 0;
+                storageFee += element.token!.storageFee ?? 0;
+              }
+
+              CommonFunctions.bottomSheet(TransactionFeeDetailShet(
+                tokenInfo: widget.tokenInfo,
+                userAccountAddress: widget.userAccountAddress,
+                xtzPrice: widget.xtzPrice,
+              ));
+            }
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Fees",
+                style: labelMedium.copyWith(
+                    color: ColorConst.NeutralVariant.shade60),
+              ),
+              Row(
+                children: [
+                  Text(
+                    calculateFees().roundUpDollar(widget.xtzPrice, decimals: 6),
+                    style: labelMedium,
                   ),
-                );
-              },
-            ),
+                  SizedBox(
+                    width: 4.arP,
+                  ),
+                  Icon(
+                    Icons.info_outline,
+                    color: ColorConst.NeutralVariant.shade60,
+                    size: 16.arP,
+                  ),
+                ],
+              ),
+            ],
           ),
+        ),
+        0.02.vspace,
+        Center(
+          child: SolidButton(
+            width: 1.width - 64.arP,
+            title: 'view on tzkt.io',
+            onPressed: () {
+              CommonFunctions.bottomSheet(
+                const DappBrowserView(),
+                fullscreen: true,
+                settings: RouteSettings(
+                  arguments: "https://tzkt.io/${widget.tokenInfo.hash ?? ""}",
+                ),
+              );
+            },
+          ),
+        ),
         const BottomButtonPadding()
       ],
     );
@@ -263,19 +297,20 @@ class _TransactionDetailsBottomSheetState
 
   double calculateFees() {
     double fees = 0.0;
-    if (widget.tokenInfo.token == null) return fees;
+    TxHistoryModel? token = widget.tokenInfo.token ?? txHistoryModel;
+    if (token == null) return fees;
     // For-loop
-    if (widget.tokenInfo.token!.bakerFee != null) {
-      fees += widget.tokenInfo.token!.bakerFee!;
+    if (token.bakerFee != null) {
+      fees += token.bakerFee!;
     }
-    if (widget.tokenInfo.token!.storageFee != null) {
-      fees += widget.tokenInfo.token!.storageFee!;
+    if (token.storageFee != null) {
+      fees += token.storageFee!;
     }
-    if (widget.tokenInfo.token!.allocationFee != null) {
-      fees += widget.tokenInfo.token!.allocationFee!;
+    if (token.allocationFee != null) {
+      fees += token.allocationFee!;
     }
-    if (widget.tokenInfo.token!.gasUsed != null) {
-      fees += widget.tokenInfo.token!.gasUsed!;
+    if (token.gasUsed != null) {
+      fees += token.gasUsed!;
     }
     fees = fees / 1e6;
     return fees;

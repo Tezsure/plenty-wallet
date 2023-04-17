@@ -305,13 +305,13 @@ class HistoryPage extends GetView<TransactionController> {
             tokenInfo: token,
             xtzPrice: controller.accController.xtzPrice.value,
             onTap: () => CommonFunctions.bottomSheet(
-              TransactionDetailsBottomSheet(
-                xtzPrice: controller.accController.xtzPrice.value,
-                tokenInfo: token,
-                userAccountAddress: controller
-                    .accController.selectedAccount.value.publicKeyHash!,
-              ),
-            ),
+                TransactionDetailsBottomSheet(
+                  xtzPrice: controller.accController.xtzPrice.value,
+                  tokenInfo: token,
+                  userAccountAddress: controller
+                      .accController.selectedAccount.value.publicKeyHash!,
+                ),
+                fullscreen: true),
           ),
         ],
       );
@@ -378,13 +378,13 @@ class HistoryPage extends GetView<TransactionController> {
                   tokenInfo: controller.defaultTransactionList[index],
                   xtzPrice: controller.accController.xtzPrice.value,
                   onTap: () => CommonFunctions.bottomSheet(
-                    TransactionDetailsBottomSheet(
-                      xtzPrice: controller.accController.xtzPrice.value,
-                      tokenInfo: controller.defaultTransactionList[index],
-                      userAccountAddress: controller
-                          .accController.selectedAccount.value.publicKeyHash!,
-                    ),
-                  ),
+                      TransactionDetailsBottomSheet(
+                        xtzPrice: controller.accController.xtzPrice.value,
+                        tokenInfo: controller.defaultTransactionList[index],
+                        userAccountAddress: controller
+                            .accController.selectedAccount.value.publicKeyHash!,
+                      ),
+                      fullscreen: true),
                 ),
               ],
             );

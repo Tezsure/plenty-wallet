@@ -14,14 +14,12 @@ import 'package:naan_wallet/utils/utils.dart';
 import 'transaction_details.dart';
 
 class TransactionFeeDetailShet extends StatelessWidget {
-
   TokenInfo tokenInfo;
   final String userAccountAddress;
   final double xtzPrice;
   TransactionFeeDetailShet(
       {super.key,
       required this.tokenInfo,
-
       required this.userAccountAddress,
       required this.xtzPrice});
 
@@ -60,7 +58,7 @@ class TransactionFeeDetailShet extends StatelessWidget {
             subtitle:
                 "Gas fee refers to the cost necessary to perform a transaction on the network",
             amount: tokenInfo.token!.gasUsed?.toDouble()),
-        BottomButtonPadding()
+        const BottomButtonPadding()
       ],
     );
   }
@@ -114,23 +112,23 @@ class TransactionFeeDetailShet extends StatelessWidget {
           Text(
               tokenInfo.isNft
                   ? tokenInfo.name
-                  : tokenInfo.token!.sender!.address!
-                          .contains(userAccountAddress)
+                  : tokenInfo.source!.address!.contains(userAccountAddress)
                       ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}'
                       : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style: bodyLarge.copyWith(
-                  color: tokenInfo.token!.sender!.address!
-                          .contains(userAccountAddress)
+                  color: tokenInfo.source!.address!.contains(userAccountAddress)
                       ? ColorConst.NeutralVariant.shade60
                       : ColorConst.naanCustomColor)),
           Text(
-            tokenInfo.token!.operationStatus != "applied"
+            tokenInfo.token?.block != null &&
+                    tokenInfo.token!.operationStatus != "applied"
                 ? "failed"
                 : tokenInfo.dollarAmount.roundUpDollar(xtzPrice, decimals: 6),
             style: bodyLarge.copyWith(
-              color: tokenInfo.token!.operationStatus != "applied"
+              color: tokenInfo.token?.block != null &&
+                      tokenInfo.token!.operationStatus != "applied"
                   ? ColorConst.NaanRed
                   : Colors.white,
             ),
