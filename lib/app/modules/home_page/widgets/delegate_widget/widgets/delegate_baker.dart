@@ -15,6 +15,7 @@ import '../../../../../../utils/colors/colors.dart';
 import '../../../../../../utils/styles/styles.dart';
 import '../../../../common_widgets/bottom_sheet.dart';
 import '../controllers/delegate_widget_controller.dart';
+import 'add_custom_baker.dart';
 import 'baker_filter.dart';
 
 class DelegateSelectBaker extends GetView<DelegateWidgetController> {
@@ -183,38 +184,58 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
     return SizedBox(
       height: 0.06.height,
       width: 1.width,
-      child: TextFormField(
-        style: const TextStyle(color: Colors.white),
-        onChanged: (value) {
-          controller.updateBakerList();
-        },
-        controller: controller.textEditingController,
-        textAlignVertical: TextAlignVertical.top,
-        textAlign: TextAlign.start,
-        cursorColor: ColorConst.Primary,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-          prefixIcon: Icon(
-            Icons.search,
-            color: ColorConst.NeutralVariant.shade60,
-            size: 22,
+      child: Row(
+        children: [
+          Expanded(
+            child: TextFormField(
+              style: const TextStyle(color: Colors.white),
+              onChanged: (value) {
+                controller.updateBakerList();
+              },
+              controller: controller.textEditingController,
+              textAlignVertical: TextAlignVertical.top,
+              textAlign: TextAlign.start,
+              cursorColor: ColorConst.Primary,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: ColorConst.NeutralVariant.shade60,
+                  size: 22,
+                ),
+                counterStyle: const TextStyle(backgroundColor: Colors.white),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide.none),
+                hintText: 'Search baker',
+                hintStyle: bodyMedium.copyWith(
+                    color: ColorConst.NeutralVariant.shade70),
+                labelStyle: labelSmall,
+                // contentPadding:
+                //     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              ),
+            ),
           ),
-          counterStyle: const TextStyle(backgroundColor: Colors.white),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none,
+          SizedBox(
+            width: 16.arP,
           ),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none),
-          hintText: 'Search baker',
-          hintStyle:
-              bodyMedium.copyWith(color: ColorConst.NeutralVariant.shade70),
-          labelStyle: labelSmall,
-          // contentPadding:
-          //     const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        ),
+          BouncingWidget(
+            onPressed: () {
+              CommonFunctions.bottomSheet(
+                AddCustomBakerBottomSheet(),
+              );
+            },
+            child: const Icon(
+              Icons.add_circle,
+              color: ColorConst.Primary,
+            ),
+          )
+        ],
       ),
     );
   }

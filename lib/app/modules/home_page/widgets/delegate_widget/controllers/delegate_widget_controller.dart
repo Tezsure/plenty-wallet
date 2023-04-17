@@ -30,6 +30,8 @@ import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
 
+import '../widgets/review_delegate_baker.dart';
+
 class DelegateWidgetController extends GetxController {
   final TextEditingController textEditingController = TextEditingController();
   final RxString bakerAddress = ''.obs;
@@ -101,6 +103,34 @@ class DelegateWidgetController extends GetxController {
           return (p0.freespace ?? 0) - (p1.freespace ?? 0);
       }
     });
+  }
+
+  Future<void> addCustomBaker(String address) async {
+    try {
+      final result = await DelegateHandler().bakerDetail(address);
+
+      if (result == null) {
+        Get.showSnackbar(const GetSnackBar(
+          message: "Not a valid baker",
+          snackPosition: SnackPosition.TOP,
+          duration: Duration(seconds: 2),
+        ));
+        return;
+      } else {
+        Get.back();
+        CommonFunctions.bottomSheet(ReviewDelegateSelectBaker(
+          baker: result,
+        ));
+      }
+    } catch (e) {
+      print(e);
+      Get.showSnackbar(const GetSnackBar(
+        message: "Not a valid baker",
+        snackPosition: SnackPosition.TOP,
+        duration: Duration(seconds: 2),
+      ));
+      return;
+    }
   }
 
   Future<void> confirmBioMetric(DelegateBakerModel baker) async {

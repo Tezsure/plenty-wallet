@@ -14,7 +14,7 @@ extension StringHelper on String {
     }
   }
 
-  get isValidWalletAddress =>
+  bool get isValidWalletAddress =>
       (startsWith("tz1") || startsWith("tz2") || startsWith("tz3")) &&
       length == 36;
 
