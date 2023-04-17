@@ -91,28 +91,11 @@ class _TransactionDetailsBottomSheetState
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      // blurRadius: 50,
-      width: 1.width, title: "",
-      // isScrollControlled: true,
-
+      width: 1.width, bottomSheetHorizontalPadding: 0,
+      // title: "",
       height: AppConstant.naanBottomSheetHeight,
-      // bottomSheetHorizontalPadding: 0,
-
-      // bottomSheetHorizontalPadding: 16.arP,
       bottomSheetWidgets: [
         Obx(() {
-          // widget.tokenInfo = widget.tokenInfo.copyWith(
-          //     lastId: widget.tokenInfo.token?.lastid.toString(),
-          //     source: widget.tokenInfo.token?.source(
-          //       userAccounts: Get.find<HomePageController>().userAccounts,
-          //       contacts: controller.contacts,
-          //     ),
-          //     destination: widget.tokenInfo.token?.destination(
-          //       userAccounts: Get.find<HomePageController>().userAccounts,
-          //       contacts: controller.contacts,
-          //     ));
-          // print(tokenInfo.token!.toJson());
-//https://api.tzkt.io/v1/operations/transactions?id=505096501723136
           final source = widget.tokenInfo.source == null
               ? null
               : getAddressAlias(widget.tokenInfo.source!,
@@ -125,94 +108,108 @@ class _TransactionDetailsBottomSheetState
                   contacts: controller.contacts);
           return SizedBox(
             height: AppConstant.naanBottomSheetChildHeight,
-            child: Column(
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.arP),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          // const BottomSheetHeading(
-                          //   title: "",
-                          // ),
-                          0.02.vspace,
-                          Image.asset(
-                            widget.tokenInfo.token == null ||
-                                    widget.tokenInfo.token!.operationStatus ==
-                                        "applied"
-                                ? "assets/transaction/success.png"
-                                : "assets/transaction/failed.png",
-                            height: 60.arP,
-                            width: 60.arP,
-                          ),
-                          0.02.vspace,
-                          Text(
-                            widget.tokenInfo.token
-                                    ?.getTxType(widget.userAccountAddress) ??
-                                "Received",
-                            style: titleLarge,
-                          ),
-                          0.01.vspace,
-                          Center(
-                            child: Text(
-                                DateFormat('MM/dd/yyyy HH:mm')
-                                    // displaying formatted date
-                                    .format(
-                                        widget.tokenInfo.timeStamp!.toLocal()),
-                                style: labelMedium.copyWith(
-                                    color: ColorConst.NeutralVariant.shade60)),
-                          ),
-                          0.02.vspace,
-                          const Divider(
-                            color: Color(0xff1E1C1F),
-                          ),
-                          0.02.vspace,
-                          // tokenInfo.token != null ||
-                          //         tokenInfo.token?.operationStatus != "applied" ||
-                          (source?.address?.isEmpty ?? true)
-                              ? const SizedBox()
-                              : contactTile(source!, "From"),
-                          0.02.vspace,
-                          // tokenInfo.token != null ||
-                          //         tokenInfo.token?.operationStatus != "applied" ||
-                          (destination?.address?.isEmpty ?? true)
-                              ? const SizedBox()
-                              : contactTile(destination!, "To"),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.arP),
-                              color: const Color(0xff1E1C1F),
-                            ),
-                            margin: EdgeInsets.symmetric(
-                              vertical: 24.arP,
-                            ),
+            child: Navigator(onGenerateRoute: (_) {
+              return MaterialPageRoute(builder: (context) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.arP),
+                  child: Column(
+                    children: [
+                      BottomSheetHeading(
+                        title: "",
+                      ),
+                      0.02.vspace,
+                      Image.asset(
+                        widget.tokenInfo.token == null ||
+                                widget.tokenInfo.token!.operationStatus ==
+                                    "applied"
+                            ? "assets/transaction/success.png"
+                            : "assets/transaction/failed.png",
+                        height: 60.arP,
+                        width: 60.arP,
+                      ),
+                      0.02.vspace,
+                      Text(
+                        widget.tokenInfo.token
+                                ?.getTxType(widget.userAccountAddress) ??
+                            "Received",
+                        style: titleLarge,
+                      ),
+                      0.01.vspace,
+                      Center(
+                        child: Text(
+                            DateFormat('MM/dd/yyyy HH:mm')
+                                // displaying formatted date
+                                .format(widget.tokenInfo.timeStamp!.toLocal()),
+                            style: labelMedium.copyWith(
+                                color: ColorConst.NeutralVariant.shade60)),
+                      ),
+                      0.02.vspace,
+                      const Divider(
+                        color: Color(0xff1E1C1F),
+                      ),
+                      0.02.vspace,
+                      // tokenInfo.token != null ||
+                      //         tokenInfo.token?.operationStatus != "applied" ||
+                      (source?.address?.isEmpty ?? true)
+                          ? const SizedBox()
+                          : contactTile(source!, "From"),
+                      0.02.vspace,
+                      // tokenInfo.token != null ||
+                      //         tokenInfo.token?.operationStatus != "applied" ||
+                      (destination?.address?.isEmpty ?? true)
+                          ? const SizedBox()
+                          : contactTile(destination!, "To"),
+                      0.02.vspace,
+
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.arP),
+                          child: SingleChildScrollView(
+                            padding: EdgeInsets.zero,
                             child: Column(
                               children: [
-                                TxTokenInfo(
-                                  tokenInfo: widget.tokenInfo,
-                                  userAccountAddress: widget.userAccountAddress,
-                                  xtzPrice: widget.xtzPrice,
+                                // const BottomSheetHeading(
+                                //   title: "",
+                                // ),
+
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.arP),
+                                    color: const Color(0xff1E1C1F),
+                                  ),
+                                  margin: EdgeInsets.only(
+                                    bottom: 24.arP,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      TxTokenInfo(
+                                        tokenInfo: widget.tokenInfo,
+                                        userAccountAddress:
+                                            widget.userAccountAddress,
+                                        xtzPrice: widget.xtzPrice,
+                                      ),
+                                      ...widget.tokenInfo.internalOperation
+                                          .map((e) => TxTokenInfo(
+                                                tokenInfo: e,
+                                                userAccountAddress:
+                                                    widget.userAccountAddress,
+                                                xtzPrice: widget.xtzPrice,
+                                              ))
+                                          .toList(),
+                                    ],
+                                  ),
                                 ),
-                                ...widget.tokenInfo.internalOperation
-                                    .map((e) => TxTokenInfo(
-                                          tokenInfo: e,
-                                          userAccountAddress:
-                                              widget.userAccountAddress,
-                                          xtzPrice: widget.xtzPrice,
-                                        ))
-                                    .toList(),
                               ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                      _buildFooter(context)
+                    ],
                   ),
-                ),
-                _buildFooter(context)
-              ],
-            ),
+                );
+              });
+            }),
           );
         }),
       ],
@@ -231,11 +228,20 @@ class _TransactionDetailsBottomSheetState
         BouncingWidget(
           onPressed: () {
             if (widget.tokenInfo.token == null) {
-              CommonFunctions.bottomSheet(TransactionFeeDetailShet(
-                tokenInfo: widget.tokenInfo.copyWith(token: txHistoryModel),
-                userAccountAddress: widget.userAccountAddress,
-                xtzPrice: widget.xtzPrice,
-              ));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (c) => TransactionFeeDetailShet(
+                            tokenInfo: widget.tokenInfo
+                                .copyWith(token: txHistoryModel),
+                            userAccountAddress: widget.userAccountAddress,
+                            xtzPrice: widget.xtzPrice,
+                          )));
+              // CommonFunctions.bottomSheet(TransactionFeeDetailShet(
+              //   tokenInfo: widget.tokenInfo.copyWith(token: txHistoryModel),
+              //   userAccountAddress: widget.userAccountAddress,
+              //   xtzPrice: widget.xtzPrice,
+              // ));
             } else {
               int bakerFees = widget.tokenInfo.token?.bakerFee ?? 0;
               int allocationFee = widget.tokenInfo.token?.allocationFee ?? 0;
@@ -247,12 +253,19 @@ class _TransactionDetailsBottomSheetState
                 gasUsed += element.token!.gasUsed ?? 0;
                 storageFee += element.token!.storageFee ?? 0;
               }
-
-              CommonFunctions.bottomSheet(TransactionFeeDetailShet(
-                tokenInfo: widget.tokenInfo,
-                userAccountAddress: widget.userAccountAddress,
-                xtzPrice: widget.xtzPrice,
-              ));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (c) => TransactionFeeDetailShet(
+                            tokenInfo: widget.tokenInfo,
+                            userAccountAddress: widget.userAccountAddress,
+                            xtzPrice: widget.xtzPrice,
+                          )));
+              // CommonFunctions.bottomSheet(TransactionFeeDetailShet(
+              //   tokenInfo: widget.tokenInfo,
+              //   userAccountAddress: widget.userAccountAddress,
+              //   xtzPrice: widget.xtzPrice,
+              // ));
             }
           },
           child: Column(
@@ -298,7 +311,7 @@ class _TransactionDetailsBottomSheetState
             },
           ),
         ),
-        const BottomButtonPadding()
+        // const BottomButtonPadding()
       ],
     );
   }

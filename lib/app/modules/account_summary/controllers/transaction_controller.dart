@@ -348,7 +348,8 @@ class TransactionController extends GetxController {
   }) async {
     try {
       String query = "";
-      if (Get.isRegistered<HistoryFilterController>()) {
+      if (isFilterApplied.value &&
+          Get.isRegistered<HistoryFilterController>()) {
         // Get.find<HistoryFilterController>().apply();
         Get.find<HistoryFilterController>().query.forEach((key, value) {
           query = "$query&$key=$value";
@@ -403,7 +404,8 @@ class TransactionController extends GetxController {
       {required String timeStamp}) async {
     try {
       String query = "";
-      if (Get.isRegistered<HistoryFilterController>()) {
+      if (isFilterApplied.value &&
+          Get.isRegistered<HistoryFilterController>()) {
         // Get.find<HistoryFilterController>().apply();
         Get.find<HistoryFilterController>().query.forEach((key, value) {
           query = "$query&$key=$value";

@@ -26,9 +26,15 @@ class TransactionFeeDetailShet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
+      prevPageName: "Back",
+      leading: backButton(
+          ontap: () {
+            Navigator.pop(context);
+          },
+          lastPageName: "Back"),
       // bottomSheetHorizontalPadding: 0,
       title: "Fees",
-      isScrollControlled: true,
+      // isScrollControlled: true,
       bottomSheetWidgets: [
         0.02.vspace,
         TxTokenInfo(

@@ -103,7 +103,7 @@ void main() async {
               completeText: "",
               refreshingText: "",
               canTwoLevelText: "",
-              completeIcon: const Icon(Icons.done, color: ColorConst.Primary),
+              completeIcon: const Icon(Icons.done, color: Colors.transparent),
               releaseIcon: SizedBox(
                 width: 25.0.arP,
                 height: 25.0.arP,
@@ -112,7 +112,7 @@ void main() async {
                 ),
               ),
               idleIcon:
-                  const Icon(Icons.arrow_downward, color: ColorConst.Primary),
+                  const Icon(Icons.arrow_downward, color:  Colors.transparent),
               refreshingIcon: SizedBox(
                 width: 25.0.arP,
                 height: 25.0.arP,
@@ -124,7 +124,7 @@ void main() async {
             idleText: "",
             failedText: "",
             noDataText: "",
-            idleIcon: const Icon(Icons.arrow_upward, color: ColorConst.Primary),
+            idleIcon: const Icon(Icons.arrow_upward, color:  Colors.transparent),
             canLoadingIcon:
                 const Icon(Icons.autorenew, color: ColorConst.Primary),
             loadingText: "",
