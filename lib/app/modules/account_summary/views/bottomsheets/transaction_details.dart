@@ -469,9 +469,17 @@ class _TransactionDetailsBottomSheetState
               SizedBox(
                 height: 4.arP,
               ),
-              Text(
-                contact.alias ?? contact.address!.tz1Short(),
-                style: bodyMedium,
+              Row(
+                children: [
+                  Container(
+                    constraints: BoxConstraints(maxWidth: .75.width),
+                    child: Text(
+                      (contact.alias ?? contact.address!.tz1Short()),
+                      style: bodyMedium, maxLines: 1,
+                      // overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -672,41 +680,44 @@ class TxTokenInfo extends StatelessWidget {
           SizedBox(
             width: 12.arP,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                      tokenInfo.token?.getTxIcon(selectedAccount) ??
-                          "assets/transaction/down.png",
-                      width: 14.aR,
-                      height: 14.arP,
-                      color: ColorConst.NeutralVariant.shade60),
-                  Container(
-                    constraints: BoxConstraints(maxWidth: .5.width),
-                    child: Text(
-                        " ${tokenInfo.token?.getTxType(selectedAccount) ?? "Received"}",
-                        maxLines: 1,
-                        style: labelMedium.copyWith(
-                          color: ColorConst.NeutralVariant.shade60,
-                        )),
-                  ),
-                ],
-              ),
-              Container(
-                constraints: BoxConstraints(maxWidth: .5.width),
-                padding: EdgeInsets.only(top: 6.aR),
-                child: Text(
-                  tokenInfo.name,
-                  maxLines: 1,
-                  style: labelLarge.copyWith(
-                      fontSize: 14.aR, fontWeight: FontWeight.normal),
+          Container(
+            constraints: BoxConstraints(maxWidth: .345.width),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                        tokenInfo.token?.getTxIcon(selectedAccount) ??
+                            "assets/transaction/down.png",
+                        width: 14.aR,
+                        height: 14.arP,
+                        color: ColorConst.NeutralVariant.shade60),
+                    Container(
+                      constraints: BoxConstraints(maxWidth: .5.width),
+                      child: Text(
+                          " ${tokenInfo.token?.getTxType(selectedAccount) ?? "Received"}",
+                          maxLines: 1,
+                          style: labelMedium.copyWith(
+                            color: ColorConst.NeutralVariant.shade60,
+                          )),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                Container(
+                  constraints: BoxConstraints(maxWidth: .5.width),
+                  padding: EdgeInsets.only(top: 6.aR),
+                  child: Text(
+                    tokenInfo.name,
+                    maxLines: 1,
+                    style: labelLarge.copyWith(
+                        fontSize: 14.aR, fontWeight: FontWeight.normal),
+                  ),
+                ),
+              ],
+            ),
           ),
           const Spacer(),
           if (showAmount)
@@ -786,19 +797,19 @@ class TxTokenInfo extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                tokenInfo.timeStamp!.displayDate(tokenInfo.timeStamp!)
-                    ? const SizedBox()
-                    : Padding(
-                        padding: EdgeInsets.only(
-                            top: 16.arP, left: 16.arP, bottom: 16.arP),
-                        child: Text(
-                          DateFormat.MMMM()
-                              // displaying formatted date
-                              .format(
-                                  DateTime.parse(tokenInfo.token!.timestamp!)),
-                          style: labelLarge,
-                        ),
-                      ),
+                // tokenInfo.timeStamp!.displayDate(tokenInfo.timeStamp!)
+                //     ? const SizedBox()
+                //     : Padding(
+                //         padding: EdgeInsets.only(
+                //             top: 16.arP, left: 16.arP, bottom: 16.arP),
+                //         child: Text(
+                //           DateFormat.MMMM()
+                //               // displaying formatted date
+                //               .format(
+                //                   DateTime.parse(tokenInfo.token!.timestamp!)),
+                //           style: labelLarge,
+                //         ),
+                //       ),
                 TxTokenInfo(
                   tokensList: tokensList,
                   tokenInfo: tokenInfo,
