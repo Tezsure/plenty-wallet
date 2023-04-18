@@ -9,6 +9,7 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/app/modules/common_widgets/nft_image.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../custom_packages/animated_scroll_indicator/effects/scrolling_dot_effect.dart';
 
@@ -83,6 +84,22 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget>
           ),
         ),
       );
+
+  Widget _getLoadingGallerySkeleton() => Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(22.arP),
+        // color: Colors.white,
+        color: const Color(0xFF1E1C1F),
+      ),
+      child: Shimmer.fromColors(
+        baseColor: const Color(0xff474548),
+        highlightColor: const Color(0xFF958E99).withOpacity(0.2),
+        child: Container(
+            decoration: BoxDecoration(
+          color: const Color(0xff474548),
+          borderRadius: BorderRadius.circular(22.arP),
+        )),
+      ));
 
   Widget _getGalleryWidget() => ClipRRect(
         borderRadius: BorderRadius.circular(22.arP),
@@ -232,9 +249,11 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget>
                 //   color: const Color(0xFF1E1C1F),
                 // ),
                 child: Obx(
-                  () => controller.nftGalleryList.isEmpty
-                      ? _getNoGalleryStateWidget()
-                      : _getGalleryWidget(),
+                  () => controller.loading.value
+                      ? _getLoadingGallerySkeleton()
+                      : controller.nftGalleryList.isEmpty
+                          ? _getNoGalleryStateWidget()
+                          : _getGalleryWidget(),
                 ),
               ),
             ),
