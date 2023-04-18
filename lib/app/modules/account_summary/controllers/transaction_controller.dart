@@ -170,13 +170,26 @@ class TransactionController extends GetxController {
     isTransactionLoading.value = false;
   }
 
+  List<TokenPriceModel> get tokensList => [
+        ...Get.find<AccountSummaryController>().tokensList,
+        ...Get.find<AccountSummaryController>()
+            .userTokens
+            .map((element) => element.convert())
+            .toList()
+      ];
   List<TokenInfo> _sortTransaction(List<TxHistoryModel> transactionList,
       List<TransactionTransferModel> transferlist) {
     List<TokenInfo> sortedTransactionList = <TokenInfo>[];
     late TokenInfo tokenInfo;
     String? isHashSame;
     tokenTransactionID.clear();
-    final tokensList = Get.find<AccountSummaryController>().tokensList;
+    // List<TokenPriceModel> tokensList = [
+    //   ...Get.find<AccountSummaryController>().tokensList,
+    //   ...Get.find<AccountSummaryController>()
+    //       .userTokens
+    //       .map((element) => element.convert())
+    //       .toList()
+    // ];
     final selectedAccount = Get.find<HomePageController>()
         .userAccounts[Get.find<HomePageController>().selectedIndex.value]
         .publicKeyHash!;
@@ -726,23 +739,34 @@ class TransactionController extends GetxController {
 // }
 
 extension DateOnlyCompare on DateTime {
-  bool isSameDay(DateTime other) {
-    if (year == other.year && month == other.month && day == other.day) {
+  bool displayDate(DateTime other) {
+    final now = DateTime.now();
+    // return relativeDate().isNotEmpty;
+    if (year == now.year && month == now.month && day == now.day) {
       return true;
     }
-    if (year == other.year && month == other.month && day - other.day == 1) {
+    if (year == now.year &&
+        month == now.month &&
+        (day - other.day).abs() == 1) {
       return true;
     }
-    if (year == other.year && month == other.month) return true;
+    if (year == other.year && month != other.month) return true;
     return false;
   }
 
   String relativeDate() {
     final now = DateTime.now();
     Duration diff = now.difference(this);
-    if (diff.inDays == 0) return "Today";
-    if (diff.inDays == 1) return "Yesterday";
-    if (month == now.month && year == now.year) return "This Month";
+    if (year == now.year && month == now.month && day == now.day) {
+      return "Today";
+    }
+    if (year == now.year && month == now.month && (day - now.day).abs() == 1) {
+      return "Yesterday";
+    }
+
+    if (month == now.month && year == now.year) {
+      return "This Month";
+    }
     if (year == now.year && month != now.month) {
       ///APRIL
       return DateFormat.MMMM().format(this);

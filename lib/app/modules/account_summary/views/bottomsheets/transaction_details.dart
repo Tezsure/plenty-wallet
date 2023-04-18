@@ -35,6 +35,7 @@ import 'package:naan_wallet/utils/utils.dart';
 
 import '../../../../../utils/constants/path_const.dart';
 import '../../../../data/services/service_config/service_config.dart';
+import '../../../../data/services/service_models/token_price_model.dart';
 import '../../controllers/transaction_controller.dart';
 import '../../models/token_info.dart';
 import '../pages/crypto_tab.dart';
@@ -177,12 +178,13 @@ class _TransactionDetailsBottomSheetState
                                     borderRadius: BorderRadius.circular(8.arP),
                                     color: const Color(0xff1E1C1F),
                                   ),
-                                  margin: EdgeInsets.only(
-                                    bottom: 24.arP,
-                                  ),
+                                  // margin: EdgeInsets.only(
+                                  //   bottom: 24.arP,
+                                  // ),
                                   child: Column(
                                     children: [
                                       TxTokenInfo(
+                                        tokensList: controller.tokensList,
                                         tokenInfo: widget.tokenInfo,
                                         userAccountAddress:
                                             widget.userAccountAddress,
@@ -190,6 +192,8 @@ class _TransactionDetailsBottomSheetState
                                       ),
                                       ...widget.tokenInfo.internalOperation
                                           .map((e) => TxTokenInfo(
+                                                tokensList:
+                                                    controller.tokensList,
                                                 tokenInfo: e,
                                                 userAccountAddress:
                                                     widget.userAccountAddress,
@@ -232,6 +236,7 @@ class _TransactionDetailsBottomSheetState
                   context,
                   MaterialPageRoute(
                       builder: (c) => TransactionFeeDetailShet(
+                            tokensList: controller.tokensList,
                             tokenInfo: widget.tokenInfo
                                 .copyWith(token: txHistoryModel),
                             userAccountAddress: widget.userAccountAddress,
@@ -257,6 +262,7 @@ class _TransactionDetailsBottomSheetState
                   context,
                   MaterialPageRoute(
                       builder: (c) => TransactionFeeDetailShet(
+                            tokensList: controller.tokensList,
                             tokenInfo: widget.tokenInfo,
                             userAccountAddress: widget.userAccountAddress,
                             xtzPrice: widget.xtzPrice,
@@ -577,10 +583,12 @@ class TxTokenInfo extends StatelessWidget {
     required this.tokenInfo,
     required this.userAccountAddress,
     required this.xtzPrice,
+    required this.tokensList,
     this.showAmount = true,
   });
 
   TokenInfo tokenInfo;
+  List<TokenPriceModel> tokensList;
   final String userAccountAddress;
   final double xtzPrice;
 
@@ -591,16 +599,16 @@ class TxTokenInfo extends StatelessWidget {
     final selectedAccount = Get.find<HomePageController>()
         .userAccounts[Get.find<HomePageController>().selectedIndex.value]
         .publicKeyHash!;
-    final tokenList = Get.find<AccountSummaryController>().tokensList;
+
     if (tokenInfo.token != null) {
       final transactionInterface =
-          tokenInfo.token!.transactionInterface(tokenList);
+          tokenInfo.token!.transactionInterface(tokensList);
       if (!tokenInfo.isNft) {
         tokenInfo = tokenInfo.copyWith(
           imageUrl: transactionInterface.imageUrl,
           name: transactionInterface.name,
           tokenAmount: tokenInfo.token!.getAmount(
-            tokenList,
+            tokensList,
             selectedAccount,
           ),
         );
@@ -742,10 +750,9 @@ class TxTokenInfo extends StatelessWidget {
   }
 
   Widget _loadNFTTransaction() {
-    final tokenList = Get.find<AccountSummaryController>().tokensList;
     if (tokenInfo.token != null) {
       final transactionInterface =
-          tokenInfo.token!.transactionInterface(tokenList);
+          tokenInfo.token!.transactionInterface(tokensList);
       tokenInfo = tokenInfo.copyWith(
           nftTokenId: transactionInterface.tokenID,
           address: transactionInterface.contractAddress);
@@ -779,7 +786,7 @@ class TxTokenInfo extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                tokenInfo.timeStamp!.isSameDay(tokenInfo.timeStamp!)
+                tokenInfo.timeStamp!.displayDate(tokenInfo.timeStamp!)
                     ? const SizedBox()
                     : Padding(
                         padding: EdgeInsets.only(
@@ -793,6 +800,7 @@ class TxTokenInfo extends StatelessWidget {
                         ),
                       ),
                 TxTokenInfo(
+                  tokensList: tokensList,
                   tokenInfo: tokenInfo,
                   xtzPrice: xtzPrice,
                   userAccountAddress: userAccountAddress,

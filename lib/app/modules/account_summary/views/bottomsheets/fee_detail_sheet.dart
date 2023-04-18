@@ -11,15 +11,18 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
+import '../../../../data/services/service_models/token_price_model.dart';
 import 'transaction_details.dart';
 
 class TransactionFeeDetailShet extends StatelessWidget {
   TokenInfo tokenInfo;
   final String userAccountAddress;
   final double xtzPrice;
+  final List<TokenPriceModel>tokensList;
   TransactionFeeDetailShet(
       {super.key,
       required this.tokenInfo,
+      required this.tokensList,
       required this.userAccountAddress,
       required this.xtzPrice});
 
@@ -37,7 +40,7 @@ class TransactionFeeDetailShet extends StatelessWidget {
       // isScrollControlled: true,
       bottomSheetWidgets: [
         0.02.vspace,
-        TxTokenInfo(
+        TxTokenInfo(tokensList:tokensList,
           showAmount: false,
           tokenInfo: tokenInfo,
           userAccountAddress: userAccountAddress,

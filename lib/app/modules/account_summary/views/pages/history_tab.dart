@@ -83,7 +83,7 @@ class HistoryPage extends GetView<TransactionController> {
         return _loadTokenTransaction(
             controller.filteredTransactionList[index],
             index,
-            controller.filteredTransactionList[index].timeStamp!.isSameDay(
+            controller.filteredTransactionList[index].timeStamp!.displayDate(
                 controller.filteredTransactionList[index == 0 ? 0 : index - 1]
                     .timeStamp!));
       }
@@ -117,10 +117,11 @@ class HistoryPage extends GetView<TransactionController> {
             : _loadTokenTransaction(
                 controller.defaultTransactionList[index],
                 index,
-                controller.defaultTransactionList[index].timeStamp!.isSameDay(
-                    controller
-                        .defaultTransactionList[index == 0 ? 0 : index - 1]
-                        .timeStamp!));
+                controller.defaultTransactionList[index].timeStamp!.displayDate(
+                    index == 0
+                        ? controller.defaultTransactionList[index].timeStamp!
+                        : controller
+                            .defaultTransactionList[index - 1].timeStamp!));
       }
     }
   }
@@ -128,7 +129,6 @@ class HistoryPage extends GetView<TransactionController> {
   Widget _buildBody(BuildContext context) {
     return Column(
       children: [
-        0.02.vspace,
         // _buildHeader(context),
         Obx(() {
           return Expanded(
@@ -166,7 +166,7 @@ class HistoryPage extends GetView<TransactionController> {
                           controller.filteredTransactionList.isEmpty
                       ? _emptyState
                       : ListView.builder(
-                          padding: EdgeInsets.zero,
+                          padding: EdgeInsets.only(top: 16.arP),
                           itemBuilder: _itemBuilder,
                           itemCount: controller.isFilterApplied.value
                               ? controller.filteredTransactionList.length + 1
@@ -279,7 +279,7 @@ class HistoryPage extends GetView<TransactionController> {
         ],
       );
 
-  Widget _loadTokenTransaction(TokenInfo token, int index, bool sameDate) =>
+  Widget _loadTokenTransaction(TokenInfo token, int index, bool displayDate) =>
       Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,16 +293,16 @@ class HistoryPage extends GetView<TransactionController> {
                     style: labelLarge,
                   ),
                 )
-              : sameDate
-                  ? const SizedBox()
-                  : Padding(
+              : displayDate
+                  ? Padding(
                       padding: EdgeInsets.only(
                           top: 20.arP, left: 16.arP, bottom: 12.arP),
                       child: Text(
                         token.timeStamp!.relativeDate(),
                         style: labelLarge,
                       ),
-                    ),
+                    )
+                  : const SizedBox(),
           HistoryTile(
             tokenInfo: token,
             xtzPrice: controller.accController.xtzPrice.value,
@@ -319,7 +319,7 @@ class HistoryPage extends GetView<TransactionController> {
       );
 
   Widget _loadNFTTransaction(int index) {
-    final tokenList = Get.find<AccountSummaryController>().tokensList;
+    final tokenList = controller.tokensList;
     if (controller.defaultTransactionList[index].token != null) {
       final transactionInterface = controller
           .defaultTransactionList[index].token!
@@ -370,21 +370,20 @@ class HistoryPage extends GetView<TransactionController> {
                           style: labelLarge,
                         ),
                       )
-                    : controller.defaultTransactionList[index].timeStamp!
-                            .isSameDay(controller
-                                .defaultTransactionList[
-                                    index == 0 ? 0 : index - 1]
-                                .timeStamp!)
+                    : !controller.defaultTransactionList[index].timeStamp!
+                            .displayDate(index == 0
+                                ? controller
+                                    .defaultTransactionList[index].timeStamp!
+                                : controller.defaultTransactionList[index - 1]
+                                    .timeStamp!)
                         ? const SizedBox()
                         : Padding(
                             padding: EdgeInsets.only(
                                 top: 16.arP, left: 16.arP, bottom: 16.arP),
                             child: Text(
-                              DateFormat.MMMM()
-                                  // displaying formatted date
-                                  .format(controller
-                                      .defaultTransactionList[index]
-                                      .timeStamp!),
+                              controller
+                                  .defaultTransactionList[index].timeStamp!
+                                  .relativeDate(),
                               style: labelLarge,
                             ),
                           ),
@@ -445,9 +444,7 @@ class HistoryPage extends GetView<TransactionController> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SvgPicture.asset(
-                      controller.isFilterApplied.value
-                          ? "${PathConst.SVG}filter_selected.svg"
-                          : '${PathConst.SVG}filter.svg',
+                      '${PathConst.SVG}filter.svg',
                       fit: BoxFit.contain,
                       height: 20.aR,
                       color: Colors.white,
