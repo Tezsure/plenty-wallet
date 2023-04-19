@@ -29,15 +29,17 @@ class NftGalleryWidgetController extends GetxController {
   var currentSelectedType = AccountProfileImageType.assets;
   RxString selectedImagePath = "".obs;
   RxString accountName = 'Gallery 1'.obs;
-
+  RxBool loading = true.obs;
   RxList<NftGalleryModel> nftGalleryList = <NftGalleryModel>[].obs;
 
   @override
   Future<void> onInit() async {
     super.onInit();
+    loading.value = true;
     await DataHandlerService().nftPatch(() {
       fetchNftGallerys();
     });
+    loading.value = false;
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
   }
 
@@ -50,6 +52,7 @@ class NftGalleryWidgetController extends GetxController {
         nftGalleryList.value = value;
       });
     } catch (e) {
+      loading.value = false;
       log(e.toString());
     }
 
