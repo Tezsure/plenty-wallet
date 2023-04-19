@@ -29,7 +29,7 @@ class NftGalleryWidgetController extends GetxController {
   var currentSelectedType = AccountProfileImageType.assets;
   RxString selectedImagePath = "".obs;
   RxString accountName = 'Gallery 1'.obs;
-  RxBool loading = false.obs;
+  RxBool loading = true.obs;
   RxList<NftGalleryModel> nftGalleryList = <NftGalleryModel>[].obs;
 
   @override
