@@ -18,7 +18,7 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-
+import 'package:card_swiper/card_swiper.dart';
 import '../controllers/dapps_page_controller.dart';
 
 class DappsPageView extends GetView<DappsPageController> {
@@ -41,6 +41,7 @@ class DappsPageView extends GetView<DappsPageController> {
           child: Column(
             children: [
               0.02.vspace,
+              _buildBanner(),
               Expanded(
                 child: Obx(
                   () => ListView.builder(
@@ -74,6 +75,108 @@ class DappsPageView extends GetView<DappsPageController> {
             ],
           ),
         ),
+      ],
+    );
+  }
+
+  Widget _buildBanner() {
+    final banners =
+        controller.dappBanners.where((p0) => p0.type == "banner").toList();
+    final height = 435.arP;
+    return Column(
+      children: [
+        Container(
+          height: height,
+          child: Swiper(
+            loop: false,
+            viewportFraction: .9,
+            itemBuilder: (BuildContext context, int index) {
+              final banner = banners[index];
+              return Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFF1E1A22),
+                  borderRadius: BorderRadius.circular(
+                    22.arP,
+                  ),
+                ),
+                margin: EdgeInsets.only(
+                  bottom: 20.arP,
+                  // left: 16.arP,
+                  right: 16.arP,
+                ),
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                        22.arP,
+                      ),
+                      child: banner.bannerImage!.contains("svg")
+                          ? SvgPicture.network(
+                              "${ServiceConfig.naanApis}/images/${banner.bannerImage!}",
+                              fit: BoxFit.fill,
+                              height: height,
+                              width: double.infinity,
+                            )
+                          : CachedNetworkImage(
+                              imageUrl:
+                                  "${ServiceConfig.naanApis}/images/${banners[index].bannerImage!}",
+                              fit: BoxFit.cover,
+                              height: height,
+                              width: double.infinity,
+                            ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      width: 0.82.width,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                          Colors.black.withOpacity(.6),
+                          Colors.black,
+                        ])),
+                        margin: EdgeInsets.only(
+                          top: 28.arP,
+                          left: 14.arP,
+                          right: 14.arP,
+                          bottom: 28.arP,
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              banner.title!,
+                              style: TextStyle(
+                                fontSize: 28.arP,
+                                color: const Color(0xFFFFFFFF),
+                                letterSpacing: 0.45.arP,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              banner.description!,
+                              style: TextStyle(
+                                fontSize: 14.txtArp,
+                                color: const Color(0xFFFFFFFF),
+                                letterSpacing: 0.27.arP,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+
+            // indicatorLayout: PageIndicatorLayout.COLOR,
+            autoplay: false,
+            itemCount: banners.length,
+            // pagination: SwiperPagination(),
+            // control: SwiperControl(),
+          ),
+        )
       ],
     );
   }

@@ -58,6 +58,8 @@ dependencies:
     ^0.10.0
   pull_to_refresh: ^2.0.0
 
+  card_swiper: ^2.0.4
+
     # path: packages/modal_bottom_sheet/modal_bottom_sheet
 
   # Firebase
