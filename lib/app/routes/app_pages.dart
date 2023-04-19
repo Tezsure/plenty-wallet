@@ -164,7 +164,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DAPPS_PAGE,
-      page: () => const DappsPageView(),
+      page: () =>  DappsPageView(),
       binding: DappsPageBinding(),
     ),
     GetPage(
