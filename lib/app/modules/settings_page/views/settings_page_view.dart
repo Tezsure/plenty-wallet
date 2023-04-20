@@ -391,7 +391,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         ),
         0.01.vspace,
         Text(
-          "Version 2.0.9 ${Platform.isAndroid ? "(beta)" : ""}",
+          "Version 2.0.10 ${Platform.isAndroid ? "(beta)" : ""}",
           style: labelSmall.copyWith(color: ColorConst.NeutralVariant.shade60),
         )
       ],
