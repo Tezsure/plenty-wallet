@@ -32,7 +32,7 @@ class _AddCustomBakerBottomSheetState extends State<AddCustomBakerBottomSheet> {
       title: 'Add Custom Baker',
 
       // bottomSheetHorizontalPadding: 32.arP,
-      height: .35.height,
+      height: .32.height,
       bottomSheetWidgets: [
         Column(
           children: [

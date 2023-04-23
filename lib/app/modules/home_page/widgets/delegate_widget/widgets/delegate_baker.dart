@@ -14,6 +14,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../../../utils/colors/colors.dart';
 import '../../../../../../utils/styles/styles.dart';
 import '../../../../common_widgets/bottom_sheet.dart';
+import '../../../../common_widgets/solid_button.dart';
 import '../controllers/delegate_widget_controller.dart';
 import 'add_custom_baker.dart';
 import 'baker_filter.dart';
@@ -58,9 +59,37 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
                     0.01.vspace,
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 0.012.height),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Recommended bakers".tr, style: labelLarge),
+                      child: Row(
+                        children: [
+                          Text("Recommended bakers".tr, style: labelLarge),
+                          Spacer(),
+                          Obx(() {
+                            return BouncingWidget(
+                              onPressed: () {
+                                CommonFunctions.bottomSheet(
+                                    const BakerFilterBottomSheet());
+                              },
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Sort by ",
+                                    style: bodySmall.copyWith(
+                                      color: ColorConst.NeutralVariant.shade70,
+                                    ),
+                                  ),
+                                  Text(
+                                    controller.bakerListBy.value.name,
+                                    style: bodySmall,
+                                  ),
+                                  Icon(
+                                    Icons.expand_more_rounded,
+                                    color: ColorConst.NeutralVariant.shade70,
+                                  )
+                                ],
+                              ),
+                            );
+                          }),
+                        ],
                       ),
                     ),
                     _buildBakerList(),
@@ -123,60 +152,93 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
 
   Widget _buildSortByWidget(BuildContext context) {
     return Obx(() => AnimatedCrossFade(
-          sizeCurve: Curves.easeIn,
-          secondCurve: Curves.easeIn,
-          firstCurve: Curves.easeIn,
-          duration: const Duration(milliseconds: 150),
-          firstChild: Container(),
-          crossFadeState: controller.showFilter.value
-              ? CrossFadeState.showSecond
-              : CrossFadeState.showFirst,
-          secondChild: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 48.arP),
-              child: BouncingWidget(
-                onPressed: () =>
-                    CommonFunctions.bottomSheet(const BakerFilterBottomSheet()),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white, width: .3),
-                      color: const Color(0xff1E1C1F),
-                      borderRadius: BorderRadius.circular(20)),
-                  width: 100,
-                  height: 40,
-                  alignment: Alignment.center,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.filter_list_rounded,
-                            color: Colors.white,
-                          ),
-                          0.01.hspace,
-                          Text(
-                            "Sort".tr,
-                            style: labelSmall.copyWith(color: Colors.white),
-                          )
-                        ],
-                      ),
-                      // if (controller.bakerListBy?.value != null)
-                      //   const Align(
-                      //     alignment: Alignment.topRight,
-                      //     child: Icon(
-                      //       Icons.circle,
-                      //       color: ColorConst.Primary,
-                      //       size: 15,
-                      //     ),
-                      //   ),
-                    ],
+        sizeCurve: Curves.easeIn,
+        secondCurve: Curves.easeIn,
+        firstCurve: Curves.easeIn,
+        duration: const Duration(milliseconds: 150),
+        firstChild: Container(),
+        crossFadeState: controller.showFilter.value
+            ? CrossFadeState.showSecond
+            : CrossFadeState.showFirst,
+        secondChild: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 48.arP),
+            child: SolidButton(
+              borderRadius: 30.arP,
+              height: 40.arP,
+              onPressed: () {
+                CommonFunctions.bottomSheet(
+                  AddCustomBakerBottomSheet(),
+                );
+              },
+              width: .45.width,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.add_rounded,
+                    color: Colors.white,
+                    size: 20.arP,
                   ),
-                ),
+                  SizedBox(
+                    width: 8.arP,
+                  ),
+                  Text(
+                    "Add custom baker",
+                    style: labelLarge,
+                  )
+                ],
               ),
             ),
           ),
+        )
+        //  SafeArea(
+        //   child: Padding(
+        // padding: EdgeInsets.only(bottom: 48.arP),
+        //     child: BouncingWidget(
+        //       onPressed: () =>
+        //           CommonFunctions.bottomSheet(const BakerFilterBottomSheet()),
+        //       child: Container(
+        //         decoration: BoxDecoration(
+        //             border: Border.all(color: Colors.white, width: .3),
+        //             color: const Color(0xff1E1C1F),
+        //             borderRadius: BorderRadius.circular(20)),
+        //         width: 100,
+        //         height: 40,
+        //         alignment: Alignment.center,
+        //         child: Stack(
+        //           alignment: Alignment.center,
+        //           children: [
+        //             Row(
+        //               mainAxisSize: MainAxisSize.min,
+        //               children: [
+        //                 const Icon(
+        //                   Icons.filter_list_rounded,
+        //                   color: Colors.white,
+        //                 ),
+        //                 0.01.hspace,
+        //                 Text(
+        //                   "Sort".tr,
+        //                   style: labelSmall.copyWith(color: Colors.white),
+        //                 )
+        //               ],
+        //             ),
+        //             // if (controller.bakerListBy?.value != null)
+        //             //   const Align(
+        //             //     alignment: Alignment.topRight,
+        //             //     child: Icon(
+        //             //       Icons.circle,
+        //             //       color: ColorConst.Primary,
+        //             //       size: 15,
+        //             //     ),
+        //             //   ),
+        //           ],
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+
         ));
   }
 
@@ -221,20 +283,20 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               ),
             ),
           ),
-          SizedBox(
-            width: 16.arP,
-          ),
-          BouncingWidget(
-            onPressed: () {
-              CommonFunctions.bottomSheet(
-                AddCustomBakerBottomSheet(),
-              );
-            },
-            child: const Icon(
-              Icons.add_circle,
-              color: ColorConst.Primary,
-            ),
-          )
+          // SizedBox(
+          //   width: 16.arP,
+          // ),
+          // BouncingWidget(
+          //   onPressed: () {
+          //     CommonFunctions.bottomSheet(
+          //       AddCustomBakerBottomSheet(),
+          //     );
+          //   },
+          //   child: const Icon(
+          //     Icons.add_circle,
+          //     color: ColorConst.Primary,
+          //   ),
+          // )
         ],
       ),
     );
