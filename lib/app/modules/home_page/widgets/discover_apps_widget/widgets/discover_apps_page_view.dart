@@ -15,7 +15,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/scrolling_dot_effect.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
-import 'package:naan_wallet/app/modules/dapps_page/views/widgets/dapp_bottomsheet.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/discover_apps_widget/widgets/dapp_bottomsheet.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/custom_tab_indicator.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
@@ -24,6 +24,7 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:shimmer/shimmer.dart';
+
 import '../controllers/dapps_page_controller.dart';
 
 class DappsPageView extends GetView<DappsPageController> {
@@ -120,99 +121,111 @@ class DappsPageView extends GetView<DappsPageController> {
         // viewportFraction: .9,
         itemBuilder: (BuildContext context, int index) {
           final banner = banners[index];
-          return SizedBox(
-            width: .75.width,
-            height: height,
-            child: Container(
+          List<DappModel> dapps = banner.dapps!
+              .map<DappModel>((e) => controller.dapps[e]!)
+              .toList();
+          return BouncingWidget(
+            onPressed: () {
+              CommonFunctions.bottomSheet(
+                DappBottomSheet(
+                  dappModel: dapps[0],
+                ),
+              );
+            },
+            child: SizedBox(
               width: .75.width,
               height: height,
-              decoration: BoxDecoration(
-                color: const Color(0xFF1E1A22),
-                borderRadius: BorderRadius.circular(
-                  22.arP,
+              child: Container(
+                width: .75.width,
+                height: height,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E1A22),
+                  borderRadius: BorderRadius.circular(
+                    22.arP,
+                  ),
                 ),
-              ),
-              margin: EdgeInsets.only(
-                bottom: 28.arP,
-                left: 16.arP,
-                right: 16.arP,
-              ),
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      22.arP,
+                margin: EdgeInsets.only(
+                  bottom: 28.arP,
+                  left: 16.arP,
+                  right: 16.arP,
+                ),
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                        22.arP,
+                      ),
+                      child: banner.bannerImage!.contains("svg")
+                          ? SvgPicture.network(
+                              "${ServiceConfig.naanApis}/images/${banner.bannerImage!}",
+                              fit: BoxFit.cover,
+                              height: height,
+                              width: double.infinity,
+                            )
+                          : CachedNetworkImage(
+                              imageUrl:
+                                  "${ServiceConfig.naanApis}/images/${banners[index].bannerImage!}",
+                              fit: BoxFit.cover,
+                              height: height,
+                              width: double.infinity,
+                            ),
                     ),
-                    child: banner.bannerImage!.contains("svg")
-                        ? SvgPicture.network(
-                            "${ServiceConfig.naanApis}/images/${banner.bannerImage!}",
-                            fit: BoxFit.cover,
-                            height: height,
-                            width: double.infinity,
-                          )
-                        : CachedNetworkImage(
-                            imageUrl:
-                                "${ServiceConfig.naanApis}/images/${banners[index].bannerImage!}",
-                            fit: BoxFit.cover,
-                            height: height,
-                            width: double.infinity,
-                          ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
-                      height: 0.2.height,
-                      width: double.infinity,
-                      // ignore: prefer_const_constructors
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            22.arP,
-                          ),
-                          // ignore: prefer_const_constructors
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              // ignore: prefer_const_literals_to_create_immutables
-                              colors: [
-                                Colors.transparent,
-                                // Colors.grey[900]!.withOpacity(0.33),
-                                Colors.grey[900]!.withOpacity(0.66),
-                                Colors.grey[900]!.withOpacity(0.99),
-                              ])),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Container(
+                        height: 0.2.height,
+                        width: double.infinity,
+                        // ignore: prefer_const_constructors
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              22.arP,
+                            ),
+                            // ignore: prefer_const_constructors
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                // ignore: prefer_const_literals_to_create_immutables
+                                colors: [
+                                  Colors.transparent,
+                                  // Colors.grey[900]!.withOpacity(0.33),
+                                  Colors.grey[900]!.withOpacity(0.66),
+                                  Colors.grey[900]!.withOpacity(0.99),
+                                ])),
+                      ),
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(24.arP),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          banner.title!,
-                          style: TextStyle(
-                            fontSize: 28.arP,
-                            color: const Color(0xFFFFFFFF),
-                            letterSpacing: 0.45.arP,
-                            fontWeight: FontWeight.w700,
+                    Container(
+                      padding: EdgeInsets.all(24.arP),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            banner.title!,
+                            style: TextStyle(
+                              fontSize: 28.arP,
+                              color: const Color(0xFFFFFFFF),
+                              letterSpacing: 0.45.arP,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 12.arP,
-                        ),
-                        Text(
-                          banner.description!,
-                          style: TextStyle(
-                            fontSize: 14.txtArp,
-                            color: const Color(0xFFFFFFFF),
-                            letterSpacing: 0.27.arP,
-                            fontWeight: FontWeight.w400,
+                          SizedBox(
+                            height: 12.arP,
                           ),
-                        ),
-                      ],
+                          Text(
+                            banner.description!,
+                            style: TextStyle(
+                              fontSize: 14.txtArp,
+                              color: const Color(0xFFFFFFFF),
+                              letterSpacing: 0.27.arP,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
@@ -310,7 +323,14 @@ class DappsPageView extends GetView<DappsPageController> {
   }
 
   Widget _switchTabBarView() {
-    final dapps = controller.dapps.values.toList();
+    if (controller.selectedTab.value == 0) {
+      return _getDappListWidget(controller.dapps.values.toList());
+    }
+    final dapps = controller.dapps.values
+        .where((element) => element.type!
+            .toLowerCase()
+            .contains(tabs[controller.selectedTab.value].toLowerCase()))
+        .toList();
     return _getDappListWidget(dapps);
   }
 
@@ -328,7 +348,9 @@ class DappsPageView extends GetView<DappsPageController> {
   }
 
   Widget _buildFavourites() {
-    final dapps = controller.dapps.values.toList();
+    final dapps = controller.dapps.values
+        .where((element) => element.isFavorite!)
+        .toList();
     return SizedBox(
       height: 75.arP,
       child: ListView.builder(
@@ -342,40 +364,49 @@ class DappsPageView extends GetView<DappsPageController> {
             if (dapp.logo == null) return Container();
             return Padding(
               padding: EdgeInsets.only(right: 32.0.arP),
-              child: Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.arP),
-                    child: dapp.logo!.endsWith(".svg")
-                        ? SvgPicture.network(
-                            "${ServiceConfig.naanApis}/images/${dapp.logo!}",
-                            fit: BoxFit.fill,
-                            height: 50.arP,
-                            // placeholderBuilder: (_) => _buildIconPlaceHolder(),
-                            width: 50.arP,
-                          )
-                        : CachedNetworkImage(
-                            imageUrl:
-                                "${ServiceConfig.naanApis}/images/${dapp.logo!}",
-                            fit: BoxFit.cover,
-                            height: 50.arP,
-                            // placeholder: (context, url) =>
-                            //     _buildIconPlaceHolder(),
-                            memCacheHeight: 92,
-                            // errorWidget: (context, url, error) =>
-                            //     _buildIconPlaceHolder(),
-                            memCacheWidth: 92,
-                            width: 50.arP,
-                          ),
-                  ),
-                  SizedBox(
-                    height: 8.arP,
-                  ),
-                  Text(
-                    dapp.name!,
-                    style: labelMedium,
-                  )
-                ],
+              child: BouncingWidget(
+                onPressed: () {
+                  CommonFunctions.bottomSheet(
+                    DappBottomSheet(
+                      dappModel: dapp,
+                    ),
+                  );
+                },
+                child: Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10.arP),
+                      child: dapp.favoriteLogo!.endsWith(".svg")
+                          ? SvgPicture.network(
+                              "${ServiceConfig.naanApis}/images/${dapp.favoriteLogo!}",
+                              fit: BoxFit.fill,
+                              height: 50.arP,
+                              // placeholderBuilder: (_) => _buildIconPlaceHolder(),
+                              width: 50.arP,
+                            )
+                          : CachedNetworkImage(
+                              imageUrl:
+                                  "${ServiceConfig.naanApis}/images/${dapp.favoriteLogo!}",
+                              fit: BoxFit.cover,
+                              height: 50.arP,
+                              // placeholder: (context, url) =>
+                              //     _buildIconPlaceHolder(),
+                              memCacheHeight: 92,
+                              // errorWidget: (context, url, error) =>
+                              //     _buildIconPlaceHolder(),
+                              memCacheWidth: 92,
+                              width: 50.arP,
+                            ),
+                    ),
+                    SizedBox(
+                      height: 8.arP,
+                    ),
+                    Text(
+                      dapp.name!,
+                      style: labelMedium,
+                    )
+                  ],
+                ),
               ),
             );
           })),
