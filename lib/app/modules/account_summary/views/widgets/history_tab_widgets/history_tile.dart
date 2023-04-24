@@ -61,7 +61,7 @@ class _HistoryTileState extends State<HistoryTile>
                   _buildBody(widget.tokenInfo),
                   ...widget.tokenInfo.internalOperation.map((e) => Padding(
                         padding: EdgeInsets.only(top: 20.arP),
-                        child: _buildBody(e),
+                        child: _buildBody(e, isInternal: true),
                       ))
                 ],
               ),
@@ -72,7 +72,7 @@ class _HistoryTileState extends State<HistoryTile>
     );
   }
 
-  Widget _loadNFTTransaction(TokenInfo data) {
+  Widget _loadNFTTransaction(TokenInfo data, {bool isInternal = false}) {
     return FutureBuilder(
         key: Key(data.nftContractAddress! + data.nftTokenId!),
         future: ObjktNftApiService()
@@ -103,23 +103,21 @@ class _HistoryTileState extends State<HistoryTile>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildBody(
-                  data,
-                ),
+                _buildBody(data, isInternal: isInternal),
               ],
             );
           }
         }));
   }
 
-  Widget _buildBody(TokenInfo data) {
+  Widget _buildBody(TokenInfo data, {bool isInternal = false}) {
     final selectedAccount = Get.find<HomePageController>()
         .userAccounts[Get.find<HomePageController>().selectedIndex.value]
         .publicKeyHash!;
     final tokenList = Get.find<AccountSummaryController>().tokensList;
     if (data.token == null) {
       if (data.name.isEmpty) {
-        return _loadNFTTransaction(data);
+        return _loadNFTTransaction(data, isInternal: isInternal);
       }
     } else {
       final transactionInterface = data.token!.transactionInterface(tokenList);
@@ -142,7 +140,7 @@ class _HistoryTileState extends State<HistoryTile>
           data = data.copyWith(
               nftTokenId: transactionInterface.tokenID,
               address: transactionInterface.contractAddress);
-          return _loadNFTTransaction(data);
+          return _loadNFTTransaction(data, isInternal: isInternal);
         }
       }
     }
@@ -214,13 +212,13 @@ class _HistoryTileState extends State<HistoryTile>
                     width: 14.arP,
                     height: 14.arP,
                     color: data.internalOperation.isNotEmpty
-                        ? ColorConst.Primary
+                        ? ColorConst.Primary.shade60
                         : ColorConst.NeutralVariant.shade60),
                 Text(" ${data.token?.getTxType(selectedAccount) ?? "Received"}",
                     maxLines: 1,
                     style: labelMedium.copyWith(
                         color: data.internalOperation.isNotEmpty
-                            ? ColorConst.Primary
+                            ? ColorConst.Primary.shade60
                             : ColorConst.NeutralVariant.shade60,
                         fontWeight: FontWeight.w600)),
               ],
@@ -261,7 +259,7 @@ class _HistoryTileState extends State<HistoryTile>
               Text(
                 data.token == null || data.token?.operationStatus == 'applied'
                     ? getColor(data.token, selectedAccount) ==
-                           ColorConst.NeutralVariant.shade99
+                            ColorConst.NeutralVariant.shade99
                         ? '- ${(data.dollarAmount).roundUpDollar(widget.xtzPrice)}'
                         : (data.dollarAmount).roundUpDollar(widget.xtzPrice)
                     : "failed",
@@ -269,7 +267,11 @@ class _HistoryTileState extends State<HistoryTile>
                     fontWeight: FontWeight.w400,
                     color: data.token == null ||
                             data.token?.operationStatus == 'applied'
-                        ? getColor(data.token, selectedAccount)
+                        ? isInternal
+                            ? ColorConst.Primary.shade60
+                            : data.dollarAmount == 0.0
+                                ? ColorConst.NeutralVariant.shade60
+                                : getColor(data.token, selectedAccount)
                         : ColorConst.NaanRed),
                 textAlign: TextAlign.end,
                 overflow: TextOverflow.ellipsis,

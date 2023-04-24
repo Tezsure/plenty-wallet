@@ -83,7 +83,7 @@ class HistoryPage extends GetView<TransactionController> {
         return _loadTokenTransaction(
             controller.filteredTransactionList[index],
             index,
-            controller.filteredTransactionList[index].timeStamp!.isSameDay(
+            controller.filteredTransactionList[index].timeStamp!.displayDate(
                 controller.filteredTransactionList[index == 0 ? 0 : index - 1]
                     .timeStamp!));
       }
@@ -117,10 +117,11 @@ class HistoryPage extends GetView<TransactionController> {
             : _loadTokenTransaction(
                 controller.defaultTransactionList[index],
                 index,
-                controller.defaultTransactionList[index].timeStamp!.isSameDay(
-                    controller
-                        .defaultTransactionList[index == 0 ? 0 : index - 1]
-                        .timeStamp!));
+                controller.defaultTransactionList[index].timeStamp!.displayDate(
+                    index == 0
+                        ? controller.defaultTransactionList[index].timeStamp!
+                        : controller
+                            .defaultTransactionList[index - 1].timeStamp!));
       }
     }
   }
@@ -165,6 +166,7 @@ class HistoryPage extends GetView<TransactionController> {
                           controller.filteredTransactionList.isEmpty
                       ? _emptyState
                       : ListView.builder(
+                          padding: EdgeInsets.only(top: 16.arP),
                           itemBuilder: _itemBuilder,
                           itemCount: controller.isFilterApplied.value
                               ? controller.filteredTransactionList.length + 1
@@ -277,7 +279,7 @@ class HistoryPage extends GetView<TransactionController> {
         ],
       );
 
-  Widget _loadTokenTransaction(TokenInfo token, int index, bool sameDate) =>
+  Widget _loadTokenTransaction(TokenInfo token, int index, bool displayDate) =>
       Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -291,16 +293,16 @@ class HistoryPage extends GetView<TransactionController> {
                     style: labelLarge,
                   ),
                 )
-              : sameDate
-                  ? const SizedBox()
-                  : Padding(
+              : displayDate
+                  ? Padding(
                       padding: EdgeInsets.only(
                           top: 20.arP, left: 16.arP, bottom: 12.arP),
                       child: Text(
                         token.timeStamp!.relativeDate(),
                         style: labelLarge,
                       ),
-                    ),
+                    )
+                  : const SizedBox(),
           HistoryTile(
             tokenInfo: token,
             xtzPrice: controller.accController.xtzPrice.value,
@@ -317,7 +319,7 @@ class HistoryPage extends GetView<TransactionController> {
       );
 
   Widget _loadNFTTransaction(int index) {
-    final tokenList = Get.find<AccountSummaryController>().tokensList;
+    final tokenList = controller.tokensList;
     if (controller.defaultTransactionList[index].token != null) {
       final transactionInterface = controller
           .defaultTransactionList[index].token!
@@ -358,22 +360,33 @@ class HistoryPage extends GetView<TransactionController> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                controller.defaultTransactionList[index].timeStamp!.isSameDay(
-                        controller
-                            .defaultTransactionList[index == 0 ? 0 : index - 1]
-                            .timeStamp!)
-                    ? const SizedBox()
-                    : Padding(
+                index == 0
+                    ? Padding(
                         padding: EdgeInsets.only(
-                            top: 16.arP, left: 16.arP, bottom: 16.arP),
+                            top: 8.arP, left: 16.arP, bottom: 16.arP),
                         child: Text(
-                          DateFormat.MMMM()
-                              // displaying formatted date
-                              .format(controller
-                                  .defaultTransactionList[index].timeStamp!),
+                          controller.defaultTransactionList[index].timeStamp!
+                              .relativeDate(),
                           style: labelLarge,
                         ),
-                      ),
+                      )
+                    : !controller.defaultTransactionList[index].timeStamp!
+                            .displayDate(index == 0
+                                ? controller
+                                    .defaultTransactionList[index].timeStamp!
+                                : controller.defaultTransactionList[index - 1]
+                                    .timeStamp!)
+                        ? const SizedBox()
+                        : Padding(
+                            padding: EdgeInsets.only(
+                                top: 16.arP, left: 16.arP, bottom: 16.arP),
+                            child: Text(
+                              controller
+                                  .defaultTransactionList[index].timeStamp!
+                                  .relativeDate(),
+                              style: labelLarge,
+                            ),
+                          ),
                 HistoryTile(
                   tokenInfo: controller.defaultTransactionList[index],
                   xtzPrice: controller.accController.xtzPrice.value,
@@ -393,53 +406,77 @@ class HistoryPage extends GetView<TransactionController> {
   }
 
   Widget _buildSortByWidget(BuildContext context) {
-    return Obx(() => AnimatedContainer(
-          duration: const Duration(milliseconds: 350),
-          transform: Matrix4.identity()
-            ..translate(
-              0.0,
-              !controller.isScrollingUp.value ? 0.0 : 200.arP,
-            ),
-          child: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 36.arP),
-              child: BouncingWidget(
-                onPressed: () =>
-                    CommonFunctions.bottomSheet(HistoryFilterSheet()),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: ColorConst.NeutralVariant.shade30,
-                          width: 1.arP),
-                      color: const Color(0xff1E1C1F),
-                      borderRadius: BorderRadius.circular(20)),
-                  width: 105.arP,
-                  height: 42.arP,
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(
-                        controller.isFilterApplied.value
-                            ? "${PathConst.SVG}filter_selected.svg"
-                            : '${PathConst.SVG}filter.svg',
-                        fit: BoxFit.contain,
-                        height: 20.aR,
-                        color: Colors.white,
-                      ),
+    return Obx(() {
+      int filterCount = 0;
+      if (controller.isFilterApplied.value &&
+          Get.isRegistered<HistoryFilterController>()) {
+        filterCount += Get.find<HistoryFilterController>().assetType.length;
+        filterCount +=
+            Get.find<HistoryFilterController>().transactionType.length;
+        filterCount +=
+            Get.find<HistoryFilterController>().dateType.value == DateType.none
+                ? 0
+                : 1;
+      }
+      return AnimatedContainer(
+        duration: const Duration(milliseconds: 350),
+        transform: Matrix4.identity()
+          ..translate(
+            0.0,
+            !controller.isScrollingUp.value ? 0.0 : 200.arP,
+          ),
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 36.arP),
+            child: BouncingWidget(
+              onPressed: () =>
+                  CommonFunctions.bottomSheet(HistoryFilterSheet()),
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: ColorConst.NeutralVariant.shade30, width: 1.arP),
+                    color: const Color(0xff1E1C1F),
+                    borderRadius: BorderRadius.circular(20)),
+                width: filterCount == 0 ? 105.arP : 116.arP,
+                height: 42.arP,
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(
+                      '${PathConst.SVG}filter.svg',
+                      fit: BoxFit.contain,
+                      height: 20.aR,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 8.arP,
+                    ),
+                    Text(
+                      "Filter".tr,
+                      style: labelMedium,
+                    ),
+                    if (filterCount != 0)
                       SizedBox(
                         width: 8.arP,
                       ),
-                      Text(
-                        "Filter".tr,
-                        style: labelMedium,
+                    if (filterCount != 0)
+                      Container(
+                        decoration: BoxDecoration(
+                            color: ColorConst.Primary, shape: BoxShape.circle),
+                        padding: EdgeInsets.all(4.arP),
+                        child: Text(
+                          filterCount.toString(),
+                          style: labelSmall,
+                        ),
                       )
-                    ],
-                  ),
+                  ],
                 ),
               ),
             ),
           ),
-        ));
+        ),
+      );
+    });
   }
 }

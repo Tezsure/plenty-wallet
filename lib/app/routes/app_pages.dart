@@ -20,8 +20,8 @@ import '../modules/create_wallet_page/bindings/create_wallet_page_binding.dart';
 import '../modules/create_wallet_page/views/create_wallet_page_view.dart';
 import '../modules/dapp_browser/bindings/dapp_browser_binding.dart';
 import '../modules/dapp_browser/views/dapp_browser_view.dart';
-import '../modules/dapps_page/bindings/dapps_page_binding.dart';
-import '../modules/dapps_page/views/dapps_page_view.dart';
+import '../modules/home_page/widgets/discover_apps_widget/bindings/dapps_page_binding.dart';
+import '../modules/home_page/widgets/discover_apps_widget/widgets/discover_apps_page_view.dart';
 import '../modules/events/bindings/events_binding.dart';
 import '../modules/events/views/events_view.dart';
 import '../modules/home_page/bindings/home_page_binding.dart';
@@ -164,7 +164,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DAPPS_PAGE,
-      page: () => const DappsPageView(),
+      page: () =>  DappsPageView(),
       binding: DappsPageBinding(),
     ),
     GetPage(

@@ -107,6 +107,9 @@ class DappModel {
   String? discord;
   String? twitter;
   String? telegram;
+  String? type;
+  String? favoriteLogo;
+  bool? isFavorite;
 
   DappModel(
       {this.name,
@@ -115,18 +118,24 @@ class DappModel {
       this.backgroundImage,
       this.description,
       this.discord,
+      this.type="",
+      this.favoriteLogo,
+      this.isFavorite = false,
       this.twitter,
       this.telegram});
 
   DappModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     logo = json['logo'];
+    favoriteLogo = json['favoriteLogo'] ?? logo;
     url = json['url'];
+    type = json['type']??"";
     backgroundImage = json['backgroundImage'];
     description = json['description'];
     discord = json['discord'];
     twitter = json['twitter'];
     telegram = json['telegram'];
+    isFavorite = json['isFavorite'] ?? false;
   }
 
   Map<String, dynamic> toJson() {
@@ -134,16 +143,19 @@ class DappModel {
     data['name'] = name;
     data['logo'] = logo;
     data['url'] = url;
+    data['favoriteLogo'] = favoriteLogo;
     data['backgroundImage'] = backgroundImage;
     data['description'] = description;
     data['discord'] = discord;
     data['twitter'] = twitter;
     data['telegram'] = telegram;
+    data['type'] = type;
+    data['isFavorite'] = isFavorite;
     return data;
   }
 
   @override
   String toString() {
-    return 'DappModel(name: $name, logo: $logo, url: $url, backgroundImage: $backgroundImage, description: $description, discord: $discord, twitter: $twitter, telegram: $telegram)';
+    return 'DappModel(name: $name, logo: $logo, url: $url, backgroundImage: $backgroundImage, description: $description, discord: $discord, twitter: $twitter, telegram: $telegram, isFavorite: $isFavorite, type: $type, favoriteLogo: $favoriteLogo  )';
   }
 }
