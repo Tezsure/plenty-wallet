@@ -69,7 +69,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
         0.02.vspace,
         Align(
           alignment: Alignment.centerLeft,
-          child: Text("Name your account".tr, style: titleLarge),
+          child: Text("Name your wallet".tr, style: titleLarge),
         ),
         0.05.vspace,
         Obx(
@@ -116,7 +116,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
         NaanTextfield(
           // height: 52.arP,
           backgroundColor: const Color(0xff1E1C1F),
-          hint: "Account Name",
+          hint: "Wallet Name",
           focusNode: controller.accountNameFocus,
           controller: controller.accountNameController,
           onTextChange: (String value) => controller.isContiuneButtonEnable

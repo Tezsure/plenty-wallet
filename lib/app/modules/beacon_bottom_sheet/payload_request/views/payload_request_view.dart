@@ -93,7 +93,7 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                         ),
                         0.03.vspace,
                         Text(
-                          'Account'.tr,
+                          'Wallet'.tr,
                           style: bodySmall.copyWith(color: ColorConst.grey),
                         ),
                         Padding(

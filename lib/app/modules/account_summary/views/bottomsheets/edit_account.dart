@@ -74,7 +74,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
       // bottomSheetHorizontalPadding: 16.arP,
       height: AppConstant.naanBottomSheetHeight,
       // isScrollControlled: true,
-      title: "Edit Account",
+      title: "Edit Wallet",
       bottomSheetWidgets: [
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight -
@@ -99,7 +99,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                 height: 50.aR,
                 backgroundColor:
                     ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-                hint: "Account Name",
+                hint: "Wallet Name",
                 focusNode: nameFocusNode,
                 controller: _controller.accountNameController,
                 onSubmitted: (value) {
@@ -142,7 +142,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                   transactionStatusSnackbar(
                     duration: const Duration(seconds: 2),
                     status: TransactionStatus.error,
-                    tezAddress: 'Account with same name already exists',
+                    tezAddress: 'Wallet with same name already exists',
                     transactionAmount: 'Cannot save account changes',
                   );
                   return;
@@ -408,7 +408,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
               height: 52.arP,
               backgroundColor:
                   ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              hint: "Account Name",
+              hint: "Wallet Name",
               focusNode: nameFocusNode,
               controller: _controller.accountNameController,
               onSubmitted: (value) {

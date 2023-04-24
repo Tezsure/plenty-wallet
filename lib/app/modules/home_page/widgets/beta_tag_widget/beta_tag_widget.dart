@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -28,7 +30,7 @@ class BetaTagWidget extends StatefulWidget {
 }
 
 class _BetaTagWidgetState extends State<BetaTagWidget> {
-  String version = "2.0.8";
+  String version = "2.0.9";
   @override
   void initState() {
     PackageInfo.fromPlatform().then((packageInfo) {
@@ -45,9 +47,11 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        CommonFunctions.bottomSheet(
-          BetaTagSheet(),
-        );
+        if (Platform.isAndroid) {
+          CommonFunctions.bottomSheet(
+            BetaTagSheet(),
+          );
+        }
       },
       child: HomeWidgetFrame(
         width: AppConstant.homeWidgetDimension,
@@ -75,7 +79,8 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
                       Text("naan version".tr,
                           style: bodySmall.copyWith(
                               color: ColorConst.NeutralVariant.shade40)),
-                      Text("$version (beta)", style: labelMedium),
+                      Text("$version ${Platform.isAndroid ? "(beta)" : ""}",
+                          style: labelMedium),
                     ],
                   ),
                 ),

@@ -54,13 +54,13 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
                       ),
                       0.05.vspace,
                       Text(
-                        "No accounts found".tr,
+                        "No wallets found".tr,
                         textAlign: TextAlign.center,
                         style: titleLarge,
                       ),
                       0.016.vspace,
                       Text(
-                        "Create or import new account to proceed".tr,
+                        "Create or import new wallet to proceed".tr,
                         textAlign: TextAlign.center,
                         style: bodySmall.copyWith(
                           color: const Color(0xFF958E99),
@@ -73,7 +73,7 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
               Spacer(),
               SolidButton(
                 width: 1.width - 64.arP,
-                title: "Create a new account",
+                title: "Create a new wallet",
                 titleStyle: titleSmall.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -98,13 +98,13 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
 
                   Get.toNamed(Routes.IMPORT_WALLET_PAGE);
                 },
-                title: "I already have an account",
+                title: "I already have a wallet",
               ),
               0.035.vspace,
-              _buildDivider(),
+/*               _buildDivider(),
               0.035.vspace,
               _builsSocialLogins(),
-              BottomButtonPadding()
+              BottomButtonPadding() */
             ],
           ),
         ),
@@ -125,7 +125,7 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              "Or create account with".tr,
+              "Or create wallet with".tr,
               style: bodySmall.copyWith(
                 fontWeight: FontWeight.w600,
                 color: ColorConst.NeutralVariant.shade60,

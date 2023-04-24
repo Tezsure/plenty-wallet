@@ -23,7 +23,7 @@ class CreateProfilePageController extends GetxController {
     try {
       if (Get.find<HomePageController>().initialized) {
         accountNameController.text =
-            "Account ${Get.find<HomePageController>().userAccounts.isEmpty ? 1 : Get.find<HomePageController>().userAccounts.length + 1}";
+            "Wallet ${Get.find<HomePageController>().userAccounts.isEmpty ? 1 : Get.find<HomePageController>().userAccounts.length + 1}";
       }
     } catch (e) {}
     isContiuneButtonEnable.value = true;
