@@ -59,7 +59,7 @@ class BuyTezWidget extends StatelessWidget {
                     });
                 print(Get.deviceLocale);
                 String url = isIndia
-                    ? 'https://onramp.money/main/buy/?appId=$onrampId&coinCode=xtz&network=xtz&walletAddress=${home.userAccounts[home.selectedIndex.value].publicKeyHash}'
+                    ? 'https://onramp.money/app/?appId=$onrampId&coinCode=xtz&network=xtz&walletAddress=${home.userAccounts[home.selectedIndex.value].publicKeyHash}'
                     : "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
 /*                 CommonFunctions.bottomSheet(
                   const DappBrowserView(),
