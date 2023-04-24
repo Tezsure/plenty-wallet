@@ -179,10 +179,13 @@ class AccountWidget extends StatelessWidget {
                   : controller.selectedAccountsTz2.add(accountModel);
         } else {
           controller.isLegacySelected.value
-              ? controller.selectedLegacyAccount.remove(accountModel)
+              ? controller.selectedLegacyAccount.removeWhere(
+                  (e) => e.publicKeyHash == accountModel.publicKeyHash)
               : controller.isTz1Selected.value
-                  ? controller.selectedAccountsTz1.remove(accountModel)
-                  : controller.selectedAccountsTz2.remove(accountModel);
+                  ? controller.selectedAccountsTz1.removeWhere(
+                      (e) => e.publicKeyHash == accountModel.publicKeyHash)
+                  : controller.selectedAccountsTz2.removeWhere(
+                      (e) => e.publicKeyHash == accountModel.publicKeyHash);
         }
       },
       child: Container(

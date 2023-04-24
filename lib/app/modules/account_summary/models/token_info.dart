@@ -1,4 +1,5 @@
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
+import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 
 import '../../../../utils/constants/path_const.dart';
 
@@ -11,17 +12,21 @@ class TokenInfo {
   final double dollarAmount;
   final String tokenSymbol;
   final String lastId;
+  final AliasAddress? source;
+  final AliasAddress? destination;
   final bool isSent;
   final TxHistoryModel? token;
   final bool isDelegated;
   final String? nftContractAddress;
   final String? nftTokenId;
+  final String? hash;
   final bool? isHashSame;
   final DateTime? timeStamp;
+
   final List<TokenInfo> internalOperation;
 
   TokenInfo({
-    this.name = "Tezos",
+    this.name = "",
     this.imageUrl = "${PathConst.ASSETS}tezos_logo.png",
     this.isNft = false,
     this.skip = false,
@@ -30,6 +35,9 @@ class TokenInfo {
     this.tokenAmount = 0,
     this.lastId = "",
     this.token,
+    this.source,
+    this.hash,
+    this.destination,
     this.internalOperation = const [],
     this.isDelegated = false,
     this.nftContractAddress,
@@ -42,31 +50,37 @@ class TokenInfo {
   TokenInfo copyWith({
     String? name,
     String? imageUrl,
+    String? hash,
     bool? isNft,
+    AliasAddress? source,
+    AliasAddress? destination,
     bool? skip,
     double? tokenAmount,
     double? dollarAmount,
     String? tokenSymbol,
     String? lastId,
     bool? isReceived,
+    bool? isSent,
     TxHistoryModel? token,
     bool? isDelegated,
     String? address,
     String? nftTokenId,
     bool? isHashSame,
-    DateTime? timeStamp,
     List<TokenInfo>? internalOperation,
   }) {
     return TokenInfo(
         name: name ?? this.name,
+        hash: hash ?? this.hash,
         imageUrl: imageUrl ?? this.imageUrl,
         isNft: isNft ?? this.isNft,
         skip: skip ?? this.skip,
         tokenAmount: tokenAmount ?? this.tokenAmount,
         dollarAmount: dollarAmount ?? this.dollarAmount,
         tokenSymbol: tokenSymbol ?? this.tokenSymbol,
+        source: source ?? this.source,
+        destination: destination ?? this.destination,
         lastId: lastId ?? this.lastId,
-        isSent: isReceived ?? isSent,
+        isSent: isSent ?? false,
         token: token ?? this.token,
         isDelegated: isDelegated ?? this.isDelegated,
         nftContractAddress: address ?? nftContractAddress,

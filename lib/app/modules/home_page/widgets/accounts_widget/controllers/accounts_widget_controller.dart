@@ -47,9 +47,10 @@ class AccountsWidgetController extends GetxController {
       // if (currIndex.value != index) {
       // print("onPageChanged: $index");
       currIndex.value = index;
-    } catch (e) {}
-    // }
-    // update();
+    } catch (e) {
+      print(e.toString());
+    }
+  
   }
 
   /// add account functions

@@ -286,7 +286,7 @@ class AccountSummaryController extends GetxController {
     if (contractOffset == 0) {
       nftLoading.value = true;
     }
-    UserStorageService()
+    await UserStorageService()
         .getUserNftsString(userAddress: selectedAccount.value.publicKeyHash!)
         .then((nftList) async {
       nftList ??= "[]";

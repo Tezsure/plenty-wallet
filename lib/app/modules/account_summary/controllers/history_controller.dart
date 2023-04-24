@@ -36,26 +36,3 @@ class HistoryController extends GetxController {
   }
 }
 
-extension TxChecker on TxHistoryModel {
-  String get getName {
-    if (sender?.address !=
-        Get.find<AccountSummaryController>()
-            .selectedAccount
-            .value
-            .publicKeyHash) {
-      return sender?.alias ?? sender?.address?.tz1Short() ?? "";
-    }
-    if (newDelegate != null) {
-      return newDelegate?.alias ?? newDelegate?.address?.tz1Short() ?? "";
-    }
-    if (prevDelegate != null) {
-      return prevDelegate?.alias ?? prevDelegate?.address?.tz1Short() ?? "";
-    }
-
-    if (target != null) {
-      return target?.alias ?? target?.address?.tz1Short() ?? "";
-    }
-      return "";
-
-  }
-}
