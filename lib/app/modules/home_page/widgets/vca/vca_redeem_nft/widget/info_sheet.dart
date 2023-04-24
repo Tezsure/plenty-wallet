@@ -18,19 +18,19 @@ class VCAPOAPInfoSheet extends StatelessWidget {
     VCAInfoModel(
       title: "Authenticity",
       subtitle:
-          "Every POAP has a unique and unmodifiable serial number, making POAPs non-fungible.",
+          "Every Souvenir has a unique and unmodifiable serial number, making Souvenirs non-fungible.",
       icon: "authenticity",
     ),
     VCAInfoModel(
       title: "Ownership",
       subtitle:
-          "Collectors own their POAPs, making them tradeable and transferrable.",
+          "Collectors own their Souvenirs, making them tradeable and transferrable.",
       icon: "ownership",
     ),
     VCAInfoModel(
       title: "Decentralized",
       subtitle:
-          "POAP NFTs are not controlled by any single authority and are created on a secure blockchain network.",
+          "Souvenir NFTs are not controlled by any single authority and are created on a secure blockchain network.",
       icon: "decentralized",
     ),
   ];
@@ -43,7 +43,7 @@ class VCAPOAPInfoSheet extends StatelessWidget {
         Column(
           children: [
             Text(
-              "What is a POAP NFT?",
+              "What is a Souvenir NFT?",
               style: headlineSmall,
             ),
             0.016.vspace,
@@ -54,7 +54,7 @@ class VCAPOAPInfoSheet extends StatelessWidget {
             ),
             0.03.vspace,
             Text(
-              "POAP NFTs are unique digital tokens that serve as proof of attendance or participation in events, such as conferences, festivals, and meetups. They are like a digital version of a ticket or a certificate of attendance.",
+              "Souvenir NFTs are unique digital tokens that serve as proof of attendance or participation in events, such as conferences, festivals, and meetups. They are like a digital version of a ticket or a certificate of attendance.",
               style:
                   bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),
             ),

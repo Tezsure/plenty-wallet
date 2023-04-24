@@ -52,7 +52,7 @@ class DiscoverAppsWidget extends StatelessWidget {
                       Text("Discover".tr,
                           style: headlineSmall.copyWith(fontSize: 20.arP)),
                       Text(
-                        "apps on Tezos".tr,
+                        "web3 on Tezos".tr,
                         style: bodySmall,
                       ),
                     ],

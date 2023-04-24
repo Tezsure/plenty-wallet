@@ -31,16 +31,16 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       // bottomSheetHorizontalPadding: 0,
-      height: 0.44.height,
+      height: 0.35.height,
 
-      title: widget.warning ?? 'Add account',
+      title: widget.warning ?? 'Add wallet',
       bottomSheetWidgets: [
         SizedBox(
           height: 12.arP,
         ),
         Center(
           child: Text(
-            'Create or import an account'.tr,
+            'Create or import a wallet'.tr,
             style: bodySmall.copyWith(
               color: const Color(0xFF958E99),
             ),
@@ -65,7 +65,7 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
               ),
               SolidButton(
                 width: 1.width - 64.arP,
-                title: "Create a new account",
+                title: "Create a new wallet",
                 titleStyle: titleSmall.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -90,12 +90,12 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
 
                   Get.toNamed(Routes.IMPORT_WALLET_PAGE);
                 },
-                title: "I already have an account",
+                title: "I already have a wallet",
               ),
-              0.035.vspace,
+/*               0.035.vspace,
               _buildDivider(),
               0.035.vspace,
-              _builsSocialLogins(),
+              _builsSocialLogins(), */
               BottomButtonPadding()
             ],
           ),
@@ -117,7 +117,7 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              "Or create account with".tr,
+              "Or create wallet with".tr,
               style: bodySmall.copyWith(
                 fontWeight: FontWeight.w600,
                 color: ColorConst.NeutralVariant.shade60,

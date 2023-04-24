@@ -84,7 +84,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                       ),
                       0.04.vspace,
                       Text(
-                        'Choose account'.tr,
+                        'Choose wallet'.tr,
                         style: bodySmall.copyWith(color: ColorConst.grey),
                       ),
                       Padding(
