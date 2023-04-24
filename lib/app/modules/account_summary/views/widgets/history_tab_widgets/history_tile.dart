@@ -248,7 +248,7 @@ class _HistoryTileState extends State<HistoryTile>
               Text(
                   data.isNft
                       ? "${data.tokenAmount == 0.0 ? "1" : data.tokenAmount.toStringAsFixed(0)} ${data.tokenSymbol}"
-                      : "${data.tokenAmount.toStringAsFixed(6)} ${data.tokenSymbol}",
+                      : "${data.tokenAmount.toStringAsFixed(6).removeTrailing0} ${data.tokenSymbol}",
                   textAlign: TextAlign.end,
                   overflow: TextOverflow.ellipsis,
                   style: labelSmall.copyWith(
@@ -260,8 +260,10 @@ class _HistoryTileState extends State<HistoryTile>
                 data.token == null || data.token?.operationStatus == 'applied'
                     ? getColor(data.token, selectedAccount) ==
                             ColorConst.NeutralVariant.shade99
-                        ? '- ${(data.dollarAmount).roundUpDollar(widget.xtzPrice)}'
-                        : (data.dollarAmount).roundUpDollar(widget.xtzPrice)
+                        ? '- ${(data.dollarAmount).roundUpDollar(widget.xtzPrice).removeTrailing0}'
+                        : (data.dollarAmount)
+                            .roundUpDollar(widget.xtzPrice)
+                            .removeTrailing0
                     : "failed",
                 style: labelLarge.copyWith(
                     fontWeight: FontWeight.w400,
