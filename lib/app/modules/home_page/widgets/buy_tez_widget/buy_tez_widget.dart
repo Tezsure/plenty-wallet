@@ -14,6 +14,7 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/home_page/widgets/account_switch_widget/account_switch_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_account_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
+import 'package:naan_wallet/env.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
@@ -43,19 +44,23 @@ class BuyTezWidget extends StatelessWidget {
           );
           return;
         } else {
+          bool isIndia = Get.deviceLocale?.countryCode == 'IN' ||
+              Get.deviceLocale?.countryCode == 'in';
           CommonFunctions.bottomSheet(
             AccountSwitch(
               title: "Buy tez",
               subtitle:
-                  'This module will be powered by wert.io and you will be using wert’s interface.',
+                  'This module will be powered by ${isIndia ? "onramp" : "wert.io"} and you will be using ${isIndia ? "onramp's" : "wert's"} interface.',
               onNext: ({String senderAddress = ""}) async {
                 NaanAnalytics.logEvent(NaanAnalyticsEvents.BUY_TEZ_CLICKED,
                     param: {
                       NaanAnalytics.address: home
                           .userAccounts[home.selectedIndex.value].publicKeyHash
                     });
-                String url =
-                    "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
+                print(Get.deviceLocale);
+                String url = isIndia
+                    ? 'https://onramp.money/app/?appId=$onrampId&coinCode=xtz&network=xtz&walletAddress=${home.userAccounts[home.selectedIndex.value].publicKeyHash}'
+                    : "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
 /*                 CommonFunctions.bottomSheet(
                   const DappBrowserView(),
                   fullscreen: true,
