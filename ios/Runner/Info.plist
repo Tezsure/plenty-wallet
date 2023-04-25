@@ -19,11 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-<<<<<<< HEAD
-	<string>0.2.78</string>
-=======
-	<string>0.2.76</string>
->>>>>>> 3326c4aab3814feb02d80cc6122bf75b47f76ebb
+	<string>0.2.79</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>

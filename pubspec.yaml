@@ -51,11 +51,11 @@ dependencies:
     #  ^3.0.0-pre
     path: package/modal_bottom_sheet/modal_bottom_sheet
   flutter_phoenix: "^1.0.0"
-  flutter_widget_from_html_core:
-    ^0.10.0
+  flutter_widget_from_html_core: ^0.10.0
   pull_to_refresh: ^2.0.0
 
-  card_swiper: ^2.0.4
+  card_swiper:
+    ^2.0.4
 
     # path: packages/modal_bottom_sheet/modal_bottom_sheet
 
