@@ -45,8 +45,8 @@ class BuyTezWidget extends StatelessWidget {
           );
           return;
         } else {
-          bool isIndia = Get.deviceLocale?.countryCode == 'IN' ||
-              Get.deviceLocale?.countryCode == 'in';
+          //print(DateTime.now().timeZoneName);
+          bool isIndia = DateTime.now().timeZoneName == "IST";
           CommonFunctions.bottomSheet(
             AccountSwitch(
               title: "Buy tez",
