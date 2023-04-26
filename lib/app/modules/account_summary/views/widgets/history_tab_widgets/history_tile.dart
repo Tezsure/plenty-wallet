@@ -77,10 +77,28 @@ class _HistoryTileState extends State<HistoryTile>
                   children: [
                     // Text((widget.tokenInfo.token?.hash ?? "").tz1Short()),
                     _buildBody(widget.tokenInfo),
-                    ...widget.tokenInfo.internalOperation.map((e) => Padding(
-                          padding: EdgeInsets.only(top: 20.arP),
-                          child: _buildBody(e, isInternal: true),
-                        ))
+                    if (widget.tokenInfo.internalOperation.length > 2)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 20.arP),
+                            child: _buildBody(
+                                widget.tokenInfo.internalOperation.first,
+                                isInternal: true),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 16.arP),
+                            child: Text("Show more", style: labelSmall),
+                          ),
+                        ],
+                      )
+                    else
+                      ...widget.tokenInfo.internalOperation.map((e) => Padding(
+                            padding: EdgeInsets.only(top: 20.arP),
+                            child: _buildBody(e, isInternal: true),
+                          ))
                   ],
                 ),
               ),
