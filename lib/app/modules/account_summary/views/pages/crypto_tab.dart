@@ -193,10 +193,7 @@ class TokensSkeleton extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: itemCount == 1
-                ? EdgeInsets.only(
-                    left: 16.aR,
-                    right: 16.aR,
-                  )
+                ? EdgeInsets.only(left: 32.aR, right: 32.aR, bottom: 16.arP)
                 : EdgeInsets.only(left: 16.aR, right: 16.aR, bottom: 16.arP),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -212,7 +209,7 @@ class TokensSkeleton extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: 22.arP,
+                  width: 12.arP,
                 ),
                 Expanded(
                   child: Column(

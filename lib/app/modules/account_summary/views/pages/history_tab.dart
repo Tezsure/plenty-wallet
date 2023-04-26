@@ -50,7 +50,7 @@ class HistoryPage extends GetView<TransactionController> {
         alignment: Alignment.bottomCenter,
         children: [
           _buildBody(context),
-          _buildSortByWidget(context),
+          // _buildSortByWidget(context),
         ],
       ),
     );
@@ -94,26 +94,18 @@ class HistoryPage extends GetView<TransactionController> {
               ? const TokensSkeleton(
                   isScrollable: false,
                 )
-              :
-              // controller.noMoreResults.isTrue
-              //     ? SizedBox(
-              //         height: 40.aR,
-              //         child: Center(
-              //           child: Text(
-              //             'No more results'.tr,
-              //             style: labelLarge.copyWith(
-              //                 fontSize: 14.aR,
-              //                 fontWeight: FontWeight.w400,
-              //                 color: ColorConst.NeutralVariant.shade70),
-              //           ),
-              //         ),
-              //       )
-              //     :
-              const SizedBox();
+              : const SizedBox();
         });
       } else {
         return controller.defaultTransactionList[index].isNft
-            ? _loadNFTTransaction(index)
+            ? _loadNFTTransaction(
+                controller.defaultTransactionList[index],
+                index,
+                controller.defaultTransactionList[index].timeStamp!.displayDate(
+                    index == 0
+                        ? controller.defaultTransactionList[index].timeStamp!
+                        : controller
+                            .defaultTransactionList[index - 1].timeStamp!))
             : _loadTokenTransaction(
                 controller.defaultTransactionList[index],
                 index,
@@ -129,7 +121,7 @@ class HistoryPage extends GetView<TransactionController> {
   Widget _buildBody(BuildContext context) {
     return Column(
       children: [
-        // _buildHeader(context),
+        _buildHeader(context),
         Obx(() {
           return Expanded(
             child: SmartRefresher(
@@ -182,74 +174,83 @@ class HistoryPage extends GetView<TransactionController> {
     );
   }
 
-  // Widget _buildHeader(BuildContext context) {
-  //   return Padding(
-  //     padding: EdgeInsets.symmetric(horizontal: 16.aR),
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.start,
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         0.02.vspace,
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //           children: [
-  //             BouncingWidget(
-  //               onPressed: () {
-  //                 return Navigator.of(context).push(MaterialPageRoute(
-  //                     builder: (context) => const SearchBottomSheet()));
-  //                 // return CommonFunctions.bottomSheet(
-  //                 //     const SearchBottomSheet());
-  //               },
-  //               child: Container(
-  //                 height: 0.06.height,
-  //                 width: 0.8.width,
-  //                 padding: EdgeInsets.only(left: 14.5.aR),
-  //                 decoration: BoxDecoration(
-  //                   color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-  //                   borderRadius: BorderRadius.circular(10.aR),
-  //                 ),
-  //                 child: Row(
-  //                   children: [
-  //                     Icon(
-  //                       Icons.search,
-  //                       color: ColorConst.NeutralVariant.shade60,
-  //                       size: 22.aR,
-  //                     ),
-  //                     0.02.hspace,
-  //                     Text(
-  //                       'Search'.tr,
-  //                       style: labelLarge.copyWith(
-  //                           letterSpacing: 0.25.aR,
-  //                           fontSize: 14.aR,
-  //                           fontWeight: FontWeight.w400,
-  //                           color: ColorConst.NeutralVariant.shade70),
-  //                     )
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //             0.02.hspace,
-  //             BouncingWidget(
-  //               onPressed: () {
-  //                 CommonFunctions.bottomSheet(HistoryFilterSheet());
-  //               },
-  //               child: SvgPicture.asset(
-  //                 controller.isFilterApplied.value
-  //                     ? "${PathConst.SVG}filter_selected.svg"
-  //                     : '${PathConst.SVG}filter.svg',
-  //                 fit: BoxFit.contain,
-  //                 height: 24.aR,
-  //                 color: ColorConst.Primary,
-  //               ),
-  //             ),
-  //             0.01.hspace,
-  //           ],
-  //         ),
-  //         0.02.vspace,
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _buildHeader(BuildContext context) {
+    return Obx(() {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.aR),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            0.02.vspace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                BouncingWidget(
+                  onPressed: () async {
+                    await Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const SearchBottomSheet()));
+                    controller.searchController.clear();
+                    controller.searchTransactionList.clear();
+                    await controller.userTransactionLoader(
+                        resetController: false);
+
+                    // controller.isFilterApplied.value = false;
+
+                    // controller.update(); // return CommonFunctions.bottomSheet(
+                    //     const SearchBottomSheet());
+                  },
+                  child: Container(
+                    height: 0.06.height,
+                    width: 0.8.width,
+                    padding: EdgeInsets.only(left: 14.5.aR),
+                    decoration: BoxDecoration(
+                      color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(10.aR),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.search,
+                          color: ColorConst.NeutralVariant.shade60,
+                          size: 22.aR,
+                        ),
+                        0.02.hspace,
+                        Text(
+                          'Search'.tr,
+                          style: labelLarge.copyWith(
+                              letterSpacing: 0.25.aR,
+                              fontSize: 14.aR,
+                              fontWeight: FontWeight.w400,
+                              color: ColorConst.NeutralVariant.shade70),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                0.02.hspace,
+                BouncingWidget(
+                  onPressed: () {
+                    CommonFunctions.bottomSheet(HistoryFilterSheet());
+                  },
+                  child: SvgPicture.asset(
+                    controller.isFilterApplied.value
+                        ? "${PathConst.SVG}filter_selected.svg"
+                        : '${PathConst.SVG}filter.svg',
+                    fit: BoxFit.contain,
+                    height: 24.aR,
+                    color: ColorConst.Primary,
+                  ),
+                ),
+                0.01.hspace,
+              ],
+            ),
+            0.02.vspace,
+          ],
+        ),
+      );
+    });
+  }
 
   Widget get _emptyState => Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -318,21 +319,17 @@ class HistoryPage extends GetView<TransactionController> {
         ],
       );
 
-  Widget _loadNFTTransaction(int index) {
+  Widget _loadNFTTransaction(TokenInfo token, int index, bool displayDate) {
     final tokenList = controller.tokensList;
-    if (controller.defaultTransactionList[index].token != null) {
-      final transactionInterface = controller
-          .defaultTransactionList[index].token!
-          .transactionInterface(tokenList);
-      controller.defaultTransactionList[index] =
-          controller.defaultTransactionList[index].copyWith(
-              nftTokenId: transactionInterface.tokenID,
-              address: transactionInterface.contractAddress);
+    if (token.token != null) {
+      final transactionInterface = token.token!.transactionInterface(tokenList);
+      token = token.copyWith(
+          nftTokenId: transactionInterface.tokenID,
+          address: transactionInterface.contractAddress);
     }
     return FutureBuilder(
-        future: ObjktNftApiService().getTransactionNFT(
-            controller.defaultTransactionList[index].nftContractAddress!,
-            controller.defaultTransactionList[index].nftTokenId!),
+        future: ObjktNftApiService()
+            .getTransactionNFT(token.nftContractAddress!, token.nftTokenId!),
         builder: ((context, AsyncSnapshot<NftTokenModel> snapshot) {
           if (!snapshot.hasData) {
             return const TokensSkeleton(
@@ -342,20 +339,19 @@ class HistoryPage extends GetView<TransactionController> {
           } else if (snapshot.data!.name == null) {
             return Container();
           } else {
-            controller.defaultTransactionList[index] =
-                controller.defaultTransactionList[index].copyWith(
-                    isNft: true,
-                    tokenSymbol: snapshot.data!.fa!.name.toString(),
-                    dollarAmount: (snapshot.data!.lowestAsk == null
-                            ? 0
-                            : (snapshot.data!.lowestAsk / 1e6)) *
-                        controller.accController.xtzPrice.value,
-                    tokenAmount: snapshot.data!.lowestAsk != null &&
-                            snapshot.data!.lowestAsk != 0
-                        ? snapshot.data!.lowestAsk / 1e6
-                        : 0,
-                    name: snapshot.data!.name.toString(),
-                    imageUrl: snapshot.data!.displayUri);
+            token = token.copyWith(
+                isNft: true,
+                tokenSymbol: snapshot.data!.fa!.name.toString(),
+                dollarAmount: (snapshot.data!.lowestAsk == null
+                        ? 0
+                        : (snapshot.data!.lowestAsk / 1e6)) *
+                    controller.accController.xtzPrice.value,
+                tokenAmount: snapshot.data!.lowestAsk != null &&
+                        snapshot.data!.lowestAsk != 0
+                    ? snapshot.data!.lowestAsk / 1e6
+                    : 0,
+                name: snapshot.data!.name.toString(),
+                imageUrl: snapshot.data!.displayUri);
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -365,35 +361,27 @@ class HistoryPage extends GetView<TransactionController> {
                         padding: EdgeInsets.only(
                             top: 8.arP, left: 16.arP, bottom: 16.arP),
                         child: Text(
-                          controller.defaultTransactionList[index].timeStamp!
-                              .relativeDate(),
+                          token.timeStamp!.relativeDate(),
                           style: labelLarge,
                         ),
                       )
-                    : !controller.defaultTransactionList[index].timeStamp!
-                            .displayDate(index == 0
-                                ? controller
-                                    .defaultTransactionList[index].timeStamp!
-                                : controller.defaultTransactionList[index - 1]
-                                    .timeStamp!)
-                        ? const SizedBox()
-                        : Padding(
+                    : displayDate
+                        ? Padding(
                             padding: EdgeInsets.only(
-                                top: 16.arP, left: 16.arP, bottom: 16.arP),
+                                top: 20.arP, left: 16.arP, bottom: 12.arP),
                             child: Text(
-                              controller
-                                  .defaultTransactionList[index].timeStamp!
-                                  .relativeDate(),
+                              token.timeStamp!.relativeDate(),
                               style: labelLarge,
                             ),
-                          ),
+                          )
+                        : const SizedBox(),
                 HistoryTile(
-                  tokenInfo: controller.defaultTransactionList[index],
+                  tokenInfo: token,
                   xtzPrice: controller.accController.xtzPrice.value,
                   onTap: () => CommonFunctions.bottomSheet(
                       TransactionDetailsBottomSheet(
                         xtzPrice: controller.accController.xtzPrice.value,
-                        tokenInfo: controller.defaultTransactionList[index],
+                        tokenInfo: token,
                         userAccountAddress: controller
                             .accController.selectedAccount.value.publicKeyHash!,
                       ),

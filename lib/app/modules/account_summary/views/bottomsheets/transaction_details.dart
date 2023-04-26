@@ -19,6 +19,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:naan_wallet/app/modules/custom_gallery/widgets/custom_nft_detail_sheet.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
@@ -183,21 +184,64 @@ class _TransactionDetailsBottomSheetState
                                   // ),
                                   child: Column(
                                     children: [
-                                      TxTokenInfo(
-                                        tokensList: controller.tokensList,
-                                        tokenInfo: widget.tokenInfo,
-                                        userAccountAddress:
-                                            widget.userAccountAddress,
-                                        xtzPrice: widget.xtzPrice,
+                                      BouncingWidget(
+                                        onPressed: widget.tokenInfo.isNft
+                                            ? () {
+                                                final contractAddress = widget
+                                                    .tokenInfo
+                                                    .nftContractAddress;
+                                                final tokenId =
+                                                    widget.tokenInfo.nftTokenId;
+                                                CommonFunctions.bottomSheet(
+                                                    CustomNFTDetailBottomSheet(
+                                                      nftUrl:
+                                                          "https://objkt.com/asset/$contractAddress/$tokenId",
+                                                    ),
+                                                    fullscreen: true);
+                                              }
+                                            : null,
+                                        child: TxTokenInfo(
+                                          tokensList: controller.tokensList,
+                                          tokenInfo: widget.tokenInfo,
+                                          userAccountAddress:
+                                              widget.userAccountAddress,
+                                          xtzPrice: widget.xtzPrice,
+                                        ),
                                       ),
                                       ...widget.tokenInfo.internalOperation
-                                          .map((e) => TxTokenInfo(
-                                                tokensList:
-                                                    controller.tokensList,
-                                                tokenInfo: e,
-                                                userAccountAddress:
-                                                    widget.userAccountAddress,
-                                                xtzPrice: widget.xtzPrice,
+                                          .map((e) => BouncingWidget(
+                                                onPressed: !e.isNft
+                                                    ? null
+                                                    : () {
+                                                        final contractAddress = e
+                                                                .nftContractAddress ??
+                                                            e.token
+                                                                ?.transactionInterface(
+                                                                    controller
+                                                                        .tokensList)
+                                                                .contractAddress;
+                                                        final tokenId = e
+                                                                .nftTokenId ??
+                                                            e.token
+                                                                ?.transactionInterface(
+                                                                    controller
+                                                                        .tokensList)
+                                                                .tokenID;
+                                                        CommonFunctions.bottomSheet(
+                                                            CustomNFTDetailBottomSheet(
+                                                              nftUrl:
+                                                                  "https://objkt.com/asset/$contractAddress/$tokenId",
+                                                            ),
+                                                            fullscreen: true);
+                                                      },
+                                                child: TxTokenInfo(
+                                                  tokensList:
+                                                      controller.tokensList,
+                                                  tokenInfo: e,
+                                                  userAccountAddress:
+                                                      widget.userAccountAddress,
+                                                  xtzPrice: widget.xtzPrice,
+                                                ),
                                               ))
                                           .toList(),
                                     ],
@@ -729,8 +773,8 @@ class TxTokenInfo extends StatelessWidget {
                         ? "${tokenInfo.tokenAmount == 0.0 ? "1" : tokenInfo.tokenAmount.toStringAsFixed(0)} ${tokenInfo.tokenSymbol}"
                         : getColor(tokenInfo.token, userAccountAddress) ==
                                 ColorConst.NeutralVariant.shade99
-                            ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}'
-                            : '+${tokenInfo.tokenAmount.toStringAsFixed(6)} ${tokenInfo.tokenSymbol}',
+                            ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6).removeTrailing0} ${tokenInfo.tokenSymbol}'
+                            : '+${tokenInfo.tokenAmount.toStringAsFixed(6).removeTrailing0} ${tokenInfo.tokenSymbol}',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: bodySmall.copyWith(
@@ -743,8 +787,10 @@ class TxTokenInfo extends StatelessWidget {
                           tokenInfo.token?.operationStatus == 'applied'
                       ? getColor(tokenInfo.token, selectedAccount) ==
                               ColorConst.NeutralVariant.shade99
-                          ? '- ${(tokenInfo.dollarAmount).roundUpDollar(xtzPrice)}'
-                          : (tokenInfo.dollarAmount).roundUpDollar(xtzPrice)
+                          ? '- ${(tokenInfo.dollarAmount).roundUpDollar(xtzPrice).removeTrailing0}'
+                          : (tokenInfo.dollarAmount)
+                              .roundUpDollar(xtzPrice)
+                              .removeTrailing0
                       : "failed",
                   style: labelLarge.copyWith(
                       fontWeight: FontWeight.w400,

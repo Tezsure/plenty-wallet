@@ -27,7 +27,7 @@ import 'package:http/http.dart' as http;
 class TransactionController extends GetxController {
   final accController = Get.find<AccountSummaryController>();
   Rx<RefreshController> refreshController = RefreshController().obs;
-
+  Timer? searchDebounceTimer;
   RxList<TxHistoryModel> userTransactionHistory =
       <TxHistoryModel>[].obs; // List of user transactions
   RxList<TransactionTransferModel> userTransferHistory =
@@ -56,6 +56,7 @@ class TransactionController extends GetxController {
 
   @override
   void onClose() {
+    searchController.clear();
     // refreshController.dispose();
     super.onClose();
   }
@@ -167,6 +168,70 @@ class TransactionController extends GetxController {
     defaultTransactionList = [
       ..._sortTransaction(userTransactionHistory, userTransferHistory)
     ];
+    isTransactionLoading.value = false;
+  }
+
+  RxList<TokenInfo> searchTransactionList = <TokenInfo>[].obs;
+  TextEditingController searchController = TextEditingController();
+  Future<void> searchTransactionHistory(String searchKey) async {
+    isTransactionLoading.value = true;
+    isFilterApplied.value = false;
+
+    if (Get.isRegistered<HistoryFilterController>()) {
+      Get.find<HistoryFilterController>().clear();
+    }
+    searchTransactionList.value = defaultTransactionList
+        // .where((p0) => p0.name.isCaseInsensitiveContainsAny(searchKey))
+        // .where((element) => element.name.isNotEmpty && !element.isNft)
+        .toList();
+    while (searchTransactionList.length < 10 && noMoreResults.isFalse) {
+      await loadMoreTransaction();
+      searchTransactionList.value = defaultTransactionList
+          // .where((p0) => p0.name.isCaseInsensitiveContainsAny(searchKey))
+          // .where((element) => element.name.isNotEmpty && !element.isNft)
+          .toList();
+    }
+    noMoreResults.value = false;
+    isTransactionLoading.value = false;
+  }
+
+  Future<void> loadSearchResults(String searchName) async {
+    if (noMoreResults.isTrue) return;
+    isTransactionLoading.value = true;
+
+    String lastId = searchTransactionList
+        .lastWhere(
+          (element) => element.lastId.isNotEmpty,
+          orElse: () => TokenInfo(lastId: ""),
+        )
+        .lastId;
+    String lastTimeStamp = searchTransactionList
+        .lastWhere(
+          (element) => element.lastId.isNotEmpty,
+          orElse: () => TokenInfo(timeStamp: DateTime.now()),
+        )
+        .timeStamp!
+        .toIso8601String();
+    var loadMoreTransactionHistory =
+        await fetchUserTransactionsHistory(lastId: lastId.toString());
+    userTransactionHistory.addAll(loadMoreTransactionHistory);
+    var loadMoreTransfersHistory =
+        await fetchUserTransferHistory(timeStamp: lastTimeStamp);
+    userTransferHistory.addAll(loadMoreTransfersHistory);
+    searchTransactionList.clear();
+    searchTransactionList.addAll(_sortTransaction(
+            userTransactionHistory, userTransferHistory)
+        // .where(
+        //     (element) => element.name.isCaseInsensitiveContainsAny(searchName))
+        // .where((element) => element.name.isNotEmpty && !element.isNft)
+        .toList());
+    while (searchTransactionList.length < 10 && noMoreResults.isFalse) {
+      await loadMoreTransaction();
+      searchTransactionList.value = defaultTransactionList
+          // .where((p0) => p0.name.isCaseInsensitiveContainsAny(searchName))
+          // .where((element) => element.name.isNotEmpty && !element.isNft)
+          .toList();
+    }
     isTransactionLoading.value = false;
   }
 
