@@ -48,6 +48,7 @@ class HistoryFilterController extends GetxController {
     accountController.noMoreResults.value = false;
     accountController.isFilterApplied.value = false;
     query = {};
+    apply();
   }
 
   Map<String, String> query = {};
@@ -154,21 +155,21 @@ class HistoryFilterController extends GetxController {
     applyFilter();
     Get.back();
     await accountController.loadFilteredTransaction();
-    List<TokenInfo> tempTransactions = [
-      ...accountController.filteredTransactionList
-    ];
-    if (assetType.length != 2) {
-      if (assetType.any((element) => element == AssetType.token)) {
-        tempTransactions = [
-          ...tempTransactions.where((e) => !e.isNft).toList()
-        ];
-      }
-      if (assetType.any((element) => element == AssetType.nft)) {
-        tempTransactions = [...tempTransactions.where((e) => e.isNft).toList()];
-      }
-    }
-    accountController.filteredTransactionList.value = [...tempTransactions];
-    accountController.filteredTransactionList.refresh();
+    // List<TokenInfo> tempTransactions = [
+    //   ...accountController.filteredTransactionList
+    // ];
+    // if (assetType.length != 2) {
+    //   if (assetType.any((element) => element == AssetType.token)) {
+    //     tempTransactions = [
+    //       ...tempTransactions.where((e) => !e.isNft).toList()
+    //     ];
+    //   }
+    //   if (assetType.any((element) => element == AssetType.nft)) {
+    //     tempTransactions = [...tempTransactions.where((e) => e.isNft).toList()];
+    //   }
+    // }
+    // accountController.filteredTransactionList.value = [...tempTransactions];
+    // accountController.filteredTransactionList.refresh();
   }
 }
 

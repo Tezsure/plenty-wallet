@@ -155,7 +155,8 @@ class HistoryPage extends GetView<TransactionController> {
                       controller.isTransactionLoading.isFalse
                   ? _emptyState
                   : controller.isFilterApplied.value &&
-                          controller.filteredTransactionList.isEmpty
+                          controller.filteredTransactionList.isEmpty&&
+                      controller.isTransactionLoading.isFalse
                       ? _emptyState
                       : ListView.builder(
                           padding: EdgeInsets.only(top: 16.arP),
