@@ -129,10 +129,10 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               padding: EdgeInsets.zero,
               physics: AppConstant.scrollPhysics,
               itemBuilder: (_, index) {
-                if (delegatedBaker?.address ==
-                    controller.searchedDelegateBakerList[index].address) {
-                  return Container();
-                }
+                // if (delegatedBaker?.address ==
+                //     controller.searchedDelegateBakerList[index].address) {
+                //   return Container();
+                // }
                 return _buildBakerItem(
                     controller.searchedDelegateBakerList[index]);
               });

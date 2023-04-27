@@ -244,18 +244,11 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
           ? _loadNFTTransaction(
               controller.searchTransactionList[index],
               index,
-              controller.searchTransactionList[index].timeStamp!.displayDate(
-                  index == 0
-                      ? controller.searchTransactionList[index].timeStamp!
-                      : controller.searchTransactionList[index - 1].timeStamp!))
+        )
           : _loadTokenTransaction(
               controller.searchTransactionList[index],
               index,
-              controller.searchTransactionList[index].timeStamp!.displayDate(
-                  index == 0
-                      ? controller.searchTransactionList[index].timeStamp!
-                      : controller
-                          .searchTransactionList[index - 1].timeStamp!));
+            );
     }
   }
 
@@ -273,7 +266,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     );
   }
 
-  Widget _loadTokenTransaction(TokenInfo token, int index, bool displayDate) =>
+  Widget _loadTokenTransaction(TokenInfo token, int index,) =>
       Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,7 +305,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         ],
       );
 
-  Widget _loadNFTTransaction(TokenInfo token, int index, bool displayDate) {
+  Widget _loadNFTTransaction(TokenInfo token, int index, ) {
     final tokenList = controller.tokensList;
     if (token.token != null) {
       final transactionInterface = token.token!.transactionInterface(tokenList);

@@ -265,7 +265,14 @@ class HistoryFilterSheet extends StatelessWidget {
       child: Obx(
         () => BouncingWidget(
           onPressed: () {
-            controller.setDate(dateType);
+            if (controller.dateType.value == dateType) {
+              controller.setDate(DateType.none);
+              controller.fromDate.value = DateTime(DateTime.now().year,
+                  DateTime.now().month, DateTime.now().day);
+              controller.toDate.value = DateTime.now();
+            } else {
+              controller.setDate(dateType);
+            }
           },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.aR),

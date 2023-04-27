@@ -397,7 +397,7 @@ class OpreationRequestController extends GetxController {
     }
   }
 
-  iconBuilder(thumbnailUri, contract) {
+ static String iconBuilder(thumbnailUri, contract) {
     if (thumbnailUri != null &&
         thumbnailUri.isNotEmpty &&
         thumbnailUri.startsWith("ipfs")) {
