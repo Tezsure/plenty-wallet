@@ -61,7 +61,11 @@ class DateSelectionSheet extends StatelessWidget {
                             : controller.toDate.value = date;
                       },
                       backgroundColor: Colors.transparent,
-                      // maximumDate: DateTime.now(),
+                      maximumDate: DateTime.now(),
+                      initialDateTime:
+                          _selectDateType.value == SelectDateType.from
+                              ? controller.fromDate.value
+                              : controller.toDate.value,
                       // dateOrder: ,
                       // minimumDate: DateTime(2018, 9),
                       mode: CupertinoDatePickerMode.date,

@@ -153,7 +153,7 @@ class HistoryFilterController extends GetxController {
 
     // accountController.filteredTransactionList.value =
     applyFilter();
-    Get.back();
+
     await accountController.loadFilteredTransaction();
     // List<TokenInfo> tempTransactions = [
     //   ...accountController.filteredTransactionList

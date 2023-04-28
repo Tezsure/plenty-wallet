@@ -306,11 +306,9 @@ class _HistoryTileState extends State<HistoryTile>
                     fontWeight: FontWeight.w400,
                     color: data.token == null ||
                             data.token?.operationStatus == 'applied'
-                        ? isInternal
-                            ? ColorConst.Primary.shade60
-                            : data.dollarAmount == 0.0
-                                ? ColorConst.NeutralVariant.shade60
-                                : getColor(data.token, selectedAccount)
+                        ? data.dollarAmount == 0.0
+                            ? ColorConst.NeutralVariant.shade60
+                            : getColor(data.token, selectedAccount)
                         : ColorConst.NaanRed),
                 textAlign: TextAlign.end,
                 overflow: TextOverflow.ellipsis,

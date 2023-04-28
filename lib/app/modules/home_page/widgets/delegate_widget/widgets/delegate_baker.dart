@@ -174,6 +174,8 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               width: .45.width,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.add_rounded,

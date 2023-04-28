@@ -830,9 +830,7 @@ extension DateOnlyCompare on DateTime {
       return true;
     }
     // Yesterday
-    if (year == other.year &&
-        month == other.month &&
-        (day - other.day).abs() == 1) {
+    if (year == now.year && month == now.month && (day - now.day).abs() == 1) {
       return true;
     }
     // Day before yesterday to display This Month
@@ -841,7 +839,7 @@ extension DateOnlyCompare on DateTime {
         now.year == other.year &&
         now.month == other.month &&
         day != other.day &&
-        (now.day - other.day).abs() == 1) {
+        ((now.day - other.day).abs() == 1 || now.day == other.day)) {
       return true;
     }
 
