@@ -98,6 +98,7 @@ void main() async {
         child: RefreshConfiguration(
           footerTriggerDistance: 15,
           dragSpeedRatio: 0.91,
+          headerTriggerDistance: 50,
           headerBuilder: () => ClassicHeader(
               idleText: "",
               releaseText: "",

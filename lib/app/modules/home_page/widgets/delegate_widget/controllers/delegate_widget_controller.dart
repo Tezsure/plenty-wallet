@@ -178,6 +178,7 @@ class DelegateWidgetController extends GetxController {
             .whenComplete(() => Get.back());
       });
     } catch (e) {
+      print(e.toString());
       transactionStatusSnackbar(
         status: TransactionStatus.error,
         duration: const Duration(seconds: 2),
@@ -202,30 +203,16 @@ class DelegateWidgetController extends GetxController {
       searchedDelegateBakerList.value = delegateBakerList;
       return;
     }
-    try {
+    // try {
       await _delegateHandler.getBakerList().then((value) {
         searchedDelegateBakerList.value = value;
         return delegateBakerList.value = value;
       });
-    } catch (e) {
-      // Get.closeAllSnackbars();
-
-      // Get.rawSnackbar(
-      //   onTap: (_) {
-      //     getBakerList();
-      //   },
-      //   message: "Failed to load, tap to try gain",
-      //   shouldIconPulse: true,
-      //   backgroundColor: ColorConst.NaanRed,
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   maxWidth: 0.9.width,
-      //   margin: EdgeInsets.only(
-      //     bottom: 20.aR,
-      //   ),
-      //   duration: const Duration(milliseconds: 700),
-      // );
-      delegateBakerList.value = <DelegateBakerModel>[];
-    }
+    // } catch (e) {
+    //   print(e.toString());
+    
+    //   delegateBakerList.value = <DelegateBakerModel>[];
+    // }
   }
 
   Future<void> getDelegateRewardList() async {

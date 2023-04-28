@@ -44,50 +44,23 @@ class DappsPageView extends GetView<DappsPageController> {
       bottomSheetWidgets: [
         0.02.vspace,
         Obx(() {
+          bool showFav =
+              controller.dapps.values.any((element) => element.isFavorite!);
+          bool showBanners =
+              controller.dappBanners.any((p0) => p0.type == "banner");
+          bool showDapps = controller.dapps.values.isNotEmpty;
           return SizedBox(
             height: AppConstant.naanBottomSheetChildHeight - 0.01.height.arP,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildHeader("Our favorites"),
-                  _buildFavourites(),
-                  _buildHeader("Featured"),
-
-                  _buildBanner(),
-                  _buildHeader("Top DApps"),
-
-                  _buildDapps()
-                  // Expanded(
-                  //   child: Obx(
-                  //     () => ListView.builder(
-                  //       itemCount: controller.dappBanners.length,
-                  //       itemBuilder: (context, index) {
-                  //         List<DappModel> dapps = controller
-                  //             .dappBanners[index].dapps!
-                  //             .map<DappModel>((e) => controller.dapps[e]!)
-                  //             .toList();
-                  //         if (controller.dappBanners[index].type == "dappList") {
-                  //           return _buildCard(index, dapps);
-                  //         }
-                  //         return BouncingWidget(
-                  //           onPressed: () => controller.dappBanners[index].type! ==
-                  //                   "banner"
-                  //               ? CommonFunctions.bottomSheet(
-                  //                   DappBottomSheet(
-                  //                     dappModel: dapps[0],
-                  //                   ),
-                  //                 )
-                  //               : controller.dappBanners[index].type! == "category"
-                  //                   ? openCategoryBottomSheet(
-                  //                       controller.dappBanners[index], dapps)
-                  //                   : null,
-                  //           child: _buildCard(index, dapps),
-                  //         );
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
+                  if (showFav) _buildHeader("Our favorites"),
+                  if (showFav) _buildFavourites(),
+                  if (showBanners) _buildHeader("Featured"),
+                  if (showBanners) _buildBanner(),
+                  if (showDapps) _buildHeader("Top DApps"),
+                  if (showDapps) _buildDapps()
                 ],
               ),
             ),

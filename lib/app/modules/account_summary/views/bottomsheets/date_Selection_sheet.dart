@@ -25,7 +25,7 @@ class DateSelectionSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => NaanBottomSheet(
-        height: 0.5.height, title: 'Select Start Date',
+        height: 0.5.height, title: 'Select start date',
         // bottomSheetHorizontalPadding: 15.aR,
         crossAxisAlignment: CrossAxisAlignment.center,
         bottomSheetWidgets: [

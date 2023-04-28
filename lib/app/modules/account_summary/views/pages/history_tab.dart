@@ -84,8 +84,9 @@ class HistoryPage extends GetView<TransactionController> {
             controller.filteredTransactionList[index],
             index,
             controller.filteredTransactionList[index].timeStamp!.displayDate(
-                controller.filteredTransactionList[index == 0 ? 0 : index - 1]
-                    .timeStamp!));
+              controller.filteredTransactionList[index == 0 ? 0 : index - 1]
+                  .timeStamp!,
+            ));
       }
     } else {
       if (index == controller.defaultTransactionList.length) {
@@ -102,18 +103,18 @@ class HistoryPage extends GetView<TransactionController> {
                 controller.defaultTransactionList[index],
                 index,
                 controller.defaultTransactionList[index].timeStamp!.displayDate(
-                    index == 0
-                        ? controller.defaultTransactionList[index].timeStamp!
-                        : controller
-                            .defaultTransactionList[index - 1].timeStamp!))
+                  index == 0
+                      ? controller.defaultTransactionList[index].timeStamp!
+                      : controller.defaultTransactionList[index - 1].timeStamp!,
+                ))
             : _loadTokenTransaction(
                 controller.defaultTransactionList[index],
                 index,
                 controller.defaultTransactionList[index].timeStamp!.displayDate(
-                    index == 0
-                        ? controller.defaultTransactionList[index].timeStamp!
-                        : controller
-                            .defaultTransactionList[index - 1].timeStamp!));
+                  index == 0
+                      ? controller.defaultTransactionList[index].timeStamp!
+                      : controller.defaultTransactionList[index - 1].timeStamp!,
+                ));
       }
     }
   }
@@ -155,7 +156,8 @@ class HistoryPage extends GetView<TransactionController> {
                       controller.isTransactionLoading.isFalse
                   ? _emptyState
                   : controller.isFilterApplied.value &&
-                          controller.filteredTransactionList.isEmpty
+                          controller.filteredTransactionList.isEmpty &&
+                          controller.isTransactionLoading.isFalse
                       ? _emptyState
                       : ListView.builder(
                           padding: EdgeInsets.only(top: 16.arP),

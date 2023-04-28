@@ -110,6 +110,7 @@ class TransactionController extends GetxController {
 
   Future<void> loadFilteredTransaction() async {
     isTransactionLoading.value = true;
+    isFilterApplied.value = true;
     String lastId = filteredTransactionList
         .lastWhere(
           (element) => element.lastId.isNotEmpty,
@@ -117,12 +118,13 @@ class TransactionController extends GetxController {
         )
         .lastId;
     String lastTimeStamp = filteredTransactionList
-        .lastWhere(
-          (element) => element.lastId.isNotEmpty,
-          orElse: () => TokenInfo(timeStamp: DateTime.now()),
-        )
-        .timeStamp!
-        .toIso8601String();
+            .lastWhere(
+              (element) => element.lastId.isNotEmpty,
+              orElse: () => TokenInfo(timeStamp: null),
+            )
+            .timeStamp
+            ?.toIso8601String() ??
+        "";
     var loadMoreTransaction =
         await fetchUserTransactionsHistory(lastId: lastId.toString());
     userTransactionHistory.addAll(loadMoreTransaction);
@@ -137,6 +139,21 @@ class TransactionController extends GetxController {
     filteredTransactionList.value = [
       ..._sortTransaction(userTransactionHistory, userTransferHistory)
     ];
+    List<TokenInfo> tempTransactions = [...filteredTransactionList];
+    final historyController = Get.find<HistoryFilterController>();
+    if (historyController.assetType.length != 2) {
+      if (historyController.assetType
+          .any((element) => element == AssetType.token)) {
+        tempTransactions = [
+          ...tempTransactions.where((e) => !e.isNft).toList()
+        ];
+      }
+      if (historyController.assetType
+          .any((element) => element == AssetType.nft)) {
+        tempTransactions = [...tempTransactions.where((e) => e.isNft).toList()];
+      }
+    }
+    filteredTransactionList.value = [...tempTransactions];
     isTransactionLoading.value = false;
   }
 
@@ -804,17 +821,30 @@ class TransactionController extends GetxController {
 // }
 
 extension DateOnlyCompare on DateTime {
-  bool displayDate(DateTime other) {
+  bool displayDate(
+    DateTime other,
+  ) {
     final now = DateTime.now();
-    // return relativeDate().isNotEmpty;
+    // Today
     if (year == now.year && month == now.month && day == now.day) {
       return true;
     }
-    if (year == now.year &&
-        month == now.month &&
+    // Yesterday
+    if (year == other.year &&
+        month == other.month &&
         (day - other.day).abs() == 1) {
       return true;
     }
+    // Day before yesterday to display This Month
+    if (year == now.year &&
+        month == now.month &&
+        now.year == other.year &&
+        now.month == other.month &&
+        day != other.day &&
+        (now.day - other.day).abs() == 1) {
+      return true;
+    }
+
     if (year == other.year && month != other.month) return true;
     return false;
   }

@@ -860,7 +860,7 @@ class Attribute {
 
   factory Attribute.fromJson(Map<String, dynamic> json) => Attribute(
         name: json["name"],
-        value: json["value"],
+        value: json["value"] is String ? json["value"] : null,
       );
 
   Map<String, dynamic> toJson() => {
