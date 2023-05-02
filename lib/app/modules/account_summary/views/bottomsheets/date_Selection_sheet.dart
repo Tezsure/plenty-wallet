@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/history_filter_controller.dart';
 
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
@@ -37,14 +38,18 @@ class DateSelectionSheet extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    dateBox(SelectDateType.from,
-                        controller.fromDate.value.toString().substring(0, 11)),
+                    dateBox(
+                        SelectDateType.from,
+                        DateFormat("MMM dd yyyy")
+                            .format(controller.fromDate.value)),
                     Text(
                       "to".tr,
                       style: bodyMedium.copyWith(fontSize: 14.aR),
                     ),
-                    dateBox(SelectDateType.to,
-                        controller.toDate.value.toString().substring(0, 11)),
+                    dateBox(
+                        SelectDateType.to,
+                        DateFormat("MMM dd yyyy")
+                            .format(controller.toDate.value)),
                   ],
                 ),
                 Expanded(
