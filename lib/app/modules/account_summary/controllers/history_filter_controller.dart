@@ -93,19 +93,23 @@ class HistoryFilterController extends GetxController {
         break;
     }
 
-    if (transactionType
-        .any((element) => element == TransactionType.delegation)) {
-      query.addAll({"type": "delegation"});
-    }
     if (transactionType.any((element) => element == TransactionType.receive)) {
-      query.remove("type");
+      // if (query["type"] == "delegation") {
+      //   query.remove("type");
+      // } else {
+      //   query["type"] = "transaction";
+      // }
       query.addAll({
         "sender.ne":
             accountController.accController.selectedAccount.value.publicKeyHash!
       });
     }
     if (transactionType.any((element) => element == TransactionType.send)) {
-      query.remove("type");
+      // if (query["type"] == "delegation") {
+      //   query.remove("type");
+      // } else if (query["type"] != null) {
+      //   query["type"] = "transaction";
+      // }
 
       if (query["sender.ne"] != null) {
         query.remove("sender.ne");
@@ -114,6 +118,17 @@ class HistoryFilterController extends GetxController {
           "sender": accountController
               .accController.selectedAccount.value.publicKeyHash!
         });
+      }
+    }
+
+    if (transactionType
+        .every((element) => element == TransactionType.delegation)) {
+      query.addAll({"type": "delegation"});
+    } else {
+      if (transactionType.length == 2 &&
+          transactionType
+              .any((element) => element == TransactionType.delegation)) {
+        query.addAll({"type": "delegation"});
       }
     }
     // if (assetType.length != 2) {

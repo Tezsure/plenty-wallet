@@ -133,7 +133,7 @@ class _TransactionDetailsBottomSheetState
                       Text(
                         widget.tokenInfo.token
                                 ?.getTxType(widget.userAccountAddress) ??
-                            "Received",
+                            (widget.tokenInfo.isSent ? "Sent" : "Received"),
                         style: titleLarge,
                       ),
                       0.01.vspace,
@@ -735,14 +735,16 @@ class TxTokenInfo extends StatelessWidget {
                   children: [
                     Image.asset(
                         tokenInfo.token?.getTxIcon(selectedAccount) ??
-                            "assets/transaction/down.png",
+                            (tokenInfo.isSent
+                                ? "assets/transaction/up.png"
+                                : "assets/transaction/down.png"),
                         width: 14.aR,
                         height: 14.arP,
                         color: ColorConst.NeutralVariant.shade60),
                     Container(
                       constraints: BoxConstraints(maxWidth: .5.width),
                       child: Text(
-                          " ${tokenInfo.token?.getTxType(selectedAccount) ?? "Received"}",
+                          " ${tokenInfo.token?.getTxType(selectedAccount) ?? (tokenInfo.isSent ? "Sent" : "Received")}",
                           maxLines: 1,
                           style: labelMedium.copyWith(
                             color: ColorConst.NeutralVariant.shade60,
