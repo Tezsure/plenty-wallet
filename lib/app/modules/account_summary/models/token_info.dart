@@ -80,8 +80,9 @@ class TokenInfo {
         source: source ?? this.source,
         destination: destination ?? this.destination,
         lastId: lastId ?? this.lastId,
-        isSent: isSent ?? false,
+        isSent: isSent ?? this.isSent,
         token: token ?? this.token,
+        
         isDelegated: isDelegated ?? this.isDelegated,
         nftContractAddress: address ?? nftContractAddress,
         nftTokenId: nftTokenId ?? this.nftTokenId,

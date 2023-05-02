@@ -36,7 +36,7 @@ const demoJsonDapps = """
 """;
 
 class DappsPageController extends GetxController {
-  RxList<DappBannerModel> dappBanners = RxList.empty();
+  RxList<DappBannerDatum> dappBanners = RxList.empty();
   RxMap<String, DappModel> dapps = <String, DappModel>{}.obs;
   RxInt selectedTab = 0.obs;
   @override

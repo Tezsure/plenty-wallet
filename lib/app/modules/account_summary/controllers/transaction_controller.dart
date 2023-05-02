@@ -357,6 +357,7 @@ class TransactionController extends GetxController {
           contacts: contacts,
         ),
       );
+
       // sortedTransactionList.add(tokenInfo);
       sortedTransactionList.addIf(
           !tokenTransactionID.contains(tx.lastid.toString()), tokenInfo);
@@ -397,10 +398,15 @@ class TransactionController extends GetxController {
         tokenSymbol: interface.symbol,
         imageUrl: interface.imageUrl ?? "",
         lastId: transfer.transactionId?.toString() ?? "",
-        tokenAmount: double.parse(transfer.amount!),
+        tokenAmount: double.parse(transfer.amount!) /
+            pow(10, int.parse(transfer.token?.metadata?.decimals ?? "1")),
         nftTokenId: transfer.token!.tokenId,
         nftContractAddress: transfer.token!.contract?.address,
         internalOperation: [],
+        dollarAmount: (double.parse(transfer.amount!) /
+                pow(10, int.parse(transfer.token?.metadata?.decimals ?? "1"))) *
+            interface.rate! *
+            accController.xtzPrice.value,
         isHashSame: false,
         timeStamp:
             transfer.timestamp == null ? DateTime.now() : transfer.timestamp!,
@@ -420,18 +426,17 @@ class TransactionController extends GetxController {
       },
     );
     temp = [...sortedTransactionList];
-    // for (var i = 0; i < sortedTransactionList.length; i++) {
-    //   if (sortedTransactionList[i].isHashSame ?? false) {
-    //     if (temp.isNotEmpty) {
-    //       temp.last = temp.last.copyWith(internalOperation: [
-    //         ...temp.last.internalOperation,
-    //         sortedTransactionList[i]
-    //       ]);
-    //     }
-    //   } else {
-    //     temp.add(sortedTransactionList[i]);
-    //   }
-    // }
+    if (isFilterApplied.isTrue &&
+        Get.isRegistered<HistoryFilterController>() &&
+        Get.find<HistoryFilterController>()
+            .transactionType
+            .any((element) => element.index == TransactionType.send.index)) {
+      temp = temp
+          .where((element) =>
+              (element.destination?.address?.startsWith("tz1") ?? true) ||
+              (element.destination?.address?.startsWith("tz2") ?? true))
+          .toList();
+    }
     sortedTransactionList = [...temp].reversed.toList();
     return sortedTransactionList;
   }
@@ -446,7 +451,12 @@ class TransactionController extends GetxController {
       if (isFilterApplied.value &&
           Get.isRegistered<HistoryFilterController>()) {
         // Get.find<HistoryFilterController>().apply();
-        Get.find<HistoryFilterController>().query.forEach((key, value) {
+        final tempQuery = Map.from(Get.find<HistoryFilterController>().query);
+        if (tempQuery["type"] == "delegation") {
+          tempQuery.remove("sender.ne");
+          tempQuery.remove("sender");
+        }
+        tempQuery.forEach((key, value) {
           query = "$query&$key=$value";
         });
       }
@@ -506,7 +516,8 @@ class TransactionController extends GetxController {
           query = "$query&$key=$value";
         });
       }
-      if (query.contains("sender=") || query.contains("type=delegation")) {
+      if (Get.find<HistoryFilterController>().transactionType.every(
+          (element) => element.index == TransactionType.delegation.index)) {
         return <TransactionTransferModel>[];
       }
       String rpc = ServiceConfig.currentNetwork == NetworkType.mainnet
@@ -830,9 +841,7 @@ extension DateOnlyCompare on DateTime {
       return true;
     }
     // Yesterday
-    if (year == other.year &&
-        month == other.month &&
-        (day - other.day).abs() == 1) {
+    if (year == now.year && month == now.month && (day - now.day).abs() == 1) {
       return true;
     }
     // Day before yesterday to display This Month
@@ -841,7 +850,7 @@ extension DateOnlyCompare on DateTime {
         now.year == other.year &&
         now.month == other.month &&
         day != other.day &&
-        (now.day - other.day).abs() == 1) {
+        ((now.day - other.day).abs() == 1 || now.day == other.day)) {
       return true;
     }
 

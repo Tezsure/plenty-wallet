@@ -29,7 +29,7 @@ class _AddCustomBakerBottomSheetState extends State<AddCustomBakerBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      title: 'Add Custom Baker',
+      title: 'Add custom baker',
 
       // bottomSheetHorizontalPadding: 32.arP,
       height: .32.height,
@@ -55,7 +55,7 @@ class _AddCustomBakerBottomSheetState extends State<AddCustomBakerBottomSheet> {
             SolidButton(
                 isLoading: isLoading.obs,
                 width: 1.width - 64.arP,
-                title: "Add Baker",
+                title: "Add baker",
                 onPressed: (!_address.text.isValidWalletAddress)
                     ? null
                     : () async {

@@ -174,18 +174,20 @@ class DelegateSelectBaker extends GetView<DelegateWidgetController> {
               width: .45.width,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Icon(
                     Icons.add_rounded,
                     color: Colors.white,
-                    size: 20.arP,
+                    size: 18.arP,
                   ),
                   SizedBox(
                     width: 8.arP,
                   ),
                   Text(
                     "Add custom baker",
-                    style: labelLarge,
+                    style: labelLarge.copyWith(height: 1),
                   )
                 ],
               ),

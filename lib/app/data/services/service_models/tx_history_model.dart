@@ -123,7 +123,11 @@ extension TxChecker on TxHistoryModel {
 
   String getTxType(String selectedAccount) {
     if (isReveal) return "Reveal";
-    if (isDelegate) return "Delegated to ${newDelegate?.alias ?? ""}";
+    if (isDelegate) {
+      return newDelegate?.address == null
+          ? "Delegate failed"
+          : "Delegated to ${newDelegate?.alias ?? ""}";
+    }
     if (isSwap) return "Swapped";
     if (isReceived(selectedAccount)) return "Received";
     if (isSent(selectedAccount)) return "Sent";
@@ -268,7 +272,7 @@ extension TxChecker on TxHistoryModel {
     List<ContactModel> contacts = const [],
   }) {
     if (isDelegate) {
-      return newDelegate!;
+      return newDelegate ?? prevDelegate ?? AliasAddress();
     }
     if (isFA2TokenTransfer) {
       return getAddressAlias(
@@ -294,6 +298,7 @@ extension TxChecker on TxHistoryModel {
 AliasAddress getAddressAlias(AliasAddress address,
     {List<AccountModel> userAccounts = const [],
     List<ContactModel> contacts = const []}) {
+  if (address.address?.isEmpty ?? true) return address;
   if (contacts.any((element) => element.address.contains(address.address!))) {
     final contact = contacts
         .firstWhere((element) => element.address.contains(address.address!));

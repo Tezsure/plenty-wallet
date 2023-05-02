@@ -57,6 +57,19 @@ class ServiceConfig {
       String sort = "Descending",
       String network = "",
       String? query = ""}) {
+    if ((query?.contains("sender") ?? false) &&
+        (!query!.contains("delegation"))) {
+      // receiver
+      if (query?.contains("sender.ne") ?? false) {
+        query = "$query&amount.gt=0&target=$pkh";
+      }
+      //sender
+      else {
+        query = "$query&amount.gt=0&sender=$pkh";
+      }
+      // query = "$query&type=transaction";
+      return "https://api.${network}tzkt.io/v1/operations/transactions?limit=$limit&lastId=$lastId$query";
+    }
     return "https://api.${network}tzkt.io/v1/accounts/$pkh/operations?limit=$limit&lastId=$lastId&sort=$sort${query ?? ""}";
   }
 
@@ -65,15 +78,20 @@ class ServiceConfig {
       String network = "mainnet",
       String? timeStamp,
       int limit = 20,
-      String? query}) {
+      String? query = ""}) {
     String host = "back.tzkt.io";
     if (network != "mainnet") {
       host = "api.${network}tzkt.io";
     }
-    if (query?.contains("timestamp") ?? false) {
-      return "https://$host/v1/tokens/transfers?to=$address&sort.desc=timestamp&limit=$limit$query";
+    if (query?.contains("sender=") ?? false) {
+      query = "${query!}&from=$address";
     } else {
-      return "https://$host/v1/tokens/transfers?to=$address&timestamp.ge=$timeStamp&sort.desc=timestamp&limit=$limit${query ?? ""}";
+      query = "${query ?? ""}&to=$address";
+    }
+    if (query?.contains("timestamp") ?? false) {
+      return "https://$host/v1/tokens/transfers?sort.desc=timestamp&limit=$limit$query";
+    } else {
+      return "https://$host/v1/tokens/transfers?timestamp.ge=$timeStamp&sort.desc=timestamp&limit=$limit${query ?? ""}";
     } // return "https://api.${network}.tzkt.io/v1/tokens/transfers?transactionId=$id";
   }
 

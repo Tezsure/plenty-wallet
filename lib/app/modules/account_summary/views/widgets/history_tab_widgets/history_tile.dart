@@ -76,7 +76,7 @@ class _HistoryTileState extends State<HistoryTile>
                 child: Column(
                   children: [
                     // Text((widget.tokenInfo.token?.hash ?? "").tz1Short()),
-                    _buildBody(widget.tokenInfo),
+                    _buildBody(widget.tokenInfo.copyWith()),
                     if (widget.tokenInfo.internalOperation.length > 2)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +85,8 @@ class _HistoryTileState extends State<HistoryTile>
                           Padding(
                             padding: EdgeInsets.only(top: 20.arP),
                             child: _buildBody(
-                                widget.tokenInfo.internalOperation.first,
+                                widget.tokenInfo.internalOperation.first
+                                    .copyWith(),
                                 isInternal: true),
                           ),
                           Padding(
@@ -97,7 +98,7 @@ class _HistoryTileState extends State<HistoryTile>
                     else
                       ...widget.tokenInfo.internalOperation.map((e) => Padding(
                             padding: EdgeInsets.only(top: 20.arP),
-                            child: _buildBody(e, isInternal: true),
+                            child: _buildBody(e.copyWith(), isInternal: true),
                           ))
                   ],
                 ),
@@ -163,10 +164,12 @@ class _HistoryTileState extends State<HistoryTile>
         data = data.copyWith(
           imageUrl: transactionInterface.imageUrl,
           name: transactionInterface.name,
-          tokenAmount: data.token!.getAmount(
-            tokenList,
-            selectedAccount,
-          ),
+          tokenAmount: data.tokenAmount != 0
+              ? data.tokenAmount
+              : data.token!.getAmount(
+                  tokenList,
+                  selectedAccount,
+                ),
         );
         data = data.copyWith(
             dollarAmount: transactionInterface.rate! *
@@ -245,13 +248,16 @@ class _HistoryTileState extends State<HistoryTile>
               children: [
                 Image.asset(
                     data.token?.getTxIcon(selectedAccount) ??
-                        "assets/transaction/down.png",
+                        (data.isSent
+                            ? "assets/transaction/up.png"
+                            : "assets/transaction/down.png"),
                     width: 14.arP,
                     height: 14.arP,
                     color: data.internalOperation.isNotEmpty
                         ? ColorConst.Primary.shade60
                         : ColorConst.NeutralVariant.shade60),
-                Text(" ${data.token?.getTxType(selectedAccount) ?? "Received"}",
+                Text(
+                    " ${data.token?.getTxType(selectedAccount) ?? (data.isSent ? "Sent" : "Received")}",
                     maxLines: 1,
                     style: labelMedium.copyWith(
                         color: data.internalOperation.isNotEmpty
@@ -306,11 +312,9 @@ class _HistoryTileState extends State<HistoryTile>
                     fontWeight: FontWeight.w400,
                     color: data.token == null ||
                             data.token?.operationStatus == 'applied'
-                        ? isInternal
-                            ? ColorConst.Primary.shade60
-                            : data.dollarAmount == 0.0
-                                ? ColorConst.NeutralVariant.shade60
-                                : getColor(data.token, selectedAccount)
+                        ? data.dollarAmount == 0.0
+                            ? ColorConst.NeutralVariant.shade60
+                            : getColor(data.token, selectedAccount)
                         : ColorConst.NaanRed),
                 textAlign: TextAlign.end,
                 overflow: TextOverflow.ellipsis,
