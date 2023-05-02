@@ -357,6 +357,9 @@ class TransactionController extends GetxController {
           contacts: contacts,
         ),
       );
+      if (tokenInfo.tokenSymbol == "tzBTC") {
+        print(tokenInfo.toString());
+      }
       // sortedTransactionList.add(tokenInfo);
       sortedTransactionList.addIf(
           !tokenTransactionID.contains(tx.lastid.toString()), tokenInfo);
@@ -397,7 +400,8 @@ class TransactionController extends GetxController {
         tokenSymbol: interface.symbol,
         imageUrl: interface.imageUrl ?? "",
         lastId: transfer.transactionId?.toString() ?? "",
-        tokenAmount: double.parse(transfer.amount!),
+        tokenAmount: double.parse(transfer.amount!) /
+            pow(10, int.parse(transfer.token?.metadata?.decimals ?? "1")),
         nftTokenId: transfer.token!.tokenId,
         nftContractAddress: transfer.token!.contract?.address,
         internalOperation: [],
