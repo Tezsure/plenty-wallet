@@ -101,10 +101,10 @@ class NoAccountsFoundBottomSheet extends StatelessWidget {
                 title: "I already have a wallet",
               ),
               0.035.vspace,
-/*               _buildDivider(),
+              _buildDivider(),
               0.035.vspace,
               _builsSocialLogins(),
-              BottomButtonPadding() */
+              BottomButtonPadding()
             ],
           ),
         ),

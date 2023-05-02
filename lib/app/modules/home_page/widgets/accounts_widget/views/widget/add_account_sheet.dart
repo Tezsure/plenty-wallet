@@ -31,7 +31,7 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       // bottomSheetHorizontalPadding: 0,
-      height: 0.35.height,
+      height: 0.44.height,
 
       title: widget.warning ?? 'Add wallet',
       bottomSheetWidgets: [
@@ -92,10 +92,10 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
                 },
                 title: "I already have a wallet",
               ),
-/*               0.035.vspace,
+              0.035.vspace,
               _buildDivider(),
               0.035.vspace,
-              _builsSocialLogins(), */
+              _builsSocialLogins(),
               BottomButtonPadding()
             ],
           ),
