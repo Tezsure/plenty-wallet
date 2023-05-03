@@ -57,7 +57,7 @@ class HistoryPage extends GetView<TransactionController> {
   }
 
   Widget? _itemBuilder(context, index) {
-    if (controller.isFilterApplied.isTrue) {
+    if (controller.isFilterApplied.value) {
       if (index == controller.filteredTransactionList.length) {
         return controller.isTransactionLoading.value
             ? const TokensSkeleton(
@@ -122,7 +122,7 @@ class HistoryPage extends GetView<TransactionController> {
   Widget _buildBody(BuildContext context) {
     return Column(
       children: [
-        _buildHeader(context),
+        /* _buildHeader(context), */
         Obx(() {
           return Expanded(
             child: SmartRefresher(

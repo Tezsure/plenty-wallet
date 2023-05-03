@@ -108,9 +108,9 @@ class TransactionController extends GetxController {
     isTransactionLoading.value = false;
   }
 
-  Future<void> loadFilteredTransaction() async {
+  Future<void> loadFilteredTransaction({bool isFiltered = true}) async {
     isTransactionLoading.value = true;
-    isFilterApplied.value = true;
+    isFilterApplied.value = isFiltered;
     String lastId = filteredTransactionList
         .lastWhere(
           (element) => element.lastId.isNotEmpty,

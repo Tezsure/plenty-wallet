@@ -35,7 +35,7 @@ class DappsPageView extends GetView<DappsPageController> {
   Widget build(BuildContext context) {
     Get.put(DappsPageController());
     return NaanBottomSheet(
-      title: "Discover apps",
+      title: "Discover dApps",
       action: Padding(
         padding: EdgeInsets.only(right: 16.arP),
         child: closeButton(),
@@ -90,7 +90,7 @@ class DappsPageView extends GetView<DappsPageController> {
 
   Widget _buildHeader(String title) {
     return Padding(
-      padding: EdgeInsets.only(left: 16.arP, top: 20.arP, bottom: 20.arP),
+      padding: EdgeInsets.only(left: 16.arP, top: 30.arP, bottom: 20.arP),
       child: Text(
         title,
         style: titleLarge,
@@ -275,7 +275,7 @@ class DappsPageView extends GetView<DappsPageController> {
           .toList();
       List<String> tabs = controller.dappBanners[index].types ?? [];
       // if (tabs.isNotEmpty) {
-        tabs = ["All", ...tabs];
+      tabs = ["All", ...tabs];
       // }
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
