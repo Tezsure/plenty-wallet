@@ -27,7 +27,6 @@ import '../../../dapp_browser/views/dapp_browser_view.dart';
 
 class BuyTezWidget extends StatelessWidget {
   BuyTezWidget({Key? key}) : super(key: key);
-  String onrampId = "";
   @override
   Widget build(BuildContext context) {
     return BouncingWidget(
