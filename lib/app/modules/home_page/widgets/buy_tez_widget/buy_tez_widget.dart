@@ -69,7 +69,7 @@ class BuyTezWidget extends StatelessWidget {
                   ),
                 ); */
                 print(url);
-                Platform.isIOS
+                Platform.isIOS && !isIndia
                     ? await launchUrl(Uri.parse(url),
                         mode: LaunchMode.inAppWebView)
                     : CommonFunctions.bottomSheet(
