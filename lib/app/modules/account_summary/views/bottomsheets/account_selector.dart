@@ -63,7 +63,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      title: 'Accounts',
+      title: 'Wallets',
       leading: Obx(() => BouncingWidget(
             onPressed: _controller.editAccount,
             child: Text(
@@ -360,7 +360,7 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                               ),
                               0.02.hspace,
                               Text(
-                                "Add account".tr,
+                                "Add wallet".tr,
                                 style: labelLarge.copyWith(
                                     fontSize: 14.aR,
                                     color: _controller.isAccountEditable.isFalse
@@ -422,7 +422,7 @@ Widget noAccountWidget() => SizedBox(
             ),
             0.05.vspace,
             Text(
-              "No accounts found".tr,
+              "No wallets found".tr,
               textAlign: TextAlign.center,
               style: titleLarge,
             ),
@@ -430,7 +430,7 @@ Widget noAccountWidget() => SizedBox(
               height: 12.arP,
             ),
             Text(
-              "Create or import new account to proceed".tr,
+              "Create or import new wallet to proceed".tr,
               textAlign: TextAlign.center,
               style: bodySmall.copyWith(color: ColorConst.textGrey1),
             ),
@@ -442,7 +442,7 @@ Widget noAccountWidget() => SizedBox(
 Widget removeAccountBottomSheet(int index,
     {required String accountName, required Function() onPressed}) {
   return NaanBottomSheet(
-    title: 'Remove Account',
+    title: 'Remove Wallet',
     bottomSheetHorizontalPadding: 32.arP,
     blurRadius: 5,
     titleAlignment: Alignment.center,
@@ -450,7 +450,7 @@ Widget removeAccountBottomSheet(int index,
     bottomSheetWidgets: [
       Center(
         child: Text(
-          '${'Do you want to remove'.tr} “$accountName”\n${'from your account list?'.tr}',
+          '${'Do you want to remove'.tr} “$accountName”\n${'from your wallet list?'.tr}',
           style: bodySmall.copyWith(
               color: ColorConst.NeutralVariant.shade60, fontSize: 14.aR),
           textAlign: TextAlign.center,
@@ -464,7 +464,7 @@ Widget removeAccountBottomSheet(int index,
             height: 50.aR,
             primaryColor: const Color(0xff1E1C1F).withOpacity(0.8),
             onPressed: onPressed,
-            title: "Remove Account",
+            title: "Remove Wallet",
             textColor: ColorConst.Primary,
             titleStyle: labelLarge.copyWith(
                 color: ColorConst.Error.shade60, fontSize: 14.aR),

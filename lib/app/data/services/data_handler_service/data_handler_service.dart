@@ -205,7 +205,7 @@ class DataHandlerService {
   }
 
   Future<void> getDappsAndStore(
-      {RxList<DappBannerModel>? dappBanners,
+      {RxList<DappBannerDatum>? dappBanners,
       RxMap<String, DappModel>? dapps}) async {
     if (dappBanners != null) {
       dapps!.value = jsonDecode(await ServiceConfig.localStorage
@@ -216,15 +216,15 @@ class DataHandlerService {
       dappBanners.value = jsonDecode(await ServiceConfig.localStorage
                   .read(key: ServiceConfig.dappsBannerStorage) ??
               "[]")
-          .map<DappBannerModel>((json) => DappBannerModel.fromJson(json))
+          .map<DappBannerDatum>((json) => DappBannerDatum.fromJson(json))
           .toList();
     }
 
     // call apis
-    List<DappBannerModel> banners = jsonDecode(
+    List<DappBannerDatum> banners = jsonDecode(
             await HttpService.performGetRequest(ServiceConfig.naanApis,
-                endpoint: "explorer-banner"))
-        .map<DappBannerModel>((json) => DappBannerModel.fromJson(json))
+                endpoint: "discover-apps"))["data"]
+        .map<DappBannerDatum>((json) => DappBannerDatum.fromJson(json))
         .toList();
 
     String dappString = await HttpService.performGetRequest(
@@ -287,9 +287,7 @@ class DataHandlerService {
       };
       // sort eventsStorage by timestamp in ascending order
       eventsStorage['events'].sort((a, b) {
-        final DateTime aTime = DateTime.parse(a['timestamp']);
-        final DateTime bTime = DateTime.parse(b['timestamp']);
-        return aTime.compareTo(bTime);
+        return int.parse(a['timestamp']) > int.parse(b['timestamp']) ? 1 : -1;
       });
 // Iterate through each event and categorize them based on their timestamp
       eventsStorage['events'].forEach((json) {
@@ -339,9 +337,7 @@ class DataHandlerService {
         "This Year": [],
       };
       apiResult['events'].sort((a, b) {
-        final DateTime aTime = DateTime.parse(a['timestamp']);
-        final DateTime bTime = DateTime.parse(b['timestamp']);
-        return aTime.compareTo(bTime);
+        return int.parse(a['timestamp']) > int.parse(b['timestamp']) ? 1 : -1;
       });
 // Iterate through each event and categorize them based on their timestamp
       apiResult['events'].forEach((json) {
@@ -399,9 +395,7 @@ class DataHandlerService {
         "This Year": [],
       };
       eventsStorage['events'].sort((a, b) {
-        final DateTime aTime = DateTime.parse(a['timestamp']);
-        final DateTime bTime = DateTime.parse(b['timestamp']);
-        return aTime.compareTo(bTime);
+        return int.parse(a['timestamp']) > int.parse(b['timestamp']) ? 1 : -1;
       });
 // Iterate through each event and categorize them based on their timestamp
       eventsStorage['events'].forEach((json) {
@@ -448,9 +442,7 @@ class DataHandlerService {
       };
 
       apiResult['events'].sort((a, b) {
-        final DateTime aTime = DateTime.parse(a['timestamp']);
-        final DateTime bTime = DateTime.parse(b['timestamp']);
-        return aTime.compareTo(bTime);
+        return int.parse(a['timestamp']) > int.parse(b['timestamp']) ? 1 : -1;
       });
 
 // Iterate through each event and categorize them based on their timestamp

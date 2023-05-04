@@ -209,23 +209,23 @@ class TzktTxHistoryApiService {
 
   /// Get transaction history for a given account recent 20 transactions
   Future<List<TxHistoryModel>> getTxHistory(
-      {int limit = 1000,
+      {int limit = 30,
       String lastId = "",
-      String? sortBy = "Descending"}) async {
+      String? sortBy = "Descending",
+      String? query}) async {
     String network = "";
     if (Uri.parse(rpc).path.isNotEmpty) {
       network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
     }
-
-    var response = await HttpService.performGetRequest(
-        ServiceConfig.tzktApiForAccountTxs(
-          pkH,
-          limit: limit,
-          lastId: lastId,
-          sort: sortBy ?? "Descending",
-          network: network == "ak-csrjehxhpw0dl3" ? "" : network,
-        ),
-        callSetupTimer: true);
+    var url = ServiceConfig.tzktApiForAccountTxs(pkH,
+        limit: limit,
+        lastId: lastId,
+        sort: sortBy ?? "Descending",
+        network: network.contains("ak-csrjehxhpw0dl3") ? "" : network,
+        query: query);
+    print(url);
+    var response =
+        await HttpService.performGetRequest(url, callSetupTimer: true);
 
     /// if response is empty return empty list of tx history
     /// else return list of tx history model

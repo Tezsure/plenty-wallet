@@ -65,7 +65,7 @@ class _VCARedeemSheetState extends State<VCARedeemSheet> {
                     onPressed: () async {
                       controller.onSubmit();
                     },
-                    title: "Claim POAP NFT",
+                    title: "Claim Souvenir NFT",
                   ),
                 ),
                 const BottomButtonPadding()

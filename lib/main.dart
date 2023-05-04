@@ -18,9 +18,13 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/env.dart';
+import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'app/data/services/translation/translation_helper.dart';
 import 'app/routes/app_pages.dart';
+import 'utils/scroll_behaviour.dart';
 import 'utils/translation.dart';
 
 void main() async {
@@ -91,47 +95,93 @@ void main() async {
 
     runApp(
       Phoenix(
-        child: GetMaterialApp(
-          title: "naan",
-          locale: Get.deviceLocale,
-          theme: ThemeData(
-            brightness: Brightness.dark,
-            fontFamily: "Poppins",
-          ),
-          navigatorObservers: [
-            //InstabugNavigatorObserver(),
-            FirebaseAnalyticsObserver(
-                analytics: NaanAnalytics().getAnalytics()),
-          ],
-          // supportedLocales: const [
-          //   Locale("en", "US"),
-          //   Locale("en", "IN"),
-          // ],
-
-          debugShowCheckedModeBanner: false,
-          initialRoute: AppPages.INITIAL,
-          // getPages: AppPages.routes,
-          builder: (context, Widget? child) => CupertinoTheme(
-            data: CupertinoThemeData(
-              brightness: Theme.of(context).brightness,
-              scaffoldBackgroundColor: CupertinoColors.systemBackground,
+        child: RefreshConfiguration(
+          footerTriggerDistance: 15,
+          dragSpeedRatio: 0.91,
+          headerTriggerDistance: 50,
+          headerBuilder: () => ClassicHeader(
+              idleText: "",
+              releaseText: "",
+              completeText: "",
+              refreshingText: "",
+              canTwoLevelText: "",
+              completeIcon: const Icon(Icons.done, color: Colors.transparent),
+              releaseIcon: SizedBox(
+                width: 25.0.arP,
+                height: 25.0.arP,
+                child: const CupertinoActivityIndicator(
+                  color: ColorConst.Primary,
+                ),
+              ),
+              idleIcon:
+                  const Icon(Icons.arrow_downward, color: Colors.transparent),
+              refreshingIcon: SizedBox(
+                width: 25.0.arP,
+                height: 25.0.arP,
+                child: const CupertinoActivityIndicator(
+                  color: ColorConst.Primary,
+                ),
+              )),
+          footerBuilder: () => ClassicFooter(
+            idleText: "",
+            failedText: "",
+            noDataText: "",
+            idleIcon: const Icon(Icons.arrow_upward, color: Colors.transparent),
+            canLoadingIcon:
+                const Icon(Icons.autorenew, color: ColorConst.Primary),
+            loadingText: "",
+            canLoadingText: "",
+            loadingIcon: SizedBox(
+              width: 25.0.arP,
+              height: 25.0.arP,
+              child: const CupertinoActivityIndicator(
+                color: ColorConst.Primary,
+              ),
             ),
-            child: child!,
           ),
-          onGenerateRoute: (settings) {
-            final page = AppPages.routes.firstWhere(
-                (e) => e.name.toLowerCase() == settings.name!.toLowerCase());
-            page.binding?.dependencies();
-            return MaterialWithModalsPageRoute(
-                onCreate: (route) {
-                  RouterReportManager.reportCurrentRoute(route);
-                },
-                onDispose: (route) {
-                  RouterReportManager.reportRouteDispose(route);
-                },
-                settings: settings,
-                builder: (_) => page.page());
-          },
+          child: GetMaterialApp(
+            scrollBehavior: NaanScrollBehaviour(),
+            title: "naan",
+            locale: Get.deviceLocale,
+            theme: ThemeData(
+              brightness: Brightness.dark,
+              fontFamily: "Poppins",
+            ),
+            navigatorObservers: [
+              //InstabugNavigatorObserver(),
+              FirebaseAnalyticsObserver(
+                  analytics: NaanAnalytics().getAnalytics()),
+            ],
+            // supportedLocales: const [
+            //   Locale("en", "US"),
+            //   Locale("en", "IN"),
+            // ],
+
+            debugShowCheckedModeBanner: false,
+            initialRoute: AppPages.INITIAL,
+            // getPages: AppPages.routes,
+            builder: (context, Widget? child) => CupertinoTheme(
+              data: CupertinoThemeData(
+                brightness: Theme.of(context).brightness,
+                scaffoldBackgroundColor: CupertinoColors.systemBackground,
+              ),
+              child: child!,
+            ),
+            onGenerateRoute: (settings) {
+              final page = AppPages.routes.firstWhere(
+                  (e) => e.name.toLowerCase() == settings.name!.toLowerCase());
+              page.binding?.dependencies();
+              return MaterialWithModalsPageRoute(
+                  onCreate: (route) {
+                    RouterReportManager.reportCurrentRoute(route);
+                  },
+                  onDispose: (route) {
+                    RouterReportManager.reportRouteDispose(route);
+                  },
+                  settings: settings,
+                  builder: (_) => page.page());
+            },
+          ),
         ),
       ),
     );

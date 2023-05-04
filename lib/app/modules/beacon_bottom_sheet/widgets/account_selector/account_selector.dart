@@ -21,7 +21,7 @@ class AccountSwitchSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return NaanBottomSheet(
       isScrollControlled: true,
-      title: "Account",
+      title: "Wallet",
       // height: 0.65.height,
       bottomSheetWidgets: [
         ListView.builder(

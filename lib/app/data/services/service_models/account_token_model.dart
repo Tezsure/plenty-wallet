@@ -1,5 +1,7 @@
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 
+import 'token_price_model.dart';
+
 class AccountTokenModel {
   String? name;
   String? symbol;
@@ -102,6 +104,18 @@ class AccountTokenModel {
       isHidden: map['isHidden'] as bool,
       isSelected: map['isSelected'] as bool,
     );
+  }
+  TokenPriceModel convert() {
+    return TokenPriceModel(
+        name: name,
+        address: contractAddress,
+        symbol: symbol,
+        decimals: decimals,
+        currentPrice: currentPrice,
+        thumbnailUri: iconUrl,
+        tokenAddress: contractAddress,
+        tokenId: tokenId,
+        type: tokenStandardType?.name,);
   }
 
   Map<String, dynamic> toJson() => toMap();

@@ -82,20 +82,25 @@ class DelegateBakerModel {
 
   factory DelegateBakerModel.fromJson(Map<String, dynamic> json) =>
       DelegateBakerModel(
-        rank: json["rank"],
+        rank: json["rank"]??json["id"],
         logo: json["logo"],
         logoMin: json["logo_min"],
         name: json["name"],
         address: json["address"],
-        fee: json["fee"] == 1 ? 0 :( json["fee"]?.toDouble()??0),
+        fee: json["fee"] == 1 ? 0 : (json["fee"]?.toDouble() ?? 0),
         lifetime: json["lifetime"],
-        delegateBakersListResponseYield: json["yield"]?.toDouble(),
+        delegateBakersListResponseYield:
+            json["yield"]?.toDouble() ?? json["estimatedRoi"]?.toDouble(),
         efficiency: json["efficiency"]?.toDouble(),
         efficiencyLast10Cycle: json["efficiency_last10cycle"]?.toDouble(),
-        freespace: json["freespace"],
+        freespace: json["freespace"] ??
+            json["freeSpace"]?.toInt() ??
+            json["stakingBalance"],
         totalPoints: json["total_points"],
         deletationStatus: json["deletation_status"],
-        freespaceMin: json["freespace_min"],
+        freespaceMin: json["freespace_min"] ??
+            "${((json["freeSpace"] ?? json["stakingBalance"] ?? 0) / 1000).toStringAsFixed(2)}k XTZ",
+        // freespaceMin: json["stakingBalance"]?.toString(),
         proStatus: json["pro_status"],
       );
 }

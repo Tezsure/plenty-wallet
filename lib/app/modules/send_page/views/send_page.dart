@@ -138,7 +138,7 @@ class SendPage extends GetView<SendPageController> {
                                 .toList();
                             if (value.isValidWalletAddress && data.isEmpty) {
                               data.add(ContactModel(
-                                  name: "Account",
+                                  name: "Wallet",
                                   address: value,
                                   imagePath: ServiceConfig
                                       .allAssetsProfileImages[Random().nextInt(

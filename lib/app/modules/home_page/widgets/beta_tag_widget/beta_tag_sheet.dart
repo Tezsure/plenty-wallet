@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -26,7 +28,7 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
   @override
   void initState() {
     UserStorageService.getBetaTagAgree().then((value) {
-      hasAgreed = value;
+      Platform.isIOS ? hasAgreed = true : hasAgreed = value;
       setState(() {});
     });
     // TODO: implement initState
