@@ -47,9 +47,10 @@ class AccountsWidgetController extends GetxController {
       // if (currIndex.value != index) {
       // print("onPageChanged: $index");
       currIndex.value = index;
-    } catch (e) {}
-    // }
-    // update();
+    } catch (e) {
+      print(e.toString());
+    }
+  
   }
 
   /// add account functions
@@ -67,7 +68,7 @@ class AccountsWidgetController extends GetxController {
   void initAddAccount() {
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
     accountNameController.text =
-        "Account ${homeController.userAccounts.isEmpty ? 1 : homeController.userAccounts.length + 1}";
+        "Wallet ${homeController.userAccounts.isEmpty ? 1 : homeController.userAccounts.length + 1}";
     // set selection at the end of the text
     accountNameController.selection = TextSelection.fromPosition(
       TextPosition(offset: accountNameController.text.length),

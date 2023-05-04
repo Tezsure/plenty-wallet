@@ -24,7 +24,7 @@ import 'vca_redeem_nft/widget/info_sheet.dart';
 
 class VCAWidget extends StatelessWidget {
   VCAWidget({Key? key}) : super(key: key);
-  List<String> titles = ["Website", "POAP NFT", "Guide", "Gallery"];
+  List<String> titles = ["Website", "Souvenir", "Guide", "Gallery"];
   List<String> icons = ["globe.svg", "gift.svg", "map.svg", "gallery.svg"];
   @override
   Widget build(BuildContext context) {

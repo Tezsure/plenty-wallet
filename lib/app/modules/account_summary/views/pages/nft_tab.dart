@@ -8,103 +8,130 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../widgets/nft_tab_widgets/nft_collectibles.dart';
 
 class NFTabPage extends GetView<AccountSummaryController> {
-  const NFTabPage({
+  NFTabPage({
     super.key,
   });
-
+  final refreshController = RefreshController();
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.nftLoading.value
-        ? NftSkeleton()
-        : controller.userNfts.isEmpty
-            ? RefreshIndicator(
-                color: ColorConst.Primary,
-                backgroundColor: Colors.transparent,
-                onRefresh: () async {
-                  controller.contractOffset = 0;
-                  controller.contracts.clear();
-                  controller.userNfts.clear();
-                  controller.fetchAllNfts();
-                },
-                child: ListView(
-                  children: [
-                    0.08.vspace,
-                    SvgPicture.asset(
-                      "assets/empty_states/empty2.svg",
-                      height: 120.aR,
-                    ),
-                    RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                            text: "No Collections".tr,
-                            style: titleLarge.copyWith(
-                                fontWeight: FontWeight.w700, fontSize: 22.aR),
-                            children: [
-                              TextSpan(
-                                  text:
-                                      "\nExplore new collectibles on objkt".tr,
-                                  style: labelMedium.copyWith(
-                                      fontSize: 12.aR,
-                                      color: ColorConst.NeutralVariant.shade60))
-                            ])),
-                  ],
-                ),
-              )
-            : RefreshIndicator(
-                color: ColorConst.Primary,
-                backgroundColor: Colors.transparent,
-                onRefresh: () async {
-                  controller.contractOffset = 0;
-                  controller.contracts.clear();
-                  controller.userNfts.clear();
-                  controller.fetchAllNfts();
-                },
-                child: NotificationListener<UserScrollNotification>(
-                  onNotification: (ScrollNotification notification) {
-                    if (notification.metrics.extentAfter <= 10 &&
-                        controller.contractOffset <
-                            controller.contracts.length &&
-                        !controller.isLoadingMore) {
-                      controller.fetchAllNfts();
-                    }
-                    return false;
-                  },
-                  child: ListView.builder(
-                    physics: AppConstant.scrollPhysics,
-                    padding:
-                        EdgeInsets.only(left: 14.aR, right: 14.aR, top: 14.aR),
-                    itemCount: controller.userNfts.length +
-                        (controller.contractOffset < controller.contracts.length
-                            ? 1
-                            : 0),
-                    shrinkWrap: true,
-                    addAutomaticKeepAlives: false,
-                    itemBuilder: ((context, index) {
-                      if (index == controller.userNfts.length) {
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 30.arP),
-                          child: const Center(
-                            child: CupertinoActivityIndicator(
-                              color: ColorConst.Primary,
-                            ),
-                          ),
-                        );
-                      }
-                      return NftCollectibles(
-                        nftList: controller.userNfts[
-                            controller.userNfts.keys.toList()[index]]!,
-                        account:
-                            controller.selectedAccount.value.publicKeyHash!,
-                      );
-                    }),
-                  ),
-                ),
-              ));
+    return Obx(() {
+      return Column(
+        children: [
+          Expanded(
+            child: SmartRefresher(
+              enablePullDown: true,
+              enablePullUp: true,
+              enableTwoLevel: true,
+              controller: refreshController,
+              onRefresh: () async {
+                await _onRefresh();
+                refreshController.refreshCompleted();
+              },
+              onLoading: () async {
+                await controller.fetchAllNfts();
+                refreshController.loadComplete();
+              },
+              child:
+                  controller.userNfts.isEmpty && controller.nftLoading.isFalse
+                      ? _buildEmptyState()
+                      : _buildBody(),
+            ),
+          ),
+        ],
+      );
+    });
+    // return Obx(() => controller.nftLoading.value
+    //     ? const NftSkeleton()
+    //     : controller.userNfts.isEmpty
+    //         ? RefreshIndicator(
+    //             color: ColorConst.Primary,
+    //             backgroundColor: Colors.transparent,
+    //             onRefresh: () async {
+    //               controller.contractOffset = 0;
+    //               controller.contracts.clear();
+    //               controller.userNfts.clear();
+    //               controller.fetchAllNfts();
+    //             },
+    //             child: _buildEmptyState(),
+    //           )
+    //         : RefreshIndicator(
+    //             color: ColorConst.Primary,
+    //             backgroundColor: Colors.transparent,
+    //             onRefresh: _onRefresh,
+    //             child: NotificationListener<UserScrollNotification>(
+    //               onNotification: (ScrollNotification notification) {
+    //                 if (notification.metrics.extentAfter <= 10 &&
+    //                     controller.contractOffset <
+    //                         controller.contracts.length &&
+    //                     !controller.isLoadingMore) {
+    //                   controller.fetchAllNfts();
+    //                 }
+    //                 return false;
+    //               },
+    //               child: _buildBody(),
+    //             ),
+    //           ));
+  }
+
+  ListView _buildEmptyState() {
+    return ListView(
+      children: [
+        0.08.vspace,
+        SvgPicture.asset(
+          "assets/empty_states/empty2.svg",
+          height: 120.aR,
+        ),
+        RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+                text: "No Collections".tr,
+                style: titleLarge.copyWith(
+                    fontWeight: FontWeight.w700, fontSize: 22.aR),
+                children: [
+                  TextSpan(
+                      text: "\nExplore new collectibles on objkt".tr,
+                      style: labelMedium.copyWith(
+                          fontSize: 12.aR,
+                          color: ColorConst.NeutralVariant.shade60))
+                ])),
+      ],
+    );
+  }
+
+  Future<void> _onRefresh() async {
+    controller.contractOffset = 0;
+    controller.contracts.clear();
+    controller.userNfts.clear();
+    await controller.fetchAllNfts();
+  }
+
+  Widget _buildBody() {
+    return ListView.builder(
+      physics: AppConstant.scrollPhysics,
+      padding: EdgeInsets.only(left: 14.aR, right: 14.aR, top: 14.aR),
+      itemCount: controller.userNfts.length + 1,
+      // (controller.contractOffset < controller.contracts.length ? 1 : 0),
+      shrinkWrap: true,
+      addAutomaticKeepAlives: false,
+      itemBuilder: ((context, index) {
+        if (index == controller.userNfts.length) {
+          return controller.isLoadingMore
+              ? const NftSkeleton()
+              : const SizedBox();
+        }
+        return NftCollectibles(
+          nftList:
+              controller.userNfts[controller.userNfts.keys.toList()[index]]!,
+          account: controller.selectedAccount.value.publicKeyHash!,
+        );
+      }),
+    );
   }
 }
 
@@ -121,6 +148,8 @@ class NftSkeleton extends StatelessWidget {
           top: 24.aR,
         ),
         child: ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return Padding(
               padding:

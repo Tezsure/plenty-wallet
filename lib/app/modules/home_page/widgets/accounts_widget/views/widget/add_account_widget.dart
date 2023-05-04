@@ -30,7 +30,9 @@ class AddAccountWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BouncingWidget(
       onPressed: () {
-        CommonFunctions.bottomSheet(addAccountSheet(warning),);
+        CommonFunctions.bottomSheet(
+          addAccountSheet(warning),
+        );
       },
       child: Container(
         height: AppConstant.homeWidgetDimension,
@@ -58,7 +60,7 @@ class AddAccountWidget extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              'Add account'.tr,
+              'Add wallet'.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
@@ -69,7 +71,7 @@ class AddAccountWidget extends StatelessWidget {
               height: 4.arP,
             ),
             Text(
-              'Manage multiple accounts\neasily'.tr,
+              'Manage multiple wallets\neasily'.tr,
               style: TextStyle(
                 color: const Color(0xFF958E99),
                 fontWeight: FontWeight.w400,

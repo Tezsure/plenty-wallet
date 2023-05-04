@@ -9,12 +9,15 @@ import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/p
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/permission_sheet.dart';
 import 'package:naan_wallet/app/modules/custom_gallery/widgets/custom_nft_detail_sheet.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/controller/vca_redeem_nft_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../send_page/controllers/send_page_controller.dart';
+import '../widgets/account_switch_widget/account_switch_widget.dart';
+import '../widgets/vca/vca_redeem_nft/widget/vca_redeem_nft_sheet.dart';
 
 class ScanQRController extends GetxController with WidgetsBindingObserver {
   // RxBool flash = false.obs;
@@ -85,6 +88,31 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
                 fullscreen: true);
           }
         } catch (e) {}
+      }
+      if (scanData.code == "https://qr.page/g/2QDaMqohAi5") {
+        if (result != null) return;
+        controller.value.pauseCamera();
+        result = scanData;
+        await CommonFunctions.bottomSheet(AccountSwitch(
+                onNext: ({String senderAddress = ""}) async {},
+                title: "Claim Souvenir NFT",
+                subtitle: "Choose an account to claim your Souvenir NFT"))
+            .then((value) async {
+          if (value == true) {
+            controller.value.pauseCamera();
+            result = scanData;
+            Get.put(VCARedeemNFTController());
+            await Navigator.push(Get.context!,
+                MaterialPageRoute(builder: (context) => VCARedeemSheet()));
+            controller.value.resumeCamera();
+            result = null;
+          } else {
+            controller.value.resumeCamera();
+            result = null;
+          }
+        });
+
+        // CommonFunctions.bottomSheet(VCARedeemSheet(), fullscreen: true);
       }
     });
     try {

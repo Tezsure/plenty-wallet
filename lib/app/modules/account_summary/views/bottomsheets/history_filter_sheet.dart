@@ -20,107 +20,103 @@ class HistoryFilterSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NaanBottomSheet(
-      bottomSheetHorizontalPadding: 32.aR,
+      title: "",
       // height: 609.aR,
       isScrollControlled: true,
       crossAxisAlignment: CrossAxisAlignment.start,
       bottomSheetWidgets: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            0.02.vspace,
+            _buildTitles("Asset type"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                assetTypeButton(
+                  assetType: AssetType.token,
+                  svg: "${PathConst.EMPTY_STATES}token.svg",
+                  title: "Tokens",
+                ),
+                assetTypeButton(
+                  assetType: AssetType.nft,
+                  svg: "${PathConst.EMPTY_STATES}nft.svg",
+                  title: "NFTs",
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 32.aR,
+            ),
+            _buildTitles("Transaction type"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                transactionTypeButton(
+                  transactionType: TransactionType.delegation,
+                  svg: "${PathConst.EMPTY_STATES}delegation.svg",
+                  title: "Delegation",
+                ),
+                transactionTypeButton(
+                  transactionType: TransactionType.send,
+                  svg: "${PathConst.EMPTY_STATES}send.svg",
+                  title: "Send",
+                ),
+                transactionTypeButton(
+                  transactionType: TransactionType.receive,
+                  svg: "${PathConst.EMPTY_STATES}receive.svg",
+                  title: "Receive",
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 32.aR,
+            ),
+            _buildTitles("Date"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                dateTypeButton(DateType.today, "Today"),
+                dateTypeButton(DateType.currentMonth, "Current Month"),
+                dateTypeButton(DateType.last3Months, "Last 3 Months"),
+              ],
+            ),
+            SizedBox(
+              height: 40.aR,
+            ),
+            dateRangeButton(),
+            SizedBox(
+              height: 40.aR,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                clearButton(),
+                0.032.hspace,
+                applyButton(),
+              ],
+            ),
+            const BottomButtonPadding()
+          ],
+        )
         // SizedBox(
         //     height: 609.aR,
         //     child: Column(
         //       children: [],
         //     )),
-        SizedBox(
-          height: 16.aR,
-        ),
-        Text(
-          "Asset type".tr,
-          style: titleSmall.copyWith(letterSpacing: 0.5, fontSize: 14.aR),
-        ),
-        SizedBox(
-          height: 12.aR,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            assetTypeButton(
-              assetType: AssetType.token,
-              svg: "${PathConst.EMPTY_STATES}token.svg",
-              title: "Tokens",
-            ),
-            assetTypeButton(
-              assetType: AssetType.nft,
-              svg: "${PathConst.EMPTY_STATES}nft.svg",
-              title: "NFTs",
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 26.aR,
-        ),
-        Text(
-          "Transaction type".tr,
-          style: titleSmall.copyWith(letterSpacing: 0.5, fontSize: 14.aR),
-        ),
-        SizedBox(
-          height: 12.aR,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            transactionTypeButton(
-              transactionType: TransactionType.delegation,
-              svg: "${PathConst.EMPTY_STATES}delegation.svg",
-              title: "Delegation",
-            ),
-            transactionTypeButton(
-              transactionType: TransactionType.send,
-              svg: "${PathConst.EMPTY_STATES}send.svg",
-              title: "Send",
-            ),
-            transactionTypeButton(
-              transactionType: TransactionType.receive,
-              svg: "${PathConst.EMPTY_STATES}receive.svg",
-              title: "Receive",
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 26.aR,
-        ),
-        Text(
-          "Date".tr,
-          style: labelMedium.copyWith(fontSize: 12.aR),
-        ),
-        SizedBox(
-          height: 12.aR,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            dateTypeButton(DateType.today, "Today"),
-            dateTypeButton(DateType.currentMonth, "Current Month"),
-            dateTypeButton(DateType.last3Months, "Last 3 Months"),
-          ],
-        ),
-        SizedBox(
-          height: 40.aR,
-        ),
-        dateRangeButton(),
-        SizedBox(
-          height: 40.aR,
-        ),
-        // const Spacer(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            clearButton(),
-            0.032.hspace,
-            applyButton(),
-          ],
-        ),
-        BottomButtonPadding()
       ],
+    );
+  }
+
+  Widget _buildTitles(String title) {
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: 12.arP,
+      ),
+      child: Text(
+        title.tr,
+        style: titleSmall,
+      ),
     );
   }
 
@@ -134,49 +130,46 @@ class HistoryFilterSheet extends StatelessWidget {
         final isSelected =
             controller.assetType.value.any((e) => e == assetType);
         return Flexible(
-          child: Padding(
-            padding: EdgeInsets.only(right: 12.aR),
-            child: MaterialButton(
-              height: 79.arP,
-              onPressed: () {
-                if (isSelected) {
-                  controller.assetType.remove(assetType);
-                } else {
-                  controller.assetType.add(assetType);
-                }
-              },
-              color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              minWidth: (1.width - 45) / 2,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.aR),
-                  side: BorderSide(
-                      color: isSelected
-                          ? ColorConst.Primary
-                          : ColorConst.NeutralVariant.shade60,
-                      width: 1.5)),
-              child: Column(
-                children: [
-                  SvgPicture.asset(
-                    svg,
-                    height: 26.aR,
+          child: MaterialButton(
+            height: 79.arP,
+            onPressed: () {
+              if (isSelected) {
+                controller.assetType.remove(assetType);
+              } else {
+                controller.assetType.add(assetType);
+              }
+            },
+            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+            minWidth: (1.width - 45) / 2,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.aR),
+                side: BorderSide(
                     color: isSelected
-                        ? Colors.white
+                        ? ColorConst.Primary
                         : ColorConst.NeutralVariant.shade60,
-                    fit: BoxFit.contain,
-                  ),
-                  SizedBox(
-                    height: 4.aR,
-                  ),
-                  Text(
-                    title,
-                    style: labelMedium.copyWith(
-                        fontSize: 12.arP,
-                        color: isSelected
-                            ? Colors.white
-                            : ColorConst.NeutralVariant.shade60),
-                  )
-                ],
-              ),
+                    width: 1.5)),
+            child: Column(
+              children: [
+                SvgPicture.asset(
+                  svg,
+                  height: 26.aR,
+                  color: isSelected
+                      ? Colors.white
+                      : ColorConst.NeutralVariant.shade60,
+                  fit: BoxFit.contain,
+                ),
+                SizedBox(
+                  height: 4.aR,
+                ),
+                Text(
+                  title,
+                  style: labelMedium.copyWith(
+                      fontSize: 12.arP,
+                      color: isSelected
+                          ? Colors.white
+                          : ColorConst.NeutralVariant.shade60),
+                )
+              ],
             ),
           ),
         );
@@ -194,48 +187,45 @@ class HistoryFilterSheet extends StatelessWidget {
         final isSelected =
             controller.transactionType.any((e) => e == transactionType);
         return Flexible(
-          child: Padding(
-            padding: EdgeInsets.only(right: 12.arP),
-            child: MaterialButton(
-              height: 79.arP,
-              onPressed: () {
-                if (isSelected) {
-                  controller.transactionType.remove(transactionType);
-                } else {
-                  controller.transactionType.add(transactionType);
-                }
-                // controller.transactionType.value = transactionType;
-              },
-              color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-              minWidth: (1.width / 3) - 16,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.arP),
-                  side: BorderSide(
-                      color: isSelected
-                          ? ColorConst.Primary
-                          : ColorConst.NeutralVariant.shade60,
-                      width: 1.5)),
-              child: Column(
-                children: [
-                  SvgPicture.asset(svg,
-                      height: 26.aR,
-                      fit: BoxFit.contain,
+          child: MaterialButton(
+            height: 79.arP,
+            onPressed: () {
+              if (isSelected) {
+                controller.transactionType.remove(transactionType);
+              } else {
+                controller.transactionType.add(transactionType);
+              }
+              // controller.transactionType.value = transactionType;
+            },
+            color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+            minWidth: (1.width / 3) - 16,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.arP),
+                side: BorderSide(
+                    color: isSelected
+                        ? ColorConst.Primary
+                        : ColorConst.NeutralVariant.shade60,
+                    width: 1.5)),
+            child: Column(
+              children: [
+                SvgPicture.asset(svg,
+                    height: 26.aR,
+                    fit: BoxFit.contain,
+                    color: isSelected
+                        ? Colors.white
+                        : ColorConst.NeutralVariant.shade60),
+                SizedBox(
+                  height: 4.aR,
+                ),
+                Text(
+                  title.tr,
+                  style: labelMedium.copyWith(
+                      fontSize: 11.arP,
                       color: isSelected
                           ? Colors.white
                           : ColorConst.NeutralVariant.shade60),
-                  SizedBox(
-                    height: 4.aR,
-                  ),
-                  Text(
-                    title.tr,
-                    style: labelMedium.copyWith(
-                        fontSize: 11.arP,
-                        color: isSelected
-                            ? Colors.white
-                            : ColorConst.NeutralVariant.shade60),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
           ),
         );
@@ -263,6 +253,7 @@ class HistoryFilterSheet extends StatelessWidget {
       child: SolidButton(
         onPressed: () {
           controller.apply();
+          Get.back();
         },
         title: "Apply",
       ),
@@ -275,7 +266,14 @@ class HistoryFilterSheet extends StatelessWidget {
       child: Obx(
         () => BouncingWidget(
           onPressed: () {
-            controller.setDate(dateType);
+            if (controller.dateType.value == dateType) {
+              controller.setDate(DateType.none);
+              controller.fromDate.value = DateTime(DateTime.now().year,
+                  DateTime.now().month, DateTime.now().day);
+              controller.toDate.value = DateTime.now();
+            } else {
+              controller.setDate(dateType);
+            }
           },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.aR),

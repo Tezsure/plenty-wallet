@@ -160,7 +160,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
   SolidButton _buildCreateAccountButton() {
     return SolidButton(
       width: 1.width - 64.arP,
-      title: "Create a new account",
+      title: "Create a new wallet",
       titleStyle: titleSmall.copyWith(
         fontWeight: FontWeight.w600,
       ),
@@ -213,7 +213,7 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
       onPressed: () {
         Get.toNamed(Routes.IMPORT_WALLET_PAGE);
       },
-      title: "I already have an account",
+      title: "I already have a wallet",
       borderColor: ColorConst.Neutral.shade80,
       textColor: ColorConst.Neutral.shade80,
     );

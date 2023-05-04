@@ -29,15 +29,17 @@ class NftGalleryWidgetController extends GetxController {
   var currentSelectedType = AccountProfileImageType.assets;
   RxString selectedImagePath = "".obs;
   RxString accountName = 'Gallery 1'.obs;
-
+  RxBool loading = true.obs;
   RxList<NftGalleryModel> nftGalleryList = <NftGalleryModel>[].obs;
 
   @override
   Future<void> onInit() async {
     super.onInit();
+    loading.value = true;
     await DataHandlerService().nftPatch(() {
       fetchNftGallerys();
     });
+    loading.value = false;
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
   }
 
@@ -50,6 +52,7 @@ class NftGalleryWidgetController extends GetxController {
         nftGalleryList.value = value;
       });
     } catch (e) {
+      loading.value = false;
       log(e.toString());
     }
 
@@ -176,7 +179,7 @@ class NftGalleryWidgetController extends GetxController {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
-        tezAddress: 'No NFTs found in selected accounts',
+        tezAddress: 'No NFTs found in selected wallets',
         transactionAmount: 'Cannot create gallery',
       );
       isCreating.value = false;
@@ -219,7 +222,7 @@ class NftGalleryWidgetController extends GetxController {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
-        tezAddress: 'Gallery with same Accounts already exists',
+        tezAddress: 'Gallery with same wallets already exists',
         transactionAmount: 'Cannot create gallery',
       );
       isCreating.value = false;
@@ -231,7 +234,7 @@ class NftGalleryWidgetController extends GetxController {
       transactionStatusSnackbar(
         duration: const Duration(seconds: 2),
         status: TransactionStatus.error,
-        tezAddress: 'No NFTs found in selected accounts',
+        tezAddress: 'No NFTs found in selected wallets',
         transactionAmount: 'Cannot create gallery',
       );
       isCreating.value = false;

@@ -11,10 +11,7 @@ dependencies:
   flutter_lints: ^2.0.1
   flutter:
     sdk: flutter
-  web3auth_flutter:
-    git:
-      url: https://github.com/Web3Auth/web3auth-flutter-sdk.git
-      ref: master
+  web3auth_flutter: ^1.3.0
   flutter_svg: ^1.1.1+1
   cached_network_image: ^3.2.1
   flutter_secure_storage: ^8.0.0
@@ -54,8 +51,11 @@ dependencies:
     #  ^3.0.0-pre
     path: package/modal_bottom_sheet/modal_bottom_sheet
   flutter_phoenix: "^1.0.0"
-  flutter_widget_from_html_core:
-    ^0.10.0
+  flutter_widget_from_html_core: ^0.10.0
+  pull_to_refresh: ^2.0.0
+
+  card_swiper:
+    ^2.0.4
 
     # path: packages/modal_bottom_sheet/modal_bottom_sheet
 
@@ -115,6 +115,7 @@ flutter:
     #dapp
     - assets/dapps/
     - assets/dapp_browser/
+    - assets/transaction/
 
   uses-material-design: true
 

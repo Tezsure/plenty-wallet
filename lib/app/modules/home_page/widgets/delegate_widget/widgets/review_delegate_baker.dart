@@ -121,7 +121,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
             SizedBox(
               // height: 14.arP,
               child: Text(
-                account.name ?? 'Account',
+                account.name ?? 'Wallet',
                 style: labelSmall.apply(
                   color: ColorConst.NeutralVariant.shade60,
                 ),

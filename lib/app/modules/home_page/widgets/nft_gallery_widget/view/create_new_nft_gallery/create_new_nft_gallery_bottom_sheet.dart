@@ -142,13 +142,13 @@ class CreateNewNftGalleryBottomSheet
       // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         BottomSheetHeading(
-          title: "Select accounts",
+          title: "Select wallet",
         ),
         SizedBox(
           height: 12.arP,
         ),
         Text(
-          "Choose accounts to add to your gallery.\nYou can always edit these later"
+          "Choose wallets to add to your gallery.\nYou can always edit these later"
               .tr,
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -233,7 +233,7 @@ class CreateNewNftGalleryBottomSheet
           ),
           0.05.vspace,
           Text(
-            "No accounts found".tr,
+            "No wallet found".tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,

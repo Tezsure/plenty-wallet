@@ -70,6 +70,9 @@ class AccountSummaryController extends GetxController {
   RxBool isAccountDelegated =
       false.obs; // To check if current account is delegated
 
+  static int _pinnedTokens = 0;
+  static int _hiddenTokens = 0;
+
 /*   fetchAllNftscallback(_) {
     // print("NFT Updated");
     _fetchAllNfts();
@@ -251,7 +254,8 @@ class AccountSummaryController extends GetxController {
         }
       }
     });
-    int pinnedTokens = userTokens.indexWhere((element) => !element.isPinned);
+
+    int pinnedTokens = userTokens.lastIndexWhere((element) => element.isPinned);
     int hiddenTokens = userTokens.indexWhere((element) => element.isHidden);
     pinnedTokens = _pinnedTokens < 0 ? userTokens.length : pinnedTokens;
     int minTokens = min(4, userTokens.length); // setting the default value
@@ -282,7 +286,7 @@ class AccountSummaryController extends GetxController {
     if (contractOffset == 0) {
       nftLoading.value = true;
     }
-    UserStorageService()
+    await UserStorageService()
         .getUserNftsString(userAddress: selectedAccount.value.publicKeyHash!)
         .then((nftList) async {
       nftList ??= "[]";
@@ -512,14 +516,25 @@ class AccountSummaryController extends GetxController {
     _updateUserTokenList();
   }
 
-  static int _pinnedTokens = 0;
-  static int _hiddenTokens = 0;
+  bool get showPinButton {
+    if (selectedTokenIndexSet.isEmpty) {
+      return true;
+    }
 
-  bool get showPinButton =>
-      selectedTokenIndexSet.isEmpty ||
-      (selectedTokenIndexSet.first < _pinnedTokens &&
-          selectedTokenIndexSet.last >= _pinnedTokens) ||
-      selectedTokenIndexSet.first >= _pinnedTokens;
+    bool anySelectedTokenIsPinned = selectedTokenIndexSet
+        .any((index) => index > 0 && index < _pinnedTokens + 1);
+
+    // If any selected token (other than the default one) is pinned, return false.
+    if (anySelectedTokenIsPinned) {
+      return false;
+    }
+
+    // Otherwise, return true if all selected tokens are in the same list (pinned or unpinned).
+    return (selectedTokenIndexSet.first <= _pinnedTokens + 1 &&
+            selectedTokenIndexSet.last < _pinnedTokens + 1) ||
+        (selectedTokenIndexSet.first >= _pinnedTokens + 1 &&
+            selectedTokenIndexSet.last >= _pinnedTokens + 1);
+  }
 
   bool get showHideButton =>
       selectedTokenIndexSet.isEmpty ||
@@ -527,44 +542,32 @@ class AccountSummaryController extends GetxController {
       _pinnedTokens == userTokens.length ||
       _hiddenTokens == -1;
 
-  bool get pinAll =>
-      selectedTokenIndexSet.isNotEmpty &&
-      selectedTokenIndexSet.first < _pinnedTokens &&
-      selectedTokenIndexSet.last >= _pinnedTokens;
+  bool get pinAll {
+    if (selectedTokenIndexSet.isEmpty) {
+      return false;
+    }
+
+    return selectedTokenIndexSet.every((index) => index < _pinnedTokens + 1);
+  }
 
   void onPinToken() {
-    if (pinAll) {
-      for (var i in selectedTokenIndexSet) {
-        if (userTokens[i].isPinned) {
-          --_pinnedTokens;
-        }
-        userTokens[i]
-          ..isPinned = true
-          ..isSelected = false
-          ..isHidden = false;
-        if (userTokens[i].isPinned) {
-          ++_pinnedTokens;
-        } else {
-          --_pinnedTokens;
-        }
-      }
-    } else {
-      for (var i in selectedTokenIndexSet) {
-        userTokens[i]
-          ..isPinned = !userTokens[i].isPinned
-          ..isSelected = false
-          ..isHidden = false;
-        if (userTokens[i].isPinned) {
-          ++_pinnedTokens;
-        } else {
-          --_pinnedTokens;
-        }
+    for (var i in selectedTokenIndexSet) {
+      userTokens[i]
+        ..isPinned = !userTokens[i].isPinned
+        ..isSelected = false
+        ..isHidden = false;
+      if (userTokens[i].isPinned) {
+        ++_pinnedTokens;
+      } else {
+        --_pinnedTokens;
       }
     }
+
     _tokenSort();
     selectedTokenIndexSet.clear();
     isEditable.value = false;
     _updateUserTokenList();
+    fetchAllTokens();
   }
 
   void onHideToken() {
@@ -587,6 +590,7 @@ class AccountSummaryController extends GetxController {
     selectedTokenIndexSet.clear();
     isEditable.value = false;
     _updateUserTokenList();
+    fetchAllTokens();
   }
 
   void onCheckBoxTap(bool isPinnedList, int index) {
