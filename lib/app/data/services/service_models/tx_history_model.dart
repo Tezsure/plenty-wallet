@@ -30,7 +30,6 @@ extension TxTransferChecker on TransactionTransferModel {
         final tk = tokensList.firstWhere(
             (p0) => (p0.tokenAddress!.contains(token!.contract!.address!)),
             orElse: () => TokenPriceModel(
-                address: token!.contract!.address!,
                 name: token!.contract!.alias ?? "",
                 symbol: token!.metadata!.symbol,
                 currentPrice: 0,
@@ -317,8 +316,7 @@ TokenPriceModel fA1Token(
   return tokensList.firstWhere(
       (p0) => (p0.tokenAddress!.contains(target!.address!)),
       orElse: () => TokenPriceModel(
-          address: target!.address!,
-          name: target.alias!,
+          name: target!.alias!,
           symbol: target.alias?.split(" ").last,
           currentPrice: 0,
           thumbnailUri: "https://services.tzkt.io/v1/avatars/${target.address}",

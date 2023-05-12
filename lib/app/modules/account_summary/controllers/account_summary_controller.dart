@@ -125,6 +125,9 @@ class AccountSummaryController extends GetxController {
     isLoading.value = true;
     String tokens =
         await DataHandlerService().renderService.getTokenPriceModelString();
+    String analyticsTokens = await DataHandlerService()
+        .renderService
+        .getTokenPriceModelAnalyticsString();
     await UserStorageService()
         .getUserTokensString(userAddress: selectedAccount.value.publicKeyHash!)
         .then(
@@ -137,7 +140,8 @@ class AccountSummaryController extends GetxController {
               value,
               xtzPrice.value,
               selectedAccount.value.accountDataModel!.xtzBalance!,
-              tokens
+              tokens,
+              analyticsTokens
             ],
             debugLabel: "tokensProcess");
 /*       userTokens,
@@ -266,6 +270,22 @@ class AccountSummaryController extends GetxController {
     List<TokenPriceModel> tokensList = jsonDecode(args[3])["contracts"]
         .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
         .toList();
+    List<TokenPriceModel> tokensListAnalytics = jsonDecode(args[4])
+        .map<TokenPriceModel>((e) =>
+            TokenPriceModel.fromJson(e, isAnalytics: true, xtzPrice: args[1]))
+        .toList();
+    // add tokensListAnalytics to tokensList if tokenAddress and tokenId is not present
+    tokensListAnalytics.forEach((element) {
+      if (tokensList
+          .where((e) =>
+              e.tokenAddress == element.tokenAddress &&
+              e.tokenId == element.tokenId)
+          .isEmpty) {
+        tokensList.add(element);
+      }
+    });
+    tokensList.removeWhere((element) => element.symbol == "XTZ");
+
     return [
       userTokens,
       pinnedTokens,
@@ -273,7 +293,7 @@ class AccountSummaryController extends GetxController {
       minTokens,
       pinnedList,
       unPinnedList,
-      tokensList
+      tokensList,
     ];
   }
 

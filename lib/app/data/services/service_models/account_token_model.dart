@@ -107,15 +107,15 @@ class AccountTokenModel {
   }
   TokenPriceModel convert() {
     return TokenPriceModel(
-        name: name,
-        address: contractAddress,
-        symbol: symbol,
-        decimals: decimals,
-        currentPrice: currentPrice,
-        thumbnailUri: iconUrl,
-        tokenAddress: contractAddress,
-        tokenId: tokenId,
-        type: tokenStandardType?.name,);
+      name: name,
+      symbol: symbol,
+      decimals: decimals,
+      currentPrice: currentPrice,
+      thumbnailUri: iconUrl,
+      tokenAddress: contractAddress,
+      tokenId: tokenId,
+      type: tokenStandardType?.name,
+    );
   }
 
   Map<String, dynamic> toJson() => toMap();
