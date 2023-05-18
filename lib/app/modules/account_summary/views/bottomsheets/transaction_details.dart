@@ -773,10 +773,15 @@ class TxTokenInfo extends StatelessWidget {
                 Text(
                     tokenInfo.isNft
                         ? "${tokenInfo.tokenAmount == 0.0 ? "1" : tokenInfo.tokenAmount.toStringAsFixed(0)} ${tokenInfo.tokenSymbol}"
-                        : getColor(tokenInfo.token, userAccountAddress) ==
-                                ColorConst.NeutralVariant.shade99
-                            ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6).removeTrailing0} ${tokenInfo.tokenSymbol}'
-                            : '+${tokenInfo.tokenAmount.toStringAsFixed(6).removeTrailing0} ${tokenInfo.tokenSymbol}',
+                        : tokenInfo.token
+                                    ?.getTxType(selectedAccount)
+                                    .startsWith("Delegated") ??
+                                false
+                            ? '${tokenInfo.tokenAmount.toStringAsFixed(6).removeTrailing0} ${tokenInfo.tokenSymbol}'
+                            : getColor(tokenInfo.token, userAccountAddress) ==
+                                    ColorConst.NeutralVariant.shade99
+                                ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6).removeTrailing0} ${tokenInfo.tokenSymbol}'
+                                : '+${tokenInfo.tokenAmount.toStringAsFixed(6).removeTrailing0} ${tokenInfo.tokenSymbol}',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: bodySmall.copyWith(
@@ -787,12 +792,19 @@ class TxTokenInfo extends StatelessWidget {
                 Text(
                   tokenInfo.token == null ||
                           tokenInfo.token?.operationStatus == 'applied'
-                      ? getColor(tokenInfo.token, selectedAccount) ==
-                              ColorConst.NeutralVariant.shade99
-                          ? '- ${(tokenInfo.dollarAmount).roundUpDollar(xtzPrice).removeTrailing0}'
-                          : (tokenInfo.dollarAmount)
+                      ? tokenInfo.token
+                                  ?.getTxType(selectedAccount)
+                                  .startsWith("Delegated") ??
+                              false
+                          ? (tokenInfo.dollarAmount)
                               .roundUpDollar(xtzPrice)
                               .removeTrailing0
+                          : getColor(tokenInfo.token, selectedAccount) ==
+                                  ColorConst.NeutralVariant.shade99
+                              ? '- ${(tokenInfo.dollarAmount).roundUpDollar(xtzPrice).removeTrailing0}'
+                              : (tokenInfo.dollarAmount)
+                                  .roundUpDollar(xtzPrice)
+                                  .removeTrailing0
                       : "failed",
                   style: labelLarge.copyWith(
                       fontWeight: FontWeight.w400,

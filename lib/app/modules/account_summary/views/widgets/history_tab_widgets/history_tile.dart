@@ -301,12 +301,19 @@ class _HistoryTileState extends State<HistoryTile>
               ),
               Text(
                 data.token == null || data.token?.operationStatus == 'applied'
-                    ? getColor(data.token, selectedAccount) ==
-                            ColorConst.NeutralVariant.shade99
-                        ? '- ${(data.dollarAmount).roundUpDollar(widget.xtzPrice).removeTrailing0}'
-                        : (data.dollarAmount)
+                    ? data.token
+                                ?.getTxType(selectedAccount)
+                                .startsWith("Delegated") ??
+                            false
+                        ? (data.dollarAmount)
                             .roundUpDollar(widget.xtzPrice)
                             .removeTrailing0
+                        : getColor(data.token, selectedAccount) ==
+                                ColorConst.NeutralVariant.shade99
+                            ? '- ${(data.dollarAmount).roundUpDollar(widget.xtzPrice).removeTrailing0}'
+                            : (data.dollarAmount)
+                                .roundUpDollar(widget.xtzPrice)
+                                .removeTrailing0
                     : "failed",
                 style: labelLarge.copyWith(
                     fontWeight: FontWeight.w400,
