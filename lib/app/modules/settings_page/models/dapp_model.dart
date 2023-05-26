@@ -1,4 +1,3 @@
-import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 
 // class DappModel {
 //   final String? name;

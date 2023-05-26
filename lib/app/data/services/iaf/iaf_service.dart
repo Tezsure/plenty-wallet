@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';

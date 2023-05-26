@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/accessblity_widget/accessblity_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/art_foundation_widget/naan_art_foundation_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/art_foundation_widget/tf_art_foundation_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/beta_tag_widget/beta_tag_widget.dart';
@@ -10,7 +9,6 @@ import 'package:naan_wallet/app/modules/home_page/widgets/coming_soon_widget/com
 import 'package:naan_wallet/app/modules/home_page/widgets/discover_apps_widget/discover_apps_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/discover_events_widget/dicover_events_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/earn_tez_widget/earn_tez_widget.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/iaf/iaf_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/view/nft_gallery_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/objkt_nft_widget.dart';

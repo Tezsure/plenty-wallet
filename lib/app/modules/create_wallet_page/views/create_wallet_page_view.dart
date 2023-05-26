@@ -10,7 +10,6 @@ import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:flutter_svg/flutter_svg.dart';

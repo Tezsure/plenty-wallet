@@ -1,14 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/patch_sesrvice/patch_service.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
@@ -9,12 +8,10 @@ import 'package:naan_wallet/app/modules/custom_gallery/controller/custom_gallery
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/register_widgets.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/controller/vca_redeem_nft_controller.dart';
 import 'package:naan_wallet/app/modules/custom_gallery/custom_nft_gallery_view.dart';
 import 'package:naan_wallet/app/modules/vca_events/views/events_view.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';

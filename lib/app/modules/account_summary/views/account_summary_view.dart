@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,10 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-import 'package:naan_wallet/app/modules/dapp_browser/controllers/dapp_browser_controller.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
@@ -20,15 +17,12 @@ import 'package:naan_wallet/utils/nested_route_observer.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:naan_wallet/utils/utils.dart';
 
-import '../../../../utils/bottom_sheet_manager.dart';
 import '../../../../utils/colors/colors.dart';
 import '../../../../utils/constants/path_const.dart';
-import '../../../data/services/service_config/service_config.dart';
 import '../../common_widgets/custom_image_widget.dart';
 import '../../import_wallet_page/widgets/custom_tab_indicator.dart';
 import '../../receive_page/views/receive_page_view.dart';
 import '../../send_page/views/send_page.dart';
-import '../../settings_page/enums/network_enum.dart';
 import '../controllers/account_summary_controller.dart';
 import 'bottomsheets/account_selector.dart';
 import 'pages/crypto_tab.dart';
@@ -162,7 +156,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                               text: controller
                                                                   .selectedAccount
                                                                   .value
-                                                                  .publicKeyHash));
+                                                                  .publicKeyHash!));
                                                       Get.rawSnackbar(
                                                         maxWidth: 0.45.width,
                                                         backgroundColor:

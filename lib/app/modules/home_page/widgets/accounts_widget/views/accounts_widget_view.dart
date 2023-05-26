@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:naan_wallet/app/data/services/service_config/service_config.dart
 import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/account_summary_view.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/scrolling_dot_effect.dart';
 import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
@@ -218,7 +216,7 @@ class AccountsWidget extends StatelessWidget {
                         child: BouncingWidget(
                           onPressed: () {
                             Clipboard.setData(
-                                ClipboardData(text: model.publicKeyHash));
+                                ClipboardData(text: model.publicKeyHash!));
                             Get.rawSnackbar(
                               maxWidth: 0.45.width,
                               backgroundColor: Colors.transparent,

@@ -1,10 +1,7 @@
-import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
-import 'package:naan_wallet/utils/bottom_sheet_manager.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';

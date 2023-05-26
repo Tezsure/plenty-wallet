@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
 import 'package:naan_wallet/app/modules/beacon_bottom_sheet/opreation_request/controllers/opreation_request_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';

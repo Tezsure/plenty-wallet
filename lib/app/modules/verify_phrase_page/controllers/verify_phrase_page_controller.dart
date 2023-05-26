@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/app/modules/verify_phrase_page/widgets/verify_phrase_success_sheet.dart';
 import 'package:naan_wallet/utils/common_functions.dart';

@@ -6,7 +6,6 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
@@ -14,7 +13,6 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
-import 'package:naan_wallet/utils/bottom_sheet_manager.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:simple_gql/simple_gql.dart';
 

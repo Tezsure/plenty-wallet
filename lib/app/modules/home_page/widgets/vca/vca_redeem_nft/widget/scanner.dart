@@ -1,15 +1,12 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/controller/vca_redeem_nft_controller.dart';
 
 import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';

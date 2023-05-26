@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
-import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';

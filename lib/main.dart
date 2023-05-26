@@ -22,10 +22,8 @@ import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'app/data/services/translation/translation_helper.dart';
 import 'app/routes/app_pages.dart';
 import 'utils/scroll_behaviour.dart';
-import 'utils/translation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

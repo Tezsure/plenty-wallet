@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 class BottomButtonPadding extends StatelessWidget {

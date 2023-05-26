@@ -1,15 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/utils/utils.dart';
 import 'package:simple_gql/simple_gql.dart';
 
 import '../../../data/services/service_config/service_config.dart';

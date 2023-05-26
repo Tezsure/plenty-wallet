@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';

@@ -11,7 +11,6 @@ import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 
-import '../../../modules/send_page/views/widgets/transaction_status.dart';
 
 class WalletService {
   WalletService();
@@ -55,10 +54,10 @@ class WalletService {
       );
       accountSecretModel = AccountSecretModel(
         seedPhrase: mnemonic,
-        secretKey: keyStore[0],
-        publicKey: keyStore[1],
+        secretKey: keyStore.secretKey!,
+        publicKey: keyStore.publicKey!,
         derivationPathIndex: derivationIndex,
-        publicKeyHash: keyStore[2],
+        publicKeyHash: keyStore.publicKeyHash,
       );
       accountModel = AccountModel(
         isNaanAccount: true,
@@ -68,7 +67,7 @@ class WalletService {
         importedAt: DateTime.now(),
         imageType: imageType,
         profileImage: image,
-        publicKeyHash: keyStore[2],
+        publicKeyHash: keyStore.publicKeyHash,
       );
       NaanAnalytics.logEvent(NaanAnalyticsEvents.CREATE_NEW_ACCOUNT,
           param: {"address": accountModel.publicKeyHash});
@@ -101,10 +100,10 @@ class WalletService {
     var keyStore = Dartez.getKeysFromSecretKey(privateKey);
     var accountSecretModel = AccountSecretModel(
       seedPhrase: "",
-      secretKey: keyStore[0],
-      publicKey: keyStore[1],
+      secretKey: keyStore.secretKey!,
+      publicKey: keyStore.publicKey!,
       derivationPathIndex: 0,
-      publicKeyHash: keyStore[2],
+      publicKeyHash: keyStore.publicKeyHash,
     );
     accountModel = AccountModel(
       isWalletBackedUp: true,
@@ -114,7 +113,7 @@ class WalletService {
       importedAt: DateTime.now(),
       imageType: imageType,
       profileImage: image,
-      publicKeyHash: keyStore[2],
+      publicKeyHash: keyStore.publicKeyHash,
     );
 
     accountModel.accountSecretModel = accountSecretModel;
@@ -141,8 +140,10 @@ class WalletService {
           "m/44'/1729'/$index'/0'", mnemonic,
           signerCurve:
               isTz2Address ? SignerCurve.SECP256K1 : SignerCurve.ED25519);
-      NaanAnalytics.logEvent(NaanAnalyticsEvents.ALREADY_HAVE_ACCOUNT,
-          param: {"address": keyStore[2], "import_type": "mnemonic"});
+      NaanAnalytics.logEvent(NaanAnalyticsEvents.ALREADY_HAVE_ACCOUNT, param: {
+        "address": keyStore.publicKeyHash,
+        "import_type": "mnemonic"
+      });
       return AccountModel(
         isNaanAccount: false,
         isWalletBackedUp: true,
@@ -152,13 +153,13 @@ class WalletService {
         imageType: AccountProfileImageType.assets,
         profileImage: ServiceConfig.allAssetsProfileImages[
             Random().nextInt(ServiceConfig.allAssetsProfileImages.length - 1)],
-        publicKeyHash: keyStore[2],
+        publicKeyHash: keyStore.publicKeyHash,
       )..accountSecretModel = AccountSecretModel(
           seedPhrase: mnemonic,
-          secretKey: keyStore[0],
-          publicKey: keyStore[1],
+          secretKey: keyStore.secretKey!,
+          publicKey: keyStore.publicKey!,
           derivationPathIndex: index,
-          publicKeyHash: keyStore[2],
+          publicKeyHash: keyStore.publicKeyHash,
         );
     } catch (e) {
       transactionStatusSnackbar(
@@ -179,8 +180,10 @@ class WalletService {
     // "m/44'/1729'/$derivationIndex'/0'"
     try {
       var keyStore = Dartez.getKeysFromMnemonic(mnemonic: mnemonic);
-      NaanAnalytics.logEvent(NaanAnalyticsEvents.ALREADY_HAVE_ACCOUNT,
-          param: {"address": keyStore[2], "import_type": "mnemonic"});
+      NaanAnalytics.logEvent(NaanAnalyticsEvents.ALREADY_HAVE_ACCOUNT, param: {
+        "address": keyStore.publicKeyHash,
+        "import_type": "mnemonic"
+      });
       return AccountModel(
         isNaanAccount: false,
         isWalletBackedUp: true,
@@ -190,13 +193,13 @@ class WalletService {
         imageType: AccountProfileImageType.assets,
         profileImage: ServiceConfig.allAssetsProfileImages[
             Random().nextInt(ServiceConfig.allAssetsProfileImages.length - 1)],
-        publicKeyHash: keyStore[2],
+        publicKeyHash: keyStore.publicKeyHash,
       )..accountSecretModel = AccountSecretModel(
           seedPhrase: mnemonic,
-          secretKey: keyStore[0],
-          publicKey: keyStore[1],
+          secretKey: keyStore.secretKey!,
+          publicKey: keyStore.publicKey!,
           derivationPathIndex: 0,
-          publicKeyHash: keyStore[2],
+          publicKeyHash: keyStore.publicKeyHash,
         );
     } catch (e) {
       transactionStatusSnackbar(

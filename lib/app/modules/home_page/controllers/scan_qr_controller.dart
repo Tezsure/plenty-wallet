@@ -1,11 +1,8 @@
-import 'dart:convert';
 import 'dart:developer';
 
-import 'package:beacon_flutter/beacon_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
-import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/permission_sheet.dart';
 import 'package:naan_wallet/app/modules/custom_gallery/widgets/custom_nft_detail_sheet.dart';

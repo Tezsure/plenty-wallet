@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:beacon_flutter/enums/enums.dart';
@@ -22,7 +21,6 @@ import '../../../data/services/service_models/contact_model.dart';
 import '../../../data/services/user_storage_service/user_storage_service.dart';
 import 'history_filter_controller.dart';
 import 'package:naan_wallet/utils/utils.dart';
-import 'package:http/http.dart' as http;
 
 class TransactionController extends GetxController {
   final accController = Get.find<AccountSummaryController>();

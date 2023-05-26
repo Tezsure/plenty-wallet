@@ -1,23 +1,17 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:beacon_flutter/beacon_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
-import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
-import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
-import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
 import 'package:naan_wallet/app/modules/common_widgets/success_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/account_switch_widget/account_switch_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/permission_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/widget/scanner.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/widget/vca_redeem_nft_sheet.dart';
-import 'package:naan_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
-import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';

@@ -1,9 +1,7 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
 import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
@@ -13,7 +11,6 @@ import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/image_picker.dart';
 import 'package:naan_wallet/app/modules/common_widgets/naan_textfield.dart';
 import 'package:naan_wallet/app/modules/common_widgets/pick_an_avatar.dart';
-import 'package:naan_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
@@ -23,7 +20,6 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../../../../utils/constants/path_const.dart';
 import '../../../../data/services/create_profile_service/create_profile_service.dart';
-import '../../../../data/services/service_config/service_config.dart';
 import '../../../common_widgets/solid_button.dart';
 
 // ignore: must_be_immutable

@@ -107,14 +107,15 @@ class OpreationRequestController extends GetxController {
                 publicKeyHash: accountModels.value!.publicKeyHash!,
               ));
 
-          var op = await OperationService().preApplyContractOrigination(
-            operationModel,
-            ServiceConfig.currentSelectedNode,
-          );
-          operation.value = op;
-          fees.value =
-              ((int.parse(op['gasEstimation']) / pow(10, 6)) * xtzPrice)
-                  .toStringAsFixed(4);
+          // var op = await OperationService().preApplyContractOrigination(
+          //   operationModel,
+          //   ServiceConfig.currentSelectedNode,
+          // );
+          // operation.value = op;
+          operation["origination"] = operationModel;
+          fees.value = "N/A";
+          // ((int.parse(op['gasEstimation']) / pow(10, 6)) * xtzPrice)
+          //     .toStringAsFixed(4);
           print("operation ${operation.toString()}");
 
           return;
@@ -212,8 +213,17 @@ class OpreationRequestController extends GetxController {
         }
       }
       print("operation ${operation.toString()}");
-      final txHash = await OperationService()
-          .injectOperation(operation, ServiceConfig.currentSelectedNode);
+
+      String txHash;
+      if (operation.containsKey("origination")) {
+        txHash = await OperationService().sendContractOrigination(
+            operation["origination"] as OperationModel,
+            ServiceConfig.currentSelectedNode);
+      } else {
+        txHash = await OperationService()
+            .injectOperation(operation, ServiceConfig.currentSelectedNode);
+      }
+
       NaanAnalytics.logEvent(NaanAnalyticsEvents.DAPP_CLICK, param: {
         "txHash": txHash,
         "type": "transaction",
@@ -397,7 +407,7 @@ class OpreationRequestController extends GetxController {
     }
   }
 
- static String iconBuilder(thumbnailUri, contract) {
+  static String iconBuilder(thumbnailUri, contract) {
     if (thumbnailUri != null &&
         thumbnailUri.isNotEmpty &&
         thumbnailUri.startsWith("ipfs")) {

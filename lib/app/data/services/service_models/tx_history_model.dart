@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/account_summary/models/token_info.dart';
 
 import '../../../../utils/constants/path_const.dart';
 import 'account_model.dart';

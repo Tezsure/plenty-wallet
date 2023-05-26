@@ -1,17 +1,13 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/history_filter_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/pages/crypto_tab.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

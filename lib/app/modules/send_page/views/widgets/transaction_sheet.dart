@@ -209,7 +209,7 @@ class TransactionBottomSheet extends StatelessWidget {
             onTap: () {
               Clipboard.setData(
                 ClipboardData(
-                  text: controller.senderAccountModel!.publicKeyHash,
+                  text: controller.senderAccountModel!.publicKeyHash!,
                 ),
               ).whenComplete(() {
                 Get.showSnackbar(const GetSnackBar(
