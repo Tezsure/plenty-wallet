@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
+import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/scanQR/permission_sheet.dart';
 import 'package:naan_wallet/app/modules/custom_gallery/widgets/custom_nft_detail_sheet.dart';
@@ -15,6 +18,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../../send_page/controllers/send_page_controller.dart';
 import '../widgets/account_switch_widget/account_switch_widget.dart';
 import '../widgets/vca/vca_redeem_nft/widget/vca_redeem_nft_sheet.dart';
+import 'package:crypto/crypto.dart';
 
 class ScanQRController extends GetxController with WidgetsBindingObserver {
   // RxBool flash = false.obs;
@@ -37,6 +41,25 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
   }
 
   Barcode? result;
+
+  String sha256Convert(String data) {
+    final utf8Data = utf8.encode(data);
+    final hashBytes = sha256.convert(utf8Data).bytes;
+    final hashHex = hashBytes
+        .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
+        .join('');
+    return hashHex;
+  }
+
+  String generateQrHash(String campaignId) {
+    final currentTime = DateTime.now().millisecondsSinceEpoch;
+    final currentSeconds = currentTime / 1000;
+    final currentMinutes = currentSeconds / 60;
+    final seed = (currentMinutes / 1).floor();
+    final qrData = '$seed:$campaignId';
+    final qrHash = sha256Convert(qrData);
+    return qrHash;
+  }
 
   void onQRViewCreated(QRViewController c) {
     controller = c.obs;
@@ -86,21 +109,50 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
           }
         } catch (e) {}
       }
-      if (scanData.code == "https://qr.page/g/2QDaMqohAi5") {
+      if (scanData.code!.contains("campaignId")) {
         if (result != null) return;
         controller.value.pauseCamera();
         result = scanData;
+        String campaignId = jsonDecode(scanData.code!)["campaignId"];
+        print("campaignId: $campaignId");
+        final campaign = jsonDecode(await HttpService.performGetRequest(
+            "${ServiceConfig.claimNftAPI}campaign?campaignId=$campaignId"));
+        print(campaign);
+        if (!campaign["isActive"]) {
+          controller.value.resumeCamera();
+          result = null;
+          return;
+        }
+        if (campaign["isDynamicQr"]) {
+          String qrHash = generateQrHash(campaignId);
+          if (qrHash != jsonDecode(scanData.code!)["hash"]) {
+            controller.value.resumeCamera();
+            result = null;
+            return;
+          }
+        }
+
         await CommonFunctions.bottomSheet(AccountSwitch(
                 onNext: ({String senderAddress = ""}) async {},
-                title: "Claim Souvenir NFT",
-                subtitle: "Choose an account to claim your Souvenir NFT"))
+                title: "Claim NFT",
+                subtitle: "Choose an account to claim your NFT"))
             .then((value) async {
           if (value == true) {
             controller.value.pauseCamera();
             result = scanData;
-            Get.put(VCARedeemNFTController());
-            await Navigator.push(Get.context!,
-                MaterialPageRoute(builder: (context) => VCARedeemSheet()));
+            VCARedeemNFTController redeemController =
+                Get.put(VCARedeemNFTController());
+            if (campaign["emailRequired"]) {
+              await Navigator.push(
+                  Get.context!,
+                  MaterialPageRoute(
+                      builder: (context) => VCARedeemSheet(
+                            campaignId: campaignId,
+                          )));
+            } else {
+              await redeemController.onSubmit(campaignId, email: false);
+            }
+
             controller.value.resumeCamera();
             result = null;
           } else {

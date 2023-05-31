@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
+import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/success_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/account_switch_widget/account_switch_widget.dart';
@@ -15,6 +16,7 @@ import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_stat
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:crypto/crypto.dart';
 
 class VCARedeemNFTController extends GetxController
     with WidgetsBindingObserver {
@@ -40,26 +42,73 @@ class VCARedeemNFTController extends GetxController
 
   /// QR CODE
   Barcode? result;
+  String sha256Convert(String data) {
+    final utf8Data = utf8.encode(data);
+    final hashBytes = sha256.convert(utf8Data).bytes;
+    final hashHex = hashBytes
+        .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
+        .join('');
+    return hashHex;
+  }
+
+  String generateQrHash(String campaignId) {
+    final currentTime = DateTime.now().millisecondsSinceEpoch;
+    final currentSeconds = currentTime / 1000;
+    final currentMinutes = currentSeconds / 60;
+    final seed = (currentMinutes / 1).floor();
+    final qrData = '$seed:$campaignId';
+    final qrHash = sha256Convert(qrData);
+    return qrHash;
+  }
 
   void onQRViewCreated(QRViewController c, BuildContext context) {
     controller = c.obs;
 
     // controller.value.resumeCamera();
     controller.value.scannedDataStream.listen((scanData) async {
-      if (scanData.code == "https://qr.page/g/2QDaMqohAi5") {
+      if (scanData.code!.contains("campaignId")) {
         if (result != null) return;
         controller.value.pauseCamera();
         result = scanData;
+        String campaignId = jsonDecode(scanData.code!)["campaignId"];
+
+        final campaign = jsonDecode(await HttpService.performGetRequest(
+            "${ServiceConfig.claimNftAPI}campaign?campaignId=$campaignId"));
+
+        if (!campaign["isActive"]) {
+          controller.value.resumeCamera();
+          result = null;
+          return;
+        }
+        if (campaign["isDynamicQr"]) {
+          String qrHash = generateQrHash(campaignId);
+          if (qrHash != jsonDecode(scanData.code!)["hash"]) {
+            controller.value.resumeCamera();
+            result = null;
+            return;
+          }
+        }
+
         await CommonFunctions.bottomSheet(AccountSwitch(
                 onNext: ({String senderAddress = ""}) async {},
-                title: "Claim Souvenir NFT",
-                subtitle: "Choose an account to claim your Souvenir NFT"))
+                title: "Claim NFT",
+                subtitle: "Choose an account to claim your NFT"))
             .then((value) async {
           if (value == true) {
             controller.value.pauseCamera();
             result = scanData;
-            await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => VCARedeemSheet()));
+
+            if (campaign["emailRequired"]) {
+              await Navigator.push(
+                  Get.context!,
+                  MaterialPageRoute(
+                      builder: (context) => VCARedeemSheet(
+                            campaignId: campaignId,
+                          )));
+            } else {
+              await onSubmit(campaignId, email: false);
+            }
+
             controller.value.resumeCamera();
             result = null;
           } else {
@@ -120,9 +169,9 @@ class VCARedeemNFTController extends GetxController
     isButtonEnabled.value = value.isEmail;
   }
 
-  Future<void> onSubmit() async {
+  Future<void> onSubmit(String campaignId, {bool email = true}) async {
     isLoading.value = true;
-    final result = await validateEmail();
+    final result = await validateEmail(campaignId, email);
     isLoading.value = false;
     if (result) {
       Get.back();
@@ -137,15 +186,30 @@ class VCARedeemNFTController extends GetxController
     }
   }
 
-  Future<bool> validateEmail() async {
+  Future<bool> validateEmail(String campaignId, bool email) async {
     try {
-      var response = await HttpService.performPostRequest(
-          "https://api.naan.app/api/v1/claimNft",
-          body: {
-            "emailAddress": emailController.text,
-            "userAddress": homeController
-                .userAccounts[homeController.selectedIndex.value].publicKeyHash
-          });
+      var response;
+      if (email) {
+        response = await HttpService.performPostRequest(
+            "${ServiceConfig.claimNftAPI}claimNft",
+            body: {
+              "campaignId": campaignId,
+              "emailAddress": emailController.text,
+              "userAddress": homeController
+                  .userAccounts[homeController.selectedIndex.value]
+                  .publicKeyHash
+            });
+      } else {
+        response = await HttpService.performPostRequest(
+            "${ServiceConfig.claimNftAPI}claimNft",
+            body: {
+              "campaignId": campaignId,
+              "userAddress": homeController
+                  .userAccounts[homeController.selectedIndex.value]
+                  .publicKeyHash
+            });
+      }
+
       log(response);
       if (response.isNotEmpty && jsonDecode(response).length != 0) {
         if (jsonDecode(response)['status'] == null) {

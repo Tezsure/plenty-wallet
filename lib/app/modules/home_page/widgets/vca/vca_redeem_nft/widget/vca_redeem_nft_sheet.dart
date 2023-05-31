@@ -13,7 +13,8 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import '../controller/vca_redeem_nft_controller.dart';
 
 class VCARedeemSheet extends StatefulWidget {
-  VCARedeemSheet({super.key});
+  final String campaignId;
+  const VCARedeemSheet({super.key, required this.campaignId});
 
   @override
   State<VCARedeemSheet> createState() => _VCARedeemSheetState();
@@ -59,9 +60,9 @@ class _VCARedeemSheetState extends State<VCARedeemSheet> {
                     isLoading: controller.isLoading,
                     active: controller.isButtonEnabled.value,
                     onPressed: () async {
-                      controller.onSubmit();
+                      controller.onSubmit(widget.campaignId);
                     },
-                    title: "Claim Souvenir NFT",
+                    title: "Claim NFT",
                   ),
                 ),
                 const BottomButtonPadding()

@@ -109,6 +109,8 @@ class ServiceConfig {
   // Accounts storage keys
   static const String accountsStorage = "${storageName}_accounts_storage";
 
+  static const claimNftAPI = "http://192.168.0.156:6060/api/v1/";
+
   /// append with publicKeyHash while saving or reading
   static const String accountTokensStorage =
       "${storageName}_account_tokens_storage";

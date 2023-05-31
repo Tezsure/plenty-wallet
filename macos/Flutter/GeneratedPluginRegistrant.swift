@@ -10,9 +10,9 @@ import firebase_analytics
 import firebase_core
 import flutter_secure_storage_macos
 import in_app_review
-import package_info_plus_macos
+import package_info_plus
 import path_provider_foundation
-import share_plus_macos
+import share_plus
 import sodium_libs
 import sqflite
 import url_launcher_macos

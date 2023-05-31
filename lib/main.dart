@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:ui';
 
 // import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:dartez/dartez.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -68,6 +69,7 @@ void main() async {
     //  debugPaintSizeEnabled = true;
     //  debugInvertOversizedImages = true;
     await Firebase.initializeApp();
+    await Dartez().init();
 /*     await FirebaseCrashlytics.instance
         .setCrashlyticsCollectionEnabled(kReleaseMode); */
 
