@@ -1,8 +1,6 @@
-import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
-import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
 
 import 'teztown_model.dart';
 

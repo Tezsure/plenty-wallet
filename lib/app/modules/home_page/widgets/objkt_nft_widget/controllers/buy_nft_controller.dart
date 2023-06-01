@@ -23,7 +23,6 @@ import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/widge
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/modules/wert/views/wert_browser_view.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:simple_gql/simple_gql.dart';
 import 'package:url_launcher/url_launcher.dart';
 

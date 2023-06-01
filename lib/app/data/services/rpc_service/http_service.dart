@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 
 class HttpService {
   static Future<String> performGetRequest(String server,

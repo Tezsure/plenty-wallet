@@ -1,3 +1,5 @@
+// ignore_for_file: override_on_non_overriding_member
+
 import 'dart:convert';
 
 import 'package:beacon_flutter/beacon_flutter.dart';
@@ -126,6 +128,7 @@ class BeaconService extends GetxService {
       Get.snackbar("Error", e.toString());
     }
   }
+
 
   @override
   void stop() {

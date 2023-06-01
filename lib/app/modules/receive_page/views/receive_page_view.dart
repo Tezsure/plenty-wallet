@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -174,7 +172,7 @@ class ReceivePageView extends GetView<ReceivePageController> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.arP), color: Colors.white),
       alignment: Alignment.center,
-      child: QrImage(
+      child: QrImageView(
         data: controller.userAccount!.publicKeyHash!,
         padding: EdgeInsets.all(20.arP),
         gapless: false,

@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 
-import '../models/token_info.dart';
 
 class HistoryFilterController extends GetxController {
   final accountController = Get.find<TransactionController>();

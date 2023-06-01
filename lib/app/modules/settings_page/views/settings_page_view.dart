@@ -1,24 +1,19 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/connected_dapps_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/flutter_switch.dart';
-import 'package:naan_wallet/app/modules/settings_page/widget/manage_accounts_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/old_wallet_recover/dismiss_recover_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/old_wallet_recover/recover_account_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/reset_wallet_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/select_currency_sheet.dart';
-import 'package:naan_wallet/app/modules/settings_page/widget/select_language_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/select_network_sheet.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/select_node_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -391,7 +386,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         ),
         0.01.vspace,
         Text(
-          "Version 2.0.11 ${Platform.isAndroid ? "(beta)" : ""}",
+          "Version 2.0.12 ${Platform.isAndroid ? "(beta)" : ""}",
           style: labelSmall.copyWith(color: ColorConst.NeutralVariant.shade60),
         )
       ],

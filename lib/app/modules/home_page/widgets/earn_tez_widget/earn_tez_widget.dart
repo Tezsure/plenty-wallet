@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
@@ -14,7 +13,6 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
 import '../../controllers/home_page_controller.dart';
-import '../accounts_widget/views/widget/add_account_widget.dart';
 
 class EarnTezWidget extends StatelessWidget {
   const EarnTezWidget({Key? key}) : super(key: key);

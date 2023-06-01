@@ -1,28 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:naan_wallet/app/data/services/foundation_service/art_foundation_handler.dart';
-import 'package:naan_wallet/app/data/services/iaf/iaf_service.dart';
 import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/controller/nft_gallery_widget_controller.dart';
-import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
-import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:simple_gql/simple_gql.dart';
@@ -56,11 +46,18 @@ class SplashPageController extends GetxController {
             (await getWidgetVisibility('vca-website-widget-visiable'));
         ServiceConfig.isTeztownWidgetVisible =
             (await getWidgetVisibility('sprint-fever-visible'));
+        ServiceConfig.isAdmireArtWidgetVisible =
+            (await getWidgetVisibility('admire-art-visible'));
+
+        ServiceConfig.nftClaimWidgets = await getNftClaimWidgets();
+
         // ServiceConfig.isVCARedeemPOAPWidgetVisible =
         //     (await getWidgetVisibility('vca-redeem-poap-nft-widget-visiable'));
         // ServiceConfig.isVCAExploreNFTWidgetVisible = (await getWidgetVisibility(
         //     'vca-explore-and-buy-nft-widget-visiable'));
-      } catch (e) {}
+      } catch (e) {
+        print("error a : $e");
+      }
       try {
         AppConstant.naanCollection =
             (await ArtFoundationHandler.getCollectionNfts(
@@ -74,6 +71,15 @@ class SplashPageController extends GetxController {
         AppConstant.tfCollection =
             (await ArtFoundationHandler.getCollectionNfts(
                 "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
+      } catch (e) {}
+
+      try {
+        AppConstant.admireArtCollection =
+            (await ArtFoundationHandler.getCollectionNfts(
+                (await getAdmireArtCollection('admire-art-collection'))));
+
+        ServiceConfig.admireArtUrl =
+            (await getAdmireArtCollection('admire-art-url'));
       } catch (e) {}
       ServiceConfig.currency = await UserStorageService.getCurrency();
       // ServiceConfig.language =
@@ -129,17 +135,45 @@ class SplashPageController extends GetxController {
     }
   }
 
-  String? response;
   Future<bool> getWidgetVisibility(String id) async {
+    String? response;
     try {
-      response ??= await HttpService.performGetRequest(
+      response = await HttpService.performGetRequest(
           "https://cdn.naan.app/widgets_visibility");
-      if (response!.isNotEmpty && jsonDecode(response!).length != 0) {
-        return jsonDecode(response!)[id] == 1;
+      if (response.isNotEmpty && jsonDecode(response).length != 0) {
+        return jsonDecode(response)[id] == 1;
       }
       return false;
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<String> getAdmireArtCollection(String id) async {
+    String? response;
+    try {
+      response = await HttpService.performGetRequest(
+          "https://cdn.naan.app/widgets_visibility");
+      if (response.isNotEmpty && jsonDecode(response).length != 0) {
+        return jsonDecode(response)[id];
+      }
+      return "";
+    } catch (e) {
+      return "";
+    }
+  }
+
+  Future<List> getNftClaimWidgets() async {
+    String? response;
+    try {
+      response =
+          await HttpService.performGetRequest("https://cdn.naan.app/campaigns");
+      if (response.isNotEmpty && jsonDecode(response).length != 0) {
+        return jsonDecode(response)["campaigns"];
+      }
+      return [];
+    } catch (e) {
+      return [];
     }
   }
 

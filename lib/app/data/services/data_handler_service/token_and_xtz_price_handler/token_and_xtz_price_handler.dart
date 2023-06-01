@@ -16,9 +16,13 @@ class TokenAndXtzPriceHandler {
 
     // double xtzPrice = xtzPriceResponse['tezos']['usd'] as double;
     String tokenPrices = "";
+    String tokenPricesAnalytics = "";
     try {
       tokenPrices = await HttpService.performGetRequest(
           ServiceConfig.tezToolsApi,
+          callSetupTimer: true);
+      tokenPricesAnalytics = await HttpService.performGetRequest(
+          ServiceConfig.plentyAnalytics,
           callSetupTimer: true);
     } catch (e) {
       print(e);
@@ -27,6 +31,7 @@ class TokenAndXtzPriceHandler {
       "xtzPrice": await HttpService.performGetRequest(ServiceConfig.xtzPriceApi,
           callSetupTimer: true),
       "tokenPrices": tokenPrices,
+      "tokenPricesAnalytics": tokenPricesAnalytics,
     });
   }
 
@@ -64,6 +69,11 @@ class TokenAndXtzPriceHandler {
     if (data['tokenPrices']!.isNotEmpty) {
       await ServiceConfig.localStorage.write(
           key: ServiceConfig.tokenPricesStorage, value: data['tokenPrices']);
+    }
+    if (data['tokenPricesAnalytics']!.isNotEmpty) {
+      await ServiceConfig.localStorage.write(
+          key: ServiceConfig.tokenPricesAnalyticsStorage,
+          value: data['tokenPricesAnalytics']);
     }
   }
 }

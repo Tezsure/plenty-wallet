@@ -139,7 +139,7 @@ class ReviewDelegateSelectBaker extends GetView<DelegateWidgetController> {
                   BouncingWidget(
                     onPressed: () {
                       Clipboard.setData(
-                          ClipboardData(text: account.publicKeyHash));
+                          ClipboardData(text: account.publicKeyHash!));
                       Get.rawSnackbar(
                         maxWidth: 0.45.width,
                         backgroundColor: Colors.transparent,

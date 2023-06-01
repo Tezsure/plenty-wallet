@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/iaf/controller/iaf_controller.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -17,7 +13,8 @@ import 'package:naan_wallet/utils/styles/styles.dart';
 import '../controller/vca_redeem_nft_controller.dart';
 
 class VCARedeemSheet extends StatefulWidget {
-  VCARedeemSheet({super.key});
+  final String campaignId;
+  const VCARedeemSheet({super.key, required this.campaignId});
 
   @override
   State<VCARedeemSheet> createState() => _VCARedeemSheetState();
@@ -63,9 +60,9 @@ class _VCARedeemSheetState extends State<VCARedeemSheet> {
                     isLoading: controller.isLoading,
                     active: controller.isButtonEnabled.value,
                     onPressed: () async {
-                      controller.onSubmit();
+                      controller.onSubmit(widget.campaignId);
                     },
-                    title: "Claim Souvenir NFT",
+                    title: "Claim NFT",
                   ),
                 ),
                 const BottomButtonPadding()

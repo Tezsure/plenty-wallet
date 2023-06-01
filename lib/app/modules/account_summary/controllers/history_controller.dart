@@ -3,7 +3,6 @@ import 'package:naan_wallet/app/data/services/service_models/tx_history_model.da
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/history_filter_controller.dart';
-import 'package:naan_wallet/utils/utils.dart';
 
 class HistoryController extends GetxController {
   final accountSummaryController = Get.find<AccountSummaryController>();
