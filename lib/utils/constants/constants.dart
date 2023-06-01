@@ -17,6 +17,7 @@ class AppConstant {
   };
   static NftTokenModel? naanCollection;
   static NftTokenModel? tfCollection;
+  static NftTokenModel? admireArtCollection;
 }
 
 class Dapp {

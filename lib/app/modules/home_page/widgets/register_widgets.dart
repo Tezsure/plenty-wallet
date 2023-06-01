@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/admire_art_widget/admire_art_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/art_foundation_widget/naan_art_foundation_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/art_foundation_widget/tf_art_foundation_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/beta_tag_widget/beta_tag_widget.dart';
@@ -103,9 +104,9 @@ final List<Widget> registeredWidgets = [
   Container(
     padding: EdgeInsets.symmetric(horizontal: 22.arP),
     height: AppConstant.homeWidgetDimension,
-    child: Row(
+    child: const Row(
       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: const [
+      children: [
         NaanArtFoundationWidget(),
         Spacer(),
         TFArtFoundationWidget(),
@@ -114,12 +115,15 @@ final List<Widget> registeredWidgets = [
   ),
 
   homeWidgetsGap,
+
+  if (ServiceConfig.isAdmireArtWidgetVisible)
+    Padding(
+        padding: EdgeInsets.symmetric(horizontal: 22.arP),
+        child: const AdmireArt()),
+  if (ServiceConfig.isAdmireArtWidgetVisible) homeWidgetsGap,
   // const VcaGalleryWidget(),
   // homeWidgetsGap,
-  Padding(
-      padding: EdgeInsets.symmetric(horizontal: 22.arP),
-      child: const DiscoverEvents()),
-  homeWidgetsGap,
+
   Container(
     padding: EdgeInsets.symmetric(horizontal: 22.arP),
     height: AppConstant.homeWidgetDimension,
@@ -132,6 +136,11 @@ final List<Widget> registeredWidgets = [
       ],
     ),
   ),
+  homeWidgetsGap,
+
+  Padding(
+      padding: EdgeInsets.symmetric(horizontal: 22.arP),
+      child: const DiscoverEvents()),
   homeWidgetsGap,
 
   const ComingSoonWidget()

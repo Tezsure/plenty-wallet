@@ -46,6 +46,8 @@ class SplashPageController extends GetxController {
             (await getWidgetVisibility('vca-website-widget-visiable'));
         ServiceConfig.isTeztownWidgetVisible =
             (await getWidgetVisibility('sprint-fever-visible'));
+        ServiceConfig.isAdmireArtWidgetVisible =
+            (await getWidgetVisibility('admire-art-visible'));
 
         ServiceConfig.nftClaimWidgets = await getNftClaimWidgets();
 
@@ -69,6 +71,12 @@ class SplashPageController extends GetxController {
         AppConstant.tfCollection =
             (await ArtFoundationHandler.getCollectionNfts(
                 "tz1XTEx1VGj6pm7Wh2Ni2hKQCWYSBxjnEsE1"));
+      } catch (e) {}
+
+      try {
+        AppConstant.admireArtCollection =
+            (await ArtFoundationHandler.getCollectionNfts(
+                (await getAdmireArtCollection('admire-art-collection'))));
       } catch (e) {}
       ServiceConfig.currency = await UserStorageService.getCurrency();
       // ServiceConfig.language =
@@ -124,13 +132,13 @@ class SplashPageController extends GetxController {
     }
   }
 
-  String? response;
   Future<bool> getWidgetVisibility(String id) async {
+    String? response;
     try {
-      response ??= await HttpService.performGetRequest(
+      response = await HttpService.performGetRequest(
           "https://cdn.naan.app/widgets_visibility");
-      if (response!.isNotEmpty && jsonDecode(response!).length != 0) {
-        return jsonDecode(response!)[id] == 1;
+      if (response.isNotEmpty && jsonDecode(response).length != 0) {
+        return jsonDecode(response)[id] == 1;
       }
       return false;
     } catch (e) {
@@ -138,12 +146,27 @@ class SplashPageController extends GetxController {
     }
   }
 
+  Future<String> getAdmireArtCollection(String id) async {
+    String? response;
+    try {
+      response = await HttpService.performGetRequest(
+          "https://cdn.naan.app/widgets_visibility");
+      if (response.isNotEmpty && jsonDecode(response).length != 0) {
+        return jsonDecode(response)[id];
+      }
+      return "";
+    } catch (e) {
+      return "";
+    }
+  }
+
   Future<List> getNftClaimWidgets() async {
+    String? response;
     try {
       response =
           await HttpService.performGetRequest("https://cdn.naan.app/campaigns");
-      if (response!.isNotEmpty && jsonDecode(response!).length != 0) {
-        return jsonDecode(response!)["campaigns"];
+      if (response.isNotEmpty && jsonDecode(response).length != 0) {
+        return jsonDecode(response)["campaigns"];
       }
       return [];
     } catch (e) {
