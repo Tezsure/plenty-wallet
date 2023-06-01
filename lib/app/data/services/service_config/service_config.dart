@@ -22,6 +22,8 @@ class ServiceConfig {
 
   static bool isTezQuakeWidgetVisible = false;
 
+  static List nftClaimWidgets = [];
+
   static Currency currency = Currency.usd;
   static Language language = Language.en;
 

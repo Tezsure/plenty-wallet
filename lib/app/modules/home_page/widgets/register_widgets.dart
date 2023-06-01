@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/discover_apps_widget/d
 import 'package:naan_wallet/app/modules/home_page/widgets/discover_events_widget/dicover_events_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/earn_tez_widget/earn_tez_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/iaf/iaf_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/nft_claim_widget/nft_claim_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/view/nft_gallery_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/objkt_nft_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/tez_quake_aid_widget/tez_quake_aid_widget.dart';
@@ -50,6 +51,21 @@ final List<Widget> registeredWidgets = [
   if (ServiceConfig.isIAFWidgetVisible) homeWidgetsGap,
   //const TezosPriceWidget(),
   //const MyNFTwidget(),
+  ...(() {
+    final List<Widget> widgets = [];
+    for (Map campaign in ServiceConfig.nftClaimWidgets) {
+      widgets.addAll([
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 22.arP),
+          child: NftClaimWidget(
+            campaign: campaign,
+          ),
+        ),
+        homeWidgetsGap,
+      ]);
+    }
+    return widgets;
+  }()),
   if (ServiceConfig.isTezQuakeWidgetVisible)
     Padding(
         padding: EdgeInsets.symmetric(horizontal: 22.arP),

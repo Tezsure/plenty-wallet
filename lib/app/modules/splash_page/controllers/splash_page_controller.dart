@@ -46,11 +46,16 @@ class SplashPageController extends GetxController {
             (await getWidgetVisibility('vca-website-widget-visiable'));
         ServiceConfig.isTeztownWidgetVisible =
             (await getWidgetVisibility('sprint-fever-visible'));
+
+        ServiceConfig.nftClaimWidgets = await getNftClaimWidgets();
+
         // ServiceConfig.isVCARedeemPOAPWidgetVisible =
         //     (await getWidgetVisibility('vca-redeem-poap-nft-widget-visiable'));
         // ServiceConfig.isVCAExploreNFTWidgetVisible = (await getWidgetVisibility(
         //     'vca-explore-and-buy-nft-widget-visiable'));
-      } catch (e) {}
+      } catch (e) {
+        print("error a : $e");
+      }
       try {
         AppConstant.naanCollection =
             (await ArtFoundationHandler.getCollectionNfts(
@@ -130,6 +135,19 @@ class SplashPageController extends GetxController {
       return false;
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<List> getNftClaimWidgets() async {
+    try {
+      response =
+          await HttpService.performGetRequest("https://cdn.naan.app/campaigns");
+      if (response!.isNotEmpty && jsonDecode(response!).length != 0) {
+        return jsonDecode(response!)["campaigns"];
+      }
+      return [];
+    } catch (e) {
+      return [];
     }
   }
 

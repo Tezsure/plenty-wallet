@@ -342,8 +342,6 @@ class AccountDataHandler {
       debugName: "accounts xtz, tokens & nfts",
     );
     receivePort.asBroadcastStream().listen((data) async {
-      print("aaaaa");
-      print(data[2].toString());
       await ServiceConfig.localStorage.write(
           key: ServiceConfig.accountsStorage, value: jsonEncode(data[0]));
 
