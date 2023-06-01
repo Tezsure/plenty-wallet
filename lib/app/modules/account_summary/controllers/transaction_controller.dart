@@ -505,41 +505,42 @@ class TransactionController extends GetxController {
 
   Future<List<TransactionTransferModel>> fetchUserTransferHistory(
       {required String timeStamp}) async {
-    try {
-      String query = "";
-      if (isFilterApplied.value &&
-          Get.isRegistered<HistoryFilterController>()) {
-        // Get.find<HistoryFilterController>().apply();
-        Get.find<HistoryFilterController>().query.forEach((key, value) {
-          query = "$query&$key=$value";
-        });
-      }
-      if (Get.find<HistoryFilterController>().transactionType.every(
-          (element) => element.index == TransactionType.delegation.index)) {
-        return <TransactionTransferModel>[];
-      }
-      String rpc = ServiceConfig.currentNetwork == NetworkType.mainnet
-          ? "mainnet"
-          : ServiceConfig.currentSelectedNode;
-      String network = "";
-      if (Uri.parse(rpc).path.isNotEmpty) {
-        network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
-      }
-      var url = ServiceConfig.tzktApiForTransfers(
-          network: network.contains("ak-csrjehxhpw0dl3") ? "mainnet" : network,
-          timeStamp: timeStamp,
-          address: accController.selectedAccount.value.publicKeyHash!,
-          query: query);
-      print(url);
-      var response =
-          await HttpService.performGetRequest(url, callSetupTimer: true);
+    /*  try{ */
+    String query = "";
+    final HistoryFilterController controller =
+        Get.put(HistoryFilterController());
+    if (isFilterApplied.value && Get.isRegistered<HistoryFilterController>()) {
+      // Get.find<HistoryFilterController>().apply();
+      controller.query.forEach((key, value) {
+        query = "$query&$key=$value";
+      });
+    }
+    if (controller.transactionType.every(
+        (element) => element.index == TransactionType.delegation.index)) {
+      return <TransactionTransferModel>[];
+    }
+    String rpc = ServiceConfig.currentNetwork == NetworkType.mainnet
+        ? "mainnet"
+        : ServiceConfig.currentSelectedNode;
+    String network = "";
+    if (Uri.parse(rpc).path.isNotEmpty) {
+      network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
+    }
+    var url = ServiceConfig.tzktApiForTransfers(
+        network: network.contains("ak-csrjehxhpw0dl3") ? "mainnet" : network,
+        timeStamp: timeStamp,
+        address: accController.selectedAccount.value.publicKeyHash!,
+        query: query);
+    print(url);
+    var response =
+        await HttpService.performGetRequest(url, callSetupTimer: true);
 
-      return transactionTransferModelFromJson(response);
-    } catch (e) {
+    return transactionTransferModelFromJson(response);
+  } /* catch (e) {
       print(e.toString());
       return [];
     }
-  }
+  } */
 }
 
 // extension TransactionChecker on TxHistoryModel {
@@ -834,6 +835,9 @@ extension DateOnlyCompare on DateTime {
     DateTime other,
   ) {
     final now = DateTime.now();
+    if (year == other.year && month == other.month && day == other.day) {
+      return false;
+    }
     // Today
     if (year == now.year && month == now.month && day == now.day) {
       return true;
