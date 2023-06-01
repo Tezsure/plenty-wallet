@@ -113,7 +113,7 @@ class ServiceConfig {
   // Accounts storage keys
   static const String accountsStorage = "${storageName}_accounts_storage";
 
-  static const claimNftAPI = "http://192.168.0.156:6060/api/v1/";
+  static const claimNftAPI = "https://expo.api.naan.app/api/v1/";
 
   /// append with publicKeyHash while saving or reading
   static const String accountTokensStorage =
