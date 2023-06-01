@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
-import '../../../utils/colors/colors.dart';
 import '../../data/services/enums/enums.dart';
 
 class CustomImageWidget extends StatelessWidget {

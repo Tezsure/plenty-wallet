@@ -12,7 +12,6 @@ import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
 import 'package:naan_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
-import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -246,7 +245,8 @@ class ImportWalletPageController extends GetxController
         return true;
       }
     } else if (importWalletDataType == ImportWalletDataType.privateKey) {
-      final publicKeyHash = Dartez.getKeysFromSecretKey(phraseText.value)[2];
+      final publicKeyHash =
+          Dartez.getKeysFromSecretKey(phraseText.value).publicKeyHash;
       if (accounts.any((element) =>
           element.publicKeyHash!.toLowerCase() ==
           publicKeyHash.toLowerCase())) {

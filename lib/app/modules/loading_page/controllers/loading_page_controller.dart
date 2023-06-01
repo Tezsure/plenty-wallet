@@ -5,9 +5,6 @@ import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_
 import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
 import 'package:naan_wallet/app/data/services/web3auth_services/web3AuthController.dart';
 import 'package:naan_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
-import 'package:naan_wallet/app/modules/home_page/bindings/home_page_binding.dart';
-import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
-import 'package:naan_wallet/app/modules/home_page/views/home_page_view.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
 import 'package:naan_wallet/app/routes/app_pages.dart';
 

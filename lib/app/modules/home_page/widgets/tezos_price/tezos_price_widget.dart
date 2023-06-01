@@ -8,7 +8,6 @@ import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controll
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
@@ -40,8 +39,8 @@ class TezosPriceWidget extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.centerRight,
-                child: SvgPicture.asset(
-                  "${PathConst.HOME_PAGE.SVG}tezos_price.svg",
+                child: Image.asset(
+                  "${PathConst.HOME_PAGE}tezos.png",
                   width: 0.225.width,
                 ),
               ),

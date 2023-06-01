@@ -6,7 +6,6 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
@@ -14,7 +13,6 @@ import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
-import 'package:naan_wallet/utils/bottom_sheet_manager.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:simple_gql/simple_gql.dart';
 
@@ -125,6 +123,9 @@ class AccountSummaryController extends GetxController {
     isLoading.value = true;
     String tokens =
         await DataHandlerService().renderService.getTokenPriceModelString();
+    String analyticsTokens = await DataHandlerService()
+        .renderService
+        .getTokenPriceModelAnalyticsString();
     await UserStorageService()
         .getUserTokensString(userAddress: selectedAccount.value.publicKeyHash!)
         .then(
@@ -137,7 +138,8 @@ class AccountSummaryController extends GetxController {
               value,
               xtzPrice.value,
               selectedAccount.value.accountDataModel!.xtzBalance!,
-              tokens
+              tokens,
+              analyticsTokens
             ],
             debugLabel: "tokensProcess");
 /*       userTokens,
@@ -266,6 +268,22 @@ class AccountSummaryController extends GetxController {
     List<TokenPriceModel> tokensList = jsonDecode(args[3])["contracts"]
         .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
         .toList();
+    List<TokenPriceModel> tokensListAnalytics = jsonDecode(args[4])
+        .map<TokenPriceModel>((e) =>
+            TokenPriceModel.fromJson(e, isAnalytics: true, xtzPrice: args[1]))
+        .toList();
+    // add tokensListAnalytics to tokensList if tokenAddress and tokenId is not present
+    tokensListAnalytics.forEach((element) {
+      if (tokensList
+          .where((e) =>
+              e.tokenAddress == element.tokenAddress &&
+              e.tokenId == element.tokenId)
+          .isEmpty) {
+        tokensList.add(element);
+      }
+    });
+    tokensList.removeWhere((element) => element.symbol == "XTZ");
+
     return [
       userTokens,
       pinnedTokens,
@@ -273,7 +291,7 @@ class AccountSummaryController extends GetxController {
       minTokens,
       pinnedList,
       unPinnedList,
-      tokensList
+      tokensList,
     ];
   }
 

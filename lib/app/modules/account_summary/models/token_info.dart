@@ -1,5 +1,4 @@
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/transaction_controller.dart';
 
 import '../../../../utils/constants/path_const.dart';
 
@@ -88,6 +87,6 @@ class TokenInfo {
         nftTokenId: nftTokenId ?? this.nftTokenId,
         isHashSame: isHashSame ?? this.isHashSame,
         internalOperation: internalOperation ?? this.internalOperation,
-        timeStamp: timeStamp ?? this.timeStamp);
+        timeStamp: timeStamp ?? timeStamp);
   }
 }

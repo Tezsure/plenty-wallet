@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,19 +8,13 @@ import 'package:naan_wallet/app/modules/common_widgets/custom_image_widget.dart'
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_account_sheet.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
-import 'package:naan_wallet/app/modules/import_wallet_page/views/import_wallet_page_view.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../utils/colors/colors.dart';
 import '../../../../../utils/constants/path_const.dart';
 import '../../../../../utils/styles/styles.dart';
-import '../../../../data/services/service_models/account_model.dart';
 import '../../../common_widgets/bottom_sheet.dart';
-import '../../../home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import '../../../send_page/views/pages/contact_page_view.dart';
 import '../../../settings_page/controllers/settings_page_controller.dart';
 import 'edit_account.dart';

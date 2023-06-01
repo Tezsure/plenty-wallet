@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:isolate';
-import 'dart:typed_data';
 
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_render_service.dart';
 import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';

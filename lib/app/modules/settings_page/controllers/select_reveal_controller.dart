@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';

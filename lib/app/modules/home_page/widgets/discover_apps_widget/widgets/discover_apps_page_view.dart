@@ -1,20 +1,14 @@
-import 'dart:io';
-import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
 import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/scrolling_dot_effect.dart';
-import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
-import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/discover_apps_widget/widgets/dapp_bottomsheet.dart';
 import 'package:naan_wallet/app/modules/import_wallet_page/widgets/custom_tab_indicator.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -55,8 +49,9 @@ class DappsPageView extends GetView<DappsPageController> {
             child: ListView.builder(
               itemCount: controller.dappBanners.length + 1,
               itemBuilder: (context, index) {
-                if (index == controller.dappBanners.length)
+                if (index == controller.dappBanners.length) {
                   return SizedBox(height: .2.height);
+                }
                 final data = controller.dappBanners[index];
                 switch (data.type) {
                   case "banner":

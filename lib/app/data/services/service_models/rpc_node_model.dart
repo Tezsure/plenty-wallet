@@ -1,4 +1,3 @@
-import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
 
 class NodeSelectorModel {
   Mainnet? mainnet;

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,12 +11,9 @@ import 'package:naan_wallet/app/data/services/service_models/contact_model.dart'
 import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/fee_detail_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-import 'package:naan_wallet/app/modules/common_widgets/info_button.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/app/modules/custom_gallery/widgets/custom_nft_detail_sheet.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
@@ -593,7 +589,7 @@ class _TransactionDetailsBottomSheetState
   void copyAddress(
     AliasAddress contact,
   ) {
-    Clipboard.setData(ClipboardData(text: contact.address));
+    Clipboard.setData(ClipboardData(text: contact.address!));
     Get.rawSnackbar(
       maxWidth: 0.45.width,
       backgroundColor: Colors.transparent,
@@ -773,10 +769,15 @@ class TxTokenInfo extends StatelessWidget {
                 Text(
                     tokenInfo.isNft
                         ? "${tokenInfo.tokenAmount == 0.0 ? "1" : tokenInfo.tokenAmount.toStringAsFixed(0)} ${tokenInfo.tokenSymbol}"
-                        : getColor(tokenInfo.token, userAccountAddress) ==
-                                ColorConst.NeutralVariant.shade99
-                            ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6).removeTrailing0} ${tokenInfo.tokenSymbol}'
-                            : '+${tokenInfo.tokenAmount.toStringAsFixed(6).removeTrailing0} ${tokenInfo.tokenSymbol}',
+                        : tokenInfo.token
+                                    ?.getTxType(selectedAccount)
+                                    .startsWith("Delegated") ??
+                                false
+                            ? '${tokenInfo.tokenAmount.toStringAsFixed(6).removeTrailing0} ${tokenInfo.tokenSymbol}'
+                            : getColor(tokenInfo.token, userAccountAddress) ==
+                                    ColorConst.NeutralVariant.shade99
+                                ? '- ${tokenInfo.tokenAmount.toStringAsFixed(6).removeTrailing0} ${tokenInfo.tokenSymbol}'
+                                : '+${tokenInfo.tokenAmount.toStringAsFixed(6).removeTrailing0} ${tokenInfo.tokenSymbol}',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: bodySmall.copyWith(
@@ -787,12 +788,19 @@ class TxTokenInfo extends StatelessWidget {
                 Text(
                   tokenInfo.token == null ||
                           tokenInfo.token?.operationStatus == 'applied'
-                      ? getColor(tokenInfo.token, selectedAccount) ==
-                              ColorConst.NeutralVariant.shade99
-                          ? '- ${(tokenInfo.dollarAmount).roundUpDollar(xtzPrice).removeTrailing0}'
-                          : (tokenInfo.dollarAmount)
+                      ? tokenInfo.token
+                                  ?.getTxType(selectedAccount)
+                                  .startsWith("Delegated") ??
+                              false
+                          ? (tokenInfo.dollarAmount)
                               .roundUpDollar(xtzPrice)
                               .removeTrailing0
+                          : getColor(tokenInfo.token, selectedAccount) ==
+                                  ColorConst.NeutralVariant.shade99
+                              ? '- ${(tokenInfo.dollarAmount).roundUpDollar(xtzPrice).removeTrailing0}'
+                              : (tokenInfo.dollarAmount)
+                                  .roundUpDollar(xtzPrice)
+                                  .removeTrailing0
                       : "failed",
                   style: labelLarge.copyWith(
                       fontWeight: FontWeight.w400,

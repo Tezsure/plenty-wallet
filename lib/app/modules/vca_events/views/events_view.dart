@@ -1,13 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_phoenix/generated/i18n.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:naan_wallet/app/data/services/service_models/event_models.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
@@ -24,7 +22,6 @@ import '../../../data/services/analytics/firebase_analytics.dart';
 import '../../../data/services/service_config/service_config.dart';
 import '../../common_widgets/back_button.dart';
 import '../../common_widgets/bouncing_widget.dart';
-import '../../dapp_browser/views/dapp_browser_view.dart';
 import '../controllers/events_controller.dart';
 import 'event_bottomsheet.dart';
 

@@ -20,7 +20,6 @@ import 'package:naan_wallet/app/modules/backup_wallet_page/views/backup_wallet_v
 import 'package:naan_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/teztown/controllers/teztown_controller.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
-import 'package:naan_wallet/app/modules/settings_page/models/dapp_model.dart';
 import 'package:naan_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';

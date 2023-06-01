@@ -2,14 +2,10 @@ import 'package:get/get.dart';
 
 import '../modules/account_summary/bindings/account_summary_binding.dart';
 import '../modules/account_summary/views/account_summary_view.dart';
-import '../modules/backup_wallet_page/bindings/backup_wallet_binding.dart';
-import '../modules/backup_wallet_page/views/backup_wallet_view.dart';
 import '../modules/beacon_bottom_sheet/biometric/bindings/biometric_binding.dart';
 import '../modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
 import '../modules/beacon_bottom_sheet/opreation_request/bindings/opreation_request_binding.dart';
 import '../modules/beacon_bottom_sheet/opreation_request/views/opreation_request_view.dart';
-import '../modules/beacon_bottom_sheet/pair_request/bindings/pair_request_binding.dart';
-import '../modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
 import '../modules/beacon_bottom_sheet/payload_request/bindings/payload_request_binding.dart';
 import '../modules/beacon_bottom_sheet/payload_request/views/payload_request_view.dart';
 import '../modules/biometric_page/bindings/biometric_page_binding.dart';
@@ -40,12 +36,8 @@ import '../modules/receive_page/bindings/receive_page_binding.dart';
 import '../modules/receive_page/views/receive_page_view.dart';
 import '../modules/send_page/bindings/send_token_page_binding.dart';
 import '../modules/send_page/views/send_page.dart';
-import '../modules/settings_page/bindings/settings_page_binding.dart';
-import '../modules/settings_page/views/settings_page_view.dart';
 import '../modules/splash_page/bindings/splash_page_binding.dart';
 import '../modules/splash_page/views/splash_page_view.dart';
-import '../modules/verify_phrase_page/bindings/verify_phrase_page_binding.dart';
-import '../modules/verify_phrase_page/views/verify_phrase_page_view.dart';
 
 // ignore_for_file: constant_identifier_names
 

@@ -16,11 +16,17 @@ class ServiceConfig {
 
   static String currencyApi = "https://api.exchangerate.host/latest?base=USD";
 
+  static String admireArtUrl = "";
+
   static bool isIAFWidgetVisible = false;
   static bool isVCAWidgetVisible = false;
   static bool isTeztownWidgetVisible = false;
 
   static bool isTezQuakeWidgetVisible = false;
+
+  static bool isAdmireArtWidgetVisible = false;
+
+  static List nftClaimWidgets = [];
 
   static Currency currency = Currency.usd;
   static Language language = Language.en;
@@ -31,6 +37,9 @@ class ServiceConfig {
 
   /// Teztools api with endpoint for mainnet token prices
   static String tezToolsApi = "https://api.teztools.io/token/prices";
+
+  static String plentyAnalytics =
+      "https://api.analytics.plenty.network/analytics/tokens";
 
   /// Xtz price coingecko api with endpoint
   static String coingeckoApi =
@@ -106,6 +115,8 @@ class ServiceConfig {
   // Accounts storage keys
   static const String accountsStorage = "${storageName}_accounts_storage";
 
+  static const claimNftAPI = "https://expo.api.naan.app/api/v1/";
+
   /// append with publicKeyHash while saving or reading
   static const String accountTokensStorage =
       "${storageName}_account_tokens_storage";
@@ -139,7 +150,8 @@ class ServiceConfig {
   static const String audPriceStorage = "${storageName}_aud";
   static const String dayChangeStorage = "${storageName}_24_hr_change";
   static const String tokenPricesStorage = "${storageName}_token_prices";
-
+  static const String tokenPricesAnalyticsStorage =
+      "${storageName}_token_prices_analytics";
   // nfts storage name append with user address
   static const String nftStorage = "${storageName}_nfts";
 

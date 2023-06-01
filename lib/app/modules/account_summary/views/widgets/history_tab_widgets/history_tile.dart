@@ -1,7 +1,5 @@
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -301,12 +299,19 @@ class _HistoryTileState extends State<HistoryTile>
               ),
               Text(
                 data.token == null || data.token?.operationStatus == 'applied'
-                    ? getColor(data.token, selectedAccount) ==
-                            ColorConst.NeutralVariant.shade99
-                        ? '- ${(data.dollarAmount).roundUpDollar(widget.xtzPrice).removeTrailing0}'
-                        : (data.dollarAmount)
+                    ? data.token
+                                ?.getTxType(selectedAccount)
+                                .startsWith("Delegated") ??
+                            false
+                        ? (data.dollarAmount)
                             .roundUpDollar(widget.xtzPrice)
                             .removeTrailing0
+                        : getColor(data.token, selectedAccount) ==
+                                ColorConst.NeutralVariant.shade99
+                            ? '- ${(data.dollarAmount).roundUpDollar(widget.xtzPrice).removeTrailing0}'
+                            : (data.dollarAmount)
+                                .roundUpDollar(widget.xtzPrice)
+                                .removeTrailing0
                     : "failed",
                 style: labelLarge.copyWith(
                     fontWeight: FontWeight.w400,

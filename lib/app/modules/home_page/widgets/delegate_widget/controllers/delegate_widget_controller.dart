@@ -1,8 +1,5 @@
-import 'dart:developer';
-import 'dart:math';
 
 import 'package:dartez/dartez.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -16,7 +13,6 @@ import 'package:naan_wallet/app/data/services/service_models/delegate_reward_mod
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
-import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/account_switch_widget/account_switch_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
@@ -24,11 +20,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widget
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_success_sheet.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/redelegate_sheet.dart';
 import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
 
 import '../widgets/review_delegate_baker.dart';
 
@@ -157,13 +149,10 @@ class DelegateWidgetController extends GetxController {
         publicKeyHash: accountModel!.value.publicKeyHash!,
       );
       final signer = Dartez.createSigner(
-          Dartez.writeKeyWithHint(keyStore.secretKey,
-              keyStore.publicKeyHash.startsWith("tz2") ? 'spsk' : 'edsk'),
-          signerCurve: keyStore.publicKeyHash.startsWith("tz2")
-              ? SignerCurve.SECP256K1
-              : SignerCurve.ED25519);
-      await Dartez.sendDelegationOperation(ServiceConfig.currentSelectedNode,
-          signer, keyStore, baker.address!, 1000);
+        keyStore.secretKey!,
+      );
+      await Dartez.sendDelegationOperation(
+          ServiceConfig.currentSelectedNode, signer, keyStore, baker.address!);
       Future.delayed(
         const Duration(milliseconds: 500),
       ).then((value) {
@@ -204,13 +193,13 @@ class DelegateWidgetController extends GetxController {
       return;
     }
     // try {
-      await _delegateHandler.getBakerList().then((value) {
-        searchedDelegateBakerList.value = value;
-        return delegateBakerList.value = value;
-      });
+    await _delegateHandler.getBakerList().then((value) {
+      searchedDelegateBakerList.value = value;
+      return delegateBakerList.value = value;
+    });
     // } catch (e) {
     //   print(e.toString());
-    
+
     //   delegateBakerList.value = <DelegateBakerModel>[];
     // }
   }

@@ -18,220 +18,274 @@ class AccountDataHandler {
   // delay duration
 
   static Future<void> _isolateProcess(List<dynamic> args) async {
-    List<String> accountAddress = [...args[1].toList(), ...args[2].toList()];
+    try {
+      List<String> accountAddress = [...args[1].toList(), ...args[2].toList()];
 
-    String rpc = args[3] as String;
+      String rpc = args[3] as String;
 
-    // fecth xtz balance
-    List<double> tempAccountBalances = await Future.wait(accountAddress
-        .map((e) => RpcService().getUserBalanceInTezos(e, rpc))
-        .toList());
+      // fecth xtz balance
+      List<double> tempAccountBalances = await Future.wait(accountAddress
+          .map((e) => RpcService().getUserBalanceInTezos(e, rpc))
+          .toList());
 
-    // fetch token balances
-    List<List<AccountTokenModel>> tempAccountTokenModels = await Future.wait(
-        accountAddress
-            .map((e) => RpcService().getUserTokenBalances(e, rpc))
-            .toList());
-
-    // send data back
-    List<dynamic> data = <dynamic>[
-      <String, double>{
-        for (int i = 0; i < accountAddress.length; i++)
-          accountAddress[i]: tempAccountBalances[i]
-      },
-      <String, List<AccountTokenModel>>{
-        for (int i = 0; i < accountAddress.length; i++)
-          accountAddress[i]: tempAccountTokenModels[i]
-      },
-    ];
-    Future<List<TokenPriceModel>> getTokenPriceModel(
-        [List<String>? contractAddress]) async {
-      if (args[4] != null && contractAddress != null) {
-        return jsonDecode(args[4])['contracts']
-            .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
-            .toList()
-            .where((e) => contractAddress.contains(e.tokenAddress.toString()))
-            .toList();
-      } else if (args[4] != null) {
-        return jsonDecode(args[4])["contracts"]
-            .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
-            .toList();
-      } else {
-        return [];
-      }
-    }
-
-    Map<String, List<AccountTokenModel>> parseAccountTokenModelUsingTokenPrices(
-        Map<String, List<AccountTokenModel>> data,
-        List<TokenPriceModel> tokenPrices) {
-      return data.map((key, value) => MapEntry(
-          key,
-          value
-              .map(
-                (e) {
-                  var tokenList = tokenPrices
-                      .where((element) =>
-                          e.contractAddress == element.tokenAddress &&
-                          (element.type == "fa2"
-                              ? e.tokenId == element.tokenId
-                              : true))
-                      .toList();
-
-                  if (tokenList.isEmpty) {
-                    return e..name = null;
-                  }
-                  var token = tokenList.first;
-                  e.name = token.name;
-                  e.iconUrl = token.thumbnailUri;
-                  e.symbol = token.symbol;
-                  e.tokenStandardType = token.type == "fa2"
-                      ? TokenStandardType.fa2
-                      : TokenStandardType.fa1;
-                  e.valueInXtz = token.currentPrice! * e.balance;
-                  e.currentPrice = token.currentPrice;
-                  return e;
-                },
-              )
-              .toList()
-              .where((element) => element.name != null)
-              .toList()));
-    }
-
-    List<TokenPriceModel> tokenPrices = await getTokenPriceModel((data[1]
-            as Map<String, List<AccountTokenModel>>)
-        .values
-        .fold<List<String>>(
-            <String>[],
-            (previousValue, element) => previousValue
-              ..addAll(element.map<String>((e) => e.contractAddress).toList()))
-        .toSet()
-        .toList());
-
-    List<String> supportedTokens =
-        tokenPrices.map<String>((e) => e.tokenAddress!).toList();
-
-    Map<String, List<AccountTokenModel>> unsupportedTokens =
-        (data[1] as Map<String, List<AccountTokenModel>>)
-            .map<String, List<AccountTokenModel>>((key, value) {
-      return MapEntry(
-          key,
-          value
-              .where((element) =>
-                  !supportedTokens.contains(element.contractAddress))
+      // fetch token balances
+      List<List<AccountTokenModel>> tempAccountTokenModels = await Future.wait(
+          accountAddress
+              .map((e) => RpcService().getUserTokenBalances(e, rpc))
               .toList());
-    });
 
-    (data[1] as Map<String, List<AccountTokenModel>>).forEach((key, value) {
-      data[1][key] = value
-        ..removeWhere(
-            (element) => !supportedTokens.contains(element.contractAddress));
-    });
+      // send data back
+      List<dynamic> data = <dynamic>[
+        <String, double>{
+          for (int i = 0; i < accountAddress.length; i++)
+            accountAddress[i]: tempAccountBalances[i]
+        },
+        <String, List<AccountTokenModel>>{
+          for (int i = 0; i < accountAddress.length; i++)
+            accountAddress[i]: tempAccountTokenModels[i]
+        },
+      ];
+      Future<List<TokenPriceModel>> getTokenPriceModel(
+          [List<String>? contractAddress]) async {
+        if (args[4] != null && contractAddress != null) {
+          List<TokenPriceModel> tokensList = jsonDecode(args[4])['contracts']
+              .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
+              .toList();
+          List<TokenPriceModel> tokensListAnalytics = jsonDecode(args[8])
+              .map<TokenPriceModel>((e) =>
+                  TokenPriceModel.fromJson(e, isAnalytics: true, xtzPrice: 1))
+              .toList();
+          tokensListAnalytics.forEach((element) {
+            if (tokensList
+                .where((e) =>
+                    e.tokenAddress == element.tokenAddress &&
+                    e.tokenId == element.tokenId)
+                .isEmpty) {
+              tokensList.add(element);
+            }
+          });
+          return tokensList
+              .where((e) => contractAddress.contains(e.tokenAddress.toString()))
+              .toList();
+        } else if (args[4] != null) {
+          List<TokenPriceModel> tokensList = jsonDecode(args[4])["contracts"]
+              .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
+              .toList();
+          List<TokenPriceModel> tokensListAnalytics = jsonDecode(args[8])
+              .map<TokenPriceModel>((e) =>
+                  TokenPriceModel.fromJson(e, isAnalytics: true, xtzPrice: 1))
+              .toList();
 
-    data[1] = parseAccountTokenModelUsingTokenPrices(data[1], tokenPrices);
-
-    // save account xtz balances
-    args[5] = args[5]
-        .map(
-          ((e) => e.copyWith(
-                accountDataModel: e.accountDataModel!.copyWith(
-                  xtzBalance: data[0][e.publicKeyHash!],
-                  tokenXtzBalance: data[0][e.publicKeyHash!] +
-                      (data[1].containsKey(e.publicKeyHash)
-                          ? (data[1][e.publicKeyHash]
-                                  as List<AccountTokenModel>)
-                              .fold<double>(
-                                  0.0,
-                                  (previousValue, element) =>
-                                      previousValue + element.valueInXtz!)
-                          : 0.0),
-                ),
-              )),
-        )
-        .toList();
-
-    args[6] = args[6]
-        .map(
-          ((e) => e.copyWith(
-                accountDataModel: e.accountDataModel!.copyWith(
-                  xtzBalance: data[0][e.publicKeyHash!],
-                  tokenXtzBalance: data[0][e.publicKeyHash!] +
-                      (data[1].containsKey(e.publicKeyHash)
-                          ? (data[1][e.publicKeyHash]
-                                  as List<AccountTokenModel>)
-                              .fold<double>(
-                                  0.0,
-                                  (previousValue, element) =>
-                                      previousValue + element.valueInXtz!)
-                          : 0.0),
-                ),
-              )),
-        )
-        .toList();
-
-    List<AccountTokenModel> getVal(String address) {
-      return jsonDecode(args[7][address])
-          .map<AccountTokenModel>((e) => AccountTokenModel.fromJson(e))
-          .toList();
-    }
-
-    // fetches the stored token list if any and updates the respective token values
-    (data[1] as Map<String, List<AccountTokenModel>>)
-        .forEach((key, value) async {
-      List<AccountTokenModel> tokenList = getVal(key);
-
-      if (tokenList.isNotEmpty) {
-        // remove unsupported tokens
-        if (unsupportedTokens.containsKey(key)) {
-          tokenList.removeWhere((element) => unsupportedTokens[key]!
-              .map<String>((e) => e.contractAddress)
-              .toList()
-              .contains(element.contractAddress));
+          tokensListAnalytics.forEach((element) {
+            if (tokensList
+                .where((e) =>
+                    e.tokenAddress == element.tokenAddress &&
+                    e.tokenId == element.tokenId)
+                .isEmpty) {
+              tokensList.add(element);
+            }
+          });
+          return tokensList;
+        } else {
+          return [];
         }
-        List<String> updateTokenAddresses = value
-            .map<String>((e) => e.contractAddress)
-            .toList(); // get all the token addresses which are updated
+      }
 
-        (data[1] as Map<String, List<AccountTokenModel>>).update(
-          key,
-          (tokens) => tokenList.map((e) {
-            AccountTokenModel updatedToken;
-            tokens
-                    .where(
+      Map<String, List<AccountTokenModel>>
+          parseAccountTokenModelUsingTokenPrices(
+              Map<String, List<AccountTokenModel>> data,
+              List<TokenPriceModel> tokenPrices) {
+        return data.map((key, value) => MapEntry(
+            key,
+            value
+                .map(
+                  (e) {
+                    var tokenList = tokenPrices
+                        .where((element) =>
+                            e.contractAddress == element.tokenAddress &&
+                            (element.type == "fa2"
+                                ? e.tokenId == element.tokenId
+                                : true))
+                        .toList();
+
+                    if (tokenList.isEmpty) {
+                      return e..name = null;
+                    }
+                    var token = tokenList.first;
+                    e.name = token.name;
+
+                    e.symbol = token.symbol;
+                    e.tokenStandardType = token.type == "fa2"
+                        ? TokenStandardType.fa2
+                        : TokenStandardType.fa1;
+                    e.valueInXtz = token.currentPrice! * e.balance;
+                    e.currentPrice = token.currentPrice;
+                    return e;
+                  },
+                )
+                .toList()
+                .where((element) => element.name != null)
+                .toList()));
+      }
+
+      List<TokenPriceModel> tokenPrices = await getTokenPriceModel(
+          (data[1] as Map<String, List<AccountTokenModel>>)
+              .values
+              .fold<List<String>>(
+                  <String>[],
+                  (previousValue, element) => previousValue
+                    ..addAll(
+                        element.map<String>((e) => e.contractAddress).toList()))
+              .toSet()
+              .toList());
+
+      List<String> supportedTokens =
+          tokenPrices.map<String>((e) => e.tokenAddress!).toList();
+
+      Map<String, List<AccountTokenModel>> unsupportedTokens =
+          (data[1] as Map<String, List<AccountTokenModel>>)
+              .map<String, List<AccountTokenModel>>((key, value) {
+        return MapEntry(
+            key,
+            value
+                .where((element) =>
+                    !supportedTokens.contains(element.contractAddress))
+                .toList());
+      });
+
+      (data[1] as Map<String, List<AccountTokenModel>>).forEach((key, value) {
+        data[1][key] = value
+          ..removeWhere(
+              (element) => !supportedTokens.contains(element.contractAddress));
+      });
+
+      data[1] = parseAccountTokenModelUsingTokenPrices(data[1], tokenPrices);
+
+      // save account xtz balances
+      args[5] = args[5]
+          .map(
+            ((e) => e.copyWith(
+                  accountDataModel: e.accountDataModel!.copyWith(
+                    xtzBalance: data[0][e.publicKeyHash!],
+                    tokenXtzBalance: data[0][e.publicKeyHash!] +
+                        (data[1].containsKey(e.publicKeyHash)
+                            ? (data[1][e.publicKeyHash]
+                                    as List<AccountTokenModel>)
+                                .fold<double>(
+                                    0.0,
+                                    (previousValue, element) =>
+                                        previousValue + element.valueInXtz!)
+                            : 0.0),
+                  ),
+                )),
+          )
+          .toList();
+
+      args[6] = args[6]
+          .map(
+            ((e) => e.copyWith(
+                  accountDataModel: e.accountDataModel!.copyWith(
+                    xtzBalance: data[0][e.publicKeyHash!],
+                    tokenXtzBalance: data[0][e.publicKeyHash!] +
+                        (data[1].containsKey(e.publicKeyHash)
+                            ? (data[1][e.publicKeyHash]
+                                    as List<AccountTokenModel>)
+                                .fold<double>(
+                                    0.0,
+                                    (previousValue, element) =>
+                                        previousValue + element.valueInXtz!)
+                            : 0.0),
+                  ),
+                )),
+          )
+          .toList();
+
+      List<AccountTokenModel> getVal(String address) {
+        return jsonDecode(args[7][address])
+            .map<AccountTokenModel>((e) => AccountTokenModel.fromJson(e))
+            .toList();
+      }
+
+      // fetches the stored token list if any and updates the respective token values
+      (data[1] as Map<String, List<AccountTokenModel>>)
+          .forEach((key, value) async {
+        List<AccountTokenModel> tokenList = getVal(key);
+
+        if (tokenList.isNotEmpty) {
+          // remove unsupported tokens
+          if (unsupportedTokens.containsKey(key)) {
+            tokenList.removeWhere((element) => unsupportedTokens[key]!
+                .map<String>((e) => e.contractAddress)
+                .toList()
+                .contains(element.contractAddress));
+          }
+          List<String> updateTokenAddresses = value
+              .map<String>((e) => e.contractAddress)
+              .toList(); // get all the token addresses which are updated
+
+          (data[1] as Map<String, List<AccountTokenModel>>).update(
+            key,
+            (tokens) => tokenList.map((e) {
+              AccountTokenModel updatedToken;
+              tokens
+                      .where(
+                        (element) =>
+                            element.contractAddress == e.contractAddress &&
+                            element.tokenId == e.tokenId,
+                      )
+                      .isNotEmpty
+                  ? updatedToken = tokens.firstWhere(
                       (element) =>
                           element.contractAddress == e.contractAddress &&
                           element.tokenId == e.tokenId,
                     )
-                    .isNotEmpty
-                ? updatedToken = tokens.firstWhere(
-                    (element) =>
-                        element.contractAddress == e.contractAddress &&
-                        element.tokenId == e.tokenId,
-                  )
-                : updatedToken = e;
-            return updateTokenAddresses.contains(e.contractAddress)
-                ? e.copyWith(
-                    balance: updatedToken.balance,
-                    currentPrice: updatedToken.currentPrice,
-                    decimals: updatedToken.decimals,
-                    iconUrl: updatedToken.iconUrl,
-                    // name: updatedToken.name,
-                    // symbol: updatedToken.symbol,
-                    valueInXtz: updatedToken.valueInXtz,
-                    // tokenId: updatedToken.tokenId,
-                    // tokenStandardType: updatedToken.tokenStandardType,
-                  )
-                : e;
-          }).toList(),
-        );
-      }
-    });
+                  : updatedToken = e;
+              return updateTokenAddresses.contains(e.contractAddress)
+                  ? e.copyWith(
+                      balance: updatedToken.balance,
+                      currentPrice: updatedToken.currentPrice,
+                      decimals: updatedToken.decimals,
+                      iconUrl: updatedToken.iconUrl,
+                      // name: updatedToken.name,
+                      // symbol: updatedToken.symbol,
+                      valueInXtz: updatedToken.valueInXtz,
+                      // tokenId: updatedToken.tokenId,
+                      // tokenStandardType: updatedToken.tokenStandardType,
+                    )
+                  : e;
+            }).toList(),
+          );
+        }
+      });
 
-    // update account list before write data into localStorage
-    if (args[5].isNotEmpty || args[6].isNotEmpty) {
-      if (args[5].isNotEmpty) {
-        args[5].first.isAccountPrimary = true;
+      // update account list before write data into localStorage
+      if (args[5].isNotEmpty || args[6].isNotEmpty) {
+        if (args[5].isNotEmpty) {
+          args[5].first.isAccountPrimary = true;
+        }
       }
-      //await postProcess([...accountList, ...watchAccountModels]); TODO
+
+      var x = {
+        for (var item in data[1].keys)
+          item:
+              jsonEncode([...data[1][item], ...(unsupportedTokens[item] ?? [])])
+      };
+
+/*     // save all tokens separate based on publicKeyHash of the account
+    for (String key in data[1].keys) {
+      await ServiceConfig.localStorage.write(
+          key: "${ServiceConfig.accountTokensStorage}_$key",
+          value:
+              jsonEncode([...data[1][key], ...(unsupportedTokens[key] ?? [])]));
+    } */
+      args[0].send([
+        args[5],
+        args[6],
+        x
+        // tokens as Map<String(address),List<AccountTokenModel>>
+      ]);
+    } catch (e) {
+      print("yoooo $e");
     }
 
     // save accounts data
@@ -242,25 +296,6 @@ class AccountDataHandler {
     await ServiceConfig.localStorage.write(
         key: ServiceConfig.watchAccountsStorage,
         value: jsonEncode(watchAccountModels)); */
-
-    var x = {
-      for (var item in data[1].keys)
-        item: jsonEncode([...data[1][item], ...(unsupportedTokens[item] ?? [])])
-    };
-
-/*     // save all tokens separate based on publicKeyHash of the account
-    for (String key in data[1].keys) {
-      await ServiceConfig.localStorage.write(
-          key: "${ServiceConfig.accountTokensStorage}_$key",
-          value:
-              jsonEncode([...data[1][key], ...(unsupportedTokens[key] ?? [])]));
-    } */
-    args[0].send([
-      args[5],
-      args[6],
-      x
-      // tokens as Map<String(address),List<AccountTokenModel>>
-    ]);
   }
 
   /// Get&Store all accounts balances, tokens data and nfts
@@ -281,6 +316,7 @@ class AccountDataHandler {
             element.publicKeyHash: 
           };
         }));
+
  */
     var isolate = await Isolate.spawn(
       _isolateProcess,
@@ -300,16 +336,12 @@ class AccountDataHandler {
                     key:
                         "${ServiceConfig.accountTokensStorage}_${e.publicKeyHash}") ??
                 "[]")
-        }
+        },
+        await dataHandlerRenderService.getTokenPriceModelAnalyticsString(),
       ],
       debugName: "accounts xtz, tokens & nfts",
     );
     receivePort.asBroadcastStream().listen((data) async {
-      receivePort.close();
-      isolate.kill(priority: Isolate.immediate);
-      onDone();
-
-      //await _storeData(data, accountModels, watchAccountModels, postProcess);
       await ServiceConfig.localStorage.write(
           key: ServiceConfig.accountsStorage, value: jsonEncode(data[0]));
 
@@ -324,6 +356,10 @@ class AccountDataHandler {
             value: data[2][key]);
       }
       await postProcess([...data[0], ...data[1]].cast<AccountModel>());
+      receivePort.close();
+      isolate.kill(priority: Isolate.immediate);
+      onDone();
+      //await _storeData(data, accountModels, watchAccountModels, postProcess);
     });
   }
 

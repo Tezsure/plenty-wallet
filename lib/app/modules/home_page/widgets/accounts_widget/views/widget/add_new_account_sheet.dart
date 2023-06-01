@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:naan_wallet/app/data/services/create_profile_service/create_profile_service.dart';
 import 'package:naan_wallet/app/data/services/enums/enums.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/image_picker.dart';
@@ -22,7 +20,6 @@ import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-import '../../../../../common_widgets/back_button.dart';
 import '../../../../../common_widgets/solid_button.dart';
 
 class AddNewAccountBottomSheet extends StatefulWidget {

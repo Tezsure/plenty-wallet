@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/discover_apps_widget/widgets/discover_apps_page_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/account_switch_widget/account_switch_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
@@ -12,10 +10,8 @@ import 'package:naan_wallet/app/modules/home_page/widgets/iaf/controller/iaf_con
 import 'package:naan_wallet/app/modules/home_page/widgets/iaf/view/iaf_sheet.dart';
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
 
 class IAFWidget extends StatelessWidget {
   const IAFWidget({Key? key}) : super(key: key);
