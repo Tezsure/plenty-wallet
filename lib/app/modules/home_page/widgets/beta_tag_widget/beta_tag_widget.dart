@@ -12,7 +12,6 @@ import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-
 class BetaTagWidget extends StatefulWidget {
   BetaTagWidget({Key? key}) : super(key: key);
 
@@ -21,7 +20,7 @@ class BetaTagWidget extends StatefulWidget {
 }
 
 class _BetaTagWidgetState extends State<BetaTagWidget> {
-  String version = "2.0.11";
+  String version = "2.0.12";
   @override
   void initState() {
     PackageInfo.fromPlatform().then((packageInfo) {

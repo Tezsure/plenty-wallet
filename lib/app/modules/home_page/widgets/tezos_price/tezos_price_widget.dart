@@ -39,8 +39,8 @@ class TezosPriceWidget extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.centerRight,
-                child: SvgPicture.asset(
-                  "${PathConst.HOME_PAGE.SVG}tezos_price.svg",
+                child: Image.asset(
+                  "${PathConst.HOME_PAGE}tezos.png",
                   width: 0.225.width,
                 ),
               ),

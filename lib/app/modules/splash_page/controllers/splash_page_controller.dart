@@ -77,6 +77,9 @@ class SplashPageController extends GetxController {
         AppConstant.admireArtCollection =
             (await ArtFoundationHandler.getCollectionNfts(
                 (await getAdmireArtCollection('admire-art-collection'))));
+
+        ServiceConfig.admireArtUrl =
+            (await getAdmireArtCollection('admire-art-url'));
       } catch (e) {}
       ServiceConfig.currency = await UserStorageService.getCurrency();
       // ServiceConfig.language =

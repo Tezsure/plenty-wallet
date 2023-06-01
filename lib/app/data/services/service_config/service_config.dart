@@ -16,6 +16,8 @@ class ServiceConfig {
 
   static String currencyApi = "https://api.exchangerate.host/latest?base=USD";
 
+  static String admireArtUrl = "";
+
   static bool isIAFWidgetVisible = false;
   static bool isVCAWidgetVisible = false;
   static bool isTeztownWidgetVisible = false;
