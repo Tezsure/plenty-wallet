@@ -51,19 +51,19 @@ class AccountDataHandler {
           List<TokenPriceModel> tokensList = jsonDecode(args[4])['contracts']
               .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
               .toList();
-          List<TokenPriceModel> tokensListAnalytics = jsonDecode(args[8])
-              .map<TokenPriceModel>((e) =>
-                  TokenPriceModel.fromJson(e, isAnalytics: true, xtzPrice: 1))
-              .toList();
-          tokensListAnalytics.forEach((element) {
-            if (tokensList
-                .where((e) =>
-                    e.tokenAddress == element.tokenAddress &&
-                    e.tokenId == element.tokenId)
-                .isEmpty) {
-              tokensList.add(element);
-            }
-          });
+          // List<TokenPriceModel> tokensListAnalytics = jsonDecode(args[8])
+          //     .map<TokenPriceModel>((e) =>
+          //         TokenPriceModel.fromJson(e, isAnalytics: true, xtzPrice: 1))
+          //     .toList();
+          // tokensListAnalytics.forEach((element) {
+          //   if (tokensList
+          //       .where((e) =>
+          //           e.tokenAddress == element.tokenAddress &&
+          //           e.tokenId == element.tokenId)
+          //       .isEmpty) {
+          //     tokensList.add(element);
+          //   }
+          // });
           return tokensList
               .where((e) => contractAddress.contains(e.tokenAddress.toString()))
               .toList();
@@ -71,20 +71,20 @@ class AccountDataHandler {
           List<TokenPriceModel> tokensList = jsonDecode(args[4])["contracts"]
               .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
               .toList();
-          List<TokenPriceModel> tokensListAnalytics = jsonDecode(args[8])
-              .map<TokenPriceModel>((e) =>
-                  TokenPriceModel.fromJson(e, isAnalytics: true, xtzPrice: 1))
-              .toList();
+          // List<TokenPriceModel> tokensListAnalytics = jsonDecode(args[8])
+          //     .map<TokenPriceModel>((e) =>
+          //         TokenPriceModel.fromJson(e, isAnalytics: true, xtzPrice: 1))
+          //     .toList();
 
-          tokensListAnalytics.forEach((element) {
-            if (tokensList
-                .where((e) =>
-                    e.tokenAddress == element.tokenAddress &&
-                    e.tokenId == element.tokenId)
-                .isEmpty) {
-              tokensList.add(element);
-            }
-          });
+          // tokensListAnalytics.forEach((element) {
+          //   if (tokensList
+          //       .where((e) =>
+          //           e.tokenAddress == element.tokenAddress &&
+          //           e.tokenId == element.tokenId)
+          //       .isEmpty) {
+          //     tokensList.add(element);
+          //   }
+          // });
           return tokensList;
         } else {
           return [];
@@ -337,7 +337,7 @@ class AccountDataHandler {
                         "${ServiceConfig.accountTokensStorage}_${e.publicKeyHash}") ??
                 "[]")
         },
-        await dataHandlerRenderService.getTokenPriceModelAnalyticsString(),
+        // await dataHandlerRenderService.getTokenPriceModelAnalyticsString(),
       ],
       debugName: "accounts xtz, tokens & nfts",
     );

@@ -88,11 +88,11 @@ class DataHandlerRenderService {
         "[]";
   }
 
-  Future<String> getTokenPriceModelAnalyticsString() async {
-    return (await ServiceConfig.localStorage
-            .read(key: ServiceConfig.tokenPricesAnalyticsStorage)) ??
-        "[]";
-  }
+  // Future<String> getTokenPriceModelAnalyticsString() async {
+  //   return (await ServiceConfig.localStorage
+  //           .read(key: ServiceConfig.tokenPricesAnalyticsStorage)) ??
+  //       "[]";
+  // }
 
   Future<String?> getTokenPrice() async {
     String? tokensPrice = await ServiceConfig.localStorage
