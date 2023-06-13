@@ -94,7 +94,7 @@ class TokenCheckbox extends StatelessWidget {
                             height: 3.arP,
                           ),
                           Text(
-                            "${balance} ${tokenModel.symbol}",
+                            "$balance ${tokenModel.symbol}",
                             softWrap: false,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,

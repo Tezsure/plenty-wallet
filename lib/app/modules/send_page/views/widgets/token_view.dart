@@ -302,7 +302,8 @@ class TokenView extends StatelessWidget {
           ? double.parse(value) * controller.xtzPrice.value * multiplier
           : double.parse(value) *
               controller.selectedTokenModel!.currentPrice! *
-              controller.xtzPrice.value *
+              // controller.xtzPrice.value
+              // *
               multiplier;
       if (newUsdValue.isNaN || newUsdValue.isInfinite) {
         newUsdValue = 0;
@@ -325,8 +326,8 @@ class TokenView extends StatelessWidget {
                 .removeTrailing0) {
       controller.amountController.text = newAmountValue
           .toStringAsFixed(controller.selectedTokenModel!.decimals > 20
-                    ? 20
-                    : controller.selectedTokenModel!.decimals)
+              ? 20
+              : controller.selectedTokenModel!.decimals)
           .removeTrailing0;
       controller.amountController.selection = TextSelection.fromPosition(
           TextPosition(offset: controller.amountController.text.length));
