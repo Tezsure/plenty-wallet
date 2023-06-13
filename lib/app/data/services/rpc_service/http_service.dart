@@ -6,7 +6,8 @@ class HttpService {
   static Future<String> performGetRequest(String server,
       {String endpoint = "",
       Map<String, String>? headers,
-      bool callSetupTimer = false}) async {
+      bool callSetupTimer = false,
+      int timeout = 15}) async {
     var response = await http
         .get(
             Uri.parse(
@@ -14,7 +15,7 @@ class HttpService {
             ),
             headers: headers)
         .timeout(
-      const Duration(seconds: 10),
+      Duration(seconds: timeout),
       onTimeout: () {
         throw TimeoutException(
             "Timeout $server${endpoint.isNotEmpty ? '/$endpoint' : ''}");

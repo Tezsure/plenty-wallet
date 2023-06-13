@@ -158,7 +158,7 @@ class TokenView extends StatelessWidget {
                                   multiplier
                               : controller.selectedTokenModel!.balance *
                                   controller.selectedTokenModel!.currentPrice! *
-                                  controller.xtzPrice.value *
+                                  /* controller.xtzPrice.value * */
                                   multiplier)) {
                         controller.amountUsdTileError.value = true;
                       } else {
@@ -291,9 +291,8 @@ class TokenView extends StatelessWidget {
       newAmountValue = controller.selectedTokenModel!.name == "Tezos"
           ? double.parse(value) / (controller.xtzPrice.value * multiplier)
           : double.parse(value) /
-              (controller.xtzPrice.value *
-                  controller.selectedTokenModel!.currentPrice! *
-                  multiplier);
+              (/* controller.xtzPrice.value * */
+                  controller.selectedTokenModel!.currentPrice! * multiplier);
       if (newAmountValue.isNaN || newAmountValue.isInfinite) {
         newAmountValue = 0;
       }

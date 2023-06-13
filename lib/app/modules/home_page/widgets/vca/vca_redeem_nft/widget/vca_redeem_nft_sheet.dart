@@ -79,68 +79,81 @@ class _VCARedeemSheetState extends State<VCARedeemSheet> {
       child: SizedBox(
         // height: 0.06.height,
         width: 1.width,
-        child: TextFormField(
-          style: bodyMedium.copyWith(color: Colors.white),
-          onChanged: (input) {
-            // if (controller.isVerified.value != null) {
-            //   controller.isVerified.value = null;
-            //   // setState(() {});
-            // }
-            controller.onChange(input);
-          },
-          inputFormatters: [FilteringTextInputFormatter.deny(" ")],
-          controller: controller.emailController,
-          textAlignVertical: TextAlignVertical.top,
-          textAlign: TextAlign.start,
-          cursorColor: ColorConst.Primary,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-            isDense: true,
-            counterStyle: const TextStyle(backgroundColor: Colors.white),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.arP),
-              borderSide: BorderSide(
-                  width: 2.arP,
-                  color: const Color(
-                    0xFF252525,
-                  )),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.arP),
-              borderSide: BorderSide(
-                color: ColorConst.NaanRed,
-                width: 1.3.arP,
+        child: Column(
+          children: [
+            TextFormField(
+              style: bodyMedium.copyWith(color: Colors.white),
+              onChanged: (input) {
+                // if (controller.isVerified.value != null) {
+                //   controller.isVerified.value = null;
+                //   // setState(() {});
+                // }
+                controller.onChange(input);
+              },
+              inputFormatters: [FilteringTextInputFormatter.deny(" ")],
+              controller: controller.emailController,
+              textAlignVertical: TextAlignVertical.top,
+              textAlign: TextAlign.start,
+              cursorColor: ColorConst.Primary,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                isDense: true,
+                counterStyle: const TextStyle(backgroundColor: Colors.white),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.arP),
+                  borderSide: BorderSide(
+                      width: 2.arP,
+                      color: const Color(
+                        0xFF252525,
+                      )),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.arP),
+                  borderSide: BorderSide(
+                    color: ColorConst.NaanRed,
+                    width: 1.3.arP,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.arP),
+                  borderSide: BorderSide(
+                      width: 2.arP,
+                      color: const Color(
+                        0xFF252525,
+                      )),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.arP),
+                  borderSide: BorderSide(
+                      width: 2.arP,
+                      color: const Color(
+                        0xFF252525,
+                      )),
+                ),
+                hintText: 'Email',
+                hintStyle: bodyMedium.copyWith(
+                  // ignore: prefer_const_constructors
+                  color: Color(
+                    0xFF7B757F,
+                  ),
+                ),
+                labelStyle: bodyMedium,
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 18.arP, vertical: 16.arP),
               ),
             ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.arP),
-              borderSide: BorderSide(
-                  width: 2.arP,
-                  color: const Color(
-                    0xFF252525,
-                  )),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.arP),
-              borderSide: BorderSide(
-                  width: 2.arP,
-                  color: const Color(
-                    0xFF252525,
-                  )),
-            ),
-            hintText: 'Email',
-            hintStyle: bodyMedium.copyWith(
-              // ignore: prefer_const_constructors
-              color: Color(
-                0xFF7B757F,
-              ),
-            ),
-            labelStyle: bodyMedium,
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 18.arP, vertical: 16.arP),
-          ),
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    "Enter your email address to claim your NFT",
+                    style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                  ),
+                ))
+          ],
         ),
       ),
     );
