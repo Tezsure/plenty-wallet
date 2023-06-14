@@ -108,18 +108,21 @@ class TokenCheckbox extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    Text(
-                      (tokenModel.name == "Tezos"
-                              ? tokenModel.balance * xtzPrice
-                              : tokenModel.balance *
-                                  (tokenModel.currentPrice ?? 0.0 * xtzPrice))
-                          .roundUpDollar(xtzPrice)
-                          .removeTrailing0,
-                      style: labelMedium.copyWith(
-                        fontSize: 12.aR,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                    tokenModel.currentPrice != 0
+                        ? Text(
+                            (tokenModel.name == "Tezos"
+                                    ? tokenModel.balance * xtzPrice
+                                    : tokenModel.balance *
+                                        (tokenModel.currentPrice ??
+                                            0.0 * xtzPrice))
+                                .roundUpDollar(xtzPrice)
+                                .removeTrailing0,
+                            style: labelMedium.copyWith(
+                              fontSize: 12.aR,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          )
+                        : const SizedBox(),
                   ],
                 ),
               ),
