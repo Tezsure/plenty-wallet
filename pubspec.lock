@@ -228,10 +228,11 @@ packages:
   dartez:
     dependency: "direct main"
     description:
-      name: dartez
-      sha256: a51e60dd111e6659cde455923f2babf915f5afebd1baa09e7bb5c05d7a287c97
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: hot-fix-origination-delegate-empty-string-parse
+      resolved-ref: ccb2b956dbed92e9f57941c4cad0759a1d74eb01
+      url: "https://github.com/Tezsure/Dartez.git"
+    source: git
     version: "2.0.1"
   ed25519_hd_key:
     dependency: transitive

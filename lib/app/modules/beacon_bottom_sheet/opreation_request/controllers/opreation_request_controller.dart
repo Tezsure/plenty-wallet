@@ -93,8 +93,8 @@ class OpreationRequestController extends GetxController {
         if (beaconRequest.operationDetails![0].kind ==
             OperationKind.origination) {
           var operationModel = OperationModel(
-              code: beaconRequest.operationDetails![0].code.toString(),
-              storage: beaconRequest.operationDetails![0].storage.toString(),
+              code: jsonEncode(beaconRequest.operationDetails![0].code),
+              storage: jsonEncode(beaconRequest.operationDetails![0].storage),
               amount: double.parse(
                   beaconRequest.operationDetails![0].amount ?? "0"),
               keyStoreModel: KeyStoreModel(
