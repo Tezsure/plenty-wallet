@@ -229,10 +229,10 @@ packages:
     dependency: "direct main"
     description:
       name: dartez
-      sha256: "2e05d0cdd073e725eb9b332e3d92aa44528fce6135ce74968b513298ce816cc6"
+      sha256: fbc3d65a9758687f8cec2732790c1c4aa0c6294ba728dffaaa6eeee91ea372ef
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.2"
   ed25519_hd_key:
     dependency: transitive
     description:
@@ -1341,5 +1341,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.0.0 <4.0.0"
+  dart: ">=3.0.3 <4.0.0"
   flutter: ">=3.7.0"

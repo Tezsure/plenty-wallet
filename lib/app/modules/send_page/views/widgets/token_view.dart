@@ -116,130 +116,138 @@ class TokenView extends StatelessWidget {
           ),
         ),
         0.008.vspace,
-        Material(
-          borderRadius: BorderRadius.circular(8.arP),
-          color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-          child: Obx(() => NaanListTile(
-                dense: true,
-                minVerticalPadding: 0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.arP)),
-                leading: SizedBox(
-                  width: 0.5.width,
-                  child: TokenSendTextfield(
-                    textfieldType: TextfieldType.usd,
-                    onTap: () {
-                      controller.selectedTextfieldType.value =
-                          TextfieldType.usd;
-                    },
-                    controller: controller.amountUsdController,
-                    onChanged: (val) {
-                      controller.amountText.value = val;
-                      if (controller.amountFocusNode.value.hasFocus) {
-                        return;
-                      }
-                      if (val.isEmpty) {
-                        controller.amountController.text = "";
-                        return;
-                      }
-                      double multiplier = ServiceConfig.currency == Currency.usd
-                          ? 1
-                          : ServiceConfig.currency == Currency.tez
-                              ? 1 / controller.xtzPrice.value
-                              : ServiceConfig.currency == Currency.inr
-                                  ? ServiceConfig.inr
-                                  : ServiceConfig.currency == Currency.eur
-                                      ? ServiceConfig.eur
-                                      : 1;
-                      if (double.parse(val) >
-                          (controller.selectedTokenModel!.name == "Tezos"
-                              ? controller.selectedTokenModel!.balance *
-                                  controller.xtzPrice.value *
-                                  multiplier
-                              : controller.selectedTokenModel!.balance *
-                                  controller.selectedTokenModel!.currentPrice! *
-                                  controller.xtzPrice.value *
-                                  multiplier)) {
-                        controller.amountUsdTileError.value = true;
-                      } else {
-                        controller.amountUsdTileError.value = false;
-                      }
-                      calculateValuesAndUpdate(val, true);
-                    },
-                    isError: controller.amountUsdTileError,
-                    hintText: '0.00',
-                    hintStyle: headlineMedium.copyWith(
-                      color: controller.amount.value.isNumericOnly &&
-                              controller.amount.value.isNotEmpty
-                          ? ColorConst.NeutralVariant.shade60
-                          : ColorConst.NeutralVariant.shade30,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                trailing: SizedBox(
-                  width: 0.3.width,
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        controller.selectedTextfieldType.value ==
-                                TextfieldType.usd
-                            ? BouncingWidget(
-                                onPressed: () {
-                                  controller.amountController.text =
-                                      controller.selectedTokenModel != null
-                                          ? (controller.selectedTokenModel!
-                                                      .balance -
-                                                  (double.parse(controller
-                                                          .estimatedFee.value) /
-                                                      controller
-                                                          .xtzPrice.value))
-                                              .toString()
-                                          : "0";
-                                  // print(controller.amountController.text);
-                                  controller.amountController.selection =
-                                      TextSelection.fromPosition(
-                                    TextPosition(
-                                      offset: controller
-                                          .amountController.text.length,
-                                    ),
-                                  );
-                                  controller.amountText.value =
-                                      controller.amountController.text;
-                                  calculateValuesAndUpdate(
-                                      controller.amountController.text);
-                                },
-                                child: Container(
-                                  height: 28.arP,
-                                  width: 48.arP,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(24.arP),
-                                      color: ColorConst.NeutralVariant.shade60
-                                          .withOpacity(0.2)),
-                                  child: Center(
-                                    child: Text('Max'.tr,
-                                        style: labelMedium.copyWith(
+        controller.selectedTokenModel!.currentPrice != 0
+            ? Material(
+                borderRadius: BorderRadius.circular(8.arP),
+                color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                child: Obx(() => NaanListTile(
+                      dense: true,
+                      minVerticalPadding: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.arP)),
+                      leading: SizedBox(
+                        width: 0.5.width,
+                        child: TokenSendTextfield(
+                          textfieldType: TextfieldType.usd,
+                          onTap: () {
+                            controller.selectedTextfieldType.value =
+                                TextfieldType.usd;
+                          },
+                          controller: controller.amountUsdController,
+                          onChanged: (val) {
+                            controller.amountText.value = val;
+                            if (controller.amountFocusNode.value.hasFocus) {
+                              return;
+                            }
+                            if (val.isEmpty) {
+                              controller.amountController.text = "";
+                              return;
+                            }
+                            double multiplier = ServiceConfig.currency ==
+                                    Currency.usd
+                                ? 1
+                                : ServiceConfig.currency == Currency.tez
+                                    ? 1 / controller.xtzPrice.value
+                                    : ServiceConfig.currency == Currency.inr
+                                        ? ServiceConfig.inr
+                                        : ServiceConfig.currency == Currency.eur
+                                            ? ServiceConfig.eur
+                                            : 1;
+                            if (double.parse(val) >
+                                (controller.selectedTokenModel!.name == "Tezos"
+                                    ? controller.selectedTokenModel!.balance *
+                                        controller.xtzPrice.value *
+                                        multiplier
+                                    : controller.selectedTokenModel!.balance *
+                                        controller
+                                            .selectedTokenModel!.currentPrice! *
+                                        /* controller.xtzPrice.value * */
+                                        multiplier)) {
+                              controller.amountUsdTileError.value = true;
+                            } else {
+                              controller.amountUsdTileError.value = false;
+                            }
+                            calculateValuesAndUpdate(val, true);
+                          },
+                          isError: controller.amountUsdTileError,
+                          hintText: '0.00',
+                          hintStyle: headlineMedium.copyWith(
+                            color: controller.amount.value.isNumericOnly &&
+                                    controller.amount.value.isNotEmpty
+                                ? ColorConst.NeutralVariant.shade60
+                                : ColorConst.NeutralVariant.shade30,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      trailing: SizedBox(
+                        width: 0.3.width,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              controller.selectedTextfieldType.value ==
+                                      TextfieldType.usd
+                                  ? BouncingWidget(
+                                      onPressed: () {
+                                        controller.amountController.text =
+                                            controller.selectedTokenModel !=
+                                                    null
+                                                ? (controller
+                                                            .selectedTokenModel!
+                                                            .balance -
+                                                        (double.parse(controller
+                                                                .estimatedFee
+                                                                .value) /
+                                                            controller.xtzPrice
+                                                                .value))
+                                                    .toString()
+                                                : "0";
+                                        // print(controller.amountController.text);
+                                        controller.amountController.selection =
+                                            TextSelection.fromPosition(
+                                          TextPosition(
+                                            offset: controller
+                                                .amountController.text.length,
+                                          ),
+                                        );
+                                        controller.amountText.value =
+                                            controller.amountController.text;
+                                        calculateValuesAndUpdate(
+                                            controller.amountController.text);
+                                      },
+                                      child: Container(
+                                        height: 28.arP,
+                                        width: 48.arP,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(24.arP),
                                             color: ColorConst
-                                                .NeutralVariant.shade60)),
-                                  ),
-                                ),
+                                                .NeutralVariant.shade60
+                                                .withOpacity(0.2)),
+                                        child: Center(
+                                          child: Text('Max'.tr,
+                                              style: labelMedium.copyWith(
+                                                  color: ColorConst
+                                                      .NeutralVariant.shade60)),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                              0.02.hspace,
+                              Text(
+                                ServiceConfig.currency.name.toUpperCase(),
+                                style: labelLarge.copyWith(
+                                    color: ColorConst.NeutralVariant.shade60),
                               )
-                            : const SizedBox(),
-                        0.02.hspace,
-                        Text(
-                          ServiceConfig.currency.name.toUpperCase(),
-                          style: labelLarge.copyWith(
-                              color: ColorConst.NeutralVariant.shade60),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              )),
-        ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )),
+              )
+            : const SizedBox(),
       ],
     );
   }
@@ -291,9 +299,8 @@ class TokenView extends StatelessWidget {
       newAmountValue = controller.selectedTokenModel!.name == "Tezos"
           ? double.parse(value) / (controller.xtzPrice.value * multiplier)
           : double.parse(value) /
-              (controller.xtzPrice.value *
-                  controller.selectedTokenModel!.currentPrice! *
-                  multiplier);
+              (/* controller.xtzPrice.value * */
+                  controller.selectedTokenModel!.currentPrice! * multiplier);
       if (newAmountValue.isNaN || newAmountValue.isInfinite) {
         newAmountValue = 0;
       }
@@ -302,7 +309,8 @@ class TokenView extends StatelessWidget {
           ? double.parse(value) * controller.xtzPrice.value * multiplier
           : double.parse(value) *
               controller.selectedTokenModel!.currentPrice! *
-              controller.xtzPrice.value *
+              // controller.xtzPrice.value
+              // *
               multiplier;
       if (newUsdValue.isNaN || newUsdValue.isInfinite) {
         newUsdValue = 0;
@@ -325,8 +333,8 @@ class TokenView extends StatelessWidget {
                 .removeTrailing0) {
       controller.amountController.text = newAmountValue
           .toStringAsFixed(controller.selectedTokenModel!.decimals > 20
-                    ? 20
-                    : controller.selectedTokenModel!.decimals)
+              ? 20
+              : controller.selectedTokenModel!.decimals)
           .removeTrailing0;
       controller.amountController.selection = TextSelection.fromPosition(
           TextPosition(offset: controller.amountController.text.length));

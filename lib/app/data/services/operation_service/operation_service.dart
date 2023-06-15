@@ -76,16 +76,18 @@ class OperationService {
       OperationModel operationModel, String rpcNode) async {
     var transactionSigner =
         Dartez.createSigner(operationModel.keyStoreModel!.secretKey!);
-    return (await Dartez.sendContractOriginationOperation(
+    var results = await Dartez.sendContractOriginationOperation(
       rpcNode,
       transactionSigner,
       operationModel.keyStoreModel!,
       operationModel.amount!.toInt(),
       "",
-      operationModel.parameters!.entryPoint,
-      operationModel.parameters!.value,
-      codeFormat: TezosParameterFormat.Michelson,
-    ))['appliedOp'];
+      operationModel.code!,
+      operationModel.storage!,
+      codeFormat: TezosParameterFormat.Micheline,
+    );
+
+    return results['operationGroupID'];
   }
 
   Future<String> injectOperation(

@@ -362,13 +362,17 @@ class OpreationRequestView extends GetView<OpreationRequestController> {
                                                                 ? "calculating..."
                                                                     .tr
                                                                     .tr
-                                                                : double.parse(
-                                                                        controller
+                                                                : controller.fees
+                                                                            .value !=
+                                                                        "N/A"
+                                                                    ? double.parse(controller
                                                                             .fees
                                                                             .value)
-                                                                    .roundUpDollar(
-                                                                        controller
-                                                                            .xtzPrice),
+                                                                        .roundUpDollar(controller
+                                                                            .xtzPrice)
+                                                                    : controller
+                                                                        .fees
+                                                                        .value,
                                                             style: bodyMedium,
                                                           ))),
                                                     ],

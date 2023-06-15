@@ -131,7 +131,7 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
             return;
           }
         }
-
+        Get.back();
         await CommonFunctions.bottomSheet(AccountSwitch(
                 onNext: ({String senderAddress = ""}) async {},
                 title: "Claim NFT",
