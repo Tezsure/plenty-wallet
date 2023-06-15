@@ -17,21 +17,59 @@ class TokenAndXtzPriceHandler {
     // double xtzPrice = xtzPriceResponse['tezos']['usd'] as double;
     String tokenPrices = "";
     String tokenPricesAnalytics = "";
+
+    String xtzPrice = await HttpService.performGetRequest(
+        ServiceConfig.xtzPriceApi,
+        callSetupTimer: true);
+
     try {
-      tokenPrices = await HttpService.performGetRequest(
-          ServiceConfig.tezToolsApi,
-          callSetupTimer: true);
       tokenPricesAnalytics = await HttpService.performGetRequest(
           ServiceConfig.plentyAnalytics,
           callSetupTimer: true);
+
+      var thumbnailUris = jsonDecode(await HttpService.performGetRequest(
+          ServiceConfig.thumbnailUris,
+          callSetupTimer: true));
+
+      var modifyTokenPrices =
+          (jsonDecode(tokenPricesAnalytics) as List).map((e) {
+        var thumbnailUri = thumbnailUris[e['token']] ?? "";
+
+        if (thumbnailUri.isNotEmpty) {
+          thumbnailUri = thumbnailUri['thumbnailUri'] ?? "";
+        }
+
+        if (thumbnailUri.isNotEmpty) {
+          thumbnailUri = thumbnailUri.replaceAll(
+              "ipfs://", "https://cloudflare-ipfs.com/ipfs/");
+        }
+
+        return {
+          "symbol": e['token'],
+          "tokenAddress": e['contract'],
+          "decimals": e['decimals'],
+          "name": e['name'],
+          "type": e['standard'].toString().toLowerCase(),
+          "currentPrice": double.parse(e['price']['value'].toString()),
+          "tokenId": e['tokenId'] == null ? '0' : e['tokenId'].toString(),
+          "thumbnailUri": thumbnailUri,
+        };
+      }).toList();
+
+      tokenPrices = jsonEncode({
+        "contracts": modifyTokenPrices.toList(),
+      });
+
+      // tokenPrices = await HttpService.performGetRequest(
+      //     ServiceConfig.tezToolsApi,
+      //     callSetupTimer: true);
     } catch (e) {
       print(e);
     }
     args[0].send({
-      "xtzPrice": await HttpService.performGetRequest(ServiceConfig.xtzPriceApi,
-          callSetupTimer: true),
+      "xtzPrice": xtzPrice,
       "tokenPrices": tokenPrices,
-      "tokenPricesAnalytics": tokenPricesAnalytics,
+      // "tokenPricesAnalytics": tokenPricesAnalytics,
     });
   }
 
@@ -70,10 +108,10 @@ class TokenAndXtzPriceHandler {
       await ServiceConfig.localStorage.write(
           key: ServiceConfig.tokenPricesStorage, value: data['tokenPrices']);
     }
-    if (data['tokenPricesAnalytics']!.isNotEmpty) {
-      await ServiceConfig.localStorage.write(
-          key: ServiceConfig.tokenPricesAnalyticsStorage,
-          value: data['tokenPricesAnalytics']);
-    }
+    // if (data['tokenPricesAnalytics']!.isNotEmpty) {
+    //   await ServiceConfig.localStorage.write(
+    //       key: ServiceConfig.tokenPricesAnalyticsStorage,
+    //       value: data['tokenPricesAnalytics']);
+    // }
   }
 }

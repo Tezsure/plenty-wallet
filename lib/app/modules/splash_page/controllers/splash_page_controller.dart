@@ -38,14 +38,10 @@ class SplashPageController extends GetxController {
         ServiceConfig.ipfsUrl = (await RpcService.getIpfsUrl()).trim();
       } catch (e) {}
       try {
-        ServiceConfig.isIAFWidgetVisible =
-            (await getWidgetVisibility('IAF-widget-visiable'));
-        ServiceConfig.isTezQuakeWidgetVisible =
-            (await getWidgetVisibility('tezquakeaid-widget-visiable'));
-        ServiceConfig.isVCAWidgetVisible =
-            (await getWidgetVisibility('vca-website-widget-visiable'));
-        ServiceConfig.isTeztownWidgetVisible =
-            (await getWidgetVisibility('sprint-fever-visible'));
+        ServiceConfig.isIAFWidgetVisible = false;
+        ServiceConfig.isTezQuakeWidgetVisible = false;
+        ServiceConfig.isVCAWidgetVisible = false;
+        ServiceConfig.isTeztownWidgetVisible = false;
         ServiceConfig.isAdmireArtWidgetVisible =
             (await getWidgetVisibility('admire-art-visible'));
 

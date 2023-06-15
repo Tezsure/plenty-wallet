@@ -100,14 +100,16 @@ class TransactionBottomSheet extends StatelessWidget {
                 ),
               ),
               Obx(
-                () => Text(
-                  controller.isNFTPage.value
-                      ? 0.0.roundUpDollar(controller.xtzPrice.value)
-                      : double.parse(controller.amountUsdController.text)
-                          .roundUpDollar(controller.xtzPrice.value,
-                              price: true),
-                  style: bodyMedium,
-                ),
+                () => controller.selectedTokenModel!.currentPrice != 0
+                    ? Text(
+                        controller.isNFTPage.value
+                            ? 0.0.roundUpDollar(controller.xtzPrice.value)
+                            : double.parse(controller.amountUsdController.text)
+                                .roundUpDollar(controller.xtzPrice.value,
+                                    price: true),
+                        style: bodyMedium,
+                      )
+                    : const SizedBox(),
               )
             ],
           ),

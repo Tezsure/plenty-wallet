@@ -41,6 +41,8 @@ class ServiceConfig {
   static String plentyAnalytics =
       "https://api.analytics.plenty.network/analytics/tokens";
 
+  static String thumbnailUris = "https://config.mainnet.plenty.network/tokens";
+
   /// Xtz price coingecko api with endpoint
   static String coingeckoApi =
       "https://api.coingecko.com/api/v3/simple/price?ids=tezos&vs_currencies=usd";
@@ -150,8 +152,8 @@ class ServiceConfig {
   static const String audPriceStorage = "${storageName}_aud";
   static const String dayChangeStorage = "${storageName}_24_hr_change";
   static const String tokenPricesStorage = "${storageName}_token_prices";
-  static const String tokenPricesAnalyticsStorage =
-      "${storageName}_token_prices_analytics";
+  // static const String tokenPricesAnalyticsStorage =
+  //     "${storageName}_token_prices_analytics";
   // nfts storage name append with user address
   static const String nftStorage = "${storageName}_nfts";
 

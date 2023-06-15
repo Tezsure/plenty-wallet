@@ -262,22 +262,24 @@ class TokenAndNftPageView extends GetView<SendPageController> {
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 alignment: Alignment.center,
-                child: Text(
-                  (tokenModel.name == "Tezos"
-                          ? tokenModel.balance * controller.xtzPrice.value
-                          : tokenModel.balance *
-                              (tokenModel.currentPrice ??
-                                  0.0 * controller.xtzPrice.value))
-                      // (tokenModel.name == "Tezos"
-                      //         ? controller.xtzPrice.value
-                      //         : (tokenModel.currentPrice! *
-                      //             controller.xtzPrice.value))
-                      .roundUpDollar(controller.xtzPrice.value)
-                      .removeTrailing0,
-                  style: labelSmall.apply(
-                    color: Colors.white,
-                  ),
-                ),
+                child: tokenModel.currentPrice != 0
+                    ? Text(
+                        (tokenModel.name == "Tezos"
+                                ? tokenModel.balance * controller.xtzPrice.value
+                                : tokenModel.balance *
+                                    (tokenModel.currentPrice ??
+                                        0.0 * controller.xtzPrice.value))
+                            // (tokenModel.name == "Tezos"
+                            //         ? controller.xtzPrice.value
+                            //         : (tokenModel.currentPrice! *
+                            //             controller.xtzPrice.value))
+                            .roundUpDollar(controller.xtzPrice.value)
+                            .removeTrailing0,
+                        style: labelSmall.apply(
+                          color: Colors.white,
+                        ),
+                      )
+                    : const SizedBox(),
               ),
             ],
           ),

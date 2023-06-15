@@ -123,9 +123,8 @@ class AccountSummaryController extends GetxController {
     isLoading.value = true;
     String tokens =
         await DataHandlerService().renderService.getTokenPriceModelString();
-    String analyticsTokens = await DataHandlerService()
-        .renderService
-        .getTokenPriceModelAnalyticsString();
+    String? analyticsTokens =
+        await DataHandlerService().renderService.getTokenPrice();
     await UserStorageService()
         .getUserTokensString(userAddress: selectedAccount.value.publicKeyHash!)
         .then(
@@ -268,9 +267,10 @@ class AccountSummaryController extends GetxController {
     List<TokenPriceModel> tokensList = jsonDecode(args[3])["contracts"]
         .map<TokenPriceModel>((e) => TokenPriceModel.fromJson(e))
         .toList();
-    List<TokenPriceModel> tokensListAnalytics = jsonDecode(args[4])
+
+    List<TokenPriceModel> tokensListAnalytics = jsonDecode(args[4])['contracts']
         .map<TokenPriceModel>((e) =>
-            TokenPriceModel.fromJson(e, isAnalytics: true, xtzPrice: args[1]))
+            TokenPriceModel.fromJson(e, isAnalytics: false, xtzPrice: args[1]))
         .toList();
     // add tokensListAnalytics to tokensList if tokenAddress and tokenId is not present
     tokensListAnalytics.forEach((element) {

@@ -4,10 +4,8 @@ class TokenPriceModel {
   int? decimals;
   String? name;
   String? thumbnailUri;
-
   String? type;
   double? currentPrice;
-
   String? tokenId;
 
   TokenPriceModel({
@@ -29,21 +27,16 @@ class TokenPriceModel {
       decimals = json['decimals'];
       name = json['name'];
       thumbnailUri = json['thumbnailUri'];
-
       type = json['type'];
       currentPrice = double.parse(json['currentPrice'].toString());
-
       tokenId = json['tokenId'] == null ? '0' : json['tokenId'].toString();
     } else {
       symbol = json['token'];
       tokenAddress = json['contract'];
       decimals = json['decimals'];
       name = json['name'];
-      //thumbnailUri = json['thumbnailUri'];
-
       type = json['standard'].toString().toLowerCase();
       currentPrice = double.parse(json['price']['value'].toString()) / xtzPrice;
-
       tokenId = json['tokenId'] == null ? '0' : json['tokenId'].toString();
     }
   }

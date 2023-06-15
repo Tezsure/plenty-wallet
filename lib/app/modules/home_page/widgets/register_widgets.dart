@@ -45,11 +45,18 @@ final List<Widget> registeredWidgets = [
     ),
   ),
   homeWidgetsGap,
-  if (ServiceConfig.isIAFWidgetVisible)
+
+  if (ServiceConfig.isAdmireArtWidgetVisible)
+    Padding(
+        padding: EdgeInsets.symmetric(horizontal: 22.arP),
+        child: const AdmireArt()),
+  if (ServiceConfig.isAdmireArtWidgetVisible) homeWidgetsGap,
+
+/*   if (ServiceConfig.isIAFWidgetVisible)
     Padding(
         padding: EdgeInsets.symmetric(horizontal: 22.arP),
         child: const IAFWidget()),
-  if (ServiceConfig.isIAFWidgetVisible) homeWidgetsGap,
+  if (ServiceConfig.isIAFWidgetVisible) homeWidgetsGap, */
   //const TezosPriceWidget(),
   //const MyNFTwidget(),
   ...(() {
@@ -67,17 +74,17 @@ final List<Widget> registeredWidgets = [
     }
     return widgets;
   }()),
-  if (ServiceConfig.isTezQuakeWidgetVisible)
+/*   if (ServiceConfig.isTezQuakeWidgetVisible)
     Padding(
         padding: EdgeInsets.symmetric(horizontal: 22.arP),
         child: const TezQuake()),
-  if (ServiceConfig.isTezQuakeWidgetVisible) homeWidgetsGap,
-  Padding(
-      padding: EdgeInsets.symmetric(horizontal: 22.arP), child: VCAWidget()),
+  if (ServiceConfig.isTezQuakeWidgetVisible) homeWidgetsGap, */
+/*   Padding(
+      padding: EdgeInsets.symmetric(horizontal: 22.arP), child: VCAWidget()), */
 
-  Padding(
+/*   Padding(
       padding: EdgeInsets.symmetric(horizontal: 22.arP),
-      child: TeztownWidget()),
+      child: TeztownWidget()), */
 
   const NftGalleryWidget(),
   homeWidgetsGap,
@@ -116,11 +123,6 @@ final List<Widget> registeredWidgets = [
 
   homeWidgetsGap,
 
-  if (ServiceConfig.isAdmireArtWidgetVisible)
-    Padding(
-        padding: EdgeInsets.symmetric(horizontal: 22.arP),
-        child: const AdmireArt()),
-  if (ServiceConfig.isAdmireArtWidgetVisible) homeWidgetsGap,
   // const VcaGalleryWidget(),
   // homeWidgetsGap,
 
