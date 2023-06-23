@@ -1,3 +1,4 @@
+import 'package:moongate_flutter_sdk/library.dart';
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
@@ -73,6 +74,8 @@ void main() async {
 /*     await FirebaseCrashlytics.instance
         .setCrashlyticsCollectionEnabled(kReleaseMode); */
 
+    MoonGateConfig.setApiKey("itu9sgo42ig0hhkp5xvfk");
+
     NaanAnalytics().setupAnalytics();
 /*     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError; */
 /*     PlatformDispatcher.instance.onError = (error, stack) {
@@ -84,7 +87,7 @@ void main() async {
     //FirebaseCrashlytics.instance.crash();
     try {
       await Instabug.init(
-        token: '74da8bcfe330c611f60eaee532e451db',
+        token: moonGateKey,
         invocationEvents: [InvocationEvent.shake],
       );
     } catch (e) {

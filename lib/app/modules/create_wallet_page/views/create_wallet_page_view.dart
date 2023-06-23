@@ -235,8 +235,17 @@ class SocialLoginButton extends StatelessWidget {
       // onTap: onTap,
       child: CircleAvatar(
         radius: 1.width / 18,
-        backgroundColor: Colors.transparent,
-        child: SvgPicture.asset("${PathConst.SVG}$socialIconPath"),
+        backgroundColor:
+            socialIconPath.endsWith(".svg") ? Colors.transparent : Colors.white,
+        child: socialIconPath.endsWith(".svg")
+            ? SvgPicture.asset("${PathConst.SVG}$socialIconPath")
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.asset(
+                  "${PathConst.HOME_PAGE}$socialIconPath",
+                  width: 1.width / 12,
+                ),
+              ),
       ),
     );
   }

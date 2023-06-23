@@ -11,6 +11,7 @@
 #include <local_auth_windows/local_auth_plugin.h>
 #include <permission_handler_windows/permission_handler_windows_plugin.h>
 #include <share_plus/share_plus_windows_plugin_c_api.h>
+#include <siwe_flutter/siwe_flutter_plugin_c_api.h>
 #include <sodium_libs/sodium_libs_plugin_c_api.h>
 #include <url_launcher_windows/url_launcher_windows.h>
 
@@ -25,6 +26,8 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("PermissionHandlerWindowsPlugin"));
   SharePlusWindowsPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("SharePlusWindowsPluginCApi"));
+  SiweFlutterPluginCApiRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("SiweFlutterPluginCApi"));
   SodiumLibsPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("SodiumLibsPluginCApi"));
   UrlLauncherWindowsRegisterWithRegistrar(

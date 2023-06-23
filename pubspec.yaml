@@ -54,6 +54,7 @@ dependencies:
 
   card_swiper:
     ^2.0.4
+  moongate_flutter_sdk: ^0.0.2
 
     # path: packages/modal_bottom_sheet/modal_bottom_sheet
 

@@ -217,6 +217,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  cryptography:
+    dependency: transitive
+    description:
+      name: cryptography
+      sha256: df156c5109286340817d21fa7b62f9140f17915077127dd70f8bd7a2a0997a35
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.0"
   csslib:
     dependency: transitive
     description:
@@ -241,6 +249,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  eip1559:
+    dependency: transitive
+    description:
+      name: eip1559
+      sha256: de454d6321bd753eb79116e9ec4f8df20895c2e97f9a3839a032f3a728985516
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
+  eip55:
+    dependency: transitive
+    description:
+      name: eip55
+      sha256: "213a9b86add87a5216328e8494b0ab836e401210c4d55eb5e521bd39e39169e1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   fake_async:
     dependency: transitive
     description:
@@ -504,6 +528,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_webview_plugin:
+    dependency: transitive
+    description:
+      name: flutter_webview_plugin
+      sha256: ec410b10822b06432e11f9680b319609d6f34bcdabb31fcc4990ac8a2aaf9ff0
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   flutter_widget_from_html_core:
     dependency: "direct main"
     description:
@@ -680,6 +712,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  json_rpc_2:
+    dependency: transitive
+    description:
+      name: json_rpc_2
+      sha256: "5e469bffa23899edacb7b22787780068d650b106a21c76db3c49218ab7ca447e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
+  jwt_decode:
+    dependency: transitive
+    description:
+      name: jwt_decode
+      sha256: d2e9f68c052b2225130977429d30f187aa1981d789c76ad104a32243cfdebfbb
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   lints:
     dependency: transitive
     description:
@@ -783,6 +831,22 @@ packages:
       relative: true
     source: path
     version: "3.0.0-pre"
+  moongate_flutter_sdk:
+    dependency: "direct main"
+    description:
+      name: moongate_flutter_sdk
+      sha256: "2841bfbda48d5cf5dcade0e755e98400d9255b33c1a23b7877e6ee511bb7651a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  ntcdcrypto:
+    dependency: transitive
+    description:
+      name: ntcdcrypto
+      sha256: c89e721bba962599783bb42fe8db64f876d079a747856823872883c42bcfca99
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   octo_image:
     dependency: transitive
     description:
@@ -1023,6 +1087,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  sec:
+    dependency: transitive
+    description:
+      name: sec
+      sha256: "8bbd56df884502192a441b5f5d667265498f2f8728a282beccd9db79e215f379"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   secp256k1:
     dependency: transitive
     description:
@@ -1031,6 +1103,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
+  sha3:
+    dependency: transitive
+    description:
+      name: sha3
+      sha256: efa0ad944b950965e7014ab02f407f0a62a64626259983af0e2f98cd39a73a8a
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   share_plus:
     dependency: "direct main"
     description:
@@ -1063,6 +1143,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  siwe_flutter:
+    dependency: transitive
+    description:
+      name: siwe_flutter
+      sha256: f57b464c89f995a42f8dfcba302dbbad1bdbacb59fc0822af5decf5c7a60a075
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.13"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1108,6 +1196,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.5"
+  sss256:
+    dependency: transitive
+    description:
+      name: sss256
+      sha256: "3fd7a7a1d609f2f960daa58b73b5fe86c5c726c72fff10b625ca348b0355da6d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   stack_trace:
     dependency: transitive
     description:
@@ -1124,6 +1220,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  stream_transform:
+    dependency: transitive
+    description:
+      name: stream_transform
+      sha256: "14a00e794c7c11aa145a170587321aedce29769c08d7f58b1d141da75e3b1c6f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   string_scanner:
     dependency: transitive
     description:
@@ -1300,6 +1404,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  wallet:
+    dependency: transitive
+    description:
+      name: wallet
+      sha256: "569c91c2af13a9e1119c001f9c09218eccf3f383eb8d15ba13a5b558010c1bc0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.12+1"
+  walletconnect_dart:
+    dependency: transitive
+    description:
+      name: walletconnect_dart
+      sha256: "6d69d3f7ed43b4a111458da0ba078f4ea291ff11328068c9cbf5cab3bd86593f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.11"
+  walletconnect_qrcode_modal_dart:
+    dependency: transitive
+    description:
+      name: walletconnect_qrcode_modal_dart
+      sha256: "39c2ff751be194852403f9d3dc11b63f1ae6132334ffb6f3a2b9604d63154a2b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.2"
   web3auth_flutter:
     dependency: "direct main"
     description:
@@ -1308,6 +1436,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
+  web3dart:
+    dependency: transitive
+    description:
+      name: web3dart
+      sha256: "0b96223a6b284e3146e65dc842ded139eca68a85c4ab79c5ba1a73284927d3cd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.6.1"
+  web_socket_channel:
+    dependency: transitive
+    description:
+      name: web_socket_channel
+      sha256: d88238e5eac9a42bb43ca4e721edba3c08c6354d4a53063afaa568516217621b
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
   win32:
     dependency: transitive
     description:

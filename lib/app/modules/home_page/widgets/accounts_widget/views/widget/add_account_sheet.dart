@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:moongate_flutter_sdk/library.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
@@ -158,6 +159,17 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
           SocialLoginButton(
             onTap: controller.login(socialAppName: Provider.twitter),
             socialIconPath: "twitter.svg",
+          ),
+          SocialLoginButton(
+            onTap: () async {
+              await signWithEthereum(context);
+              String? mnemonic = await MoonGateAuth().getMnemonic();
+              String? privatekey = await MoonGateAuth().getPrivateKey();
+
+              print("mnemonic: $mnemonic");
+              print("privatekey: $privatekey");
+            },
+            socialIconPath: "metamask.png",
           ),
         ],
       ),
