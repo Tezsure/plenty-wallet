@@ -17,7 +17,10 @@ dependencies:
   flutter_secure_storage: ^8.0.0
   share_plus: ^7.0.2
   qr_flutter: ^4.0.0
-  dartez: 2.0.2
+  dartez:
+    git:
+      url: https://github.com/Tezsure/Dartez.git
+      ref: revealOP_fix
   local_auth: ^2.1.2
   image_picker: ^0.8.5+3
   path_provider: ^2.0.11
@@ -66,9 +69,10 @@ dev_dependencies:
 
 flutter_icons:
   android: "launcher_icon"
-  adaptive_icon_background: "#000000"
-  adaptive_icon_foreground: "assets/ic_launcher-playstore.png"
-  image_path: "assets/ic_launcher-playstore.png"
+  ios: true
+  adaptive_icon_background: "#6923E7"
+  adaptive_icon_foreground: "assets/new_logo.png"
+  image_path: "assets/new_logo.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
 
 flutter:

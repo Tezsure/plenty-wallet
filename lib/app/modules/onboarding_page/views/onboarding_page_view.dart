@@ -29,7 +29,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                   //   return SafeArea(
                   //     child: AnimatedContainer(
                   //       margin: EdgeInsets.symmetric(horizontal: 32.arP),
-    
+
                   //       duration: const Duration(milliseconds: 1000),
                   //       alignment: Alignment.bottomLeft,
                   //       // alignment: const Alignment(-0.1, 0.6),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -126,11 +125,16 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                             // alignment: const Alignment(-0.1, 0.6),
                             child: Text(
                               widget.controller.onboardingMessages.values
-                                  .elementAt(widget.controller.pageIndex()).tr,
+                                  .elementAt(widget.controller.pageIndex())
+                                  .tr,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontFamily: 'Space Grotesk',
-                                color: Colors.white,
+                                color: widget.controller.pageIndex() == 0 ||
+                                        widget.controller.pageIndex() == 3 ||
+                                        widget.controller.pageIndex() == 4
+                                    ? Colors.black
+                                    : Colors.white,
                                 fontSize: 40.arP,
                                 fontWeight: FontWeight.w400,
                               ),

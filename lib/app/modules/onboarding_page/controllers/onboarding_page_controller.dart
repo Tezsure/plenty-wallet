@@ -13,11 +13,11 @@ class OnboardingPageController extends GetxController {
   ); // PageView Pagecontroller
 
   late final List<Color> _colorList = [
-    const Color(0xffFFC93E),
-    const Color(0xff9961EC),
-    const Color(0xffFD3289),
-    const Color(0xffFA6163),
-    const Color(0xffF77A3A),
+    const Color(0xffE3E723),
+    const Color(0xff6923E7),
+    const Color(0xffE723A2),
+    const Color(0xff23E767),
+    const Color(0xff23CAE8),
     // const Color(0xffF77A3A),
   ]; // Onboarding screens background colors
 
