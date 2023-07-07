@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/beta_tag_widget/beta_tag_sheet.dart';
@@ -8,6 +9,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart
 import 'package:naan_wallet/utils/colors/colors.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
+import 'package:naan_wallet/utils/constants/path_const.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -66,7 +68,7 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("naan version".tr,
+                      Text("Plenty wallet version".tr,
                           style: bodySmall.copyWith(
                               color: ColorConst.NeutralVariant.shade40)),
                       Text("$version ${Platform.isAndroid ? "(beta)" : ""}",
@@ -89,7 +91,7 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
       padding: EdgeInsets.all(AppConstant.homeWidgetDimension / 11),
       height: AppConstant.homeWidgetDimension / 2.5,
       width: AppConstant.homeWidgetDimension / 2.5,
-      child: Image.asset("assets/naan_logo.png"),
+      child: SvgPicture.asset("${PathConst.SVG}plenty_wallet_black.svg"),
     );
   }
 }

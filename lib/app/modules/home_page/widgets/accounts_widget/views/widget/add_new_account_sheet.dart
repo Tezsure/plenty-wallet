@@ -164,7 +164,7 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
                         ),
                         0.015.hspace,
                         Text(
-                          "Start using naan".tr,
+                          "Start using plenty wallet".tr,
                           style: titleSmall.copyWith(
                               fontSize: 14.aR,
                               color: controller.phrase.isEmpty ||

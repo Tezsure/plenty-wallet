@@ -18,6 +18,15 @@ LinearGradient appleBlue = const LinearGradient(
   ],
 );
 
+LinearGradient mailChainGradient = const LinearGradient(
+  begin: Alignment.bottomCenter,
+  end: Alignment.topRight,
+  colors: [
+    Color(0xff8D60A0),
+    Color(0xffF87247),
+  ],
+);
+
 LinearGradient lightBlue = const LinearGradient(
   begin: Alignment.bottomLeft,
   end: Alignment.topRight,

@@ -69,9 +69,9 @@ class BuyNftSuccessSheet extends StatelessWidget {
                   borderWidth: 1,
                   onPressed: () {
                     Share.share(
-                        "${"👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone.".tr} ${AppConstant.naanWebsite}");
+                        "${"👋 Hey friend! You should download plenty wallet, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone.".tr} ${AppConstant.naanWebsite}");
                   },
-                  title: "Share naan",
+                  title: "Share plenty wallet",
                 ),
                 0.018.vspace
               ],

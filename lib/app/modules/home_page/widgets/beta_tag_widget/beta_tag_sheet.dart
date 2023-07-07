@@ -57,14 +57,14 @@ class _BetaTagSheetState extends State<BetaTagSheet> {
               // 0.028.vspace,
               _buildIcon(),
               Text(
-                "Your naan is in Beta".tr,
+                "Your plenty wallet is in Beta".tr,
                 style: headlineSmall,
               ),
               0.02.vspace,
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                    "Welcome to the naan beta! By using the beta version of our product, you agree that:"
+                    "Welcome to the plenty wallet beta! By using the beta version of our product, you agree that:"
                         .tr,
                     style: labelMedium.copyWith(
                         color: ColorConst.textGrey1,

@@ -50,11 +50,11 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                   Obx(() => AnimatedSmoothIndicator(
                         activeIndex: controller.pageIndex(),
                         count: controller.onboardingMessages.keys.length,
-                        effect: const ExpandingDotsEffect(
+                        effect: ExpandingDotsEffect(
                           dotHeight: 8,
                           dotWidth: 8,
-                          activeDotColor: Colors.white,
-                          dotColor: Colors.white,
+                          activeDotColor: Colors.white.withOpacity(0.5),
+                          dotColor: Colors.white.withOpacity(0.5),
                         ),
                       )),
                   0.0.vspace,
