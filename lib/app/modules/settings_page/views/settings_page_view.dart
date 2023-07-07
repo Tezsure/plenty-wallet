@@ -310,8 +310,8 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                       settings: [
                                         _settingOption(
                                           onTap: () => Share.share(
-                                              "🔥🔥🔥 Hey friend! You need to check out plenty wallet - it's my favorite web3 app for all things Tezos. With naan, you can easily buy NFTs with your credit card, discover trusted web3 apps, and even explore the art collections of other collectors. Trust me, you won't be disappointed. Download it now at https://naan.app 🚀🚀🚀"),
-                                          title: "Share plenty wallet",
+                                              "🔥🔥🔥 Hey friend! You need to check out Plenty Wallet - it's my favorite web3 app for all things Tezos. With naan, you can easily buy NFTs with your credit card, discover trusted web3 apps, and even explore the art collections of other collectors. Trust me, you won't be disappointed. Download it now at https://naan.app 🚀🚀🚀"),
+                                          title: "Share Plenty Wallet",
                                           svgPath:
                                               "${PathConst.SETTINGS_PAGE.SVG}plenty_wallet.svg",
                                         ),
@@ -329,7 +329,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                                 await controller.inAppReview
                                                     .isAvailable();
                                           },
-                                          title: "Rate plenty wallet",
+                                          title: "Rate Plenty Wallet",
                                           svgPath:
                                               "${PathConst.SETTINGS_PAGE.SVG}star.svg",
                                         ),
@@ -342,7 +342,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                         ),
                                         _settingOption(
                                           onTap: () => CommonFunctions.launchURL(
-                                              "https://discord.gg/wpcNRsBbxy"),
+                                              "https://discord.gg/plentynetwork"),
                                           title: "Join our Discord",
                                           svgPath:
                                               "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
@@ -386,7 +386,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         ),
         0.01.vspace,
         Text(
-          "Version 2.0.12 ${Platform.isAndroid ? "(beta)" : ""}",
+          "Version 2.1.0 ${Platform.isAndroid ? "(beta)" : ""}",
           style: labelSmall.copyWith(color: ColorConst.NeutralVariant.shade60),
         )
       ],
@@ -606,7 +606,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         child: Row(
           children: [
             Text(
-              "Reset plenty wallet".tr,
+              "Reset Plenty Wallet".tr,
               style: labelMedium.apply(color: ColorConst.Error.shade60),
             ),
             const Spacer(),

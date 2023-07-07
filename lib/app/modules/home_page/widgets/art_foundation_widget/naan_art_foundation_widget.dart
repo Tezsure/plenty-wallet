@@ -82,7 +82,7 @@ class NaanArtFoundationWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("naan Official".tr, style: labelMedium),
+                      Text("Plenty Wallet Official".tr, style: labelMedium),
                       Text("Art Collection".tr, style: labelMedium),
                     ],
                   ),

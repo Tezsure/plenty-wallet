@@ -65,7 +65,7 @@ class FeesSummarySheet extends StatelessWidget {
                           .roundUpDollar(controller.xtzPrice.value,
                               decimals: 4)),
               _buildFeeTitle(
-                  subtitle: "Fee charged by plenty wallet.",
+                  subtitle: "Fee charged by Plenty Wallet.",
                   title: "Interface fee",
                   trailing: controller.fees["interfaceFee"] == "calculating..."
                       ? "calculating..."

@@ -22,7 +22,7 @@ class BetaTagWidget extends StatefulWidget {
 }
 
 class _BetaTagWidgetState extends State<BetaTagWidget> {
-  String version = "2.0.12";
+  String version = "2.1.0";
   @override
   void initState() {
     PackageInfo.fromPlatform().then((packageInfo) {
@@ -54,7 +54,7 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
             fit: StackFit.expand,
             children: [
               Align(
-                alignment: Alignment.topLeft,
+                alignment: Alignment.topRight,
                 child: Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: 16.arP, vertical: 16.arP),
@@ -68,7 +68,7 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("Plenty wallet version".tr,
+                      Text("Plenty Wallet version".tr,
                           style: bodySmall.copyWith(
                               color: ColorConst.NeutralVariant.shade40)),
                       Text("$version ${Platform.isAndroid ? "(beta)" : ""}",
@@ -87,11 +87,11 @@ class _BetaTagWidgetState extends State<BetaTagWidget> {
   Widget _buildIcon() {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.black, borderRadius: BorderRadius.circular(11.arP)),
-      padding: EdgeInsets.all(AppConstant.homeWidgetDimension / 11),
-      height: AppConstant.homeWidgetDimension / 2.5,
-      width: AppConstant.homeWidgetDimension / 2.5,
-      child: SvgPicture.asset("${PathConst.SVG}plenty_wallet_black.svg"),
+          color: Colors.white, borderRadius: BorderRadius.circular(8.arP)),
+      padding: EdgeInsets.all(4.arP),
+      height: AppConstant.homeWidgetDimension / 6,
+      width: AppConstant.homeWidgetDimension / 6,
+      child: SvgPicture.asset("${PathConst.SVG}plenty_wallet.svg"),
     );
   }
 }

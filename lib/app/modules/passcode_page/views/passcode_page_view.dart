@@ -95,7 +95,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
                       (controller.isPassCodeWrong.value
                               ? "Passcode doesn’t match"
                               : controller.confirmPasscode.value.length < 6
-                                  ? "Protect your plenty wallet by creating a passcode"
+                                  ? "Protect your Plenty Wallet by creating a passcode"
                                   : "Re-enter your passcode")
                           .tr,
                       style: bodySmall.apply(

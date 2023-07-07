@@ -29,8 +29,8 @@
   		</intent>
 	</queries>
 	<application tools:replace="android:label,android:roundIcon" android:name="${applicationName}"
-		android:requestLegacyExternalStorage="true" android:label="naan"
-		android:icon="@mipmap/launcher_icon" android:largeHeap="true"
+		android:requestLegacyExternalStorage="true" android:label="Plenty Wallet"
+		android:icon="@mipmap/ic_launcher" android:largeHeap="true"
 		android:roundIcon="@mipmap/ic_launcher" android:usesCleartextTraffic="true">
 		<activity android:name=".MainActivity" android:exported="true"
 			android:launchMode="singleTop" android:theme="@style/LaunchTheme"

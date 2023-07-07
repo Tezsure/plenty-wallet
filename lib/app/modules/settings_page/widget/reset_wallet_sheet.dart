@@ -29,12 +29,12 @@ class ResetWalletBottomSheet extends StatelessWidget {
     return NaanBottomSheet(
       // blurRadius: 5.arP,
       height: isWalletBackup ? 325.arP : 400.arP,
-      title: "Reset plenty wallet",
+      title: "Reset Plenty Wallet",
       bottomSheetWidgets: [
         // const Spacer(),
         Center(
           child: Text(
-            'You can lose your funds forever if you\ndidn’t make a backup. Are you sure you\nwant to reset plenty wallet?'
+            'You can lose your funds forever if you\ndidn’t make a backup. Are you sure you\nwant to reset Plenty Wallet?'
                 .tr,
             style: bodySmall.copyWith(color: ColorConst.textGrey1),
             textAlign: TextAlign.center,
@@ -62,7 +62,7 @@ class ResetWalletBottomSheet extends StatelessWidget {
                           ),
                     0.02.hspace,
                     Text(
-                      "Hold to reset plenty wallet".tr,
+                      "Hold to reset Plenty Wallet".tr,
                       style: labelMedium.apply(color: ColorConst.Error.shade60),
                     ),
                   ],

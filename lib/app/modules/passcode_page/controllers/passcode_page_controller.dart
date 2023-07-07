@@ -83,7 +83,7 @@ class PasscodePageController extends GetxController {
                     Routes.LOADING_PAGE,
                   ]
                 : [
-                    'assets/create_wallet/lottie/wallet_success.json',
+                    'assets/create_wallet/lottie/loading_animation.json',
                     previousRoute,
                     Routes.HOME_PAGE,
                   ]);

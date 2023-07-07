@@ -37,7 +37,7 @@ class Web3Auth {
           ? Uri.parse(redirectUriIos)
           : Uri.parse(redirectUriAndroid),
       whiteLabel: WhiteLabelData(
-          dark: true, name: "plenty wallet Social Login", theme: themeMap),
+          dark: true, name: "Plenty Wallet Social Login", theme: themeMap),
     );
     await Web3AuthFlutter.init(web3authOptions);
   }

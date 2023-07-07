@@ -134,7 +134,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                   if (controller.previousRoute == Routes.CREATE_WALLET_PAGE ||
                       controller.previousRoute == Routes.IMPORT_WALLET_PAGE) {
                     Get.toNamed(Routes.LOADING_PAGE, arguments: [
-                      'assets/create_wallet/lottie/wallet_success.json',
+                      'assets/create_wallet/lottie/loading_animation.json',
                       controller.previousRoute,
                       Routes.HOME_PAGE,
                     ]);
@@ -143,7 +143,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                   //     Routes.HOME_PAGE)
                   {
                     Get.toNamed(Routes.LOADING_PAGE, arguments: [
-                      'assets/create_wallet/lottie/wallet_success.json',
+                      'assets/create_wallet/lottie/loading_animation.json',
                       Routes.IMPORT_WALLET_PAGE,
                       null,
                     ]);
@@ -151,7 +151,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                   // } else if (controller.previousRoute ==
                   //     Routes.ACCOUNT_SUMMARY) {
                   //   Get.toNamed(Routes.LOADING_PAGE, arguments: [
-                  //     'assets/create_wallet/lottie/wallet_success.json',
+                  //     'assets/create_wallet/lottie/loading_animation.json',
                   //     Routes.IMPORT_WALLET_PAGE,
                   //     null,
                   //   ]);
@@ -170,7 +170,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     ),
                     0.015.hspace,
                     Text(
-                      "Start using plenty wallet".tr,
+                      "Start using Plenty Wallet".tr,
                       style: titleSmall.copyWith(
                           color: !controller.isContiuneButtonEnable.value
                               ? ColorConst.textGrey1
@@ -191,7 +191,7 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
                     ),
                     0.02.hspace,
                     Text(
-                      "Start using plenty wallet".tr,
+                      "Start using Plenty Wallet".tr,
                       style: titleSmall.copyWith(
                           color: !controller.isContiuneButtonEnable.value
                               ? ColorConst.textGrey1

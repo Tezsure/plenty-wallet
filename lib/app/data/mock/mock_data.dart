@@ -11,7 +11,7 @@ class MockData {
     "What is a Public Key?":
         "A public key is a unique code generated from your private key. It's used to receive funds from other users and is often represented as a string of numbers and letters. A public key can be safely shared with others and is used to identify your wallet for incoming transactions. The public key and private key work together to ensure the secure transfer of funds within a cryptocurrency network.",
     "Can I switch from my existing wallet app like Temple, Kukai, Airgap, etc.?":
-        "Yes, you can switch from your existing wallet or use multiple wallet apps at the same time by using the same secret phrase or private key. You can import your private key into plenty wallet by locating the 12 word (or 24 word) recovery phrase in the settings menu of your current wallet app.",
+        "Yes, you can switch from your existing wallet or use multiple wallet apps at the same time by using the same secret phrase or private key. You can import your private key into Plenty Wallet by locating the 12 word (or 24 word) recovery phrase in the settings menu of your current wallet app.",
     "How do I protect against losing access to my funds?":
         "To protect your funds, you should keep your secret phrase and private key safe and secure, store multiple backups of your secret phrase (preferably encrypted) in different locations, regularly transfer your funds to new accounts, and stay informed about best practices for keeping your cryptocurrency and NFTs secure.",
     "What is a Watch Address?":

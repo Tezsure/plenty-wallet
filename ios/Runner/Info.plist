@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Plenty wallet</string>
+	<string>Plenty Wallet</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -47,14 +47,14 @@
 		<string>_dartobservatory._tcp</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>Plenty wallet requires access to camera for scanning QR</string>
+	<string>Plenty Wallet requires access to camera for scanning QR</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>$(PRODUCT_NAME) uses the local network to discover Cast-enabled devices on your WiFi
 			network.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Plenty wallet requires acess to microphone.</string>
+	<string>Plenty Wallet requires acess to microphone.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app requires read and write access to the photo library to upload account
 			picture</string>

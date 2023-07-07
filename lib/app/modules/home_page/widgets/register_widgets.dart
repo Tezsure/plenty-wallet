@@ -145,17 +145,6 @@ final List<Widget> registeredWidgets = [
       padding: EdgeInsets.symmetric(horizontal: 22.arP),
       child: const DiscoverEvents()),
   homeWidgetsGap,
-  Container(
-    padding: EdgeInsets.symmetric(horizontal: 22.arP),
-    height: AppConstant.homeWidgetDimension,
-    child: Row(
-      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        BetaTagWidget(),
-      ],
-    ),
-  ),
-  homeWidgetsGap,
 
   const ComingSoonWidget()
 

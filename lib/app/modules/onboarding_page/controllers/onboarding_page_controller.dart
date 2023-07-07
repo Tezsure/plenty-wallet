@@ -31,7 +31,7 @@ class OnboardingPageController extends GetxController {
     'assets/onboarding_page/lottie/Onboarding_4.json':
         "Discover web3\nin the Tezos\necosystem",
     'assets/onboarding_page/lottie/Onboarding_6.json':
-        "Collect NFTs\nwith your credit card and stable coins"
+        "Collect NFTs\nwith your credit card"
     // 'assets/onboarding_page/lottie/Onboarding_5.json':
     //     "Earn high APR\nwith Liquidity\nBaking",
   }; // Onboarding screens lottie animation paths & messages

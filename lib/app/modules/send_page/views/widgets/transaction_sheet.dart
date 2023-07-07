@@ -423,11 +423,11 @@ class TransactionBottomSheet extends StatelessWidget {
                         }),
                     0.02.vspace,
                     SolidButton(
-                      title: 'Share plenty wallet',
+                      title: 'Share Plenty Wallet',
                       textColor: Colors.white,
                       onPressed: () {
                         Share.share(
-                            "👋 Hey friend! You should download plenty wallet, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}");
+                            "👋 Hey friend! You should download Plenty Wallet, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}");
                       },
                     ),
                   ],
