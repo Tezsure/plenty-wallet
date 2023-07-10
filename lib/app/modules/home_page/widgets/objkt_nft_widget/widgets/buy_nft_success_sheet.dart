@@ -53,10 +53,10 @@ class BuyNftSuccessSheet extends StatelessWidget {
                 ),
                 0.03.vspace,
                 SolidButton(
-                  borderColor: ColorConst.Neutral.shade90,
+                  borderColor: ColorConst.Secondary,
                   active: true,
                   borderWidth: 1,
-                  textColor: ColorConst.Neutral.shade90,
+                  textColor: ColorConst.Secondary,
                   primaryColor: Colors.transparent,
                   onPressed: () {
                     Get.back();

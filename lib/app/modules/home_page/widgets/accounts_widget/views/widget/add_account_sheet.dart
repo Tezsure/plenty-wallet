@@ -82,8 +82,8 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
               SolidButton(
                 width: 1.width - 64.arP,
                 borderWidth: 1.5,
-                borderColor: ColorConst.Secondary.shade70,
-                textColor: ColorConst.Secondary.shade70,
+                borderColor: ColorConst.Secondary,
+                textColor: ColorConst.Secondary,
                 primaryColor: Colors.transparent,
                 onPressed: () {
                   Get.back();

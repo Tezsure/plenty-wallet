@@ -159,7 +159,7 @@ class GradConst {
 class ColorConst {
   ColorConst._();
   static const int _Primary = 0xFF6923E7;
-  static const int _Secondary = 0xFFE723A2;
+  static const int _Secondary = 0xFFC3A7F5;
   static const int _Tertiary = 0xFFE3E723;
   static const int _Error = 0xFFBA1A1A;
   static const int _Neutral = 0xFF07030C;
