@@ -28,154 +28,160 @@ class DelegateBakerTile extends GetView<DelegateWidgetController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 0.01.height),
-      // width: 338,
-      // height: 125.arP,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: const Color(0xff958e99).withOpacity(0.2),
-        border: Border.all(
-          color: Colors.transparent,
-          width: 2,
-        ),
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: 0.03.width,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          0.0075.vspace,
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: 20,
-                child: ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl: OpreationRequestController.iconBuilder(
-                        baker.logo, baker.address),
-                    fit: BoxFit.fill,
-                    width: 40,
-                    height: 40,
-                    maxWidthDiskCache: 80,
-                    maxHeightDiskCache: 80,
-                  ),
-                ),
+    return baker.freespaceMin!.startsWith("-")
+        ? Container()
+        : Container(
+            margin: EdgeInsets.only(bottom: 0.01.height),
+            // width: 338,
+            // height: 125.arP,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: const Color(0xff958e99).withOpacity(0.2),
+              border: Border.all(
+                color: Colors.transparent,
+                width: 2,
               ),
-              0.02.hspace,
-              Text(
-                baker.name ?? baker.address?.tz1Short() ?? "",
-                style: labelMedium,
-              ),
-              0.015.hspace,
-              IconButton(
-                  alignment: Alignment.centerLeft,
-                  iconSize: 16.aR,
-                  padding: EdgeInsets.zero,
-                  onPressed: () {
-                    CommonFunctions.bottomSheet(
-                      const DappBrowserView(),
-                      fullscreen: true,
-                      settings: RouteSettings(
-                          arguments: 'https://tzkt.io/${baker.address}'),
-                    );
-                  },
-                  icon: SvgPicture.asset(
-                    '${PathConst.SETTINGS_PAGE}svg/external-link.svg',
-                    color: ColorConst.textGrey1,
-                    fit: BoxFit.fill,
-                    height: 16.aR,
-                  )),
-              const Spacer(),
-              if (redelegate)
-                BouncingWidget(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: ColorConst.Primary,
-                          borderRadius: BorderRadius.circular(24.arP)),
-                      padding: EdgeInsets.symmetric(
-                          vertical: 4.arP, horizontal: 8.arP),
-                      child: Text(
-                        "Redelegate".tr,
-                        style: labelSmall.copyWith(fontWeight: FontWeight.bold),
+            ),
+            padding: EdgeInsets.symmetric(
+              horizontal: 0.03.width,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                0.0075.vspace,
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: 20,
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          imageUrl: OpreationRequestController.iconBuilder(
+                              baker.logo, baker.address),
+                          fit: BoxFit.fill,
+                          width: 40,
+                          height: 40,
+                          maxWidthDiskCache: 80,
+                          maxHeightDiskCache: 80,
+                        ),
                       ),
                     ),
-                    onPressed: () {
-                      if (controller.prevPage == null) {
-                        Get.back();
-                        CommonFunctions.bottomSheet(
-                            DelegateSelectBaker(
-                              delegatedBaker: baker,
-                              isScrollable: true,
+                    0.02.hspace,
+                    Text(
+                      baker.name ?? baker.address?.tz1Short() ?? "",
+                      style: labelMedium,
+                    ),
+                    0.015.hspace,
+                    IconButton(
+                        alignment: Alignment.centerLeft,
+                        iconSize: 16.aR,
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          CommonFunctions.bottomSheet(
+                            const DappBrowserView(),
+                            fullscreen: true,
+                            settings: RouteSettings(
+                                arguments: 'https://tzkt.io/${baker.address}'),
+                          );
+                        },
+                        icon: SvgPicture.asset(
+                          '${PathConst.SETTINGS_PAGE}svg/external-link.svg',
+                          color: ColorConst.textGrey1,
+                          fit: BoxFit.fill,
+                          height: 16.aR,
+                        )),
+                    const Spacer(),
+                    if (redelegate)
+                      BouncingWidget(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: ColorConst.Primary,
+                                borderRadius: BorderRadius.circular(24.arP)),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 4.arP, horizontal: 8.arP),
+                            child: Text(
+                              "Redelegate".tr,
+                              style: labelSmall.copyWith(
+                                  fontWeight: FontWeight.bold),
                             ),
-                            fullscreen: true);
-                      } else {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DelegateSelectBaker(
-                                delegatedBaker: baker,
-                                isScrollable: true,
-                              ),
-                            ));
-                      }
-                    }),
-            ],
-          ),
-          0.024.vspace,
-          // const Spacer(),
-          Row(
-            children: [
-              RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                  text: '${'Baker fee:'.tr}\n',
-                  style: labelMedium.copyWith(
-                      color: ColorConst.NeutralVariant.shade70),
-                  children: [
-                    TextSpan(
-                        text: '${((baker.fee) * 100).toStringAsFixed(1)}%',
-                        style: labelLarge)
+                          ),
+                          onPressed: () {
+                            if (controller.prevPage == null) {
+                              Get.back();
+                              CommonFunctions.bottomSheet(
+                                  DelegateSelectBaker(
+                                    delegatedBaker: baker,
+                                    isScrollable: true,
+                                  ),
+                                  fullscreen: true);
+                            } else {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DelegateSelectBaker(
+                                      delegatedBaker: baker,
+                                      isScrollable: true,
+                                    ),
+                                  ));
+                            }
+                          }),
                   ],
                 ),
-              ),
-              0.06.hspace,
-              RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                  text: '${'Staking:'.tr}\n',
-                  style: labelMedium.copyWith(
-                      color: ColorConst.NeutralVariant.shade70),
+                0.024.vspace,
+                // const Spacer(),
+                Row(
                   children: [
-                    TextSpan(
-                        text: baker.freespaceMin ?? "N/A", style: labelLarge)
+                    RichText(
+                      textAlign: TextAlign.start,
+                      text: TextSpan(
+                        text: '${'Baker fee:'.tr}\n',
+                        style: labelMedium.copyWith(
+                            color: ColorConst.NeutralVariant.shade70),
+                        children: [
+                          TextSpan(
+                              text:
+                                  '${((baker.fee) * 100).toStringAsFixed(1)}%',
+                              style: labelLarge)
+                        ],
+                      ),
+                    ),
+                    0.06.hspace,
+                    RichText(
+                      textAlign: TextAlign.start,
+                      text: TextSpan(
+                        text: '${'Staking:'.tr}\n',
+                        style: labelMedium.copyWith(
+                            color: ColorConst.NeutralVariant.shade70),
+                        children: [
+                          TextSpan(
+                              text: baker.freespaceMin ?? "N/A",
+                              style: labelLarge)
+                        ],
+                      ),
+                    ),
+                    0.06.hspace,
+                    RichText(
+                      textAlign: TextAlign.start,
+                      text: TextSpan(
+                        text: '${'Yield:'.tr}\n',
+                        style: labelMedium.copyWith(
+                            color: ColorConst.NeutralVariant.shade70),
+                        children: [
+                          TextSpan(
+                              text: baker.delegateBakersListResponseYield ==
+                                      null
+                                  ? "N/A"
+                                  : '${baker.delegateBakersListResponseYield}%',
+                              style: labelLarge)
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              0.06.hspace,
-              RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                  text: '${'Yield:'.tr}\n',
-                  style: labelMedium.copyWith(
-                      color: ColorConst.NeutralVariant.shade70),
-                  children: [
-                    TextSpan(
-                        text: baker.delegateBakersListResponseYield == null
-                            ? "N/A"
-                            : '${baker.delegateBakersListResponseYield}%',
-                        style: labelLarge)
-                  ],
-                ),
-              ),
-            ],
-          ),
-          0.018.vspace,
-        ],
-      ),
-    );
+                0.018.vspace,
+              ],
+            ),
+          );
   }
 }

@@ -270,11 +270,14 @@ class CreateNewNftGalleryBottomSheet
         ),
         child: Row(
           children: [
-            Image.asset(
-              "${PathConst.EMPTY_STATES}plus.png",
-              height: 16.aR,
-              fit: BoxFit.contain,
-              scale: 1,
+            CircleAvatar(
+              backgroundColor: ColorConst.Primary,
+              radius: 8.arP,
+              child: SvgPicture.asset(
+                "${PathConst.SVG}plus.svg",
+                height: 8.arP,
+                fit: BoxFit.contain,
+              ),
             ),
             0.02.hspace,
             Text(

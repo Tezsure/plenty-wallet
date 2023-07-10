@@ -63,6 +63,7 @@ class OnboardingPageController extends GetxController {
 
   /// Animates the page transition from current to next page
   void animateSlider() {
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 5), (_) {
       animateToNextPage();
     });

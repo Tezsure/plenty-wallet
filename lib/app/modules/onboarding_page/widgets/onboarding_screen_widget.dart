@@ -31,7 +31,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
       body: AnimatedContainer(
         height: 1.height,
         width: 1.width,
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 5000),
         color: widget.controller.colorList[widget.controller.pageIndex()],
         child: PageView.builder(
             controller: widget.controller.pageController,
@@ -53,10 +53,6 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                   systemNavigationBarColor: widget.controller.colorList[index],
                 ),
                 child: GestureDetector(
-                  onHorizontalDragUpdate: (details) {
-                    widget.controller.animateToNextPage();
-                    widget.controller.play();
-                  },
                   onTapDown: (_) {
                     widget.controller.pause();
                   },

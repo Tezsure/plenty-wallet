@@ -244,7 +244,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                 child: SolidButton(
                                   primaryColor: Colors.black,
                                   // borderColor: ColorConst.Primary.shade60,
-                                  borderColor: const Color(0xFFE8A2B9),
+                                  borderColor: const Color(0xFFF07BC7),
                                   borderWidth: 1.5,
                                   onPressed: () {
                                     Get.back();
@@ -257,7 +257,7 @@ class _AccountSwitchState extends State<AccountSwitch> {
                                       style: bodyMedium.copyWith(
                                         fontWeight: FontWeight.w600,
                                         color: const Color(
-                                          0xFFE8A2B9,
+                                          0xFFF07BC7,
                                         ),
                                       ),
                                     ),
