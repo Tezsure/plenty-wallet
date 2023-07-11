@@ -151,12 +151,11 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                 children: [
                                                   BouncingWidget(
                                                     onPressed: () {
-                                                      Clipboard.setData(
-                                                          ClipboardData(
-                                                              text: controller
-                                                                  .selectedAccount
-                                                                  .value
-                                                                  .publicKeyHash!));
+                                                      Clipboard.setData(ClipboardData(
+                                                          text: controller
+                                                              .selectedAccount
+                                                              .value
+                                                              .publicKeyHash!));
                                                       Get.rawSnackbar(
                                                         maxWidth: 0.45.width,
                                                         backgroundColor:
@@ -386,11 +385,20 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                         width: 1.width,
                                         child: TabBar(
                                             onTap: (value) async {
+                                              refreshNft() async {
+                                                controller.contractOffset = 0;
+                                                controller.contracts.clear();
+                                                controller.userNfts.clear();
+                                                await controller.fetchAllNfts();
+                                              }
+
                                               AppConstant.hapticFeedback();
                                               value == 2
                                                   ? controller
                                                       .loadUserTransaction()
-                                                  : null;
+                                                  : value == 1
+                                                      ? refreshNft()
+                                                      : null;
                                             },
                                             isScrollable: true,
                                             labelColor:
@@ -449,7 +457,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                           physics:
                                               const NeverScrollableScrollPhysics(),
                                           children: [
-                                             CryptoTabPage(),
+                                            CryptoTabPage(),
                                             NFTabPage(),
                                             const HistoryPage(),
                                           ],

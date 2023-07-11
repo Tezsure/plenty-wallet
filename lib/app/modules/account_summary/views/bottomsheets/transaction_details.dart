@@ -792,13 +792,13 @@ class TxTokenInfo extends StatelessWidget {
                                   ?.getTxType(selectedAccount)
                                   .startsWith("Delegated") ??
                               false
-                          ? (tokenInfo.dollarAmount)
+                          ? (tokenInfo.dollarAmount / xtzPrice)
                               .roundUpDollar(xtzPrice)
                               .removeTrailing0
                           : getColor(tokenInfo.token, selectedAccount) ==
                                   ColorConst.NeutralVariant.shade99
-                              ? '- ${(tokenInfo.dollarAmount).roundUpDollar(xtzPrice).removeTrailing0}'
-                              : (tokenInfo.dollarAmount)
+                              ? '- ${(tokenInfo.dollarAmount / xtzPrice).roundUpDollar(xtzPrice).removeTrailing0}'
+                              : (tokenInfo.dollarAmount / xtzPrice)
                                   .roundUpDollar(xtzPrice)
                                   .removeTrailing0
                       : "failed",

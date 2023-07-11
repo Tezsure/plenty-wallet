@@ -11,6 +11,8 @@ import 'package:naan_wallet/app/data/services/service_models/token_price_model.d
 import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
 
+import '../../rpc_service/http_service.dart';
+
 class AccountDataHandler {
   DataHandlerRenderService dataHandlerRenderService;
   AccountDataHandler(this.dataHandlerRenderService);
@@ -91,6 +93,10 @@ class AccountDataHandler {
         }
       }
 
+      String xtzPrice = jsonDecode(await HttpService.performGetRequest(
+          ServiceConfig.xtzPriceApi,
+          callSetupTimer: true))[0]['price']['value'];
+
       Map<String, List<AccountTokenModel>>
           parseAccountTokenModelUsingTokenPrices(
               Map<String, List<AccountTokenModel>> data,
@@ -118,8 +124,11 @@ class AccountDataHandler {
                     e.tokenStandardType = token.type == "fa2"
                         ? TokenStandardType.fa2
                         : TokenStandardType.fa1;
-                    e.valueInXtz = token.currentPrice! * e.balance;
-                    e.currentPrice = token.currentPrice;
+                    e.valueInXtz = token.currentPrice! *
+                        e.balance /
+                        double.parse(xtzPrice);
+                    e.currentPrice =
+                        token.currentPrice! / double.parse(xtzPrice);
                     return e;
                   },
                 )
