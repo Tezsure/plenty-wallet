@@ -141,7 +141,7 @@ void main() async {
           ),
           child: GetMaterialApp(
             scrollBehavior: NaanScrollBehaviour(),
-            title: "naan",
+            title: "Plenty Wallet",
             locale: Get.deviceLocale,
             theme: ThemeData(
               brightness: Brightness.dark,

@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
+import 'package:naan_wallet/env.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -279,8 +280,14 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                             children: [
                                               _actionButton(
                                                   onTap: () {
-                                                    String url =
-                                                        "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
+                                                    bool isIndia =
+                                                        DateTime.now()
+                                                                .timeZoneName ==
+                                                            "IST";
+
+                                                    String url = isIndia
+                                                        ? 'https://onramp.money/app/?appId=$onrampId&coinCode=xtz&network=xtz&walletAddress=${controller.selectedAccount.value.publicKeyHash}'
+                                                        : "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
 
                                                     print(url);
                                                     // final dappController = Get.put(
