@@ -10,6 +10,7 @@ import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
 import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/controllers/delegate_widget_controller.dart';
+import 'package:naan_wallet/env.dart';
 import 'package:naan_wallet/utils/common_functions.dart';
 import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
@@ -151,12 +152,11 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                 children: [
                                                   BouncingWidget(
                                                     onPressed: () {
-                                                      Clipboard.setData(
-                                                          ClipboardData(
-                                                              text: controller
-                                                                  .selectedAccount
-                                                                  .value
-                                                                  .publicKeyHash!));
+                                                      Clipboard.setData(ClipboardData(
+                                                          text: controller
+                                                              .selectedAccount
+                                                              .value
+                                                              .publicKeyHash!));
                                                       Get.rawSnackbar(
                                                         maxWidth: 0.45.width,
                                                         backgroundColor:
@@ -280,8 +280,14 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                             children: [
                                               _actionButton(
                                                   onTap: () {
-                                                    String url =
-                                                        "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
+                                                    bool isIndia =
+                                                        DateTime.now()
+                                                                .timeZoneName ==
+                                                            "IST";
+
+                                                    String url = isIndia
+                                                        ? 'https://onramp.money/app/?appId=$onrampId&coinCode=xtz&network=xtz&walletAddress=${controller.selectedAccount.value.publicKeyHash}'
+                                                        : "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
 
                                                     print(url);
                                                     // final dappController = Get.put(
@@ -386,11 +392,20 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                         width: 1.width,
                                         child: TabBar(
                                             onTap: (value) async {
+                                              refreshNft() async {
+                                                controller.contractOffset = 0;
+                                                controller.contracts.clear();
+                                                controller.userNfts.clear();
+                                                await controller.fetchAllNfts();
+                                              }
+
                                               AppConstant.hapticFeedback();
                                               value == 2
                                                   ? controller
                                                       .loadUserTransaction()
-                                                  : null;
+                                                  : value == 1
+                                                      ? refreshNft()
+                                                      : null;
                                             },
                                             isScrollable: true,
                                             labelColor:
@@ -449,7 +464,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                           physics:
                                               const NeverScrollableScrollPhysics(),
                                           children: [
-                                             CryptoTabPage(),
+                                            CryptoTabPage(),
                                             NFTabPage(),
                                             const HistoryPage(),
                                           ],

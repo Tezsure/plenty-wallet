@@ -17,9 +17,10 @@ class SplashPageView extends GetView<SplashPageController> {
         children: [
           Expanded(
             child: Lottie.asset(
-              "assets/onboarding_page/lottie/splash.json",
+              "assets/onboarding_page/lottie/splash2.json",
               animate: true,
               frameRate: FrameRate.max,
+
               width: 1.width, height: 1.width,
 
               // ignore: avoid_print

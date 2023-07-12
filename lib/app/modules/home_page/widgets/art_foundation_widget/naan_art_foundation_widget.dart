@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
@@ -11,6 +12,7 @@ import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
+import '../../../../../utils/constants/path_const.dart';
 
 class NaanArtFoundationWidget extends StatelessWidget {
   const NaanArtFoundationWidget({Key? key}) : super(key: key);
@@ -80,7 +82,7 @@ class NaanArtFoundationWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("naan Official".tr, style: labelMedium),
+                      Text("Plenty's Official".tr, style: labelMedium),
                       Text("Art Collection".tr, style: labelMedium),
                     ],
                   ),
@@ -96,11 +98,11 @@ class NaanArtFoundationWidget extends StatelessWidget {
   Widget _buildIcon() {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.black, borderRadius: BorderRadius.circular(8.arP)),
-      padding: EdgeInsets.all(8.arP),
+          color: Colors.white, borderRadius: BorderRadius.circular(8.arP)),
+      padding: EdgeInsets.all(4.arP),
       height: AppConstant.homeWidgetDimension / 6,
       width: AppConstant.homeWidgetDimension / 6,
-      child: Image.asset("assets/naan_logo.png"),
+      child: SvgPicture.asset("${PathConst.SVG}plenty_wallet.svg"),
     );
   }
 }

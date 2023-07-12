@@ -272,6 +272,25 @@ class EventWidget extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomLeft,
+                child: Container(
+                  height: 0.2.height,
+                  width: double.infinity,
+                  // ignore: prefer_const_constructors
+                  decoration: BoxDecoration(
+                      // ignore: prefer_const_constructors
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          // ignore: prefer_const_literals_to_create_immutables
+                          colors: [
+                        Colors.transparent,
+                        Colors.grey[900]!.withOpacity(0.6),
+                        Colors.grey[900]!.withOpacity(0.99),
+                      ])),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 16.arP, left: 12.0.arP),
                   child: Column(
@@ -289,8 +308,8 @@ class EventWidget extends StatelessWidget {
                       ),
                       Text(
                           "${DateFormat('E, dd MMM • h:mm a').format(event.timestamp!)} ${event.timestamp!.timeZoneName}",
-                          style:
-                              labelMedium.copyWith(color: ColorConst.Primary)),
+                          style: labelMedium.copyWith(
+                              color: ColorConst.Secondary)),
                       SizedBox(
                         height: 12.0.arP,
                       ),

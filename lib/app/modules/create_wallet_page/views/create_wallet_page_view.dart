@@ -213,8 +213,8 @@ class CreateWalletPageView extends GetView<CreateWalletPageController> {
         Get.toNamed(Routes.IMPORT_WALLET_PAGE);
       },
       title: "I already have a wallet",
-      borderColor: ColorConst.Neutral.shade80,
-      textColor: ColorConst.Neutral.shade80,
+      borderColor: ColorConst.Secondary,
+      textColor: ColorConst.Secondary,
     );
   }
 }

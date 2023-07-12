@@ -255,7 +255,7 @@ class SplashWarningWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'We apologize for the inconvenience. This issue is currently affecting some of our users. To resolve the problem, please try the following steps:\n\n1. Long press on the Naan app icon and select "App Info."\n2. Navigate to "Storage."\n3. Attempt to clear the app cache and open the app again.\n4. If step 3 doesn\'t work, try clearing the app data and opening the app. (Note: If you haven\'t backed up your seed phrase, don\'t perform this step as clearing app data will delete all data.)\n\nWe are actively working on a solution and will address this issue in our next update. Thank you for your patience.',
+            'We apologize for the inconvenience. This issue is currently affecting some of our users. To resolve the problem, please try the following steps:\n\n1. Long press on the Plenty Wallet app icon and select "App Info."\n2. Navigate to "Storage."\n3. Attempt to clear the app cache and open the app again.\n4. If step 3 doesn\'t work, try clearing the app data and opening the app. (Note: If you haven\'t backed up your seed phrase, don\'t perform this step as clearing app data will delete all data.)\n\nWe are actively working on a solution and will address this issue in our next update. Thank you for your patience.',
             style: bodyMedium,
           ),
           0.02.vspace,

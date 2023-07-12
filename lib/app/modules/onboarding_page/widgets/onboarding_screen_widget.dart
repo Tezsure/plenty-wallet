@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -32,7 +31,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
       body: AnimatedContainer(
         height: 1.height,
         width: 1.width,
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 5000),
         color: widget.controller.colorList[widget.controller.pageIndex()],
         child: PageView.builder(
             controller: widget.controller.pageController,
@@ -54,10 +53,6 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                   systemNavigationBarColor: widget.controller.colorList[index],
                 ),
                 child: GestureDetector(
-                  onHorizontalDragUpdate: (details) {
-                    widget.controller.animateToNextPage();
-                    widget.controller.play();
-                  },
                   onTapDown: (_) {
                     widget.controller.pause();
                   },
@@ -126,11 +121,16 @@ class _OnboardingWidgetState extends State<OnboardingWidget>
                             // alignment: const Alignment(-0.1, 0.6),
                             child: Text(
                               widget.controller.onboardingMessages.values
-                                  .elementAt(widget.controller.pageIndex()).tr,
+                                  .elementAt(widget.controller.pageIndex())
+                                  .tr,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontFamily: 'Space Grotesk',
-                                color: Colors.white,
+                                color: widget.controller.pageIndex() == 0 ||
+                                        widget.controller.pageIndex() == 3 ||
+                                        widget.controller.pageIndex() == 4
+                                    ? Colors.black
+                                    : Colors.white,
                                 fontSize: 40.arP,
                                 fontWeight: FontWeight.w400,
                               ),

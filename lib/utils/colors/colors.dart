@@ -18,6 +18,15 @@ LinearGradient appleBlue = const LinearGradient(
   ],
 );
 
+LinearGradient mailChainGradient = const LinearGradient(
+  begin: Alignment.bottomCenter,
+  end: Alignment.topRight,
+  colors: [
+    Color(0xff8D60A0),
+    Color(0xffF87247),
+  ],
+);
+
 LinearGradient lightBlue = const LinearGradient(
   begin: Alignment.bottomLeft,
   end: Alignment.topRight,
@@ -149,9 +158,9 @@ class GradConst {
 
 class ColorConst {
   ColorConst._();
-  static const int _Primary = 0xFFFF006E;
-  static const int _Secondary = 0xFF8637EB;
-  static const int _Tertiary = 0xFFFFBE0C;
+  static const int _Primary = 0xFF6923E7;
+  static const int _Secondary = 0xFFC3A7F5;
+  static const int _Tertiary = 0xFFE3E723;
   static const int _Error = 0xFFBA1A1A;
   static const int _Neutral = 0xFF07030C;
   static const int _NeutralVariant = 0xFF07030C;
@@ -166,8 +175,8 @@ class ColorConst {
   static const Color darkGrey = Color(0xff1E1C1F);
   static const Color naanCustomColor = Color(0xff5AE200);
 
-  static const NaaNShadesColor Primary = NaaNShadesColor(
-    _Primary,
+  static const NaaNShadesColor Secondary = NaaNShadesColor(
+    _Secondary,
     <int, Color>{
       0: Color(0xFF000000),
       10: Color(0xFF3F0016),
@@ -185,15 +194,15 @@ class ColorConst {
     },
   );
 
-  static const NaaNShadesColor Secondary = NaaNShadesColor(
-    _Secondary,
+  static const NaaNShadesColor Primary = NaaNShadesColor(
+    _Primary,
     <int, Color>{
       0: Color(0xFF000000),
       10: Color(0xFF280056),
       20: Color(0xFF440088),
       30: Color(0xFF6100BE),
       40: Color(0xFF7C29E1),
-      50: Color(0xFF964AFB),
+      50: Color(0xFF541CB9),
       60: Color(0xFFAC72FF),
       70: Color(0xFFC197FF),
       80: Color(0xFFD7BAFF),

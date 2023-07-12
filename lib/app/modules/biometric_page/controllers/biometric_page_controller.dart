@@ -42,7 +42,7 @@ class BiometricPageController extends GetxController {
       if (importWalletPageController.importWalletDataType ==
           ImportWalletDataType.mnemonic) {
         Get.toNamed(Routes.LOADING_PAGE, arguments: [
-          'assets/create_wallet/lottie/wallet_success.json',
+          'assets/create_wallet/lottie/loading_animation.json',
           previousRoute,
           Routes.HOME_PAGE,
         ]);

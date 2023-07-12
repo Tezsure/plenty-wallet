@@ -229,10 +229,10 @@ packages:
     dependency: "direct main"
     description:
       name: dartez
-      sha256: fbc3d65a9758687f8cec2732790c1c4aa0c6294ba728dffaaa6eeee91ea372ef
+      sha256: "44946dd5c4baf449b037bc1b228480b8d6c2375c4bb4567a7e7afe961c0b07e6"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.3"
   ed25519_hd_key:
     dependency: transitive
     description:
@@ -1023,6 +1023,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  sec:
+    dependency: transitive
+    description:
+      name: sec
+      sha256: "8bbd56df884502192a441b5f5d667265498f2f8728a282beccd9db79e215f379"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   secp256k1:
     dependency: transitive
     description:

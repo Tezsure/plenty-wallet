@@ -148,12 +148,12 @@ class SendPageController extends GetxController {
             .toString();
       } catch (e) {
         amountTileError.value = true;
-        transactionStatusSnackbar(
+/*         transactionStatusSnackbar(
           duration: const Duration(seconds: 2),
           status: TransactionStatus.error,
           tezAddress: 'You have low tez',
           transactionAmount: 'Low balance',
-        );
+        ); */
         print(e.toString());
       }
       // print(opHash);

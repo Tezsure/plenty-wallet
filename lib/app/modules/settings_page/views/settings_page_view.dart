@@ -310,10 +310,10 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                       settings: [
                                         _settingOption(
                                           onTap: () => Share.share(
-                                              "🔥🔥🔥 Hey friend! You need to check out naan - it's my favorite web3 app for all things Tezos. With naan, you can easily buy NFTs with your credit card, discover trusted web3 apps, and even explore the art collections of other collectors. Trust me, you won't be disappointed. Download it now at https://naan.app 🚀🚀🚀"),
-                                          title: "Share naan",
+                                              "🔥🔥🔥 Hey friend! You need to check out Plenty Wallet - it's my favorite web3 app for all things Tezos. With naan, you can easily buy NFTs with your credit card, discover trusted web3 apps, and even explore the art collections of other collectors. Trust me, you won't be disappointed. Download it now at https://naan.app 🚀🚀🚀"),
+                                          title: "Share Plenty Wallet",
                                           svgPath:
-                                              "${PathConst.SETTINGS_PAGE.SVG}share_naan.svg",
+                                              "${PathConst.SETTINGS_PAGE.SVG}plenty_wallet.svg",
                                         ),
                                         _settingOption(
                                           onTap: () async {
@@ -329,7 +329,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                                 await controller.inAppReview
                                                     .isAvailable();
                                           },
-                                          title: "Rate naan",
+                                          title: "Rate Plenty Wallet",
                                           svgPath:
                                               "${PathConst.SETTINGS_PAGE.SVG}star.svg",
                                         ),
@@ -342,7 +342,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                         ),
                                         _settingOption(
                                           onTap: () => CommonFunctions.launchURL(
-                                              "https://discord.gg/wpcNRsBbxy"),
+                                              "https://discord.gg/plentynetwork"),
                                           title: "Join our Discord",
                                           svgPath:
                                               "${PathConst.SETTINGS_PAGE.SVG}discord.svg",
@@ -380,13 +380,13 @@ class SettingsPageView extends GetView<SettingsPageController> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SvgPicture.asset(
-          "${PathConst.SETTINGS_PAGE.SVG}naan_logo_grey.svg",
+          "${PathConst.SETTINGS_PAGE.SVG}plenty_wallet.svg",
           height: 50.arP,
           width: 50.arP,
         ),
         0.01.vspace,
         Text(
-          "Version 2.0.12 ${Platform.isAndroid ? "(beta)" : ""}",
+          "Version 2.1.0 ${Platform.isAndroid ? "(beta)" : ""}",
           style: labelSmall.copyWith(color: ColorConst.NeutralVariant.shade60),
         )
       ],
@@ -426,6 +426,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
           children: [
             SizedBox(
               height: 20.arP,
+              width: 20.arP,
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: SvgPicture.asset(
@@ -605,7 +606,7 @@ class SettingsPageView extends GetView<SettingsPageController> {
         child: Row(
           children: [
             Text(
-              "Reset naan".tr,
+              "Reset Plenty Wallet".tr,
               style: labelMedium.apply(color: ColorConst.Error.shade60),
             ),
             const Spacer(),

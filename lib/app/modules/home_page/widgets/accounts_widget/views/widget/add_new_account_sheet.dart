@@ -57,7 +57,7 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
                   Align(
                     alignment: Alignment.center,
                     child: LottieBuilder.asset(
-                      'assets/create_wallet/lottie/wallet_success.json',
+                      'assets/create_wallet/lottie/loading_animation.json',
                       fit: BoxFit.contain,
                       height: 0.5.height,
                       width: 0.5.width,
@@ -164,7 +164,7 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
                         ),
                         0.015.hspace,
                         Text(
-                          "Start using naan".tr,
+                          "Start using Plenty Wallet".tr,
                           style: titleSmall.copyWith(
                               fontSize: 14.aR,
                               color: controller.phrase.isEmpty ||

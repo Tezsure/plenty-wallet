@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -303,13 +302,19 @@ class _HistoryTileState extends State<HistoryTile>
                                 ?.getTxType(selectedAccount)
                                 .startsWith("Delegated") ??
                             false
-                        ? (data.dollarAmount)
+                        ? (data.dollarAmount /
+                                (data.tokenSymbol == "tez"
+                                    ? 1.0
+                                    : widget.xtzPrice))
                             .roundUpDollar(widget.xtzPrice)
                             .removeTrailing0
                         : getColor(data.token, selectedAccount) ==
                                 ColorConst.NeutralVariant.shade99
-                            ? '- ${(data.dollarAmount).roundUpDollar(widget.xtzPrice).removeTrailing0}'
-                            : (data.dollarAmount)
+                            ? '- ${(data.dollarAmount / (data.tokenSymbol == "tez" ? 1.0 : widget.xtzPrice)).roundUpDollar(widget.xtzPrice).removeTrailing0}'
+                            : (data.dollarAmount /
+                                    (data.tokenSymbol == "tez"
+                                        ? 1.0
+                                        : widget.xtzPrice))
                                 .roundUpDollar(widget.xtzPrice)
                                 .removeTrailing0
                     : "failed",

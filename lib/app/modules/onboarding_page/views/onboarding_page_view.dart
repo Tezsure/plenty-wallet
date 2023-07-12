@@ -29,7 +29,7 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                   //   return SafeArea(
                   //     child: AnimatedContainer(
                   //       margin: EdgeInsets.symmetric(horizontal: 32.arP),
-    
+
                   //       duration: const Duration(milliseconds: 1000),
                   //       alignment: Alignment.bottomLeft,
                   //       // alignment: const Alignment(-0.1, 0.6),
@@ -50,11 +50,11 @@ class OnboardingPageView extends GetView<OnboardingPageController> {
                   Obx(() => AnimatedSmoothIndicator(
                         activeIndex: controller.pageIndex(),
                         count: controller.onboardingMessages.keys.length,
-                        effect: const ExpandingDotsEffect(
+                        effect: ExpandingDotsEffect(
                           dotHeight: 8,
                           dotWidth: 8,
-                          activeDotColor: Colors.white,
-                          dotColor: Colors.white,
+                          activeDotColor: Colors.white.withOpacity(0.5),
+                          dotColor: Colors.white.withOpacity(0.5),
                         ),
                       )),
                   0.0.vspace,

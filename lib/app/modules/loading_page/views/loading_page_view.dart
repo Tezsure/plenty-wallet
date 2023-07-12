@@ -20,7 +20,7 @@ class LoadingPageView extends GetView<LoadingPageController> {
         alignment: Alignment.center,
         // padding: EdgeInsets.only(top: 0.175.height),
         child: LottieBuilder.asset(
-          loadingAsset, //'assets/create_wallet/lottie/wallet_success.json',
+          loadingAsset, //'assets/create_wallet/lottie/loading_animation.json',
           fit: BoxFit.contain,
           // height: 0.75.height,
           width: 1.width,

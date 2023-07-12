@@ -116,7 +116,7 @@ class TokenView extends StatelessWidget {
           ),
         ),
         0.008.vspace,
-        controller.selectedTokenModel!.currentPrice != 0
+        controller.selectedTokenModel?.currentPrice != 0
             ? Material(
                 borderRadius: BorderRadius.circular(8.arP),
                 color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),

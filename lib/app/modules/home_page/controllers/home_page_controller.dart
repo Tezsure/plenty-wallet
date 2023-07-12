@@ -241,7 +241,7 @@ class BackupWalletBottomSheet extends StatelessWidget {
         ),
         0.012.vspace,
         Text(
-          'With no backup. Losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.'
+          'With no backup losing your device will result in the loss of access forever. The only way to guard against losses is to backup your wallet.'
               .tr,
           textAlign: TextAlign.start,
           style: bodySmall.copyWith(color: ColorConst.NeutralVariant.shade60),

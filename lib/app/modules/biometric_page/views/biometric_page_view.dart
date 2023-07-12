@@ -52,7 +52,7 @@ class BiometricPageView extends GetView<BiometricPageController> {
                 ),
                 0.01.vspace,
                 Text(
-                  "${"Access your naan with your".tr} ${(Platform.isAndroid ? "Fingerprint" : "Face ID").tr}",
+                  "${"Access your Plenty Wallet with your".tr} ${(Platform.isAndroid ? "Fingerprint" : "Face ID").tr}",
                   textAlign: TextAlign.center,
                   style: bodySmall.apply(
                     color: ColorConst.NeutralVariant.shade60,

@@ -1,8 +1,8 @@
-![naan feature image](feature_image.png)
+![plenty wallet feature image](feature_image.png)
 
-# naan - Your portal to Web3
+# Plenty Wallet
 
-naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.
+Plenty Wallet is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, and explore the new world of Web3 on Tezos.
 
 ## Download
 
@@ -11,15 +11,15 @@ naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, an
 
 ## Features:
 
-- Account Management: You can create and manage multiple accounts in naan, or import existing ones from other wallets.
+- Account Management: You can create and manage multiple accounts in Plent Wallet, or import existing ones from other wallets.
 
-- Social Sign-On: You can use your social media accounts from Facebook, Google, Twitter, or Apple to create a new account in naan.
+- Social Sign-On: You can use your social media accounts from Facebook, Google, Twitter, or Apple to create a new account in Plent Wallet.
 
 - Portfolio Management: You can track all your wallet assets and balances in one place, making it easier to manage your holdings.
 
 - Watch Addresses: You can import and track watch addresses from various sources, including Tezos domains and tz1, tz2, and tz3 addresses.
 
-- Token and NFT Transactions: You can send and receive tokens and NFTs easily and securely within naan.
+- Token and NFT Transactions: You can send and receive tokens and NFTs easily and securely within Plent Wallet.
 
 - Personal Gallery: You can create your own gallery of NFTs and other digital assets across multiple accounts.
 
@@ -27,11 +27,11 @@ naan is a fun, simple, and secure way to create a Tezos wallet, collect NFTs, an
 
 - Delegation: You can delegate your Tezos tokens to bakers and earn rewards in a hassle-free manner.
 
-- Testnet Support: Although tokens are not displayed due to dependency on Teztools.io, naan fully supports Tezos testnet.
+- Testnet Support: Although tokens are not displayed due to dependency on Teztools.io, Plent Wallet fully supports Tezos testnet.
 
 - Events Section: You can stay up-to-date with upcoming events and news related to the Tezos ecosystem.
 
-- Buy NFTs: You can purchase NFTs on Tezos using stable coins or credit cards directly within naan.
+- Buy NFTs: You can purchase NFTs on Tezos using stable coins or credit cards directly within Plent Wallet.
 
 ## Getting Started
 
@@ -132,7 +132,7 @@ pod update // In your ios project directory
 
 ## Test report
 - Click here to view [doc](https://docs.google.com/spreadsheets/d/1eBWR0VfTQsckqYQrqy-ycE9tjRI2FIyNJsSbPjdsSek/edit?usp=sharing) <br/>
-  ![naan Testcase Scenarios](test_report.png)
+  ![plenty wallet Testcase Scenarios](test_report.png)
 - Summary: Entire app is stable except transaction history. There are few  crashes and dapps connectivity issues, which are happening intermittently and the impact is for few users only. 
 To understand all the current issues, refer issues section on this repo.
 <br/>

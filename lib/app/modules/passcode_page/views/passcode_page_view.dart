@@ -46,23 +46,29 @@ class PasscodePageView extends GetView<PasscodePageController> {
                       child: backButton(),
                     ),
                   ),
-          backgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
           ),
           body: Container(
             color: Colors.black,
-            padding:  EdgeInsets.symmetric(horizontal: 21.arP),
+            padding: EdgeInsets.symmetric(horizontal: 21.arP),
             child: SafeArea(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Center(
-                    child: SizedBox(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xff6923E7).withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(24.arP),
+                      ),
                       height: 0.27.width,
                       width: 0.27.width,
+                      padding: EdgeInsets.all(20.arP),
                       child: SvgPicture.asset(
-                        "${PathConst.SVG}naan_logo.svg",
-                        fit: BoxFit.fitHeight,
+                        "${PathConst.SVG}plenty_wallet_black.svg",
+                        width: 66.arP,
+                        height: 66.arP,
                       ),
                     ),
                   ),
@@ -89,7 +95,7 @@ class PasscodePageView extends GetView<PasscodePageController> {
                       (controller.isPassCodeWrong.value
                               ? "Passcode doesn’t match"
                               : controller.confirmPasscode.value.length < 6
-                                  ? "Protect your naan by creating a passcode"
+                                  ? "Protect your Plenty Wallet by creating a passcode"
                                   : "Re-enter your passcode")
                           .tr,
                       style: bodySmall.apply(

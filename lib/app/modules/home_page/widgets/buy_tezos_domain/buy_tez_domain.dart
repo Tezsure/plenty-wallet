@@ -11,7 +11,6 @@ import 'package:naan_wallet/utils/constants/constants.dart';
 import 'package:naan_wallet/utils/extensions/size_extension.dart';
 import 'package:naan_wallet/utils/styles/styles.dart';
 
-
 class TezosDomainWidget extends StatefulWidget {
   TezosDomainWidget({Key? key}) : super(key: key);
 
@@ -50,7 +49,7 @@ class _TezosDomainWidgetState extends State<TezosDomainWidget> {
             fit: StackFit.expand,
             children: [
               Align(
-                alignment: Alignment.topLeft,
+                alignment: Alignment.topRight,
                 child: Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: 16.arP, vertical: 16.arP),
@@ -81,11 +80,11 @@ class _TezosDomainWidgetState extends State<TezosDomainWidget> {
 
   Widget _buildIcon() {
     return Container(
-      decoration:
-          const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-      padding: EdgeInsets.all(AppConstant.homeWidgetDimension / 11),
-      height: AppConstant.homeWidgetDimension / 2.5,
-      width: AppConstant.homeWidgetDimension / 2.5,
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(8.arP)),
+      padding: EdgeInsets.all(4.arP),
+      height: AppConstant.homeWidgetDimension / 6,
+      width: AppConstant.homeWidgetDimension / 6,
       child: Image.asset("assets/home_page/tez_domain.png"),
     );
   }

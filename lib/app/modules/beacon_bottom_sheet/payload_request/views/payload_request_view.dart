@@ -164,13 +164,13 @@ class PayloadRequestView extends GetView<PayloadRequestController> {
                                   children: [
                                     Expanded(
                                         child: SolidButton(
-                                      borderColor: const Color(0xFFE8A2B9),
+                                      borderColor: ColorConst.Secondary,
                                       title: "Cancel",
                                       primaryColor: Colors.transparent,
                                       onPressed: () {
                                         controller.reject();
                                       },
-                                      textColor: const Color(0xFFE8A2B9),
+                                      textColor: ColorConst.Secondary,
                                     )),
                                     0.04.hspace,
                                     Expanded(

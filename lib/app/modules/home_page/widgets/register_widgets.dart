@@ -11,6 +11,7 @@ import 'package:naan_wallet/app/modules/home_page/widgets/discover_apps_widget/d
 import 'package:naan_wallet/app/modules/home_page/widgets/discover_events_widget/dicover_events_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/earn_tez_widget/earn_tez_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/iaf/iaf_widget.dart';
+import 'package:naan_wallet/app/modules/home_page/widgets/mailchain_widget/mailchain_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_claim_widget/nft_claim_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/view/nft_gallery_widget.dart';
 import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/objkt_nft_widget.dart';
@@ -51,6 +52,20 @@ final List<Widget> registeredWidgets = [
         padding: EdgeInsets.symmetric(horizontal: 22.arP),
         child: const AdmireArt()),
   if (ServiceConfig.isAdmireArtWidgetVisible) homeWidgetsGap,
+
+  Container(
+    padding: EdgeInsets.symmetric(horizontal: 22.arP),
+    height: AppConstant.homeWidgetDimension,
+    child: Row(
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        TezosDomainWidget(),
+        Spacer(),
+        MailChainWidget(),
+      ],
+    ),
+  ),
+  homeWidgetsGap,
 
 /*   if (ServiceConfig.isIAFWidgetVisible)
     Padding(
@@ -125,20 +140,6 @@ final List<Widget> registeredWidgets = [
 
   // const VcaGalleryWidget(),
   // homeWidgetsGap,
-
-  Container(
-    padding: EdgeInsets.symmetric(horizontal: 22.arP),
-    height: AppConstant.homeWidgetDimension,
-    child: Row(
-      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        TezosDomainWidget(),
-        Spacer(),
-        BetaTagWidget(),
-      ],
-    ),
-  ),
-  homeWidgetsGap,
 
   Padding(
       padding: EdgeInsets.symmetric(horizontal: 22.arP),

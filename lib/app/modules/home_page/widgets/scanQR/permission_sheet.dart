@@ -38,7 +38,8 @@ class CameraPermissionHandler extends StatelessWidget {
               ),
               0.012.vspace,
               Text(
-                "Enable camera permissions for naan to \nstart scanning QR".tr,
+                "Enable camera permissions for Plenty Wallet to \nstart scanning QR"
+                    .tr,
                 style: bodySmall.copyWith(color: ColorConst.textGrey1),
                 textAlign: TextAlign.center,
               ),
@@ -62,9 +63,8 @@ class CameraPermissionHandler extends StatelessWidget {
                     onPressed: () async {
                       if (await openAppSettings()) {
                         Get.back();
-                        callback
-                            .call();
-                             // Get.find<HomePageController>().openScanner();
+                        callback.call();
+                        // Get.find<HomePageController>().openScanner();
                       }
                     },
                     title: "Enable camera",

@@ -74,11 +74,11 @@ class DelegateBakerSuccessSheet extends GetView<DelegateWidgetController> {
                     active: true,
                     onPressed: () {
                       Share.share(
-                          "👋 Hey friend! You should download naan, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone."
+                          "👋 Hey friend! You should download Plenty Wallet, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone."
                                   .tr +
                               " ${AppConstant.naanWebsite}");
                     },
-                    title: "Share naan",
+                    title: "Share Plenty Wallet",
                   ),
                   0.018.vspace
                 ],

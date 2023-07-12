@@ -31,8 +31,8 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 0.015.vspace,
-                SvgPicture.asset(
-                  "${PathConst.HOME_PAGE.SVG}tezos_price.svg",
+                Image.asset(
+                  "${PathConst.HOME_PAGE}tezos.png",
                   width: 0.2.width,
                 ),
                 0.02.vspace,
@@ -77,8 +77,7 @@ class DelegateInfoSheet extends GetView<DelegateWidgetController> {
                   active: true,
                   width: 1.width - 64.arP,
                   onPressed: () {
-                    Get.back(result:true);
-                  
+                    Get.back(result: true);
                   },
                   title: "Continue",
                 ),

@@ -13,11 +13,11 @@ class OnboardingPageController extends GetxController {
   ); // PageView Pagecontroller
 
   late final List<Color> _colorList = [
-    const Color(0xffFFC93E),
-    const Color(0xff9961EC),
-    const Color(0xffFD3289),
-    const Color(0xffFA6163),
-    const Color(0xffF77A3A),
+    const Color(0xffE3E723),
+    const Color(0xff6923E7),
+    const Color(0xffE723A2),
+    const Color(0xff23E767),
+    const Color(0xff23CAE8),
     // const Color(0xffF77A3A),
   ]; // Onboarding screens background colors
 
@@ -31,7 +31,7 @@ class OnboardingPageController extends GetxController {
     'assets/onboarding_page/lottie/Onboarding_4.json':
         "Discover web3\nin the Tezos\necosystem",
     'assets/onboarding_page/lottie/Onboarding_6.json':
-        "Collect NFTs\nwith your credit card and stable coins"
+        "Collect NFTs\nwith your credit card"
     // 'assets/onboarding_page/lottie/Onboarding_5.json':
     //     "Earn high APR\nwith Liquidity\nBaking",
   }; // Onboarding screens lottie animation paths & messages
@@ -63,6 +63,7 @@ class OnboardingPageController extends GetxController {
 
   /// Animates the page transition from current to next page
   void animateSlider() {
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 5), (_) {
       animateToNextPage();
     });
