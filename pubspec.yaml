@@ -1,7 +1,7 @@
-name: naan_wallet
-version: 1.0.0+1
+name: plenty_wallet
+version: 2.1.0
 publish_to: none
-description: A new Flutter project.
+description: Plenty Wallet is a fun, simple, and secure way to create a Tezos account, collect NFTs, and explore the new world of Web3.
 environment:
   sdk: ">=3.0.3 <4.0.0"
 
