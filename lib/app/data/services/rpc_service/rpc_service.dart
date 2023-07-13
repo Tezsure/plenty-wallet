@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dartez/dartez.dart';
-import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/rpc_node_model.dart';
-import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
+import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_token_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/rpc_node_model.dart';
+import 'package:plenty_wallet/app/modules/settings_page/enums/network_enum.dart';
 
 class RpcService {
   static Future<NetworkType> getCurrentNetworkType() async {

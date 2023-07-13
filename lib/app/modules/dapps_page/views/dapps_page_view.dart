@@ -6,18 +6,18 @@
 // import 'package:flutter_svg/svg.dart';
 
 // import 'package:get/get.dart';
-// import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
-// import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-// import 'package:naan_wallet/app/data/services/service_models/dapp_models.dart';
-// import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
-// import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-// import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-// import 'package:naan_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
-// import 'package:naan_wallet/app/modules/dapps_page/views/widgets/dapp_bottomsheet.dart';
-// import 'package:naan_wallet/utils/colors/colors.dart';
-// import 'package:naan_wallet/utils/common_functions.dart';
-// import 'package:naan_wallet/utils/constants/constants.dart';
-// import 'package:naan_wallet/utils/extensions/size_extension.dart';
+// import 'package:plenty_wallet/app/data/services/analytics/firebase_analytics.dart';
+// import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+// import 'package:plenty_wallet/app/data/services/service_models/dapp_models.dart';
+// import 'package:plenty_wallet/app/modules/common_widgets/back_button.dart';
+// import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
+// import 'package:plenty_wallet/app/modules/common_widgets/bouncing_widget.dart';
+// import 'package:plenty_wallet/app/modules/dapp_browser/views/dapp_browser_view.dart';
+// import 'package:plenty_wallet/app/modules/dapps_page/views/widgets/dapp_bottomsheet.dart';
+// import 'package:plenty_wallet/utils/colors/colors.dart';
+// import 'package:plenty_wallet/utils/common_functions.dart';
+// import 'package:plenty_wallet/utils/constants/constants.dart';
+// import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
 // import '../controllers/dapps_page_controller.dart';
 

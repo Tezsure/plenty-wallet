@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
-import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:plenty_wallet/app/data/services/service_models/nft_gallery_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:simple_gql/simple_gql.dart';
 
 import '../../../data/services/service_config/service_config.dart';
@@ -144,7 +144,7 @@ class NftGalleryController extends GetxController {
   Future<void> removeGallery(int galleryIndex) async {
     await UserStorageService().removeGallery(galleryIndex);
     // await fetchAllNftForGallery();
-   await Get.find<NftGalleryWidgetController>().fetchNftGallerys();
+    await Get.find<NftGalleryWidgetController>().fetchNftGallerys();
     print("nfts left: ${nftGalleryList.length}");
     if (nftGalleryList.isEmpty) {
       Get.back();

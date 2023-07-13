@@ -1,21 +1,19 @@
 import 'package:flutter/cupertino.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/modules/backup_wallet_page/views/widgets/phrase_container.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/copy_button.dart';
-import 'package:naan_wallet/app/modules/settings_page/controllers/backup_page_controller.dart';
-import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
-
-
+import 'package:plenty_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
+import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:plenty_wallet/app/modules/backup_wallet_page/views/widgets/phrase_container.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/copy_button.dart';
+import 'package:plenty_wallet/app/modules/settings_page/controllers/backup_page_controller.dart';
+import 'package:plenty_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/constants/constants.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/styles/styles.dart';
 
 class SecretPhrasePage extends StatelessWidget {
   final String? prevPage;

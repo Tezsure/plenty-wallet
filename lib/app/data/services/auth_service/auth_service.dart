@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
+import 'package:plenty_wallet/app/routes/app_pages.dart';
+import 'package:plenty_wallet/utils/common_functions.dart';
+import 'package:plenty_wallet/utils/constants/constants.dart';
 
 class AuthService {
   /// set new passcode for user to enter the app

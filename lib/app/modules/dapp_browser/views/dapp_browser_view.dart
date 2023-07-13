@@ -8,16 +8,16 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
 
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/text_scale_factor.dart';
 
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/constants/constants.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/styles/styles.dart';
 
 import '../controllers/dapp_browser_controller.dart';
 

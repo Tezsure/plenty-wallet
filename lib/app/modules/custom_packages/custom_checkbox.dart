@@ -4,7 +4,7 @@ library custom_check_box;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bouncing_widget.dart';
 
 class CustomCheckBox extends StatefulWidget {
   final bool value;

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
+import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
 
 class BiometricController extends GetxController {
   var isBiometric = false.obs;

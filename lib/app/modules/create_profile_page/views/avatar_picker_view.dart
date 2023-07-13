@@ -4,12 +4,12 @@
 // import 'package:flutter_svg/svg.dart';
 
 // import 'package:get/get.dart';
-// import 'package:naan_wallet/app/data/services/enums/enums.dart';
-// import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-// import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-// import 'package:naan_wallet/utils/constants/constants.dart';
-// import 'package:naan_wallet/utils/constants/path_const.dart';
-// import 'package:naan_wallet/utils/extensions/size_extension.dart';
+// import 'package:plenty_wallet/app/data/services/enums/enums.dart';
+// import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+// import 'package:plenty_wallet/app/modules/common_widgets/solid_button.dart';
+// import 'package:plenty_wallet/utils/constants/constants.dart';
+// import 'package:plenty_wallet/utils/constants/path_const.dart';
+// import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
 // import '../../../../utils/styles/styles.dart';
 // import '../controllers/create_profile_page_controller.dart';

@@ -2,7 +2,7 @@
 // import 'package:flutter_svg/svg.dart';
 
 // import 'package:get/get.dart';
-// import 'package:naan_wallet/utils/extensions/size_extension.dart';
+// import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
 // import '../../../../../../utils/colors/colors.dart';
 // import '../../../../../../utils/styles/styles.dart';

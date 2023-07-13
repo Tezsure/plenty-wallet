@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
-import 'package:naan_wallet/app/modules/account_summary/views/widgets/crypto_tab_widgets/token_checkbox.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/list_tile.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/objkt_nft_widget/controllers/buy_nft_controller.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_token_model.dart';
+import 'package:plenty_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:plenty_wallet/app/modules/account_summary/views/widgets/crypto_tab_widgets/token_checkbox.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/list_tile.dart';
+import 'package:plenty_wallet/app/modules/home_page/widgets/objkt_nft_widget/controllers/buy_nft_controller.dart';
 
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../../../utils/styles/styles.dart';
 

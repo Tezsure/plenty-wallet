@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:naan_wallet/app/modules/onboarding_page/controllers/onboarding_page_controller.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/app/modules/onboarding_page/controllers/onboarding_page_controller.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
 class OnboardingWidget extends StatefulWidget {
   final OnboardingPageController controller;

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
-import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
-import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
-import 'package:naan_wallet/app/modules/onboarding_page/controllers/onboarding_page_controller.dart';
-import 'package:naan_wallet/app/modules/onboarding_page/widgets/onboarding_screen_widget.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/text_scale_factor.dart';
+import 'package:plenty_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
+import 'package:plenty_wallet/app/modules/custom_packages/animated_scroll_indicator/smooth_page_indicator.dart';
+import 'package:plenty_wallet/app/modules/onboarding_page/controllers/onboarding_page_controller.dart';
+import 'package:plenty_wallet/app/modules/onboarding_page/widgets/onboarding_screen_widget.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
 class OnboardingPageView extends GetView<OnboardingPageController> {
   const OnboardingPageView({Key? key}) : super(key: key);

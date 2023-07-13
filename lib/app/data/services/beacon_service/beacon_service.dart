@@ -5,15 +5,15 @@ import 'dart:convert';
 import 'package:beacon_flutter/beacon_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
-import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
-import 'package:naan_wallet/app/modules/beacon_bottom_sheet/opreation_request/views/opreation_request_view.dart';
-import 'package:naan_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
-import 'package:naan_wallet/app/modules/beacon_bottom_sheet/payload_request/views/payload_request_view.dart';
-import 'package:naan_wallet/app/modules/beacon_bottom_sheet/widgets/test_network_alert_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/no_accounts_founds_bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:plenty_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:plenty_wallet/app/data/services/rpc_service/rpc_service.dart';
+import 'package:plenty_wallet/app/modules/beacon_bottom_sheet/opreation_request/views/opreation_request_view.dart';
+import 'package:plenty_wallet/app/modules/beacon_bottom_sheet/pair_request/views/pair_request_view.dart';
+import 'package:plenty_wallet/app/modules/beacon_bottom_sheet/payload_request/views/payload_request_view.dart';
+import 'package:plenty_wallet/app/modules/beacon_bottom_sheet/widgets/test_network_alert_sheet.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/no_accounts_founds_bottom_sheet.dart';
+import 'package:plenty_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:plenty_wallet/utils/common_functions.dart';
 import 'package:uni_links/uni_links.dart';
 
 class BeaconService extends GetxService {
@@ -128,7 +128,6 @@ class BeaconService extends GetxService {
       Get.snackbar("Error", e.toString());
     }
   }
-
 
   @override
   void stop() {

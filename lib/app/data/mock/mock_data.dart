@@ -1,4 +1,4 @@
-import 'package:naan_wallet/models/tokens_model.dart';
+import 'package:plenty_wallet/models/tokens_model.dart';
 
 class MockData {
   static const Map<String, String> walletInfo = {

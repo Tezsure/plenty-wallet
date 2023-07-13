@@ -1,7 +1,7 @@
 library flutter_bounce;
 
 import 'package:flutter/material.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
+import 'package:plenty_wallet/utils/constants/constants.dart';
 
 import 'text_scale_factor.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
-import 'package:naan_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
+import 'package:plenty_wallet/app/data/services/enums/enums.dart';
+import 'package:plenty_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
+import 'package:plenty_wallet/app/routes/app_pages.dart';
 
 class PasscodePageController extends GetxController {
   /// define whether the redirected from new wallet or to verify the passcode <br>

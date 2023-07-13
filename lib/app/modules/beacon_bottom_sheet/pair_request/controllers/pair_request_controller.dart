@@ -4,13 +4,13 @@ import 'package:beacon_flutter/models/beacon_request.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/modules/beacon_bottom_sheet/widgets/account_selector/account_selector.dart';
-import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:plenty_wallet/app/data/services/beacon_service/beacon_service.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
+import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:plenty_wallet/app/modules/beacon_bottom_sheet/widgets/account_selector/account_selector.dart';
+import 'package:plenty_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/common_functions.dart';
 
 class PairRequestController extends GetxController {
   final BeaconRequest beaconRequest = Get.arguments;

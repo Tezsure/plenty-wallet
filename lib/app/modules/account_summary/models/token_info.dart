@@ -1,4 +1,4 @@
-import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/tx_history_model.dart';
 
 import '../../../../utils/constants/path_const.dart';
 
@@ -81,7 +81,6 @@ class TokenInfo {
         lastId: lastId ?? this.lastId,
         isSent: isSent ?? this.isSent,
         token: token ?? this.token,
-        
         isDelegated: isDelegated ?? this.isDelegated,
         nftContractAddress: address ?? nftContractAddress,
         nftTokenId: nftTokenId ?? this.nftTokenId,

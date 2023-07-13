@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:naan_wallet/app/modules/common_widgets/list_tile.dart';
-import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/list_tile.dart';
+import 'package:plenty_wallet/app/modules/send_page/controllers/send_page_controller.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/styles/styles.dart';
 
 /// Displays the token selection page. This page is used to select the token/nft to send.
 ///

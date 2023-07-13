@@ -2,7 +2,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
-// import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
+// import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
 
 // abstract class AnimateBottomsheetController extends GetxController
 //     with GetSingleTickerProviderStateMixin {

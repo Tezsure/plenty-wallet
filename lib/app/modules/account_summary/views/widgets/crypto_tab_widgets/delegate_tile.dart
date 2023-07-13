@@ -1,12 +1,12 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_svg/svg.dart';
 // import 'package:get/get.dart';
-// import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
-// import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-// import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
-// import 'package:naan_wallet/utils/constants/path_const.dart';
-// import 'package:naan_wallet/utils/extensions/size_extension.dart';
-// import 'package:naan_wallet/utils/styles/styles.dart';
+// import 'package:plenty_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+// import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
+// import 'package:plenty_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
+// import 'package:plenty_wallet/utils/constants/path_const.dart';
+// import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+// import 'package:plenty_wallet/utils/styles/styles.dart';
 
 // import '../../../../../../utils/colors/colors.dart';
 // import '../../../../common_widgets/solid_button.dart';

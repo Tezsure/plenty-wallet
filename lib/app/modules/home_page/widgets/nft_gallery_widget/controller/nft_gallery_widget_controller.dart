@@ -3,17 +3,17 @@ import 'dart:developer';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
-import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/nft_gallery_widget/view/create_new_nft_gallery/create_new_nft_gallery_bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
-import 'package:naan_wallet/app/modules/nft_gallery/view/nft_gallery_view.dart';
-import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:plenty_wallet/app/data/services/data_handler_service/data_handler_service.dart';
+import 'package:plenty_wallet/app/data/services/enums/enums.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/nft_gallery_model.dart';
+import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:plenty_wallet/app/modules/home_page/widgets/nft_gallery_widget/view/create_new_nft_gallery/create_new_nft_gallery_bottom_sheet.dart';
+import 'package:plenty_wallet/app/modules/nft_gallery/controller/nft_gallery_controller.dart';
+import 'package:plenty_wallet/app/modules/nft_gallery/view/nft_gallery_view.dart';
+import 'package:plenty_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
+import 'package:plenty_wallet/utils/common_functions.dart';
 
 class NftGalleryWidgetController extends GetxController {
   RxList<AccountModel> accounts = <AccountModel>[].obs;

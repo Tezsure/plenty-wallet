@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
+import 'package:plenty_wallet/app/data/services/enums/enums.dart';
 
 class AccountModel {
   String? name;

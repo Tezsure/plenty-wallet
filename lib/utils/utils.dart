@@ -1,4 +1,4 @@
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
 
 String tz1Shortner(String tz1) => tz1.length > 3
     ? ("${tz1.substring(0, 3)}...${tz1.substring(tz1.length - 3, tz1.length)}")

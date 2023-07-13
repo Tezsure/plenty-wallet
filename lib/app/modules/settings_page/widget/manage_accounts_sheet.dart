@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bouncing_widget.dart';
 
 // class ManageAccountsBottomSheet extends GetView<SettingsPageController> {
 //   ManageAccountsBottomSheet({super.key});

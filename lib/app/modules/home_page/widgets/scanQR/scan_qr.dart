@@ -2,16 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
-import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
-import 'package:naan_wallet/app/modules/home_page/controllers/scan_qr_controller.dart';
-import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
-import 'package:naan_wallet/app/modules/settings_page/widget/connected_dapps_sheet.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/text_scale_factor.dart';
+import 'package:plenty_wallet/app/modules/home_page/controllers/scan_qr_controller.dart';
+import 'package:plenty_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
+import 'package:plenty_wallet/app/modules/settings_page/widget/connected_dapps_sheet.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/common_functions.dart';
+import 'package:plenty_wallet/utils/constants/constants.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/styles/styles.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanQrView extends StatefulWidget {

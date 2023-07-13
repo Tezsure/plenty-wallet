@@ -1,7 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
-import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
-import 'package:naan_wallet/utils/constants/path_const.dart';
+import 'package:plenty_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:plenty_wallet/app/modules/settings_page/enums/network_enum.dart';
+import 'package:plenty_wallet/utils/constants/path_const.dart';
 
 enum Currency { usd, tez, eur, inr, aud }
 

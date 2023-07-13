@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:plenty_wallet/app/routes/app_pages.dart';
 
 class InitialScreenBindings implements Bindings {
   String tag;

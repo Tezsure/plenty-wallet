@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
-import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/controller/vca_redeem_nft_controller.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/text_scale_factor.dart';
+import 'package:plenty_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/controller/vca_redeem_nft_controller.dart';
 
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/constants/constants.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/styles/styles.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class VCARedeemNFTScanQrView extends StatefulWidget {

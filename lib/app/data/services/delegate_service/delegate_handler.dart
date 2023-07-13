@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
-import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/delegate_cycle_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/delegate_reward_model.dart';
+import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
+import 'package:plenty_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/delegate_cycle_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/delegate_reward_model.dart';
 
 import '../../../modules/settings_page/enums/network_enum.dart';
 import '../service_config/service_config.dart';

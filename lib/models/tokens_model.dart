@@ -1,7 +1,7 @@
 import 'dart:math';
 
-// import 'package:naan_wallet/app/utils/apis_handler/http_helper.dart';
-import 'package:naan_wallet/models/token_tx_model.dart';
+// import 'package:plenty_wallet/app/utils/apis_handler/http_helper.dart';
+import 'package:plenty_wallet/models/token_tx_model.dart';
 
 enum TOKEN_TYPE {
   FA1,

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/common_widgets/text_scale_factor.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/text_scale_factor.dart';
+import 'package:plenty_wallet/utils/constants/constants.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
 import '../controllers/home_page_controller.dart';
 import '../widgets/home_app_bar_widget/home_app_bar_widget.dart';

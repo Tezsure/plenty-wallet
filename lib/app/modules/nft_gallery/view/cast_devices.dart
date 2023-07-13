@@ -2,10 +2,10 @@ import 'package:cast/cast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/nft_gallery/controller/cast_controller.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:plenty_wallet/app/modules/nft_gallery/controller/cast_controller.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
 import '../../../../utils/styles/styles.dart';
 
@@ -31,8 +31,8 @@ class CastDevicesSheet extends StatelessWidget {
             } else if (!snapshot.hasData) {
               return const Center(
                 child: CupertinoActivityIndicator(
-                            color: ColorConst.Primary,
-                          ),
+                  color: ColorConst.Primary,
+                ),
               );
             }
 

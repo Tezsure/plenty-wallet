@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:naan_wallet/utils/constants/path_const.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/constants/path_const.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
 class ComingSoonWidget extends StatelessWidget {
   const ComingSoonWidget({super.key});

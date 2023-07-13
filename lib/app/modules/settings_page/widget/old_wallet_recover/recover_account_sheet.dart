@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
-import 'package:naan_wallet/app/data/services/extension_service/account_model_ext_service/account_model_ext_service.dart';
-import 'package:naan_wallet/app/data/services/patch_sesrvice/patch_service.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_button_padding.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
-import 'package:naan_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
-import 'package:naan_wallet/utils/utils.dart';
+import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
+import 'package:plenty_wallet/app/data/services/extension_service/account_model_ext_service/account_model_ext_service.dart';
+import 'package:plenty_wallet/app/data/services/patch_sesrvice/patch_service.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
+import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bottom_button_padding.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:plenty_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
+import 'package:plenty_wallet/app/routes/app_pages.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/utils/utils.dart';
 
 class RecoverOldAccountSheet extends StatelessWidget {
   RecoverOldAccountSheet({super.key});

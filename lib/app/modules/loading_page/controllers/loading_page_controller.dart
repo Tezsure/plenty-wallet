@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
-import 'package:naan_wallet/app/data/services/web3auth_services/web3AuthController.dart';
-import 'package:naan_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
-import 'package:naan_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
+import 'package:plenty_wallet/app/data/services/enums/enums.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
+import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:plenty_wallet/app/data/services/wallet_service/wallet_service.dart';
+import 'package:plenty_wallet/app/data/services/web3auth_services/web3AuthController.dart';
+import 'package:plenty_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
+import 'package:plenty_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
+import 'package:plenty_wallet/app/routes/app_pages.dart';
 
 class LoadingPageController extends GetxController {
   /// loading process will be dynamic function which will be define from the args

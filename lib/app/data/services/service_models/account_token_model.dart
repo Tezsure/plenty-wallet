@@ -1,4 +1,4 @@
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
+import 'package:plenty_wallet/app/data/services/enums/enums.dart';
 
 import 'token_price_model.dart';
 

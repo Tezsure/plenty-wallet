@@ -2,19 +2,19 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
-import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
-import 'package:naan_wallet/app/modules/account_summary/models/token_info.dart';
-import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/transaction_details.dart';
-import 'package:naan_wallet/app/modules/account_summary/views/pages/crypto_tab.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
+import 'package:plenty_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/tx_history_model.dart';
+import 'package:plenty_wallet/app/modules/account_summary/models/token_info.dart';
+import 'package:plenty_wallet/app/modules/account_summary/views/bottomsheets/transaction_details.dart';
+import 'package:plenty_wallet/app/modules/account_summary/views/pages/crypto_tab.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:plenty_wallet/utils/common_functions.dart';
+import 'package:plenty_wallet/utils/constants/constants.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/styles/styles.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../utils/colors/colors.dart';
@@ -242,7 +242,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
           ? _loadNFTTransaction(
               controller.searchTransactionList[index],
               index,
-        )
+            )
           : _loadTokenTransaction(
               controller.searchTransactionList[index],
               index,
@@ -264,7 +264,10 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     );
   }
 
-  Widget _loadTokenTransaction(TokenInfo token, int index,) =>
+  Widget _loadTokenTransaction(
+    TokenInfo token,
+    int index,
+  ) =>
       Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,7 +306,10 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         ],
       );
 
-  Widget _loadNFTTransaction(TokenInfo token, int index, ) {
+  Widget _loadNFTTransaction(
+    TokenInfo token,
+    int index,
+  ) {
     final tokenList = controller.tokensList;
     if (token.token != null) {
       final transactionInterface = token.token!.transactionInterface(tokenList);

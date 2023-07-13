@@ -1,26 +1,25 @@
-
 import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
-import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
-import 'package:naan_wallet/app/data/services/delegate_service/delegate_handler.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/delegate_reward_model.dart';
-import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
-import 'package:naan_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
-import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/account_switch_widget/account_switch_widget.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_info_sheet.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_success_sheet.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/delegate_widget/widgets/redelegate_sheet.dart';
-import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:plenty_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
+import 'package:plenty_wallet/app/data/services/delegate_service/delegate_handler.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/delegate_reward_model.dart';
+import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:plenty_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:plenty_wallet/app/modules/account_summary/views/bottomsheets/account_selector.dart';
+import 'package:plenty_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:plenty_wallet/app/modules/home_page/widgets/account_switch_widget/account_switch_widget.dart';
+import 'package:plenty_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_baker.dart';
+import 'package:plenty_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_info_sheet.dart';
+import 'package:plenty_wallet/app/modules/home_page/widgets/delegate_widget/widgets/delegate_success_sheet.dart';
+import 'package:plenty_wallet/app/modules/home_page/widgets/delegate_widget/widgets/redelegate_sheet.dart';
+import 'package:plenty_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
+import 'package:plenty_wallet/utils/common_functions.dart';
 
 import '../widgets/review_delegate_baker.dart';
 

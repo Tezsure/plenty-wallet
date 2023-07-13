@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/styles/styles.dart';
 
 import 'bouncing_widget.dart';
 
@@ -98,8 +98,8 @@ class SolidButton extends StatelessWidget {
                     width: 30.arP,
                     height: 30.arP,
                     child: const CupertinoActivityIndicator(
-                            color: Colors.white,
-                          ),
+                      color: Colors.white,
+                    ),
                   )
                 : rowWidget == null
                     ? child != null

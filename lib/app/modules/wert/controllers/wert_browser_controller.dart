@@ -1,7 +1,7 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 
-import 'package:naan_wallet/app/data/services/beacon_service/beacon_service.dart';
+import 'package:plenty_wallet/app/data/services/beacon_service/beacon_service.dart';
 
 class WertBrowserController extends GetxController {
   InAppWebViewController? webViewController;

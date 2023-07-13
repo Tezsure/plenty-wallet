@@ -4,13 +4,12 @@ import 'dart:math';
 import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
 
 import 'package:dartez/dartez.dart';
-import 'package:naan_wallet/app/data/services/analytics/firebase_analytics.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
-import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
-
+import 'package:plenty_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
+import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:plenty_wallet/app/data/services/enums/enums.dart';
+import 'package:plenty_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 
 class WalletService {
   WalletService();

@@ -4,18 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:intl/intl.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
 
-import 'package:naan_wallet/app/data/services/service_models/event_models.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:plenty_wallet/app/data/services/service_models/event_models.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bouncing_widget.dart';
 
-import 'package:naan_wallet/app/modules/common_widgets/solid_button.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/solid_button.dart';
 
-import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
 
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/styles/styles.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 

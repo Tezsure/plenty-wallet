@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:cast/cast.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
 
 class CastScreenController extends GetxController {
   CastSessionManager castSessionManager = CastSessionManager();
@@ -53,8 +53,8 @@ class CastScreenController extends GetxController {
           width: 50,
           child: Center(
               child: CupertinoActivityIndicator(
-                            color: ColorConst.Primary,
-                          )),
+            color: ColorConst.Primary,
+          )),
         ));
     // if (Get.isOverlaysOpen) {
     //   Get.back();

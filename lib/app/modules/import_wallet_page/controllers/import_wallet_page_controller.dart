@@ -5,17 +5,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/auth_service/auth_service.dart';
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
-import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
-import 'package:naan_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
-import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
-import 'package:naan_wallet/app/routes/app_pages.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
+import 'package:plenty_wallet/app/data/services/enums/enums.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
+import 'package:plenty_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
+import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:plenty_wallet/app/data/services/wallet_service/wallet_service.dart';
+import 'package:plenty_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
+import 'package:plenty_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
+import 'package:plenty_wallet/app/routes/app_pages.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/common_functions.dart';
 
 import '../../create_profile_page/views/create_profile_page_view.dart';
 

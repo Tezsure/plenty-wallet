@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
 
 import 'image_cache_handler.dart';
 
@@ -32,8 +32,8 @@ class CacheImageBuilder extends StatelessWidget {
               )
             : showLoading
                 ? const CupertinoActivityIndicator(
-                            color: ColorConst.Primary,
-                          )
+                    color: ColorConst.Primary,
+                  )
                 : Container();
       },
     );

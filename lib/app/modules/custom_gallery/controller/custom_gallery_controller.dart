@@ -4,13 +4,13 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
-import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
+import 'package:plenty_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
+import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
 
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/teztown/controllers/teztown_controller.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/data/services/service_models/nft_gallery_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:plenty_wallet/app/modules/home_page/widgets/teztown/controllers/teztown_controller.dart';
 
 import 'package:simple_gql/simple_gql.dart';
 

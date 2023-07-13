@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/service_models/delegate_reward_model.dart';
-import 'package:naan_wallet/utils/constants/path_const.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/utils.dart';
+import 'package:plenty_wallet/app/data/services/service_models/delegate_reward_model.dart';
+import 'package:plenty_wallet/utils/constants/path_const.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/utils.dart';
 
 import '../../../../../../utils/colors/colors.dart';
 import '../../../../../../utils/styles/styles.dart';

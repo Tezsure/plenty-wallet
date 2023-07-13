@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
-import 'package:naan_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
-import 'package:naan_wallet/app/modules/send_page/views/widgets/delete_contact_sheet.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
-import 'package:naan_wallet/utils/utils.dart';
+import 'package:plenty_wallet/app/data/services/service_models/contact_model.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:plenty_wallet/app/modules/send_page/controllers/send_page_controller.dart';
+import 'package:plenty_wallet/app/modules/send_page/views/widgets/add_contact_sheet.dart';
+import 'package:plenty_wallet/app/modules/send_page/views/widgets/delete_contact_sheet.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/common_functions.dart';
+import 'package:plenty_wallet/utils/constants/constants.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/utils/utils.dart';
 
 class ContactsListView extends GetView<SendPageController> {
   const ContactsListView({super.key});

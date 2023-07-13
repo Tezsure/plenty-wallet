@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/iaf/iaf_service.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/iaf/widgets/iaf_success_sheet.dart';
-import 'package:naan_wallet/utils/common_functions.dart';
+import 'package:plenty_wallet/app/data/services/iaf/iaf_service.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
+import 'package:plenty_wallet/app/modules/home_page/widgets/iaf/widgets/iaf_success_sheet.dart';
+import 'package:plenty_wallet/utils/common_functions.dart';
 
 class IAFController extends GetxController {
   final IAFService _iafService = IAFService();
@@ -41,7 +41,9 @@ class IAFController extends GetxController {
     isLoading.value = false;
     if (isClaimSuccess) {
       Get.back();
-      CommonFunctions.bottomSheet(const IAFClaimSuccessSheet(), );
+      CommonFunctions.bottomSheet(
+        const IAFClaimSuccessSheet(),
+      );
     }
   }
 

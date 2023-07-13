@@ -1,6 +1,6 @@
 // import 'package:flutter/material.dart';
-// import 'package:naan_wallet/utils/extensions/size_extension.dart';
-// import 'package:naan_wallet/utils/styles/styles.dart';
+// import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+// import 'package:plenty_wallet/utils/styles/styles.dart';
 
 // import '../../../../../../utils/colors/colors.dart';
 // import '../../../../../../utils/constants/path_const.dart';

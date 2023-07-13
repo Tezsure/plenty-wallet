@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:naan_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
 
 List<DelegateRewardModel> delegateRewardListResponseFromJson(String str) =>
     List<DelegateRewardModel>.from(

@@ -6,10 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/router_report.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
 
 class CommonFunctions {
   static void launchURL(String url, {LaunchMode? mode}) async =>

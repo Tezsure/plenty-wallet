@@ -4,24 +4,24 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
-import 'package:naan_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
-import 'package:naan_wallet/app/modules/common_widgets/back_button.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bottom_sheet.dart';
-import 'package:naan_wallet/app/modules/send_page/views/pages/contact_page_view.dart';
-import 'package:naan_wallet/app/modules/send_page/views/pages/token_collection_page_view.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
-import 'package:naan_wallet/utils/constants/constants.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/data/services/service_models/contact_model.dart';
+import 'package:plenty_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/back_button.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
+import 'package:plenty_wallet/app/modules/send_page/views/pages/contact_page_view.dart';
+import 'package:plenty_wallet/app/modules/send_page/views/pages/token_collection_page_view.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/utils/constants/constants.dart';
 
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
-import 'package:naan_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/styles/styles.dart';
 
 import '../controllers/send_page_controller.dart';
 import 'pages/send_review_page.dart';
 import 'widgets/add_button.dart';
 import 'widgets/paste_button.dart';
-import 'package:naan_wallet/utils/utils.dart';
+import 'package:plenty_wallet/utils/utils.dart';
 
 class SendPage extends GetView<SendPageController> {
   final String? lastPageName;

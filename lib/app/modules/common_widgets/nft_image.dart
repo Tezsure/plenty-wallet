@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
-import 'package:naan_wallet/app/modules/veNFT.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:plenty_wallet/app/modules/veNFT.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 import 'package:shimmer/shimmer.dart';
 
 // ignore: must_be_immutable

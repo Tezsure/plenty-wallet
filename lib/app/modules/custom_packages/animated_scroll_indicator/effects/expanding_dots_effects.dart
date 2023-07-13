@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/painters/expanding_dots_painter.dart';
-import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/painters/indicator_painter.dart';
+import 'package:plenty_wallet/app/modules/custom_packages/animated_scroll_indicator/painters/expanding_dots_painter.dart';
+import 'package:plenty_wallet/app/modules/custom_packages/animated_scroll_indicator/painters/indicator_painter.dart';
 
 import 'indicator_effects.dart';
 
@@ -58,5 +58,3 @@ class ExpandingDotsEffect extends BasicIndicatorEffect {
     return -1;
   }
 }
-
-

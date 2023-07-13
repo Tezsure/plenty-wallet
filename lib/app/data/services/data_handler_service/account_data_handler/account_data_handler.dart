@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:isolate';
 
-import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_render_service.dart';
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
-import 'package:naan_wallet/app/data/services/rpc_service/rpc_service.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
-import 'package:naan_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
+import 'package:plenty_wallet/app/data/services/data_handler_service/data_handler_render_service.dart';
+import 'package:plenty_wallet/app/data/services/enums/enums.dart';
+import 'package:plenty_wallet/app/data/services/rpc_service/rpc_service.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_token_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/token_price_model.dart';
+import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:plenty_wallet/app/modules/settings_page/enums/network_enum.dart';
 
 import '../../rpc_service/http_service.dart';
 

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/service_models/event_models.dart';
+import 'package:plenty_wallet/app/data/services/service_models/event_models.dart';
 
 import '../../../data/services/data_handler_service/data_handler_service.dart';
 

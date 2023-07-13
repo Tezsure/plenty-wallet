@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:naan_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:simple_gql/simple_gql.dart';
 
 import '../service_config/service_config.dart';

@@ -1,7 +1,7 @@
 import 'package:dartez/dartez.dart';
 // ignore: implementation_imports
-import 'package:naan_wallet/app/data/services/service_models/operation_batch_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/operation_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/operation_batch_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/operation_model.dart';
 
 class OperationService {
   Future<dynamic> sendXtzTx(

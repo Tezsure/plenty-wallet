@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/enums/enums.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/wallet_service/wallet_service.dart';
-import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:plenty_wallet/app/data/services/enums/enums.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/data/services/wallet_service/wallet_service.dart';
+import 'package:plenty_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 
 class AccountsWidgetController extends GetxController {
   final homeController = Get.find<HomePageController>();
@@ -50,7 +50,6 @@ class AccountsWidgetController extends GetxController {
     } catch (e) {
       print(e.toString());
     }
-  
   }
 
   /// add account functions

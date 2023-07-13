@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
-import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/account_token_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/contact_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/nft_gallery_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
-import 'package:naan_wallet/app/modules/settings_page/enums/network_enum.dart';
+import 'package:plenty_wallet/app/data/services/data_handler_service/data_handler_service.dart';
+import 'package:plenty_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_token_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/contact_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/nft_gallery_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/tx_history_model.dart';
+import 'package:plenty_wallet/app/modules/settings_page/enums/network_enum.dart';
 
 enum NftState { processing, empty, done }
 

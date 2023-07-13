@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
 class WidgetWrapper2x1 extends StatelessWidget {
   /// This wrapper widget takes half of the screen's width and is square(height = width) in shape.

@@ -1,10 +1,10 @@
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
-// import 'package:naan_wallet/app/modules/dapps_page/views/dapps_page_view.dart';
-// import 'package:naan_wallet/utils/colors/colors.dart';
-// import 'package:naan_wallet/utils/constants/path_const.dart';
-// import 'package:naan_wallet/utils/extensions/size_extension.dart';
-// import 'package:naan_wallet/utils/styles/styles.dart';
+// import 'package:plenty_wallet/app/modules/dapps_page/views/dapps_page_view.dart';
+// import 'package:plenty_wallet/utils/colors/colors.dart';
+// import 'package:plenty_wallet/utils/constants/path_const.dart';
+// import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+// import 'package:plenty_wallet/utils/styles/styles.dart';
 
 // class Accessiblity extends StatelessWidget {
 //   const Accessiblity({Key? key}) : super(key: key);

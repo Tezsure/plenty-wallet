@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../controllers/splash_page_controller.dart';
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
 class SplashPageView extends GetView<SplashPageController> {
   const SplashPageView({Key? key}) : super(key: key);

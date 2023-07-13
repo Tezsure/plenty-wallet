@@ -1,6 +1,5 @@
-
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/data_handler_service/data_handler_service.dart';
+import 'package:plenty_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 
 import 'teztown_model.dart';
 
@@ -13,5 +12,4 @@ class TeztownController extends GetxController {
   }
 
   Rx<TeztownModel> teztownData = TeztownModel().obs;
-
 }

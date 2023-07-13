@@ -2,12 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:naan_wallet/app/data/services/service_config/service_config.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-import 'package:naan_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
-import 'package:naan_wallet/utils/colors/colors.dart';
+import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/bouncing_widget.dart';
+import 'package:plenty_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
+import 'package:plenty_wallet/utils/colors/colors.dart';
 
-import 'package:naan_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
 import '../../controllers/home_page_controller.dart';
 

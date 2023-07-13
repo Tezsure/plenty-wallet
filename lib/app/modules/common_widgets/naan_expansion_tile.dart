@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:naan_wallet/app/modules/common_widgets/list_tile.dart';
+import 'package:plenty_wallet/app/modules/common_widgets/list_tile.dart';
 
 // import 'color_scheme.dart';
 // import 'colors.dart';

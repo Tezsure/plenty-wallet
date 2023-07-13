@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
-import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
+import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
+import 'package:plenty_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 
 class IAFService {
   Future<bool> checkEmailStatus(String email, String address) async {
@@ -44,6 +44,4 @@ class IAFService {
     }
     return false;
   }
-
-
 }

@@ -5,14 +5,14 @@ import 'package:beacon_flutter/enums/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:naan_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
-import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
-import 'package:naan_wallet/app/data/services/service_models/token_price_model.dart';
-import 'package:naan_wallet/app/data/services/service_models/tx_history_model.dart';
-import 'package:naan_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
-import 'package:naan_wallet/app/modules/account_summary/models/token_info.dart';
-import 'package:naan_wallet/app/modules/home_page/controllers/home_page_controller.dart';
-import 'package:naan_wallet/app/modules/send_page/controllers/send_page_controller.dart';
+import 'package:plenty_wallet/app/data/services/data_handler_service/nft_and_txhistory_handler/nft_and_txhistory_handler.dart';
+import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
+import 'package:plenty_wallet/app/data/services/service_models/token_price_model.dart';
+import 'package:plenty_wallet/app/data/services/service_models/tx_history_model.dart';
+import 'package:plenty_wallet/app/modules/account_summary/controllers/account_summary_controller.dart';
+import 'package:plenty_wallet/app/modules/account_summary/models/token_info.dart';
+import 'package:plenty_wallet/app/modules/home_page/controllers/home_page_controller.dart';
+import 'package:plenty_wallet/app/modules/send_page/controllers/send_page_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../utils/constants/path_const.dart';
@@ -20,7 +20,7 @@ import '../../../data/services/service_config/service_config.dart';
 import '../../../data/services/service_models/contact_model.dart';
 import '../../../data/services/user_storage_service/user_storage_service.dart';
 import 'history_filter_controller.dart';
-import 'package:naan_wallet/utils/utils.dart';
+import 'package:plenty_wallet/utils/utils.dart';
 
 class TransactionController extends GetxController {
   final accController = Get.find<AccountSummaryController>();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:naan_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
+import 'package:plenty_wallet/app/modules/custom_packages/animated_scroll_indicator/effects/expanding_dots_effects.dart';
 
 import 'effects/indicator_effects.dart';
 import 'painters/indicator_painter.dart';

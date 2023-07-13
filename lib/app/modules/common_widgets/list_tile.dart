@@ -6,8 +6,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:naan_wallet/app/modules/common_widgets/bouncing_widget.dart';
-
+import 'package:plenty_wallet/app/modules/common_widgets/bouncing_widget.dart';
 
 // Examples can assume:
 // int _act = 1;

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:naan_wallet/app/data/services/rpc_service/http_service.dart';
-import 'package:naan_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
-import 'package:naan_wallet/env.dart';
+import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
+import 'package:plenty_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
+import 'package:plenty_wallet/env.dart';
 import 'package:http/http.dart' as http;
 import '../../../../modules/settings_page/enums/network_enum.dart';
 import '../../service_config/service_config.dart';
