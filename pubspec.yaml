@@ -28,7 +28,7 @@ dependencies:
   intl: ^0.18.0
   hex: ^0.2.0
   shimmer: ^3.0.0
-  flutter_inappwebview: ^5.7.2+3
+  flutter_inappwebview: ^6.0.0
   beacon_flutter: ^1.0.9
   in_app_review: ^2.0.6
   firebase_core: ^2.3.0
