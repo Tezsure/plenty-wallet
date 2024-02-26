@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:plenty_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:simple_gql/simple_gql.dart';
 
@@ -21,7 +22,7 @@ class ArtFoundationHandler {
       int index = Random().nextInt(length);
       return NftTokenModel.fromJson(response.data['token'][index]);
     } catch (e) {
-      print(" gql error $e");
+      debugPrint(" gql error $e");
       return NftTokenModel(artifactUri: "");
     }
   }

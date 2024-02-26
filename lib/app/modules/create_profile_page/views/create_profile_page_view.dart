@@ -21,6 +21,7 @@ import 'package:plenty_wallet/utils/common_functions.dart';
 import 'package:plenty_wallet/utils/constants/constants.dart';
 import 'package:plenty_wallet/utils/constants/path_const.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/utils.dart';
 
 import '../../../../utils/styles/styles.dart';
 import '../controllers/create_profile_page_controller.dart';
@@ -114,10 +115,20 @@ class CreateProfilePageView extends GetView<CreateProfilePageController> {
           // height: 52.arP,
           backgroundColor: const Color(0xff1E1C1F),
           hint: "Wallet Name",
+          maxLen: 28,
           focusNode: controller.accountNameFocus,
           controller: controller.accountNameController,
-          onTextChange: (String value) => controller.isContiuneButtonEnable
-              .value = value.length > 2 && value.length < 20,
+          onTextChange: (String value) {
+            if (value.removeSpecialChars != value) {
+              controller.accountNameController.text = value.removeSpecialChars;
+              controller.accountNameController.selection =
+                  TextSelection.fromPosition(TextPosition(
+                      offset: controller.accountNameController.text.length));
+              value = value.removeSpecialChars;
+            }
+            return controller.isContiuneButtonEnable.value =
+                value.length > 2 && value.length < 20;
+          },
         ),
         const Spacer(),
         Obx(

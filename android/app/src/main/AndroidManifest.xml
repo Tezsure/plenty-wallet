@@ -11,17 +11,20 @@
 	FlutterApplication and put your custom class here.
 	-->
 	<uses-permission android:name="android.permission.INTERNET" />
+	  <!-- Used for storing app data like wallet and keys-->
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	 <!-- Used for reading the app data -->
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.USE_FINGERPRINT" />
 	<uses-permission android:name="android.permission.VIBRATE" />
+	<!-- Used for for qr code scanning while sending funds, claiming nfts, connecting dapps -->
 	<uses-permission android:name="android.permission.CAMERA" />
-	<uses-permission android:name="android.permission.RECORD_AUDIO" />
 	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 	<uses-permission android:name="android.permission.VIDEO_CAPTURE" />
 	<uses-permission android:name="android.permission.AUDIO_CAPTURE" />
+	<!-- Used for adding events in the calender -->
 	<uses-permission android:name="android.permission.WRITE_CALENDAR" />
-	<uses-permission android:name="android.permission.READ_CALENDAR" />
+
 	<queries>
 		<intent>
 			<action android:name="android.intent.action.INSERT" />
@@ -31,12 +34,12 @@
 	<application tools:replace="android:label,android:roundIcon" android:name="${applicationName}"
 		android:requestLegacyExternalStorage="true" android:label="Plenty Wallet"
 		android:icon="@mipmap/ic_launcher" android:largeHeap="true"
-		android:roundIcon="@mipmap/ic_launcher" android:usesCleartextTraffic="true">
+		android:roundIcon="@mipmap/ic_launcher" android:usesCleartextTraffic="false"
+		android:allowBackup="false">
 		<activity android:name=".MainActivity" android:exported="true"
 			android:launchMode="singleTop" android:theme="@style/LaunchTheme"
 			android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-			android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize"
-			android:allowBackup="false">
+			android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
 			<!--
 			Specifies an Android theme to apply to this Activity as soon as
 			the Android

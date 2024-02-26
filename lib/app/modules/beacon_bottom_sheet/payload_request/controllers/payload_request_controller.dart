@@ -6,6 +6,7 @@ import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plenty_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:plenty_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
 import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
@@ -41,32 +42,37 @@ class PayloadRequestController extends GetxController {
 
   confirm() async {
     try {
-      NaanAnalytics.logEvent(NaanAnalyticsEvents.DAPP_CLICK, param: {
-        "type": beaconRequest.type!,
-        "name": beaconRequest.peer?.name,
-        "address": accountModel.value!.publicKeyHash
-      });
-      if (beaconRequest.request?.payload != null) {
-        final Map response = await beaconPlugin.signPayloadResponse(
-            id: beaconRequest.request!.id!,
-            signature: Dartez.signPayload(
-                signer: Dartez.createSigner((await UserStorageService()
-                        .readAccountSecrets(
-                            accountModel.value!.publicKeyHash!))!
-                    .secretKey!),
-                payload: beaconRequest.request!.payload!),
-            type: SigningType.micheline);
+      AuthService auth = AuthService();
 
-        final bool success =
-            json.decode(response['success'].toString()) as bool;
+      bool result = await auth.verifyBiometricOrPassCode();
 
-        if (success) {
-          AppConstant.hapticFeedback();
-          if (Get.isSnackbarOpen == true) {
-            Get.close(1);
-          } else {
-            Get.back();
-          }
+      if (result) {
+        NaanAnalytics.logEvent(NaanAnalyticsEvents.DAPP_CLICK, param: {
+          "type": beaconRequest.type!,
+          "name": beaconRequest.peer?.name,
+          "address": accountModel.value!.publicKeyHash
+        });
+        if (beaconRequest.request?.payload != null) {
+          final Map response = await beaconPlugin.signPayloadResponse(
+              id: beaconRequest.request!.id!,
+              signature: Dartez.signPayload(
+                  signer: Dartez.createSigner((await UserStorageService()
+                          .readAccountSecrets(
+                              accountModel.value!.publicKeyHash!))!
+                      .secretKey!),
+                  payload: beaconRequest.request!.payload!),
+              type: SigningType.micheline);
+
+          final bool success =
+              json.decode(response['success'].toString()) as bool;
+
+          if (success) {
+            AppConstant.hapticFeedback();
+            if (Get.isSnackbarOpen == true) {
+              Get.close(1);
+            } else {
+              Get.back();
+            }
 
 /*           Get.snackbar(
             'Success',
@@ -74,11 +80,12 @@ class PayloadRequestController extends GetxController {
             backgroundColor: ColorConst.Secondary,
             colorText: Colors.white,
           ); */
+          } else {
+            throw Exception('Error while Signing payload');
+          }
         } else {
           throw Exception('Error while Signing payload');
         }
-      } else {
-        throw Exception('Error while Signing payload');
       }
     } catch (e) {
       if (Get.isSnackbarOpen == true) {

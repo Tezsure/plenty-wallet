@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
 
 String tz1Shortner(String tz1) => tz1.length > 3
@@ -20,6 +21,8 @@ extension StringHelper on String {
 
   get removeTrailing0 =>
       contains(".") ? replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "") : this;
+
+  String get removeSpecialChars => replaceAll(RegExp(r'[^a-zA-Z0-9 ]'), '');
 }
 
 String relativeDate(DateTime d) {
@@ -58,7 +61,7 @@ extension DecimalsRoundUp on num {
                     ? r"$ " + toStringAsFixed(0)
                     : r"$ " + toStringAsFixed(decimals);
       } else if (ServiceConfig.currency == Currency.inr) {
-        print((this * ServiceConfig.inr).toStringAsFixed(0));
+        debugPrint((this * ServiceConfig.inr).toStringAsFixed(0));
         return this == 0
             ? r"₹ 0.00"
             : this * ServiceConfig.inr < 0.01

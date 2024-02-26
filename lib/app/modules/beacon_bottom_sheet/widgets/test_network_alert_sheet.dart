@@ -132,28 +132,28 @@ class _TestNetworkBottomSheetState extends State<TestNetworkBottomSheet> {
                                 Get.back();
                                 switch (widget.request.type!) {
                                   case RequestType.permission:
-                                    //print("Permission requested");
+                                    //debugPrint("Permission requested");
                                     CommonFunctions.bottomSheet(
                                         const PairRequestView(),
                                         settings: RouteSettings(
                                             arguments: widget.request));
                                     break;
                                   case RequestType.signPayload:
-                                    //print("payload request $widget.request");
+                                    //debugPrint("payload request $widget.request");
                                     CommonFunctions.bottomSheet(
                                         const PayloadRequestView(),
                                         settings: RouteSettings(
                                             arguments: widget.request));
                                     break;
                                   case RequestType.operation:
-                                    //print("operation request $widget.request");
+                                    //debugPrint("operation request $widget.request");
                                     CommonFunctions.bottomSheet(
                                         const OpreationRequestView(),
                                         settings: RouteSettings(
                                             arguments: widget.request));
                                     break;
                                   case RequestType.broadcast:
-                                    //print("broadcast request $widget.request");
+                                    //debugPrint("broadcast request $widget.request");
                                     break;
                                 }
                               }

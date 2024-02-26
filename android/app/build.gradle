@@ -25,7 +25,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 //apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlinx-serialization'
 //apply plugin: 'org.jetbrains.dokka'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -44,10 +44,10 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.naan"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 33
-        versionCode 24
-        versionName '2.1.0'
+        versionCode 25
+        versionName '2.2.0'
     }
 
     buildTypes {
@@ -56,9 +56,8 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
-            useProguard true
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -96,7 +95,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 //    implementation "com.github.airgap-it:beacon-android-sdk:1.0.3"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
     implementation 'com.google.code.gson:gson:2.8.7'
     implementation platform('com.google.firebase:firebase-bom:31.1.0')
     implementation 'com.google.firebase:firebase-analytics'

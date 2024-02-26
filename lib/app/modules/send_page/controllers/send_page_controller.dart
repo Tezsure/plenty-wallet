@@ -130,7 +130,7 @@ class SendPageController extends GetxController {
 
     if (!isNFTPage.value && selectedTokenModel!.name == "Tezos") {
       estimatedFee.value = "0.00185";
-      // print(opHash);
+      // debugPrint(opHash);
     } else {
       operationModel.buildParams();
       // do preApply from start and inject here,
@@ -148,15 +148,16 @@ class SendPageController extends GetxController {
             .toString();
       } catch (e) {
         amountTileError.value = true;
+        estimatedFee.value = "-1";
 /*         transactionStatusSnackbar(
           duration: const Duration(seconds: 2),
           status: TransactionStatus.error,
           tezAddress: 'You have low tez',
           transactionAmount: 'Low balance',
         ); */
-        print(e.toString());
+        debugPrint(e.toString());
       }
-      // print(opHash);
+      // debugPrint(opHash);
     }
   }
 
@@ -461,7 +462,7 @@ class SendPageController extends GetxController {
         .renderService
         .xtzPriceUpdater
         .removeCallback(callbackHash);
-    print("Closed sendflow callback");
+    debugPrint("Closed sendflow callback");
     super.onClose();
   }
 }

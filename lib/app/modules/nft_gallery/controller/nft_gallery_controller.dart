@@ -132,7 +132,7 @@ class NftGalleryController extends GetxController {
 
     var allContracts = [];
     for (var publicKeyHash in publicKeyHashs) {
-      List contracts = jsonDecode((await ServiceConfig.localStorage
+      List contracts = jsonDecode((await ServiceConfig.hiveStorage
                   .read(key: "${ServiceConfig.nftStorage}_$publicKeyHash") ??
               "[]")
           .toString());
@@ -145,7 +145,7 @@ class NftGalleryController extends GetxController {
     await UserStorageService().removeGallery(galleryIndex);
     // await fetchAllNftForGallery();
     await Get.find<NftGalleryWidgetController>().fetchNftGallerys();
-    print("nfts left: ${nftGalleryList.length}");
+    debugPrint("nfts left: ${nftGalleryList.length}");
     if (nftGalleryList.isEmpty) {
       Get.back();
     } else {
@@ -254,15 +254,6 @@ class NftGalleryController extends GetxController {
       }
       return nfts;
     }
-/*     return <NftTokenModel>[
-      for (var publicKeyHash in publicKeyHashs!)
-        ...(await compute(
-            json,
-            (await ServiceConfig.localStorage
-                    .read(key: "${ServiceConfig.nftStorage}_$publicKeyHash") ??
-                "[]"),
-            debugLabel: "fetchAllNft"))
-    ]; */
   }
 }
 

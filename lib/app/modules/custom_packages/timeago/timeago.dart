@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'en_messages.dart';
 import 'lookupmessages.dart';
 
@@ -48,7 +50,7 @@ String format(DateTime date,
     {String? locale, DateTime? clock, bool allowFromNow = false}) {
   locale = locale ?? _default;
   if (_lookupMessagesMap[locale] == null) {
-    print(
+    debugPrint(
         "Locale [$locale] has not been added, using [$_default] as fallback. To add a locale use [setLocaleMessages]");
   }
   allowFromNow = allowFromNow;

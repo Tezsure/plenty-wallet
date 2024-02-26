@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:plenty_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
@@ -59,7 +60,7 @@ class OnGoingTxStatusHelper {
           try {
             addAddress(senderAddress);
           } catch (e) {
-            print(e);
+            debugPrint(e.toString());
           }
         }
       }
@@ -80,8 +81,8 @@ Future<void> addAddress(String address) async {
   );
 
   if (response.statusCode == 201) {
-    print('Address added successfully $address');
+    debugPrint('Address added successfully $address');
   } else {
-    print('Failed to add address: ${response.body}');
+    debugPrint('Failed to add address: ${response.body}');
   }
 }

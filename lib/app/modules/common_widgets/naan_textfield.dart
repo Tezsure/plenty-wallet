@@ -20,27 +20,33 @@ class NaanTextfield extends StatelessWidget {
   // auto focus
   final int? maxLen;
   final bool? autofocus;
+  final bool enableAutoSuggestions;
+  final bool autocorrect;
 
-  const NaanTextfield(
-      {Key? key,
-      this.onEditingComplete,
-      this.controller,
-      this.hint,
-      this.onTextChange,
-      this.backgroundColor,
-      this.hintTextSyle,
-      this.onSubmitted,
-      this.focusNode,
-      this.height,
-      this.textStyle,
-      this.autofocus = false,
-      this.maxLen})
-      : super(key: key);
+  const NaanTextfield({
+    Key? key,
+    this.onEditingComplete,
+    this.controller,
+    this.hint,
+    this.onTextChange,
+    this.backgroundColor,
+    this.hintTextSyle,
+    this.onSubmitted,
+    this.focusNode,
+    this.height,
+    this.textStyle,
+    this.autofocus = false,
+    this.maxLen,
+    this.enableAutoSuggestions = true,
+    this.autocorrect = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       focusNode: focusNode,
+      enableSuggestions: enableAutoSuggestions,
+      autocorrect: autocorrect,
       autofocus: autofocus ?? false,
       controller: controller,
       cursorColor: ColorConst.Primary,

@@ -72,7 +72,7 @@ class AccountSummaryController extends GetxController {
   static int _hiddenTokens = 0;
 
 /*   fetchAllNftscallback(_) {
-    // print("NFT Updated");
+    // debugPrint("NFT Updated");
     _fetchAllNfts();
   } */
 
@@ -88,7 +88,7 @@ class AccountSummaryController extends GetxController {
     });
 
 /*     callbackHash = fetchAllNftscallback.hashCode; */
-    //print("acc $callbackHash");
+    //debugPrint("acc $callbackHash");
 
 /*     DataHandlerService()
         .renderService
@@ -113,7 +113,7 @@ class AccountSummaryController extends GetxController {
     super.onClose();
 
     /* DataHandlerService().renderService.accountNft.removeCallback(callbackHash); */
-    print("Closed nft callback");
+    debugPrint("Closed nft callback");
   }
 
   /// Fetches all the user tokens

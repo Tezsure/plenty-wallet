@@ -45,10 +45,10 @@ class AccountsWidgetController extends GetxController {
       }
       //homeController.selectedIndex.value = index;
       // if (currIndex.value != index) {
-      // print("onPageChanged: $index");
+      // debugPrint("onPageChanged: $index");
       currIndex.value = index;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 

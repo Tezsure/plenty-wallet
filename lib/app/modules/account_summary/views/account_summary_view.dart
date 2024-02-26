@@ -168,13 +168,13 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                             SnackStyle.FLOATING,
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 bottom: 60),
                                                         messageText: Container(
                                                           height: 36,
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       10),
                                                           decoration: BoxDecoration(
@@ -289,7 +289,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                         ? 'https://onramp.money/app/?appId=$onrampId&coinCode=xtz&network=xtz&walletAddress=${controller.selectedAccount.value.publicKeyHash}'
                                                         : "https://wert.naan.app?address=${controller.selectedAccount.value.publicKeyHash}";
 
-                                                    print(url);
+                                                    debugPrint(url);
                                                     // final dappController = Get.put(
                                                     //   DappBrowserController(),
                                                     // );
@@ -388,7 +388,7 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                       ),
                                       0.02.vspace,
                                       SizedBox(
-                                        height: 50.aR,
+                                        height: 48.aR,
                                         width: 1.width,
                                         child: TabBar(
                                             onTap: (value) async {
@@ -407,17 +407,21 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                                       ? refreshNft()
                                                       : null;
                                             },
-                                            isScrollable: true,
+                                            // isScrollable: true,
                                             labelColor:
                                                 ColorConst.Primary.shade95,
                                             indicatorColor: ColorConst.Primary,
                                             indicatorSize:
                                                 TabBarIndicatorSize.tab,
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: 15.aR),
-                                            labelPadding: EdgeInsets.symmetric(
-                                              horizontal: 6.aR,
+                                              horizontal: 15.aR,
                                             ),
+                                            labelPadding: EdgeInsets.only(
+                                              bottom: 12.aR,
+                                            ),
+                                            // EdgeInsets.symmetric(
+                                            //   horizontal: 6.aR,
+                                            // ),
                                             indicatorWeight: 4.aR,
                                             enableFeedback: true,
                                             indicator: MaterialIndicator(
@@ -428,8 +432,10 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                               strokeWidth: 4.aR,
                                             ),
                                             labelStyle: labelLarge.copyWith(
-                                                fontSize: 14.aR,
-                                                letterSpacing: 0.1.aR),
+                                              fontSize: 14.aR,
+                                              letterSpacing: 0.1.aR,
+                                            ),
+                                            tabAlignment: TabAlignment.fill,
                                             unselectedLabelColor: ColorConst
                                                 .NeutralVariant.shade60,
                                             tabs: [

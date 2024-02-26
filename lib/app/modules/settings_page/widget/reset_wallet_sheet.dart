@@ -72,6 +72,12 @@ class ResetWalletBottomSheet extends StatelessWidget {
                     await ServiceConfig().clearStorage();
                     NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
                     Get.offAllNamed(Routes.ONBOARDING_PAGE);
+                    try {
+                      Get.find<HomePageController>().resetUserAccounts();
+                    } catch (_) {}
+                    try {
+                      Get.find<NftGalleryWidgetController>().fetchNftGallerys();
+                    } catch (_) {}
                   } else {
                     final isVerified =
                         await AuthService().verifyBiometricOrPassCode();
@@ -79,14 +85,15 @@ class ResetWalletBottomSheet extends StatelessWidget {
                       await ServiceConfig().clearStorage();
                       NaanAnalytics.logEvent(NaanAnalyticsEvents.RESET_NAAN);
                       Get.offAllNamed(Routes.ONBOARDING_PAGE);
+                      try {
+                        Get.find<HomePageController>().resetUserAccounts();
+                      } catch (_) {}
+                      try {
+                        Get.find<NftGalleryWidgetController>()
+                            .fetchNftGallerys();
+                      } catch (_) {}
                     }
                   }
-                  try {
-                    Get.find<HomePageController>().resetUserAccounts();
-                  } catch (_) {}
-                  try {
-                    Get.find<NftGalleryWidgetController>().fetchNftGallerys();
-                  } catch (_) {}
                 }),
             if (!isWalletBackup)
               Column(
@@ -97,8 +104,13 @@ class ResetWalletBottomSheet extends StatelessWidget {
                         "Backup Wallet".tr,
                         style: labelMedium,
                       ),
-                      onTap: () {
-                        settingController.checkWalletBackup(Get.context!, null);
+                      onTap: () async {
+                        var isPasscodeOrBioValid =
+                            await AuthService().verifyBiometricOrPassCode();
+                        if (isPasscodeOrBioValid) {
+                          settingController.checkWalletBackup(
+                              Get.context!, null);
+                        }
                       }),
                 ],
               ),

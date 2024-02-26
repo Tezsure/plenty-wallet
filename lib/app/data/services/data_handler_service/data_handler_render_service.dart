@@ -37,10 +37,10 @@ class DataHandlerRenderService {
       return;
     }
 
-    xtzPriceUpdater.value = double.parse(await ServiceConfig.localStorage
+    xtzPriceUpdater.value = double.parse(await ServiceConfig.hiveStorage
             .read(key: ServiceConfig.xtzPriceStorage) ??
         "0.0");
-    dayChangeUpdater.value = double.parse(await ServiceConfig.localStorage
+    dayChangeUpdater.value = double.parse(await ServiceConfig.hiveStorage
             .read(key: ServiceConfig.dayChangeStorage) ??
         "0.0");
   }
@@ -65,7 +65,7 @@ class DataHandlerRenderService {
 
   Future<List<TokenPriceModel>> getTokenPriceModel(
       [List<String>? contractAddress]) async {
-    String? tokensPrice = await ServiceConfig.localStorage
+    String? tokensPrice = await ServiceConfig.hiveStorage
         .read(key: ServiceConfig.tokenPricesStorage);
     if (tokensPrice != null && contractAddress != null) {
       return jsonDecode(tokensPrice)['contracts']
@@ -83,26 +83,20 @@ class DataHandlerRenderService {
   }
 
   Future<String> getTokenPriceModelString() async {
-    return (await ServiceConfig.localStorage
+    return (await ServiceConfig.hiveStorage
             .read(key: ServiceConfig.tokenPricesStorage)) ??
         "[]";
   }
 
-  // Future<String> getTokenPriceModelAnalyticsString() async {
-  //   return (await ServiceConfig.localStorage
-  //           .read(key: ServiceConfig.tokenPricesAnalyticsStorage)) ??
-  //       "[]";
-  // }
-
   Future<String?> getTokenPrice() async {
-    String? tokensPrice = await ServiceConfig.localStorage
+    String? tokensPrice = await ServiceConfig.hiveStorage
         .read(key: ServiceConfig.tokenPricesStorage);
 
     return tokensPrice;
   }
 
   Future<List<TokenPriceModel>> getTokenPriceModels() async {
-    var tokensPrice = await ServiceConfig.localStorage
+    var tokensPrice = await ServiceConfig.hiveStorage
         .read(key: ServiceConfig.tokenPricesStorage);
     if (tokensPrice != null) {
       return jsonDecode(tokensPrice)["contracts"]
@@ -137,7 +131,7 @@ class DataVariable<T> {
   }
 
   void registerCallback(callback, [extraParams]) {
-    //print("call ${callback.toString().hashCode}");
+    //debugPrint("call ${callback.toString().hashCode}");
     callbacks.add(callback);
     _value = 0;
     extraParams == null ? updateProcess() : updateProcess(extraParams);

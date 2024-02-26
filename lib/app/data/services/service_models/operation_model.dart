@@ -3,6 +3,7 @@ import 'package:dartez/dartez.dart';
 import 'package:plenty_wallet/app/data/services/enums/enums.dart';
 import 'package:plenty_wallet/app/data/services/service_models/account_token_model.dart';
 import 'package:plenty_wallet/app/data/services/service_models/nft_token_model.dart';
+import 'package:plenty_wallet/utils/utils.dart';
 
 class OperationModel<T> {
   int? counter;
@@ -35,7 +36,13 @@ class OperationModel<T> {
                   .toStringAsFixed(
                       tokenModel.decimals > 20 ? 20 : tokenModel.decimals)
                   .replaceAll('.', ''))))
-          .toInt();
+          .toString()
+          .removeTrailing0;
+
+      if (newAmount.contains("e")) {
+        newAmount = eToStringAmount(newAmount);
+      }
+
       parameters = Parameters(
           entryPoint: "transfer",
           value: tokenModel.tokenStandardType == TokenStandardType.fa1
@@ -48,6 +55,17 @@ class OperationModel<T> {
           value:
               """{Pair "${keyStoreModel!.publicKeyHash}" {Pair "$receiveAddress" (Pair ${nftModel.tokenId} 1)}}""");
     }
+  }
+
+  String eToStringAmount(String amount) {
+    var dotAmount = amount.substring(0, amount.indexOf("e"));
+
+    return (dotAmount.replaceAll(".", "") +
+            1
+                .toStringAsFixed(int.parse(amount.split("e")[1]) -
+                    dotAmount.split(".")[1].length)
+                .replaceAll("1.", ""))
+        .removeTrailing0;
   }
 }
 

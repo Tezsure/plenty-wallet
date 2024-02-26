@@ -25,7 +25,7 @@ class CastScreenController extends GetxController {
     });
 
     session.value?.messageStream.listen((message) {
-      print('receive message: $message');
+      debugPrint('receive message: $message');
     });
 
     session.value?.sendMessage(CastSession.kNamespaceReceiver, {

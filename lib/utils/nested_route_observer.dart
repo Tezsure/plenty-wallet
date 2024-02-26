@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class NestedRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   void _sendScreenView(PageRoute<dynamic> route) {
     var screenName = route.settings.name;
-    print('screenName $screenName');
+    debugPrint('screenName $screenName');
     // do something with it, ie. send it to your analytics service collector
   }
 

@@ -101,9 +101,9 @@ class _AccountSelectorSheetState extends State<AccountSelectorSheet> {
                               child: BouncingWidget(
                                 onPressed: () {
                                   // setState(() {
-                                  print("==============");
-                                  print(index);
-                                  print("==============");
+                                  debugPrint("==============");
+                                  debugPrint(index.toString());
+                                  debugPrint("==============");
 
                                   _controller.onAccountTap(index);
                                   // });

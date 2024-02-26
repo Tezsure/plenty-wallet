@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:plenty_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
@@ -13,16 +15,26 @@ import 'package:plenty_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/c
 import 'package:plenty_wallet/app/modules/send_page/views/send_page.dart';
 import 'package:plenty_wallet/app/modules/settings_page/controllers/settings_page_controller.dart';
 import 'package:plenty_wallet/utils/common_functions.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../send_page/controllers/send_page_controller.dart';
 import '../widgets/account_switch_widget/account_switch_widget.dart';
 import '../widgets/vca/vca_redeem_nft/widget/vca_redeem_nft_sheet.dart';
 import 'package:crypto/crypto.dart';
+import 'package:bs58check/bs58check.dart' as bs58check;
 
 class ScanQRController extends GetxController with WidgetsBindingObserver {
   // RxBool flash = false.obs;
-  late Rx<QRViewController> controller;
+  late MobileScannerController controller = MobileScannerController(
+    detectionSpeed: DetectionSpeed.noDuplicates,
+    facing: CameraFacing.back,
+    torchEnabled: false,
+  );
+
+  Rx<Barcode?> barcode = Rx<Barcode?>(null);
+
+  Rx<BarcodeCapture?> barcodeCapture = Rx<BarcodeCapture?>(null);
+
+  Rx<MobileScannerArguments?> arguments = Rx<MobileScannerArguments?>(null);
   // Future<void> toggleFlash() async {
   //   flash.value = !flash.value;
   //   controller.value.toggleFlash();
@@ -36,7 +48,7 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    controller.value.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -61,14 +73,17 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
     return qrHash;
   }
 
-  void onQRViewCreated(QRViewController c) {
-    controller = c.obs;
+  void onQRViewCreated(BarcodeCapture c) async {
     // controller.value.resumeCamera();
-    controller.value.scannedDataStream.listen((scanData) async {
-      if ((scanData.code?.startsWith('tz1') ?? false) ||
-          (scanData.code?.startsWith('tz2') ?? false)) {
+    barcodeCapture.value = c;
+    barcode.value = c.barcodes.first;
+    final List<Barcode> barcodes = c.barcodes;
+    final Uint8List? image = c.image;
+    for (final barcode in barcodes) {
+      if ((barcode.rawValue?.startsWith('tz1') ?? false) ||
+          (barcode.rawValue?.startsWith('tz2') ?? false)) {
         if (result != null) return;
-        result = scanData;
+        result = barcode;
         Get.back();
         final home = Get.find<HomePageController>();
         CommonFunctions.bottomSheet(
@@ -79,54 +94,62 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
           ),
         );
         Future.delayed(const Duration(milliseconds: 300), () async {
-          Get.find<SendPageController>().scanner(scanData.code!);
+          Get.find<SendPageController>().scanner(barcode.rawValue!);
         });
       }
-      if ((scanData.code?.startsWith('tezos://') ?? false) ||
-          (scanData.code?.startsWith('naan://') ?? false)) {
+      if ((barcode.rawValue?.startsWith('tezos://') ?? false) ||
+          (barcode.rawValue?.startsWith('naan://') ?? false)) {
         if (result != null) return;
 
-        result = scanData;
-        String code = scanData.code ?? "";
+        result = barcode;
+        String code = barcode.rawValue ?? "";
         code = code.substring(code.indexOf("data=") + 5, code.length);
+
+        try {
+          bs58check.decode(code);
+        } catch (e) {
+          return;
+        }
+
         var s = Get.find<BeaconService>();
 
         await s.beaconPlugin.pair(pairingRequest: code);
         Get.back();
       }
-      if (scanData.code != null) {
+      if (barcode.rawValue != null) {
         try {
-          if (scanData.code?.startsWith('https://objkt.com/asset/') ?? false) {
-            result = scanData;
+          if (barcode.rawValue?.startsWith('https://objkt.com/asset/') ??
+              false) {
+            result = barcode;
             Get.back();
             log("=================================");
-            controller.value.pauseCamera();
+            controller.stop();
             CommonFunctions.bottomSheet(
                 CustomNFTDetailBottomSheet(
-                  nftUrl: scanData.code,
+                  nftUrl: barcode.rawValue,
                 ),
                 fullscreen: true);
           }
         } catch (e) {}
       }
-      if (scanData.code!.contains("campaignId")) {
+      if (barcode.rawValue!.contains("campaignId")) {
         if (result != null) return;
-        controller.value.pauseCamera();
-        result = scanData;
-        String campaignId = jsonDecode(scanData.code!)["campaignId"];
-        print("campaignId: $campaignId");
+        controller.stop();
+        result = barcode;
+        String campaignId = jsonDecode(barcode.rawValue!)["campaignId"];
+        debugPrint("campaignId: $campaignId");
         final campaign = jsonDecode(await HttpService.performGetRequest(
             "${ServiceConfig.claimNftAPI}campaign?campaignId=$campaignId"));
-        print(campaign);
+        debugPrint(campaign);
         if (!campaign["isActive"]) {
-          controller.value.resumeCamera();
+          controller.start();
           result = null;
           return;
         }
         if (campaign["isDynamicQr"]) {
           String qrHash = generateQrHash(campaignId);
-          if (qrHash != jsonDecode(scanData.code!)["hash"]) {
-            controller.value.resumeCamera();
+          if (qrHash != jsonDecode(barcode.rawValue!)["hash"]) {
+            controller.start();
             result = null;
             return;
           }
@@ -138,8 +161,8 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
                 subtitle: "Choose an account to claim your NFT"))
             .then((value) async {
           if (value == true) {
-            controller.value.pauseCamera();
-            result = scanData;
+            controller.stop();
+            result = barcode;
             VCARedeemNFTController redeemController =
                 Get.put(VCARedeemNFTController());
             if (campaign["emailRequired"]) {
@@ -153,23 +176,24 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
               await redeemController.onSubmit(campaignId, email: false);
             }
 
-            controller.value.resumeCamera();
+            controller.start();
             result = null;
           } else {
-            controller.value.resumeCamera();
+            controller.start();
             result = null;
           }
         });
 
         // CommonFunctions.bottomSheet(VCARedeemSheet(), fullscreen: true);
       }
-    });
-    try {
-      controller.value.resumeCamera();
-    } catch (e) {}
+      ;
+      try {
+        controller.start();
+      } catch (e) {}
+    }
   }
 
-  void onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
+/*   void onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     // log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
       Get.back();
@@ -179,5 +203,5 @@ class ScanQRController extends GetxController with WidgetsBindingObserver {
         ),
       );
     }
-  }
+  } */
 }

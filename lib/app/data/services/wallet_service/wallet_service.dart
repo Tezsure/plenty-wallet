@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
 
 import 'package:dartez/dartez.dart';
+import 'package:flutter/material.dart';
 import 'package:plenty_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
 import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
@@ -74,8 +75,12 @@ class WalletService {
       accountModel.accountSecretModel = accountSecretModel;
 
       // write new account in storage and return the newly created account
-      await userStorageService
-          .writeNewAccount(<AccountModel>[accountModel], false, true);
+      try {
+        await userStorageService
+            .writeNewAccount(<AccountModel>[accountModel], false, true);
+      } catch (e) {
+        debugPrint(e.toString());
+      }
 
       // write new account secrets in storage
       return accountModel;

@@ -34,29 +34,49 @@ class ChangePasscode extends GetView<SettingsPageController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(
-                  child: SizedBox(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xff6923E7).withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(24.arP),
+                    ),
                     height: 0.27.width,
                     width: 0.27.width,
+                    padding: EdgeInsets.all(20.arP),
                     child: SvgPicture.asset(
-                      "${PathConst.SVG}naan_logo.svg",
-                      fit: BoxFit.fitHeight,
+                      "${PathConst.SVG}plenty_wallet_black.svg",
+                      width: 66.arP,
+                      height: 66.arP,
                     ),
                   ),
                 ),
                 0.05.vspace,
                 Obx(() => Text(
-                      (controller.verifyPassCode.value
-                              ? "Set passcode"
-                              : "Enter passcode")
-                          .tr,
+                      controller.isPasscodeLock.value
+                          ? controller.lockTimeTitle.value
+                          : (controller.verifyPassCode.value
+                                  ? controller.confirmPasscode.value
+                                      ? "Confirm new passcode"
+                                      : "Set new passcode"
+                                  : "Enter current passcode")
+                              .tr,
                       textAlign: TextAlign.center,
                       style: titleMedium,
                     )),
                 0.01.vspace,
-                Text(
-                  "Protect your wallet by setting a passcode".tr,
-                  style:
-                      bodySmall.apply(color: ColorConst.NeutralVariant.shade60),
+                Obx(
+                  () => Text(
+                    controller.isPasscodeLock.value
+                        ? controller.safetyResetAttempts.value != -1
+                            ? "${controller.safetyResetAttempts.value} attempts left"
+                            : ""
+                        : (controller.passcodeError.value.isEmpty
+                            ? "Protect your wallet by setting a passcode".tr
+                            : controller.passcodeError.value),
+                    style: bodySmall.apply(
+                        color: controller.passcodeError.value.isEmpty
+                            ? ColorConst.NeutralVariant.shade60
+                            : ColorConst.NaanRed),
+                  ),
                 ),
                 0.05.vspace,
                 AppPassCode(onChanged: (value) {
@@ -106,7 +126,13 @@ class _AppPassCode extends State<AppPassCode> {
                         ? Colors.transparent
                         : Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.white, width: 2),
+                    border: Border.all(
+                        color: _controller.isPasscodeLock.value
+                            ? ColorConst.NeutralVariant.shade60
+                            : _controller.isPassCodeWrong.value
+                                ? ColorConst.Error.shade60
+                                : Colors.white,
+                        width: 2),
                   ),
                 ),
               ),
@@ -163,17 +189,20 @@ class _AppPassCode extends State<AppPassCode> {
             Radius.circular(0.065.width),
           ),
           child: BouncingWidget(
-            onPressed: iconData != null
-                ? onIconTap
-                : () {
-                    if (_controller.enteredPassCode.value.length < 6) {
-                      _controller.enteredPassCode.value =
-                          _controller.enteredPassCode.value + value;
-                      if (widget.onChanged != null) {
-                        widget.onChanged!(_controller.enteredPassCode.value);
-                      }
-                    }
-                  },
+            onPressed: _controller.isPasscodeLock.value
+                ? null
+                : iconData != null
+                    ? onIconTap
+                    : () {
+                        if (_controller.enteredPassCode.value.length < 6) {
+                          _controller.enteredPassCode.value =
+                              _controller.enteredPassCode.value + value;
+                          if (widget.onChanged != null) {
+                            widget
+                                .onChanged!(_controller.enteredPassCode.value);
+                          }
+                        }
+                      },
             child: Container(
               width: 0.13.width,
               height: 0.13.width,
@@ -191,11 +220,15 @@ class _AppPassCode extends State<AppPassCode> {
                           color: ColorConst.NeutralVariant.shade60,
                           size: 18.arP,
                         )
-                      : Text(
-                          value,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0.arP,
+                      : Obx(
+                          () => Text(
+                            value,
+                            style: TextStyle(
+                              color: _controller.isPasscodeLock.value
+                                  ? ColorConst.NeutralVariant.shade60
+                                  : Colors.white,
+                              fontSize: 18.0.arP,
+                            ),
                           ),
                         ),
             ),

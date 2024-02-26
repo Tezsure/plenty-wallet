@@ -53,7 +53,7 @@ class HistoryFilterController extends GetxController {
   void applyFilter() {
     DateTime time = DateTime.now();
     query = {};
-    //print(transactions);
+    //debugPrint(transactions);
     switch (dateType.value) {
       case DateType.today:
         final now = DateTime.now();
@@ -140,10 +140,10 @@ class HistoryFilterController extends GetxController {
     //   }
     // }
 
-    //print(tempTransactions);
+    //debugPrint(tempTransactions);
     // transactions = tempTransactions.toSet().toList();
 
-    // print(transactions);
+    // debugPrint(transactions);
     // switch (assetType.value) {
     //   case AssetType.token:
     //     transactions = transactions.where((e) => !e.isNft).toList();

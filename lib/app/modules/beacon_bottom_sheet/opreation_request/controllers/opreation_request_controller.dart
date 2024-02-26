@@ -48,7 +48,7 @@ class OpreationRequestController extends GetxController {
   @override
   void onInit() async {
     try {
-      print(" req: ${beaconRequest.request}");
+      debugPrint(" req: ${beaconRequest.request}");
       isBiometric.value = await AuthService().getBiometricAuth();
       accountModels.value = Get.find<HomePageController>()
           .userAccounts
@@ -87,7 +87,7 @@ class OpreationRequestController extends GetxController {
             await DataHandlerService().renderService.getTokenPriceModels();
 
 /*         tokenPriceModels.forEach((element) {
-          print(
+          debugPrint(
               "tokenPriceModels ${element.symbol} ${element.currentPrice} ${element.address} ${element.tokenId}");
         }); */
         if (beaconRequest.operationDetails![0].kind ==
@@ -116,7 +116,7 @@ class OpreationRequestController extends GetxController {
           fees.value = "N/A";
           // ((int.parse(op['gasEstimation']) / pow(10, 6)) * xtzPrice)
           //     .toStringAsFixed(4);
-          print("operation ${operation.toString()}");
+          debugPrint("operation ${operation.toString()}");
 
           return;
         }
@@ -126,12 +126,12 @@ class OpreationRequestController extends GetxController {
             try {
               parseFA12(e.parameters, e.destination);
             } catch (e) {
-              print(e);
+              debugPrint(e.toString());
             }
             try {
               parseFA2(e.parameters, e.destination);
             } catch (e) {
-              print(e);
+              debugPrint(e.toString());
             }
           }
         }
@@ -164,7 +164,7 @@ class OpreationRequestController extends GetxController {
         operation.value = op;
         fees.value = ((int.parse(op['gasEstimation']) / pow(10, 6)) * xtzPrice)
             .toStringAsFixed(4);
-        print("operation ${operation.toString()}");
+        debugPrint("operation ${operation.toString()}");
       } else {
         error.value = "Operation details is null";
         fees.value = "0.0";
@@ -179,7 +179,7 @@ class OpreationRequestController extends GetxController {
       }
 
       fees.value = "0.0";
-      print("errorc $e");
+      debugPrint("errorc $e");
       //throw Exception(e);
     }
     super.onInit();
@@ -212,7 +212,7 @@ class OpreationRequestController extends GetxController {
           return;
         }
       }
-      print("operation ${operation.toString()}");
+      debugPrint("operation ${operation.toString()}");
 
       String txHash;
       if (operation.containsKey("origination")) {
@@ -237,7 +237,7 @@ class OpreationRequestController extends GetxController {
             )
             .toString(),
       });
-      print("txHash $txHash");
+      debugPrint("txHash $txHash");
 
       final Map response = await beaconPlugin.operationResponse(
         id: beaconRequest.request!.id!,
@@ -254,7 +254,7 @@ class OpreationRequestController extends GetxController {
         throw "Operation response failed";
       }
     } catch (e) {
-      print("errora $e");
+      debugPrint("errora $e");
       Get.snackbar('Error', 'Error while injecting operation',
           backgroundColor: ColorConst.Error, colorText: Colors.white);
       Get.back();
@@ -312,7 +312,7 @@ class OpreationRequestController extends GetxController {
         amount = y[1]["int"];
       }
       if (from != null && to != null && amount != null) {
-/*         print(
+/*         debugPrint(
             "Selected FA1 from: $from, to: $to, amount: $amount, tokenAddress: $destination"); */
 
         TokenPriceModel tokenPriceModel = tokenPriceModels.firstWhere(
@@ -341,7 +341,7 @@ class OpreationRequestController extends GetxController {
                 (tokenPriceModel.currentPrice ?? 0));
         return;
       }
-/*       print(
+/*       debugPrint(
           "not selected FA1 from: $from, to: $to, amount: $amount, tokenAddress: $destination"); */
     } catch (e) {
       throw Exception(e);
@@ -396,11 +396,11 @@ class OpreationRequestController extends GetxController {
                         pow(10, int.parse(tokenPriceModel.decimals.toString())))
                     .toStringAsFixed(2)) *
                 (tokenPriceModel.currentPrice ?? 0));
-        /*        print(
+        /*        debugPrint(
             "Selected fa2 from: $from, to: $to, amount: $amount, tokenId: $tokenId, tokenAddress: $destination"); */
         return;
       }
-/*       print(
+/*       debugPrint(
           "not selected fa2 from: $from, to: $to, amount: $amount, tokenAddress: $destination"); */
     } catch (e) {
       throw Exception(e);
@@ -429,6 +429,6 @@ class OpreationRequestController extends GetxController {
         .renderService
         .xtzPriceUpdater
         .removeCallback(callbackHash);
-    print("Closed operation callback");
+    debugPrint("Closed operation callback");
   }
 }

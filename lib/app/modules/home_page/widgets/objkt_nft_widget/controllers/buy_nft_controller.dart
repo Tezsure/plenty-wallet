@@ -69,7 +69,7 @@ class BuyNFTController extends GetxController {
           senderAddress: senderAddress,
         ),
       );
-      print("selected token: ${token.symbol}");
+      debugPrint("selected token: ${token.symbol}");
       if (token.symbol!.toLowerCase() == "tez".toLowerCase()) {
         priceInToken.value =
             ((int.parse(selectedNFT.value!.lowestAsk) / 1e6) * 1.01).toString();
@@ -80,9 +80,9 @@ class BuyNFTController extends GetxController {
                 .toString();
       } // todo check calculation
 
-      print("price in token: ${priceInToken.value}");
+      debugPrint("price in token: ${priceInToken.value}");
       if (token.symbol!.toLowerCase() == "tez".toLowerCase()) {
-        print("tezos balance: ${token.balance.toString()}");
+        debugPrint("tezos balance: ${token.balance.toString()}");
 
         if (double.parse(token.balance.toString()) <
             double.parse(priceInToken.value)) {
@@ -97,7 +97,7 @@ class BuyNFTController extends GetxController {
 
           return;
         }
-        print(
+        debugPrint(
             "amount : ${(double.parse(priceInToken.value) * 1e6).ceilToDouble().toStringAsFixed(0)}");
         List<OperationModelBatch> opreateList = [
           OperationModelBatch(
@@ -149,7 +149,7 @@ class BuyNFTController extends GetxController {
         loading.value = false;
       } else if (token.symbol == "USDt") {
         //check user balance
-        print("USDt balance: ${token.balance.toString()}");
+        debugPrint("USDt balance: ${token.balance.toString()}");
 
         if (double.parse(token.balance.toString()) <
             double.parse(priceInToken.value)) {
@@ -195,7 +195,7 @@ class BuyNFTController extends GetxController {
             ((int.parse(operation['gasEstimation']) / pow(10, 6)) *
                     accountToken.xtzPrice.value)
                 .toStringAsFixed(4);
-        // print(operation["opPair"].toString());
+        // debugPrint(operation["opPair"].toString());
         String interfaceFee =
             (((int.parse(selectedNFT.value!.lowestAsk) / 1e6) *
                         accountToken.xtzPrice.value) /
@@ -220,7 +220,7 @@ class BuyNFTController extends GetxController {
         loading.value = false;
       } else if (token.symbol == "uUSD") {
         //check user balance
-        print("uUSD balance: ${token.balance.toString()}");
+        debugPrint("uUSD balance: ${token.balance.toString()}");
 
         if (double.parse(token.balance.toString()) <
             double.parse(priceInToken.value)) {
@@ -291,7 +291,7 @@ class BuyNFTController extends GetxController {
         loading.value = false;
       } else if (token.symbol == "kUSD") {
         //check user balance
-        print("kUSD balance: ${token.balance.toString()}");
+        debugPrint("kUSD balance: ${token.balance.toString()}");
 
         if (double.parse(token.balance.toString()) <
             double.parse(priceInToken.value)) {
@@ -362,7 +362,7 @@ class BuyNFTController extends GetxController {
         loading.value = false;
       } else if (token.symbol == "EURL") {
         //check user balance
-        print("EURL balance: ${token.balance.toString()}");
+        debugPrint("EURL balance: ${token.balance.toString()}");
 
         if (double.parse(token.balance.toString()) <
             double.parse(priceInToken.value)) {
@@ -433,7 +433,7 @@ class BuyNFTController extends GetxController {
         loading.value = false;
       } else if (token.symbol == "ctez") {
         //check user balance
-        print("ctez balance: ${token.balance.toString()}");
+        debugPrint("ctez balance: ${token.balance.toString()}");
 
         if (double.parse(token.balance.toString()) <
             double.parse(priceInToken.value)) {
@@ -504,7 +504,7 @@ class BuyNFTController extends GetxController {
         loading.value = false;
       }
 
-      //print("NFT Price in Token: $priceInToken.value ${token.symbol}");
+      //debugPrint("NFT Price in Token: $priceInToken.value ${token.symbol}");
     } catch (e) {
       error.value = "Error: $e";
       fees.value = fees.value = <String, String>{
@@ -514,7 +514,7 @@ class BuyNFTController extends GetxController {
         "totalFeeInTez": "0.0",
       };
 
-      print("errorc $e");
+      debugPrint("errorc $e");
     }
   }
 
@@ -563,7 +563,7 @@ class BuyNFTController extends GetxController {
           accountTokens.add(accountToken);
         }
       } catch (e) {
-        print("=============================$e");
+        debugPrint("=============================$e");
       }
     }
   }
@@ -624,7 +624,7 @@ class BuyNFTController extends GetxController {
           variables: {'address': mainUrl[0], 'tokenId': mainUrl[1]},
         );
       }
-      print("nft response ${response}");
+      debugPrint("nft response ${response}");
       selectedNFT.value = NftTokenModel(
           tokenId: response.data["token"][0]["listings"][0]["bigmap_key"]
               .toString(), //cheat just for this module( Assiging buyId to tokenId)
@@ -635,12 +635,12 @@ class BuyNFTController extends GetxController {
           description: response.data["token"][0]["description"],
           faContract: response.data["token"][0]["fa_contract"]);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
   void buyWithCreditCard() async {
-    print("buy with credit card");
+    debugPrint("buy with credit card");
     if (selectedNFT.value == null) return;
     Get.back();
 /*     Get.bottomSheet(

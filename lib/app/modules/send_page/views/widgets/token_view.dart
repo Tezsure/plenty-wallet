@@ -71,6 +71,44 @@ class TokenView extends StatelessWidget {
                                   controller.amountFocusNode.value
                                       .requestFocus();
                                 }
+
+                                // check for if estimated fee is greater than balance
+                                if (controller.selectedTokenModel!.balance <
+                                    (double.parse(
+                                            controller.estimatedFee.value) /
+                                        controller.xtzPrice.value)) {
+                                  controller.amountController.text = "0";
+                                  controller.amountController.selection =
+                                      TextSelection.fromPosition(
+                                    TextPosition(
+                                      offset: controller
+                                          .amountController.text.length,
+                                    ),
+                                  );
+                                  _onChange(controller.amountController.text);
+
+                                  // show snackbar
+                                  Get.snackbar(
+                                    'Insufficient Balance'.tr,
+                                    'You don\'t have enough balance to pay the estimated fee'
+                                        .tr,
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white,
+                                    margin: EdgeInsets.all(8.arP),
+                                    borderRadius: 8.arP,
+                                    duration: const Duration(seconds: 3),
+                                    isDismissible: true,
+                                    forwardAnimationCurve: Curves.easeOutBack,
+                                    icon: const Icon(
+                                      Icons.error_outline,
+                                      color: Colors.white,
+                                    ),
+                                  );
+
+                                  return;
+                                }
+
                                 controller.amountController.text = (controller
                                             .selectedTokenModel!.balance -
                                         (double.parse(
@@ -133,14 +171,29 @@ class TokenView extends StatelessWidget {
                             controller.selectedTextfieldType.value =
                                 TextfieldType.usd;
                           },
+                          maxLen: 8,
+                          // focusNode: controller.focus
                           controller: controller.amountUsdController,
                           onChanged: (val) {
+                            val = sanitizeAndValidateAmount(val, 6);
+
+                            if (val.isNotEmpty &&
+                                val != controller.amountUsdController.text) {
+                              controller.amountUsdController.text = val;
+                              controller.amountUsdController.selection =
+                                  TextSelection.fromPosition(TextPosition(
+                                      offset: controller
+                                          .amountUsdController.text.length));
+                            }
+
                             controller.amountText.value = val;
                             if (controller.amountFocusNode.value.hasFocus) {
+                              controller.amountController.text = val;
                               return;
                             }
                             if (val.isEmpty) {
                               controller.amountController.text = "";
+                              controller.amountUsdController.text = "";
                               return;
                             }
                             double multiplier = ServiceConfig.currency ==
@@ -191,20 +244,42 @@ class TokenView extends StatelessWidget {
                                       TextfieldType.usd
                                   ? BouncingWidget(
                                       onPressed: () {
+                                        var maxAmount = controller
+                                                    .selectedTokenModel !=
+                                                null
+                                            ? (controller.selectedTokenModel!
+                                                    .balance -
+                                                (double.parse(controller
+                                                        .estimatedFee.value) /
+                                                    controller.xtzPrice.value))
+                                            : 0;
+
+                                        if (maxAmount < 0) {
+                                          maxAmount = 0;
+                                          // show snackbar
+                                          Get.snackbar(
+                                            'Insufficient Balance'.tr,
+                                            'You don\'t have enough balance to pay the estimated fee'
+                                                .tr,
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            backgroundColor: Colors.red,
+                                            colorText: Colors.white,
+                                            margin: EdgeInsets.all(8.arP),
+                                            borderRadius: 8.arP,
+                                            duration:
+                                                const Duration(seconds: 3),
+                                            isDismissible: true,
+                                            forwardAnimationCurve:
+                                                Curves.easeOutBack,
+                                            icon: const Icon(
+                                              Icons.error_outline,
+                                              color: Colors.white,
+                                            ),
+                                          );
+                                        }
+
                                         controller.amountController.text =
-                                            controller.selectedTokenModel !=
-                                                    null
-                                                ? (controller
-                                                            .selectedTokenModel!
-                                                            .balance -
-                                                        (double.parse(controller
-                                                                .estimatedFee
-                                                                .value) /
-                                                            controller.xtzPrice
-                                                                .value))
-                                                    .toString()
-                                                : "0";
-                                        // print(controller.amountController.text);
+                                            maxAmount.toString();
                                         controller.amountController.selection =
                                             TextSelection.fromPosition(
                                           TextPosition(
@@ -253,6 +328,17 @@ class TokenView extends StatelessWidget {
   }
 
   _onChange(val) {
+    var oldVal = val;
+
+    val = sanitizeAndValidateAmount(val);
+    val = formatEnterAmount(val);
+
+    if (oldVal == "0") val = "0";
+
+    controller.amountText.value = val;
+    controller.amountController.text = val;
+    controller.amountController.selection = TextSelection.fromPosition(
+        TextPosition(offset: controller.amountController.text.length));
     try {
       controller.amountText.value = val;
       if (!controller.amountFocusNode.value.hasFocus) {
@@ -348,5 +434,45 @@ class TokenView extends StatelessWidget {
         decimalEnters > controller.selectedTokenModel!.decimals
             ? controller.selectedTokenModel!.decimals
             : decimalEnters);
+  }
+
+  String sanitizeAndValidateAmount(String amount, [int? decimals]) {
+    if (amount.isEmpty) {
+      return '';
+    }
+    // Remove non-numeric characters from the amount, except for the decimal point
+    final sanitizedAmount = amount.replaceAll(RegExp(r'[^0-9.]'), '');
+
+    // Check if the sanitized amount is a non-empty string
+    if (sanitizedAmount.isEmpty) {
+      return '';
+    }
+
+    // Check if the sanitized amount is greater than zero
+    final parsedAmount = double.tryParse(sanitizedAmount);
+    if (parsedAmount == null || parsedAmount <= 0) {
+      var amounts = sanitizedAmount.split('.');
+      return amount.contains('.')
+          ? amounts.last.length <= (decimals ?? 6)
+              ? sanitizedAmount
+              : sanitizedAmount.substring(
+                  0, amounts.first.length + (decimals ?? 6))
+          : '0';
+    }
+
+    // Check if the sanitized amount has more than the allowed number of decimal places
+    final sanitizedAmountDecimalPlaces = sanitizedAmount.contains('.')
+        ? sanitizedAmount.split('.').last.length
+        : 0;
+
+    if (decimals != null && sanitizedAmountDecimalPlaces > decimals) {
+      return amount.contains('.')
+          ? sanitizedAmount.substring(
+              0, sanitizedAmount.length - (sanitizedAmountDecimalPlaces - 6))
+          : sanitizedAmount.substring(0, sanitizedAmount.length - 6);
+    }
+
+    // Return the sanitized and validated amount as a string
+    return sanitizedAmount;
   }
 }

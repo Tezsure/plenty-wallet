@@ -1,10 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:is_first_run/is_first_run.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:plenty_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:plenty_wallet/app/data/services/foundation_service/art_foundation_handler.dart';
+import 'package:plenty_wallet/app/data/services/re_service/re_service.dart';
 import 'package:plenty_wallet/app/data/services/rpc_service/rpc_service.dart';
 import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
 import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
@@ -23,15 +28,60 @@ class SplashPageController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
+
+    bool firstRun = await IsFirstRun.isFirstRun();
+
+    if (firstRun) {
+      await ServiceConfig().clearStorage();
+    }
+    // check for device is secure
+    if ((await ReService().checkIfDeviceRunningSercure()) == false) {
+      // show device is insecure dialog and timer closing app in 10 seconds
+      Get.dialog(
+        AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(22.arP)),
+          backgroundColor: ColorConst.darkGrey,
+          title: Text(
+            "Sorry! Looks like your device is not secure.",
+            style: titleMedium,
+          ),
+          content: const Text("Closing app in 10 seconds..."),
+        ),
+        barrierDismissible: false,
+      );
+      await Future.delayed(const Duration(seconds: 10));
+      exit(0);
+    }
+
+    await ServiceConfig.hiveStorage.init();
+    //await ServiceConfig().clearStorage();
     try {
       await Future.delayed(const Duration(milliseconds: 800));
+
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+      var updateInfo = await fetchUpdateInfo();
+
+      if (updateInfo != false) {
+        if (isUpdateRequired(
+            packageInfo.version, updateInfo["minimum_version"])) {
+          Get.offAndToNamed(
+            Routes.FORCED_UPDATE_PAGE,
+            arguments: [
+              updateInfo["update_text"],
+            ],
+          );
+          return;
+        }
+      }
 
       // throw Exception();
       ServiceConfig.currentSelectedNode = (await RpcService.getCurrentNode()) ??
           ServiceConfig.currentSelectedNode;
-      try {
-        await DataHandlerService().initDataServices();
-      } catch (e) {}
+      // try {
+      //   await DataHandlerService().initDataServices();
+      // } catch (e) {}
 
       ServiceConfig.currentNetwork = (await RpcService.getCurrentNetworkType());
       try {
@@ -52,7 +102,7 @@ class SplashPageController extends GetxController {
         // ServiceConfig.isVCAExploreNFTWidgetVisible = (await getWidgetVisibility(
         //     'vca-explore-and-buy-nft-widget-visiable'));
       } catch (e) {
-        print("error a : $e");
+        debugPrint("error a : $e");
       }
       try {
         AppConstant.naanCollection =
@@ -97,6 +147,16 @@ class SplashPageController extends GetxController {
       if (walletAccountsLength != 0 || watchAccountsLength != 0) {
         bool isPasscodeSet = await AuthService().getIsPassCodeSet();
 
+        // start data services
+
+        if ((await ServiceConfig.secureLocalStorage
+                    .readRaw(key: ServiceConfig.passCodeStorage) ??
+                "")
+            .toString()
+            .contains("passcode_hash")) {
+          await DataHandlerService().initDataServices();
+        }
+
         /// ask for auth and redirect to home page
         Get.offAllNamed(
           Routes.PASSCODE_PAGE,
@@ -119,7 +179,7 @@ class SplashPageController extends GetxController {
     } catch (e) {
       Zone.current.handleUncaughtError(e, StackTrace.current);
       Get.dialog(
-        Column(
+        const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SplashWarningWidget(),
@@ -143,6 +203,36 @@ class SplashPageController extends GetxController {
     } catch (e) {
       return false;
     }
+  }
+
+  Future<dynamic> fetchUpdateInfo() async {
+    String? response;
+    try {
+      response = await HttpService.performGetRequest(
+          "https://cdn.naan.app/forced_update");
+      if (response.isNotEmpty && jsonDecode(response).length != 0) {
+        return jsonDecode(response);
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool isUpdateRequired(String currentVersion, String minVersion) {
+    List<int> currentParts =
+        currentVersion.split('.').map((e) => int.parse(e)).toList();
+    List<int> minParts =
+        minVersion.split('.').map((e) => int.parse(e)).toList();
+
+    for (int i = 0; i < 3; i++) {
+      if (currentParts[i] < minParts[i]) {
+        return true;
+      } else if (currentParts[i] > minParts[i]) {
+        return false;
+      }
+    }
+    return false;
   }
 
   Future<String> getAdmireArtCollection(String id) async {
@@ -201,7 +291,7 @@ class SplashPageController extends GetxController {
               .toString()
               .replaceFirst("https://objkt.com/asset/", '')
               .split("/");
-          var response;
+          GQLResponse response;
           if (mainUrl[0].startsWith('KT1')) {
             response = await GQLClient(
               'https://data.objkt.com/v3/graphql',
@@ -229,7 +319,8 @@ class SplashPageController extends GetxController {
               variables: {'address': mainUrl[0], 'tokenId': mainUrl[1]},
             );
           }
-          print("{\"url\":$e ,\"pk\":${response.data["token"][0]["pk"]}},");
+          debugPrint(
+              "{\"url\":$e ,\"pk\":${response.data["token"][0]["pk"]}},");
         });
       }
     }

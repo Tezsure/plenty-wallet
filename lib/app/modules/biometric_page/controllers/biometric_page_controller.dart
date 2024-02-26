@@ -2,8 +2,12 @@ import 'package:get/get.dart';
 import 'package:plenty_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:plenty_wallet/app/data/services/enums/enums.dart';
+import 'package:plenty_wallet/app/modules/home_page/widgets/accounts_widget/controllers/accounts_widget_controller.dart';
 import 'package:plenty_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
 import 'package:plenty_wallet/app/routes/app_pages.dart';
+import 'package:plenty_wallet/utils/common_functions.dart';
+
+import '../../home_page/widgets/accounts_widget/views/widget/add_new_account_sheet.dart';
 
 class BiometricPageController extends GetxController {
   /// define whether the redirected from new wallet or to verify the biometric <br>
@@ -52,6 +56,13 @@ class BiometricPageController extends GetxController {
           arguments: [previousRoute],
         );
       }
+    } else if (nextPageRoute != null &&
+        nextPageRoute == Routes.ADD_NEW_WALLET) {
+      Get.back();
+      CommonFunctions.bottomSheet(AddNewAccountBottomSheet(), fullscreen: true)
+          .whenComplete(() {
+        Get.find<AccountsWidgetController>().resetCreateNewWallet();
+      });
     } else {
       if (Get.previousRoute == Routes.PASSCODE_PAGE &&
           nextPageRoute == Routes.HOME_PAGE) {

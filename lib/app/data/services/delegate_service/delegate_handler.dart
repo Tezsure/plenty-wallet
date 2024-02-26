@@ -4,6 +4,7 @@ import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:plenty_wallet/app/data/services/service_models/delegate_baker_list_model.dart';
 import 'package:plenty_wallet/app/data/services/service_models/delegate_cycle_model.dart';
 import 'package:plenty_wallet/app/data/services/service_models/delegate_reward_model.dart';
+import 'package:plenty_wallet/env.dart';
 
 import '../../../modules/settings_page/enums/network_enum.dart';
 import '../service_config/service_config.dart';
@@ -45,7 +46,8 @@ class DelegateHandler {
     network = network.replaceAll("net", "");
     try {
       var response = await HttpService.performGetRequest(
-          "https://api.${network}tzstats.com/explorer/account/$pKH");
+        "https://api.tzpro.io/explorer/account/$pKH?api_key=$tzProApiKey",
+      );
 
       if (response.isNotEmpty && jsonDecode(response).length != 0) {
         return jsonDecode(response)['baker'];
@@ -88,8 +90,6 @@ class DelegateHandler {
       network = "${Uri.parse(rpc).path.replaceAll("/", "")}.";
     }
     network = network.contains("ak-csrjehxhpw0dl3") ? "" : network;
-    // pKH = 'tz1epDdf6ixVEJaApZSckJqxo5qr7CxdDhbE';
-    // baker = 'tz1gg5bjopPcr9agjamyu9BbXKLibNc2rbAq';
     var response = await HttpService.performGetRequest(
         "https://api.${network}tzkt.io/v1/rewards/delegators/$pKH?limit=10000");
 

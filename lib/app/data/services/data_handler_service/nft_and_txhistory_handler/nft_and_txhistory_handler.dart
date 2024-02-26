@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:isolate';
 
+import 'package:flutter/material.dart';
 import 'package:plenty_wallet/app/data/services/data_handler_service/data_handler_render_service.dart';
 import 'package:plenty_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
@@ -54,7 +55,7 @@ class NftAndTxHistoryHandler {
         },
       ]);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
 
       DataHandlerService().setUpTimer();
     }
@@ -87,7 +88,7 @@ class NftAndTxHistoryHandler {
 
     receivePort.asBroadcastStream().listen((data) async {
       if (data[0] is ProcessStatus && data[0] == ProcessStatus.done) {
-        // print("nft & tx-history process done");
+        // debugPrint("nft & tx-history process done");
         receivePort.close();
         isolate.kill(priority: Isolate.immediate);
         onDone();
@@ -97,27 +98,19 @@ class NftAndTxHistoryHandler {
     });
   }
 
-  void nftStore(String key, String value) => ServiceConfig.localStorage
+  void nftStore(String key, String value) => ServiceConfig.hiveStorage
       .write(key: "${ServiceConfig.nftStorage}_$key", value: value);
 
   Future<void> _storeData(List data) async {
     if (data[0] is ProcessStatus && data[0] == ProcessStatus.inProgress) {
-      await ServiceConfig.localStorage
+      await ServiceConfig.hiveStorage
           .write(key: "${ServiceConfig.nftStorage}_${data[1]}", value: data[2]);
     } else {
       for (var key in data[1].keys) {
-        await ServiceConfig.localStorage.write(
+        await ServiceConfig.hiveStorage.write(
             key: "${ServiceConfig.txHistoryStorage}_$key", value: data[1][key]);
       }
     }
-    // store nfts
-    // for (var key in data[0].keys) {
-    //   await ServiceConfig.localStorage.write(
-    //       key: "${ServiceConfig.nftStorage}_$key",
-    //       value: data[0][key] as String);
-    // }
-
-    // store tx history
   }
 }
 
@@ -134,7 +127,7 @@ class ObjktNftApiService {
       return jsonEncode(
           response.data['token'].where((e) => e['token_id'] != "").toList());
     } catch (e) {
-      print(" gql error $e");
+      debugPrint(" gql error $e");
       return "[]";
     }
   }
@@ -151,7 +144,7 @@ class ObjktNftApiService {
       return jsonEncode(
           response.data['token'].where((e) => e['token_id'] != "").toList());
     } catch (e) {
-      print(" gql error $e");
+      debugPrint(" gql error $e");
       return "[]";
     }
   }
@@ -178,7 +171,7 @@ class ObjktNftApiService {
       }
       return jsonEncode(contracts);
     } catch (e) {
-      print(" gql error $e");
+      debugPrint(" gql error $e");
       return "[]";
     }
   }
@@ -222,7 +215,7 @@ class TzktTxHistoryApiService {
         sort: sortBy ?? "Descending",
         network: network.contains("ak-csrjehxhpw0dl3") ? "" : network,
         query: query);
-    print(url);
+    debugPrint(url);
     var response =
         await HttpService.performGetRequest(url, callSetupTimer: true);
 

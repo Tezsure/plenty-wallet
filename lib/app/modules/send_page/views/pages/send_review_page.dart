@@ -129,7 +129,7 @@ class SendReviewPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Estimated Fees".tr,
+                      "Estimated Feess".tr,
                       style: labelSmall.copyWith(
                           color: ColorConst.NeutralVariant.shade60),
                     ),
@@ -140,9 +140,12 @@ class SendReviewPage extends StatelessWidget {
                       () => Text(
                           double.parse(controller.estimatedFee.value) == 0
                               ? "calculating...".tr
-                              : double.parse(controller.estimatedFee.value)
-                                  .roundUpDollar(controller.xtzPrice.value,
-                                      decimals: 6),
+                              : double.parse(controller.estimatedFee.value) ==
+                                      -1
+                                  ? "Can't estimate fees".tr
+                                  : double.parse(controller.estimatedFee.value)
+                                      .roundUpDollar(controller.xtzPrice.value,
+                                          decimals: 6),
                           style: labelMedium),
                     ),
                   ],

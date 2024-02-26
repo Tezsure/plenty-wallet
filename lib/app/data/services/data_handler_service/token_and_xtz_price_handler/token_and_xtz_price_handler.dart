@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:isolate';
 
+import 'package:flutter/material.dart';
 import 'package:plenty_wallet/app/data/services/data_handler_service/data_handler_render_service.dart';
 import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
@@ -64,7 +65,7 @@ class TokenAndXtzPriceHandler {
       //     ServiceConfig.tezToolsApi,
       //     callSetupTimer: true);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
     args[0].send({
       "xtzPrice": xtzPrice,
@@ -96,22 +97,17 @@ class TokenAndXtzPriceHandler {
   Future<void> _storeData(Map<String, String> data, postProcess) async {
     if (jsonDecode(data['xtzPrice']!) != null) {
       postProcess(jsonDecode(data['xtzPrice']!)[0]['price']);
-      await ServiceConfig.localStorage.write(
+      await ServiceConfig.hiveStorage.write(
           key: ServiceConfig.xtzPriceStorage,
           value: jsonDecode(data['xtzPrice']!)[0]['price']['value'].toString());
-      await ServiceConfig.localStorage.write(
+      await ServiceConfig.hiveStorage.write(
           key: ServiceConfig.dayChangeStorage,
           value: jsonDecode(data['xtzPrice']!)[0]['price']['change24H']
               .toString());
     }
     if (data['tokenPrices']!.isNotEmpty) {
-      await ServiceConfig.localStorage.write(
+      await ServiceConfig.hiveStorage.write(
           key: ServiceConfig.tokenPricesStorage, value: data['tokenPrices']);
     }
-    // if (data['tokenPricesAnalytics']!.isNotEmpty) {
-    //   await ServiceConfig.localStorage.write(
-    //       key: ServiceConfig.tokenPricesAnalyticsStorage,
-    //       value: data['tokenPricesAnalytics']);
-    // }
   }
 }

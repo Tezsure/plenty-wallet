@@ -328,23 +328,6 @@ class ImportWalletPageController extends GetxController
     // }
   }
 
-  /// load acounts
-  void showMoreAccounts() {
-    if (generatedAccounts.length + 4 < 100) {
-      for (var i = 0; i < 4; i++) {
-        // accounts.add(
-        //   AccountModel(address: "tezdnenfjeb", balance: 60),
-        // );
-      }
-    } else if (generatedAccounts.length < 100) {
-      for (var i = 0; i < 2; i++) {
-        // accounts.add(
-        //   AccountModel(address: "tezdnenfjeb", balance: 60),
-        // );
-      }
-    }
-  }
-
   @override
   void dispose() {
     phraseTextController.value.dispose();

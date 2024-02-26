@@ -15,7 +15,8 @@ class TokenSendTextfield extends StatelessWidget {
   final RxBool? isError;
   final TextfieldType textfieldType;
   final GestureTapCallback? onTap;
-  const TokenSendTextfield(
+  int? maxLen;
+  TokenSendTextfield(
       {super.key,
       this.controller,
       this.onChanged,
@@ -24,7 +25,8 @@ class TokenSendTextfield extends StatelessWidget {
       this.focusNode,
       this.onTap,
       this.isError,
-      required this.textfieldType});
+      required this.textfieldType,
+      this.maxLen});
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +55,8 @@ class TokenSendTextfield extends StatelessWidget {
         isDense: true,
         border: InputBorder.none,
         // border: OutlineInputBorder(),
+        counterText: '',
+        counterStyle: const TextStyle(fontSize: 0),
         hintText: hintText,
         alignLabelWithHint: true,
         hintStyle: hintStyle ??

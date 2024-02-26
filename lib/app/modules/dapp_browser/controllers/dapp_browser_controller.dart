@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -41,6 +42,24 @@ class DappBrowserController extends GetxController {
         isScrolling.value = false;
       }
     });
+  }
+
+  @override
+  void onClose() async {
+    // if (Platform.isAndroid) {
+    //   // if current platform is Android, delete all data.
+    //   await webStorageManager.android.deleteAllData();
+    // } else if (Platform.isIOS) {
+    //   // if current platform is iOS, delete all data
+    //   var records = await webStorageManager.ios
+    //       .fetchDataRecords(dataTypes: IOSWKWebsiteDataType.values);
+    //   var recordsToDelete = <IOSWKWebsiteDataRecord>[];
+    //   for (var record in records) {
+    //     recordsToDelete.add(record);
+    //   }
+    //   await webStorageManager.ios.removeDataFor(
+    //       dataTypes: IOSWKWebsiteDataType.values, dataRecords: recordsToDelete);
+    // }
   }
 
   void naanBuy(String url) {

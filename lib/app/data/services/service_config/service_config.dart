@@ -1,20 +1,27 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:plenty_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:plenty_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:plenty_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:plenty_wallet/utils/constants/path_const.dart';
+import './storage/secure_local_storage.dart';
+import './storage/hive_storage.dart';
 
 enum Currency { usd, tez, eur, inr, aud }
 
 enum Language { en, nl, fr }
 
 class ServiceConfig {
+  /// passcode derivation iterations <br>
+  /// do not change this value
+  static const int pbkdf2Iterations = 16182;
+
   /// Current selected node
   static String currentSelectedNode = "https://rpc.tzkt.io/mainnet";
   static NetworkType currentNetwork = NetworkType.mainnet;
 
   static String ipfsUrl = "https://ipfs.io/ipfs";
 
-  static String currencyApi = "https://api.exchangerate.host/latest?base=USD";
+  // static String currencyApi = "https://api.exchangerate.host/latest?base=USD";
 
   static String admireArtUrl = "";
 
@@ -152,8 +159,7 @@ class ServiceConfig {
   static const String audPriceStorage = "${storageName}_aud";
   static const String dayChangeStorage = "${storageName}_24_hr_change";
   static const String tokenPricesStorage = "${storageName}_token_prices";
-  // static const String tokenPricesAnalyticsStorage =
-  //     "${storageName}_token_prices_analytics";
+
   // nfts storage name append with user address
   static const String nftStorage = "${storageName}_nfts";
 
@@ -171,6 +177,16 @@ class ServiceConfig {
   // dapps banner
   static const String dappsBannerStorage = "${storageName}_dapps_banner";
 
+  // lockEndTimeStorage
+  static const String lockEndTimeStorage = "${storageName}_lock_end_time";
+
+  // totalWrongAttempts
+  static const String totalWrongAttemptsStorage =
+      "${storageName}_total_wrong_attempts";
+
+  // safetyResetStorage
+  static const String safetyResetStorage = "${storageName}_safety_reset";
+
   // user xtz balances, token balances and nfts
   // static const String accountXtzBalances =
   //     "${storageName}_account_xtz_balances";
@@ -178,11 +194,19 @@ class ServiceConfig {
   /// Flutter Secure Storage instance </br>
   /// Android it uses keyStore to encrypt the data </br>
   /// Ios it uses Keychain to encrypt the data
-  static const FlutterSecureStorage localStorage = FlutterSecureStorage(
-    aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ),
-  );
+  // static const FlutterSecureStorage localStorage = FlutterSecureStorage(
+  //   aOptions: AndroidOptions(
+  //     encryptedSharedPreferences: true,
+  //   ),
+  //   iOptions: IOSOptions(
+  //     accessibility: KeychainAccessibility.passcode,
+  //   ),
+  // );
+
+  static SecureLocalStorage secureLocalStorage = SecureLocalStorage()..init();
+
+  // init on splash screen
+  static HiveStorage hiveStorage = HiveStorage();
 
   static const List<String> allAssetsProfileImages = <String>[
     "${PathConst.PROFILE_IMAGES}1.png",
@@ -200,12 +224,13 @@ class ServiceConfig {
 
   /// Clear the local storage
   Future<void> clearStorage() async {
-    await localStorage.deleteAll(
-      // ignore: prefer_const_constructors
-      aOptions: AndroidOptions(
-        encryptedSharedPreferences: true,
-      ),
-    );
+    DataHandlerService.singleton = null;
+    try {
+      await secureLocalStorage.deleteAll();
+      await hiveStorage.deleteAll();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   static const String cQuery = r'''
