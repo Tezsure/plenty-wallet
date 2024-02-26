@@ -16,6 +16,7 @@ import 'package:plenty_wallet/utils/common_functions.dart';
 import 'package:plenty_wallet/utils/constants/constants.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 import 'package:plenty_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/utils/utils.dart';
 
 import '../../../../../utils/constants/path_const.dart';
 import '../../../../data/services/create_profile_service/create_profile_service.dart';
@@ -109,13 +110,21 @@ class _AddContactBottomSheetState extends State<AddContactBottomSheet> {
               ),
               0.02.vspace,
               NaanTextfield(
+                maxLen: 28,
                 autofocus: true,
                 height: 52.aR,
                 hint: 'Enter contact name',
                 hintTextSyle: bodyMedium.copyWith(
                     color: ColorConst.NeutralVariant.shade60),
-                onTextChange: (val) {
-                  setState(() {});
+                onTextChange: (value) {
+                  setState(() {
+                    if (value.removeSpecialChars != value) {
+                      nameController.text = value.removeSpecialChars;
+                      nameController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: nameController.text.length));
+                      value = value.removeSpecialChars;
+                    }
+                  });
                 },
                 controller: nameController,
               ),

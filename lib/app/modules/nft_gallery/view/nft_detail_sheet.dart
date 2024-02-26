@@ -191,7 +191,7 @@ class _NFTDetailBottomSheetState extends State<NFTDetailBottomSheet> {
                         arguments: img,
                       ),
                     );
-                    print("closed");
+                    debugPrint("closed");
                     setState(() {
                       isScrolling = false;
                     });

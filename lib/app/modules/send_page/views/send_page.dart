@@ -112,6 +112,8 @@ class SendPage extends GetView<SendPageController> {
               0.02.hspace,
               Obx(() => Flexible(
                     child: TextField(
+                      enableSuggestions: false,
+                      autocorrect: false,
                       autofocus: true,
                       controller: controller.searchTextController.value,
                       onChanged: (value) {

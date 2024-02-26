@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plenty_wallet/app/data/services/data_handler_service/account_data_handler/account_data_handler.dart';
 import 'package:plenty_wallet/app/data/services/data_handler_service/helpers/on_going_tx_helper.dart';
@@ -17,10 +18,10 @@ import 'package:plenty_wallet/app/modules/home_page/widgets/teztown/controllers/
 import 'data_handler_render_service.dart';
 
 class DataHandlerService {
-  static final DataHandlerService _singleton = DataHandlerService._internal();
+  static DataHandlerService? singleton = DataHandlerService._internal();
 
   factory DataHandlerService() {
-    return _singleton;
+    return singleton ??= DataHandlerService._internal();
   }
 
   DataHandlerService._internal();
@@ -38,6 +39,8 @@ class DataHandlerService {
   /// isDataFetching
   bool _isDataFetching = false;
 
+  bool isRunning = false;
+
   nftPatch(Function onDone) async {
     try {
       if (!(await UserStorageService().nftPatchRead())) {
@@ -52,19 +55,23 @@ class DataHandlerService {
         onDone();
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       onDone();
     }
   }
 
   /// init all data services which runs in isolate and store user specific data in to local storage
   Future<void> initDataServices() async {
-    // first time if data exists in storage readand render
-/*     await ServiceConfig.localStorage
-        .delete(key: ServiceConfig.currencySelectedStorage);
+    if (isRunning) {
+      debugPrint("already running canceling init data services");
+      return;
+    } else {
+      debugPrint("init data services.............");
+    }
 
-    await ServiceConfig.localStorage.delete(key: ServiceConfig.inrPriceStorage);
-    await ServiceConfig.localStorage.delete(key: ServiceConfig.eurPriceStorage); */
+    isRunning = true;
+    // first time if data exists in storage readand render
+
     onGoingTxStatusHelpers.listen((p0) async {
       if (p0.isNotEmpty) {
         //for loop for 6 times call until onGoingTxStatusHelpers is empty
@@ -97,23 +104,23 @@ class DataHandlerService {
 
   currencyPrices() {
     HttpService.performGetRequest(
-            "https://api.exchangerate.host/latest?base=USD")
+            "https://api.currencybeacon.com/v1/latest?base=USD&symbols=INR,EUR,AUD&api_key=P0uX2YC1vt5k0K5LlrX9ivFH7i72iAET")
         .then((result) async {
       dynamic response = jsonDecode(result);
       var inr = response['rates']['INR'];
       var eur = response['rates']['EUR'];
       var aud = response['rates']['AUD'];
-      print("inr: $inr eur: $eur aud: $aud");
+      debugPrint("inr: $inr eur: $eur aud: $aud");
 
       ServiceConfig.inr = inr;
       ServiceConfig.eur = eur;
       ServiceConfig.aud = aud;
 
-      await ServiceConfig.localStorage
+      await ServiceConfig.hiveStorage
           .write(key: ServiceConfig.inrPriceStorage, value: inr.toString());
-      await ServiceConfig.localStorage
+      await ServiceConfig.hiveStorage
           .write(key: ServiceConfig.eurPriceStorage, value: eur.toString());
-      await ServiceConfig.localStorage
+      await ServiceConfig.hiveStorage
           .write(key: ServiceConfig.audPriceStorage, value: aud.toString());
     });
   }
@@ -122,7 +129,7 @@ class DataHandlerService {
         if (updateTimer == null || !updateTimer!.isActive)
           updateTimer = Timer.periodic(const Duration(seconds: 15), (_) {
             _isDataFetching = false;
-            print("is data fetching: $_isDataFetching");
+            debugPrint("is data fetching: $_isDataFetching");
             updateAllTheValues();
           })
       };
@@ -158,13 +165,13 @@ class DataHandlerService {
   /// postProcess trigger ui for update new data
   Future<void> updateAllTheValues() async {
     if (updateTimer == null || _isDataFetching) {
-      // print("data fetching in progress.............");
-      // print("updateTimer: ${updateTimer == null}");
-      // print("_isDataFetching: $_isDataFetching");
+      // debugPrint("data fetching in progress.............");
+      // debugPrint("updateTimer: ${updateTimer == null}");
+      // debugPrint("_isDataFetching: $_isDataFetching");
       return;
     }
     updateTimer!.cancel();
-    // print("updating all the values.............");
+    // debugPrint("updating all the values.............");
     TokenAndXtzPriceHandler(renderService).executeProcess(
       postProcess: renderService.xtzPriceUpdater.updateProcess,
       onDone: () async =>
@@ -207,12 +214,12 @@ class DataHandlerService {
       {RxList<DappBannerDatum>? dappBanners,
       RxMap<String, DappModel>? dapps}) async {
     if (dappBanners != null) {
-      dapps!.value = jsonDecode(await ServiceConfig.localStorage
+      dapps!.value = jsonDecode(await ServiceConfig.hiveStorage
                   .read(key: ServiceConfig.dappsStorage) ??
               "{}")
           .map<String, DappModel>((key, json) =>
               MapEntry(key.toString(), DappModel.fromJson(json)));
-      dappBanners.value = jsonDecode(await ServiceConfig.localStorage
+      dappBanners.value = jsonDecode(await ServiceConfig.hiveStorage
                   .read(key: ServiceConfig.dappsBannerStorage) ??
               "[]")
           .map<DappBannerDatum>((json) => DappBannerDatum.fromJson(json))
@@ -240,9 +247,9 @@ class DataHandlerService {
     } else {}
 
     // store in local storage
-    await ServiceConfig.localStorage
+    await ServiceConfig.hiveStorage
         .write(key: ServiceConfig.dappsStorage, value: dappString);
-    await ServiceConfig.localStorage.write(
+    await ServiceConfig.hiveStorage.write(
         key: ServiceConfig.dappsBannerStorage, value: jsonEncode(banners));
   }
 
@@ -263,7 +270,7 @@ class DataHandlerService {
     required RxString banner,
     required RxString mapImage,
   }) async {
-    var eventsStorage = jsonDecode(await ServiceConfig.localStorage
+    var eventsStorage = jsonDecode(await ServiceConfig.hiveStorage
             .read(key: ServiceConfig.vcaEventsStorage) ??
         "{}");
     if (eventsStorage.isNotEmpty) {
@@ -366,7 +373,7 @@ class DataHandlerService {
 
     // store in local storage
 
-    await ServiceConfig.localStorage.write(
+    await ServiceConfig.hiveStorage.write(
         key: ServiceConfig.vcaEventsStorage, value: jsonEncode(apiResult));
 
     return events.value;
@@ -377,7 +384,7 @@ class DataHandlerService {
       required RxString bottomText,
       required RxString contactUsLink,
       required RxMap<String, List<EventModel>> events}) async {
-    var eventsStorage = jsonDecode(await ServiceConfig.localStorage
+    var eventsStorage = jsonDecode(await ServiceConfig.hiveStorage
             .read(key: ServiceConfig.eventsStorage) ??
         "{}");
     if (eventsStorage.isNotEmpty) {
@@ -472,7 +479,7 @@ class DataHandlerService {
 
     // store in local storage
 
-    await ServiceConfig.localStorage
+    await ServiceConfig.hiveStorage
         .write(key: ServiceConfig.eventsStorage, value: jsonEncode(apiResult));
 
     return events.value;

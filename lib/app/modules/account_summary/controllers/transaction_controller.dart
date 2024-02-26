@@ -472,7 +472,7 @@ class TransactionController extends GetxController {
         query: query,
       ));
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return [];
     }
     // : await UserStorageService().getAccountTransactionHistory(
@@ -531,13 +531,13 @@ class TransactionController extends GetxController {
         timeStamp: timeStamp,
         address: accController.selectedAccount.value.publicKeyHash!,
         query: query);
-    print(url);
+    debugPrint(url);
     var response =
         await HttpService.performGetRequest(url, callSetupTimer: true);
 
     return transactionTransferModelFromJson(response);
   } /* catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return [];
     }
   } */
@@ -628,7 +628,7 @@ class TransactionController extends GetxController {
 //   }
 
 //   AliasAddress get reciever {
-//     print("hash: $hash");
+//     debugPrint("hash: $hash");
 //     if (parameter != null &&
 //         parameter?.value is Map<String, List> &&
 //         parameter?.value?["txs"]?[0]?["to_"] != null) {

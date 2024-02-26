@@ -1,19 +1,17 @@
 import 'dart:io';
+import 'dart:io' show Platform;
 
+import 'package:bs58check/bs58check.dart' as bs58check;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-
 import 'package:get/get.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
-
 import 'package:plenty_wallet/app/modules/common_widgets/solid_button.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/text_scale_factor.dart';
-
 import 'package:plenty_wallet/utils/colors/colors.dart';
 import 'package:plenty_wallet/utils/constants/constants.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
@@ -34,7 +32,6 @@ class DappBrowserView extends GetView<DappBrowserController> {
         crossPlatform: InAppWebViewOptions(
           useShouldOverrideUrlLoading: true,
           mediaPlaybackRequiresUserGesture: false,
-          allowUniversalAccessFromFileURLs: true,
         ),
         android: AndroidInAppWebViewOptions(
           useHybridComposition: true,
@@ -150,7 +147,7 @@ class DappBrowserView extends GetView<DappBrowserController> {
                             width: 110.arP,
                             primaryColor: ColorConst.Primary,
                             onPressed: () {
-                              print("buy now ${controller.url.value}");
+                              debugPrint("buy now ${controller.url.value}");
                               controller.naanBuy(controller.webViewController!
                                   .getUrl()
                                   .toString());
@@ -212,34 +209,29 @@ class DappBrowserView extends GetView<DappBrowserController> {
                     shouldOverrideUrlLoading:
                         (controller, navigationAction) async {
                       await this.controller.setCanGoBackForward();
-                      var uri = navigationAction.request.url.toString();
+                      var navigationUri = navigationAction.request.url!;
+                      var uri = navigationUri.toString();
+
+                      if (!["https", "naan", "tezos"].contains(navigationUri.scheme)) {
+                        return NavigationActionPolicy.CANCEL;
+                      }
+
                       if (uri.startsWith('tezos://') ||
                           uri.startsWith('naan://')) {
                         uri =
                             uri.substring(uri.indexOf("data=") + 5, uri.length);
                         try {
-                          //print(uri);
-                          /*                     var data = String.fromCharCodes(base58.decode(uri));
-                            if (!data.endsWith("}"))
-                              data = data.substring(0, data.lastIndexOf('}') + 1);
-                            var baseData = jsonDecode(data); */
-                          print("got here $uri");
+                          bs58check.decode(uri);
+
+                          debugPrint("got here $uri");
                           await this
                               .controller
                               .beaconPlugin
                               .pair(pairingRequest: uri);
 
-                          //print("response yo: $response");
-                          // await BeaconPlugin.addPeer(
-                          //   baseData['id'],
-                          //   baseData['name'],
-                          //   baseData['publicKey'],
-                          //   baseData['relayServer'],
-                          //   baseData['version'] ?? "2",
-                          // );
                           return NavigationActionPolicy.CANCEL;
                         } catch (e) {
-                          print("Erron from beacon $e");
+                          debugPrint("Erron from beacon $e");
                         }
                       }
 
@@ -262,13 +254,13 @@ class DappBrowserView extends GetView<DappBrowserController> {
                       controller.progress.value = progress / 100;
                     },
                     onUpdateVisitedHistory: (controller, url, androidIsReload) {
-                      print(url.toString());
+                      debugPrint(url.toString());
                       this.controller.url.value = url.toString();
                       this.controller.onUrlUpdate(url.toString());
                       this.controller.setCanGoBackForward();
                     },
                     onConsoleMessage: (controller, consoleMessage) {
-                      print(consoleMessage);
+                      debugPrint(consoleMessage.toString());
                     },
                   ),
                 )),

@@ -77,7 +77,7 @@ class _TransactionDetailsBottomSheetState
           setState(() {});
         });
       } catch (e) {
-        print(e.toString());
+        debugPrint(e.toString());
       }
     }
     // TODO: implement initState

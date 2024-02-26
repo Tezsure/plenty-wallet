@@ -16,6 +16,7 @@ import 'package:plenty_wallet/utils/constants/constants.dart';
 import 'package:plenty_wallet/utils/constants/path_const.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 import 'package:plenty_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/utils/utils.dart';
 
 class EditAccountBottomSheet extends StatefulWidget {
   final int accountIndex;
@@ -121,10 +122,20 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             ),
             NaanTextfield(
                 hint: "Wallet Name",
+                maxLen: 28,
                 controller: _controller.accountNameController,
-                onSubmitted: (val) {
+                onSubmitted: (value) {
                   setState(() {
-                    _controller.editAccountName(widget.accountIndex, val);
+                    if (value.removeSpecialChars != value) {
+                      _controller.accountNameController.text =
+                          value.removeSpecialChars;
+                      _controller.accountNameController.selection =
+                          TextSelection.fromPosition(TextPosition(
+                              offset: _controller
+                                  .accountNameController.text.length));
+                      value = value.removeSpecialChars;
+                    }
+                    _controller.editAccountName(widget.accountIndex, value);
                   });
                 }),
             0.02.vspace,

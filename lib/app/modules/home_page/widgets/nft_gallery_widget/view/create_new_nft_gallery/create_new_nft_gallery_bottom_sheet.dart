@@ -519,7 +519,7 @@ class CreateNewNftGalleryBottomSheet
                 ),
                 NaanTextfield(
                   height: 50.arP,
-                  maxLen: 15,
+                  maxLen: 28,
                   hint: "Account Name",
                   focusNode: controller.accountNameFocus,
                   controller: controller.accountNameController,
@@ -529,8 +529,18 @@ class CreateNewNftGalleryBottomSheet
                     fontWeight: FontWeight.w400,
                     letterSpacing: 0.25.arP,
                   ),
-                  onTextChange: (String value) =>
-                      controller.accountName.value = value,
+                  onTextChange: (String value) {
+                    if (value.removeSpecialChars != value) {
+                      controller.accountNameController.text =
+                          value.removeSpecialChars;
+                      controller.accountNameController.selection =
+                          TextSelection.fromPosition(TextPosition(
+                              offset: controller
+                                  .accountNameController.text.length));
+                      value = value.removeSpecialChars;
+                    }
+                    return controller.accountName.value = value;
+                  },
                 ),
                 const Spacer(),
                 Align(

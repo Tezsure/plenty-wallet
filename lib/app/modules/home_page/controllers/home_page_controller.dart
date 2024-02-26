@@ -47,12 +47,13 @@ class HomePageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    DataHandlerService().initDataServices();
     try {
       Get.put(BeaconService(), permanent: true);
     } catch (e) {}
 
     selectedIndex.listen((index) {
-      print("${selectedIndex.value}${index}selectedIndex called");
+      debugPrint("${selectedIndex.value}${index}selectedIndex called");
     });
     DataHandlerService()
         .renderService
@@ -60,8 +61,8 @@ class HomePageController extends GetxController {
         .registerCallback((accounts) async {
       List<AccountModel> account =
           (accounts ?? (<AccountModel>[])) as List<AccountModel>;
-      // print("accountUpdater".toUpperCase());
-      // print("${userAccounts.value.hashCode == accounts.hashCode}");
+      // debugPrint("accountUpdater".toUpperCase());
+      // debugPrint("${userAccounts.value.hashCode == accounts.hashCode}");
       if ((account.length) != userAccounts.length) {
         // userAccounts.value = [...(accounts ?? [])];
         account.sort((a, b) =>
@@ -104,7 +105,8 @@ class HomePageController extends GetxController {
             userAccounts[0].delegatedBakerAddress =
                 await Get.put(DelegateWidgetController())
                     .getCurrentBakerAddress(userAccounts[0].publicKeyHash!);
-            print("baker address :${userAccounts[0].delegatedBakerAddress}");
+            debugPrint(
+                "baker address :${userAccounts[0].delegatedBakerAddress}");
           });
         }
       } catch (e) {
@@ -119,7 +121,7 @@ class HomePageController extends GetxController {
         .xtzPriceUpdater
         .registerCallback((value) {
       xtzPrice.value = value;
-      print("xtzPrice: $value");
+      debugPrint("xtzPrice: $value");
       //update();
     });
 
@@ -128,13 +130,13 @@ class HomePageController extends GetxController {
         .dayChangeUpdater
         .registerCallback((value) {
       dayChange.value = value;
-      print("dayChange: $value");
+      debugPrint("dayChange: $value");
       //update();
     });
 
     // DataHandlerService().renderService.accountNft.registerCallback((data) {
-    //   print("Nft data");
-    //   print(jsonEncode(data));
+    //   debugPrint("Nft data");
+    //   debugPrint(jsonEncode(data));
     // });
   }
 
@@ -169,7 +171,7 @@ class HomePageController extends GetxController {
   }
 
   void changeSelectedAccount(int index) async {
-    print("On PAGECHANGED");
+    debugPrint("On PAGECHANGED");
     // Get.find<AccountsWidgetController>().onPageChanged(index);
     if (userAccounts.isNotEmpty && userAccounts.length > index) {
       selectedIndex.value = index;
@@ -178,7 +180,7 @@ class HomePageController extends GetxController {
           await Get.put(DelegateWidgetController())
               .getCurrentBakerAddress(userAccounts[index].publicKeyHash!);
       //Get.find<AccountsWidgetController>().onPageChanged(index);
-      print("baker address :${userAccounts[index].delegatedBakerAddress}");
+      debugPrint("baker address :${userAccounts[index].delegatedBakerAddress}");
     }
   }
 

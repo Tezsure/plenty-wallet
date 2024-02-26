@@ -386,7 +386,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget>
                   ),
                   onPageChanged: (index) {
                     controller.index.value = index;
-                    print("hh");
+                    debugPrint("hh");
                   },
                   physics: const BouncingScrollPhysics(),
                   itemCount: controller.nftGalleryList.length + 1,
@@ -394,7 +394,7 @@ class _NftGalleryWidgetState extends State<NftGalleryWidget>
                     if (controller.nftGalleryList.length == index) {
                       return Obx(
                         () {
-                          print("aa");
+                          debugPrint("aa");
                           return TweenAnimationBuilder(
                               tween: Tween<double>(
                                   begin: controller.index.value == index

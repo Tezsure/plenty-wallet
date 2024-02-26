@@ -9,6 +9,7 @@ import 'package:plenty_wallet/utils/colors/colors.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 import 'package:plenty_wallet/utils/styles/styles.dart';
 import 'package:http/http.dart' as http;
+import 'package:plenty_wallet/utils/utils.dart';
 
 class AddRPCbottomSheet extends StatefulWidget {
   AddRPCbottomSheet({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class AddRPCbottomSheet extends StatefulWidget {
 class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
   final SettingsPageController controller = Get.find<SettingsPageController>();
 
-  final TextEditingController _name = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   final TextEditingController _url = TextEditingController();
 
@@ -36,11 +37,19 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
           children: [
             0.03.vspace,
             NaanTextfield(
+              maxLen: 28,
               autofocus: true,
-              onTextChange: (_) {
-                setState(() {});
+              onTextChange: (value) {
+                setState(() {
+                  if (value.removeSpecialChars != value) {
+                    _nameController.text = value.removeSpecialChars;
+                    _nameController.selection = TextSelection.fromPosition(
+                        TextPosition(offset: _nameController.text.length));
+                    value = value.removeSpecialChars;
+                  }
+                });
               },
-              controller: _name,
+              controller: _nameController,
               height: 50.arP,
               hint: "My custom network",
               hintTextSyle: labelLarge.copyWith(
@@ -65,14 +74,14 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
             SolidButton(
                 width: 1.width - 64.arP,
                 title: "Add RPC",
-                onPressed: (_name.text.isEmpty || (!_url.text.isURL))
+                onPressed: (_nameController.text.isEmpty || (!_url.text.isURL))
                     ? null
                     : () async {
                         try {
                           final result = await http.get(Uri.parse(
                             "${_url.text}/chains/main/blocks/head/header",
                           ));
-                          print("hi ${result.body}");
+                          debugPrint("hi ${result.body}");
                           if (!result.body.contains("chain_id")) {
                             Get.showSnackbar(const GetSnackBar(
                               message: "Not a valid RPC",
@@ -82,7 +91,7 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
                             return;
                           }
                         } catch (e) {
-                          print(e);
+                          debugPrint(e.toString());
                           Get.showSnackbar(const GetSnackBar(
                             message: "Not a valid RPC",
                             snackPosition: SnackPosition.TOP,
@@ -92,7 +101,7 @@ class _AddRPCbottomSheetState extends State<AddRPCbottomSheet> {
                         }
 
                         controller.addCustomNode(
-                            NodeModel(name: _name.text, url: _url.text));
+                            NodeModel(name: _nameController.text, url: _url.text));
                       }),
           ],
         )

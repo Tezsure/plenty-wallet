@@ -40,7 +40,7 @@ class BuyTezWidget extends StatelessWidget {
           );
           return;
         } else {
-          //print(DateTime.now().timeZoneName);
+          //debugPrint(DateTime.now().timeZoneName);
           bool isIndia = DateTime.now().timeZoneName == "IST";
           CommonFunctions.bottomSheet(
             AccountSwitch(
@@ -53,7 +53,7 @@ class BuyTezWidget extends StatelessWidget {
                       NaanAnalytics.address: home
                           .userAccounts[home.selectedIndex.value].publicKeyHash
                     });
-                print(Get.deviceLocale);
+                debugPrint(Get.deviceLocale.toString());
                 String url = isIndia
                     ? 'https://onramp.money/app/?appId=$onrampId&coinCode=xtz&network=xtz&walletAddress=${home.userAccounts[home.selectedIndex.value].publicKeyHash}'
                     : "https://wert.naan.app?address=${home.userAccounts[home.selectedIndex.value].publicKeyHash}";
@@ -64,7 +64,7 @@ class BuyTezWidget extends StatelessWidget {
                     arguments: url,
                   ),
                 ); */
-                print(url);
+                /*            debugPrint(url);
                 Platform.isIOS && !isIndia
                     ? await launchUrl(Uri.parse(url),
                         mode: LaunchMode.inAppWebView)
@@ -74,7 +74,9 @@ class BuyTezWidget extends StatelessWidget {
                         settings: RouteSettings(
                           arguments: url,
                         ),
-                      );
+                      ); */
+                await launchUrl(Uri.parse(url),
+                    mode: LaunchMode.platformDefault);
               },
             ),
           );

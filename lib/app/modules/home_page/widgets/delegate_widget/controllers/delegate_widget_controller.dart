@@ -114,7 +114,7 @@ class DelegateWidgetController extends GetxController {
         ));
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       Get.showSnackbar(const GetSnackBar(
         message: "Not a valid baker",
         snackPosition: SnackPosition.TOP,
@@ -166,7 +166,7 @@ class DelegateWidgetController extends GetxController {
             .whenComplete(() => Get.back());
       });
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       transactionStatusSnackbar(
         status: TransactionStatus.error,
         duration: const Duration(seconds: 2),
@@ -197,7 +197,7 @@ class DelegateWidgetController extends GetxController {
       return delegateBakerList.value = value;
     });
     // } catch (e) {
-    //   print(e.toString());
+    //   debugPrint(e.toString());
 
     //   delegateBakerList.value = <DelegateBakerModel>[];
     // }
@@ -377,7 +377,7 @@ class DelegateWidgetController extends GetxController {
     // try {
     return await _delegateHandler.bakerDetail(bakerAddress);
     // } catch (e) {
-    //   print(e.toString());
+    //   debugPrint(e.toString());
     //   return null;
     // }
   }

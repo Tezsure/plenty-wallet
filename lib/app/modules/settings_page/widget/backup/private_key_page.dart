@@ -26,13 +26,37 @@ class PrivateKeyPage extends StatefulWidget {
   State<PrivateKeyPage> createState() => _PrivateKeyPageState();
 }
 
-class _PrivateKeyPageState extends State<PrivateKeyPage> {
+class _PrivateKeyPageState extends State<PrivateKeyPage>
+    with WidgetsBindingObserver {
   @override
   void dispose() {
     if (PrivateKeyPage._backupController.timer?.isActive ?? false) {
       PrivateKeyPage._backupController.timer?.cancel();
     }
+    WidgetsBinding.instance.removeObserver(this);
+
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // if paused or inactive, stop the timer and pop the page
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive || state == AppLifecycleState.hidden) {
+      if (PrivateKeyPage._backupController.timer?.isActive ?? false) {
+        PrivateKeyPage._backupController.timer?.cancel();
+      }
+      Navigator.pop(context);
+    }
+
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override

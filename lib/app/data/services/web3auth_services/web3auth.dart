@@ -12,6 +12,8 @@ import 'package:plenty_wallet/app/data/services/enums/enums.dart';
 import 'package:plenty_wallet/app/data/services/web3auth_services/web3AuthController.dart';
 import 'package:plenty_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
 import 'package:plenty_wallet/app/routes/app_pages.dart';
+import 'package:plenty_wallet/env.dart'
+    show web3AuthclientId, web3AuthredirectUriAndroid, web3AuthredirectUriIos;
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 import 'package:web3auth_flutter/enums.dart' as web3auth;
 import 'package:web3auth_flutter/input.dart';
@@ -19,23 +21,16 @@ import 'package:web3auth_flutter/output.dart';
 import 'package:web3auth_flutter/web3auth_flutter.dart';
 
 class Web3Auth {
-  static const String clientId =
-      "BE-6AIH1fhG1veGQB2tko9j5B--Y7DuXjRoA3XGJEaSUrkB7y2dUdd7XEtfYjKtLjUXd3KrWB4AofCJFTxrsSqM"; // Client ID from the developer console
-  static const String redirectUriAndroid =
-      "com.naan.web3auth://auth"; // Redirect Url, must be the same as the one in the web3auth server/dashboard
-  static const String redirectUriIos =
-      "com.naan://auth"; // Redirect Url, must be the same as the one in the web3auth server/dashboard
-
   /// Initializes Web3AuthFlutter package
   static Future<void> initPlatformState() async {
     HashMap themeMap = HashMap<String, String>();
     themeMap['primary'] = "#fff000";
     Web3AuthOptions web3authOptions = Web3AuthOptions(
-      clientId: clientId,
+      clientId: web3AuthclientId,
       network: web3auth.Network.mainnet,
       redirectUrl: Platform.isIOS
-          ? Uri.parse(redirectUriIos)
-          : Uri.parse(redirectUriAndroid),
+          ? Uri.parse(web3AuthredirectUriIos)
+          : Uri.parse(web3AuthredirectUriAndroid),
       whiteLabel: WhiteLabelData(
           dark: true, name: "Plenty Wallet Social Login", theme: themeMap),
     );
@@ -116,7 +111,7 @@ class Web3Auth {
     LoginParams loginParams = LoginParams(
       loginProvider: socialApp,
       curve: web3auth.Curve.secp256k1,
-      mfaLevel: web3auth.MFALevel.NONE,
+      mfaLevel: web3auth.MFALevel.OPTIONAL,
       extraLoginOptions: ExtraLoginOptions(
         display: web3auth.Display.wap,
       ),

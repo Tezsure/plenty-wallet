@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:plenty_wallet/app/modules/settings_page/enums/network_enum.dart';
@@ -16,6 +17,7 @@ import 'package:plenty_wallet/app/modules/settings_page/widget/reset_wallet_shee
 import 'package:plenty_wallet/app/modules/settings_page/widget/select_currency_sheet.dart';
 import 'package:plenty_wallet/app/modules/settings_page/widget/select_network_sheet.dart';
 import 'package:plenty_wallet/app/modules/settings_page/widget/select_node_sheet.dart';
+import 'package:plenty_wallet/app/modules/settings_page/widget/select_safty_reset_sheet.dart';
 import 'package:plenty_wallet/utils/colors/colors.dart';
 import 'package:plenty_wallet/utils/common_functions.dart';
 import 'package:plenty_wallet/utils/constants/constants.dart';
@@ -97,8 +99,14 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                             ),
                                           if (controller.isPasscodeSet.value)
                                             _settingOption(
-                                              onTap: () => Get.to(
-                                                  () => const ChangePasscode()),
+                                              onTap: () async {
+                                                await controller
+                                                    .checkForPasscodeLock();
+                                                Get.to(() =>
+                                                        const ChangePasscode())
+                                                    ?.then((value) => controller
+                                                        .resetPassCodePage());
+                                              },
                                               title: "Change passcode",
                                               svgPath:
                                                   "${PathConst.SETTINGS_PAGE.SVG}passcode.svg",
@@ -121,6 +129,54 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                     if (_homePageController
                                         .userAccounts.isNotEmpty)
                                       SizedBox(height: 0.05.width),
+
+                                    // Safety Reset
+                                    _settingsSeparator(
+                                      title: "Safety Reset",
+                                      settings: [
+                                        _settingOption(
+                                          title: "Safety Reset",
+                                          svgPath:
+                                              "${PathConst.SETTINGS_PAGE.SVG}currency.svg",
+                                          onTap: () {
+                                            Navigator.push(
+                                              context1,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SelectSaftyResetBottomSheet(),
+                                              ),
+                                            );
+                                            // CommonFunctions.bottomSheet(
+                                            //   SelectCurrencyBottomSheet(),
+                                            // );
+                                          },
+                                          trailing: Row(
+                                            children: [
+                                              Obx(
+                                                () => Text(
+                                                  controller.selectedWrongAttempts
+                                                              .value !=
+                                                          "Disabled"
+                                                      ? "${controller.selectedWrongAttempts.value} attempts"
+                                                      : "Disabled",
+                                                  style: labelSmall.apply(
+                                                      color: ColorConst
+                                                          .NeutralVariant
+                                                          .shade60),
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.chevron_right_rounded,
+                                                size: 14,
+                                                color: ColorConst
+                                                    .NeutralVariant.shade60,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 0.05.width),
                                     if (_homePageController
                                         .userAccounts.isNotEmpty)
                                       _connectedAppsOption(context1),
@@ -164,39 +220,6 @@ class SettingsPageView extends GetView<SettingsPageController> {
                                             ],
                                           ),
                                         ),
-                                        // _settingOption(
-                                        //     title: "Language",
-                                        //     svgPath:
-                                        //         "${PathConst.SETTINGS_PAGE.SVG}language.svg",
-                                        //     onTap: () {
-                                        //       Navigator.push(
-                                        //           context,
-                                        //           MaterialPageRoute(
-                                        //               builder: (context) =>
-                                        //                   SelectLanguageBottomSheet()));
-                                        //       // CommonFunctions.bottomSheet(
-                                        //       //   SelectNodeBottomSheet(),
-                                        //       // );
-                                        //     },
-                                        //     trailing: Row(
-                                        //       children: [
-                                        //         Obx(() => Text(
-                                        //               controller
-                                        //                   .selectedLanguage.value
-                                        //                   .toUpperCase(),
-                                        //               style: labelSmall.apply(
-                                        //                   color: ColorConst
-                                        //                       .NeutralVariant
-                                        //                       .shade60),
-                                        //             )),
-                                        //         Icon(
-                                        //           Icons.chevron_right_rounded,
-                                        //           size: 14,
-                                        //           color: ColorConst
-                                        //               .NeutralVariant.shade60,
-                                        //         )
-                                        //       ],
-                                        //     )),
                                       ],
                                     ),
 
@@ -674,8 +697,14 @@ class SettingsPageView extends GetView<SettingsPageController> {
                 height: 12,
               ),
               BouncingWidget(
-                onPressed: () =>
-                    controller.checkWalletBackup(context, "Settings"),
+                onPressed: () async {
+                  var isPasscodeOrBioValid =
+                      await AuthService().verifyBiometricOrPassCode();
+
+                  if (isPasscodeOrBioValid) {
+                    controller.checkWalletBackup(Get.context!, "Settings");
+                  }
+                },
                 child: Text(
                   (isBackedUp ? "View my recovery phrase" : "Backup now").tr,
                   style: labelMedium.apply(

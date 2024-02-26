@@ -19,6 +19,7 @@ import 'package:plenty_wallet/utils/constants/constants.dart';
 import 'package:plenty_wallet/utils/constants/path_const.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 import 'package:plenty_wallet/utils/styles/styles.dart';
+import 'package:plenty_wallet/utils/utils.dart';
 
 import '../../../../../common_widgets/solid_button.dart';
 
@@ -128,10 +129,16 @@ class _AddNewAccountBottomSheetState extends State<AddNewAccountBottomSheet> {
               NaanTextfield(
                 focusNode: controller.accountNameFocus,
                 height: 52.aR,
-                maxLen: 15,
+                maxLen: 28,
                 autofocus: true,
-                onTextChange: (e) {
-                  controller.phrase.value = e;
+                onTextChange: (value) {
+                  if (value.removeSpecialChars != value) {
+                    controller.accountNameController.text = value.removeSpecialChars;
+                    controller.accountNameController.selection = TextSelection.fromPosition(
+                        TextPosition(offset: controller.accountNameController.text.length));
+                    value = value.removeSpecialChars;
+                  }
+                  controller.phrase.value = value;
                 },
                 hint: "Wallet Name",
                 controller: controller.accountNameController,

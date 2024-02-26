@@ -899,7 +899,7 @@ enum _ListTileSlot {
 }
 
 class _ListTile extends RenderObjectWidget
-    with SlottedMultiChildRenderObjectWidgetMixin<_ListTileSlot> {
+    with SlottedMultiChildRenderObjectWidgetMixin<_ListTileSlot, RenderBox> {
   const _ListTile({
     this.leading,
     required this.title,
@@ -985,7 +985,7 @@ class _ListTile extends RenderObjectWidget
 }
 
 class _RenderListTile extends RenderBox
-    with SlottedContainerRenderObjectMixin<_ListTileSlot> {
+    with SlottedContainerRenderObjectMixin<_ListTileSlot, RenderBox> {
   _RenderListTile({
     required bool isDense,
     required VisualDensity visualDensity,

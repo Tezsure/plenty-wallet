@@ -1,4 +1,4 @@
--keep class com.naan.** { *; } // Add your id
+-keep class com.naan.** { *; } # Add your id
 -keep class it.airgap.beaconsdk.** { *; }  
 -keep class com.sun.jna.** { *; }
 -keep class * implements com.sun.jna.** { *; }

@@ -30,6 +30,12 @@ abstract class Routes {
   static const DAPPS_PAGE = _Paths.DAPPS_PAGE;
   static const NFT_GALLERY_CREATE = _Paths.NFT_GALLERY_CREATE;
   static const EVENTS = _Paths.EVENTS;
+
+  static const ADD_NEW_WALLET = _Paths.ADD_NEW_WALLET;
+  static const SAFETY_RESET_PAGE = _Paths.SAFETY_RESET_PAGE;
+  static const FORCED_UPDATE_PAGE = _Paths.FORCED_UPDATE_PAGE;
+  static const LOCKED = _Paths.LOCKED;
+
 }
 
 abstract class _Paths {
@@ -58,4 +64,10 @@ abstract class _Paths {
   static const DAPPS_PAGE = '/dapps-page';
   static const NFT_GALLERY_CREATE = '/nft-gallery-create';
   static const EVENTS = '/events';
+  static const ADD_NEW_WALLET = '/add-new-wallet';
+  static const SAFETY_RESET_PAGE = '/safety-reset-page';
+
+  static const FORCED_UPDATE_PAGE = '/forced-update-page';
+  static const LOCKED = "/locked";
+
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -21,6 +22,7 @@ import 'package:plenty_wallet/app/modules/home_page/widgets/accounts_widget/cont
 import 'package:plenty_wallet/app/modules/home_page/widgets/teztown/controllers/teztown_controller.dart';
 import 'package:plenty_wallet/app/modules/settings_page/enums/network_enum.dart';
 import 'package:plenty_wallet/app/modules/settings_page/widget/backup/backup_page.dart';
+import 'package:plenty_wallet/app/routes/app_pages.dart';
 import 'package:plenty_wallet/utils/colors/colors.dart';
 import 'package:plenty_wallet/utils/common_functions.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
@@ -59,34 +61,178 @@ class SettingsPageController extends GetxController {
   RxBool isWalletBackup = true.obs; // Is wallet backed-up
   RxString enteredPassCode = "".obs; // Entered passcode
   RxBool verifyPassCode = false.obs; // Verify passcode status
+  RxBool confirmPasscode = false.obs; // confirm new passcode status
+  RxString newPasscode = "".obs;
   RxBool inAppReviewAvailable =
       true.obs; // Check if in app purchase is available
   RxBool supportBiometric = true.obs;
   RxBool isPasscodeSet = true.obs;
 
+  RxString passcodeError = "".obs; // Passcode error
+
   RxString selectedCurrency = ServiceConfig.currency.name.obs;
+  RxString selectedWrongAttempts = "Disabled".obs;
   RxString selectedLanguage = ServiceConfig.language.name.obs;
 
   final InAppReview inAppReview = InAppReview.instance;
 
+  RxBool isPasscodeLock = false.obs;
+  RxString lockTimeTitle = "".obs;
+  RxInt safetyResetAttempts = 0.obs;
+  RxBool isPassCodeWrong = false.obs;
+
+  Future<void> checkForPasscodeLock() async {
+    Duration? lockoutDuration = await AuthService().getLockDuration();
+    safetyResetAttempts.value = await AuthService().getTotalWrongAttemptsLeft();
+
+    if (safetyResetAttempts.value == 0) {
+      debugPrint("Resetting the App");
+
+      await ServiceConfig().clearStorage();
+      Get.offAllNamed(Routes.SAFETY_RESET_PAGE);
+      return;
+    }
+
+    if (lockoutDuration != null) {
+      enteredPassCode.value = "";
+      _startTimer(lockoutDuration, (durationinSec) {
+        if (durationinSec <= 0) {
+          isPasscodeLock.value = false;
+          enteredPassCode.value = "";
+          isPassCodeWrong.value = false;
+          lockTimeTitle.value = "";
+        } else {
+          enteredPassCode.value = "";
+
+          isPasscodeLock.value = true;
+          // convert seconds to minutes and seconds
+          var minutes = (durationinSec / 60).floor();
+          var seconds = durationinSec % 60;
+
+          lockTimeTitle.value =
+              "Try again after ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+        }
+      });
+    }
+  }
+
+  _startTimer(Duration tillTime, callback) {
+    int durationinSec = tillTime.inSeconds;
+
+    // periodic timer every seconds and check if time is up and callback()
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      if (durationinSec <= 0) {
+        timer.cancel();
+        callback(durationinSec);
+      } else {
+        durationinSec--;
+        callback(durationinSec);
+      }
+    });
+  }
+
   /// To change the app passcode and verify the passcode if fails, redirects to verify passcode screen otherwise changes the passcode
   void changeAppPasscode(String passCode) async {
     if (verifyPassCode.isTrue) {
-      await AuthService()
-          .setNewPassCode(passCode)
-          .whenComplete(() => Get.back())
-          .whenComplete(() {
-        verifyPassCode.value = false;
-        enteredPassCode.value = "";
+      AuthService().verifyPassCode(passCode).then((value) async {
+        if (value) {
+          enteredPassCode.value = "";
+          passcodeError.value =
+              "Cannot set new passcode same as current passcode";
+          HapticFeedback.heavyImpact();
+        } else {
+          if (!confirmPasscode.value) {
+            if (!AuthService().checkPasscodeStrength(passCode)) {
+              HapticFeedback.heavyImpact();
+              enteredPassCode.value = "";
+              passcodeError.value = "Passcode too weak, try Again!";
+              return;
+            }
+
+            confirmPasscode.value = true;
+            newPasscode.value = passCode;
+            enteredPassCode.value = "";
+            passcodeError.value = "";
+            return;
+          }
+          if (newPasscode.value != passCode) {
+            HapticFeedback.heavyImpact();
+            Get.rawSnackbar(
+              backgroundColor: Colors.transparent,
+              snackPosition: SnackPosition.BOTTOM,
+              snackStyle: SnackStyle.FLOATING,
+              padding: const EdgeInsets.only(bottom: 60, left: 20, right: 20),
+              messageText: Container(
+                height: 36,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                    color: ColorConst.Neutral.shade10,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.error,
+                      size: 14,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      "Passwords do not match",
+                      style: labelSmall,
+                    )
+                  ],
+                ),
+              ),
+            );
+            enteredPassCode.value = "";
+            return;
+          }
+          await AuthService()
+              .setNewPassCode(passCode)
+              .whenComplete(() => Get.back())
+              .whenComplete(() {
+            verifyPassCode.value = false;
+            confirmPasscode.value = false;
+            newPasscode.value = "";
+            enteredPassCode.value = "";
+          });
+        }
       });
     } else {
-      await AuthService().verifyPassCode(passCode).then((value) {
+      await AuthService().verifyPassCode(passCode).then((value) async {
         if (value) {
           verifyPassCode.value = true;
+          resetPassCodeLock();
+        } else {
+          enteredPassCode.value = "";
+          passcodeError.value = "Passcode doesn’t match";
+          await checkForPasscodeLock();
         }
-        enteredPassCode.value = "";
       });
     }
+  }
+
+  resetPassCodeLock() {
+    isPasscodeLock.value = false;
+    lockTimeTitle.value = "";
+    isPassCodeWrong.value = false;
+    safetyResetAttempts.value = -1;
+    enteredPassCode.value = "";
+    passcodeError.value = "";
+  }
+
+  resetPassCodePage() {
+    isPasscodeLock.value = false;
+    lockTimeTitle.value = "";
+    isPassCodeWrong.value = false;
+    safetyResetAttempts.value = -1;
+    enteredPassCode.value = "";
+    verifyPassCode.value = false;
+    passcodeError.value = "";
   }
 
   RxList<AccountModel> oldWallets = <AccountModel>[].obs;
@@ -157,10 +303,18 @@ class SettingsPageController extends GetxController {
   }
 
   @override
+  void onClose() {
+    resetPassCodeLock();
+    super.onClose();
+  }
+
+  @override
   void onInit() async {
     selectedImagePath.value = ServiceConfig.allAssetsProfileImages[0];
     fingerprint.value = await AuthService().getBiometricAuth();
     isPasscodeSet.value = await AuthService().getIsPassCodeSet();
+    selectedWrongAttempts.value =
+        await AuthService().getSafetyReset() ?? "Disabled";
     getWalletBackupStatus();
     networkType.value = await RpcService.getCurrentNetworkType();
     getOldWalletAccounts();
@@ -189,6 +343,7 @@ class SettingsPageController extends GetxController {
         await AuthService().checkIfDeviceSupportBiometricAuth();
 
     getAllConnectedApps();
+    await checkForPasscodeLock();
     super.onInit();
   }
 
@@ -227,6 +382,13 @@ class SettingsPageController extends GetxController {
 /*     await Get.deleteAll(force: true);
     Phoenix.rebirth(Get.context!);
     Get.reset(); */
+  }
+
+  // Change Safety Reset
+  Future<void> changeSafetyReset(String? s) async {
+    await AuthService().setSafetyReset(s);
+
+    selectedWrongAttempts.value = s ?? "Disabled";
   }
 
   /// Change Language
@@ -397,7 +559,7 @@ class SettingsPageController extends GetxController {
     _updateUserAccountsValue();
   }
 
-  void switchFingerprint(bool value) => fingerprint.value = value;
+  void switchFingerdebugPrint(bool value) => fingerprint.value = value;
   void checkWalletBackup(BuildContext context, String? prevPage) async {
     if (isWalletBackup.value) {
       CommonFunctions.bottomSheet(BackupPage(), fullscreen: true);
@@ -410,6 +572,7 @@ class SettingsPageController extends GetxController {
         return value?.seedPhrase ?? "";
       });
       if (prevPage != null) {
+        // ignore: use_build_context_synchronously
         Navigator.push(
             context,
             MaterialPageRoute(

@@ -4,6 +4,7 @@ import 'package:beacon_flutter/models/beacon_request.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:plenty_wallet/app/data/services/beacon_service/beacon_service.dart';
 import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
 import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
@@ -51,27 +52,33 @@ class PairRequestController extends GetxController {
   }
 
   accept() async {
-    // try {
-    final Map response = await beaconPlugin.permissionResponse(
-      id: beaconRequest.request!.id!,
-      publicKey: (await UserStorageService().readAccountSecrets(
-              accountModels[selectedAccount.value].publicKeyHash!))!
-          .publicKey, // publicKey of crypto account
-      address: accountModels[selectedAccount.value]
-          .publicKeyHash, // walletAddress of crypto account
-    );
+    AuthService auth = AuthService();
 
-    final bool success = json.decode(response['success'].toString()) as bool;
+    bool result = await auth.verifyBiometricOrPassCode();
+    if (result) {
+      final Map response = await beaconPlugin.permissionResponse(
+        id: beaconRequest.request!.id!,
+        publicKey: (await UserStorageService().readAccountSecrets(
+                accountModels[selectedAccount.value].publicKeyHash!))!
+            .publicKey, // publicKey of crypto account
+        address: accountModels[selectedAccount.value]
+            .publicKeyHash, // walletAddress of crypto account
+      );
 
-    if (success) {
-      Get.back();
+      final bool success = json.decode(response['success'].toString()) as bool;
+
+      if (success) {
+        Get.back();
 /*         Get.snackbar('Connected', 'Connected to ${beaconRequest.peer?.name}',
             backgroundColor: ColorConst.Secondary, colorText: Colors.white); */
-    } else {
-      Get.back();
-      Get.snackbar('Error', 'Error while accepting permission',
-          backgroundColor: ColorConst.Error, colorText: Colors.white);
+      } else {
+        Get.back();
+        Get.snackbar('Error', 'Error while accepting permission',
+            backgroundColor: ColorConst.Error, colorText: Colors.white);
+      }
     }
+    // try {
+
     // } catch (e) {
     //   Get.back();
     //   Get.snackbar('Error', 'Error while accepting permission, $e',

@@ -15,22 +15,55 @@ import 'package:plenty_wallet/utils/constants/constants.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 import 'package:plenty_wallet/utils/styles/styles.dart';
 
-class SecretPhrasePage extends StatelessWidget {
+class SecretPhrasePage extends StatefulWidget {
   final String? prevPage;
   final String pkHash;
   static final _settingsController = Get.find<SettingsPageController>();
   static final _backupController = Get.find<BackupPageController>();
   const SecretPhrasePage({super.key, required this.pkHash, this.prevPage});
+
+  @override
+  State<SecretPhrasePage> createState() => _SecretPhrasePageState();
+}
+
+class _SecretPhrasePageState extends State<SecretPhrasePage>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+    @override
+      void dispose() {
+        // TODO: implement dispose
+        WidgetsBinding.instance.removeObserver(this);
+      super.dispose();
+      }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // if paused or inactive, stop the timer and pop the page
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.hidden) {
+      Navigator.pop(context);
+    }
+
+    super.didChangeAppLifecycleState(state);
+  }
+
   @override
   Widget build(BuildContext context) {
-    _backupController.setup(context);
+    SecretPhrasePage._backupController.setup(context);
     NaanAnalytics.logEvent(NaanAnalyticsEvents.VIEW_SEED_PHRASE,
-        param: {NaanAnalytics.address: pkHash});
+        param: {NaanAnalytics.address: widget.pkHash});
     return NaanBottomSheet(
       title: "Secret Phrase",
       leading: backButton(
-          ontap: () => Navigator.pop(context), lastPageName: prevPage),
-      prevPageName: prevPage,
+          ontap: () => Navigator.pop(context), lastPageName: widget.prevPage),
+      prevPageName: widget.prevPage,
       // isScrollControlled: true,
       height: AppConstant.naanBottomSheetHeight - 64.arP,
       // bottomSheetHorizontalPadding: 0,
@@ -38,7 +71,7 @@ class SecretPhrasePage extends StatelessWidget {
         SizedBox(
           height: AppConstant.naanBottomSheetChildHeight,
           child: FutureBuilder<AccountSecretModel?>(
-              future: UserStorageService().readAccountSecrets(pkHash),
+              future: UserStorageService().readAccountSecrets(widget.pkHash),
               builder: (context, snapshotData) {
                 if (snapshotData.hasData) {
                   final data = snapshotData.data?.seedPhrase?.split(" ");
@@ -59,17 +92,44 @@ class SecretPhrasePage extends StatelessWidget {
                       // ),
                       0.04.vspace,
 
-                      Text(
-                        'These ${data?.length} words are the keys to your\nwallet. Back them up with a password\nmanager or write them down.'
-                            .tr,
-                        textAlign: TextAlign.center,
-                        style: bodySmall.copyWith(
-                            color: ColorConst.NeutralVariant.shade60),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '• These ${data?.length} words are the keys to your wallet.'
+                                .tr,
+                            style: bodySmall.copyWith(
+                                color: ColorConst.NeutralVariant.shade60),
+                          ),
+                          0.020.vspace,
+                          Text(
+                            '• You can save your secret phrase in a password manager or write it down in multiple secret places.'
+                                .tr,
+                            style: bodySmall.copyWith(
+                                color: ColorConst.NeutralVariant.shade60),
+                          ),
+                          0.020.vspace,
+                          Text(
+                            '• In case you lose your secret recovery phrase, there is no way to recover the phrase and access the funds.'
+                                .tr,
+                            style:
+                                bodySmall.copyWith(color: ColorConst.NaanRed),
+                          ),
+                          0.020.vspace,
+                          Text(
+                            '• If someone asks you to share your secret recovery phrase, it is a scam. Do not share it with anyone.'
+                                .tr,
+                            style:
+                                bodySmall.copyWith(color: ColorConst.NaanRed),
+                          ),
+                        ],
                       ),
-                      0.04.vspace,
+
+                      0.03.vspace,
                       Obx(() => CopyButton(
-                          isCopied: _settingsController.copyToClipboard.value,
-                          onPressed: () => _settingsController
+                          isCopied: SecretPhrasePage
+                              ._settingsController.copyToClipboard.value,
+                          onPressed: () => SecretPhrasePage._settingsController
                               .paste(data?.join(" ").toString()))),
                       0.020.vspace,
                       GridView.builder(
@@ -118,7 +178,7 @@ class SecretPhrasePage extends StatelessWidget {
                                   color: ColorConst.NeutralVariant.shade60),
                             ),
                             Text(
-                              '${_backupController.timeLeft.value} seconds',
+                              '${SecretPhrasePage._backupController.timeLeft.value} seconds',
                               textAlign: TextAlign.center,
                               style: labelSmall,
                             )

@@ -10,7 +10,7 @@ import 'package:plenty_wallet/app/modules/settings_page/enums/network_enum.dart'
 
 class RpcService {
   static Future<NetworkType> getCurrentNetworkType() async {
-    final String? networkString = await ServiceConfig.localStorage
+    final String? networkString = await ServiceConfig.hiveStorage
         .read(key: ServiceConfig.networkStorage);
     switch (networkString) {
       case "mainnet":
@@ -23,13 +23,13 @@ class RpcService {
   }
 
   static Future<void> setNetworkType(NetworkType networkType) async {
-    await ServiceConfig.localStorage
+    await ServiceConfig.hiveStorage
         .write(key: ServiceConfig.networkStorage, value: networkType.name);
   }
 
   static Future<String?> getCurrentNode() async {
     try {
-      return (await ServiceConfig.localStorage
+      return (await ServiceConfig.hiveStorage
           .read(key: ServiceConfig.nodeStorage));
     } catch (e) {
       return null;
@@ -37,12 +37,12 @@ class RpcService {
   }
 
   static Future<void> setNode(String url) async {
-    await ServiceConfig.localStorage
+    await ServiceConfig.hiveStorage
         .write(key: ServiceConfig.nodeStorage, value: url);
   }
 
   static Future<List<NodeModel>> getCustomNode() async {
-    final json = (await ServiceConfig.localStorage
+    final json = (await ServiceConfig.hiveStorage
         .read(key: ServiceConfig.customRpcStorage));
     if (json == null) return [];
     final customNodes = List<NodeModel>.from(jsonDecode(json)
@@ -57,7 +57,7 @@ class RpcService {
     node.forEach((e) {
       map.addAll(e.toJson());
     });
-    await ServiceConfig.localStorage
+    await ServiceConfig.hiveStorage
         .write(key: ServiceConfig.customRpcStorage, value: jsonEncode(map));
   }
 

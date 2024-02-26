@@ -21,6 +21,12 @@ class HttpService {
             "Timeout $server${endpoint.isNotEmpty ? '/$endpoint' : ''}");
       },
     );
+
+    if (response.statusCode != 200) {
+      throw Exception(
+          "Error $server${endpoint.isNotEmpty ? '/$endpoint' : ''} ${response.statusCode}");
+    }
+
     return response.body;
   }
 
@@ -42,6 +48,12 @@ class HttpService {
             "Timeout $server${endpoint.isNotEmpty ? '/$endpoint' : ''}");
       },
     );
+
+    if (response.statusCode != 200) {
+      throw Exception(
+          " $server${endpoint.isNotEmpty ? '/$endpoint' : ''} ${response.statusCode}");
+    }
+
     return response.body;
   }
 }

@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:plenty_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
@@ -15,12 +17,15 @@ import 'package:plenty_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/w
 import 'package:plenty_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:plenty_wallet/utils/common_functions.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:crypto/crypto.dart';
 
 class VCARedeemNFTController extends GetxController
     with WidgetsBindingObserver {
-  late Rx<QRViewController> controller;
+  final MobileScannerController controller = MobileScannerController(
+    detectionSpeed: DetectionSpeed.noDuplicates,
+    facing: CameraFacing.back,
+    torchEnabled: false,
+  );
 
   final TextEditingController emailController = TextEditingController();
   final homeController = Get.find<HomePageController>();
@@ -36,7 +41,7 @@ class VCARedeemNFTController extends GetxController
 
   @override
   void dispose() {
-    controller.value.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -61,29 +66,29 @@ class VCARedeemNFTController extends GetxController
     return qrHash;
   }
 
-  void onQRViewCreated(QRViewController c, BuildContext context) {
-    controller = c.obs;
-
+  void onQRViewCreated(BarcodeCapture c, BuildContext context) async {
     // controller.value.resumeCamera();
-    controller.value.scannedDataStream.listen((scanData) async {
-      if (scanData.code!.contains("campaignId")) {
+    final List<Barcode> barcodes = c.barcodes;
+    final Uint8List? image = c.image;
+    for (final barcode in barcodes) {
+      if (barcode.rawValue!.contains("campaignId")) {
         if (result != null) return;
-        controller.value.pauseCamera();
-        result = scanData;
-        String campaignId = jsonDecode(scanData.code!)["campaignId"];
+        controller.stop();
+        result = barcode;
+        String campaignId = jsonDecode(barcode.rawValue!)["campaignId"];
 
         final campaign = jsonDecode(await HttpService.performGetRequest(
             "${ServiceConfig.claimNftAPI}campaign?campaignId=$campaignId"));
 
         if (!campaign["isActive"]) {
-          controller.value.resumeCamera();
+          controller.start();
           result = null;
           return;
         }
         if (campaign["isDynamicQr"]) {
           String qrHash = generateQrHash(campaignId);
-          if (qrHash != jsonDecode(scanData.code!)["hash"]) {
-            controller.value.resumeCamera();
+          if (qrHash != jsonDecode(barcode.rawValue!)["hash"]) {
+            controller.start();
             result = null;
             return;
           }
@@ -95,8 +100,8 @@ class VCARedeemNFTController extends GetxController
                 subtitle: "Choose an account to claim your NFT"))
             .then((value) async {
           if (value == true) {
-            controller.value.pauseCamera();
-            result = scanData;
+            controller.stop();
+            result = barcode;
 
             if (campaign["emailRequired"]) {
               await Navigator.push(
@@ -109,23 +114,24 @@ class VCARedeemNFTController extends GetxController
               await onSubmit(campaignId, email: false);
             }
 
-            controller.value.resumeCamera();
+            controller.start();
             result = null;
           } else {
-            controller.value.resumeCamera();
+            controller.start();
             result = null;
           }
         });
 
         // CommonFunctions.bottomSheet(VCARedeemSheet(), fullscreen: true);
       }
-    });
+    }
+    ;
     try {
-      controller.value.resumeCamera();
+      controller.start();
     } catch (e) {}
   }
 
-  void onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
+/*   void onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     // log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
       Get.back();
@@ -135,7 +141,7 @@ class VCARedeemNFTController extends GetxController
         ),
       );
     }
-  }
+  } */
 
   Future<void> openScanner() async {
     // if (homeController

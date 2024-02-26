@@ -26,7 +26,7 @@ class NaanArtFoundationWidget extends StatelessWidget {
             : Get.find<HomePageController>().userAccounts.first.publicKeyHash;
         NaanAnalytics.logEvent(NaanAnalyticsEvents.NAAN_COLLECTION,
             param: {NaanAnalytics.address: address});
-        String url = "https://objkt.com/profile/naancollection/owned?page=1";
+        String url = "https://objkt.com/profile/plentycollection/owned?page=1";
         // Get.to(BuyNFTPage(), arguments: url);
         CommonFunctions.bottomSheet(
           const DappBrowserView(),
@@ -50,9 +50,10 @@ class NaanArtFoundationWidget extends StatelessWidget {
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 16.arP, vertical: 16.arP),
-                    child: _buildIcon()),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 16.arP, vertical: 16.arP),
+                  child: _buildIcon(),
+                ),
               ),
               Align(
                 alignment: Alignment.bottomLeft,

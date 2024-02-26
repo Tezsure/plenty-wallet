@@ -33,9 +33,19 @@ class _AddCustomBakerBottomSheetState extends State<AddCustomBakerBottomSheet> {
           children: [
             0.03.vspace,
             NaanTextfield(
+              maxLen: 28,
               autofocus: true,
-              onTextChange: (_) {
-                setState(() {});
+              enableAutoSuggestions: false,
+              autocorrect: false,
+              onTextChange: (value) {
+                setState(() {
+                  if (value.removeSpecialChars != value) {
+                    _address.text = value.removeSpecialChars;
+                    _address.selection = TextSelection.fromPosition(
+                        TextPosition(offset: _address.text.length));
+                    value = value.removeSpecialChars;
+                  }
+                });
               },
               controller: _address,
               height: 50.arP,

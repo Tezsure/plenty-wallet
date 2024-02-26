@@ -11,6 +11,7 @@ import 'package:plenty_wallet/app/modules/common_widgets/bottom_button_padding.d
 import 'package:plenty_wallet/utils/common_functions.dart';
 import 'package:plenty_wallet/utils/constants/constants.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
+import 'package:plenty_wallet/utils/utils.dart';
 
 import '../../../../../utils/colors/colors.dart';
 import '../../../../../utils/constants/path_const.dart';
@@ -94,6 +95,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             0.028.vspace,
             NaanTextfield(
                 height: 50.aR,
+                maxLen: 28,
                 backgroundColor:
                     ColorConst.NeutralVariant.shade60.withOpacity(0.2),
                 hint: "Wallet Name",
@@ -101,6 +103,16 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
                 controller: _controller.accountNameController,
                 onSubmitted: (value) {
                   setState(() {
+                    if (value.removeSpecialChars != value) {
+                      _controller.accountNameController.text =
+                          value.removeSpecialChars;
+                      _controller.accountNameController.selection =
+                          TextSelection.fromPosition(TextPosition(
+                              offset: _controller
+                                  .accountNameController.text.length));
+                      value = value.removeSpecialChars;
+                    }
+
                     if (_accountController.homePageController
                         .userAccounts[widget.accountIndex].publicKeyHash!
                         .contains(_accountController
@@ -402,6 +414,7 @@ class _EditAccountBottomSheetState extends State<EditAccountBottomSheet> {
             height: 8,
           ),
           NaanTextfield(
+              maxLen: 28,
               height: 52.arP,
               backgroundColor:
                   ColorConst.NeutralVariant.shade60.withOpacity(0.2),

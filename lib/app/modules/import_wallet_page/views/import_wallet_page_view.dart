@@ -169,6 +169,8 @@ class ImportWalletPageView extends GetView<ImportWalletPageController> {
                               Expanded(
                                 child: TextFormField(
                                   cursorColor: ColorConst.Primary,
+                                  enableSuggestions: false,
+                                  autocorrect: false,
                                   expands: true,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny("  "),

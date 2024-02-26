@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 import 'dart:ui';
 
 // import 'package:firebase_analytics/firebase_analytics.dart';
@@ -17,8 +16,9 @@ import 'package:get/get_navigation/src/router_report.dart';
 import 'package:instabug_flutter/instabug_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:plenty_wallet/app/data/services/analytics/firebase_analytics.dart';
+import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:plenty_wallet/app/data/services/data_handler_service/data_handler_service.dart';
-import 'package:plenty_wallet/env.dart';
+import 'package:plenty_wallet/env.dart' show instabugToken, oneSignalAppId;
 import 'package:plenty_wallet/utils/colors/colors.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -31,8 +31,8 @@ void main() async {
   DartPluginRegistrant.ensureInitialized();
   PaintingBinding.instance.imageCache.maximumSizeBytes = 1024 * 1024 * 20;
   PaintingBinding.instance.imageCache.clear();
-  Get.put(LifeCycleController(), permanent: true);
-  HttpOverrides.global = MyHttpOverrides();
+  LifeCycleController lifeCycleController =
+      Get.put(LifeCycleController(), permanent: true);
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -42,7 +42,6 @@ void main() async {
     Zone.current.handleUncaughtError(
         details.exception, details.stack ?? StackTrace.current);
   };
-  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
   OneSignal.shared.setAppId(oneSignalAppId);
 
@@ -50,7 +49,7 @@ void main() async {
   OneSignal.shared
       .promptUserForPushNotificationPermission(fallbackToSettings: true)
       .then((accepted) {
-    print("Accepted permission: $accepted");
+    debugPrint("Accepted permission: $accepted");
   });
 
   OneSignal.shared.setNotificationWillShowInForegroundHandler(
@@ -84,7 +83,7 @@ void main() async {
     //FirebaseCrashlytics.instance.crash();
     try {
       await Instabug.init(
-        token: '74da8bcfe330c611f60eaee532e451db',
+        token: instabugToken,
         invocationEvents: [InvocationEvent.shake],
       );
     } catch (e) {
@@ -165,7 +164,23 @@ void main() async {
                 brightness: Theme.of(context).brightness,
                 scaffoldBackgroundColor: CupertinoColors.systemBackground,
               ),
-              child: child!,
+              child: Obx(
+                () => Stack(
+                  children: [
+                    child!,
+                    lifeCycleController.isBackground.value
+                        ? BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height,
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.black.withOpacity(0.9),
+                            ),
+                          )
+                        : const SizedBox(),
+                  ],
+                ),
+              ),
             ),
             onGenerateRoute: (settings) {
               final page = AppPages.routes.firstWhere(
@@ -190,32 +205,29 @@ void main() async {
   });
 }
 
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
-}
-
 class LifeCycleController extends SuperController {
+  RxBool isBackground = false.obs;
+
   @override
   void onDetached() {
     if (DataHandlerService().updateTimer != null) {
       DataHandlerService().updateTimer!.cancel();
     }
-    print("onDetached");
+    debugPrint("onDetached");
   }
 
   @override
-  void onInactive() {}
+  void onInactive() async {
+    isBackground.value = true;
+    debugPrint("onInactive");
+  }
 
+  bool isPaused = false;
   @override
-  void onPaused() {
+  void onPaused() async {
+    isPaused = true;
+    debugPrint("onPaused");
     closeBackground();
-
-    print("onPaused");
   }
 
   closeBackground() {
@@ -229,15 +241,25 @@ class LifeCycleController extends SuperController {
 
   bool isFirstTime = true;
   @override
-  void onResumed() {
+  void onResumed() async {
     //Get.put(BeaconService(), permanent: true);
+    isBackground.value = false;
     if (isFirstTime) {
       isFirstTime = false;
 
       return;
     }
+    if (isPaused) {
+      await AuthService().verifyBiometricOrPassCodeInactive();
+      isPaused = false;
+    }
+
     DataHandlerService().currencyPrices();
     DataHandlerService().setUpTimer();
-    print("onResumed");
+
+    debugPrint("onResumed");
   }
+
+  @override
+  void onHidden() {}
 }

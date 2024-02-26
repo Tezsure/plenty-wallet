@@ -115,6 +115,15 @@ class WertBrowserView extends GetView<WertBrowserController> {
                     url: Uri.parse(
                   controller.initUrl,
                 )),
+                shouldOverrideUrlLoading: (controller, navigationAction) async {
+                  var uri = navigationAction.request.url!;
+
+                  if (!["https", "naan", "tezos"].contains(uri.scheme)) {
+                    return NavigationActionPolicy.CANCEL;
+                  }
+
+                  return NavigationActionPolicy.ALLOW;
+                },
                 initialOptions: options,
                 pullToRefreshController: pullToRefreshController,
                 onWebViewCreated: (webViewcontroller) {
@@ -146,12 +155,12 @@ class WertBrowserView extends GetView<WertBrowserController> {
                   controller.progress.value = progress / 100;
                 },
                 onUpdateVisitedHistory: (controller, url, androidIsReload) {
-                  print(url.toString());
+                  debugPrint(url.toString());
                   this.controller.url.value = url.toString();
                   this.controller.onUrlUpdate(url.toString());
                 },
                 onConsoleMessage: (controller, consoleMessage) {
-                  print(consoleMessage);
+                  debugPrint(consoleMessage.toString());
                 },
               ),
             ),

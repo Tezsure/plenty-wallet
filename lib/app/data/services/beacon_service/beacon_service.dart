@@ -15,6 +15,7 @@ import 'package:plenty_wallet/app/modules/common_widgets/no_accounts_founds_bott
 import 'package:plenty_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:plenty_wallet/utils/common_functions.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:bs58check/bs58check.dart' as bs58check;
 
 class BeaconService extends GetxService {
   final beaconPlugin = Beacon();
@@ -23,13 +24,13 @@ class BeaconService extends GetxService {
   void onInit() async {
     super.onInit();
 
-    print('BeaconService Started');
+    debugPrint('BeaconService Started');
 
     try {
       await beaconPlugin.startBeacon(walletName: "naan");
       Future.delayed(const Duration(seconds: 1), () async {
         beaconPlugin.getBeaconResponse().listen((data) async {
-          print('BeaconService fired: $data');
+          debugPrint('BeaconService fired: $data');
           final Map<String, dynamic> requestJson =
               jsonDecode(data) as Map<String, dynamic>;
 
@@ -38,7 +39,7 @@ class BeaconService extends GetxService {
 
           switch (beaconRequest.type!) {
             case RequestType.permission:
-              print("Permission requested");
+              debugPrint("Permission requested");
               HomePageController home = Get.find<HomePageController>();
               final address = home.userAccounts.isEmpty
                   ? null
@@ -71,12 +72,12 @@ class BeaconService extends GetxService {
               }
               break;
             case RequestType.signPayload:
-              print("payload request $beaconRequest");
+              debugPrint("payload request $beaconRequest");
               CommonFunctions.bottomSheet(const PayloadRequestView(),
                   settings: RouteSettings(arguments: beaconRequest));
               break;
             case RequestType.operation:
-              print("operation request $beaconRequest");
+              debugPrint("operation request $beaconRequest");
               if (beaconRequest.request!.network!.type.toString() ==
                   (await RpcService.getCurrentNetworkType()).toString()) {
                 CommonFunctions.bottomSheet(const OpreationRequestView(),
@@ -90,19 +91,25 @@ class BeaconService extends GetxService {
               }
               break;
             case RequestType.broadcast:
-              print("broadcast request $beaconRequest");
+              debugPrint("broadcast request $beaconRequest");
               break;
           }
         }, onError: (err) {
-          print('BeaconService error: $err');
+          debugPrint('BeaconService error: $err');
           Get.snackbar("Error", err.toString());
         }, onDone: () {
-          print("BeaconService done");
+          debugPrint("BeaconService done");
         });
         String link = (await getInitialUri()).toString();
         if (link.isNotEmpty || link != "null") {
           if (link.startsWith('tezos://') || link.startsWith('naan://')) {
             link = link.substring(link.indexOf("data=") + 5, link.length);
+            // check for base58 is valid
+            try {
+              bs58check.decode(link);
+            } catch (e) {
+              return;
+            }
 
             try {
               await beaconPlugin.pair(pairingRequest: link);
@@ -115,16 +122,22 @@ class BeaconService extends GetxService {
               link = link.substring(link.indexOf("data=") + 5, link.length);
 
               try {
+                bs58check.decode(link);
+              } catch (e) {
+                return;
+              }
+
+              try {
                 await beaconPlugin.pair(pairingRequest: link);
               } catch (e) {}
             }
           }
         }, onError: (err) {
-          print("beacon ${err.toString()}");
+          debugPrint("beacon ${err.toString()}");
         });
       });
     } catch (e) {
-      print('BeaconService error: $e');
+      debugPrint('BeaconService error: $e');
       Get.snackbar("Error", e.toString());
     }
   }
@@ -137,7 +150,7 @@ class BeaconService extends GetxService {
 
   @override
   void onClose() {
-    print("BeaconService Closed");
+    debugPrint("BeaconService Closed");
     super.onClose();
   }
 }

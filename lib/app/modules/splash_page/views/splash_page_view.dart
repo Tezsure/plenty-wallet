@@ -24,7 +24,7 @@ class SplashPageView extends GetView<SplashPageController> {
               width: 1.width, height: 1.width,
 
               // ignore: avoid_print
-              onWarning: (p) => print(p),
+              onWarning: (p) => debugPrint(p),
               alignment: Alignment.center,
               repeat: false,
             ),

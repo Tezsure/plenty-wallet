@@ -257,185 +257,224 @@ class TransactionBottomSheet extends StatelessWidget {
               title: 'Hold to Send',
               isLoading: isLoading,
               onLongPressed: () async {
-                if (isLoading.value) {
-                  return;
-                }
-                var isPasscodeOrBioValid =
-                    await AuthService().verifyBiometricOrPassCode();
+                try {
+                  // debugPrint('onLongPressed');
+                  // throw Error();
+                  if (isLoading.value) {
+                    return;
+                  }
+                  var isPasscodeOrBioValid =
+                      await AuthService().verifyBiometricOrPassCode();
 
-                if (!isPasscodeOrBioValid) {
-                  isLoading.value = false;
-                  return;
-                }
+                  if (!isPasscodeOrBioValid) {
+                    isLoading.value = false;
+                    return;
+                  }
 
-                isLoading.value = true;
+                  isLoading.value = true;
 
-                AccountSecretModel? accountSecretModel =
-                    await UserStorageService().readAccountSecrets(
-                        controller.senderAccountModel!.publicKeyHash!);
+                  AccountSecretModel? accountSecretModel =
+                      await UserStorageService().readAccountSecrets(
+                          controller.senderAccountModel!.publicKeyHash!);
 
-                // submit Tx
-                KeyStoreModel keyStoreModel = KeyStoreModel(
-                  publicKeyHash: controller.senderAccountModel!.publicKeyHash!,
-                  secretKey: accountSecretModel!.secretKey,
-                  publicKey: accountSecretModel.publicKey,
-                );
-                OperationModel operationModel;
+                  // submit Tx
+                  KeyStoreModel keyStoreModel = KeyStoreModel(
+                    publicKeyHash:
+                        controller.senderAccountModel!.publicKeyHash!,
+                    secretKey: accountSecretModel!.secretKey,
+                    publicKey: accountSecretModel.publicKey,
+                  );
+                  OperationModel operationModel;
 
-                String opHash;
+                  String opHash;
 
-                if (controller.isNFTPage.value) {
-                  operationModel = OperationModel<NftTokenModel>();
-                } else {
-                  operationModel = OperationModel<AccountTokenModel>();
-                }
+                  if (controller.isNFTPage.value) {
+                    operationModel = OperationModel<NftTokenModel>();
+                  } else {
+                    operationModel = OperationModel<AccountTokenModel>();
+                  }
 
-                operationModel.amount = !controller.isNFTPage.value
-                    ? double.parse(controller.amountController.text)
-                    : 0.0;
+                  operationModel.amount = !controller.isNFTPage.value
+                      ? double.parse(controller.amountController.text)
+                      : 0.0;
 
-                operationModel.keyStoreModel = keyStoreModel;
+                  operationModel.keyStoreModel = keyStoreModel;
 
-                operationModel.model = controller.isNFTPage.value
-                    ? controller.selectedNftModel
-                    : controller.selectedTokenModel;
+                  operationModel.model = controller.isNFTPage.value
+                      ? controller.selectedNftModel
+                      : controller.selectedTokenModel;
 
-                operationModel.receiverContractAddres =
-                    !controller.isNFTPage.value &&
-                            controller.selectedTokenModel!.name == "Tezos"
-                        ? ""
-                        : controller.isNFTPage.value
-                            ? controller.selectedNftModel!.faContract
-                            : controller.selectedTokenModel!.contractAddress;
+                  operationModel.receiverContractAddres =
+                      !controller.isNFTPage.value &&
+                              controller.selectedTokenModel!.name == "Tezos"
+                          ? ""
+                          : controller.isNFTPage.value
+                              ? controller.selectedNftModel!.faContract
+                              : controller.selectedTokenModel!.contractAddress;
 
-                operationModel.receiveAddress =
-                    controller.selectedReceiver.value!.address;
+                  operationModel.receiveAddress =
+                      controller.selectedReceiver.value!.address;
 
-                if (!controller.isNFTPage.value &&
-                    controller.selectedTokenModel!.name == "Tezos") {
-                  var opHashData = await OperationService().sendXtzTx(
-                      operationModel, ServiceConfig.currentSelectedNode);
-                  opHash = opHashData['operationGroupID']
-                      .toString()
-                      .trim()
-                      .replaceAll('"', "");
-                  // print(opHash);
-                } else {
-                  operationModel.buildParams();
-                  // do preApply from start and inject here
-                  operationModel.preAppliedResult = await OperationService()
-                      .preApplyOperation(
-                          operationModel, ServiceConfig.currentSelectedNode);
-                  // var opHash =
-                  opHash = await OperationService().injectOperation(
-                      operationModel.preAppliedResult!,
-                      ServiceConfig.currentSelectedNode);
-                  // print(opHash);
-                }
+                  if (!controller.isNFTPage.value &&
+                      controller.selectedTokenModel!.name == "Tezos") {
+                    var opHashData = await OperationService().sendXtzTx(
+                        operationModel, ServiceConfig.currentSelectedNode);
+                    opHash = opHashData['operationGroupID']
+                        .toString()
+                        .trim()
+                        .replaceAll('"', "");
+                    // debugPrint(opHash);
+                  } else {
+                    operationModel.buildParams();
+                    // do preApply from start and inject here
+                    operationModel.preAppliedResult = await OperationService()
+                        .preApplyOperation(
+                            operationModel, ServiceConfig.currentSelectedNode);
+                    // var opHash =
+                    opHash = await OperationService().injectOperation(
+                        operationModel.preAppliedResult!,
+                        ServiceConfig.currentSelectedNode);
+                    // debugPrint(opHash);
+                  }
 
-                Get.back();
+                  Get.back();
 
-                NaanAnalytics.logEvent(NaanAnalyticsEvents.SEND_TRANSACTION,
-                    param: {
-                      NaanAnalytics.address:
-                          operationModel.keyStoreModel?.publicKeyHash,
-                      "receiver_address": operationModel.receiveAddress ??
-                          operationModel.receiverContractAddres,
-                      "type": controller.isNFTPage.value
-                          ? "NFT_TRANSFER"
-                          : "TOKEN_TRANSFER",
-                      "name": controller.selectedTokenModel?.name ??
-                          controller.selectedNftModel?.name
-                    });
-                CommonFunctions.bottomSheet(
-                  NaanBottomSheet(
-                    height: 380.arP,
-                    bottomSheetWidgets: [
-                      0.04.vspace,
-                      Align(
-                        alignment: Alignment.center,
-                        child: LottieBuilder.asset(
-                          '${PathConst.SEND_PAGE}lottie/success_primary.json',
-                          height: 68,
-                          width: 68,
-                          repeat: false,
+                  NaanAnalytics.logEvent(NaanAnalyticsEvents.SEND_TRANSACTION,
+                      param: {
+                        NaanAnalytics.address:
+                            operationModel.keyStoreModel?.publicKeyHash,
+                        "receiver_address": operationModel.receiveAddress ??
+                            operationModel.receiverContractAddres,
+                        "type": controller.isNFTPage.value
+                            ? "NFT_TRANSFER"
+                            : "TOKEN_TRANSFER",
+                        "name": controller.selectedTokenModel?.name ??
+                            controller.selectedNftModel?.name
+                      });
+                  CommonFunctions.bottomSheet(
+                    NaanBottomSheet(
+                      height: 380.arP,
+                      bottomSheetWidgets: [
+                        0.04.vspace,
+                        Align(
+                          alignment: Alignment.center,
+                          child: LottieBuilder.asset(
+                            '${PathConst.SEND_PAGE}lottie/success_primary.json',
+                            height: 68,
+                            width: 68,
+                            repeat: false,
+                          ),
                         ),
-                      ),
-                      0.02.vspace,
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Transaction is submitted',
-                          style: titleLarge,
-                          textAlign: TextAlign.center,
+                        0.02.vspace,
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Transaction is submitted',
+                            style: titleLarge,
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      ),
-                      0.01.vspace,
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Your transaction should be confirmed in\nnext 30 seconds',
-                          textAlign: TextAlign.center,
-                          style: labelSmall.copyWith(
-                              color: ColorConst.NeutralVariant.shade70),
+                        0.01.vspace,
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Your transaction should be confirmed in\nnext 30 seconds',
+                            textAlign: TextAlign.center,
+                            style: labelSmall.copyWith(
+                                color: ColorConst.NeutralVariant.shade70),
+                          ),
                         ),
-                      ),
-                      0.02.vspace,
-                      SolidButton(
-                          elevation: 0,
-                          borderWidth: 1,
-                          primaryColor: Colors.transparent,
-                          borderColor: ColorConst.Secondary,
-                          textColor: ColorConst.Secondary,
-                          title: 'Done',
+                        0.02.vspace,
+                        SolidButton(
+                            elevation: 0,
+                            borderWidth: 1,
+                            primaryColor: Colors.transparent,
+                            borderColor: ColorConst.Secondary,
+                            textColor: ColorConst.Secondary,
+                            title: 'Done',
+                            onPressed: () {
+                              Get
+                                ..back()
+                                ..back();
+
+                              DataHandlerService().onGoingTxStatusHelpers.add(
+                                  OnGoingTxStatusHelper(
+                                      opHash: opHash,
+                                      status: TransactionStatus.pending,
+                                      transactionAmount:
+                                          operationModel.amount == 0.0
+                                              ? "1 ${operationModel.model.name}"
+                                              : operationModel.amount!
+                                                      .toStringAsFixed(6)
+                                                      .removeTrailing0 +
+                                                  " " +
+                                                  (operationModel.model
+                                                          as AccountTokenModel)
+                                                      .symbol!,
+                                      tezAddress: operationModel.receiveAddress!
+                                          .tz1Short()));
+                              transactionStatusSnackbar(
+                                status: TransactionStatus.pending,
+                                tezAddress:
+                                    operationModel.receiveAddress!.tz1Short(),
+                                transactionAmount: operationModel.amount == 0.0
+                                    ? "1 ${operationModel.model.name}"
+                                    : operationModel.amount!
+                                            .toStringAsFixed(6)
+                                            .removeTrailing0 +
+                                        " " +
+                                        (operationModel.model
+                                                as AccountTokenModel)
+                                            .symbol!,
+                              );
+                            }),
+                        0.02.vspace,
+                        SolidButton(
+                          title: 'Share Plenty Wallet',
+                          textColor: Colors.white,
                           onPressed: () {
-                            Get
-                              ..back()
-                              ..back();
-
-                            DataHandlerService().onGoingTxStatusHelpers.add(
-                                OnGoingTxStatusHelper(
-                                    opHash: opHash,
-                                    status: TransactionStatus.pending,
-                                    transactionAmount:
-                                        operationModel.amount == 0.0
-                                            ? "1 ${operationModel.model.name}"
-                                            : operationModel.amount!
-                                                    .toStringAsFixed(6)
-                                                    .removeTrailing0 +
-                                                " " +
-                                                (operationModel.model
-                                                        as AccountTokenModel)
-                                                    .symbol!,
-                                    tezAddress: operationModel.receiveAddress!
-                                        .tz1Short()));
-                            transactionStatusSnackbar(
-                              status: TransactionStatus.pending,
-                              tezAddress:
-                                  operationModel.receiveAddress!.tz1Short(),
-                              transactionAmount: operationModel.amount == 0.0
-                                  ? "1 ${operationModel.model.name}"
-                                  : operationModel.amount!
-                                          .toStringAsFixed(6)
-                                          .removeTrailing0 +
-                                      " " +
-                                      (operationModel.model
-                                              as AccountTokenModel)
-                                          .symbol!,
-                            );
-                          }),
-                      0.02.vspace,
-                      SolidButton(
-                        title: 'Share Plenty Wallet',
-                        textColor: Colors.white,
-                        onPressed: () {
-                          Share.share(
-                              "👋 Hey friend! You should download Plenty Wallet, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}");
-                        },
+                            Share.share(
+                                "👋 Hey friend! You should download Plenty Wallet, it's my favorite Tezos wallet to buy Tez, send transactions, connecting to Dapps and exploring NFT gallery of anyone. ${AppConstant.naanWebsite}");
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                } catch (e) {
+                  Get.back();
+                  Get.rawSnackbar(
+                    maxWidth: 0.65.width,
+                    backgroundColor: Colors.transparent,
+                    snackPosition: SnackPosition.BOTTOM,
+                    snackStyle: SnackStyle.FLOATING,
+                    padding: const EdgeInsets.only(bottom: 30),
+                    messageText: Container(
+                      height: 42,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                          color: ColorConst.Neutral.shade10,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.error,
+                            size: 14,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Something went wrong!".tr,
+                            style: labelMedium,
+                          )
+                        ],
                       ),
-                    ],
-                  ),
-                );
+                    ),
+                  );
+                }
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -478,26 +517,45 @@ class TransactionBottomSheet extends StatelessWidget {
   Widget getTokenImage(tokenModel) => CircleAvatar(
         radius: 22,
         backgroundColor: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
-        child: tokenModel.iconUrl!.startsWith("assets")
-            ? Image.asset(
-                tokenModel.iconUrl!,
-                fit: BoxFit.cover,
+        child: tokenModel.iconUrl == null
+            ? Container(
+                decoration: BoxDecoration(
+                  color: ColorConst.NeutralVariant.shade60.withOpacity(0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Text(
+                    (tokenModel.name ?? tokenModel.symbol ?? "N/A")
+                        .substring(0, 1)
+                        .toUpperCase(),
+                    style: labelMedium.copyWith(
+                      fontSize: 12.aR,
+                      fontWeight: FontWeight.w400,
+                      color: ColorConst.NeutralVariant.shade60,
+                    ),
+                  ),
+                ),
               )
-            : tokenModel.iconUrl!.endsWith(".svg")
-                ? SvgPicture.network(
+            : tokenModel.iconUrl!.startsWith("assets")
+                ? Image.asset(
                     tokenModel.iconUrl!,
                     fit: BoxFit.cover,
                   )
-                : Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(tokenModel.iconUrl!
-                                  .startsWith("ipfs")
-                              ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
-                              : tokenModel.iconUrl!)),
-                    ),
-                  ),
+                : tokenModel.iconUrl!.endsWith(".svg")
+                    ? SvgPicture.network(
+                        tokenModel.iconUrl!,
+                        fit: BoxFit.cover,
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(tokenModel.iconUrl!
+                                      .startsWith("ipfs")
+                                  ? "https://ipfs.io/ipfs/${tokenModel.iconUrl!.replaceAll("ipfs://", '')}"
+                                  : tokenModel.iconUrl!)),
+                        ),
+                      ),
       );
 }

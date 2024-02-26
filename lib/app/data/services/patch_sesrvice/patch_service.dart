@@ -8,7 +8,7 @@ import 'package:plenty_wallet/app/data/services/user_storage_service/user_storag
 
 class PatchService {
   Future<List<AccountModel>> recoverWalletsFromOldStorage() async {
-    var oldStorage = await ServiceConfig.localStorage
+    var oldStorage = await ServiceConfig.secureLocalStorage
         .read(key: ServiceConfig.oldStorageName);
     if (oldStorage != null && oldStorage.isNotEmpty) {
       oldStorage = _decryptString(oldStorage);
@@ -65,13 +65,13 @@ class PatchService {
 
   // save duplicate wallets to new storage
   Future<void> saveDuplicateEntryForStorage() async {
-    await ServiceConfig.localStorage.write(
+    await ServiceConfig.secureLocalStorage.write(
       key: "${ServiceConfig.oldStorageName}_copy",
-      value: await ServiceConfig.localStorage.read(
+      value: await ServiceConfig.secureLocalStorage.read(
         key: ServiceConfig.oldStorageName,
       ),
     );
     // delete old storage
-    await ServiceConfig.localStorage.delete(key: ServiceConfig.oldStorageName);
+    await ServiceConfig.secureLocalStorage.delete(key: ServiceConfig.oldStorageName);
   }
 }

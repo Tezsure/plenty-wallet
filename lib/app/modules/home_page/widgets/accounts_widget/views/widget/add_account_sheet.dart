@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/solid_button.dart';
@@ -69,13 +70,21 @@ class _AddAccountSheetState extends State<AddAccountSheet> {
                 titleStyle: titleSmall.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
-                onPressed: () {
+                onPressed: () async {
                   Get.back();
-                  CommonFunctions.bottomSheet(AddNewAccountBottomSheet(),
-                          fullscreen: true)
-                      .whenComplete(() {
-                    Get.find<AccountsWidgetController>().resetCreateNewWallet();
-                  });
+                  bool passcode = await AuthService().getIsPassCodeSet();
+
+                  if (!passcode) {
+                    await Get.toNamed(Routes.PASSCODE_PAGE,
+                        arguments: [false, Routes.ADD_NEW_WALLET]);
+                  } else {
+                    CommonFunctions.bottomSheet(AddNewAccountBottomSheet(),
+                            fullscreen: true)
+                        .whenComplete(() {
+                      Get.find<AccountsWidgetController>()
+                          .resetCreateNewWallet();
+                    });
+                  }
                 },
               ),
               0.016.vspace,

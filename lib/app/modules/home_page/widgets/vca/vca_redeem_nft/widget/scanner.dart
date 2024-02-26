@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/back_button.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/text_scale_factor.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/controller/vca_redeem_nft_controller.dart';
@@ -10,7 +11,6 @@ import 'package:plenty_wallet/utils/colors/colors.dart';
 import 'package:plenty_wallet/utils/constants/constants.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 import 'package:plenty_wallet/utils/styles/styles.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class VCARedeemNFTScanQrView extends StatefulWidget {
   const VCARedeemNFTScanQrView({Key? key}) : super(key: key);
@@ -30,10 +30,10 @@ class _VCARedeemNFTScanQrViewState extends State<VCARedeemNFTScanQrView> {
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      controller.controller.value.pauseCamera();
+      controller.controller.stop();
     }
     try {
-      controller.controller.value.resumeCamera();
+      controller.controller.start();
     } catch (e) {}
   }
 
@@ -147,18 +147,31 @@ class _VCARedeemNFTScanQrViewState extends State<VCARedeemNFTScanQrView> {
         : 230.0.arP;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
-    return QRView(
+    return MobileScanner(
       key: qrKey,
-      onQRViewCreated: (ctlr) => controller.onQRViewCreated(ctlr, context),
-      overlay: QrScannerOverlayShape(
+      onDetect: (ctlr) => controller.onQRViewCreated(ctlr, context),
+      controller: controller.controller,
+/*       scanWindow: Rect.fromCenter(
+        center: MediaQuery.of(context).size.center(Offset.zero),
+        width: (MediaQuery.of(context).size.width < 400 ||
+                MediaQuery.of(context).size.height < 400)
+            ? 250.0.arP
+            : 230.0.arP,
+        height: (MediaQuery.of(context).size.width < 400 ||
+                MediaQuery.of(context).size.height < 400)
+            ? 250.0.arP
+            : 230.0.arP,
+      ), */
+
+/*       overlay: QrScannerOverlayShape(
           // overlayColor: ColorConst.darkGrey.withOpacity(0.9),
           borderColor: ColorConst.Primary,
           borderRadius: 26.arP,
           borderLength: 40.arP,
           borderWidth: 7.arP,
-          cutOutSize: scanArea),
-      onPermissionSet: (ctrl, p) =>
-          controller.onPermissionSet(context, ctrl, p),
+          cutOutSize: scanArea), */
+/*       onPermissionSet: (ctrl, p) =>
+          controller.onPermissionSet(context, ctrl, p), */
     );
   }
 }

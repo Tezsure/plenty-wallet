@@ -29,7 +29,7 @@ class UserStorageService {
         ? ServiceConfig.watchAccountsStorage
         : ServiceConfig.accountsStorage;
     String? accounts =
-        await ServiceConfig.localStorage.read(key: accountReadKey);
+        await ServiceConfig.secureLocalStorage.read(key: accountReadKey);
     if (accounts == null ||
         accounts == "" ||
         accounts == "[]" ||
@@ -41,7 +41,7 @@ class UserStorageService {
           .toList();
       accounts = jsonEncode(tempAccounts..addAll(accountList));
     }
-    await ServiceConfig.localStorage
+    await ServiceConfig.secureLocalStorage
         .write(key: accountReadKey, value: accounts);
 
     if (isAccountSecretsProvided) {
@@ -52,17 +52,21 @@ class UserStorageService {
       }
     }
 
-    await DataHandlerService().forcedUpdateData();
+    try {
+      await DataHandlerService().forcedUpdateData();
+    } catch (e) {
+      debugPrint("DataHandlerService().forcedUpdateData() error: $e");
+    }
   }
 
   /// update accountList
   Future<void> updateAccounts(List<AccountModel> accountList) async {
-    await ServiceConfig.localStorage.write(
+    await ServiceConfig.secureLocalStorage.write(
         key: ServiceConfig.accountsStorage,
         value: jsonEncode(
           accountList.where((element) => !element.isWatchOnly).toList(),
         ));
-    await ServiceConfig.localStorage.write(
+    await ServiceConfig.secureLocalStorage.write(
         key: ServiceConfig.watchAccountsStorage,
         value: jsonEncode(
           accountList.where((element) => element.isWatchOnly).toList(),
@@ -71,13 +75,13 @@ class UserStorageService {
 
   /// update accountList
   Future<void> nftPatch() async {
-    await ServiceConfig.localStorage
+    await ServiceConfig.hiveStorage
         .write(key: ServiceConfig.nftPatch, value: jsonEncode(true));
   }
 
   Future<bool> nftPatchRead() async {
     try {
-      return (await ServiceConfig.localStorage.read(
+      return (await ServiceConfig.hiveStorage.read(
             key: ServiceConfig.nftPatch,
           )) ==
           "true";
@@ -88,7 +92,7 @@ class UserStorageService {
 
   static Future<bool> getBetaTagAgree() async {
     try {
-      return (await ServiceConfig.localStorage.read(
+      return (await ServiceConfig.hiveStorage.read(
             key: ServiceConfig.betaTagStorage,
           )) ==
           "true";
@@ -102,9 +106,9 @@ class UserStorageService {
       Locale locale = Get.deviceLocale ?? const Locale("en", "US");
 
       var format = NumberFormat.simpleCurrency(locale: locale.toString());
-      print(
+      debugPrint(
           "${format.currencyName} ${format.currencySymbol} ${locale.countryCode} ${format.currencyName} ");
-      return Currency.values.byName((await ServiceConfig.localStorage.read(
+      return Currency.values.byName((await ServiceConfig.hiveStorage.read(
             key: ServiceConfig.currencySelectedStorage,
           )) ??
           (format.currencyName == "INR"
@@ -115,8 +119,8 @@ class UserStorageService {
                       ? "aud"
                       : "usd"));
     } catch (e) {
-/*       print(e);
-      print("default currency used"); */
+/*       debugPrint(e);
+      debugPrint("default currency used"); */
       Locale locale = Localizations.localeOf(Get.context!);
       var format = NumberFormat.simpleCurrency(locale: locale.toString());
 
@@ -132,7 +136,7 @@ class UserStorageService {
 
   static Future<double> getINR() async {
     try {
-      return double.parse(await ServiceConfig.localStorage.read(
+      return double.parse(await ServiceConfig.hiveStorage.read(
             key: ServiceConfig.inrPriceStorage,
           ) ??
           "0");
@@ -143,7 +147,7 @@ class UserStorageService {
 
   static Future<double> getEUR() async {
     try {
-      return double.parse(await ServiceConfig.localStorage.read(
+      return double.parse(await ServiceConfig.hiveStorage.read(
             key: ServiceConfig.eurPriceStorage,
           ) ??
           "0");
@@ -154,7 +158,7 @@ class UserStorageService {
 
   static Future<double> getAUD() async {
     try {
-      return double.parse(await ServiceConfig.localStorage.read(
+      return double.parse(await ServiceConfig.hiveStorage.read(
             key: ServiceConfig.audPriceStorage,
           ) ??
           "0");
@@ -164,12 +168,12 @@ class UserStorageService {
   }
 
   static Future<void> writeCurrency(String currency) async {
-    await ServiceConfig.localStorage
+    await ServiceConfig.hiveStorage
         .write(key: ServiceConfig.currencySelectedStorage, value: currency);
   }
 
   static Future<String> readLanguage() async {
-    final String? language = (await ServiceConfig.localStorage.read(
+    final String? language = (await ServiceConfig.hiveStorage.read(
       key: ServiceConfig.languageSelectedStorage,
     ));
     if (language != null) {
@@ -181,12 +185,12 @@ class UserStorageService {
   }
 
   static Future<void> writeLanguage(String language) async {
-    await ServiceConfig.localStorage
+    await ServiceConfig.hiveStorage
         .write(key: ServiceConfig.languageSelectedStorage, value: language);
   }
 
   static Future<void> betaTagAgree() async {
-    await ServiceConfig.localStorage
+    await ServiceConfig.hiveStorage
         .write(key: ServiceConfig.betaTagStorage, value: "true");
   }
 
@@ -199,29 +203,34 @@ class UserStorageService {
     bool isSecretDataRequired = false,
     bool showHideAccounts = false,
   }) async {
-    var accountReadKey = watchAccountsList
-        ? ServiceConfig.watchAccountsStorage
-        : ServiceConfig.accountsStorage;
-    var accounts = await ServiceConfig.localStorage.read(key: accountReadKey);
-    if (accounts == null) return <AccountModel>[];
-    return onlyNaanAccount
-        ? jsonDecode(accounts)
-            .map<AccountModel>((e) => AccountModel.fromJson(e))
-            .toList()
-            .where((element) => element.isNaanAccount == true)
-            .toList()
-        : jsonDecode(accounts)
-            .map<AccountModel>((e) => AccountModel.fromJson(e))
-            .toList()
-            .where(
-              (e) => showHideAccounts ? (e.isAccountHidden == false) : true,
-            )
-            .toList();
+    try {
+      var accountReadKey = watchAccountsList
+          ? ServiceConfig.watchAccountsStorage
+          : ServiceConfig.accountsStorage;
+      var accounts =
+          await ServiceConfig.secureLocalStorage.read(key: accountReadKey);
+      if (accounts == null) return <AccountModel>[];
+      return onlyNaanAccount
+          ? jsonDecode(accounts)
+              .map<AccountModel>((e) => AccountModel.fromJson(e))
+              .toList()
+              .where((element) => element.isNaanAccount == true)
+              .toList()
+          : jsonDecode(accounts)
+              .map<AccountModel>((e) => AccountModel.fromJson(e))
+              .toList()
+              .where(
+                (e) => showHideAccounts ? (e.isAccountHidden == false) : true,
+              )
+              .toList();
+    } catch (e) {
+      return <AccountModel>[];
+    }
   }
 
   /// get all saved contact
   Future<List<ContactModel>> getAllSavedContacts() async =>
-      jsonDecode(await ServiceConfig.localStorage
+      jsonDecode(await ServiceConfig.hiveStorage
                   .read(key: ServiceConfig.contactStorage) ??
               "[]")
           .map<ContactModel>((e) => ContactModel.fromJson(e))
@@ -229,27 +238,27 @@ class UserStorageService {
 
   /// update saved contact list
   Future<void> updateContactList(List<ContactModel> contactModelList) async =>
-      await ServiceConfig.localStorage.write(
+      await ServiceConfig.hiveStorage.write(
           key: ServiceConfig.contactStorage,
           value: jsonEncode((contactModelList)));
 
   /// write new contact in storage
   Future<void> writeNewContact(ContactModel contactModel) async =>
-      await ServiceConfig.localStorage.write(
+      await ServiceConfig.hiveStorage.write(
           key: ServiceConfig.contactStorage,
           value: jsonEncode((await getAllSavedContacts())..add(contactModel)));
 
   /// read user tokens using user address
   Future<List<AccountTokenModel>> getUserTokens(
           {required String userAddress}) async =>
-      jsonDecode(await ServiceConfig.localStorage.read(
+      jsonDecode(await ServiceConfig.hiveStorage.read(
                   key: "${ServiceConfig.accountTokensStorage}_$userAddress") ??
               "[]")
           .map<AccountTokenModel>((e) => AccountTokenModel.fromJson(e))
           .toList();
 
   Future<String> getUserTokensString({required String userAddress}) async =>
-      await ServiceConfig.localStorage
+      await ServiceConfig.hiveStorage
           .read(key: "${ServiceConfig.accountTokensStorage}_$userAddress") ??
       "[]";
 
@@ -274,32 +283,32 @@ class UserStorageService {
       }
       return e;
     }).toList();
-    await ServiceConfig.localStorage.write(
+    await ServiceConfig.hiveStorage.write(
         key: "${ServiceConfig.accountTokensStorage}_$userAddress",
         value: jsonEncode(accountTokenList));
   }
 
   /// read user nft using user address
   Future<List> getUserNfts({required String userAddress}) async =>
-      jsonDecode((await ServiceConfig.localStorage
+      jsonDecode((await ServiceConfig.hiveStorage
                   .read(key: "${ServiceConfig.nftStorage}_$userAddress") ??
               "[]")
           .toString());
 
   /// read user nft using user address RETURN STRING
   Future<String?> getUserNftsString({required String userAddress}) async =>
-      await ServiceConfig.localStorage
+      await ServiceConfig.hiveStorage
           .read(key: "${ServiceConfig.nftStorage}_$userAddress");
 
   Future<void> writeNewAccountSecrets(
           AccountSecretModel accountSecretModel) async =>
-      await ServiceConfig.localStorage.write(
+      await ServiceConfig.secureLocalStorage.write(
           key:
               "${ServiceConfig.accountsSecretStorage}_${accountSecretModel.publicKeyHash}",
           value: jsonEncode(accountSecretModel));
 
   Future<AccountSecretModel?> readAccountSecrets(String pkH) async {
-    String? accountSecrets = await ServiceConfig.localStorage
+    String? accountSecrets = await ServiceConfig.secureLocalStorage
         .read(key: "${ServiceConfig.accountsSecretStorage}_$pkH");
     return accountSecrets != null
         ? AccountSecretModel.fromJson(jsonDecode(accountSecrets))
@@ -314,7 +323,7 @@ class UserStorageService {
   Future<List<TxHistoryModel>> getAccountTransactionHistory(
       {required String accountAddress, String? lastId, int? limit}) async {
     List<TxHistoryModel> transactionHistoryList = <TxHistoryModel>[];
-    String? transactionHistory = await ServiceConfig.localStorage
+    String? transactionHistory = await ServiceConfig.hiveStorage
         .read(key: "${ServiceConfig.txHistoryStorage}_$accountAddress");
 
     if (transactionHistory == null) {
@@ -373,7 +382,7 @@ class UserStorageService {
     } else {
       galleryList.add(galleryModel);
 
-      await ServiceConfig.localStorage.write(
+      await ServiceConfig.hiveStorage.write(
           key: ServiceConfig.galleryStorage, value: jsonEncode(galleryList));
     }
   }
@@ -382,7 +391,7 @@ class UserStorageService {
   /// @param gallery index
   /// @return Future<void>
   Future<void> removeGallery(int galleryIndex) async =>
-      await ServiceConfig.localStorage.write(
+      await ServiceConfig.hiveStorage.write(
           key: ServiceConfig.galleryStorage,
           value: jsonEncode((await getAllGallery())..removeAt(galleryIndex)));
 
@@ -392,14 +401,14 @@ class UserStorageService {
     galleryList.removeAt(galleryIndex);
     galleryList.insert(galleryIndex, galleryModel);
 
-    await ServiceConfig.localStorage.write(
+    await ServiceConfig.hiveStorage.write(
         key: ServiceConfig.galleryStorage, value: jsonEncode(galleryList));
   }
 
   /// get all saved gallery
   /// @return Future<List<NftGalleryModel>>
   Future<List<NftGalleryModel>> getAllGallery() async =>
-      jsonDecode(await ServiceConfig.localStorage
+      jsonDecode(await ServiceConfig.hiveStorage
                   .read(key: ServiceConfig.galleryStorage) ??
               "[]")
           .map<NftGalleryModel>((e) => NftGalleryModel.fromJson(e))

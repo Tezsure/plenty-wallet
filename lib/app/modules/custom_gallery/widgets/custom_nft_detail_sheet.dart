@@ -247,7 +247,7 @@ class _CustomNFTDetailBottomSheetState
                                   arguments: img,
                                 ),
                               );
-                              print("closed");
+                              debugPrint("closed");
                               setState(() {
                                 isScrolling = false;
                               });

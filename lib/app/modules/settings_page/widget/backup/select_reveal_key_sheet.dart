@@ -15,6 +15,7 @@ import 'package:plenty_wallet/utils/constants/constants.dart';
 import 'package:plenty_wallet/utils/constants/path_const.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 import 'package:plenty_wallet/utils/styles/styles.dart';
+import 'package:screen_protector/screen_protector.dart';
 
 import '../../../common_widgets/info_bottom_sheet.dart';
 import 'private_key_page.dart';
@@ -102,12 +103,14 @@ class _SelectToRevealKeyBottomSheetState
                         ),
                         onTap: () async {
                           if (!(await AuthService()
-                              .verifyBiometricOrPassCode())) {
+                              .verifyBiometricOrPassCodeDirect())) {
                             return;
                           }
 
                           // controller.timer;
                           final controller = Get.put(BackupPageController());
+                          await ScreenProtector.preventScreenshotOn();
+                          await ScreenProtector.protectDataLeakageOn();
                           await Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -116,8 +119,10 @@ class _SelectToRevealKeyBottomSheetState
                                             widget.accountModel.name ?? "",
                                         pkHash:
                                             widget.accountModel.publicKeyHash!,
-                                      ))).then((value) {
+                                      ))).then((value) async {
                             try {
+                              await ScreenProtector.preventScreenshotOff();
+                              await ScreenProtector.protectDataLeakageOff();
                               controller.dispose();
                             } catch (e) {}
                           });
@@ -137,13 +142,15 @@ class _SelectToRevealKeyBottomSheetState
                         ),
                         onTap: () async {
                           if (!(await AuthService()
-                              .verifyBiometricOrPassCode())) {
+                              .verifyBiometricOrPassCodeDirect())) {
                             return;
                           }
 
                           // controller.timer;
 
                           final controller = Get.put(BackupPageController());
+                          await ScreenProtector.preventScreenshotOn();
+                          await ScreenProtector.protectDataLeakageOn();
                           await Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -151,8 +158,10 @@ class _SelectToRevealKeyBottomSheetState
                                         prevPage:
                                             widget.accountModel.name ?? "",
                                         pkh: widget.accountModel.publicKeyHash!,
-                                      ))).then((value) {
+                                      ))).then((value) async {
                             try {
+                              await ScreenProtector.preventScreenshotOff();
+                              await ScreenProtector.protectDataLeakageOff();
                               controller.dispose();
                             } catch (e) {}
                           });
