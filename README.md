@@ -139,3 +139,6 @@ To understand all the current issues, refer issues section on this repo.
 <br/>
 
 _NOTE:This repository is open-sourced, and is under active improvements based on suggestions and bug-reports. Users are requested to double check the transaction details on their wallet's confirmation page. The authors take no responsibility for the loss of digital assets._
+
+## Security-audits
+- [Security-audits](https://github.com/Tezsure/security-audits)
