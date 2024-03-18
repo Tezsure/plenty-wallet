@@ -32,7 +32,7 @@ dependencies:
   beacon_flutter: ^1.0.9
   in_app_review: ^2.0.6
   firebase_core: ^2.3.0
-  firebase_analytics: ^10.0.6
+  firebase_analytics: ^10.8.10
   qr_code_scanner: ^1.0.1
   package_info_plus: ^4.0.2
   permission_handler: ^10.2.0
