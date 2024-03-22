@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
-import 'package:screen_protector/screen_protector.dart';
 
 class SelectRevealController extends GetxController {
   RxBool privateKeyReveal = true.obs;

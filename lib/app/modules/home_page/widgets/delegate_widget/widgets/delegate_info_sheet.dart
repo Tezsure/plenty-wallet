@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/bottom_button_padding.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/bottom_sheet.dart';

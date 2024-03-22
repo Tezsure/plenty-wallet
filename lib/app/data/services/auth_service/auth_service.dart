@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:plenty_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
 import 'package:plenty_wallet/app/modules/beacon_bottom_sheet/biometric/views/biometric_view.dart';
 import 'package:plenty_wallet/app/routes/app_pages.dart';
