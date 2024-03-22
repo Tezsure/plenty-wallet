@@ -3,20 +3,16 @@ import 'package:plenty_wallet/app/data/services/service_config/service_config.da
 import 'package:plenty_wallet/app/modules/home_page/widgets/admire_art_widget/admire_art_widget.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/art_foundation_widget/naan_art_foundation_widget.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/art_foundation_widget/tf_art_foundation_widget.dart';
-import 'package:plenty_wallet/app/modules/home_page/widgets/beta_tag_widget/beta_tag_widget.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/buy_tez_widget/buy_tez_widget.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/buy_tezos_domain/buy_tez_domain.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/coming_soon_widget/coming_soon_widget.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/discover_apps_widget/discover_apps_widget.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/discover_events_widget/dicover_events_widget.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/earn_tez_widget/earn_tez_widget.dart';
-import 'package:plenty_wallet/app/modules/home_page/widgets/iaf/iaf_widget.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/mailchain_widget/mailchain_widget.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/nft_claim_widget/nft_claim_widget.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/nft_gallery_widget/view/nft_gallery_widget.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/objkt_nft_widget/objkt_nft_widget.dart';
-import 'package:plenty_wallet/app/modules/home_page/widgets/tez_quake_aid_widget/tez_quake_aid_widget.dart';
-import 'package:plenty_wallet/app/modules/home_page/widgets/vca/vca_widget.dart';
 import 'package:plenty_wallet/utils/constants/constants.dart';
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 
@@ -24,7 +20,6 @@ import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 import 'accounts_widget/views/accounts_widget_view.dart';
 // import 'info_stories/models/story_page/views/story_page_view.dart';
 import 'tezos_price/tezos_price_widget.dart';
-import 'teztown/teztown_widget.dart';
 
 /// Check examples from lib/app/modules/widgets/ before adding your custom widget
 final List<Widget> registeredWidgets = [

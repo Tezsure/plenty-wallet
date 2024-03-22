@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,7 +18,6 @@ import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 import 'package:plenty_wallet/utils/styles/styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../dapp_browser/views/dapp_browser_view.dart';
 
 class BuyTezWidget extends StatelessWidget {
   BuyTezWidget({Key? key}) : super(key: key);

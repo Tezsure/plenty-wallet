@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
 import 'package:plenty_wallet/app/modules/common_widgets/bouncing_widget.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/home_widget_frame.dart';
-import 'package:plenty_wallet/utils/colors/colors.dart';
 
 import 'package:plenty_wallet/utils/extensions/size_extension.dart';
 

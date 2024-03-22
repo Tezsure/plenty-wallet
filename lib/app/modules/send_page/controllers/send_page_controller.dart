@@ -19,7 +19,6 @@ import 'package:plenty_wallet/app/data/services/tezos_domain_service/tezos_domai
 import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:plenty_wallet/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:plenty_wallet/app/modules/send_page/views/widgets/token_view.dart';
-import 'package:plenty_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 import 'package:plenty_wallet/utils/utils.dart';
 import 'package:simple_gql/simple_gql.dart';
 

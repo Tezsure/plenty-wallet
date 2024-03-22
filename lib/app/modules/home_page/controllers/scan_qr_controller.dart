@@ -9,7 +9,6 @@ import 'package:plenty_wallet/app/data/services/beacon_service/beacon_service.da
 import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
 import 'package:plenty_wallet/app/modules/home_page/controllers/home_page_controller.dart';
-import 'package:plenty_wallet/app/modules/home_page/widgets/scanQR/permission_sheet.dart';
 import 'package:plenty_wallet/app/modules/custom_gallery/widgets/custom_nft_detail_sheet.dart';
 import 'package:plenty_wallet/app/modules/home_page/widgets/vca/vca_redeem_nft/controller/vca_redeem_nft_controller.dart';
 import 'package:plenty_wallet/app/modules/send_page/views/send_page.dart';
