@@ -1,15 +1,18 @@
 import 'dart:math';
 
 // ignore: implementation_imports
+import 'package:dartez/helper/generateKeys.dart';
 import 'package:dartez/src/soft-signer/soft_signer.dart' show SignerCurve;
 
 import 'package:dartez/dartez.dart';
 import 'package:flutter/material.dart';
+import 'package:hex/hex.dart';
 import 'package:plenty_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
 import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
 import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
 import 'package:plenty_wallet/app/data/services/enums/enums.dart';
+import 'package:plenty_wallet/app/data/services/wallet_service/eth_account_helper.dart';
 import 'package:plenty_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
 
 class WalletService {
@@ -25,6 +28,7 @@ class WalletService {
     try {
       UserStorageService userStorageService = UserStorageService();
       AccountModel accountModel;
+      AccountModel ethAccountModel;
       var storedAccounts =
           await userStorageService.getAllAccount(onlyNaanAccount: true);
       int derivationIndex = storedAccounts.isEmpty
@@ -52,6 +56,7 @@ class WalletService {
                 : SignerCurve.SECP256K1
             : SignerCurve.SECP256K1,
       );
+
       accountSecretModel = AccountSecretModel(
         seedPhrase: mnemonic,
         secretKey: keyStore.secretKey!,
@@ -69,15 +74,48 @@ class WalletService {
         profileImage: image,
         publicKeyHash: keyStore.publicKeyHash,
       );
+
+      // var ethPrivateKey =
+      //     GenerateKeys.writeKeyWithHint(keyStore.secretKey!, "spsk");
+
+      // String hexCode = HEX.encode(ethPrivateKey.toList());
+
+      EthAccountModel ethCred =
+          EthAccountHelper.getFromTezPrivateKey(keyStore.secretKey!);
+
+      debugPrint("ETH PK: ${ethCred.privateKey}");
+      debugPrint("PK : ${keyStore.secretKey!}");
+
+      ethAccountModel = AccountModel(
+        isNaanAccount: true,
+        isWalletBackedUp: false,
+        derivationPathIndex: derivationIndex,
+        name: "$name (ETH)",
+        importedAt: DateTime.now(),
+        imageType: imageType,
+        profileImage: image,
+        publicKeyHash: ethCred.credentials.address.hex,
+      )..accountChainType = AccountChainType.ethereum;
+
       NaanAnalytics.logEvent(NaanAnalyticsEvents.CREATE_NEW_ACCOUNT,
           param: {"address": accountModel.publicKeyHash});
 
       accountModel.accountSecretModel = accountSecretModel;
 
+      var ethSModel = AccountSecretModel(
+        seedPhrase: mnemonic,
+        secretKey: ethCred.privateKey,
+        publicKey: ethCred.credentials.address.hex,
+        derivationPathIndex: derivationIndex,
+        publicKeyHash: ethCred.credentials.address.hex,
+      );
+
+      ethAccountModel.accountSecretModel = ethSModel;
+
       // write new account in storage and return the newly created account
       try {
-        await userStorageService
-            .writeNewAccount(<AccountModel>[accountModel], false, true);
+        await userStorageService.writeNewAccount(
+            <AccountModel>[accountModel, ethAccountModel], false, true);
       } catch (e) {
         debugPrint(e.toString());
       }
@@ -97,7 +135,8 @@ class WalletService {
 
   /// import wallet using private ket
   Future<AccountModel> importWalletUsingPrivateKey(String privateKey,
-      String name, AccountProfileImageType imageType, String image) async {
+      String name, AccountProfileImageType imageType, String image,
+      {EthAccountModel? ethAccountModel}) async {
     UserStorageService userStorageService = UserStorageService();
     AccountModel accountModel;
 
@@ -126,9 +165,35 @@ class WalletService {
       "import_type": "private_key"
     });
 
-    // write new account in storage and return the newly created account
-    await userStorageService
-        .writeNewAccount(<AccountModel>[accountModel], false, true);
+    if (ethAccountModel != null) {
+      var ethModel = AccountModel(
+        isNaanAccount: false,
+        isWalletBackedUp: true,
+        derivationPathIndex: 0,
+        name: "$name (ETH)",
+        importedAt: DateTime.now(),
+        imageType: imageType,
+        profileImage: image,
+        publicKeyHash: ethAccountModel.credentials.address.hex,
+      )..accountChainType = AccountChainType.ethereum;
+
+      var ethSModel = AccountSecretModel(
+        seedPhrase: "",
+        secretKey: ethAccountModel.privateKey,
+        publicKey: ethAccountModel.credentials.address.hex,
+        derivationPathIndex: 0,
+        publicKeyHash: ethAccountModel.credentials.address.hex,
+      );
+
+      ethModel.accountSecretModel = ethSModel;
+
+      await userStorageService
+          .writeNewAccount(<AccountModel>[accountModel, ethModel], false, true);
+    } else {
+      // write new account in storage and return the newly created account
+      await userStorageService
+          .writeNewAccount(<AccountModel>[accountModel], false, true);
+    }
 
     return accountModel;
   }

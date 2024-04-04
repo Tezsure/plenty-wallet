@@ -310,9 +310,8 @@ class AccountDataHandler {
         // tokens as Map<String(address),List<AccountTokenModel>>
       ]);
     } catch (e) {
-      debugPrint("yoooo $e");
+      debugPrint(" $e");
     }
-
   }
 
   /// Get&Store all accounts balances, tokens data and nfts
@@ -320,12 +319,14 @@ class AccountDataHandler {
       {required Function postProcess, required Function onDone}) async {
     ReceivePort receivePort = ReceivePort();
 
-    List<AccountModel> accountModels =
-        await UserStorageService().getAllAccount();
+    List<AccountModel> accountModels = await UserStorageService().getAllAccount(
+      chainType: [AccountChainType.tezos, AccountChainType.ethereum],
+    );
 
     List<AccountModel> watchAccountModels =
         await UserStorageService().getAllAccount(
       watchAccountsList: true,
+      chainType: [AccountChainType.tezos, AccountChainType.ethereum],
     );
 /*     var x =       await Future.wait(
             [...accountModels, ...watchAccountModels].map((element) async {
@@ -339,8 +340,14 @@ class AccountDataHandler {
       _isolateProcess,
       <dynamic>[
         receivePort.sendPort,
-        accountModels.map<String>((e) => e.publicKeyHash!),
-        watchAccountModels.map<String>((e) => e.publicKeyHash!),
+        accountModels
+            .where(
+                (element) => element.accountChainType == AccountChainType.tezos)
+            .map<String>((e) => e.publicKeyHash!),
+        watchAccountModels
+            .where(
+                (element) => element.accountChainType == AccountChainType.tezos)
+            .map<String>((e) => e.publicKeyHash!),
         ServiceConfig.currentNetwork == NetworkType.mainnet
             ? ""
             : ServiceConfig.currentSelectedNode,
@@ -359,12 +366,13 @@ class AccountDataHandler {
       debugName: "accounts xtz, tokens & nfts",
     );
     receivePort.asBroadcastStream().listen((data) async {
-      await ServiceConfig.secureLocalStorage.write(
-          key: ServiceConfig.accountsStorage, value: jsonEncode(data[0]));
+      // TODO: Uncomment after adding support for ethereum
+      // await ServiceConfig.secureLocalStorage.write(
+      //     key: ServiceConfig.accountsStorage, value: jsonEncode(data[0]));
 
-      // save watch accounts data
-      await ServiceConfig.secureLocalStorage.write(
-          key: ServiceConfig.watchAccountsStorage, value: jsonEncode(data[1]));
+      // // save watch accounts data
+      // await ServiceConfig.secureLocalStorage.write(
+      //     key: ServiceConfig.watchAccountsStorage, value: jsonEncode(data[1]));
 
       // save all tokens separate based on publicKeyHash of the account
       for (String key in data[2].keys) {

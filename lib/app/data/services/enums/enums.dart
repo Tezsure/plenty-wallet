@@ -11,6 +11,7 @@ enum ImportWalletDataType {
   mnemonic,
   tezDomain,
   none,
+  ethPrivateKey,
 }
 
 /// Token Type fa1.2/fa2

@@ -54,7 +54,7 @@ class SplashPageController extends GetxController {
     }
 
     await ServiceConfig.hiveStorage.init();
-    //await ServiceConfig().clearStorage();
+    // await ServiceConfig().clearStorage();
     try {
       await Future.delayed(const Duration(milliseconds: 800));
 

@@ -48,6 +48,7 @@ class HomePageController extends GetxController {
   void onInit() async {
     super.onInit();
     DataHandlerService().initDataServices();
+    DataHandlerService().forcedUpdateData();
     try {
       Get.put(BeaconService(), permanent: true);
     } catch (e) {}

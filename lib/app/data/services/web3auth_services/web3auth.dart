@@ -9,6 +9,7 @@ import 'package:hex/hex.dart';
 import 'package:plenty_wallet/app/data/services/analytics/firebase_analytics.dart';
 import 'package:plenty_wallet/app/data/services/auth_service/auth_service.dart';
 import 'package:plenty_wallet/app/data/services/enums/enums.dart';
+import 'package:plenty_wallet/app/data/services/wallet_service/eth_account_helper.dart';
 import 'package:plenty_wallet/app/data/services/web3auth_services/web3AuthController.dart';
 import 'package:plenty_wallet/app/modules/import_wallet_page/controllers/import_wallet_page_controller.dart';
 import 'package:plenty_wallet/app/routes/app_pages.dart';
@@ -50,6 +51,8 @@ class Web3Auth {
           controller.privateKey = GenerateKeys.readKeysWithHint(
               Uint8List.fromList(HEX.decoder.convert(response.privKey!)),
               GenerateKeys.keyPrefixes[PrefixEnum.spsk]!);
+          controller.ethAccountModel =
+              EthAccountHelper.getFromTezPrivateKey(controller.privateKey!);
           ImportWalletPageController importWalletPageController =
               Get.put(ImportWalletPageController());
           importWalletPageController.importWalletDataType =

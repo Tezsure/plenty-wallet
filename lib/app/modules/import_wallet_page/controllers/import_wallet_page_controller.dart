@@ -10,6 +10,7 @@ import 'package:plenty_wallet/app/data/services/enums/enums.dart';
 import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
 import 'package:plenty_wallet/app/data/services/tezos_domain_service/tezos_domain_service.dart';
 import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:plenty_wallet/app/data/services/wallet_service/eth_account_helper.dart';
 import 'package:plenty_wallet/app/data/services/wallet_service/wallet_service.dart';
 import 'package:plenty_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
 import 'package:plenty_wallet/app/modules/send_page/views/widgets/transaction_status.dart';
@@ -90,7 +91,9 @@ class ImportWalletPageController extends GetxController
                     ? ImportWalletDataType.mnemonic
                     : value.endsWith('.tez')
                         ? ImportWalletDataType.tezDomain
-                        : ImportWalletDataType.none;
+                        : EthAccountHelper.checkIfEthPrivateKey(value)
+                            ? ImportWalletDataType.ethPrivateKey
+                            : ImportWalletDataType.none;
   }
 
   List<AccountModel> selectedAccounts = [];
@@ -152,6 +155,7 @@ class ImportWalletPageController extends GetxController
       }
     }
     if (importWalletDataType == ImportWalletDataType.privateKey ||
+        importWalletDataType == ImportWalletDataType.ethPrivateKey ||
         importWalletDataType == ImportWalletDataType.watchAddress) {
       if ((await checkIfAlreadyPresent())) {
         return;

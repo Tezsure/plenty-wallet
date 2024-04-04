@@ -6,6 +6,7 @@ import 'package:plenty_wallet/app/data/services/data_handler_service/data_handle
 import 'package:plenty_wallet/app/data/services/data_handler_service/data_handler_service.dart';
 import 'package:plenty_wallet/app/data/services/rpc_service/http_service.dart';
 import 'package:plenty_wallet/app/data/services/service_config/service_config.dart';
+import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
 import 'package:plenty_wallet/app/data/services/service_models/nft_token_model.dart';
 import 'package:plenty_wallet/app/data/services/service_models/tx_history_model.dart';
 import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
@@ -70,10 +71,13 @@ class NftAndTxHistoryHandler {
       <dynamic>[
         receivePort.sendPort,
         [
-          (await UserStorageService().getAllAccount())
+          (await UserStorageService().getAllAccount(
+            chainType: [AccountChainType.tezos, AccountChainType.ethereum],
+          ))
               .map<String>((e) => e.publicKeyHash!)
               .toList(),
           (await UserStorageService().getAllAccount(
+            chainType: [AccountChainType.tezos, AccountChainType.ethereum],
             watchAccountsList: true,
           ))
               .map<String>((e) => e.publicKeyHash!)

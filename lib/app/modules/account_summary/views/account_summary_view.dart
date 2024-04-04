@@ -74,6 +74,8 @@ class AccountSummaryView extends GetView<AccountSummaryController> {
                                         ),
                                       ),
                                       0.01.vspace,
+
+                                      0.036.vspace,
                                       Obx(
                                         () => Padding(
                                           padding: EdgeInsets.only(

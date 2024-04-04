@@ -52,6 +52,8 @@ class DataHandlerRenderService {
       return;
     }
 
+    final accountss = await UserStorageService().getAllAccount();
+
     accountUpdater.value = [
       ...(await UserStorageService().getAllAccount()),
       ...(await UserStorageService().getAllAccount(watchAccountsList: true))

@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:get/get.dart';
 import 'package:plenty_wallet/app/data/services/enums/enums.dart';
 import 'package:plenty_wallet/app/data/services/service_models/account_model.dart';
 import 'package:plenty_wallet/app/data/services/user_storage_service/user_storage_service.dart';
+import 'package:plenty_wallet/app/data/services/wallet_service/eth_account_helper.dart';
 import 'package:plenty_wallet/app/data/services/wallet_service/wallet_service.dart';
 import 'package:plenty_wallet/app/data/services/web3auth_services/web3AuthController.dart';
 import 'package:plenty_wallet/app/modules/create_profile_page/controllers/create_profile_page_controller.dart';
@@ -39,6 +42,7 @@ class LoadingPageController extends GetxController {
             createWalletPageController.accountNameController.text,
             createWalletPageController.currentSelectedType,
             createWalletPageController.selectedImagePath.value,
+            ethAccountModel: web3authController.ethAccountModel,
           ),
           Future.delayed(const Duration(seconds: 3))
         ]);
@@ -64,6 +68,14 @@ class LoadingPageController extends GetxController {
           ImportWalletDataType.privateKey) {
         CreateProfilePageController createWalletPageController =
             Get.find<CreateProfilePageController>();
+
+        EthAccountModel? ethAccountModel;
+        if (importWalletPageController.phraseText.value
+            .trim()
+            .startsWith('spsk')) {
+          ethAccountModel = EthAccountHelper.getFromTezPrivateKey(
+              importWalletPageController.phraseText.value.trim());
+        }
         // import wallet using private key
         await Future.wait([
           WalletService().importWalletUsingPrivateKey(
@@ -71,6 +83,30 @@ class LoadingPageController extends GetxController {
             createWalletPageController.accountNameController.text,
             createWalletPageController.currentSelectedType,
             createWalletPageController.selectedImagePath.value,
+            ethAccountModel: ethAccountModel,
+          ),
+          Future.delayed(const Duration(seconds: 3))
+        ]);
+      } else if (importWalletPageController.importWalletDataType ==
+          ImportWalletDataType.ethPrivateKey) {
+        CreateProfilePageController createWalletPageController =
+            Get.find<CreateProfilePageController>();
+        // import wallet using private key
+
+        String tePK = EthAccountHelper.getFromEthPrivateKey(
+            importWalletPageController.phraseText.value.trim());
+
+        EthAccountModel ethAccountModel =
+            EthAccountHelper.getFromTezPrivateKey(tePK);
+
+        await Future.wait([
+          WalletService().importWalletUsingPrivateKey(
+            tePK,
+            //importWalletPageController.phraseText.value.trim(),
+            createWalletPageController.accountNameController.text,
+            createWalletPageController.currentSelectedType,
+            createWalletPageController.selectedImagePath.value,
+            ethAccountModel: ethAccountModel,
           ),
           Future.delayed(const Duration(seconds: 3))
         ]);

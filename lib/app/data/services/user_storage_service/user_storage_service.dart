@@ -202,7 +202,11 @@ class UserStorageService {
     bool watchAccountsList = false,
     bool isSecretDataRequired = false,
     bool showHideAccounts = false,
+    List<AccountChainType>? chainType,
   }) async {
+    // if (chainType == null || chainType.isEmpty) {
+    //   chainType = [AccountChainType.tezos];
+    // }
     try {
       var accountReadKey = watchAccountsList
           ? ServiceConfig.watchAccountsStorage
@@ -210,7 +214,7 @@ class UserStorageService {
       var accounts =
           await ServiceConfig.secureLocalStorage.read(key: accountReadKey);
       if (accounts == null) return <AccountModel>[];
-      return onlyNaanAccount
+      var listAccounts = onlyNaanAccount
           ? jsonDecode(accounts)
               .map<AccountModel>((e) => AccountModel.fromJson(e))
               .toList()
@@ -223,6 +227,13 @@ class UserStorageService {
                 (e) => showHideAccounts ? (e.isAccountHidden == false) : true,
               )
               .toList();
+      chainType ??= [AccountChainType.tezos, AccountChainType.ethereum];
+      var flistAccounts = listAccounts
+          .where((element) => chainType!.contains(element.accountChainType))
+          .toList();
+     
+
+      return flistAccounts;
     } catch (e) {
       return <AccountModel>[];
     }

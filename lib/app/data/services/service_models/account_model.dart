@@ -2,6 +2,33 @@
 
 import 'package:plenty_wallet/app/data/services/enums/enums.dart';
 
+enum AccountChainType {
+  tezos,
+  ethereum;
+
+  String get jsonName {
+    switch (this) {
+      case AccountChainType.tezos:
+        return 'tezos';
+      case AccountChainType.ethereum:
+        return 'ethereum';
+      default:
+        return 'tezos';
+    }
+  }
+
+  static AccountChainType fromName(String name) {
+    switch (name) {
+      case 'tezos':
+        return AccountChainType.tezos;
+      case 'ethereum':
+        return AccountChainType.ethereum;
+      default:
+        return AccountChainType.tezos;
+    }
+  }
+}
+
 class AccountModel {
   String? name;
   int? derivationPathIndex;
@@ -18,6 +45,7 @@ class AccountModel {
   bool? isAccountPrimary = false;
   bool? isAccountHidden = false;
   DateTime? importedAt = DateTime.now();
+  AccountChainType accountChainType = AccountChainType.tezos;
 
   AccountModel(
       {this.name,
@@ -37,21 +65,23 @@ class AccountModel {
     accountDataModel = accountDataModel ?? AccountDataModel();
   }
 
-  AccountModel copyWith(
-      {String? name,
-      int? derivationPathIndex,
-      String? publicKeyHash,
-      String? delegatedBakerAddress,
-      AccountProfileImageType? imageType,
-      String? profileImage,
-      bool? isNaanAccount,
-      String? tezosDomainName,
-      bool? isWatchOnly,
-      bool? isWalletBackedUp,
-      DateTime? importedAt,
-      AccountDataModel? accountDataModel,
-      bool? isAccountPrimary = false,
-      bool? isAccountHidden = false}) {
+  AccountModel copyWith({
+    String? name,
+    int? derivationPathIndex,
+    String? publicKeyHash,
+    String? delegatedBakerAddress,
+    AccountProfileImageType? imageType,
+    String? profileImage,
+    bool? isNaanAccount,
+    String? tezosDomainName,
+    bool? isWatchOnly,
+    bool? isWalletBackedUp,
+    DateTime? importedAt,
+    AccountDataModel? accountDataModel,
+    bool? isAccountPrimary = false,
+    bool? isAccountHidden = false,
+    AccountChainType? accountChainType,
+  }) {
     return AccountModel(
       name: name ?? this.name,
       isWalletBackedUp: isWalletBackedUp ?? this.isWalletBackedUp,
@@ -68,7 +98,7 @@ class AccountModel {
       importedAt: importedAt ?? this.importedAt,
       delegatedBakerAddress:
           delegatedBakerAddress ?? this.delegatedBakerAddress,
-    );
+    )..accountChainType = accountChainType ?? this.accountChainType;
   }
 
   Map<String, dynamic> toMap() {
@@ -87,6 +117,7 @@ class AccountModel {
       'delegatedBakerAddress': delegatedBakerAddress,
       'isWalletBackedUp': isWalletBackedUp,
       'importedAt': importedAt?.millisecondsSinceEpoch,
+      'accountChainType': accountChainType.jsonName,
     };
   }
 
@@ -122,7 +153,7 @@ class AccountModel {
       importedAt: map['importedAt'] == null
           ? DateTime.now()
           : DateTime.fromMillisecondsSinceEpoch(map['importedAt']),
-    );
+    )..accountChainType = AccountChainType.fromName(map['accountChainType']);
   }
 
   Map<String, dynamic> toJson() => toMap();
@@ -150,7 +181,8 @@ class AccountModel {
         other.accountDataModel == accountDataModel &&
         other.isAccountPrimary == isAccountPrimary &&
         other.delegatedBakerAddress == delegatedBakerAddress &&
-        other.isAccountHidden == isAccountHidden;
+        other.isAccountHidden == isAccountHidden &&
+        other.accountChainType == accountChainType;
   }
 
   @override
@@ -166,7 +198,8 @@ class AccountModel {
         accountDataModel.hashCode ^
         isAccountPrimary.hashCode ^
         delegatedBakerAddress.hashCode ^
-        isAccountHidden.hashCode;
+        isAccountHidden.hashCode ^
+        accountChainType.hashCode;
   }
 }
 

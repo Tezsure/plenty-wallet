@@ -17,12 +17,10 @@ class HomePageView extends StatefulWidget {
 }
 
 class _HomePageViewState extends State<HomePageView> {
-  late HomePageController controller;
+  late HomePageController controller = Get.find<HomePageController>();
   @override
   void initState() {
-    controller = Get.find<HomePageController>();
-
-    controller.onReady();
+    // controller.onReady();
     super.initState();
   }
 
