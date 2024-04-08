@@ -30,7 +30,8 @@ class AccountWidget extends StatelessWidget {
         Obx(
           () {
             if (controller.generatedAccounts.isEmpty) {
-              controller.genAndLoadMoreAccounts(0, 3);
+              controller.genAndLoadMoreAccounts(
+                  0, 3, controller.tabController!.index == 3);
             }
             return Visibility(
                 visible: controller.generatedAccounts.length > 4 &&
@@ -80,7 +81,8 @@ class AccountWidget extends StatelessWidget {
                     child: Column(
                       children: [
                         Expanded(
-                          child: controller.isLegacySelected.value
+                          child: controller.isLegacySelected.value &&
+                                  controller.tabController!.index == 0
                               ? ListView.builder(
                                   physics: AppConstant.scrollPhysics,
                                   itemBuilder: (context, index) =>
@@ -91,17 +93,31 @@ class AccountWidget extends StatelessWidget {
                                           : 1,
                                   shrinkWrap: true,
                                 )
-                              : ListView.builder(
-                                  physics: AppConstant.scrollPhysics,
-                                  itemBuilder: (context, index) =>
-                                      accountWidget(index + 1),
-                                  itemCount: controller
-                                          .generatedAccounts.isEmpty
-                                      ? 0
-                                      : (controller.generatedAccounts.length -
-                                          1),
-                                  shrinkWrap: true,
-                                ),
+                              : controller.isEvmSelected.value
+                                  ? ListView.builder(
+                                      physics: AppConstant.scrollPhysics,
+                                      itemBuilder: (context, index) =>
+                                          accountWidget(index + 1),
+                                      itemCount:
+                                          controller.generatedAccounts.isEmpty
+                                              ? 0
+                                              : (controller.generatedAccounts
+                                                      .length -
+                                                  1),
+                                      shrinkWrap: true,
+                                    )
+                                  : ListView.builder(
+                                      physics: AppConstant.scrollPhysics,
+                                      itemBuilder: (context, index) =>
+                                          accountWidget(index + 1),
+                                      itemCount:
+                                          controller.generatedAccounts.isEmpty
+                                              ? 0
+                                              : (controller.generatedAccounts
+                                                      .length -
+                                                  1),
+                                      shrinkWrap: true,
+                                    ),
                         ),
                         controller.generatedAccounts.length < 100 &&
                                 !controller.isLegacySelected.value
@@ -123,11 +139,11 @@ class AccountWidget extends StatelessWidget {
   Widget showMoreAccountButton(int index) {
     return Obx(() {
       if (controller.isLoading.value) {
-        return SizedBox(
+        return const SizedBox(
           height: 50,
           width: 50,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
             child: CupertinoActivityIndicator(
               color: ColorConst.Primary,
             ),
@@ -136,7 +152,8 @@ class AccountWidget extends StatelessWidget {
       }
       return GestureDetector(
         onTap: () {
-          controller.genAndLoadMoreAccounts(index, 3);
+          controller.genAndLoadMoreAccounts(
+              index, 3, controller.tabController!.index == 3);
 
           // controller.showMoreAccounts();
           controller.isExpanded.value = true;
@@ -157,27 +174,42 @@ class AccountWidget extends StatelessWidget {
   final homeController = Get.put(HomePageController());
   Widget accountWidget(int index) {
     final AccountModel accountModel = controller.generatedAccounts[index];
-    final bool isSelected = controller.isLegacySelected.value
-        ? controller.selectedLegacyAccount
+    final bool isSelected = controller.tabController!.index == 3
+        ? controller.selectedEthAccounts
             .any((e) => e.publicKeyHash == accountModel.publicKeyHash)
-        : controller.isTz1Selected.value
-            ? controller.selectedAccountsTz1
+        : controller.isLegacySelected.value
+            ? controller.selectedLegacyAccount
                 .any((e) => e.publicKeyHash == accountModel.publicKeyHash)
-            : controller.selectedAccountsTz2
-                .any((e) => e.publicKeyHash == accountModel.publicKeyHash);
+            : controller.isTz1Selected.value
+                ? controller.selectedAccountsTz1
+                    .any((e) => e.publicKeyHash == accountModel.publicKeyHash)
+                : controller.selectedAccountsTz2
+                    .any((e) => e.publicKeyHash == accountModel.publicKeyHash);
     final bool isImported = homeController.userAccounts
         .any((element) => element.publicKeyHash == accountModel.publicKeyHash);
 
     return BouncingWidget(
       onPressed: () {
+        print("Account selected");
         if (isImported) return;
         if (!isSelected) {
+          print("Tab index: ${controller.tabController!.index}");
+          if (controller.tabController!.index == 3) {
+            controller.selectedEthAccounts.add(accountModel);
+            return;
+          }
           controller.isLegacySelected.value
               ? controller.selectedLegacyAccount.add(accountModel)
               : controller.isTz1Selected.value
                   ? controller.selectedAccountsTz1.add(accountModel)
                   : controller.selectedAccountsTz2.add(accountModel);
         } else {
+          if (controller.tabController!.index == 3) {
+            controller.selectedEthAccounts.removeWhere(
+                (e) => e.publicKeyHash == accountModel.publicKeyHash);
+            return;
+          }
+
           controller.isLegacySelected.value
               ? controller.selectedLegacyAccount.removeWhere(
                   (e) => e.publicKeyHash == accountModel.publicKeyHash)
@@ -248,6 +280,11 @@ class AccountWidget extends StatelessWidget {
                 : IconButton(
                     onPressed: () {
                       if (!isSelected) {
+                        if (controller.tabController!.index == 3) {
+                          controller.selectedEthAccounts.add(accountModel);
+                          return;
+                        }
+
                         controller.isLegacySelected.value
                             ? controller.selectedLegacyAccount.add(accountModel)
                             : controller.isTz1Selected.value
@@ -256,6 +293,11 @@ class AccountWidget extends StatelessWidget {
                                 : controller.selectedAccountsTz2
                                     .add(accountModel);
                       } else {
+                        if (controller.tabController!.index == 3) {
+                          controller.selectedEthAccounts.remove(accountModel);
+                          return;
+                        }
+
                         controller.isLegacySelected.value
                             ? controller.selectedLegacyAccount
                                 .remove(accountModel)

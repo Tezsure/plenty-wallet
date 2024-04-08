@@ -52,7 +52,7 @@ class Web3Auth {
               Uint8List.fromList(HEX.decoder.convert(response.privKey!)),
               GenerateKeys.keyPrefixes[PrefixEnum.spsk]!);
           controller.ethAccountModel =
-              EthAccountHelper.getFromTezPrivateKey(controller.privateKey!);
+              TezToEthPrivateKeyConverter.convert(controller.privateKey!);
           ImportWalletPageController importWalletPageController =
               Get.put(ImportWalletPageController());
           importWalletPageController.importWalletDataType =

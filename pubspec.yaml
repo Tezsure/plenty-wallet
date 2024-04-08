@@ -64,6 +64,8 @@ dependencies:
   safe_device:
     ^1.1.4
   web3dart: ^2.6.1
+  ed25519_hd_key: ^2.2.1
+  bip39: ^1.0.6
 
     # path: packages/modal_bottom_sheet/modal_bottom_sheet
 

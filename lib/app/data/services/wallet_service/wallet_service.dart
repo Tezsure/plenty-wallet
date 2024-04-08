@@ -81,7 +81,7 @@ class WalletService {
       // String hexCode = HEX.encode(ethPrivateKey.toList());
 
       EthAccountModel ethCred =
-          EthAccountHelper.getFromTezPrivateKey(keyStore.secretKey!);
+          TezToEthPrivateKeyConverter.convert(keyStore.secretKey!);
 
       debugPrint("ETH PK: ${ethCred.privateKey}");
       debugPrint("PK : ${keyStore.secretKey!}");
@@ -242,6 +242,30 @@ class WalletService {
     // tempAccount.add();
 
     // return tempAccount;
+  }
+
+  Future<AccountModel> genEthAccountFromMnemonic(
+      String mnemonic, int index) async {
+    var ethAccount = await EthAccountHelper.getFromMnemonic(mnemonic,
+        derivationIndex: index);
+
+    return AccountModel(
+      isNaanAccount: false,
+      isWalletBackedUp: true,
+      derivationPathIndex: index,
+      name: "",
+      importedAt: DateTime.now(),
+      imageType: AccountProfileImageType.assets,
+      profileImage: ServiceConfig.allAssetsProfileImages[
+          Random().nextInt(ServiceConfig.allAssetsProfileImages.length - 1)],
+      publicKeyHash: ethAccount.credentials.address.hex,
+    )..accountSecretModel = AccountSecretModel(
+        seedPhrase: mnemonic,
+        secretKey: ethAccount.privateKey,
+        publicKey: ethAccount.credentials.address.hex,
+        derivationPathIndex: index,
+        publicKeyHash: ethAccount.credentials.address.hex,
+      );
   }
 
   Future<AccountModel?> genLegacy(String mnemonic) async {

@@ -29,12 +29,16 @@ class ImportWalletPageController extends GetxController
   RxList<AccountModel> generatedAccountsTz1 = <AccountModel>[].obs;
   RxList<AccountModel> generatedAccountsTz2 = <AccountModel>[].obs;
   RxList<AccountModel> generatedAccountsLegacy = <AccountModel>[].obs;
+  RxList<AccountModel> genratedEthAccounts = <AccountModel>[].obs;
   RxBool isTz1Selected = true.obs;
-
   RxBool isLegacySelected = false.obs;
+  RxBool isEvmSelected = false.obs;
 
-  RxList<AccountModel> get generatedAccounts =>
-      isTz1Selected.value ? generatedAccountsTz1 : generatedAccountsTz2;
+  RxList<AccountModel> get generatedAccounts => isTz1Selected.value
+      ? generatedAccountsTz1
+      : tabController!.index == 3
+          ? genratedEthAccounts
+          : generatedAccountsTz2;
 
   // accounts imported;
   RxList<AccountModel> selectedAccountsTz1 = <AccountModel>[].obs;
@@ -42,21 +46,21 @@ class ImportWalletPageController extends GetxController
 
   RxList<AccountModel> selectedAccountsTz2 =
       <AccountModel>[].obs; // accounts selected;
+  RxList<AccountModel> selectedEthAccounts = <AccountModel>[].obs;
   RxBool isExpanded = false.obs;
 
   ImportWalletDataType? importWalletDataType;
 
   TabController? tabController;
 
-  //? FUNCTION
-
   @override
   void onInit() {
     super.onInit();
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 4, vsync: this);
     tabController!.addListener(() {
       isTz1Selected.value = tabController!.index == 0;
       isLegacySelected.value = tabController!.index == 2;
+      isEvmSelected.value = tabController!.index == 3;
     });
   }
 
@@ -91,7 +95,7 @@ class ImportWalletPageController extends GetxController
                     ? ImportWalletDataType.mnemonic
                     : value.endsWith('.tez')
                         ? ImportWalletDataType.tezDomain
-                        : EthAccountHelper.checkIfEthPrivateKey(value)
+                        : EthPrivateKeyValidator.isValid(value)
                             ? ImportWalletDataType.ethPrivateKey
                             : ImportWalletDataType.none;
   }
@@ -200,11 +204,20 @@ class ImportWalletPageController extends GetxController
           ..importedAt = DateTime.now()
           ..name = "Wallet ${accountLength + i}";
       }
+
+      selectedAccounts = [
+        ...selectedAccounts,
+        ...selectedEthAccounts
+            .map((element) => element
+              ..importedAt = DateTime.now()
+              ..name =
+                  "Wallet ${accountLength + selectedAccounts.length} (EVM)")
+            .toList()
+      ];
+
       selectedAccounts.sort((a, b) =>
           b.importedAt!.millisecondsSinceEpoch -
           a.importedAt!.millisecondsSinceEpoch);
-      // selectedAccountsTz1.value = selectedAccounts;
-      // selectedAccounts. = selectedAccounts.value;
       Get.back();
       var isPassCodeSet = await AuthService().getIsPassCodeSet();
       var previousRoute = Get.previousRoute;
@@ -273,6 +286,12 @@ class ImportWalletPageController extends GetxController
     return account;
   }
 
+  Future<AccountModel?> getEthAccountModelIndexAt(int index) async {
+    var account = await WalletService().genEthAccountFromMnemonic(
+        phraseText.value.trim().toLowerCase(), index);
+    return account;
+  }
+
   Future<AccountModel?> genLegacyAccount() async {
     var account =
         await WalletService().genLegacy(phraseText.value.trim().toLowerCase());
@@ -280,7 +299,8 @@ class ImportWalletPageController extends GetxController
   }
 
   RxBool isLoading = false.obs;
-  Future<void> genAndLoadMoreAccounts(int startIndex, int size) async {
+  Future<void> genAndLoadMoreAccounts(int startIndex, int size,
+      [bool isEvm = false]) async {
     if (startIndex == 0) {
       generatedAccounts.value = <AccountModel>[];
       generatedAccounts.add((await genLegacyAccount())!);
@@ -288,23 +308,13 @@ class ImportWalletPageController extends GetxController
 
     isLoading.value = true;
     await Future.delayed(const Duration(seconds: 1));
-    // for (var i = startIndex; i < startIndex + size; i++) {
-    //   log("1:${DateTime.now().microsecondsSinceEpoch}");
-    //   // if (i == 3) continue;
-    //   generatedAccounts.add(await getAccountModelIndexAt(i));
-    //   log("2:${DateTime.now().microsecondsSinceEpoch}");
-
-    //   // log("$i: ${generatedAccounts[i].publicKeyHash}");
-    // }
-    // final response = await Future.wait<AccountModel>([
-    //   ...List.generate(
-    //       size, (index) => getAccountModelIndexAt(startIndex + index)).toList()
-    // ]);
-    // generatedAccounts.addAll(response);
 
     for (var i = startIndex; i < startIndex + size; i++) {
       log("1:${DateTime.now().microsecondsSinceEpoch}");
-      final account = await getAccountModelIndexAt(i);
+
+      final account = isEvm
+          ? await getEthAccountModelIndexAt(i)
+          : await getAccountModelIndexAt(i);
       if (account == null) continue;
       generatedAccounts.add(account);
       log("2:${DateTime.now().microsecondsSinceEpoch}");

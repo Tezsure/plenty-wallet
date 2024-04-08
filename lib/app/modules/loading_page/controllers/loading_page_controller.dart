@@ -73,7 +73,7 @@ class LoadingPageController extends GetxController {
         if (importWalletPageController.phraseText.value
             .trim()
             .startsWith('spsk')) {
-          ethAccountModel = EthAccountHelper.getFromTezPrivateKey(
+          ethAccountModel = TezToEthPrivateKeyConverter.convert(
               importWalletPageController.phraseText.value.trim());
         }
         // import wallet using private key
@@ -93,11 +93,11 @@ class LoadingPageController extends GetxController {
             Get.find<CreateProfilePageController>();
         // import wallet using private key
 
-        String tePK = EthAccountHelper.getFromEthPrivateKey(
+        String tePK = EthToTezPrivateKeyConverter.convert(
             importWalletPageController.phraseText.value.trim());
 
         EthAccountModel ethAccountModel =
-            EthAccountHelper.getFromTezPrivateKey(tePK);
+            TezToEthPrivateKeyConverter.convert(tePK);
 
         await Future.wait([
           WalletService().importWalletUsingPrivateKey(

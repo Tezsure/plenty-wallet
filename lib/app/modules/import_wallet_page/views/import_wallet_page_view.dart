@@ -360,13 +360,13 @@ class AccountBottomSheet extends StatelessWidget {
               0.03.vspace,
               Expanded(
                 child: DefaultTabController(
-                  length: 3,
+                  length: 4,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Obx(
                         () => TabBar(
-                          isScrollable: true,
+                          // isScrollable: true,
                           indicatorColor: ColorConst.Primary,
                           indicatorSize: TabBarIndicatorSize.label,
                           indicatorWeight: 4,
@@ -439,6 +439,24 @@ class AccountBottomSheet extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            Tab(
+                              child: SizedBox(
+                                width: controller.selectedAccountsTz1.isNotEmpty
+                                    ? 84
+                                    : 61,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text("EVM"),
+                                    if (controller
+                                        .selectedEthAccounts.isNotEmpty)
+                                      _buildCount(
+                                          controller.selectedEthAccounts.length)
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -449,7 +467,10 @@ class AccountBottomSheet extends StatelessWidget {
                           children: [
                             AccountWidget(),
                             AccountWidget(),
-                            AccountWidget()
+                            AccountWidget(),
+                            AccountWidget(),
+                            // // ignore: prefer_const_constructors
+                            // EthAccountImportWidget(),
                           ],
                         ),
                       )

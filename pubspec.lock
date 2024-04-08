@@ -66,7 +66,7 @@ packages:
     source: hosted
     version: "2.0.0"
   bip39:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: bip39
       sha256: de1ee27ebe7d96b84bb3a04a4132a0a3007dcdd5ad27dd14aa87a29d97c45edc
@@ -251,13 +251,13 @@ packages:
     source: hosted
     version: "2.0.3"
   ed25519_hd_key:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: ed25519_hd_key
-      sha256: "326608234e986ea826a5db4cf4cd6826058d860875a3fff7926c0725fe1a604d"
+      sha256: c5c9f11a03f5789bf9dcd9ae88d641571c802640851f1cacdb13123f171b3a26
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.1"
   eip1559:
     dependency: transitive
     description:
@@ -1012,10 +1012,10 @@ packages:
     dependency: transitive
     description:
       name: pinenacl
-      sha256: e5fb0bce1717b7f136f35ee98b5c02b3e6383211f8a77ca882fa7812232a07b9
+      sha256: "3a5503637587d635647c93ea9a8fecf48a420cc7deebe6f1fc85c2a5637ab327"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.4"
+    version: "0.5.1"
   platform:
     dependency: transitive
     description:
